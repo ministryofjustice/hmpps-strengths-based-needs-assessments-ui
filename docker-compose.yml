@@ -24,11 +24,26 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
 
+  hmpps-strengths-based-needs-assessments-api:
+    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest
+    networks:
+      - hmpps
+    container_name: hmpps-strengths-based-needs-assessments-api
+    ports: 
+      - "8081:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ping"]
+    environment:
+      - SERVER_PORT=8080
+
   app:
     build: .
     networks:
       - hmpps
-    depends_on: [redis]
+    depends_on: 
+     - redis
+     - hmpps-auth
+     - hmpps-strengths-based-needs-assessments-api
     ports:
       - "3000:3000"
     environment:
