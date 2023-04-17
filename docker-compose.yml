@@ -2,14 +2,26 @@ version: '3.1'
 services:
 
   redis:
-    image: 'redis:6.2'
+    image: redis:6.2
     networks:
       - hmpps
     container_name: redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
-      - '6379:6379'
+      - "6379:6379"
+
+  postgres:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    networks:
+      - hmpps
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: dev
+    tmpfs:
+      - /var/lib/postgresql
 
   hmpps-auth:
     image: quay.io/hmpps/hmpps-auth:latest
@@ -29,6 +41,8 @@ services:
     networks:
       - hmpps
     container_name: hmpps-strengths-based-needs-assessments-api
+    depends_on:
+     - postgres
     ports: 
       - "8081:8080"
     healthcheck:
