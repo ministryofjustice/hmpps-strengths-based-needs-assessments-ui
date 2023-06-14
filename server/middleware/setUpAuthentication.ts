@@ -21,7 +21,7 @@ export default function setUpAuth(): Router {
 
   router.get('/sign-in', passport.authenticate('oauth2'))
 
-  router.get('/sign-in/callback', (req, res, next) =>
+  router.get(['/login/callback', '/sign-in/callback'], (req, res, next) =>
     passport.authenticate('oauth2', {
       successReturnToOrRedirect: req.session.returnTo || '/',
       failureRedirect: '/autherror',
