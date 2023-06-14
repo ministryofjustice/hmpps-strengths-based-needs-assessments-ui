@@ -1,0 +1,29 @@
+{% extends "../../partials/layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% set hideBackLink = true %}
+
+{% block header %}
+    {% include "../../partials/header.njk" %}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <div>
+            <h1 class="govuk-heading-l">{{ options.pageTitle }}</h1>
+
+            <form method="post" action="{{ action }}">
+                <input type="hidden" name="x-csrf-token" value="{{ csrfToken }}">
+
+                {{ govukButton({
+                    text: 'Start now',
+                    classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1',
+                    isStartButton: true
+                }) }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
