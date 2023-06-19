@@ -1,8 +1,7 @@
 import express, { Express, Router } from 'express'
-import cookieSession from 'cookie-session'
+import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
 import path from 'path'
-
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
@@ -33,7 +32,7 @@ function appSetup(
   app.set('view engine', 'njk')
 
   nunjucksSetup(app, path)
-  app.use(cookieSession({ keys: [''] }))
+  app.use(cookieParser())
   app.use((req, res, next) => {
     req.user = userSupplier()
     req.flash = flashProvider
