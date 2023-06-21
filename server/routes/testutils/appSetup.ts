@@ -1,4 +1,4 @@
-import express, { Express } from 'express'
+import express, { Express, Router } from 'express'
 import cookieSession from 'cookie-session'
 import createError from 'http-errors'
 import path from 'path'
@@ -22,7 +22,12 @@ export const user = {
 
 export const flashProvider = jest.fn()
 
-function appSetup(services: Services, production: boolean, userSupplier: () => Express.User): Express {
+function appSetup(
+  services: Services,
+  production: boolean,
+  userSupplier: () => Express.User,
+  additionalRoutes: Router[],
+): Express {
   const app = express()
 
   app.set('view engine', 'njk')
@@ -39,6 +44,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
   app.use(routes(services))
+  additionalRoutes.forEach(it => app.use(it))
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(production))
 
@@ -49,11 +55,13 @@ export function appWithAllRoutes({
   production = false,
   services = {},
   userSupplier = () => user,
+  additionalRoutes = [],
 }: {
   production?: boolean
   services?: Partial<Services>
   userSupplier?: () => Express.User
+  additionalRoutes?: Router[]
 }): Express {
   auth.default.authenticationMiddleware = () => (req, res, next) => next()
-  return appSetup(services as Services, production, userSupplier)
+  return appSetup(services as Services, production, userSupplier, additionalRoutes)
 }
