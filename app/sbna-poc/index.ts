@@ -1,4 +1,4 @@
-import { bootstrapFormConfiguration, loadFormsInDirectory } from '../common/utils'
+import { bootstrapFormConfiguration, loadFormsInDirectory } from '../common/utils/forms'
 
 const options = {
   journeyName: 'POC',
