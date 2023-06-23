@@ -1,38 +1,21 @@
-{% extends "../../partials/layout.njk" %}
+{% extends "./layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "components/question/macro.njk" import renderQuestion %}
 
+{% block formContent %}
+<form method="post" action="{{ action }}">
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+    
+    {{ renderQuestion(options.fields['current_accommodation']) }}
 
-{% set hideBackLink = true %}
 
-{% block header %}
-    {% include "../../partials/header.njk" %}
-{% endblock %}
-
-{% block content %}
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-three-quarters">
-        <div>
-            <h1 class="govuk-heading-l">{{ options.pageTitle }}</h1>
-            <section class="govuk-grid-column-three-quarters" aria-label="Form content">
-            
-                <form method="post" action="{{ action }}">
-                    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-                    
-                    {{ renderQuestion(options.fields['current_accommodation']) }}
-
-        
-                    <div class="questiongroup-action-buttons">
-                        {{ govukButton({
-                            text: buttonText | default('Continue'),
-                            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
-                        }) }}
-                    </div>
-                </form>
-            </section>
-        </div>
+    <div class="questiongroup-action-buttons">
+        {{ govukButton({
+            text: buttonText | default('Continue'),
+            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+        }) }}
     </div>
-</div>
+</form>
 {% endblock %}

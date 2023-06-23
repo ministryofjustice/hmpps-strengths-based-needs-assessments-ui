@@ -1,0 +1,35 @@
+.offender-details {
+  & * {
+    display: inline;
+    float: left;
+
+    margin: 0;
+    padding: 0 govuk-spacing(3);
+  }
+
+  & * dd {
+    border-right: 1px solid gray;
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  & *:first-child {
+    padding-left: 0;
+  }
+
+  & *:last-child {
+    padding-right: 0;
+  }
+
+  & dt {
+    padding-right: govuk-spacing(1);
+  }
+
+  & dd {
+    padding-left: govuk-spacing(1);
+  }
+
+  margin-bottom: govuk-spacing(5);
+}

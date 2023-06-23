@@ -1,0 +1,46 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block header %}
+    {% include "../../partials/header.njk" %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    {# <a href="#" class="govuk-back-link">Back</a> #}
+    <main class="govuk-main-wrapper">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full offender-details">
+          <h3 class="govuk-heading-s">Paul Whitfield</h3>
+          <dl>
+            <dt>CRN:</dt><dd>1234567</dd>
+            <dt>PNC:</dt><dd>01/1234567890A</dd>
+            <dt>Date of birth:</dt><dd>01/01/1970</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-l">{{ options.journeyPageTitle }}</h1>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-quarter">
+          <ul class="govuk-list">
+              <li><a href="" class="govuk-link">Link 1</a></li>
+              <li><a href="" class="govuk-link">Link 2</a></li>
+              <li><a href="" class="govuk-link">Link 3</a></li>
+              <li><a href="" class="govuk-link">Link 4</a></li>
+              <li><a href="" class="govuk-link">Link 5</a></li>
+          </ul>
+        </div>
+        <div class="govuk-grid-column-three-quarters">
+          <h2 class="govuk-heading-m">{{ options.pageTitle }}</h2>
+          {% block formContent %}
+          {% endblock %}
+        </div>
+      </div>
+    </main>
+  </div>
+{% endblock %}
