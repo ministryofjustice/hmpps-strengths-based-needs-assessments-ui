@@ -1,5 +1,8 @@
 {% extends "../../partials/layout.njk" %}
+<<<<<<< HEAD
 {% from "govuk/components/button/macro.njk" import govukButton %}
+=======
+>>>>>>> f9e19a0 (Add initial template for form sections)
 
 {% set mainClasses = "app-container govuk-body" %}
 
@@ -23,6 +26,7 @@
       </div>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
+<<<<<<< HEAD
         <div class= "btn-return-assessment">
         {{ govukButton({
               text: "Return to assessment",
@@ -31,10 +35,14 @@
         </div>
           <h1 class="govuk-heading-l">{{ options.journeyPageTitle }}</h1>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+=======
+          <h1 class="govuk-heading-l">{{ options.journeyPageTitle }}</h1>
+>>>>>>> f9e19a0 (Add initial template for form sections)
         </div>
       </div>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-quarter">
+<<<<<<< HEAD
           <ul class="govuk-list navigation">
               <li><a href="/form/sbna-poc/accommodation" class="govuk-text">Accommodation</a></li>
               <li><a href="/form/sbna-poc/employment-education-finance" class="govuk-link">Employment, education and finance</a></li>
@@ -48,6 +56,18 @@
         </div>
         <div class="govuk-grid-column-three-quarters">
           <h2 class="govuk-heading-l">{{ options.pageTitle }}</h2>
+=======
+          <ul class="govuk-list">
+              <li><a href="" class="govuk-link">Link 1</a></li>
+              <li><a href="" class="govuk-link">Link 2</a></li>
+              <li><a href="" class="govuk-link">Link 3</a></li>
+              <li><a href="" class="govuk-link">Link 4</a></li>
+              <li><a href="" class="govuk-link">Link 5</a></li>
+          </ul>
+        </div>
+        <div class="govuk-grid-column-three-quarters">
+          <h2 class="govuk-heading-m">{{ options.pageTitle }}</h2>
+>>>>>>> f9e19a0 (Add initial template for form sections)
           {% block formContent %}
           {% endblock %}
         </div>
