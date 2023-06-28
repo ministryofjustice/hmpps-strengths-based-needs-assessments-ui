@@ -1,0 +1,16 @@
+.navigation {
+    p {
+        color: lightblue;
+        font-weight: bold;
+    }
+    
+    li:nth-child(-n + 8) {
+        border-collapse: collapse;
+        border-bottom: 1px solid grey;
+        padding: 8px;
+    }
+
+    a:hover{
+        background-color: lightblue !important; 
+    }      
+}
