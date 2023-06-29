@@ -1,5 +1,4 @@
 import FormWizard from 'hmpo-form-wizard'
-import BaseController from '../../common/controllers/baseController'
 import SaveAndContinueController from '../../common/controllers/saveAndContinue'
 
 const steps: FormWizard.Steps = {
