@@ -1,7 +1,7 @@
 declare module 'hmpo-form-wizard' {
-  import { Request, Response, NextFunction } from 'express'
+  import express from 'express'
 
-  // This enum has to live here because of TS/Jest and Enums work..  ¯\_(ツ)_/¯
+  // These enums have to live here because of TS/Jest and Enums work..  ¯\_(ツ)_/¯
   // Also this ESLint override because of how TS/Eslint work..
   // eslint-disable-next-line no-shadow
   export const enum FieldType {
@@ -11,11 +11,68 @@ declare module 'hmpo-form-wizard' {
     TextArea = 'text-area',
   }
 
+  // eslint-disable-next-line no-shadow
+  export const enum ValidationType {
+    String = 'string',
+    Regex = 'regex',
+    Required = 'required',
+    Email = 'email',
+    MinLength = 'minlength',
+    MaxLength = 'maxlength',
+    ExactLength = 'exactlength',
+    Alpha = 'alpha',
+    AlphaEx = 'alphaex',
+    AlphaEx1 = 'alphaex1',
+    Alphanumeric = 'alphanum',
+    AlphanumericEx = 'alphanumex',
+    AlphanumericEx1 = 'alphanumex1',
+    Numeric = 'numeric',
+    Equal = 'equal',
+    PhoneNumber = 'phonenumber',
+    UKMobileNumber = 'ukmobilephone',
+    Date = 'date',
+    DateYear = 'date-year',
+    DateMonth = 'date-month',
+    DateDay = 'date-day',
+    BeforeDate = 'before',
+    AfterDate = 'after',
+    Postcode = 'postcode',
+    Match = 'match',
+    BeforeDateField = 'beforeField',
+    AfterDateField = 'afterField',
+  }
+
+  // eslint-disable-next-line no-shadow
+  export const enum FormatterType {
+    Trim = 'trim',
+    Boolean = 'boolean',
+    Uppercase = 'uppercase',
+    Lowercase = 'lowercase',
+    RemoveSpaces = 'removespaces',
+    SingleSpaces = 'singlespaces',
+    Hyphens = 'hyphens',
+    Apostrophes = 'apostrophes',
+    Quotes = 'quotes',
+    RemoveRoundBrackets = 'removeroundbrackets',
+    RemoveHyphens = 'removehyphens',
+    RemoveSlashes = 'removeslashes',
+    UKPhonePrefix = 'ukphoneprefix',
+    Base64Decode = 'base64decode',
+  }
+
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
   namespace FormWizard {
+    interface Request extends express.Request {
+      form: {
+        options: {
+          allFields: { [key: string]: Field }
+        }
+      }
+    }
+
     class Controller {
-      locals(req: Request, res: Response, next: NextFunction): Promise
+      locals(req: Request, res: express.Response, next: express.NextFunction): Promise
     }
 
     interface Config {
@@ -34,6 +91,22 @@ declare module 'hmpo-form-wizard' {
       type Options = Option[]
     }
 
+    type AnswerValue = string | number | (string | number)[]
+
+    type FormatterFn = (val: AnswerValue) => AnswerValue
+
+    type Formatter =
+      | { type: FormatterType; arguments?: (string | number)[] }
+      | { fn: FormatterFn; arguments?: (string | number)[] }
+
+    type ValidatorFn = (val: AnswerValue) => boolean
+
+    type Validate =
+      | { type: ValidationType; arguments?: (string | number)[]; message: string }
+      | { fn: ValidatorFn; arguments?: (string | number)[]; message: string }
+
+    type Dependent = { field: string; value: string }
+
     interface Field {
       default?: string | number | []
       text: string
@@ -41,20 +114,32 @@ declare module 'hmpo-form-wizard' {
       hint?: string
       type: FieldType
       options?: FormWizard.Field.Options
+      formatter?: Formatter[]
+      validate?: Validate[]
+      dependent?: Dependent
+      invalidates?: string[]
     }
 
     interface Fields {
       [key: string]: Field
     }
 
+    type NextStepCondition = (req: Request, res: Response) => boolean
+
+    type NextStep =
+      | { field: string; op?: string; val: string; next: string | NextStep[] }
+      | { fn: NextStepCondition; next: string }
+      | string
+
     interface Step {
       pageTitle: string
       reset?: boolean = false
       entryPoint?: boolean = false
       template: string
-      next?: string
-      fields?: string[] = []
+      next?: string | NextStep[]
+      fields?: string[]
       controller?: typeof FormWizard.Controller
+      navigationOrder?: number
     }
 
     interface Steps {
