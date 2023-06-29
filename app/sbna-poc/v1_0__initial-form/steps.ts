@@ -1,5 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
-import BaseController from '../../common/controllers/base-controller'
+import BaseController from '../../common/controllers/baseController'
+import SaveAndContinueController from '../../common/controllers/saveAndContinue'
 
 const steps: FormWizard.Steps = {
   '/start': {
@@ -11,14 +12,17 @@ const steps: FormWizard.Steps = {
   },
   '/accommodation': {
     pageTitle: 'Accommodation',
-    template: `forms/sbna-poc/accommodation`,
-    controller: BaseController,
-    fields: ['current_accommodation'],
+    controller: SaveAndContinueController,
+    fields: ['current_accommodation', 'settled_details'],
     next: 'employment-education-finance',
+    template: 'forms/default',
+    navigationOrder: 1,
   },
   '/employment-education-finance': {
     pageTitle: 'Employment, education and finance',
-    template: `forms/sbna-poc/employment-education-and-finance`,
+    controller: SaveAndContinueController,
+    template: 'forms/default',
+    navigationOrder: 2,
   },
 }
 

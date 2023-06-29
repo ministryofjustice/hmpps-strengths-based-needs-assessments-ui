@@ -1,5 +1,5 @@
 import * as express from 'express'
-import type { Request, Response } from 'express'
+import type { Request, Response, NextFunction } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import FormVersionResponse from './responses/formVersionResponse'
 import FormFieldsResponse from './responses/formFieldsResponse'
@@ -10,6 +10,21 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
 
   if (form.options.active === true) {
     router.get('/fields', (req: Request, res: Response) => res.json(FormFieldsResponse.from(form, options)))
+
+    router.use((req: Request, res: Response, next: NextFunction) => {
+      const { fields = [] } = form.steps[req.url]
+      const steps = Object.entries(form.steps)
+        .filter(([_, stepConfig]) => stepConfig.navigationOrder)
+        .sort(([_A, stepConfigA], [_B, stepConfigB]) => stepConfigA.navigationOrder - stepConfigB.navigationOrder)
+        .map(([path, stepConfig]) => ({ url: `${req.baseUrl}${path}`, label: stepConfig.pageTitle }))
+
+      res.locals.form = {
+        fields: fields.filter(fieldCode => !form.fields[fieldCode].dependent),
+        navigation: steps,
+      }
+
+      next()
+    })
 
     router.use(
       FormWizard(form.steps, form.fields, {

@@ -1,10 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 
-const { Controller } = FormWizard
-
-class BaseController extends Controller {
-  async locals(req: Request, res: Response, next: NextFunction) {
+class BaseController extends FormWizard.Controller {
+  async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     super.locals(req, res, next)
   }
 }
