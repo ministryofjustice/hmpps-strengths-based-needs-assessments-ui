@@ -15,7 +15,7 @@
             <h1 class="govuk-heading-l">{{ options.pageTitle }}</h1>
 
             <form method="post" action="{{ action }}">
-                <input type="hidden" name="x-csrf-token" value="{{ csrfToken }}">
+                <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 
                 {{ govukButton({
                     text: 'Start now',

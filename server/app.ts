@@ -9,7 +9,7 @@ import authorisationMiddleware from './middleware/authorisationMiddleware'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
-import setUpCsrf from './middleware/setUpCsrf'
+// import setUpCsrf from './middleware/setUpCsrf'
 import setUpCurrentUser from './middleware/setUpCurrentUser'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpStaticResources from './middleware/setUpStaticResources'
@@ -36,7 +36,8 @@ export default function createApp(services: Services): express.Application {
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
-  app.use(setUpCsrf())
+  // disabled CSRF handled by hmpo-form-wizard
+  // app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
 
   app.use(routes(services))
