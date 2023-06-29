@@ -1,16 +1,31 @@
 .navigation {
-    p {
-        color: lightblue;
-        font-weight: bold;
-    }
-    
-    li:nth-child(-n + 8) {
-        border-collapse: collapse;
-        border-bottom: 1px solid grey;
-        padding: 8px;
-    }
+    li {
+        margin: 0;
 
-    a:hover{
-        background-color: lightblue !important; 
-    }      
+        &:nth-child(-n + 8) {
+            border-collapse: collapse;
+            border-bottom: 1px solid $govuk-border-colour;
+            padding: govuk-spacing(2);
+        }
+    
+        &:hover {
+            background-color:  #E8F3F7;
+            & a {
+                color: $govuk-text-colour !important;
+            }
+        }
+
+        & a {
+            text-decoration: none;
+    
+            &:visited {
+                color: $govuk-link-colour;
+            }
+        }
+    }
+}
+
+.btn-return-assessment {
+    position: absolute;
+    right: 500px;
 }
