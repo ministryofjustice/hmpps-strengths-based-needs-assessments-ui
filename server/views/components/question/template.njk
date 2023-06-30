@@ -41,7 +41,7 @@
       {{ govukInput({
         id: question.code,
         name: question.code,
-        value: '' | safe,
+        value: question.value | safe,
         formGroup : {
           classes: formClass or question.classes
         },
@@ -62,7 +62,7 @@
       name:question.code,
       id: question.code,
       maxlength: 4000,
-      value: '' | safe,
+      value: question.value | safe,
       label: {
         text: question.text,
         isPageHeading: false,
@@ -122,7 +122,7 @@
       }) }}
 
     {% case 'date' %}
-    {% set dateAnswer = question.answer.split('-') %}
+    {% set dateAnswer = question.value %}
       {% if dateAnswer.length > 0 %}
         {% set answerDay = dateAnswer[2] %}
         {% set answerMonth = dateAnswer[1] %}

@@ -1,14 +1,15 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import { compileConditionalFields, fieldsByCode, processReplacements } from './saveAndContinue.utils'
+import { compileConditionalFields, fieldsByCode, withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
 
 class SaveAndContinueController extends BaseController {
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     const fields = Object.values(req.form.options.allFields)
 
-    const fieldsWithRenderedConditionals = compileConditionalFields(fields, {})
-    const fieldsWithReplacements = processReplacements(fieldsWithRenderedConditionals, { subject: 'Paul' })
+    const fieldsWithMappedAnswers = fields.map(withValuesFrom(res.locals.values))
+    const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithMappedAnswers, {})
+    const fieldsWithReplacements = fieldsWithRenderedConditionals.map(withPlaceholdersFrom({ subject: 'Paul' }))
 
     res.locals.options.fields = fieldsWithReplacements.reduce(fieldsByCode, {})
 

@@ -1,4 +1,4 @@
-import FormWizard from 'hmpo-form-wizard'
+import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import nunjucks from 'nunjucks'
 
 const formatForNunjucks = (str = '') =>
@@ -94,11 +94,9 @@ export const fieldsByCode = (otherFields: FormWizard.Fields, field: FormWizard.F
   [field.code]: field,
 })
 
-export const processReplacements = (
-  fields: FormWizard.Field[],
-  replacementValues: { [key: string]: string },
-): FormWizard.Field[] => {
-  return fields.map(field => {
+export const withPlaceholdersFrom =
+  (replacementValues: { [key: string]: string }) =>
+  (field: FormWizard.Field): FormWizard.Field => {
     const text = field.text.replace(/(\[\w+\])/, (token: string) => {
       const key = token.substring(1, token.length - 1)
       const value = replacementValues[key]
@@ -107,5 +105,37 @@ export const processReplacements = (
     })
 
     return { ...field, text }
-  })
-}
+  }
+
+export const withValuesFrom =
+  (answers: { [key: string]: string | string[] }) =>
+  (field: FormWizard.Field): FormWizard.Field => {
+    switch (field.type) {
+      case FieldType.Text:
+      case FieldType.TextArea:
+        return { ...field, value: answers[field.code] as string }
+      case FieldType.Radio:
+        return {
+          ...field,
+          options: field.options.map(option => ({
+            ...option,
+            checked: (answers[field.code] as string) === option.value,
+          })),
+        }
+      case FieldType.CheckBox:
+        return {
+          ...field,
+          options: field.options.map(option => ({
+            ...option,
+            checked: (answers[field.code] || []).includes(option.value),
+          })),
+        }
+      case FieldType.Date:
+        return {
+          ...field,
+          value: answers[field.code] ? (answers[field.code] as string).split('-') : [],
+        }
+      default:
+        return field
+    }
+  }
