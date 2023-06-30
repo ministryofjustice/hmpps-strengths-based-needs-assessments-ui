@@ -1,34 +1,146 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
-import { processReplacements } from './saveAndContinue.utils'
+import { withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
 
 describe('saveAndContinue.utils', () => {
-  describe('processReplacements', () => {
+  describe('withPlaceholdersFrom', () => {
     it('replaces the placeholder values in strings', () => {
-      const fields: FormWizard.Field[] = [
-        {
-          text: "[person]'s details",
-          code: 'person_details',
-          type: FieldType.Text,
-        },
-      ]
+      const field: FormWizard.Field = {
+        text: "[person]'s details",
+        code: 'person_details',
+        type: FieldType.Text,
+      }
 
-      const [personDetails] = processReplacements(fields, { person: 'Dave' })
+      const personDetails = withPlaceholdersFrom({ person: 'Dave' })(field)
 
       expect(personDetails.text).toEqual("Dave's details")
     })
 
     it('leaves the placeholder values in strings when there is no replacement value', () => {
-      const fields: FormWizard.Field[] = [
-        {
-          text: "[person]'s details",
-          code: 'person_details',
-          type: FieldType.Text,
-        },
-      ]
+      const field: FormWizard.Field = {
+        text: "[person]'s details",
+        code: 'person_details',
+        type: FieldType.Text,
+      }
 
-      const [personDetails] = processReplacements(fields, { foo: 'Dave' })
+      const personDetails = withPlaceholdersFrom({ foo: 'Dave' })(field)
 
       expect(personDetails.text).toEqual("[person]'s details")
+    })
+  })
+
+  describe('withValuesFrom', () => {
+    it('maps values for field types when present', () => {
+      const answers = {
+        text_field: 'Text field value',
+        text_area_field: 'Text area field value',
+        radio_field: 'FOO',
+        checkbox_field: ['FOO', 'BAZ'],
+        date_field: '2023-2-1',
+      }
+
+      const [textField, textAreaField, radioField, checkboxField, dateField]: FormWizard.Field[] = [
+        {
+          text: 'Text field',
+          code: 'text_field',
+          type: FieldType.Text,
+        },
+        {
+          text: 'Text area field',
+          code: 'text_area_field',
+          type: FieldType.TextArea,
+        },
+        {
+          text: 'Radio field',
+          code: 'radio_field',
+          type: FieldType.Radio,
+          options: [
+            { text: 'Foo', value: 'FOO' },
+            { text: 'Bar', value: 'BAR' },
+          ],
+        },
+        {
+          text: 'Checkbox field',
+          code: 'checkbox_field',
+          type: FieldType.CheckBox,
+          options: [
+            { text: 'Foo', value: 'FOO' },
+            { text: 'Bar', value: 'BAR' },
+            { text: 'Baz', value: 'BAZ' },
+          ],
+        },
+        {
+          text: 'Date field',
+          code: 'date_field',
+          type: FieldType.Date,
+        },
+      ].map(withValuesFrom(answers))
+
+      expect(textField.value).toEqual('Text field value')
+      expect(textAreaField.value).toEqual('Text area field value')
+
+      const [radioFirstOption, radioSecondOption] = radioField.options || []
+      expect(radioFirstOption.checked).toEqual(true)
+      expect(radioSecondOption.checked).toEqual(false)
+
+      const [checkboxFirstOption, checkboxSecondOption, checkboxThirdOption] = checkboxField.options || []
+      expect(checkboxFirstOption.checked).toEqual(true)
+      expect(checkboxSecondOption.checked).toEqual(false)
+      expect(checkboxThirdOption.checked).toEqual(true)
+
+      expect(dateField.value).toEqual(['2023', '2', '1'])
+    })
+
+    it('handles when there are no values present', () => {
+      const answers = {}
+
+      const [textField, textAreaField, radioField, checkboxField, dateField]: FormWizard.Field[] = [
+        {
+          text: 'Text field',
+          code: 'text_field',
+          type: FieldType.Text,
+        },
+        {
+          text: 'Text area field',
+          code: 'text_area_field',
+          type: FieldType.TextArea,
+        },
+        {
+          text: 'Radio field',
+          code: 'radio_field',
+          type: FieldType.Radio,
+          options: [
+            { text: 'Foo', value: 'FOO' },
+            { text: 'Bar', value: 'BAR' },
+          ],
+        },
+        {
+          text: 'Checkbox field',
+          code: 'checkbox_field',
+          type: FieldType.CheckBox,
+          options: [
+            { text: 'Foo', value: 'FOO' },
+            { text: 'Bar', value: 'BAR' },
+          ],
+        },
+        {
+          text: 'Date field',
+          code: 'date_field',
+          type: FieldType.Date,
+        },
+      ].map(withValuesFrom(answers))
+
+      expect(textField.value).toBeUndefined()
+      expect(textAreaField.value).toBeUndefined()
+
+      const [radioFirstOption, radioSecondOption] = radioField.options || []
+      expect(radioFirstOption.checked).toEqual(false)
+      expect(radioSecondOption.checked).toEqual(false)
+
+      const [checkboxFirstOption, checkboxSecondOption] = checkboxField.options || []
+      expect(checkboxFirstOption.checked).toEqual(false)
+      expect(checkboxSecondOption.checked).toEqual(false)
+
+      expect(dateField.value).toEqual([])
     })
   })
 })

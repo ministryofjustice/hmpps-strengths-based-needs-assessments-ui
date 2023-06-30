@@ -9,6 +9,7 @@ declare module 'hmpo-form-wizard' {
     Radio = 'radio',
     CheckBox = 'checkbox',
     TextArea = 'text-area',
+    Date = 'date',
   }
 
   // eslint-disable-next-line no-shadow
@@ -86,6 +87,7 @@ declare module 'hmpo-form-wizard' {
       interface Option {
         text: string
         value: string
+        checked?: boolean
       }
 
       type Options = Option[]
@@ -113,11 +115,12 @@ declare module 'hmpo-form-wizard' {
       code: string
       hint?: string
       type: FieldType
-      options?: FormWizard.Field.Options
+      options?: FormWizard.Field.Option[]
       formatter?: Formatter[]
       validate?: Validate[]
       dependent?: Dependent
       invalidates?: string[]
+      value?: string | string[]
     }
 
     interface Fields {

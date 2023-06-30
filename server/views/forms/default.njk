@@ -8,7 +8,7 @@
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in form.fields %}
-        {{ renderQuestion(options.fields[field]) }}
+        {{ renderQuestion(options.fields[field], errors) }}
     {% endfor %}
 
     <div class="questiongroup-action-buttons">
