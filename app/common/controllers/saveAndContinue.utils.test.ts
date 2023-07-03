@@ -1,5 +1,5 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
-import { withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
+import { formatForNunjucks, withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
 
 describe('saveAndContinue.utils', () => {
   describe('withPlaceholdersFrom', () => {
@@ -141,6 +141,16 @@ describe('saveAndContinue.utils', () => {
       expect(checkboxSecondOption.checked).toEqual(false)
 
       expect(dateField.value).toEqual([])
+    })
+  })
+
+  describe('formatForNunjucks', () => {
+    it('formats for nunjucks', () => {
+      const input = '{ "key": "value", "subObject": { "key": "value", "subObject": {}}}'
+
+      const output = formatForNunjucks(input)
+
+      expect(output).toEqual('{ "key": "value", "subObject": { "key": "value", "subObject": {} } }')
     })
   })
 })

@@ -16,6 +16,11 @@
 {% set labelClasses = labelClasses + ' ' + options.labelClasses %}
 {% endif %}
 
+{% set errorMessageText = errors[question.code].message %}
+{% if errorMessageText %}
+  {% set errorMessage = { text: errorMessageText } %}
+{% endif %}
+
 {% if question.attributes.readonly == true and (question.code).slice(0, 2) != 'ui'%}
   {% if question.text %}
     <!-- {{ question.code }} rendered as readonly -->

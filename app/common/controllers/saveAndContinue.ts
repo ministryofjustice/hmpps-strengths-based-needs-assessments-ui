@@ -8,7 +8,7 @@ class SaveAndContinueController extends BaseController {
     const fields = Object.values(req.form.options.allFields)
 
     const fieldsWithMappedAnswers = fields.map(withValuesFrom(res.locals.values))
-    const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithMappedAnswers, {})
+    const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithMappedAnswers, res.locals.errors)
     const fieldsWithReplacements = fieldsWithRenderedConditionals.map(withPlaceholdersFrom({ subject: 'Paul' }))
 
     res.locals.options.fields = fieldsWithReplacements.reduce(fieldsByCode, {})
