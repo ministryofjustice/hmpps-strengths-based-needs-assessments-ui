@@ -20,6 +20,7 @@ const steps: FormWizard.Steps = {
   '/employment-education-finance': {
     pageTitle: 'Employment, education and finance',
     controller: SaveAndContinueController,
+    fields: ['test_date_field'],
     template: 'forms/default',
     navigationOrder: 2,
   },

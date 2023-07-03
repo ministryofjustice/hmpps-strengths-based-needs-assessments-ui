@@ -66,6 +66,7 @@ declare module 'hmpo-form-wizard' {
   namespace FormWizard {
     interface Request extends express.Request {
       form: {
+        values: { [key: string]: string | string[] }
         options: {
           allFields: { [key: string]: Field }
         }
@@ -73,6 +74,8 @@ declare module 'hmpo-form-wizard' {
     }
 
     class Controller {
+      process(req: Request, res: express.Response, next: express.NextFunction): Promise
+
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
     }
 
@@ -147,6 +150,10 @@ declare module 'hmpo-form-wizard' {
 
     interface Steps {
       [key: string]: Step
+    }
+
+    interface Answers {
+      [key: string]: string | string[]
     }
   }
 
