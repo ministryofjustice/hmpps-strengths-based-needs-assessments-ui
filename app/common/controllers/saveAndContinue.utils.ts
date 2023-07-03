@@ -1,10 +1,7 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import nunjucks from 'nunjucks'
 
-const formatForNunjucks = (str = '') =>
-  str
-    .replace('{{', '{ {') // Prevent nunjucks mistaking the braces when rendering the template
-    .replace('}}', '} }')
+export const formatForNunjucks = (str = '') => str.split('}').join('} ').trim() // Prevent nunjucks mistaking the braces when rendering the template
 
 const renderConditionalQuestion = (
   allFields: FormWizard.Field[],
