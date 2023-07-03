@@ -22,6 +22,11 @@ const fields: FormWizard.Fields = {
       value: 'settled',
     },
   },
+  test_date_field: {
+    text: 'Test date field',
+    code: 'test_date_field',
+    type: FieldType.Date,
+  },
 }
 
 export default fields

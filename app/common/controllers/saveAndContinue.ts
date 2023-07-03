@@ -1,9 +1,21 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import { compileConditionalFields, fieldsByCode, withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
+import {
+  combineDateFields,
+  compileConditionalFields,
+  fieldsByCode,
+  withPlaceholdersFrom,
+  withValuesFrom,
+} from './saveAndContinue.utils'
 
 class SaveAndContinueController extends BaseController {
+  async process(req: FormWizard.Request, res: Response, next: NextFunction) {
+    req.form.values = combineDateFields(req.body, req.form.values)
+
+    super.process(req, res, next)
+  }
+
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     const fields = Object.values(req.form.options.allFields)
 

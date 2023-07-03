@@ -105,7 +105,7 @@ export const withPlaceholdersFrom =
   }
 
 export const withValuesFrom =
-  (answers: { [key: string]: string | string[] }) =>
+  (answers: FormWizard.Answers) =>
   (field: FormWizard.Field): FormWizard.Field => {
     switch (field.type) {
       case FieldType.Text:
@@ -136,3 +136,30 @@ export const withValuesFrom =
         return field
     }
   }
+
+export const combineDateFields = (
+  answers: FormWizard.Answers,
+  preProcessedAnswers: FormWizard.Answers,
+): FormWizard.Answers => {
+  const dateFieldPattern = /-(day|month|year)$/
+  const whereDateField = (key: string) => dateFieldPattern.test(key)
+
+  const dateFields = Object.keys(answers)
+    .filter(whereDateField)
+    .map(key => key.replace(dateFieldPattern, ''))
+    .filter((key, index, otherKeys) => otherKeys.indexOf(key) === index)
+
+  const padDateComponent = (component: string) => component.padStart(2, '0')
+
+  return dateFields.reduce((otherAnswers, key) => {
+    const year = answers[`${key}-year`]
+    const month = answers[`${key}-month`] as string
+    const day = answers[`${key}-day`] as string
+
+    if (!day || !month || !year) {
+      return { ...otherAnswers, [key]: '' }
+    }
+
+    return { ...otherAnswers, [key]: `${year}-${padDateComponent(month)}-${padDateComponent(day)}` }
+  }, preProcessedAnswers)
+}

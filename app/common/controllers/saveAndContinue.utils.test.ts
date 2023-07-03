@@ -1,5 +1,5 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
-import { formatForNunjucks, withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
+import { combineDateFields, formatForNunjucks, withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
 
 describe('saveAndContinue.utils', () => {
   describe('withPlaceholdersFrom', () => {
@@ -151,6 +151,46 @@ describe('saveAndContinue.utils', () => {
       const output = formatForNunjucks(input)
 
       expect(output).toEqual('{ "key": "value", "subObject": { "key": "value", "subObject": {} } }')
+    })
+  })
+
+  describe('combineDateFields', () => {
+    it('combines the components of a date field', () => {
+      const requestBody = {
+        'date-day': '30',
+        'date-month': '1',
+        'date-year': '1970',
+      }
+
+      const preProcessedFields = {
+        foo: 'bar',
+        date: '',
+      }
+
+      const result = combineDateFields(requestBody, preProcessedFields)
+
+      expect(result).toEqual({
+        foo: 'bar',
+        date: '1970-01-30',
+      })
+    })
+
+    it('does not build the date when a component is missing', () => {
+      const requestBody = {
+        'date-day': '30',
+        'date-month': '1',
+        'date-year': '',
+      }
+
+      const preProcessedFields = {
+        date: '',
+      }
+
+      const result = combineDateFields(requestBody, preProcessedFields)
+
+      expect(result).toEqual({
+        date: '',
+      })
     })
   })
 })
