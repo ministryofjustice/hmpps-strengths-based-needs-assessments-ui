@@ -91,18 +91,36 @@ export const fieldsByCode = (otherFields: FormWizard.Fields, field: FormWizard.F
   [field.code]: field,
 })
 
-export const withPlaceholdersFrom =
-  (replacementValues: { [key: string]: string }) =>
-  (field: FormWizard.Field): FormWizard.Field => {
-    const text = field.text.replace(/(\[\w+\])/, (token: string) => {
-      const key = token.substring(1, token.length - 1)
-      const value = replacementValues[key]
+const replaceWithValuesFrom = (replacementValues: { [key: string]: string }) => (token: string) => {
+  const key = token.substring(1, token.length - 1)
+  const value = replacementValues[key]
 
-      return value || token
-    })
+  return value || token
+}
 
-    return { ...field, text }
+export const withPlaceholdersFrom = (replacementValues: { [key: string]: string }) => {
+  const replacer = replaceWithValuesFrom(replacementValues)
+  const placeholderPattern = /(\[\w+\])/
+
+  return (field: FormWizard.Field): FormWizard.Field => {
+    const modifiedField = { ...field }
+
+    modifiedField.text = field.text.replace(placeholderPattern, replacer)
+
+    if (field.hint) {
+      modifiedField.hint = field.hint.replace(placeholderPattern, replacer)
+    }
+
+    if (field.options) {
+      modifiedField.options = field.options.map(option => ({
+        ...option,
+        text: option.text.replace(placeholderPattern, replacer),
+      }))
+    }
+
+    return modifiedField
   }
+}
 
 export const withValuesFrom =
   (answers: FormWizard.Answers) =>
