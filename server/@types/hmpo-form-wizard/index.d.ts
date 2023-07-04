@@ -133,7 +133,7 @@ declare module 'hmpo-form-wizard' {
     type NextStepCondition = (req: Request, res: Response) => boolean
 
     type NextStep =
-      | { field: string; op?: string; val: string; next: string | NextStep[] }
+      | { field: string; op?: string; value: string; next: string | NextStep[] }
       | { fn: NextStepCondition; next: string }
       | string
 
