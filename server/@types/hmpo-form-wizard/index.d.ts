@@ -91,6 +91,7 @@ declare module 'hmpo-form-wizard' {
         text: string
         value: string
         checked?: boolean
+        conditional?: { html: string }
       }
 
       type Options = Option[]
