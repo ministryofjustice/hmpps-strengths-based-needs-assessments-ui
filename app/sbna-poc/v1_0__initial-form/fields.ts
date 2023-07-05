@@ -81,7 +81,7 @@ const fields: FormWizard.Fields = {
     },
   },
   accommodation_changes: {
-    text: 'Does you want to make changes to your housing?',
+    text: 'Do you want to make changes to your housing?',
     hint: 'This question must be answered by [subject]',
     code: 'accommodation_changes',
     type: FieldType.Radio,
