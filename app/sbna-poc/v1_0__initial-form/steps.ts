@@ -64,6 +64,14 @@ const steps: FormWizard.Steps = {
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/summary',
   },
+  '/analysis': {
+    pageTitle: 'Housing',
+    controller: SaveAndContinueController,
+    fields: ['accommodation_practitioner_analysis', 'accommodation_analysis_housing_risk'],
+    next: 'employment-education-finance',
+    template: 'forms/sbna-poc/analysis',
+  },
+
   '/temporary-accommodation': {
     pageTitle: 'Housing',
     controller: SaveAndContinueController,
