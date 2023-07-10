@@ -101,6 +101,24 @@ const fields: FormWizard.Fields = {
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
   },
+  accommodation_practitioner_analysis: {
+    text: 'Practitioner analysis',
+    code: 'accommodation_practitioner_analysis',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  accommodation_analysis_housing_risk: {
+    text: "Is [subject]'s housing linked to risk?",
+    hint: 'Select all that apply',
+    code: 'accommodation_analysis_housing_risk',
+    type: FieldType.CheckBox,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Risk of Serious Harm', value: 'RISK_SERIOUS_HARM' },
+      { text: 'Risk of reoffending', value: 'RISK_REOFFENDING' },
+      { text: 'No, housing is not linked to risk', value: 'NO_HOUSING_RISK' },
+    ],
+  },
 }
 
 export default fields
