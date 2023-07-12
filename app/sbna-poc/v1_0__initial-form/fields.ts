@@ -103,20 +103,29 @@ const fields: FormWizard.Fields = {
   },
   accommodation_practitioner_analysis: {
     text: 'Practitioner analysis',
+    hint: 'Include any strengths, needs or risks which may link to risk of serious harm or risk of reoffending.',
     code: 'accommodation_practitioner_analysis',
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
   },
-  accommodation_analysis_housing_risk: {
-    text: "Is [subject]'s housing linked to risk?",
-    hint: 'Select all that apply',
-    code: 'accommodation_analysis_housing_risk',
-    type: FieldType.CheckBox,
+  accommodation_serious_harm: {
+    text: "Is [subject]'s accommodation linked to risk of serious harm?",
+    code: 'accommodation_serious_harm',
+    type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Risk of Serious Harm', value: 'RISK_SERIOUS_HARM' },
-      { text: 'Risk of reoffending', value: 'RISK_REOFFENDING' },
-      { text: 'No, housing is not linked to risk', value: 'NO_HOUSING_RISK' },
+      { text: 'Yes', value: 'yes' },
+      { text: 'No', value: 'no' },
+    ],
+  },
+  accommodation_risk_of_reoffending: {
+    text: "Is [subject]'s accommodation linked to risk of reoffending?",
+    code: 'accommodation_risk_of_reoffending',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'yes' },
+      { text: 'No', value: 'no' },
     ],
   },
 }
