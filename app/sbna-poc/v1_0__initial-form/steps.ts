@@ -57,20 +57,6 @@ const steps: FormWizard.Steps = {
     next: 'settled-accommodation-summary',
     template: 'forms/default',
   },
-  '/settled-accommodation-summary': {
-    pageTitle: 'Housing',
-    controller: BaseController,
-    next: 'employment-education-finance',
-    template: 'forms/sbna-poc/summary',
-  },
-  '/analysis': {
-    pageTitle: 'Housing',
-    controller: SaveAndContinueController,
-    fields: ['accommodation_practitioner_analysis', 'accommodation_analysis_housing_risk'],
-    next: 'employment-education-finance',
-    template: 'forms/sbna-poc/analysis',
-  },
-
   '/temporary-accommodation': {
     pageTitle: 'Housing',
     controller: SaveAndContinueController,
@@ -159,6 +145,13 @@ const steps: FormWizard.Steps = {
     fields: [],
     template: 'forms/default',
     navigationOrder: 2,
+  },
+  '/accommodation-summary-analysis': {
+    pageTitle: 'Accommodation',
+    controller: SaveAndContinueController,
+    fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
+    next: 'employment-education-finance',
+    template: 'forms/sbna-poc/accommodation-summary-analysis',
   },
 }
 
