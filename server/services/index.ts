@@ -1,13 +1,13 @@
-import { dataAccess } from '../data'
+import StrengthsBasedNeedsAssessmentsApiService from './strengthsBasedNeedsService'
 import UserService from './userService'
 
 export const services = () => {
-  const { hmppsAuthClient } = dataAccess()
-
-  const userService = new UserService(hmppsAuthClient)
+  const userService = new UserService()
+  const apiClient = new StrengthsBasedNeedsAssessmentsApiService()
 
   return {
     userService,
+    apiService: apiClient,
   }
 }
 

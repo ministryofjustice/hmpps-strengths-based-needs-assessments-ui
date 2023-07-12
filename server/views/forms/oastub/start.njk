@@ -1,0 +1,21 @@
+{% extends "../../partials/layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% set hideBackLink = true %}
+
+{% block header %}
+    {% include "../../partials/header.njk" %}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <div>
+            <h1 class="govuk-heading-l">{{ options.pageTitle }}</h1>
+
+            <a href="create-one-time-link" class="govuk-link">Go to strengths based needs assessment</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
