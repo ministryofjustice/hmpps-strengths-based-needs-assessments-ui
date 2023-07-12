@@ -42,7 +42,7 @@ function appSetup(
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(routes(services))
+  app.use(routes())
   additionalRoutes.forEach(it => app.use(it))
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(production))

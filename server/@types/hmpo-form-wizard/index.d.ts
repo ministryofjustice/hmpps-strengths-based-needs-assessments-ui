@@ -71,9 +71,15 @@ declare module 'hmpo-form-wizard' {
           allFields: { [key: string]: Field }
         }
       }
+      sessionModel: {
+        set: (key: string, value: unknown) => void
+        get: (key: string) => unknown
+      }
     }
 
     class Controller {
+      constructor(options: unknown)
+
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
@@ -142,7 +148,7 @@ declare module 'hmpo-form-wizard' {
       pageTitle: string
       reset?: boolean = false
       entryPoint?: boolean = false
-      template: string
+      template?: string
       next?: string | NextStep[]
       fields?: string[]
       controller?: typeof FormWizard.Controller

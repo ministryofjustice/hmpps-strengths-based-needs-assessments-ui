@@ -57,6 +57,14 @@ export default {
       systemClientId: get('SYSTEM_CLIENT_ID', 'clientid', requiredInProduction),
       systemClientSecret: get('SYSTEM_CLIENT_SECRET', 'clientsecret', requiredInProduction),
     },
+    sbnaApi: {
+      url: get('SBNA_API_URL', 'http://localhost:8080', requiredInProduction),
+      timeout: {
+        response: Number(get('SBNA_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('SBNA_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('SBNA_API_TIMEOUT_RESPONSE', 10000))),
+    },
     tokenVerification: {
       url: get('TOKEN_VERIFICATION_API_URL', 'http://localhost:8100', requiredInProduction),
       timeout: {

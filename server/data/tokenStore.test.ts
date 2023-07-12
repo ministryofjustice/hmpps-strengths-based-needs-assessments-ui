@@ -1,5 +1,5 @@
 import { RedisClient } from './redisClient'
-import TokenStore from './tokenStore'
+import getTokenStore, { TokenStore } from './tokenStore'
 
 const redisClient = {
   get: jest.fn(),
@@ -13,7 +13,7 @@ describe('tokenStore', () => {
   let tokenStore: TokenStore
 
   beforeEach(() => {
-    tokenStore = new TokenStore(redisClient as unknown as RedisClient)
+    tokenStore = getTokenStore(redisClient)
   })
 
   afterEach(() => {

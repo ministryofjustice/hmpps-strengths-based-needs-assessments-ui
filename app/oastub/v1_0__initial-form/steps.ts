@@ -1,0 +1,19 @@
+import FormWizard from 'hmpo-form-wizard'
+import StartController from './controllers/startController'
+import BaseController from '../../common/controllers/baseController'
+
+const steps: FormWizard.Steps = {
+  '/start': {
+    pageTitle: 'OAStub',
+    controller: BaseController,
+    reset: true,
+    entryPoint: true,
+    template: `forms/oastub/start`,
+  },
+  '/create-one-time-link': {
+    pageTitle: 'OAStub',
+    controller: StartController,
+  },
+}
+
+export default steps

@@ -1,8 +1,9 @@
 import type { RedisClient } from './redisClient'
 
 import logger from '../../logger'
+import { createRedisClient } from './redisClient'
 
-export default class TokenStore {
+export class TokenStore {
   private readonly prefix = 'systemToken:'
 
   constructor(private readonly client: RedisClient) {
@@ -26,4 +27,15 @@ export default class TokenStore {
     await this.ensureConnected()
     return this.client.get(`${this.prefix}${key}`)
   }
+}
+
+let instance: TokenStore = null
+
+export default (_redisClient?: RedisClient) => {
+  if (!instance) {
+    const tokenStore = new TokenStore(_redisClient || createRedisClient())
+    instance = tokenStore
+  }
+
+  return instance
 }

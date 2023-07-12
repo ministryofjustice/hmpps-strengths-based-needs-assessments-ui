@@ -1,10 +1,11 @@
 import FormWizard from 'hmpo-form-wizard'
-import SaveAndContinueController from '../../common/controllers/saveAndContinue'
-import BaseController from '../../common/controllers/baseController'
+import SaveAndContinueController from './controllers/saveAndContinueController'
+import StartController from './controllers/startController'
 
 const steps: FormWizard.Steps = {
   '/start': {
     pageTitle: 'POC Form',
+    controller: StartController,
     reset: true,
     entryPoint: true,
     template: `forms/sbna-poc/start`,
@@ -59,7 +60,7 @@ const steps: FormWizard.Steps = {
   },
   '/settled-accommodation-summary': {
     pageTitle: 'Housing',
-    controller: BaseController,
+    controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/summary',
   },
@@ -100,7 +101,7 @@ const steps: FormWizard.Steps = {
   },
   '/temporary-accommodation-summary': {
     pageTitle: 'Housing',
-    controller: BaseController,
+    controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/summary',
   },
@@ -141,7 +142,7 @@ const steps: FormWizard.Steps = {
   },
   '/no-accommodation-summary': {
     pageTitle: 'Housing',
-    controller: BaseController,
+    controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/summary',
   },
