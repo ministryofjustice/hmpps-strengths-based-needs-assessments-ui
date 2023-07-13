@@ -1,11 +1,16 @@
 import Express from 'express'
+import oastubFormRouter from './oastub/index'
 import pocFormRouter from './sbna-poc/index'
 
-const router = Express.Router()
+export default () => {
+  const router = Express.Router()
 
-router.use('*', (req, res, next) => {
-  next()
-})
-router.use('/sbna-poc', pocFormRouter)
+  router.use('*', (req, res, next) => {
+    next()
+  })
 
-export default router
+  router.use('/oastub', oastubFormRouter)
+  router.use('/sbna-poc', pocFormRouter)
+
+  return router
+}

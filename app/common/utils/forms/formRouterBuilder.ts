@@ -5,6 +5,11 @@ import FormVersionResponse from './responses/formVersionResponse'
 import FormFieldsResponse from './responses/formFieldsResponse'
 import { Form, BaseFormOptions, FormWizardRouter, getLatestVersionFrom } from './common'
 
+const removeQueryParamsFrom = (urlWithParams: string) => {
+  const [url] = urlWithParams.split('?')
+  return url
+}
+
 const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
   const router = express.Router()
 
@@ -12,7 +17,7 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
     router.get('/fields', (req: Request, res: Response) => res.json(FormFieldsResponse.from(form, options)))
 
     router.use((req: Request, res: Response, next: NextFunction) => {
-      const { fields = [] } = form.steps[req.url]
+      const { fields = [] } = form.steps[removeQueryParamsFrom(req.url)]
       const steps = Object.entries(form.steps)
         .filter(([_, stepConfig]) => stepConfig.navigationOrder)
         .sort(([_A, stepConfigA], [_B, stepConfigB]) => stepConfigA.navigationOrder - stepConfigB.navigationOrder)

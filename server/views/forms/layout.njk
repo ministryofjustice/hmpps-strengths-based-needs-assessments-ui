@@ -12,11 +12,11 @@
     <main class="govuk-main-wrapper">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full offender-details">
-          <h3 class="govuk-heading-s">Paul Whitfield</h3>
+          <h3 class="govuk-heading-s">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h3>
           <dl>
-            <dt>CRN:</dt><dd>1234567</dd>
-            <dt>PNC:</dt><dd>01/1234567890A</dd>
-            <dt>Date of birth:</dt><dd>01/01/1970</dd>
+            <dt>CRN:</dt><dd>{{ subjectDetails.crn }}</dd>
+            <dt>PNC:</dt><dd>{{ subjectDetails.pnc }}</dd>
+            <dt>Date of birth:</dt><dd>{{ subjectDetails.dateOfBirth }}</dd>
           </dl>
         </div>
       </div>
