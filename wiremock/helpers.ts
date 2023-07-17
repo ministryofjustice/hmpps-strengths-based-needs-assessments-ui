@@ -3,9 +3,10 @@ import superagent from 'superagent'
 const url = 'http://localhost:9191/__admin'
 
 interface StubOptions {
-  body: Record<string, string>
+  body: Record<string, unknown>
   urlPattern?: string
   urlPath?: string
+  status?: number
 }
 interface Request {
   method: string
@@ -15,7 +16,7 @@ interface Request {
 interface Response {
   status: number
   headers: Record<string, string>
-  jsonBody: Record<string, string>
+  jsonBody: Record<string, unknown>
 }
 interface Mapping {
   request: Request
@@ -27,7 +28,7 @@ const stubFor = (mapping: Mapping) => Promise.all([superagent.post(`${url}/mappi
 export const resetStubs = () =>
   Promise.all([superagent.delete(`${url}/mappings`), superagent.delete(`${url}/requests`)])
 
-export const getFor = ({ body, urlPattern, urlPath }: StubOptions) =>
+export const getFor = ({ body, urlPattern, urlPath, status }: StubOptions) =>
   stubFor({
     request: {
       method: 'GET',
@@ -35,7 +36,7 @@ export const getFor = ({ body, urlPattern, urlPath }: StubOptions) =>
       urlPath,
     },
     response: {
-      status: 200,
+      status: status || 200,
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
@@ -43,7 +44,7 @@ export const getFor = ({ body, urlPattern, urlPath }: StubOptions) =>
     },
   })
 
-export const postFor = ({ body, urlPattern, urlPath }: StubOptions) =>
+export const postFor = ({ body, urlPattern, urlPath, status }: StubOptions) =>
   stubFor({
     request: {
       method: 'POST',
@@ -51,7 +52,7 @@ export const postFor = ({ body, urlPattern, urlPath }: StubOptions) =>
       urlPath,
     },
     response: {
-      status: 200,
+      status: status || 200,
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },

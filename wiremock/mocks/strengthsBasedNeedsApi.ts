@@ -1,25 +1,32 @@
 import { faker } from '@faker-js/faker'
 import { getFor, postFor } from '../helpers'
 
-const sessionUuid = faker.string.uuid()
-const oasysAssessmentUuid = faker.string.uuid()
+const sessionUuid = '5aa28488-a4e9-4667-b474-9fc57ecd8517'
+const oasysAssessmentUuid = 'abf9f8b0-1421-4064-823a-52369bdd2dd4'
 
 export default async () => {
+  await getFor({
+    body: {},
+    urlPath: `/session/${sessionUuid}/validate`,
+    status: 401,
+  })
+
   await getFor({
     body: {
       uuid: sessionUuid,
       sessionId: 'MOCK_OASYS_SESSION_ID',
       accessLevel: 'READ_WRITE',
       assessmentUUID: oasysAssessmentUuid,
+      userDisplayName: 'Probation User',
     },
-    urlPattern: `/session/${sessionUuid}`,
+    urlPath: `/session/${sessionUuid}`,
   })
 
   await postFor({
     body: {
       link: `http://localhost:3000/form/sbna-poc/start?sessionId=${sessionUuid}`,
     },
-    urlPattern: '/session/create',
+    urlPath: '/session/create',
   })
 
   await getFor({
@@ -30,6 +37,6 @@ export default async () => {
       crn: faker.helpers.fromRegExp(/D[0-9]{6}/),
       pnc: faker.helpers.fromRegExp(/01-[0-9]{9}A/).replace('-', '/'),
     },
-    urlPattern: `/subject/.+?`,
+    urlPattern: '/subject/.+?',
   })
 }
