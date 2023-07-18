@@ -8,7 +8,6 @@ export default async () => {
   await getFor({
     body: {},
     urlPath: `/session/${sessionUuid}/validate`,
-    status: 401,
   })
 
   await getFor({
