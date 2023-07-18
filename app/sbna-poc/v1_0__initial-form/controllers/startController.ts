@@ -14,13 +14,18 @@ class StartController extends BaseController {
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const assessmentData = await this.apiService.getSession(req.query.sessionId as string)
-      const subjectDetails = await this.apiService.getSubject(assessmentData.assessmentUUID)
+      const sessionData = await this.apiService.getSession(req.query.sessionId as string)
+      const subjectDetails = await this.apiService.getSubject(sessionData.assessmentUUID)
 
-      req.sessionModel.set('assessmentData', assessmentData)
-      req.sessionModel.set('subjectDetails', subjectDetails)
+      req.session.sessionData = sessionData
+      req.session.subjectDetails = subjectDetails
+      req.session.save(error => {
+        if (error) {
+          return next(error)
+        }
 
-      res.redirect('accommodation')
+        return res.redirect('accommodation')
+      })
     } catch (error) {
       next(new Error('Unable to start assessment'))
     }

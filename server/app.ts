@@ -5,7 +5,6 @@ import createError from 'http-errors'
 
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
-import authorisationMiddleware from './middleware/authorisationMiddleware'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
@@ -18,9 +17,8 @@ import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
-import type { Services } from './services'
 
-export default function createApp(services: Services): express.Application {
+export default function createApp(): express.Application {
   const app = express()
 
   app.set('json spaces', 2)
@@ -35,10 +33,9 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpStaticResources())
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
-  app.use(authorisationMiddleware())
   // disabled CSRF handled by hmpo-form-wizard
   // app.use(setUpCsrf())
-  app.use(setUpCurrentUser(services))
+  app.use(setUpCurrentUser())
 
   app.use(routes())
 

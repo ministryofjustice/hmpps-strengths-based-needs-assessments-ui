@@ -80,6 +80,12 @@ declare module 'hmpo-form-wizard' {
     class Controller {
       constructor(options: unknown)
 
+      get(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      post(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      configure(req: Request, res: express.Response, next: express.NextFunction): Promise
+
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise

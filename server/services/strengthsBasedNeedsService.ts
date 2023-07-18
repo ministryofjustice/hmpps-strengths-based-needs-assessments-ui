@@ -18,6 +18,7 @@ export interface SessionResponse {
   sessionId: string
   accessLevel: string
   assessmentUUID: UUID
+  userDisplayName: string
 }
 
 export interface SubjectResponse {
@@ -53,6 +54,12 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
   async getSession(sessionId: string): Promise<SessionResponse> {
     const client = await this.getRestClient()
     const responseBody = await client.get({ path: `/session/${sessionId}` })
+    return responseBody as SessionResponse
+  }
+
+  async validateSession(sessionId: string): Promise<SessionResponse> {
+    const client = await this.getRestClient()
+    const responseBody = await client.get({ path: `/session/${sessionId}/validate` })
     return responseBody as SessionResponse
   }
 

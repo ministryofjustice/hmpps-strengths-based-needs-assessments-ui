@@ -18,6 +18,7 @@ class StartController extends BaseController {
         userSessionId: 'ABC1234567890',
         userAccess: 'READ_WRITE',
         oasysAssessmentId: '1234567890',
+        userDisplayName: 'Probation User',
       })
 
       res.redirect(link)
