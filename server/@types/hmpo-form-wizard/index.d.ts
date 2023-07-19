@@ -10,6 +10,7 @@ declare module 'hmpo-form-wizard' {
     CheckBox = 'checkbox',
     TextArea = 'text-area',
     Date = 'date',
+    DropDown = 'dropdown',
   }
 
   // eslint-disable-next-line no-shadow
