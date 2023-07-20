@@ -6,11 +6,9 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
-
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-
 
 {% set accommodationSummaryHtml %}
 {{ govukSummaryList({
