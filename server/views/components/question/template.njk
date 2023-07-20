@@ -62,28 +62,29 @@
         errorMessage: errorMessage,
         classes: options.classes
       }) }}
-    {% case 'text-area' %}
-    {{ govukCharacterCount({
-      name:question.code,
-      id: question.code,
-      maxlength: 4000,
-      value: question.value | safe,
-      label: {
-        text: question.text,
-        isPageHeading: false,
-        classes: question.code + labelClasses
-      },
-      formGroup : {
-        classes: question.classes
-      },
-      attributes: question.attributes,
-      hint: {
-        text: question.hint
-      },
-      errorMessage: errorMessage
-    }) }}
 
-  {% case 'radio' %}
+    {% case 'text-area' %}
+      {{ govukCharacterCount({
+        name:question.code,
+        id: question.code,
+        maxlength: 4000,
+        value: question.value | safe,
+        label: {
+          text: question.text,
+          isPageHeading: false,
+          classes: question.code + labelClasses
+        },
+        formGroup : {
+          classes: question.classes
+        },
+        attributes: question.attributes,
+        hint: {
+          text: question.hint
+        },
+        errorMessage: errorMessage
+      }) }}
+
+    {% case 'radio' %}
       {{ govukRadios({
         idPrefix: question.code,
         name: question.code,
@@ -104,6 +105,7 @@
           text: question.hint
         }
       }) }}
+
     {% case 'checkbox' %}
       {{ govukCheckboxes({
         idPrefix: question.code,
@@ -126,8 +128,28 @@
         }
       }) }}
 
+    {% case 'dropdown' %}
+      {{ govukSelect({
+        id: question.code,
+        name: question.code,
+        formGroup : {
+          classes: question.classes
+        },
+        label: {
+          text: question.text,
+          classes: question.code + labelClasses
+        },
+        attributes: question.attributes,
+        items: question.options,
+        errorMessage: errorMessage,
+        isConditional: question.isConditional,
+        hint: {
+          text: question.hint
+        }
+      }) }}
+
     {% case 'date' %}
-    {% set dateAnswer = question.value %}
+      {% set dateAnswer = question.value %}
       {% if dateAnswer.length > 0 %}
         {% set answerDay = dateAnswer[2] %}
         {% set answerMonth = dateAnswer[1] %}
