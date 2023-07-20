@@ -25,7 +25,10 @@ class SaveAndContinueController extends BaseController {
       withPlaceholdersFrom(res.locals.placeholderValues || {}),
     )
 
-    res.locals.options.fields = fieldsWithReplacements.reduce(fieldsByCode, {})
+    res.locals.options.fields = fieldsWithReplacements
+      .filter(it => res.locals.form.fields.includes(it.code))
+      .reduce(fieldsByCode, {})
+    res.locals.options.allFields = fieldsWithReplacements.reduce(fieldsByCode, {})
 
     super.locals(req, res, next)
   }

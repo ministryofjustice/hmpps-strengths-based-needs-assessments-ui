@@ -6,16 +6,18 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
+
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+
 
 {% set accommodationSummaryHtml %}
 {{ govukSummaryList({
   rows: [
     {
       key: {
-        text: "add text"
+        text: options.allFields["current_accommodation"].text
       },
       value: {
         text: "add text"
@@ -32,7 +34,7 @@
     },
     {
       key: {
-        text: "add text"
+        text: options.allFields["living_with"].text
       },
       value: {
         text: "add text"
@@ -49,7 +51,7 @@
     },
     {
       key: {
-        text: "add text"
+        text: options.allFields["suitable_housing_location"].text
       },
       value: {
         html: "add text"
@@ -66,17 +68,51 @@
     },
     {
       key: {
-        text: "add text"
+        text: options.allFields["suitable_housing"].text
       },
       value: {
-        html: '<p class="govuk-body">07700 900457</p><p class="govuk-body">sarah.phillips@example.com</p>'
+        html: "xyz"
       },
       actions: {
         items: [
           {
             href: "#",
             text: "Change",
-            visuallyHiddenText: "contact details"
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing_planned"].text
+      },
+      value: {
+        html: "xyz"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes"].text
+      },
+      value: {
+        html: "xyz"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
           }
         ]
       }

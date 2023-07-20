@@ -55,7 +55,7 @@ const steps: FormWizard.Steps = {
     pageTitle: 'Housing',
     controller: SaveAndContinueController,
     fields: ['accommodation_changes_details'],
-    next: 'settled-accommodation-summary',
+    next: 'accommodation-summary-analysis',
     template: 'forms/default',
   },
   '/temporary-accommodation': {
@@ -150,7 +150,18 @@ const steps: FormWizard.Steps = {
   '/accommodation-summary-analysis': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
-    fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
+    fields: [
+      'accommodation_practitioner_analysis',
+      'accommodation_serious_harm',
+      'accommodation_risk_of_reoffending',
+      'current_accommodation',
+      'living_with',
+      'suitable_housing_location',
+      'suitable_housing',
+      'suitable_housing_planned',
+      'accommodation_changes',
+      'accommodation_changes_details',
+    ],
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/accommodation-summary-analysis',
   },
