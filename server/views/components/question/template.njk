@@ -42,7 +42,7 @@
   {% set questionType = question.type %}
 
   {% switch questionType %}
-    {% case 'text' %}
+    {% case 'TEXT' %}
       {{ govukInput({
         id: question.code,
         name: question.code,
@@ -63,7 +63,7 @@
         classes: options.classes
       }) }}
 
-    {% case 'text-area' %}
+    {% case 'TEXT_AREA' %}
       {{ govukCharacterCount({
         name:question.code,
         id: question.code,
@@ -84,7 +84,7 @@
         errorMessage: errorMessage
       }) }}
 
-    {% case 'radio' %}
+    {% case 'RADIO' %}
       {{ govukRadios({
         idPrefix: question.code,
         name: question.code,
@@ -106,7 +106,7 @@
         }
       }) }}
 
-    {% case 'checkbox' %}
+    {% case 'CHECKBOX' %}
       {{ govukCheckboxes({
         idPrefix: question.code,
         name: question.code,
@@ -128,7 +128,7 @@
         }
       }) }}
 
-    {% case 'dropdown' %}
+    {% case 'DROPDOWN' %}
       {{ govukSelect({
         id: question.code,
         name: question.code,
@@ -148,7 +148,7 @@
         }
       }) }}
 
-    {% case 'date' %}
+    {% case 'DATE' %}
       {% set dateAnswer = question.value %}
       {% if dateAnswer.length > 0 %}
         {% set answerDay = dateAnswer[2] %}

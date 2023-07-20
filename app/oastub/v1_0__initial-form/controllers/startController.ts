@@ -17,7 +17,7 @@ class StartController extends BaseController {
       const { link } = await this.apiService.createSession({
         userSessionId: 'ABC1234567890',
         userAccess: 'READ_WRITE',
-        oasysAssessmentId: '1234567890',
+        oasysAssessmentId: '0987654321',
         userDisplayName: 'Probation User',
       })
 

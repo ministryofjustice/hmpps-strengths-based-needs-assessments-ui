@@ -38,4 +38,14 @@ export default async () => {
     },
     urlPattern: '/subject/.+?',
   })
+
+  await postFor({
+    body: {},
+    urlPattern: '/assessment/.+?/answers',
+  })
+
+  await getFor({
+    body: {},
+    urlPattern: '/assessment/.+?/answers',
+  })
 }
