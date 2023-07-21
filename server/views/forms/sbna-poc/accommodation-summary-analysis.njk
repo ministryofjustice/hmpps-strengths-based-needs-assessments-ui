@@ -1,0 +1,163 @@
+{% extends "../layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "components/question/macro.njk" import renderQuestion %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{%- macro renderSelectedOptions(field) -%}
+<ul class="govuk-list">
+ {% for option in field.options %}
+  {%  if option.checked  %}
+  <li> {{ option.text }} </li>
+  {% endif %}
+ {% endfor %}
+</ul>
+{%- endmacro -%}
+
+{% block formContent %}
+<form method="post" action="{{ action }}">
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+
+{% set accommodationSummaryHtml %}
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: options.allFields["current_accommodation"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["current_accommodation"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["living_with"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["living_with"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing_location"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["suitable_housing_location"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["suitable_housing"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_changes"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes_details"].text
+      },
+      value: {
+        text: options.allFields["accommodation_changes_details"].value
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+{% endset -%}
+
+{% set practitionerAnalysisHtml %}
+{{ renderQuestion(options.fields['accommodation_practitioner_analysis'], errors) }}    
+{{ renderQuestion(options.fields['accommodation_serious_harm'], errors) }}
+{{ renderQuestion(options.fields['accommodation_risk_of_reoffending'], errors) }}
+{% endset -%}
+
+{{ govukTabs({
+  items: [
+    {
+      label: "Accommodation summary",
+      id: "accommodation-summary",
+      panel: {
+        html: accommodationSummaryHtml
+      }
+    },
+    {
+      label: "Practitioner analysis",
+      id: "practitioner-analysis",
+      panel: {
+        html: practitionerAnalysisHtml
+      }
+    }
+  ]
+}) }}
+    <div class="questiongroup-action-buttons">
+        {{ govukButton({
+            text: buttonText | default('Mark as complete'),
+            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+        }) }}
+    </div>
+</form>
+{% endblock %}

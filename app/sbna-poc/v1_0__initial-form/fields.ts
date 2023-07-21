@@ -85,7 +85,8 @@ const fields: FormWizard.Fields = {
     text: 'Do you want to make changes to your housing?',
     hint: 'This question must be answered by [subject]',
     code: 'accommodation_changes',
-    type: FieldType.Radio,
+    type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
       { text: 'I want to make changes', value: 'I_WANT_TO_MAKE_CHANGES' },
@@ -101,6 +102,33 @@ const fields: FormWizard.Fields = {
     code: 'accommodation_changes_details',
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  accommodation_practitioner_analysis: {
+    text: 'Practitioner analysis',
+    hint: 'Include any strengths, needs or risks which may link to risk of serious harm or risk of reoffending.',
+    code: 'accommodation_practitioner_analysis',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  accommodation_serious_harm: {
+    text: "Is [subject]'s accommodation linked to risk of serious harm?",
+    code: 'accommodation_serious_harm',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'yes' },
+      { text: 'No', value: 'no' },
+    ],
+  },
+  accommodation_risk_of_reoffending: {
+    text: "Is [subject]'s accommodation linked to risk of reoffending?",
+    code: 'accommodation_risk_of_reoffending',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'yes' },
+      { text: 'No', value: 'no' },
+    ],
   },
 }
 
