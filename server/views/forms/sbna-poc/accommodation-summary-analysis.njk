@@ -6,6 +6,16 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
+{%- macro renderSelectedOptions(field) -%}
+<ul class="govuk-list">
+ {% for option in field.options %}
+  {%  if option.checked  %}
+  <li> {{ option.text }} </li>
+  {% endif %}
+ {% endfor %}
+</ul>
+{%- endmacro -%}
+
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
@@ -18,58 +28,7 @@
         text: options.allFields["current_accommodation"].text
       },
       value: {
-        text: "add text"
-      },
-      actions: {
-        items: [
-          {
-            href: "#",
-            text: "Change",
-            visuallyHiddenText: "name"
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["living_with"].text
-      },
-      value: {
-        text: "add text"
-      },
-      actions: {
-        items: [
-          {
-            href: "#",
-            text: "Change",
-            visuallyHiddenText: "date of birth"
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["suitable_housing_location"].text
-      },
-      value: {
-        html: "add text"
-      },
-      actions: {
-        items: [
-          {
-            href: "#",
-            text: "Change",
-            visuallyHiddenText: "address"
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["suitable_housing"].text
-      },
-      value: {
-        html: "xyz"
+        text: renderSelectedOptions(options.allFields["current_accommodation"])
       },
       actions: {
         items: [
@@ -83,10 +42,44 @@
     },
     {
       key: {
-        text: options.allFields["suitable_housing_planned"].text
+        text: options.allFields["living_with"].text
       },
       value: {
-        html: "xyz"
+        text: renderSelectedOptions(options.allFields["living_with"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing_location"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["suitable_housing_location"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["suitable_housing"])
       },
       actions: {
         items: [
@@ -101,6 +94,23 @@
     {
       key: {
         text: options.allFields["accommodation_changes"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_changes"])
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes_details"].text
       },
       value: {
         text: options.allFields["accommodation_changes_details"].value

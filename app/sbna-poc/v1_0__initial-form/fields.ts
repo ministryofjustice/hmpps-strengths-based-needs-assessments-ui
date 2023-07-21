@@ -16,6 +16,7 @@ const fields: FormWizard.Fields = {
     text: 'Who does [subject] live with?',
     code: 'living_with',
     type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
       { text: 'Family', value: 'FAMILY' },
@@ -62,6 +63,7 @@ const fields: FormWizard.Fields = {
     text: 'Does [subject] have future housing planned?',
     code: 'suitable_housing_planned',
     type: FieldType.Radio,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
       { text: 'Yes', value: 'YES' },
@@ -84,7 +86,8 @@ const fields: FormWizard.Fields = {
     text: 'Do you want to make changes to your housing?',
     hint: 'This question must be answered by [subject]',
     code: 'accommodation_changes',
-    type: FieldType.Radio,
+    type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
       { text: 'I want to make changes', value: 'I_WANT_TO_MAKE_CHANGES' },

@@ -125,6 +125,7 @@ declare module 'hmpo-form-wizard' {
       code: string
       hint?: string
       type: FieldType
+      multiple?: boolean
       options?: FormWizard.Field.Option[]
       formatter?: Formatter[]
       validate?: Validate[]
