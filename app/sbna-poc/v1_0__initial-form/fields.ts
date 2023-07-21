@@ -63,7 +63,6 @@ const fields: FormWizard.Fields = {
     text: 'Does [subject] have future housing planned?',
     code: 'suitable_housing_planned',
     type: FieldType.Radio,
-    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
       { text: 'Yes', value: 'YES' },
