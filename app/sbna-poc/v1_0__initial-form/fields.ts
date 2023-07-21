@@ -16,6 +16,7 @@ const fields: FormWizard.Fields = {
     text: 'Who does [subject] live with?',
     code: 'living_with',
     type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
       { text: 'Family', value: 'FAMILY' },

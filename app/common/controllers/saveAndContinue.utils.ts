@@ -138,7 +138,7 @@ export const withValuesFrom =
           })),
         }
       case FieldType.CheckBox:
-      case FieldType.DropDown:
+      case FieldType.Dropdown:
         return {
           ...field,
           options: field.options.map(option => ({

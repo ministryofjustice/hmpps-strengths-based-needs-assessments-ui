@@ -1,4 +1,5 @@
 import { UUID } from 'crypto'
+import { FieldType } from 'hmpo-form-wizard'
 import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
@@ -32,6 +33,21 @@ export interface SubjectResponse {
 export interface OffenderDetailsResponse {
   firstName: string
 }
+
+interface Option {
+  value: string
+  description: string
+}
+
+interface AnswerDto {
+  type: FieldType
+  description: string
+  options?: Option[]
+  value?: string
+  values?: string[]
+}
+
+export type Answers = Record<string, AnswerDto>
 
 export default class StrengthsBasedNeedsAssessmentsApiService {
   authClient
@@ -71,5 +87,16 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
 
   async getOffenderDetails(): Promise<OffenderDetailsResponse> {
     return { firstName: 'Paul' }
+  }
+
+  async fetchAnswers(assessmentUuid: string): Promise<Answers> {
+    const client = await this.getRestClient()
+    const responseBody = await client.get({ path: `/assessment/${assessmentUuid}/answers` })
+    return responseBody as Answers
+  }
+
+  async saveAnswers(assessmentUuid: string, answers: Answers) {
+    const client = await this.getRestClient()
+    await client.post({ path: `/assessment/${assessmentUuid}/answers`, data: answers })
   }
 }

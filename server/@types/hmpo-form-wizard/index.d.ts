@@ -5,12 +5,12 @@ declare module 'hmpo-form-wizard' {
   // Also this ESLint override because of how TS/Eslint work..
   // eslint-disable-next-line no-shadow
   export const enum FieldType {
-    Text = 'text',
-    Radio = 'radio',
-    CheckBox = 'checkbox',
-    TextArea = 'text-area',
-    Date = 'date',
-    DropDown = 'dropdown',
+    Text = 'TEXT',
+    Radio = 'RADIO',
+    CheckBox = 'CHECKBOX',
+    TextArea = 'TEXT_AREA',
+    Date = 'DATE',
+    Dropdown = 'DROPDOWN',
   }
 
   // eslint-disable-next-line no-shadow
@@ -90,6 +90,8 @@ declare module 'hmpo-form-wizard' {
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      saveValues(req: Request, res: express.Response, next: express.NextFunction): Promise
     }
 
     interface Config {
@@ -132,6 +134,7 @@ declare module 'hmpo-form-wizard' {
       code: string
       hint?: string
       type: FieldType
+      multiple?: boolean
       options?: FormWizard.Field.Option[]
       formatter?: Formatter[]
       validate?: Validate[]
