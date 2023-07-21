@@ -3,6 +3,8 @@ import FormWizard from 'hmpo-form-wizard'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
 
+const getFormVersionInformationFrom = (req: FormWizard.Request) => req.form.options.journeyName.split(':')
+
 class StartController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
@@ -14,7 +16,8 @@ class StartController extends BaseController {
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const sessionData = await this.apiService.getSession(req.query.sessionId as string)
+      const [form, version] = getFormVersionInformationFrom(req)
+      const sessionData = await this.apiService.useOneTimeLink(req.query.sessionId as string, { form, version })
       const subjectDetails = await this.apiService.getSubject(sessionData.assessmentUUID)
 
       req.session.sessionData = sessionData

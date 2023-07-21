@@ -123,7 +123,7 @@ export const withPlaceholdersFrom = (replacementValues: { [key: string]: string 
 }
 
 export const withValuesFrom =
-  (answers: FormWizard.Answers) =>
+  (answers: FormWizard.Answers = {}) =>
   (field: FormWizard.Field): FormWizard.Field => {
     switch (field.type) {
       case FieldType.Text:
