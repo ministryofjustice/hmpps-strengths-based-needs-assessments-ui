@@ -10,7 +10,7 @@ export default async () => {
     urlPath: `/session/${sessionUuid}/validate`,
   })
 
-  await getFor({
+  await postFor({
     body: {
       uuid: sessionUuid,
       sessionId: 'MOCK_OASYS_SESSION_ID',

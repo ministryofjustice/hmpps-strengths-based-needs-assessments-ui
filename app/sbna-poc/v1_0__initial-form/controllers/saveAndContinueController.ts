@@ -3,7 +3,7 @@ import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import BaseSaveAndContinueController from '../../../common/controllers/saveAndContinue'
 import StrengthsBasedNeedsAssessmentsApiService, {
   Answers,
-  SessionResponse,
+  SessionInformation,
   SubjectResponse,
 } from '../../../../server/services/strengthsBasedNeedsService'
 
@@ -52,7 +52,7 @@ const buildRequestBody = (req: FormWizard.Request): Answers => {
 }
 
 const mergeAnswers = (savedAnswers: Answers, submittedAnswers: Record<string, string | string[]>) => {
-  Object.entries(savedAnswers).reduce(
+  return Object.entries(savedAnswers).reduce(
     (modifiedAnswers, [key, answer]) => ({
       ...modifiedAnswers,
       [key]: answer.type === FieldType.CheckBox ? answer.values : answer.value,
@@ -72,7 +72,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const sessionData = req.session.sessionData as SessionResponse
+      const sessionData = req.session.sessionData as SessionInformation
       res.locals.user = { username: sessionData.userDisplayName }
       await this.apiService.validateSession(sessionData.uuid)
 
@@ -84,7 +84,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const sessionData = req.session.sessionData as SessionResponse
+      const sessionData = req.session.sessionData as SessionInformation
       res.locals.sessionData = sessionData
       res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
       res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName }
@@ -101,7 +101,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
   async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const { assessmentUUID } = req.session.sessionData as SessionResponse
+      const { assessmentUUID } = req.session.sessionData as SessionInformation
       const requestBody = buildRequestBody(req)
       await this.apiService.saveAnswers(assessmentUUID, requestBody)
 

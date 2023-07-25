@@ -1,7 +1,7 @@
 import { bootstrapFormConfiguration, loadFormsInDirectory } from '../common/utils/forms'
 
 const options = {
-  journeyName: 'POC',
+  journeyName: 'sbna-poc',
   journeyTitle: 'Proof of Concept Form',
   entryPoint: true,
 }

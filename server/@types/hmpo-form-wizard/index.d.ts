@@ -70,6 +70,7 @@ declare module 'hmpo-form-wizard' {
         values: { [key: string]: string | string[] }
         options: {
           allFields: { [key: string]: Field }
+          journeyName: string
         }
       }
       sessionModel: {

@@ -14,7 +14,12 @@ export interface CreateSessionResponse {
   link: string
 }
 
-export interface SessionResponse {
+export interface UseOneTimeLinkRequest extends Record<string, unknown> {
+  form: string
+  version: string
+}
+
+export interface SessionInformation {
   uuid: UUID
   sessionId: string
   accessLevel: string
@@ -67,16 +72,16 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as CreateSessionResponse
   }
 
-  async getSession(sessionId: string): Promise<SessionResponse> {
+  async useOneTimeLink(sessionId: string, requestBody: UseOneTimeLinkRequest): Promise<SessionInformation> {
     const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/session/${sessionId}` })
-    return responseBody as SessionResponse
+    const responseBody = await client.post({ path: `/session/${sessionId}`, data: requestBody })
+    return responseBody as SessionInformation
   }
 
-  async validateSession(sessionId: string): Promise<SessionResponse> {
+  async validateSession(sessionId: string): Promise<SessionInformation> {
     const client = await this.getRestClient()
     const responseBody = await client.get({ path: `/session/${sessionId}/validate` })
-    return responseBody as SessionResponse
+    return responseBody as SessionInformation
   }
 
   async getSubject(assessmentUuid: string): Promise<SubjectResponse> {
@@ -95,8 +100,8 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as Answers
   }
 
-  async saveAnswers(assessmentUuid: string, answers: Answers) {
+  async saveAnswers(assessmentUuid: string, requestBody: Answers) {
     const client = await this.getRestClient()
-    await client.post({ path: `/assessment/${assessmentUuid}/answers`, data: answers })
+    await client.post({ path: `/assessment/${assessmentUuid}/answers`, data: requestBody })
   }
 }
