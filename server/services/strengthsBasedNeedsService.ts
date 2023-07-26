@@ -54,6 +54,11 @@ interface AnswerDto {
 
 export type Answers = Record<string, AnswerDto>
 
+export interface UpdateAnswersDto extends Record<string, unknown> {
+  answersToAdd: Answers
+  answersToRemove: string[]
+}
+
 export default class StrengthsBasedNeedsAssessmentsApiService {
   authClient
 
@@ -100,7 +105,7 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as Answers
   }
 
-  async saveAnswers(assessmentUuid: string, requestBody: Answers) {
+  async updateAnswers(assessmentUuid: string, requestBody: UpdateAnswersDto) {
     const client = await this.getRestClient()
     await client.post({ path: `/assessment/${assessmentUuid}/answers`, data: requestBody })
   }

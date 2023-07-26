@@ -5,12 +5,50 @@ import StrengthsBasedNeedsAssessmentsApiService, {
   Answers,
   SessionInformation,
   SubjectResponse,
+  UpdateAnswersDto,
 } from '../../../../server/services/strengthsBasedNeedsService'
 
-const buildRequestBody = (req: FormWizard.Request): Answers => {
+type SubmittedAnswers = Record<string, string | string[]>
+
+const buildRequestBody = (req: FormWizard.Request): UpdateAnswersDto => {
   const answers = req.form.values
   const fields = req.form.options.allFields
 
+  const answersToAdd = getAnswersToAdd(fields, answers)
+  const answersToRemove = getAnswersToRemove(fields, answers)
+
+  return {
+    answersToAdd,
+    answersToRemove,
+  }
+}
+
+const mergeAnswers = (savedAnswers: Answers, submittedAnswers: SubmittedAnswers) => {
+  return Object.entries(savedAnswers).reduce(
+    (modifiedAnswers, [key, answer]) => ({
+      ...modifiedAnswers,
+      [key]: answer.type === FieldType.CheckBox ? answer.values : answer.value,
+    }),
+    submittedAnswers,
+  )
+}
+
+const getAnswersToRemove = (fields: FormWizard.Fields, answers: SubmittedAnswers): string[] => {
+  const dependencyMet = (dependency: FormWizard.Dependent, allAnswers: SubmittedAnswers) =>
+    allAnswers[dependency.field] === dependency.value
+
+  return Object.keys(fields).reduce((fieldsToRemove, thisField) => {
+    const dependency = fields[thisField].dependent
+
+    if (dependency && !dependencyMet(dependency, answers)) {
+      return [...fieldsToRemove, thisField]
+    }
+
+    return fieldsToRemove
+  }, [])
+}
+
+const getAnswersToAdd = (fields: FormWizard.Fields, answers: SubmittedAnswers): Answers => {
   return Object.entries(answers).reduce((answerDtos, [key, thisAnswer]) => {
     const field = fields[key]
     if (field) {
@@ -49,16 +87,6 @@ const buildRequestBody = (req: FormWizard.Request): Answers => {
       return answerDtos
     }
   }, {})
-}
-
-const mergeAnswers = (savedAnswers: Answers, submittedAnswers: Record<string, string | string[]>) => {
-  return Object.entries(savedAnswers).reduce(
-    (modifiedAnswers, [key, answer]) => ({
-      ...modifiedAnswers,
-      [key]: answer.type === FieldType.CheckBox ? answer.values : answer.value,
-    }),
-    submittedAnswers,
-  )
 }
 
 class SaveAndContinueController extends BaseSaveAndContinueController {
@@ -103,7 +131,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     try {
       const { assessmentUUID } = req.session.sessionData as SessionInformation
       const requestBody = buildRequestBody(req)
-      await this.apiService.saveAnswers(assessmentUUID, requestBody)
+      await this.apiService.updateAnswers(assessmentUUID, requestBody)
 
       super.saveValues(req, res, next)
     } catch (error) {
