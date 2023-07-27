@@ -162,8 +162,26 @@ const steps: FormWizard.Steps = {
       'accommodation_changes',
       'accommodation_changes_details',
     ],
-    next: 'employment-education-finance',
+    next: 'accommodation-analysis-complete',
     template: 'forms/sbna-poc/accommodation-summary-analysis',
+  },
+  '/accommodation-analysis-complete': {
+    pageTitle: 'Accommodation',
+    controller: SaveAndContinueController,
+    fields: [
+      'accommodation_practitioner_analysis',
+      'accommodation_serious_harm',
+      'accommodation_risk_of_reoffending',
+      'current_accommodation',
+      'living_with',
+      'suitable_housing_location',
+      'suitable_housing',
+      'suitable_housing_planned',
+      'accommodation_changes',
+      'accommodation_changes_details',
+    ],
+    next: 'employment-education-finance',
+    template: 'forms/sbna-poc/accommodation-analysis-complete',
   },
 }
 
