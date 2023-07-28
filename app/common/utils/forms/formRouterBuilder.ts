@@ -24,7 +24,7 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
         .map(([path, stepConfig]) => ({ url: `${req.baseUrl}${path}`, label: stepConfig.pageTitle }))
 
       res.locals.form = {
-        fields: fields.filter(fieldCode => !form.fields[fieldCode].dependent),
+        fields: fields.filter(fieldCode => !form.fields[fieldCode]?.dependent?.displayInline),
         navigation: steps,
       }
 

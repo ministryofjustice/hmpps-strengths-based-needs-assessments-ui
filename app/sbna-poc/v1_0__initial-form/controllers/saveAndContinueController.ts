@@ -10,12 +10,13 @@ import StrengthsBasedNeedsAssessmentsApiService, {
 
 type SubmittedAnswers = Record<string, string | string[]>
 
-const buildRequestBody = (req: FormWizard.Request): UpdateAnswersDto => {
-  const answers = req.form.values
-  const fields = req.form.options.allFields
-
-  const answersToAdd = getAnswersToAdd(fields, answers)
-  const answersToRemove = getAnswersToRemove(fields, answers)
+const buildRequestBody = (
+  fields: FormWizard.Fields,
+  submittedAnswers: SubmittedAnswers,
+  allAnswers: SubmittedAnswers,
+): UpdateAnswersDto => {
+  const answersToAdd = getAnswersToAdd(fields, submittedAnswers)
+  const answersToRemove = getAnswersToRemove(fields, allAnswers)
 
   return {
     answersToAdd,
@@ -23,14 +24,18 @@ const buildRequestBody = (req: FormWizard.Request): UpdateAnswersDto => {
   }
 }
 
-const mergeAnswers = (savedAnswers: Answers, submittedAnswers: SubmittedAnswers) => {
-  return Object.entries(savedAnswers).reduce(
+const mergeAnswers = (savedAnswers: Answers, submittedAnswersValues: SubmittedAnswers) => {
+  const savedAnswerValues = Object.entries(savedAnswers).reduce(
     (modifiedAnswers, [key, answer]) => ({
       ...modifiedAnswers,
       [key]: answer.type === FieldType.CheckBox ? answer.values : answer.value,
     }),
-    submittedAnswers,
+    {},
   )
+  return {
+    ...savedAnswerValues,
+    ...submittedAnswersValues,
+  }
 }
 
 const getAnswersToRemove = (fields: FormWizard.Fields, answers: SubmittedAnswers): string[] => {
@@ -130,8 +135,23 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const { assessmentUUID } = req.session.sessionData as SessionInformation
-      const requestBody = buildRequestBody(req)
-      await this.apiService.updateAnswers(assessmentUUID, requestBody)
+
+      const savedAnswers = await this.apiService.fetchAnswers(assessmentUUID)
+      const submittedAnswers = req.form.values
+      const allAnswers = mergeAnswers(savedAnswers, submittedAnswers)
+
+      const { answersToAdd, answersToRemove } = buildRequestBody(
+        req.form.options.allFields,
+        submittedAnswers,
+        allAnswers,
+      )
+
+      req.form.values = {
+        ...req.form.values,
+        ...answersToRemove.reduce((acc, fieldCode) => ({ ...acc, [fieldCode]: null }), {}),
+      }
+
+      await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove })
 
       super.saveValues(req, res, next)
     } catch (error) {

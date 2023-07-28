@@ -51,7 +51,7 @@ export type FormErrors = { [code: string]: string }
 type Node = { code: string; dependents?: Node[] }
 
 export const compileConditionalFields = (fields: FormWizard.Field[], errors: FormErrors) => {
-  const fieldsWithDependencies = fields.filter(field => field.dependent)
+  const fieldsWithDependencies = fields.filter(field => field.dependent && field.dependent.displayInline)
   const fieldCodes = fieldsWithDependencies.map(field => field.code)
 
   const rootFieldsWithDependencies = fieldsWithDependencies
