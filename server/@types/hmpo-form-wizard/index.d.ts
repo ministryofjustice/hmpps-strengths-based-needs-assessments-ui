@@ -127,7 +127,7 @@ declare module 'hmpo-form-wizard' {
       | { type: ValidationType; arguments?: (string | number)[]; message: string }
       | { fn: ValidatorFn; arguments?: (string | number)[]; message: string }
 
-    type Dependent = { field: string; value: string }
+    type Dependent = { field: string; value: string; displayInline?: boolean }
 
     interface Field {
       default?: string | number | []

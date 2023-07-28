@@ -52,6 +52,10 @@ const fields: FormWizard.Fields = {
     code: 'no_accommodation_details',
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'current_accommodation',
+      value: 'NO_ACCOMMODATION',
+    },
   },
   suitable_housing_details: {
     text: "What's helped [subject] stay in suitable housing in the past?",
@@ -79,6 +83,7 @@ const fields: FormWizard.Fields = {
     dependent: {
       field: 'suitable_housing_planned',
       value: 'AWAITING_PLACEMENT',
+      displayInline: true,
     },
   },
   accommodation_changes: {
