@@ -17,7 +17,7 @@
 {%- endmacro -%}
 
 {% block formContent %}
-<form method="post" action="{{ action }}">
+<form id="editPage" method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 
 {% set accommodationSummaryHtml %}
@@ -160,10 +160,11 @@
 }) }}
     <div class="questiongroup-action-buttons">
         {{ govukButton({
-            href: "/form/sbna-poc/accommodation-analysis-complete#practitioner-analysis",
             text: buttonText | default('Mark as complete'),
             classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+            id: markAsCompleteButton
         }) }}
     </div>
+     
 </form>
 {% endblock %}
