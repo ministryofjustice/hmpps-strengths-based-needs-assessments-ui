@@ -130,14 +130,61 @@
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
-{{ renderQuestion(options.fields['accommodation_practitioner_analysis'], errors) }}    
-{{ renderQuestion(options.fields['accommodation_serious_harm'], errors) }}
-{{ renderQuestion(options.fields['accommodation_risk_of_reoffending'], errors) }}
-
-{# {{ options.allFields["accommodation_practitioner_analysis"].value }}    
-{{ renderSelectedOptions(options.allFields["accommodation_serious_harm"]) }}
-{{ renderSelectedOptions(options.allFields["accommodation_risk_of_reoffending"]) }} #}
-
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: options.allFields["accommodation_practitioner_analysis"].text
+      },
+      value: {
+        text: options.allFields["accommodation_practitioner_analysis"].value
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_serious_harm"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_serious_harm"])
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_risk_of_reoffending"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_risk_of_reoffending"])
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    }
+  ]
+}) }}
 {% endset -%}
 
 {{ govukTabs({
@@ -158,11 +205,5 @@
     }
   ]
 }) }}
-    <div class="questiongroup-action-buttons">
-        {{ govukButton({
-            text: buttonText | default('Mark as complete'),
-            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
-        }) }}
-    </div>  
 </form>
 {% endblock %}

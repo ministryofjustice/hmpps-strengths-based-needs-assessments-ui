@@ -90,14 +90,8 @@ const steps: FormWizard.Steps = {
     pageTitle: 'Housing',
     controller: SaveAndContinueController,
     fields: ['accommodation_changes_details'],
-    next: 'temporary-accommodation-summary',
+    next: 'accommodation-summary-analysis',
     template: 'forms/default',
-  },
-  '/temporary-accommodation-summary': {
-    pageTitle: 'Housing',
-    controller: SaveAndContinueController,
-    next: 'employment-education-finance',
-    template: 'forms/sbna-poc/summary',
   },
   '/no-accommodation': {
     pageTitle: 'Housing',
@@ -131,14 +125,8 @@ const steps: FormWizard.Steps = {
     pageTitle: 'Housing',
     controller: SaveAndContinueController,
     fields: ['accommodation_changes_details'],
-    next: 'no-accommodation-summary',
+    next: 'accommodation-summary-analysis',
     template: 'forms/default',
-  },
-  '/no-accommodation-summary': {
-    pageTitle: 'Housing',
-    controller: SaveAndContinueController,
-    next: 'employment-education-finance',
-    template: 'forms/sbna-poc/summary',
   },
   '/employment-education-finance': {
     pageTitle: 'Employment, education and finance',
@@ -150,20 +138,15 @@ const steps: FormWizard.Steps = {
   '/accommodation-summary-analysis': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
-    fields: [
-      'accommodation_practitioner_analysis',
-      'accommodation_serious_harm',
-      'accommodation_risk_of_reoffending',
-      'current_accommodation',
-      'living_with',
-      'suitable_housing_location',
-      'suitable_housing',
-      'suitable_housing_planned',
-      'accommodation_changes',
-      'accommodation_changes_details',
-    ],
-    next: 'employment-education-finance',
+    fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
+    next: 'accommodation-analysis-complete',
     template: 'forms/sbna-poc/accommodation-summary-analysis',
+  },
+  '/accommodation-analysis-complete': {
+    pageTitle: 'Accommodation',
+    controller: SaveAndContinueController,
+    next: 'employment-education-finance',
+    template: 'forms/sbna-poc/accommodation-analysis-complete',
   },
 }
 
