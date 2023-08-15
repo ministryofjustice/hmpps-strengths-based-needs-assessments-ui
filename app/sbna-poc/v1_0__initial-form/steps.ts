@@ -13,6 +13,7 @@ const steps: FormWizard.Steps = {
   },
   '/accommodation': {
     pageTitle: 'Housing',
+    id: 'current-accommodation',
     controller: SaveAndContinueController,
     fields: ['current_accommodation'],
     next: [
@@ -25,6 +26,7 @@ const steps: FormWizard.Steps = {
   },
   '/settled-accommodation': {
     pageTitle: 'Housing',
+    id: 'living-with',
     controller: SaveAndContinueController,
     fields: ['living_with'],
     next: 'settled-accommodation-2',
@@ -32,6 +34,7 @@ const steps: FormWizard.Steps = {
   },
   '/settled-accommodation-2': {
     pageTitle: 'Housing',
+    id: 'suitable-housing-location',
     controller: SaveAndContinueController,
     fields: ['suitable_housing_location'],
     next: 'settled-accommodation-3',
@@ -39,6 +42,7 @@ const steps: FormWizard.Steps = {
   },
   '/settled-accommodation-3': {
     pageTitle: 'Housing',
+    id: 'suitable-housing',
     controller: SaveAndContinueController,
     fields: ['suitable_housing'],
     next: 'settled-accommodation-4',
@@ -46,6 +50,7 @@ const steps: FormWizard.Steps = {
   },
   '/settled-accommodation-4': {
     pageTitle: 'Housing',
+    id: 'accommodation-changes',
     controller: SaveAndContinueController,
     fields: ['accommodation_changes'],
     next: 'settled-accommodation-5',
@@ -53,6 +58,7 @@ const steps: FormWizard.Steps = {
   },
   '/settled-accommodation-5': {
     pageTitle: 'Housing',
+    id: 'accommodation-changes-details',
     controller: SaveAndContinueController,
     fields: ['accommodation_changes_details'],
     next: 'accommodation-summary-analysis',
