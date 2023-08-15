@@ -101,6 +101,7 @@ const steps: FormWizard.Steps = {
   },
   '/no-accommodation': {
     pageTitle: 'Housing',
+    id: 'no-accommodation-details',
     controller: SaveAndContinueController,
     fields: ['no_accommodation_details'],
     next: 'no-accommodation-2',
@@ -108,6 +109,7 @@ const steps: FormWizard.Steps = {
   },
   '/no-accommodation-2': {
     pageTitle: 'Housing',
+    id: 'suitable-housing-details',
     controller: SaveAndContinueController,
     fields: ['suitable_housing_details'],
     next: 'no-accommodation-3',
@@ -115,6 +117,7 @@ const steps: FormWizard.Steps = {
   },
   '/no-accommodation-3': {
     pageTitle: 'Housing',
+    id: 'suitable-housing-planned',
     controller: SaveAndContinueController,
     fields: ['suitable_housing_planned'],
     next: 'no-accommodation-4',
