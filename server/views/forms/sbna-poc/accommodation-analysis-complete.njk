@@ -124,6 +124,57 @@
           }
         ]
       }
+    },
+    {
+      key: {
+        text: options.allFields["no_accommodation_details"].text
+      },
+      value: {
+        text: options.allFields["no_accommodation_details"].value
+      },
+      actions: {
+        items: [  
+          {
+            href: "/form/sbna-poc/no-accommodation#no_accommodation_details-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing_details"].text
+      },
+      value: {
+        text: options.allFields["suitable_housing_details"].value
+      },
+      actions: {
+        items: [  
+          {
+            href: "/form/sbna-poc/no-accommodation#suitable_housing_details-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing_planned"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["suitable_housing_planned"])
+      },
+      actions: {
+        items: [  
+          {
+            href: "/form/sbna-poc/no-accommodation#suitable_housing_planned-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
     }
   ]
 }) }}

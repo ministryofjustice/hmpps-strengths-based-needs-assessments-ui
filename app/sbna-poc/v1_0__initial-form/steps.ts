@@ -12,7 +12,7 @@ const steps: FormWizard.Steps = {
     next: 'accommodation',
   },
   '/accommodation': {
-    pageTitle: 'Housing',
+    pageTitle: 'Accommodation',
     id: 'current-accommodation',
     controller: SaveAndContinueController,
     fields: ['current_accommodation'],
@@ -25,7 +25,7 @@ const steps: FormWizard.Steps = {
     navigationOrder: 1,
   },
   '/settled-accommodation': {
-    pageTitle: 'Housing',
+    pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     fields: [
       'living_with',
@@ -70,7 +70,7 @@ const steps: FormWizard.Steps = {
   //   template: 'forms/default',
   // },
   '/temporary-accommodation': {
-    pageTitle: 'Housing',
+    pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     fields: [
       'living_with',
@@ -111,7 +111,7 @@ const steps: FormWizard.Steps = {
   //   template: 'forms/default',
   // },
   '/no-accommodation': {
-    pageTitle: 'Housing',
+    pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     fields: [
       'no_accommodation_details',
