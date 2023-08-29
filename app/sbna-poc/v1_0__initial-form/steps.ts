@@ -170,7 +170,7 @@ const steps: FormWizard.Steps = {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
-    next: 'accommodation-analysis-complete',
+    next: 'accommodation-analysis-complete-temporary',
     template: 'forms/sbna-poc/accommodation-summary-analysis-temporary',
   },
   '/accommodation-summary-analysis-settled': {
@@ -185,6 +185,12 @@ const steps: FormWizard.Steps = {
     controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/accommodation-analysis-complete-settled',
+  },
+  '/accommodation-analysis-complete-temporary': {
+    pageTitle: 'Accommodation',
+    controller: SaveAndContinueController,
+    next: 'employment-education-finance',
+    template: 'forms/sbna-poc/accommodation-analysis-complete-temporary',
   },
 }
 
