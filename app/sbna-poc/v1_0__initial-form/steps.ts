@@ -33,7 +33,7 @@ const steps: FormWizard.Steps = {
       'accommodation_changes',
       'accommodation_changes_details',
     ],
-    next: 'accommodation-summary-analysis',
+    next: 'accommodation-summary-analysis-settled',
     template: 'forms/default',
   },
   // '/settled-accommodation-2': {
@@ -179,12 +179,19 @@ const steps: FormWizard.Steps = {
     next: 'accommodation-analysis-complete',
     template: 'forms/sbna-poc/accommodation-summary-analysis-no-accommodation',
   },
-  '/accommodation-summary-analysis-temporary-accommodation': {
+  '/accommodation-summary-analysis-temporary': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
     next: 'accommodation-analysis-complete',
     template: 'forms/sbna-poc/accommodation-summary-analysis-temporary',
+  },
+  '/accommodation-summary-analysis-settled': {
+    pageTitle: 'Accommodation',
+    controller: SaveAndContinueController,
+    fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
+    next: 'accommodation-analysis-complete',
+    template: 'forms/sbna-poc/accommodation-summary-analysis-settled',
   },
 }
 

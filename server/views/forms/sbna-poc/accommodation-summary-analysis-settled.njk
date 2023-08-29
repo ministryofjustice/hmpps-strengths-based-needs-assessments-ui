@@ -124,58 +124,8 @@
           }
         ]
       }
-    },
-    {
-      key: {
-        text: options.allFields["no_accommodation_details"].text
-      },
-      value: {
-        text: options.allFields["no_accommodation_details"].value
-      },
-      actions: {
-        items: [  
-          {
-            href: "/form/sbna-poc/no-accommodation#no_accommodation_details-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["suitable_housing_details"].text
-      },
-      value: {
-        text: options.allFields["suitable_housing_details"].value
-      },
-      actions: {
-        items: [  
-          {
-            href: "/form/sbna-poc/no-accommodation#suitable_housing_details-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["suitable_housing_planned"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["suitable_housing_planned"])
-      },
-      actions: {
-        items: [  
-          {
-            href: "/form/sbna-poc/no-accommodation#suitable_housing_planned-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
     }
+   
   ]
 }) }}
 {% endset -%}
@@ -184,11 +134,6 @@
 {{ renderQuestion(options.fields['accommodation_practitioner_analysis'], errors) }}    
 {{ renderQuestion(options.fields['accommodation_serious_harm'], errors) }}
 {{ renderQuestion(options.fields['accommodation_risk_of_reoffending'], errors) }}
-
-{# {{ options.allFields["accommodation_practitioner_analysis"].value }}    
-{{ renderSelectedOptions(options.allFields["accommodation_serious_harm"]) }}
-{{ renderSelectedOptions(options.allFields["accommodation_risk_of_reoffending"]) }} #}
-
 {% endset -%}
 
 {{ govukTabs({
