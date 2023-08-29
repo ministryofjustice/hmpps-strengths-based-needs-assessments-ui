@@ -159,19 +159,6 @@ const steps: FormWizard.Steps = {
     template: 'forms/default',
     navigationOrder: 2,
   },
-  '/accommodation-summary-analysis': {
-    pageTitle: 'Accommodation',
-    controller: SaveAndContinueController,
-    fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
-    next: 'accommodation-analysis-complete',
-    template: 'forms/sbna-poc/accommodation-summary-analysis',
-  },
-  '/accommodation-analysis-complete': {
-    pageTitle: 'Accommodation',
-    controller: SaveAndContinueController,
-    next: 'employment-education-finance',
-    template: 'forms/sbna-poc/accommodation-analysis-complete',
-  },
   '/accommodation-summary-analysis-no-accommodation': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
@@ -190,8 +177,14 @@ const steps: FormWizard.Steps = {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
-    next: 'accommodation-analysis-complete',
+    next: 'accommodation-analysis-complete-settled',
     template: 'forms/sbna-poc/accommodation-summary-analysis-settled',
+  },
+  '/accommodation-analysis-complete-settled': {
+    pageTitle: 'Accommodation',
+    controller: SaveAndContinueController,
+    next: 'employment-education-finance',
+    template: 'forms/sbna-poc/accommodation-analysis-complete-settled',
   },
 }
 
