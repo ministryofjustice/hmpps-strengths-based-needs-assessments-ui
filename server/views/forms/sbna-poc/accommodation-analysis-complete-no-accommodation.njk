@@ -19,7 +19,6 @@
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-
 {% set accommodationSummaryHtml %}
 {{ govukSummaryList({
   rows: [
@@ -40,92 +39,7 @@
         ]
       }
     },
-    {
-      key: {
-        text: options.allFields["living_with"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["living_with"])
-      },
-      actions: {
-        items: [
-          {
-            href: "/form/sbna-poc/settled-accommodation#living_with-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["suitable_housing_location"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["suitable_housing_location"])
-      },
-      actions: {
-        items: [
-          {
-            href: "/form/sbna-poc/settled-accommodation#suitable_housing_location-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["suitable_housing"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["suitable_housing"])
-      },
-      actions: {
-        items: [
-          {
-            href: "/form/sbna-poc/settled-accommodation#suitable_housing-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["accommodation_changes"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["accommodation_changes"])
-      },
-      actions: {
-        items: [
-          {
-            href: "/form/sbna-poc/settled-accommodation#accommodation_changes-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["accommodation_changes_details"].text
-      },
-      value: {
-        text: options.allFields["accommodation_changes_details"].value
-      },
-      actions: {
-        items: [
-          {
-            href: "/form/sbna-poc/settled-accommodation#accommodation_changes_details-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
+   {
       key: {
         text: options.allFields["no_accommodation_details"].text
       },
@@ -150,7 +64,7 @@
         text: options.allFields["suitable_housing_details"].value
       },
       actions: {
-        items: [  
+        items: [
           {
             href: "/form/sbna-poc/no-accommodation#suitable_housing_details-hint",
             text: "Change",
@@ -166,10 +80,44 @@
       value: {
         text: renderSelectedOptions(options.allFields["suitable_housing_planned"])
       },
+      actions: {  
+        items: [
+          {
+            href: "/form/sbna-poc/no-accommodation#suitable_housing-planned-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_changes"])
+      },
+      actions: {
+        items: [ 
+          {
+            href: "/form/sbna-poc/no-accommodation#accommodation_changes-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes_details"].text
+      },
+      value: {
+        text: options.allFields["accommodation_changes_details"].value
+      },
       actions: {
         items: [  
           {
-            href: "/form/sbna-poc/no-accommodation#suitable_housing_planned-hint",
+            href: "/form/sbna-poc/no-accommodation#accommodation_changes_details-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -193,7 +141,7 @@
       actions: {
         items: [
           {
-            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            href: "/form/sbna-poc/accommodation-summary-analysis-no-accommodation#practitioner-analysis",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -210,7 +158,7 @@
       actions: {
         items: [
           {
-            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            href: "/form/sbna-poc/accommodation-summary-analysis-no-accommodation#practitioner-analysis",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -227,7 +175,7 @@
       actions: {
         items: [
           {
-            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            href: "/form/sbna-poc/accommodation-summary-analysis-no-accommodation#practitioner-analysis",
             text: "Change",
             visuallyHiddenText: ""
           }

@@ -19,7 +19,6 @@
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-
 {% set accommodationSummaryHtml %}
 {{ govukSummaryList({
   rows: [
