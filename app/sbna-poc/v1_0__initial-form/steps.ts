@@ -13,7 +13,6 @@ const steps: FormWizard.Steps = {
   },
   '/accommodation': {
     pageTitle: 'Accommodation',
-    id: 'current-accommodation',
     controller: SaveAndContinueController,
     fields: ['current_accommodation'],
     next: [
@@ -120,7 +119,7 @@ const steps: FormWizard.Steps = {
       'accommodation_changes',
       'accommodation_changes_details',
     ],
-    next: 'accommodation-summary-analysis',
+    next: 'accommodation-summary-analysis-no-accommodation',
     template: 'forms/default',
   },
   // '/no-accommodation-2': {
@@ -172,6 +171,13 @@ const steps: FormWizard.Steps = {
     controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/accommodation-analysis-complete',
+  },
+  '/accommodation-summary-analysis-no-accommodation': {
+    pageTitle: 'Accommodation',
+    controller: SaveAndContinueController,
+    fields: ['accommodation_practitioner_analysis', 'accommodation_serious_harm', 'accommodation_risk_of_reoffending'],
+    next: 'accommodation-analysis-complete',
+    template: 'forms/sbna-poc/accommodation-summary-analysis-no-accommodation',
   },
 }
 
