@@ -19,7 +19,7 @@
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-{% set accommodationSummaryHtml %}
+{% set drugUseSummaryHtml %}
 {{ govukSummaryList({
   rows: [
     {
@@ -38,24 +38,32 @@
           }
         ]
       }
+    },
+       {
+      key: {
+        text: options.allFields["drug_use_changes"].text
+      },
+      value: {
+        text: "Not applicable"
+      }
     }
   ]
 }) }}
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
-{{ renderQuestion(options.fields['accommodation_practitioner_analysis'], errors) }}    
+{# {{ renderQuestion(options.fields['accommodation_practitioner_analysis'], errors) }}    
 {{ renderQuestion(options.fields['accommodation_serious_harm'], errors) }}
-{{ renderQuestion(options.fields['accommodation_risk_of_reoffending'], errors) }}
+{{ renderQuestion(options.fields['accommodation_risk_of_reoffending'], errors) }} #}
 {% endset -%}
 
 {{ govukTabs({
   items: [
     {
-      label: "Accommodation summary",
-      id: "accommodation-summary",
+      label: "Summary",
+      id: "drug-use-summary",
       panel: {
-        html: accommodationSummaryHtml
+        html: drugUseSummaryHtml
       }
     },
     {

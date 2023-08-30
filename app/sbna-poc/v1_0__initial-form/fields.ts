@@ -145,6 +145,90 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO' },
     ],
   },
+  drug_use_changes: {
+    text: 'Does [subject] want to make changes to their drug use?',
+    code: 'drug_use_changes',
+    hint: 'This question must be directly answered by Paul',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Drug use change field is required' }],
+    options: [
+      { text: 'I have already made positive changes', value: 'POSITIVE_CHANGE' },
+      { text: 'I am actively making changes', value: 'ACTIVE_CHANGE' },
+      { text: 'I want to make changes and know how to', value: 'KNOWN_CHANGE' },
+      { text: 'I want to make changes but need help', value: 'HELP_CHANGE' },
+      { text: 'I am thinking about making changes', value: 'THINK_CHANGE' },
+      { text: 'I do not want to make changes', value: 'NO_CHANGE' },
+      { text: 'I do not want to answer', value: 'NO_ANSWER_CHANGE' },
+      { text: '[subject] is not present', value: 'NOT_PRESENT' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE' },
+    ],
+  },
+  drug_use_positive_change: {
+    text: 'Give details',
+    code: 'drug_use_positive_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'POSITIVE_CHANGE',
+      displayInline: true,
+    },
+  },
+  drug_use_active_change: {
+    text: 'Give details',
+    code: 'drug_use_active_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'ACTIVE_CHANGE',
+      displayInline: true,
+    },
+  },
+  drug_use_known_change: {
+    text: 'Give details',
+    code: 'drug_use_known_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'KNOWN_CHANGE',
+      displayInline: true,
+    },
+  },
+  drug_use_help_change: {
+    text: 'Give details',
+    code: 'drug_use_help_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'HELP_CHANGE',
+      displayInline: true,
+    },
+  },
+  drug_use_think_change: {
+    text: 'Give details',
+    code: 'drug_use_think_change:',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'THINK_CHANGE',
+      displayInline: true,
+    },
+  },
+  drug_use_no_change: {
+    text: 'Give details',
+    code: 'drug_use_no_change:',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'NO_CHANGE',
+      displayInline: true,
+    },
+  },
 }
 
 export default fields
