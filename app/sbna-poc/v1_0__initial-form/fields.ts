@@ -135,6 +135,16 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'no' },
     ],
   },
+  drug_use: {
+    text: "Has [subject]'s ever used drugs?",
+    code: 'drug_use',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Drug use is required' }],
+    options: [
+      { text: 'Yes', value: 'YES' },
+      { text: 'No', value: 'NO' },
+    ],
+  },
 }
 
 export default fields
