@@ -33,7 +33,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc/accommodation#current-accommodation",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -50,7 +50,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc/settled-accommodation#living_with-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -67,7 +67,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc/settled-accommodation#suitable_housing_location-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -81,10 +81,10 @@
       value: {
         text: renderSelectedOptions(options.allFields["suitable_housing"])
       },
-      actions: {
+      actions: {  
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc/settled-accommodation#suitable_housing-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -99,9 +99,9 @@
         text: renderSelectedOptions(options.allFields["accommodation_changes"])
       },
       actions: {
-        items: [
+        items: [ 
           {
-            href: "#",
+            href: "/form/sbna-poc/settled-accommodation#accommodation_changes-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -116,15 +116,15 @@
         text: options.allFields["accommodation_changes_details"].value
       },
       actions: {
-        items: [
+        items: [  
           {
-            href: "#",
+            href: "/form/sbna-poc/settled-accommodation#accommodation_changes_details-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
         ]
       }
-    }
+    }  
   ]
 }) }}
 {% endset -%}
@@ -133,11 +133,6 @@
 {{ renderQuestion(options.fields['accommodation_practitioner_analysis'], errors) }}    
 {{ renderQuestion(options.fields['accommodation_serious_harm'], errors) }}
 {{ renderQuestion(options.fields['accommodation_risk_of_reoffending'], errors) }}
-
-{# {{ options.allFields["accommodation_practitioner_analysis"].value }}    
-{{ renderSelectedOptions(options.allFields["accommodation_serious_harm"]) }}
-{{ renderSelectedOptions(options.allFields["accommodation_risk_of_reoffending"]) }} #}
-
 {% endset -%}
 
 {{ govukTabs({

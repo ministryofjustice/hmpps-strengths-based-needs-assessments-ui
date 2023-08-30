@@ -1,0 +1,208 @@
+{% extends "../layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "components/question/macro.njk" import renderQuestion %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{%- macro renderSelectedOptions(field) -%}
+<ul class="govuk-list">
+ {% for option in field.options %}
+  {%  if option.checked  %}
+  <li> {{ option.text }} </li>
+  {% endif %}
+ {% endfor %}
+</ul>
+{%- endmacro -%}
+
+{% block formContent %}
+<form method="post" action="{{ action }}">
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+{% set accommodationSummaryHtml %}
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: options.allFields["current_accommodation"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["current_accommodation"])
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/accommodation#current-accommodation",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+   {
+      key: {
+        text: options.allFields["no_accommodation_details"].text
+      },
+      value: {
+        text: options.allFields["no_accommodation_details"].value
+      },
+      actions: {
+        items: [  
+          {
+            href: "/form/sbna-poc/no-accommodation#no_accommodation_details-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing_details"].text
+      },
+      value: {
+        text: options.allFields["suitable_housing_details"].value
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/no-accommodation#suitable_housing_details-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["suitable_housing_planned"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["suitable_housing_planned"])
+      },
+      actions: {  
+        items: [
+          {
+            href: "/form/sbna-poc/no-accommodation#suitable_housing-planned-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_changes"])
+      },
+      actions: {
+        items: [ 
+          {
+            href: "/form/sbna-poc/no-accommodation#accommodation_changes-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_changes_details"].text
+      },
+      value: {
+        text: options.allFields["accommodation_changes_details"].value
+      },
+      actions: {
+        items: [  
+          {
+            href: "/form/sbna-poc/no-accommodation#accommodation_changes_details-hint",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+{% endset -%}
+
+{% set practitionerAnalysisHtml %}
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: options.allFields["accommodation_practitioner_analysis"].text
+      },
+      value: {
+        text: options.allFields["accommodation_practitioner_analysis"].value
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/accommodation-summary-analysis-no-accommodation#practitioner-analysis",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_serious_harm"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_serious_harm"])
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/accommodation-summary-analysis-no-accommodation#practitioner-analysis",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: options.allFields["accommodation_risk_of_reoffending"].text
+      },
+      value: {
+        text: renderSelectedOptions(options.allFields["accommodation_risk_of_reoffending"])
+      },
+      actions: {
+        items: [
+          {
+            href: "/form/sbna-poc/accommodation-summary-analysis-no-accommodation#practitioner-analysis",
+            text: "Change",
+            visuallyHiddenText: ""
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+{% endset -%}
+
+{{ govukTabs({
+  items: [
+    {
+      label: "Accommodation summary",
+      id: "accommodation-summary",
+      panel: {
+        html: accommodationSummaryHtml
+      }
+    },
+    {
+      label: "Practitioner analysis",
+      id: "practitioner-analysis",
+      panel: {
+        html: practitionerAnalysisHtml
+      }
+    }
+  ]
+}) }}
+</form>
+{% endblock %}

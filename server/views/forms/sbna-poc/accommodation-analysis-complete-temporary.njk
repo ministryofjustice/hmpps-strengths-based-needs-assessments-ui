@@ -19,7 +19,6 @@
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-
 {% set accommodationSummaryHtml %}
 {{ govukSummaryList({
   rows: [
@@ -33,7 +32,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc/accommodation#current-accommodation",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -50,7 +49,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc//temporary-accommodation#living_with-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -67,7 +66,7 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc//temporary-accommodation#suitable_housing_location-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -81,10 +80,10 @@
       value: {
         text: renderSelectedOptions(options.allFields["suitable_housing"])
       },
-      actions: {
+      actions: {  
         items: [
           {
-            href: "#",
+            href: "/form/sbna-poc//temporary-accommodation#suitable_housing-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -99,9 +98,9 @@
         text: renderSelectedOptions(options.allFields["accommodation_changes"])
       },
       actions: {
-        items: [
+        items: [ 
           {
-            href: "#",
+            href: "/form/sbna-poc/temporary-accommodation#accommodation_changes-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -116,9 +115,9 @@
         text: options.allFields["accommodation_changes_details"].value
       },
       actions: {
-        items: [
+        items: [  
           {
-            href: "#",
+            href: "/form/sbna-poc/temporary-accommodation#accommodation_changes_details-hint",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -142,7 +141,7 @@
       actions: {
         items: [
           {
-            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            href: "/form/sbna-poc/accommodation-summary-analysis-temporary#practitioner-analysis",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -159,7 +158,7 @@
       actions: {
         items: [
           {
-            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            href: "/form/sbna-poc/accommodation-summary-analysis-temporary#practitioner-analysis",
             text: "Change",
             visuallyHiddenText: ""
           }
@@ -176,7 +175,7 @@
       actions: {
         items: [
           {
-            href: "/form/sbna-poc/accommodation-summary-analysis#practitioner-analysis",
+            href: "/form/sbna-poc/accommodation-summary-analysis-temporary#practitioner-analysis",
             text: "Change",
             visuallyHiddenText: ""
           }
