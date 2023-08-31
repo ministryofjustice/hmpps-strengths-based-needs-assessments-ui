@@ -3,11 +3,17 @@ import nunjucks from 'nunjucks'
 
 export const formatForNunjucks = (str = '') => str.split('}').join('} ').trim() // Prevent nunjucks mistaking the braces when rendering the template
 
+interface Locals {
+  errors: unknown
+  collections: unknown
+  action: string
+}
+
 const renderConditionalQuestion = (
   allFields: FormWizard.Field[],
   thisField: FormWizard.Field,
   dependentFieldNodes: Node[],
-  errors: FormErrors = {},
+  locals: Locals = { errors: {}, collections: {}, action: '/' },
   _nunjucks = nunjucks,
 ): FormWizard.Field => {
   const conditionalFields = dependentFieldNodes.map(({ code, dependents }) => {
@@ -27,15 +33,16 @@ const renderConditionalQuestion = (
     const rendered = fieldsDependentOnThisAnswer.reduce((previouslyRenderedHtml, conditionalField) => {
       let field = conditionalField.config
       if (Array.isArray(conditionalField.dependents) && conditionalField.dependents.length > 0) {
-        field = renderConditionalQuestion(allFields, field, conditionalField.dependents, errors)
+        field = renderConditionalQuestion(allFields, field, conditionalField.dependents, locals)
       }
 
       const fieldString = formatForNunjucks(JSON.stringify(field))
-      const errorString = formatForNunjucks(JSON.stringify(errors))
+      const errorString = formatForNunjucks(JSON.stringify(locals.errors))
+      const collectionsString = formatForNunjucks(JSON.stringify(locals.collections))
 
       const template =
         '{% from "components/question/macro.njk" import renderQuestion %} \n' +
-        `{{ renderQuestion(${fieldString}, ${errorString}) }}`
+        `{{ renderQuestion(${fieldString}, ${errorString}, ${collectionsString}, "${locals.action}") }}`
 
       const renderedHtml = _nunjucks.renderString(template, {}).replace(/(\r\n|\n|\r)\s+/gm, '')
 
@@ -50,7 +57,7 @@ const renderConditionalQuestion = (
 export type FormErrors = { [code: string]: string }
 type Node = { code: string; dependents?: Node[] }
 
-export const compileConditionalFields = (fields: FormWizard.Field[], errors: FormErrors) => {
+export const compileConditionalFields = (fields: FormWizard.Field[], locals: Locals) => {
   const fieldsWithDependencies = fields.filter(field => field.dependent && field.dependent.displayInline)
   const fieldCodes = fieldsWithDependencies.map(field => field.code)
 
@@ -78,7 +85,7 @@ export const compileConditionalFields = (fields: FormWizard.Field[], errors: For
     (otherFields, { code: fieldCode, dependents }) => {
       const [thisField] = otherFields.filter(field => field.code === fieldCode)
 
-      const updatedQuestion = renderConditionalQuestion(fields, thisField, dependents, errors)
+      const updatedQuestion = renderConditionalQuestion(fields, thisField, dependents, locals)
 
       return otherFields.map(field => (field.code === updatedQuestion.code ? updatedQuestion : field))
     },

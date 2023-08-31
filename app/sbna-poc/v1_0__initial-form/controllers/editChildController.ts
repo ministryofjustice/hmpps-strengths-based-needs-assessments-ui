@@ -7,7 +7,7 @@ import StrengthsBasedNeedsAssessmentsApiService, {
 } from '../../../../server/services/strengthsBasedNeedsService'
 import { buildRequestBody, mergeAnswers } from './saveAndContinueController.utils'
 
-class SaveAndContinueController extends BaseSaveAndContinueController {
+class EditChildController extends BaseSaveAndContinueController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
   constructor(options: unknown) {
@@ -35,13 +35,19 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
       res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName }
 
-      const savedAnswers = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
+      const savedAnswers = await this.apiService.getFromCollection(
+        sessionData.assessmentUUID,
+        'living_with_children',
+        Number.parseInt(req.query.index as string, 10),
+      )
       const submittedAnswers = res.locals.values
       res.locals.values = mergeAnswers(savedAnswers, submittedAnswers)
 
       res.locals.collections = Object.entries(savedAnswers)
         .filter(([_, answer]) => answer.type === FieldType.Collection)
         .reduce((rest, [field, answer]) => ({ ...rest, [field]: answer.collection }), {})
+
+      res.locals.action = `${res.locals.action}?index=${Number.parseInt(req.query.index as string, 10)}`
 
       super.locals(req, res, next)
     } catch (error) {
@@ -68,37 +74,18 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
         ...answersToRemove.reduce((acc, fieldCode) => ({ ...acc, [fieldCode]: null }), {}),
       }
 
-      await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove })
+      await this.apiService.updateAnswersInCollection(assessmentUUID, 'living_with_children', {
+        index: Number.parseInt(req.query.index as string, 10),
+        answers: { answersToAdd, answersToRemove },
+      })
+
+      req.form.values = {}
 
       super.saveValues(req, res, next)
     } catch (error) {
       next(error)
     }
   }
-
-  async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
-    if (req.query.action === 'addChild') {
-      return res.redirect('add-living-with-child')
-    }
-
-    if (req.query.action === 'removeChild' && req.query.index) {
-      const { assessmentUUID } = req.session.sessionData as SessionInformation
-
-      await this.apiService.removeFromCollection(
-        assessmentUUID,
-        'living_with_children',
-        Number.parseInt(req.query.index as string, 10),
-      )
-
-      return res.redirect(req.path.slice(1))
-    }
-
-    if (req.query.action === 'editChild' && req.query.index) {
-      return res.redirect(`edit-living-with-child?index=${Number.parseInt(req.query.index as string, 10)}`)
-    }
-
-    return super.successHandler(req, res, next)
-  }
 }
 
-export default SaveAndContinueController
+export default EditChildController

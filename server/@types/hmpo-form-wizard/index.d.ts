@@ -11,6 +11,7 @@ declare module 'hmpo-form-wizard' {
     TextArea = 'TEXT_AREA',
     Date = 'DATE',
     Dropdown = 'DROPDOWN',
+    Collection = 'COLLECTION',
   }
 
   // eslint-disable-next-line no-shadow
@@ -93,6 +94,8 @@ declare module 'hmpo-form-wizard' {
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       saveValues(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      successHandler(req: Request, res: express.Response, next: express.NextFunction): Promise
     }
 
     interface Config {

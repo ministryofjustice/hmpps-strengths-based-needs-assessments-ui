@@ -5,17 +5,17 @@
 {% from "components/question/macro.njk" import renderQuestion %}
 
 {% block formContent %}
-<form method="post" action="{{ action }}">
+  <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in form.fields %}
-        {{ renderQuestion(options.fields[field], errors) }}
+      {{ renderQuestion(options.fields[field], errors, collections, action) }}
     {% endfor %}
 
     <div class="questiongroup-action-buttons">
-        {{ govukButton({
-            text: buttonText | default('Continue'),
-            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
-        }) }}
+      {{ govukButton({
+        text: buttonText | default('Continue'),
+        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+      }) }}
     </div>
-</form>
+  </form>
 {% endblock %}

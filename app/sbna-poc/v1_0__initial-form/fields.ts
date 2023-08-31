@@ -27,6 +27,16 @@ const fields: FormWizard.Fields = {
       { text: 'Other', value: 'OTHER' },
     ],
   },
+  living_with_children: {
+    text: 'Placeholder',
+    code: 'living_with_children',
+    type: FieldType.Collection,
+    dependent: {
+      field: 'living_with',
+      value: 'CHILD_UNDER_18',
+      displayInline: true,
+    },
+  },
   suitable_housing: {
     text: "Is [subject]'s housing suitable?",
     code: 'suitable_housing',
@@ -62,6 +72,10 @@ const fields: FormWizard.Fields = {
     code: 'suitable_housing_details',
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'current_accommodation',
+      value: 'NO_ACCOMMODATION',
+    },
   },
   suitable_housing_planned: {
     text: 'Does [subject] have future housing planned?',
@@ -228,6 +242,49 @@ const fields: FormWizard.Fields = {
       value: 'NO_CHANGE',
       displayInline: true,
     },
+  },
+  child_name: {
+    text: 'Name',
+    code: 'child_name',
+    type: FieldType.Text,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  child_date_of_birth: {
+    text: 'Date of birth',
+    hint: 'For example, 31 3 2011',
+    code: 'child_date_of_birth',
+    type: FieldType.Text,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  child_age: {
+    text: 'Age',
+    code: 'child_age',
+    type: FieldType.Text,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  relationship_to_child: {
+    text: "Select [subject]'s relationship to the child",
+    code: 'relationship_to_child',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Parent or carer', value: 'PARENT_OR_CARER' },
+      { text: 'Family member', value: 'FAMILY_MEMBER' },
+      { text: 'Friend', value: 'FRIEND' },
+      { text: 'Other', value: 'OTHER' },
+    ],
+  },
+  child_gender: {
+    text: 'Select gender',
+    code: 'child_gender',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Boy', value: 'BOY' },
+      { text: 'Girl', value: 'GIRL' },
+      { text: 'Non-binary', value: 'NON_BINARY' },
+      { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
+    ],
   },
 }
 
