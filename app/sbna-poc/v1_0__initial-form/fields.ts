@@ -136,7 +136,7 @@ const fields: FormWizard.Fields = {
     ],
   },
   drug_use: {
-    text: "Has [subject]'s ever used drugs?",
+    text: 'Has [subject] ever used drugs?',
     code: 'drug_use',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Drug use is required' }],
