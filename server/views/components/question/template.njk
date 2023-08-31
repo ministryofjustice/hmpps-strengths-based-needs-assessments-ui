@@ -7,6 +7,7 @@
 {%- from "govuk/components/summary-list/macro.njk" import govukSummaryList -%}
 {%- from "govuk/components/button/macro.njk" import govukButton -%}
 {%- from "govuk/components/character-count/macro.njk" import govukCharacterCount -%}
+{%- from "components/collections/living_with_children/macro.njk" import livingWithChildren -%}
 
 {% set labelClasses = '' %}
 {% if not options.useSmallLabel %}
@@ -193,6 +194,16 @@
         errorMessage: errorMessage,
         attributes: question.attributes
       }) }}
+
+    {% case "COLLECTION" %}
+      {% switch question.code %}
+
+        {% case "living_with_children" %}
+          {{ livingWithChildren(question, collections, action) }}
+
+        {% default %}
+
+      {% endswitch %}
 
     {% default %}
       <!-- {{ question.code }} - {{ question.type }} questions are not currently rendered -->
