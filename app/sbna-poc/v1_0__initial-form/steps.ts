@@ -62,13 +62,6 @@ const steps: FormWizard.Steps = {
     next: 'accommodation-summary-analysis-no-accommodation',
     template: 'forms/default',
   },
-  '/employment-education-finance': {
-    pageTitle: 'Employment, education and finance',
-    controller: SaveAndContinueController,
-    fields: [],
-    template: 'forms/default',
-    navigationOrder: 2,
-  },
   '/accommodation-summary-analysis-no-accommodation': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
@@ -107,6 +100,38 @@ const steps: FormWizard.Steps = {
     controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/accommodation-analysis-complete-no-accommodation',
+  },
+  '/employment-education-finance': {
+    pageTitle: 'Employment, education and finance',
+    controller: SaveAndContinueController,
+    fields: [],
+    template: 'forms/default',
+    navigationOrder: 2,
+  },
+  '/drug-use': {
+    pageTitle: 'Drug use',
+    controller: SaveAndContinueController,
+    fields: ['drug_use'],
+    next: [
+      { field: 'drug_use', value: 'YES', next: 'drug-use-yes' },
+      { field: 'drug_use', value: 'NO', next: 'no-drug-use-summary' },
+    ],
+    template: 'forms/default',
+    navigationOrder: 3,
+  },
+  '/drug-use-yes': {
+    pageTitle: 'Drug use',
+    controller: SaveAndContinueController,
+    fields: [],
+    // next: ,
+    template: 'forms/default',
+  },
+  '/no-drug-use-summary': {
+    pageTitle: 'Drug use',
+    controller: SaveAndContinueController,
+    fields: [],
+    // next: ,
+    template: 'forms/sbna-poc/no-drug-use-summary-analysis',
   },
 }
 
