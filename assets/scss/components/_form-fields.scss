@@ -1,0 +1,23 @@
+.collection__element {
+    border: 1px solid $govuk-border-colour;
+    padding: govuk-spacing(3);
+    margin-bottom: govuk-spacing(5);
+}
+
+.collection__element__label {
+    font-weight: bold;
+    display: inline-block;
+    width: 25%;
+}
+
+.collection__element__controls {
+    float: right;
+
+    & button {
+        margin-right: govuk-spacing(3);
+    }
+
+    & button:last-of-type {
+        margin: 0;
+    }
+}
