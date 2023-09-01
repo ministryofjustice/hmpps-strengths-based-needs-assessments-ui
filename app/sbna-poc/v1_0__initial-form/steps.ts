@@ -3,6 +3,8 @@ import SaveAndContinueController from './controllers/saveAndContinueController'
 import StartController from './controllers/startController'
 import AddChildController from './controllers/addChildController'
 import EditChildController from './controllers/editChildController'
+import AddPartnerController from './controllers/addPartnerController'
+import EditPartnerController from './controllers/editPartnerController'
 
 const steps: FormWizard.Steps = {
   '/start': {
@@ -30,6 +32,7 @@ const steps: FormWizard.Steps = {
     controller: SaveAndContinueController,
     fields: [
       'living_with',
+      'living_with_other',
       'suitable_housing_location',
       'suitable_housing',
       'accommodation_changes',
@@ -43,14 +46,44 @@ const steps: FormWizard.Steps = {
     controller: AddChildController,
     fields: ['child_name', 'child_date_of_birth', 'child_age', 'relationship_to_child', 'child_gender'],
     template: 'forms/default',
-    next: 'settled-accommodation',
+    next: [
+      { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
+      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation' },
+      'accommodation',
+    ],
   },
   '/edit-living-with-child': {
     pageTitle: 'Child details',
     controller: EditChildController,
     fields: ['child_name', 'child_date_of_birth', 'child_age', 'relationship_to_child', 'child_gender'],
     template: 'forms/default',
-    next: 'settled-accommodation',
+    next: [
+      { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
+      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation' },
+      'accommodation',
+    ],
+  },
+  '/add-living-with-partner': {
+    pageTitle: 'Partner details',
+    controller: AddPartnerController,
+    fields: ['partner_name', 'partner_age', 'partner_gender'],
+    template: 'forms/default',
+    next: [
+      { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
+      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation' },
+      'accommodation',
+    ],
+  },
+  '/edit-living-with-partner': {
+    pageTitle: 'Partner details',
+    controller: EditPartnerController,
+    fields: ['partner_name', 'partner_age', 'partner_gender'],
+    template: 'forms/default',
+    next: [
+      { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
+      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation' },
+      'accommodation',
+    ],
   },
   '/temporary-accommodation': {
     pageTitle: 'Accommodation',

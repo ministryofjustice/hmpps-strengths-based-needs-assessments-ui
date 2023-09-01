@@ -37,6 +37,26 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
+  living_with_partner: {
+    text: 'Placeholder',
+    code: 'living_with_partner',
+    type: FieldType.Collection,
+    dependent: {
+      field: 'living_with',
+      value: 'PARTNER',
+      displayInline: true,
+    },
+  },
+  living_with_other: {
+    text: 'Give details (optional)',
+    code: 'living_with_other',
+    type: FieldType.TextArea,
+    dependent: {
+      field: 'living_with',
+      value: 'OTHER',
+      displayInline: true,
+    },
+  },
   suitable_housing: {
     text: "Is [subject]'s housing suitable?",
     code: 'suitable_housing',
@@ -253,7 +273,7 @@ const fields: FormWizard.Fields = {
     text: 'Date of birth',
     hint: 'For example, 31 3 2011',
     code: 'child_date_of_birth',
-    type: FieldType.Text,
+    type: FieldType.Date,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
   },
   child_age: {
@@ -277,6 +297,30 @@ const fields: FormWizard.Fields = {
   child_gender: {
     text: 'Select gender',
     code: 'child_gender',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Boy', value: 'BOY' },
+      { text: 'Girl', value: 'GIRL' },
+      { text: 'Non-binary', value: 'NON_BINARY' },
+      { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
+    ],
+  },
+  partner_name: {
+    text: 'Name',
+    code: 'partner_name',
+    type: FieldType.Text,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  partner_age: {
+    text: 'Age',
+    code: 'partner_age',
+    type: FieldType.Text,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  },
+  partner_gender: {
+    text: 'Select gender',
+    code: 'partner_gender',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
