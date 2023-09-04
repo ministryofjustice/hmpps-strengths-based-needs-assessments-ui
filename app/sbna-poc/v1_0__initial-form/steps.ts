@@ -113,17 +113,17 @@ const steps: FormWizard.Steps = {
     controller: SaveAndContinueController,
     fields: ['drug_use'],
     next: [
-      { field: 'drug_use', value: 'YES', next: 'drug-use-yes' },
+      { field: 'drug_use', value: 'YES', next: 'drug-use-type' },
       { field: 'drug_use', value: 'NO', next: 'no-drug-use-summary' },
     ],
     template: 'forms/default',
     navigationOrder: 3,
   },
-  '/drug-use-yes': {
+  '/drug-use-type': {
     pageTitle: 'Drug use',
     controller: SaveAndContinueController,
-    fields: [],
-    // next: ,
+    fields: ['drug_use_type'],
+    next: 'drug-usage-details',
     template: 'forms/default',
   },
   '/no-drug-use-summary': {
@@ -132,6 +132,13 @@ const steps: FormWizard.Steps = {
     fields: [],
     // next: ,
     template: 'forms/sbna-poc/no-drug-use-summary-analysis',
+  },
+  '/drug-usage-details': {
+    pageTitle: 'Drug use',
+    controller: SaveAndContinueController,
+    fields: ['drug_usage_details'],
+    // next: ,
+    template: 'forms/default',
   },
 }
 
