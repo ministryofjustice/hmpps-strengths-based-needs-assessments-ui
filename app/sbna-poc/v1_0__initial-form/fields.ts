@@ -682,6 +682,27 @@ const fields: FormWizard.Fields = {
       { text: 'Girl', value: 'GIRL' },
       { text: 'Non-binary', value: 'NON_BINARY' },
       { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
+    ]
+  },
+  drug_use_type: {
+    text: 'Which drugs have [subject] used?',
+    code: 'drug_use_type',
+    hint: 'Include current and previous drugs. Select all that apply.',
+    type: FieldType.CheckBox,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Amphetamines', value: 'AMPHETAMINES' },
+      { text: 'Benzodiazepines', value: 'BENZODIAZEPINES' },
+      { text: 'Cannabis', value: 'CANNABIS' },
+      { text: 'Cocaine', value: 'COCAINE' },
+      { text: 'Crack', value: 'CRACK' },
+      { text: 'Ecstasy', value: 'ECSTASY' },
+      { text: 'Heroin', value: 'HEROIN' },
+      { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED' },
+      { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED' },
+      { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION' },
+      { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE' },
+      { text: 'Other', value: 'OTHER_DRUG_TYPE' },
     ],
   },
 }
