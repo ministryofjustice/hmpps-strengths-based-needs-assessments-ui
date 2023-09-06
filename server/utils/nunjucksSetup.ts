@@ -2,7 +2,9 @@
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
+import { FieldType } from 'hmpo-form-wizard'
 import { initialiseName } from './utils'
+import { AnswerDto } from '../services/strengthsBasedNeedsService'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -43,5 +45,19 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('getCsrf', function getCsrf() {
     const v = this.getVariables()
     return v?.['csrf-token'] || ''
+  })
+
+  njkEnv.addFilter('toOptionDescription', function toOptionDescription(answer: AnswerDto): string {
+    switch (answer.type) {
+      case FieldType.Radio:
+      case FieldType.Dropdown:
+        return answer.options.find(option => option.value === answer.value)?.text || answer.value
+      case FieldType.CheckBox:
+        return (answer.values || [])
+          .map(selected => answer.options.find(option => option.value === answer.value)?.text || selected)
+          .join(', ')
+      default:
+        return answer.value || ''
+    }
   })
 }

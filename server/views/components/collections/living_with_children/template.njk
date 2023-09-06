@@ -1,0 +1,55 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% for item in collections["living_with_children"] %}
+<div class="collection__element">
+  <div class="collection__element__controls">
+    {% set editAction = action + "?action=editChild&index=" + loop.index0 %}
+
+    {{ govukButton({
+      text: "Change",
+      classes: "govuk-button--secondary",
+      attributes: {
+        "formaction": editAction
+      }
+    }) }}
+
+    {% set removeAction = action + "?action=removeChild&index=" + loop.index0 %}
+
+    {{ govukButton({
+      text: "Remove",
+      classes: "govuk-button--secondary",
+      attributes: {
+        "formaction": removeAction
+      }
+    }) }}
+  </div>
+  <div>
+    <span class="collection__element__label">Name:</span><span>{{ item["child_name"].value }}</span>
+  </div>
+  <div>
+    <span class="collection__element__label">Age:</span><span>{{ item["child_age"].value }}</span>
+  </div>
+  <div>
+    <span class="collection__element__label">Gender:</span><span>{{ item["child_gender"] | toOptionDescription }}</span>
+  </div>
+  <div>
+    <span class="collection__element__label">Relationship:</span><span>{{ item["relationship_to_child"] | toOptionDescription }}</span>
+  </div>
+</div>
+{% endfor %}
+
+{# {{ govukButton({
+  text: "Add child details (optional)",
+  classes: "govuk-button--secondary",
+  href: "add-living-with-child"
+}) }} #}
+
+{% set addAction = action + "?action=addChild" %}
+
+{{ govukButton({
+  text: "Add child details (optional)",
+  classes: "govuk-button--secondary",
+  attributes: {
+    "formaction": addAction
+  }
+}) }}

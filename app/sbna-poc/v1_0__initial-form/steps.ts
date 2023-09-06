@@ -1,6 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import SaveAndContinueController from './controllers/saveAndContinueController'
 import StartController from './controllers/startController'
+import AddChildController from './controllers/addChildController'
+import EditChildController from './controllers/editChildController'
 
 const steps: FormWizard.Steps = {
   '/start': {
@@ -35,6 +37,20 @@ const steps: FormWizard.Steps = {
     ],
     next: 'accommodation-summary-analysis-settled',
     template: 'forms/default',
+  },
+  '/add-living-with-child': {
+    pageTitle: 'Child details',
+    controller: AddChildController,
+    fields: ['child_name', 'child_date_of_birth', 'child_age', 'relationship_to_child', 'child_gender'],
+    template: 'forms/default',
+    next: 'settled-accommodation',
+  },
+  '/edit-living-with-child': {
+    pageTitle: 'Child details',
+    controller: EditChildController,
+    fields: ['child_name', 'child_date_of_birth', 'child_age', 'relationship_to_child', 'child_gender'],
+    template: 'forms/default',
+    next: 'settled-accommodation',
   },
   '/temporary-accommodation': {
     pageTitle: 'Accommodation',
