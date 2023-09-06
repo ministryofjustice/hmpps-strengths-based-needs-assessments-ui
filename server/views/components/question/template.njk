@@ -11,10 +11,10 @@
 {%- from "components/collections/living_with_partner/macro.njk" import livingWithPartner -%}
 
 {% set labelClasses = '' %}
-{% if not options.useSmallLabel %}
+{% if not question.useSmallLabel %}
 {% set labelClasses = labelClasses + ' govuk-label--m' %}
 {% endif %}
-{% if options.labelClasses %}
+{% if question.useSmallLabel %}
 {% set labelClasses = labelClasses + ' ' + options.labelClasses %}
 {% endif %}
 
