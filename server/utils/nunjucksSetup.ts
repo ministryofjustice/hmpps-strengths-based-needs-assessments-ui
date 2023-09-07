@@ -60,4 +60,14 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
         return answer.value || ''
     }
   })
+
+  type ValidationError = { message: string; key: string }
+  type ErrorSummaryItem = { text: string; href: string }
+
+  njkEnv.addGlobal(
+    'toErrorSummary',
+    function toErrorSummary(errors: Record<string, ValidationError>): ErrorSummaryItem[] {
+      return Object.entries(errors).map(([_, e]) => ({ text: e.message, href: `#${e.key}-error` }))
+    },
+  )
 }
