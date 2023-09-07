@@ -111,6 +111,7 @@ declare module 'hmpo-form-wizard' {
         value: string
         checked?: boolean
         conditional?: { html: string }
+        hint?: { text: string } | { html: string }
       }
 
       type Options = Option[]
@@ -145,6 +146,7 @@ declare module 'hmpo-form-wizard' {
       dependent?: Dependent
       invalidates?: string[]
       value?: string | string[]
+      useSmallLabel?: boolean
     }
 
     interface Fields {

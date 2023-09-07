@@ -8,12 +8,13 @@
 {%- from "govuk/components/button/macro.njk" import govukButton -%}
 {%- from "govuk/components/character-count/macro.njk" import govukCharacterCount -%}
 {%- from "components/collections/living_with_children/macro.njk" import livingWithChildren -%}
+{%- from "components/collections/living_with_partner/macro.njk" import livingWithPartner -%}
 
 {% set labelClasses = '' %}
-{% if not options.useSmallLabel %}
+{% if not question.useSmallLabel %}
 {% set labelClasses = labelClasses + ' govuk-label--m' %}
 {% endif %}
-{% if options.labelClasses %}
+{% if question.useSmallLabel %}
 {% set labelClasses = labelClasses + ' ' + options.labelClasses %}
 {% endif %}
 
@@ -200,6 +201,9 @@
 
         {% case "living_with_children" %}
           {{ livingWithChildren(question, collections, action) }}
+
+        {% case "living_with_partner" %}
+          {{ livingWithPartner(question, collections, action) }}
 
         {% default %}
 

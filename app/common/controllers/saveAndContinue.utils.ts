@@ -72,7 +72,7 @@ export const compileConditionalFields = (fields: FormWizard.Field[], locals: Loc
       .map(field => {
         const dependents = fieldsWithDependencies.filter(otherField => field.code === otherField.dependent.field)
         if (dependents.length > 0) {
-          return { code: field.code, deps: buildNode(field.code) }
+          return { code: field.code, dependents: buildNode(field.code) }
         }
         return { code: field.code }
       })

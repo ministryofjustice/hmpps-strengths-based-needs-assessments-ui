@@ -29,6 +29,7 @@ class SaveAndContinueController extends BaseController {
       withPlaceholdersFrom(res.locals.placeholderValues || {}),
     )
 
+    res.locals.answers = req.form.values
     res.locals.options.fields = fieldsWithReplacements
       .filter(it => res.locals.form.fields.includes(it.code))
       .reduce(fieldsByCode, {})
