@@ -10,6 +10,16 @@ const immigrationAccommodationHint = {
   `,
 }
 
+const suitableHousingConcernsOptions = [
+  { text: 'Safety of accommodation', value: 'SAFETY' },
+  { text: 'Overcrowding', value: 'OVERCROWDING' },
+  { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM' },
+  { text: 'Victimised by someone living with them', value: 'VICTIMISATION' },
+  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES' },
+  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION' },
+  { text: 'Other', value: 'OTHER' },
+]
+
 const fields: FormWizard.Fields = {
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
@@ -201,6 +211,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
       { text: 'Yes', value: 'YES' },
+      { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS' },
       { text: 'No', value: 'NO' },
     ],
   },
@@ -209,18 +220,10 @@ const fields: FormWizard.Fields = {
     code: 'suitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,
-    options: [
-      { text: 'Safety of accommodation', value: 'SAFETY' },
-      { text: 'Overcrowding', value: 'OVERCROWDING' },
-      { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM' },
-      { text: 'Victimised by someone living with them', value: 'VICTIMISATION' },
-      { text: 'Inappropriate amenities or facilities', value: 'FACILITIES' },
-      { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION' },
-      { text: 'Other', value: 'OTHER' },
-    ],
+    options: suitableHousingConcernsOptions,
     dependent: {
       field: 'suitable_housing',
-      value: 'NO',
+      value: 'YES_WITH_CONCERNS',
       displayInline: true,
     },
     useSmallLabel: true,
@@ -232,6 +235,31 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     dependent: {
       field: 'suitable_housing_concerns',
+      value: 'OTHER',
+      displayInline: true,
+    },
+    useSmallLabel: true,
+  },
+  unsuitable_housing_concerns: {
+    text: 'Select all that apply (optional)',
+    code: 'unsuitable_housing_concerns',
+    type: FieldType.CheckBox,
+    multiple: true,
+    options: suitableHousingConcernsOptions,
+    dependent: {
+      field: 'suitable_housing',
+      value: 'NO',
+      displayInline: true,
+    },
+    useSmallLabel: true,
+  },
+  unsuitable_housing_concerns_other_details: {
+    text: 'Give details',
+    code: 'unsuitable_housing_concerns_other_details',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'unsuitable_housing_concerns',
       value: 'OTHER',
       displayInline: true,
     },
