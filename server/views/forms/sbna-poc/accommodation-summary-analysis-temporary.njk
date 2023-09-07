@@ -83,10 +83,17 @@
     renderSelectedOptions(options.allFields["suitable_housing"]),
     backLink + "#suitable_housing"
   ) }}
-  {%- if answers["suitable_housing"] == "NO" -%}
-  {{ renderSummaryListRow(
+  {%- if answers["suitable_housing"] == "YES_WITH_CONCERNS" -%}
+    {{ renderSummaryListRow(
     options.allFields["suitable_housing_concerns"].text,
     renderSelectedOptions(options.allFields["suitable_housing_concerns"]),
+    backLink + "#suitable_housing"
+  ) }}
+  {%- endif -%}
+  {%- if answers["suitable_housing"] == "NO" -%}
+    {{ renderSummaryListRow(
+    options.allFields["unsuitable_housing_concerns"].text,
+    renderSelectedOptions(options.allFields["unsuitable_housing_concerns"]),
     backLink + "#suitable_housing"
   ) }}
   {%- endif -%}
