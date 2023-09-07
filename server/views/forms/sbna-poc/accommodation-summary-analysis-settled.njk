@@ -112,6 +112,13 @@
 {{ renderQuestion(options.fields["accommodation_practitioner_analysis"], errors) }}
 {{ renderQuestion(options.fields["accommodation_serious_harm"], errors) }}
 {{ renderQuestion(options.fields["accommodation_risk_of_reoffending"], errors) }}
+
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: buttonText | default("Mark as complete"),
+    classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
+  }) }}
+</div>
 {% endset -%}
 
 {% block formContent %}
@@ -135,11 +142,5 @@
         }
       ]
     }) }}
-    <div class="questiongroup-action-buttons">
-      {{ govukButton({
-        text: buttonText | default("Mark as complete"),
-        classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
-      }) }}
-    </div>
   </form>
 {% endblock %}
