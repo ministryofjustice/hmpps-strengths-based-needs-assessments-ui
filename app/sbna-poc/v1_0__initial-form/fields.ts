@@ -250,6 +250,102 @@ const fields: FormWizard.Fields = {
       { text: 'Other', value: 'OTHER_DRUG_TYPE' },
     ],
   },
+  drug_usage: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY' },
+      { text: 'Weekly', value: 'WEEKLY' },
+      { text: 'Monthly', value: 'MONTHLY' },
+      { text: 'Occasionally', value: 'OCCASIONALLY' },
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE' },
+    ],
+  },
+  drug_usage_heroin: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_heroin',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY' },
+      { text: 'Weekly', value: 'WEEKLY' },
+      { text: 'Monthly', value: 'MONTHLY' },
+      { text: 'Occasionally', value: 'OCCASIONALLY' },
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE' },
+    ],
+  },
+  daily_drug_usage_treatment: {
+    text: 'Is [subject] receiving treatment?',
+    code: 'daily_drug_usage_treatment',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES' },
+      { text: 'No', value: 'NO' },
+    ],
+    dependent: {
+      field: 'drug_usage_heroin',
+      value: 'DAILY',
+      displayInline: true,
+    },
+  },
+  weekly_drug_usage_treatment: {
+    text: 'Is [subject] receiving treatment?',
+    code: 'weekly_drug_usage_treatment',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES' },
+      { text: 'No', value: 'NO' },
+    ],
+    dependent: {
+      field: 'drug_usage_heroin',
+      value: 'WEEKLY',
+      displayInline: true,
+    },
+  },
+  monthly_drug_usage_treatment: {
+    text: 'Is [subject] receiving treatment?',
+    code: 'monthly_drug_usage_treatment',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES' },
+      { text: 'No', value: 'NO' },
+    ],
+    dependent: {
+      field: 'drug_usage_heroin',
+      value: 'MONTHLY',
+      displayInline: true,
+    },
+  },
+  occasionally_drug_usage_treatment: {
+    text: 'Is [subject] receiving treatment?',
+    code: 'occasionally_drug_usage_treatment',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES' },
+      { text: 'No', value: 'NO' },
+    ],
+    dependent: {
+      field: 'drug_usage_heroin',
+      value: 'OCCASIONALLY',
+      displayInline: true,
+    },
+  },
+  drug_past_usage: {
+    text: 'Has [subject] used this drug in the past?',
+    code: 'drug_past_usage',
+    type: FieldType.CheckBox,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES' },
+      { text: 'No', value: 'NO' },
+    ],
+  },
 }
 
 export default fields
