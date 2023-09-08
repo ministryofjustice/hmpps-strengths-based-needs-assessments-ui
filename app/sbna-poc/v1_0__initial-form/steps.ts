@@ -274,7 +274,7 @@ const steps: FormWizard.Steps = {
   '/drug-usage-details': {
     pageTitle: 'Drug use',
     controller: SaveAndContinueController,
-    fields: ['drug_usage_details'],
+    fields: ['drug_usage_heroin'],
     // next: ,
     template: 'forms/default',
   },
