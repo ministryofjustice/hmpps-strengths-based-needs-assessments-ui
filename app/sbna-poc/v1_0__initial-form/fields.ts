@@ -148,7 +148,7 @@ const fields: FormWizard.Fields = {
   drug_use_changes: {
     text: 'Does [subject] want to make changes to their drug use?',
     code: 'drug_use_changes',
-    hint: 'This question must be directly answered by Paul',
+    hint: 'This question must be directly answered by [Subject] ',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Drug use change field is required' }],
     options: [
@@ -346,6 +346,96 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO' },
     ],
   },
+  drug_use_reasons: {
+    text: 'Why did [subject] start using drugs?',
+    hint: 'Consider their history and any triggers of drug use. Select all that apply',
+    code: 'drug_use_reasons',
+    type: FieldType.CheckBox,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Recreation or pleasure', value: 'RECREATION_PLEASURE' },
+      { text: 'Curiosity or experimentation', value: 'CURIOSITY_EXPERIMENTATION' },
+      { text: 'Manage stress or emotional issues', value: 'STRESS_EMOTIONAL_ISSUES' },
+      { text: 'Self-medication for pain', value: 'SELF_MEDICATION_PAIN' },
+      { text: 'Manage withdrawal symptoms', value: 'MANAGE_WITHDRAWAL' },
+      { text: 'Peer pressure or social influence', value: 'SOCIAL_PEER_PRESSURE' },
+      { text: 'Enhance performance', value: 'ENHANCE_PERFORMANCE' },
+      { text: 'Escapism or avoidance', value: 'ESCAPISM_AVOIDANCE' },
+      { text: 'Cultural or religious practices', value: 'CULTURAL_RELIGIOUS' },
+      { text: 'Other', value: 'OTHER' },
+    ],
+  },
+  drug_use_reason_details: {
+    text: 'Give details',
+    code: 'drug_use_reason_details',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_reasons',
+      value: 'OTHER',
+      displayInline: true,
+    },
+  },
+  drug_use_impact: {
+    text: "What's the impact of [subject] using drugs?",
+    hint: 'Select all that apply',
+    code: 'drug_use_impact',
+    type: FieldType.CheckBox,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Physical or mental health', value: 'PHYSICAL_MENTAL_HEALTH' },
+      { text: 'Relationships', value: 'RELATIONSHIPS' },
+      { text: 'Finances', value: 'FINANCES' },
+      { text: 'Community', value: 'COMMUNITY' },
+      { text: 'Behavioural', value: 'BEHAVIOURAL' },
+      { text: 'Links to offending', value: 'OFFENDING' },
+      { text: 'Other', value: 'OTHER' },
+    ],
+  },
+  drug_use_impact_details: {
+    text: 'Give details',
+    hint: 'Consider impact on themselves or others.',
+    code: 'drug_use_impact_details',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'drug_use_impact',
+      value: 'OTHER',
+      displayInline: true,
+    },
+  },
+  reducing_or_stopping_drug_use: {
+    text: 'Has anything helped [subject] to stop or reduce using drugs in the past?',
+    code: 'reducing_or_stopping_drug_use',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES' },
+      { text: 'No', value: 'NO' },
+    ],
+  },
+  reducing_or_stopping_drug_use_details: {
+    text: 'Give details',
+    code: 'reducing_or_stopping_drug_use_details',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    dependent: {
+      field: 'reducing_or_stopping_drug_use',
+      value: 'YES',
+      displayInline: true,
+    },
+  },
+  motivated_stopping_drug_use: {
+    text: 'Is [subject] motivated to stop or reduce their drug use?',
+    code: 'motivated_stopping_drug_use',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Does not show motivation to stop or reduce', value: 'NO_MOTIVATION' },
+      { text: 'Shows some motivation to stop or reduce', value: 'SOME_MOTIVATION' },
+      { text: 'Motivated to stop or reduce', value: 'MOTIVATED' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE' },
+    ],
+  },
 }
-
 export default fields
