@@ -14,202 +14,178 @@
 {% if not question.useSmallLabel %}
 {% set labelClasses = labelClasses + ' govuk-label--m' %}
 {% endif %}
-{% if question.useSmallLabel %}
-{% set labelClasses = labelClasses + ' ' + options.labelClasses %}
-{% endif %}
 
 {% set errorMessageText = errors[question.code].message %}
 {% if errorMessageText %}
   {% set errorMessage = { text: errorMessageText } %}
 {% endif %}
 
-{% if question.attributes.readonly == true and (question.code).slice(0, 2) != 'ui'%}
-  {% if question.text %}
-    <!-- {{ question.code }} rendered as readonly -->
-    {{ govukSummaryList({
-      classes: 'govuk-summary-list--no-border govuk-summary-list--no-bottom-margin',
-      rows: [
-        {
-          key: {
-            text: question.text
-          },
-          value: {
-            html: '' | safe
-          }
-        }
-      ]
+{% switch question.type %}
+  {% case 'TEXT' %}
+    {{ govukInput({
+      id: question.code,
+      name: question.code,
+      value: question.value | safe,
+      formGroup : {
+        classes: formClass or question.classes
+      },
+      attributes: question.attributes,
+      label: {
+        text: question.text,
+        isPageHeading: false,
+        classes: question.code + labelClasses
+      },
+      hint: {
+        text: question.hint
+      },
+      errorMessage: errorMessage,
+      classes: options.classes
     }) }}
-  {% endif %}
-{% else %}
-  {% set questionType = question.type %}
 
-  {% switch questionType %}
-    {% case 'TEXT' %}
-      {{ govukInput({
-        id: question.code,
-        name: question.code,
-        value: question.value | safe,
-        formGroup : {
-          classes: formClass or question.classes
-        },
-        attributes: question.attributes,
-        label: {
+  {% case 'TEXT_AREA' %}
+    {{ govukCharacterCount({
+      name:question.code,
+      id: question.code,
+      maxlength: 4000,
+      value: question.value | safe,
+      label: {
+        text: question.text,
+        isPageHeading: false,
+        classes: question.code + labelClasses
+      },
+      formGroup : {
+        classes: question.classes
+      },
+      attributes: question.attributes,
+      hint: {
+        text: question.hint
+      },
+      errorMessage: errorMessage
+    }) }}
+
+  {% case 'RADIO' %}
+    {{ govukRadios({
+      idPrefix: question.code,
+      name: question.code,
+      formGroup : {
+        classes: question.classes
+      },
+      attributes: question.attributes,
+      fieldset: {
+        legend: {
+          text: question.text,
+          classes: question.code + labelClasses
+        }
+      },
+      items: question.options,
+      errorMessage: errorMessage,
+      isConditional: question.isConditional,
+      hint: {
+        text: question.hint
+      }
+    }) }}
+
+  {% case 'CHECKBOX' %}
+    {{ govukCheckboxes({
+      idPrefix: question.code,
+      name: question.code,
+      formGroup : {
+        classes: question.classes
+      },
+      attributes: question.attributes,
+      fieldset: {
+        legend: {
+          text: question.text,
+          classes: question.code + labelClasses
+        }
+      },
+      items: question.options,
+      errorMessage: errorMessage,
+      isConditional: question.isConditional,
+      hint: {
+        text: question.hint
+      }
+    }) }}
+
+  {% case 'DROPDOWN' %}
+    {{ govukSelect({
+      id: question.code,
+      name: question.code,
+      formGroup : {
+        classes: question.classes
+      },
+      label: {
+        text: question.text,
+        classes: question.code + labelClasses
+      },
+      attributes: question.attributes,
+      items: question.options,
+      errorMessage: errorMessage,
+      isConditional: question.isConditional,
+      hint: {
+        text: question.hint
+      }
+    }) }}
+
+  {% case 'DATE' %}
+    {% set dateAnswer = question.value %}
+    {% if dateAnswer.length > 0 %}
+      {% set answerDay = dateAnswer[2] %}
+      {% set answerMonth = dateAnswer[1] %}
+      {% set answerYear = dateAnswer[0] %}
+    {% else %}
+      {% set answerDay = '' %}
+      {% set answerMonth = '' %}
+      {% set answerYear = '' %}
+    {% endif %}
+
+    {{ govukDateInput({
+      id: question.code,
+      namePrefix: question.code,
+      fieldset: {
+        legend: {
           text: question.text,
           isPageHeading: false,
           classes: question.code + labelClasses
-        },
-        hint: {
-          text: question.hint
-        },
-        errorMessage: errorMessage,
-        classes: options.classes
-      }) }}
-
-    {% case 'TEXT_AREA' %}
-      {{ govukCharacterCount({
-        name:question.code,
-        id: question.code,
-        maxlength: 4000,
-        value: question.value | safe,
-        label: {
-          text: question.text,
-          isPageHeading: false,
-          classes: question.code + labelClasses
-        },
-        formGroup : {
-          classes: question.classes
-        },
-        attributes: question.attributes,
-        hint: {
-          text: question.hint
-        },
-        errorMessage: errorMessage
-      }) }}
-
-    {% case 'RADIO' %}
-      {{ govukRadios({
-        idPrefix: question.code,
-        name: question.code,
-        formGroup : {
-          classes: question.classes
-        },
-        attributes: question.attributes,
-        fieldset: {
-          legend: {
-            text: question.text,
-            classes: question.code + labelClasses
-          }
-        },
-        items: question.options,
-        errorMessage: errorMessage,
-        isConditional: question.isConditional,
-        hint: {
-          text: question.hint
         }
-      }) }}
-
-    {% case 'CHECKBOX' %}
-      {{ govukCheckboxes({
-        idPrefix: question.code,
-        name: question.code,
-        formGroup : {
-          classes: question.classes
+      },
+      hint: {
+        text: question.hint
+      },
+      items: [
+        {
+          classes: "govuk-input--width-2",
+          name: "day",
+          value: answerDay
         },
-        attributes: question.attributes,
-        fieldset: {
-          legend: {
-            text: question.text,
-            classes: question.code + labelClasses
-          }
+        {
+          classes: "govuk-input--width-2",
+          name: "month",
+          value: answerMonth
         },
-        items: question.options,
-        errorMessage: errorMessage,
-        isConditional: question.isConditional,
-        hint: {
-          text: question.hint
+        {
+          classes: "govuk-input--width-4",
+          name: "year",
+          value: answerYear
         }
-      }) }}
+      ],
+      errorMessage: errorMessage,
+      attributes: question.attributes
+    }) }}
 
-    {% case 'DROPDOWN' %}
-      {{ govukSelect({
-        id: question.code,
-        name: question.code,
-        formGroup : {
-          classes: question.classes
-        },
-        label: {
-          text: question.text,
-          classes: question.code + labelClasses
-        },
-        attributes: question.attributes,
-        items: question.options,
-        errorMessage: errorMessage,
-        isConditional: question.isConditional,
-        hint: {
-          text: question.hint
-        }
-      }) }}
+  {% case "COLLECTION" %}
+    {% switch question.code %}
 
-    {% case 'DATE' %}
-      {% set dateAnswer = question.value %}
-      {% if dateAnswer.length > 0 %}
-        {% set answerDay = dateAnswer[2] %}
-        {% set answerMonth = dateAnswer[1] %}
-        {% set answerYear = dateAnswer[0] %}
-      {% else %}
-        {% set answerDay = '' %}
-        {% set answerMonth = '' %}
-        {% set answerYear = '' %}
-      {% endif %}
+      {% case "living_with_children" %}
+        {{ livingWithChildren(question, collections, action) }}
 
-      {{ govukDateInput({
-        id: question.code,
-        namePrefix: question.code,
-        fieldset: {
-          legend: {
-            text: question.text,
-            isPageHeading: false,
-            classes: question.code + labelClasses
-          }
-        },
-        hint: {
-          text: question.hint
-        },
-        items: [
-          {
-            classes: "govuk-input--width-2",
-            name: "day",
-            value: answerDay
-          },
-          {
-            classes: "govuk-input--width-2",
-            name: "month",
-            value: answerMonth
-          },
-          {
-            classes: "govuk-input--width-4",
-            name: "year",
-            value: answerYear
-          }
-        ],
-        errorMessage: errorMessage,
-        attributes: question.attributes
-      }) }}
+      {% case "living_with_partner" %}
+        {{ livingWithPartner(question, collections, action) }}
 
-    {% case "COLLECTION" %}
-      {% switch question.code %}
+      {% default %}
 
-        {% case "living_with_children" %}
-          {{ livingWithChildren(question, collections, action) }}
+    {% endswitch %}
 
-        {% case "living_with_partner" %}
-          {{ livingWithPartner(question, collections, action) }}
-
-        {% default %}
-
-      {% endswitch %}
-
-    {% default %}
-      <!-- {{ question.code }} - {{ question.type }} questions are not currently rendered -->
-  {% endswitch %}
-{% endif %}
+  {% default %}
+    <!-- {{ question.code }} - {{ question.type }} questions are not currently rendered -->
+{% endswitch %}
