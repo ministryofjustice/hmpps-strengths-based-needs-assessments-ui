@@ -1,5 +1,6 @@
 import { Response, NextFunction } from 'express'
 import FormWizard from 'hmpo-form-wizard'
+import { randomUUID } from 'crypto'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
 
@@ -17,7 +18,7 @@ class StartController extends BaseController {
       const { link } = await this.apiService.createSession({
         userSessionId: 'ABC1234567890',
         userAccess: 'READ_WRITE',
-        oasysAssessmentId: '1234564321',
+        oasysAssessmentId: randomUUID(),
         userDisplayName: 'Probation User',
         crn: 'X123456',
       })
