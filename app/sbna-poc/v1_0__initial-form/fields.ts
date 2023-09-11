@@ -10,6 +10,36 @@ const immigrationAccommodationHint = {
   `,
 }
 
+const impactOfDrugUsePhysicalHint = {
+  html: `  
+  <p class="govuk-hint">Includes overdose.</p>
+  `,
+}
+
+const impactOfDrugUseRelationshipHint = {
+  html: `  
+  <p class="govuk-hint">Includes isolation or neglecting responsibilities.</p>
+  `,
+}
+
+const impactOfDrugUseFinancesHint = {
+  html: `  
+  <p class="govuk-hint">Includes having no money.</p>
+  `,
+}
+
+const impactOfDrugUseCommunityHint = {
+  html: `  
+  <p class="govuk-hint">Includes limited opportunities or judgement from others.</p>
+  `,
+}
+
+const impactOfDrugUseBehaviouralHint = {
+  html: `  
+  <p class="govuk-hint">Includes unemployment, disruption on education or lack of productivity.</p>
+  `,
+}
+
 const suitableHousingConcernsOptions = [
   { text: 'Safety of accommodation', value: 'SAFETY' },
   { text: 'Overcrowding', value: 'OVERCROWDING' },
@@ -536,7 +566,7 @@ const fields: FormWizard.Fields = {
   drug_use_changes: {
     text: 'Does [subject] want to make changes to their drug use?',
     code: 'drug_use_changes',
-    hint: 'This question must be directly answered by [Subject] ',
+    hint: 'This question must be directly answered by [subject] ',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Drug use change field is required' }],
     options: [
@@ -561,6 +591,7 @@ const fields: FormWizard.Fields = {
       value: 'POSITIVE_CHANGE',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   drug_use_active_change: {
     text: 'Give details',
@@ -572,6 +603,7 @@ const fields: FormWizard.Fields = {
       value: 'ACTIVE_CHANGE',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   drug_use_known_change: {
     text: 'Give details',
@@ -583,6 +615,7 @@ const fields: FormWizard.Fields = {
       value: 'KNOWN_CHANGE',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   drug_use_help_change: {
     text: 'Give details',
@@ -594,6 +627,7 @@ const fields: FormWizard.Fields = {
       value: 'HELP_CHANGE',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   drug_use_think_change: {
     text: 'Give details',
@@ -605,6 +639,7 @@ const fields: FormWizard.Fields = {
       value: 'THINK_CHANGE',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   drug_use_no_change: {
     text: 'Give details',
@@ -616,6 +651,7 @@ const fields: FormWizard.Fields = {
       value: 'NO_CHANGE',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   child_name: {
     text: 'Name',
@@ -682,7 +718,7 @@ const fields: FormWizard.Fields = {
       { text: 'Girl', value: 'GIRL' },
       { text: 'Non-binary', value: 'NON_BINARY' },
       { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
-    ]
+    ],
   },
   drug_use_type: {
     text: 'Which drugs have [subject] used?',
@@ -745,6 +781,7 @@ const fields: FormWizard.Fields = {
       value: 'DAILY',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   weekly_drug_usage_treatment: {
     text: 'Is [subject] receiving treatment?',
@@ -760,6 +797,7 @@ const fields: FormWizard.Fields = {
       value: 'WEEKLY',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   monthly_drug_usage_treatment: {
     text: 'Is [subject] receiving treatment?',
@@ -775,6 +813,7 @@ const fields: FormWizard.Fields = {
       value: 'MONTHLY',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   occasionally_drug_usage_treatment: {
     text: 'Is [subject] receiving treatment?',
@@ -790,6 +829,7 @@ const fields: FormWizard.Fields = {
       value: 'OCCASIONALLY',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   drug_past_usage: {
     text: 'Has [subject] used this drug in the past?',
@@ -830,6 +870,7 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   drug_use_impact: {
     text: "What's the impact of [subject] using drugs?",
@@ -838,11 +879,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Physical or mental health', value: 'PHYSICAL_MENTAL_HEALTH' },
-      { text: 'Relationships', value: 'RELATIONSHIPS' },
-      { text: 'Finances', value: 'FINANCES' },
-      { text: 'Community', value: 'COMMUNITY' },
-      { text: 'Behavioural', value: 'BEHAVIOURAL' },
+      { text: 'Physical or mental health', value: 'PHYSICAL_MENTAL_HEALTH', hint: impactOfDrugUsePhysicalHint },
+      { text: 'Relationships', value: 'RELATIONSHIPS', hint: impactOfDrugUseRelationshipHint },
+      { text: 'Finances', value: 'FINANCES', hint: impactOfDrugUseFinancesHint },
+      { text: 'Community', value: 'COMMUNITY', hint: impactOfDrugUseCommunityHint },
+      { text: 'Behavioural', value: 'BEHAVIOURAL', hint: impactOfDrugUseBehaviouralHint },
       { text: 'Links to offending', value: 'OFFENDING' },
       { text: 'Other', value: 'OTHER' },
     ],
@@ -858,6 +899,7 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   reducing_or_stopping_drug_use: {
     text: 'Has anything helped [subject] to stop or reduce using drugs in the past?',
@@ -879,6 +921,7 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
   motivated_stopping_drug_use: {
     text: 'Is [subject] motivated to stop or reduce their drug use?',
