@@ -20,20 +20,18 @@ class SaveAndContinueController extends BaseController {
     const fields = Object.values(req.form.options.allFields)
 
     const fieldsWithMappedAnswers = fields.map(withValuesFrom(res.locals.values))
-    const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithMappedAnswers, {
+    const fieldsWithReplacements = fieldsWithMappedAnswers.map(withPlaceholdersFrom(res.locals.placeholderValues || {}))
+    const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
       action: res.locals.action,
       errors: res.locals.errors,
       collections: res.locals.collections,
     })
-    const fieldsWithReplacements = fieldsWithRenderedConditionals.map(
-      withPlaceholdersFrom(res.locals.placeholderValues || {}),
-    )
 
     res.locals.answers = req.form.values
-    res.locals.options.fields = fieldsWithReplacements
+    res.locals.options.fields = fieldsWithRenderedConditionals
       .filter(it => res.locals.form.fields.includes(it.code))
       .reduce(fieldsByCode, {})
-    res.locals.options.allFields = fieldsWithReplacements.reduce(fieldsByCode, {})
+    res.locals.options.allFields = fieldsWithRenderedConditionals.reduce(fieldsByCode, {})
 
     super.locals(req, res, next)
   }
