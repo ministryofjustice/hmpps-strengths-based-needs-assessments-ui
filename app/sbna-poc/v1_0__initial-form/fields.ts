@@ -10,36 +10,6 @@ const immigrationAccommodationHint = {
   `,
 }
 
-const impactOfDrugUsePhysicalHint = {
-  html: `  
-  <p class="govuk-hint">Includes overdose.</p>
-  `,
-}
-
-const impactOfDrugUseRelationshipHint = {
-  html: `  
-  <p class="govuk-hint">Includes isolation or neglecting responsibilities.</p>
-  `,
-}
-
-const impactOfDrugUseFinancesHint = {
-  html: `  
-  <p class="govuk-hint">Includes having no money.</p>
-  `,
-}
-
-const impactOfDrugUseCommunityHint = {
-  html: `  
-  <p class="govuk-hint">Includes limited opportunities or judgement from others.</p>
-  `,
-}
-
-const impactOfDrugUseBehaviouralHint = {
-  html: `  
-  <p class="govuk-hint">Includes unemployment, disruption on education or lack of productivity.</p>
-  `,
-}
-
 const suitableHousingConcernsOptions = [
   { text: 'Safety of accommodation', value: 'SAFETY' },
   { text: 'Overcrowding', value: 'OVERCROWDING' },
@@ -879,11 +849,23 @@ const fields: FormWizard.Fields = {
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Physical or mental health', value: 'PHYSICAL_MENTAL_HEALTH', hint: impactOfDrugUsePhysicalHint },
-      { text: 'Relationships', value: 'RELATIONSHIPS', hint: impactOfDrugUseRelationshipHint },
-      { text: 'Finances', value: 'FINANCES', hint: impactOfDrugUseFinancesHint },
-      { text: 'Community', value: 'COMMUNITY', hint: impactOfDrugUseCommunityHint },
-      { text: 'Behavioural', value: 'BEHAVIOURAL', hint: impactOfDrugUseBehaviouralHint },
+      { text: 'Physical or mental health', value: 'PHYSICAL_MENTAL_HEALTH', hint: { text: 'Includes overdose.' } },
+      {
+        text: 'Relationships',
+        value: 'RELATIONSHIPS',
+        hint: { text: 'Includes isolation or neglecting responsibilities.' },
+      },
+      { text: 'Finances', value: 'FINANCES', hint: { text: 'Includes having no money.' } },
+      {
+        text: 'Community',
+        value: 'COMMUNITY',
+        hint: { text: 'Includes limited opportunities or judgement from others.' },
+      },
+      {
+        text: 'Behavioural',
+        value: 'BEHAVIOURAL',
+        hint: { text: 'Includes unemployment, disruption on education or lack of productivity.' },
+      },
       { text: 'Links to offending', value: 'OFFENDING' },
       { text: 'Other', value: 'OTHER' },
     ],
