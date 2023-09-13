@@ -251,17 +251,17 @@ const steps: FormWizard.Steps = {
     controller: SaveAndContinueController,
     fields: ['drug_use'],
     next: [
-      { field: 'drug_use', value: 'YES', next: 'drug-use-yes' },
+      { field: 'drug_use', value: 'YES', next: 'drug-use-type' },
       { field: 'drug_use', value: 'NO', next: 'no-drug-use-summary' },
     ],
     template: 'forms/default',
     navigationOrder: 3,
   },
-  '/drug-use-yes': {
+  '/drug-use-type': {
     pageTitle: 'Drug use',
     controller: SaveAndContinueController,
-    fields: [],
-    // next: ,
+    fields: ['drug_use_type'],
+    next: 'drug-usage-details',
     template: 'forms/default',
   },
   '/no-drug-use-summary': {
@@ -270,6 +270,35 @@ const steps: FormWizard.Steps = {
     fields: [],
     // next: ,
     template: 'forms/sbna-poc/no-drug-use-summary-analysis',
+  },
+  '/drug-usage-details': {
+    pageTitle: 'Usage details',
+    controller: SaveAndContinueController,
+    fields: [
+      'drug_usage_heroin',
+      'daily_drug_usage_treatment',
+      'weekly_drug_usage_treatment',
+      'monthly_drug_usage_treatment',
+      'occasionally_drug_usage_treatment',
+    ],
+    next: 'drug-use-details',
+    template: 'forms/default',
+  },
+  '/drug-use-details': {
+    pageTitle: 'Drug use',
+    controller: SaveAndContinueController,
+    fields: [
+      'drug_use_reasons',
+      'drug_use_reasons_details',
+      'drug_use_impact',
+      'drug_use_impact_details',
+      'reducing_or_stopping_drug_use',
+      'reducing_or_stopping_drug_use_details',
+      'motivated_stopping_drug_use',
+      'drug_use_changes',
+    ],
+    // next: ,
+    template: 'forms/default',
   },
 }
 
