@@ -123,7 +123,7 @@
     "redis": "^4.6.8",
     "superagent": "^8.1.2",
     "url-value-parser": "^2.2.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.8",
@@ -161,7 +161,7 @@
     "eslint-plugin-no-only-tests": "^3.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
-    "jest": "^29.6.4",
+    "jest": "^29.7.0",
     "jest-html-reporter": "^3.10.2",
     "jest-junit": "^16.0.0",
     "jsonwebtoken": "^9.0.2",
