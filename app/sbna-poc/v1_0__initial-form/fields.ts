@@ -547,6 +547,7 @@ const fields: FormWizard.Fields = {
       { text: 'I am thinking about making changes', value: 'THINK_CHANGE' },
       { text: 'I do not want to make changes', value: 'NO_CHANGE' },
       { text: 'I do not want to answer', value: 'NO_ANSWER_CHANGE' },
+      // { divider: 'or' },
       { text: '[subject] is not present', value: 'NOT_PRESENT' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE' },
     ],
