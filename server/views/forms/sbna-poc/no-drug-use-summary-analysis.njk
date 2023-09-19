@@ -52,6 +52,19 @@
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
+{{ renderQuestion(options.fields["patterns_or_behaviours"], errors) }}
+{{ renderQuestion(options.fields["strengths_or_protective_factors"], errors) }}
+{{ renderQuestion(options.fields["linked_to_risk_of_serious_harm"], errors) }}
+{{ renderQuestion(options.fields["linked_to_risk_of_reoffending"], errors) }}
+{{ renderQuestion(options.fields["not_related_to_risk"], errors) }}
+
+
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: buttonText | default("Mark as complete"),
+    classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
+  }) }}
+</div>
 {% endset -%}
 
 {{ govukTabs({
