@@ -18,6 +18,75 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderCurrentAccommodation(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["current_accommodation"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {% switch option.value %}
+          {% case "SETTLED" %}
+            <span>{{ renderSettledAccommodationType(fields["type_of_settled_accommodation"]) }}</span>
+          {% case "TEMPORARY" %}
+            <span>{{ renderTemporaryAccommodationType(fields, answers) }}</span>
+          {% case "NO_ACCOMMODATION" %}
+            <span>{{ renderNoAccommodationType(fields, answers) }}</span>
+          {% endswitch %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSettledAccommodationType(field) -%}
+    {% for option in field.options %}
+      {% if option.checked %}
+        <span class="govuk-!-font-size-14">{{ option.text }}</span>
+      {% endif %}
+    {% endfor %}
+{%- endmacro -%}
+
+{%- macro renderTemporaryAccommodationType(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["type_of_temporary_accommodation"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          <span class="govuk-!-font-size-14">Expected end date:</span>
+          {% switch option.value %}
+            {% case "SHORT_TERM" %}
+              <span class="govuk-!-font-size-14">{{ answers["short_term_accommodation_end_date"] | default('Not provided') }}</span>
+            {% case "APPROVED_PREMISES" %}
+              <span class="govuk-!-font-size-14">{{ answers["approved_premises_end_date"] | default('Not provided') }}</span>
+            {% case "CAS2" %}
+              <span class="govuk-!-font-size-14">{{ answers["cas2_end_date"] | default('Not provided') }}</span>
+            {% case "CAS3" %}
+              <span class="govuk-!-font-size-14">{{ answers["cas3_end_date"] | default('Not provided') }}</span>
+            {% case "IMMIGRATION" %}
+              <span class="govuk-!-font-size-14">{{ answers["immigration_accommodation_end_date"] | default('Not provided') }}</span>
+          {% endswitch %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderNoAccommodationType(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["type_of_no_accommodation"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% switch option.value %}
+            {% case "AWAITING_ASSESSMENT" %}
+              <span class="govuk-!-font-size-14">{{ answers["awaiting_assessment_details"] }}</span>
+          {% endswitch %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
 {%- macro renderLivingWith(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["living_with"].options %}
@@ -38,22 +107,109 @@
   </ul>
 {%- endmacro -%}
 
-{%- macro renderAccommodationChangeDetails(answers) -%}
-{%- switch answers["accommodation_changes"] -%}
-  {% case "MADE_CHANGES" %}
-    {{ answers["accommodation_made_changes_details"] }}
-  {% case "MAKING_CHANGES" %}
-    {{ answers["accommodation_making_changes_details"] }}
-  {% case "WANT_TO_MAKE_CHANGES" %}
-    {{ answers["accommodation_want_to_make_changes_details"] }}
-  {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
-    {{ answers["accommodation_needs_help_to_make_changes_details"] }}
-  {% case "THINKING_ABOUT_MAKING_CHANGES" %}
-    {{ answers["accommodation_thinking_about_making_changes_details"] }}
-  {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
-    {{ answers["accommodation_does_not_want_to_make_changes_details"] }}
-  {% default %}
-{%- endswitch -%}
+{%- macro renderSuitableHousingLocationConcerns(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["suitable_housing_location_concerns"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "OTHER" %}
+            <span class="govuk-!-font-size-14">{{ answers["suitable_housing_location_concerns_other_details"] }}</span>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSuitableHousingLocation(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["suitable_housing_location"].options %}
+        {% if option.checked %}
+        <li>
+          {{ option.text }}
+          {% if option.value == "NO" %}
+            {{ renderSuitableHousingLocationConcerns(fields, answers) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSuitableHousingConcerns(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["suitable_housing_concerns"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "OTHER" %}
+            <span class="govuk-!-font-size-14">{{ answers["suitable_housing_concerns_other_details"] }}</span>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderUnsuitableHousingConcerns(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["unsuitable_housing_concerns"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "OTHER" %}
+            <span class="govuk-!-font-size-14">{{ answers["unsuitable_housing_concerns_other_details"] }}</span>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSuitableHousingLocation(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["suitable_housing"].options %}
+        {% if option.checked %}
+        <li>
+          {{ option.text }}
+          {% if option.value == "YES_WITH_CONCERNS" %}
+            {{ renderSuitableHousingConcerns(fields, answers) }}
+          {% endif %}
+          {% if option.value == "NO" %}
+            {{ renderUnsuitableHousingConcerns(fields, answers) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderAccommodationChange(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["accommodation_changes"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "MADE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["accommodation_made_changes_details"] }}</span>
+            {% case "MAKING_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["accommodation_making_changes_details"] }}</span>
+            {% case "WANT_TO_MAKE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["accommodation_want_to_make_changes_details"] }}</span>
+            {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["accommodation_needs_help_to_make_changes_details"] }}</span>
+            {% case "THINKING_ABOUT_MAKING_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["accommodation_thinking_about_making_changes_details"] }}</span>
+            {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["accommodation_does_not_want_to_make_changes_details"] }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
 {%- endmacro -%}
 
 {%- macro renderSummaryListRow(label, value, changeLink) -%}
@@ -76,7 +232,7 @@
 <dl class="govuk-summary-list">
   {{ renderSummaryListRow(
     options.allFields["current_accommodation"].text,
-    renderSelectedOptions(options.allFields["current_accommodation"]),
+    renderCurrentAccommodation(options.allFields, answers),
     "accommodation#current-accommodation"
   ) }}
   {{ renderSummaryListRow(
@@ -86,43 +242,17 @@
   ) }}
   {{ renderSummaryListRow(
     options.allFields["suitable_housing_location"].text,
-    renderSelectedOptions(options.allFields["suitable_housing_location"]),
+    renderSuitableHousingLocation(options.allFields, answers),
     backLink + "#suitable_housing_location"
   ) }}
-  {%- if answers["suitable_housing_location"] == "NO" -%}
-    {{ renderSummaryListRow(
-    options.allFields["suitable_housing_location_concerns"].text,
-    renderSelectedOptions(options.allFields["suitable_housing_location_concerns"]),
-    backLink + "#suitable_housing_location"
-  ) }}
-  {%- endif -%}
   {{ renderSummaryListRow(
     options.allFields["suitable_housing"].text,
-    renderSelectedOptions(options.allFields["suitable_housing"]),
+    renderSuitableHousingLocation(options.allFields, answers),
     backLink + "#suitable_housing"
   ) }}
-  {%- if answers["suitable_housing"] == "YES_WITH_CONCERNS" -%}
-    {{ renderSummaryListRow(
-    options.allFields["suitable_housing_concerns"].text,
-    renderSelectedOptions(options.allFields["suitable_housing_concerns"]),
-    backLink + "#suitable_housing"
-  ) }}
-  {%- endif -%}
-  {%- if answers["suitable_housing"] == "NO" -%}
-    {{ renderSummaryListRow(
-    options.allFields["unsuitable_housing_concerns"].text,
-    renderSelectedOptions(options.allFields["unsuitable_housing_concerns"]),
-    backLink + "#suitable_housing"
-  ) }}
-  {%- endif -%}
   {{ renderSummaryListRow(
     options.allFields["accommodation_changes"].text,
-    renderSelectedOptions(options.allFields["accommodation_changes"]),
-    backLink + "#accommodation_changes"
-  ) }}
-  {{ renderSummaryListRow(
-    "Give details",
-    renderAccommodationChangeDetails(answers),
+    renderAccommodationChange(options.allFields, answers),
     backLink + "#accommodation_changes"
   ) }}
 </dl>
