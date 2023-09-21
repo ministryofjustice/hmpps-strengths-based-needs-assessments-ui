@@ -1,14 +1,29 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 
-const immigrationAccommodationHint = {
-  html: `  
-    <p class="govuk-hint">This includes</p>
-    <ul class="govuk-hint govuk-list govuk-list--bullet">
-      <li>Schedule 10 - Home Office provides accommodation under the Immigration Act 2016</li>
-      <li>Schedule 4 - Home Office provides accommodation for those on immigration bail, prior to the Immigration Act 2016</li>
-    </ul>  
-  `,
-}
+const immigrationAccommodationHint = `
+    <div class="govuk-!-width-two-thirds">
+      <p class="govuk-hint">This includes:</p>
+      <ul class="govuk-hint govuk-list govuk-list--bullet">
+        <li>Schedule 10 - Home Office provides accommodation under the Immigration Act 2016</li>
+        <li>Schedule 4 - Home Office provides accommodation for those on immigration bail, prior to the Immigration Act 2016</li>
+      </ul>
+    </div>
+  `
+
+const currentAccommodationHint = `
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Help if accommodation is a caravan or living vehicle
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        <p>If they're in a caravan or a living vehicle legally, select 'Settled' or 'Temporary'.</p>
+
+        <p>If they're not in a legal place, select 'No accommodation'.</p>
+      </div>
+    </details>
+  `
 
 const suitableHousingConcernsOptions = [
   { text: 'Safety of accommodation', value: 'SAFETY' },
@@ -23,6 +38,7 @@ const suitableHousingConcernsOptions = [
 const fields: FormWizard.Fields = {
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
+    hint: { html: currentAccommodationHint, kind: 'html' },
     code: 'current_accommodation',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Current accommodation is required' }],
@@ -40,7 +56,7 @@ const fields: FormWizard.Fields = {
     options: [
       { text: 'Homeowner', value: 'HOMEOWNER' },
       { text: 'Renting privately', value: 'RENTING_PRIVATELY' },
-      { text: 'Renting social, local authority, or other', value: 'RENTING_OTHER' },
+      { text: 'Renting from social, local authority or other', value: 'RENTING_OTHER' },
       { text: 'Living with friends or family', value: 'FRIENDS_OR_FAMILY' },
       { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION' },
       { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE' },
@@ -60,9 +76,9 @@ const fields: FormWizard.Fields = {
     options: [
       { text: 'Short term accommodation', value: 'SHORT_TERM' },
       { text: 'Approved premises', value: 'APPROVED_PREMISES' },
-      { text: 'Community Accommodation Service Tier 2', value: 'CAS2' },
-      { text: 'Community Accommodation Service Tier 3', value: 'CAS3' },
-      { text: 'Immigration accommodation', value: 'IMMIGRATION', hint: immigrationAccommodationHint },
+      { text: 'Community Accommodation Service Tier 2 (CAS2)', value: 'CAS2' },
+      { text: 'Community Accommodation Service Tier 3 (CAS3)', value: 'CAS3' },
+      { text: 'Immigration accommodation', value: 'IMMIGRATION', hint: { html: immigrationAccommodationHint } },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -72,7 +88,7 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   short_term_accommodation_end_date: {
-    text: 'Expected end date (optional)',
+    text: 'Enter expected end date (optional)',
     code: 'short_term_accommodation_end_date',
     type: FieldType.Date,
     dependent: {
@@ -83,7 +99,7 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   approved_premises_end_date: {
-    text: 'Expected end date (optional)',
+    text: 'Enter expected end date (optional)',
     code: 'approved_premises_end_date',
     type: FieldType.Date,
     dependent: {
@@ -94,7 +110,7 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   cas2_end_date: {
-    text: 'Expected end date (optional)',
+    text: 'Enter expected end date (optional)',
     code: 'cas2_end_date',
     type: FieldType.Date,
     dependent: {
@@ -105,7 +121,7 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   cas3_end_date: {
-    text: 'Expected end date (optional)',
+    text: 'Enter expected end date (optional)',
     code: 'cas3_end_date',
     type: FieldType.Date,
     dependent: {
@@ -116,7 +132,7 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   immigration_accommodation_end_date: {
-    text: 'Expected end date (optional)',
+    text: 'Enter expected end date (optional)',
     code: 'immigration_accommodation_end_date',
     type: FieldType.Date,
     dependent: {
@@ -135,7 +151,7 @@ const fields: FormWizard.Fields = {
       { text: 'Campsite', value: 'CAMPSITE' },
       { text: 'Shelter', value: 'SHELTER' },
       { text: 'Rough sleeping', value: 'ROUGH_SLEEPING' },
-      { text: 'Homeless - including squatting', value: 'HOMELESS' },
+      { text: 'Homeless - includes squatting', value: 'HOMELESS' },
       { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL' },
       { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT' },
     ],
@@ -159,7 +175,8 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   living_with: {
-    text: 'Who does [subject] live with?',
+    text: 'Who is [subject] living with?',
+    hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'living_with',
     type: FieldType.CheckBox,
     multiple: true,
@@ -169,30 +186,52 @@ const fields: FormWizard.Fields = {
       { text: 'Friends', value: 'FRIENDS' },
       { text: 'Partner', value: 'PARTNER' },
       { text: 'Child under 18 years old', value: 'CHILD_UNDER_18' },
-      { text: 'Alone', value: 'ALONE' },
       { text: 'Other', value: 'OTHER' },
+      { text: 'Alone', value: 'ALONE' },
     ],
   },
-  living_with_children: {
-    text: 'Placeholder',
-    code: 'living_with_children',
-    type: FieldType.Collection,
+  living_with_children_details: {
+    text: 'Give details (optional)',
+    code: 'living_with_children_details',
+    type: FieldType.TextArea,
     dependent: {
       field: 'living_with',
       value: 'CHILD_UNDER_18',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
-  living_with_partner: {
-    text: 'Placeholder',
-    code: 'living_with_partner',
-    type: FieldType.Collection,
+  living_with_partner_details: {
+    text: 'Give details (optional)',
+    code: 'living_with_partner_details',
+    type: FieldType.TextArea,
     dependent: {
       field: 'living_with',
       value: 'PARTNER',
       displayInline: true,
     },
+    useSmallLabel: true,
   },
+  // living_with_children: {
+  //   text: 'Placeholder',
+  //   code: 'living_with_children',
+  //   type: FieldType.Collection,
+  //   dependent: {
+  //     field: 'living_with',
+  //     value: 'CHILD_UNDER_18',
+  //     displayInline: true,
+  //   },
+  // },
+  // living_with_partner: {
+  //   text: 'Placeholder',
+  //   code: 'living_with_partner',
+  //   type: FieldType.Collection,
+  //   dependent: {
+  //     field: 'living_with',
+  //     value: 'PARTNER',
+  //     displayInline: true,
+  //   },
+  // },
   living_with_other: {
     text: 'Give details (optional)',
     code: 'living_with_other',
@@ -310,7 +349,7 @@ const fields: FormWizard.Fields = {
   },
   no_accommodation_reason: {
     text: 'Why does [subject] have no accommodation?',
-    hint: 'Consider current and past homelessness issues',
+    hint: { text: 'Consider current and past homelessness issues', kind: 'text' },
     code: 'no_accommodation_reason',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -395,7 +434,7 @@ const fields: FormWizard.Fields = {
   },
   suitable_housing_planned_other_details: {
     text: 'Give details',
-    hint: 'Include where and who with',
+    hint: { text: 'Include where and who with', kind: 'text' },
     code: 'suitable_housing_planned_other_details',
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -408,7 +447,7 @@ const fields: FormWizard.Fields = {
   },
   accommodation_changes: {
     text: 'Does [subject] want to make changes to their accommodation?',
-    hint: 'This question must be directly answered by [subject]',
+    hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
     code: 'accommodation_changes',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -498,10 +537,14 @@ const fields: FormWizard.Fields = {
   },
   accommodation_practitioner_analysis: {
     text: 'Practitioner analysis',
-    hint: 'Include any strengths, needs or risks which may link to risk of serious harm or risk of reoffending.',
+    hint: {
+      text: 'Include any strengths, needs or risks which may link to risk of serious harm or risk of reoffending.',
+      kind: 'text',
+    },
     code: 'accommodation_practitioner_analysis',
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    characterCountMax: 4000,
   },
   accommodation_serious_harm: {
     text: "Is [subject]'s accommodation linked to risk of serious harm?",
@@ -512,6 +555,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'yes' },
       { text: 'No', value: 'no' },
     ],
+    characterCountMax: 4000,
   },
   accommodation_risk_of_reoffending: {
     text: "Is [subject]'s accommodation linked to risk of reoffending?",
@@ -522,6 +566,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'yes' },
       { text: 'No', value: 'no' },
     ],
+    characterCountMax: 4000,
   },
   drug_use: {
     text: 'Has [subject] ever used drugs?',
@@ -536,7 +581,7 @@ const fields: FormWizard.Fields = {
   drug_use_changes: {
     text: 'Does [subject] want to make changes to their drug use?',
     code: 'drug_use_changes',
-    hint: 'This question must be directly answered by [subject] ',
+    hint: { text: 'This question must be directly answered by [subject] ', kind: 'text' },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Drug use change field is required' }],
     options: [
@@ -623,77 +668,77 @@ const fields: FormWizard.Fields = {
     },
     useSmallLabel: true,
   },
-  child_name: {
-    text: 'Name',
-    code: 'child_name',
-    type: FieldType.Text,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  },
-  child_date_of_birth: {
-    text: 'Date of birth',
-    hint: 'For example, 31 3 2011',
-    code: 'child_date_of_birth',
-    type: FieldType.Date,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  },
-  child_age: {
-    text: 'Age',
-    code: 'child_age',
-    type: FieldType.Text,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  },
-  relationship_to_child: {
-    text: "Select [subject]'s relationship to the child",
-    code: 'relationship_to_child',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Parent or carer', value: 'PARENT_OR_CARER' },
-      { text: 'Family member', value: 'FAMILY_MEMBER' },
-      { text: 'Friend', value: 'FRIEND' },
-      { text: 'Other', value: 'OTHER' },
-    ],
-  },
-  child_gender: {
-    text: 'Select gender',
-    code: 'child_gender',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Boy', value: 'BOY' },
-      { text: 'Girl', value: 'GIRL' },
-      { text: 'Non-binary', value: 'NON_BINARY' },
-      { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
-    ],
-  },
-  partner_name: {
-    text: 'Name',
-    code: 'partner_name',
-    type: FieldType.Text,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  },
-  partner_age: {
-    text: 'Age',
-    code: 'partner_age',
-    type: FieldType.Text,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  },
-  partner_gender: {
-    text: 'Select gender',
-    code: 'partner_gender',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Boy', value: 'BOY' },
-      { text: 'Girl', value: 'GIRL' },
-      { text: 'Non-binary', value: 'NON_BINARY' },
-      { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
-    ],
-  },
+  // child_name: {
+  //   text: 'Name',
+  //   code: 'child_name',
+  //   type: FieldType.Text,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  // },
+  // child_date_of_birth: {
+  //   text: 'Date of birth',
+  //   hint: { text: 'For example, 31 3 2011' },
+  //   code: 'child_date_of_birth',
+  //   type: FieldType.Date,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  // },
+  // child_age: {
+  //   text: 'Age',
+  //   code: 'child_age',
+  //   type: FieldType.Text,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  // },
+  // relationship_to_child: {
+  //   text: "Select [subject]'s relationship to the child",
+  //   code: 'relationship_to_child',
+  //   type: FieldType.Radio,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  //   options: [
+  //     { text: 'Parent or carer', value: 'PARENT_OR_CARER' },
+  //     { text: 'Family member', value: 'FAMILY_MEMBER' },
+  //     { text: 'Friend', value: 'FRIEND' },
+  //     { text: 'Other', value: 'OTHER' },
+  //   ],
+  // },
+  // child_gender: {
+  //   text: 'Select gender',
+  //   code: 'child_gender',
+  //   type: FieldType.Radio,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  //   options: [
+  //     { text: 'Boy', value: 'BOY' },
+  //     { text: 'Girl', value: 'GIRL' },
+  //     { text: 'Non-binary', value: 'NON_BINARY' },
+  //     { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
+  //   ],
+  // },
+  // partner_name: {
+  //   text: 'Name',
+  //   code: 'partner_name',
+  //   type: FieldType.Text,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  // },
+  // partner_age: {
+  //   text: 'Age',
+  //   code: 'partner_age',
+  //   type: FieldType.Text,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  // },
+  // partner_gender: {
+  //   text: 'Select gender',
+  //   code: 'partner_gender',
+  //   type: FieldType.Radio,
+  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+  //   options: [
+  //     { text: 'Boy', value: 'BOY' },
+  //     { text: 'Girl', value: 'GIRL' },
+  //     { text: 'Non-binary', value: 'NON_BINARY' },
+  //     { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
+  //   ],
+  // },
   drug_use_type: {
     text: 'Which drugs have [subject] used?',
     code: 'drug_use_type',
-    hint: 'Include current and previous drugs. Select all that apply.',
+    hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
@@ -813,7 +858,7 @@ const fields: FormWizard.Fields = {
   },
   drug_use_reasons: {
     text: 'Why did [subject] start using drugs?',
-    hint: 'Consider their history and any triggers of drug use. Select all that apply',
+    hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
     code: 'drug_use_reasons',
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -844,7 +889,7 @@ const fields: FormWizard.Fields = {
   },
   drug_use_impact: {
     text: "What's the impact of [subject] using drugs?",
-    hint: 'Select all that apply',
+    hint: { text: 'Select all that apply', kind: 'text' },
     code: 'drug_use_impact',
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -872,7 +917,7 @@ const fields: FormWizard.Fields = {
   },
   drug_use_impact_details: {
     text: 'Give details',
-    hint: 'Consider impact on themselves or others.',
+    hint: { text: 'Consider impact on themselves or others.', kind: 'text' },
     code: 'drug_use_impact_details',
     type: FieldType.TextArea,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],

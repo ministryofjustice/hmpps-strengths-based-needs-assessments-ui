@@ -133,11 +133,14 @@ declare module 'hmpo-form-wizard' {
 
     type Dependent = { field: string; value: string; displayInline?: boolean }
 
+    type Hint = { kind: 'html'; html: string } | { kind: 'text'; text: string }
+
     interface Field {
       default?: string | number | []
       text: string
       code: string
-      hint?: string
+      hint?: Hint
+      // hint?: Record<string, string>
       type: FieldType
       multiple?: boolean
       options?: FormWizard.Field.Option[]
@@ -147,6 +150,8 @@ declare module 'hmpo-form-wizard' {
       invalidates?: string[]
       value?: string | string[]
       useSmallLabel?: boolean
+      characterCountMax?: number
+      classes?: string
     }
 
     interface Fields {

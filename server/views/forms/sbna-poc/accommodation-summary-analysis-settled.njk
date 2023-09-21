@@ -18,6 +18,26 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderLivingWith(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["living_with"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {% switch option.value %}
+          {% case "PARTNER" %}
+            <span class="govuk-!-font-size-14">{{ answers["living_with_partner_details"] }}</span>
+          {% case "CHILD_UNDER_18" %}
+            <span class="govuk-!-font-size-14">{{ answers["living_with_children_details"] }}</span>
+          {% case "OTHER" %}
+            <span class="govuk-!-font-size-14">{{ answers["living_with_other"] }}</span>
+          {% endswitch %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
 {%- macro renderAccommodationChangeDetails(answers) -%}
 {%- switch answers["accommodation_changes"] -%}
   {% case "MADE_CHANGES" %}
@@ -58,12 +78,12 @@
     options.allFields["current_accommodation"].text,
     renderSelectedOptions(options.allFields["current_accommodation"]),
     "accommodation#current-accommodation"
-  ) }}  
+  ) }}
   {{ renderSummaryListRow(
     options.allFields["living_with"].text,
-    renderSelectedOptions(options.allFields["living_with"]),
+    renderLivingWith(options.allFields, answers),
     backLink + "#living_with"
-  ) }}  
+  ) }}
   {{ renderSummaryListRow(
     options.allFields["suitable_housing_location"].text,
     renderSelectedOptions(options.allFields["suitable_housing_location"]),

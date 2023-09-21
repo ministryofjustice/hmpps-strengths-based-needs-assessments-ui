@@ -114,8 +114,15 @@ export const withPlaceholdersFrom = (replacementValues: { [key: string]: string 
 
     modifiedField.text = field.text.replace(placeholderPattern, replacer)
 
-    if (field.hint) {
-      modifiedField.hint = field.hint.replace(placeholderPattern, replacer)
+    switch (field.hint?.kind) {
+      case 'text':
+        modifiedField.hint = { text: field.hint.text.replace(placeholderPattern, replacer), kind: 'text' }
+        break
+      case 'html':
+        modifiedField.hint = { html: field.hint.html.replace(placeholderPattern, replacer), kind: 'html' }
+        break
+      default:
+        break
     }
 
     if (field.options) {
