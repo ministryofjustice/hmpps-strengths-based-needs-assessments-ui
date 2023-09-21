@@ -279,12 +279,12 @@ const steps: FormWizard.Steps = {
       'linked_to_risk_of_serious_harm_no_details',
       'linked_to_risk_of_reoffending',
       'linked_to_risk_of_reoffending_yes_details',
-      'linked_to_risk_of_reoffending_yes_details',
+      'linked_to_risk_of_reoffending_no_details',
       'not_related_to_risk',
       'not_related_to_risk_yes_details',
-      'not_related_to_risk_yes_details',
+      'not_related_to_risk_no_details',
     ],
-    // next: ,
+    next: 'no-drug-use-analysis-complete',
     template: 'forms/sbna-poc/no-drug-use-summary-analysis',
   },
   '/drug-usage-details': {
@@ -315,6 +315,14 @@ const steps: FormWizard.Steps = {
     ],
     // next: ,
     template: 'forms/default',
+  },
+
+  '/no-drug-use-analysis-complete': {
+    pageTitle: 'Drug use',
+    controller: SaveAndContinueController,
+    fields: [],
+    // next: ,
+    template: 'forms/sbna-poc/no-drug-use-analysis-complete',
   },
 }
 
