@@ -35,9 +35,7 @@
         isPageHeading: false,
         classes: question.code + labelClasses
       },
-      hint: {
-        text: question.hint
-      },
+      hint: question.hint,
       errorMessage: errorMessage,
       classes: options.classes
     }) }}
@@ -46,7 +44,7 @@
     {{ govukCharacterCount({
       name:question.code,
       id: question.code,
-      maxlength: 4000,
+      maxlength: question.characterCountMax | default(400),
       value: question.value | safe,
       label: {
         text: question.text,
@@ -54,12 +52,10 @@
         classes: question.code + labelClasses
       },
       formGroup : {
-        classes: question.classes
+        classes: question.classes | default('govuk-!-width-two-thirds')
       },
       attributes: question.attributes,
-      hint: {
-        text: question.hint
-      },
+      hint: question.hint,
       errorMessage: errorMessage
     }) }}
 
@@ -80,9 +76,7 @@
       items: question.options,
       errorMessage: errorMessage,
       isConditional: question.isConditional,
-      hint: {
-        text: question.hint
-      }
+      hint: question.hint
     }) }}
 
   {% case 'CHECKBOX' %}
@@ -102,9 +96,7 @@
       items: question.options,
       errorMessage: errorMessage,
       isConditional: question.isConditional,
-      hint: {
-        text: question.hint
-      }
+      hint: question.hint
     }) }}
 
   {% case 'DROPDOWN' %}
@@ -122,9 +114,7 @@
       items: question.options,
       errorMessage: errorMessage,
       isConditional: question.isConditional,
-      hint: {
-        text: question.hint
-      }
+      hint: question.hint
     }) }}
 
   {% case 'DATE' %}
@@ -149,9 +139,7 @@
           classes: question.code + labelClasses
         }
       },
-      hint: {
-        text: question.hint
-      },
+      hint: question.hint,
       items: [
         {
           classes: "govuk-input--width-2",

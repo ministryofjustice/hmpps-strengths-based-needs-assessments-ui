@@ -2,85 +2,20 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "components/question/macro.njk" import renderQuestion %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
-
-{%- macro renderSelectedOptions(field) -%}
-  <ul class="govuk-list">
-    {% for option in field.options %}
-      {% if option.checked %}
-        <li>
-          {{ option.text }}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
-
-{%- macro renderAccommodationChangeDetails(answers) -%}
-{%- switch answers["accommodation_changes"] -%}
-  {% case "MADE_CHANGES" %}
-    {{ answers["accommodation_made_changes_details"] }}
-  {% case "MAKING_CHANGES" %}
-    {{ answers["accommodation_making_changes_details"] }}
-  {% case "WANT_TO_MAKE_CHANGES" %}
-    {{ answers["accommodation_want_to_make_changes_details"] }}
-  {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
-    {{ answers["accommodation_needs_help_to_make_changes_details"] }}
-  {% case "THINKING_ABOUT_MAKING_CHANGES" %}
-    {{ answers["accommodation_thinking_about_making_changes_details"] }}
-  {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
-    {{ answers["accommodation_does_not_want_to_make_changes_details"] }}
-  {% default %}
-{%- endswitch -%}
-{%- endmacro -%}
-
-{%- macro renderSummaryListRow(label, value, changeLink) -%}
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      {{ label }}
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {{ value }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ changeLink }}">
-      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
-      </a>
-    </dd>
-  </div>
-{%- endmacro -%}
+{% from "components/question/macro.njk" import renderQuestion %}
+{% from "components/summary/accommodation/macro.njk" import renderSummaryFor %}
 
 {% set accommodationSummaryHtml %}
 <dl class="govuk-summary-list">
+  {{ renderSummaryFor("current_accommodation", { fields: options.allFields, answers: answers, backLink: "accommodation" }) }}
   {%- if answers["type_of_no_accommodation"] != "AWAITING_ASSESSMENT" -%}
-  {{ renderSummaryListRow(
-    options.allFields["no_accommodation_reason"].text,
-    renderSelectedOptions(options.allFields["no_accommodation_reason"]),
-    "accommodation#current-accommodation"
-  ) }}
-  {{ renderSummaryListRow(
-    options.allFields["past_accommodation_details"].text,
-    options.allFields["past_accommodation_details"].value,
-    backLink + "#suitable_housing_location"
-  ) }}
-  {{ renderSummaryListRow(
-    options.allFields["suitable_housing_planned"].text,
-    renderSelectedOptions(options.allFields["suitable_housing_planned"]),
-    backLink + "#suitable_housing_location"
-  ) }}
+  {{ renderSummaryFor("no_accommodation_reason", { fields: options.allFields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryFor("past_accommodation_details", { fields: options.allFields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryFor("suitable_housing_planned", { fields: options.allFields, answers: answers, backLink: backLink }) }}
   {%- endif -%}
-  {{ renderSummaryListRow(
-    options.allFields["accommodation_changes"].text,
-    renderSelectedOptions(options.allFields["accommodation_changes"]),
-    backLink + "#accommodation_changes"
-  ) }}
-  {{ renderSummaryListRow(
-    "Give details",
-    renderAccommodationChangeDetails(answers),
-    backLink + "#accommodation_changes"
-  ) }}
+  {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: backLink }) }}
 </dl>
 {% endset -%}
 
@@ -88,7 +23,7 @@
 <dl class="govuk-summary-list">
   {{ renderSummaryListRow(
     options.allFields["accommodation_practitioner_analysis"].text,
-    renderSelectedOptions(options.allFields["accommodation_practitioner_analysis"].value),
+    options.allFields["accommodation_practitioner_analysis"].value,
     "accommodation-summary-analysis-no-accommodation#practitioner-analysis"
   ) }}
   {{ renderSummaryListRow(
