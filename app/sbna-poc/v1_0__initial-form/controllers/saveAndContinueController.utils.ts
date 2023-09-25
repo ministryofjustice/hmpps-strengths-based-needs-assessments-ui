@@ -1,5 +1,6 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import { Answers, UpdateAnswersDto } from '../../../../server/services/strengthsBasedNeedsService'
+import { whereSelectable } from '../../../common/controllers/saveAndContinue.utils'
 
 type SubmittedAnswers = Record<string, string | string[]>
 
@@ -62,7 +63,7 @@ export const getAnswersToAdd = (fields: FormWizard.Fields, answers: SubmittedAns
               [key]: {
                 type: fields[key].type,
                 description: fields[key].text,
-                options: field.options,
+                options: field.options.filter(whereSelectable),
                 values: thisAnswer,
               },
             }
@@ -72,7 +73,7 @@ export const getAnswersToAdd = (fields: FormWizard.Fields, answers: SubmittedAns
               [key]: {
                 type: field.type,
                 description: field.text,
-                options: field.options,
+                options: field.options.filter(whereSelectable),
                 value: thisAnswer,
               },
             }

@@ -22,6 +22,10 @@ const renderConditionalQuestion = (
   })
 
   const options = thisField.options.map(thisOption => {
+    if (thisOption.kind === 'divider') {
+      return thisOption
+    }
+
     const fieldsDependentOnThisAnswer = conditionalFields.filter(
       field => field.config.dependent.value === thisOption.value,
     )
@@ -105,6 +109,9 @@ const replaceWithValuesFrom = (replacementValues: { [key: string]: string }) => 
   return value || token
 }
 
+export const whereSelectable = (o: FormWizard.Field.Option | FormWizard.Field.Divider): o is FormWizard.Field.Option =>
+  o.kind === 'option'
+
 export const withPlaceholdersFrom = (replacementValues: { [key: string]: string }) => {
   const replacer = replaceWithValuesFrom(replacementValues)
   const placeholderPattern = /(\[\w+\])/
@@ -126,10 +133,9 @@ export const withPlaceholdersFrom = (replacementValues: { [key: string]: string 
     }
 
     if (field.options) {
-      modifiedField.options = field.options.map(option => ({
-        ...option,
-        text: option.text.replace(placeholderPattern, replacer),
-      }))
+      modifiedField.options = field.options.map(option => {
+        return whereSelectable(option) ? { ...option, text: option.text.replace(placeholderPattern, replacer) } : option
+      })
     }
 
     return modifiedField
@@ -146,19 +152,21 @@ export const withValuesFrom =
       case FieldType.Radio:
         return {
           ...field,
-          options: field.options.map(option => ({
-            ...option,
-            checked: (answers[field.code] as string) === option.value,
-          })),
+          options: field.options.map(option => {
+            return whereSelectable(option)
+              ? { ...option, checked: (answers[field.code] as string) === option.value }
+              : option
+          }),
         }
       case FieldType.CheckBox:
       case FieldType.Dropdown:
         return {
           ...field,
-          options: field.options.map(option => ({
-            ...option,
-            checked: (answers[field.code] || []).includes(option.value),
-          })),
+          options: field.options.map(option => {
+            return whereSelectable(option)
+              ? { ...option, checked: (answers[field.code] || []).includes(option.value) }
+              : option
+          }),
         }
       case FieldType.Date:
         return {
