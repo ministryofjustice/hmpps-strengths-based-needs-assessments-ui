@@ -18,6 +18,11 @@
 
 {%- macro renderSummaryListRow(label, optionValue, yesValue, noValue, changeLink) -%}
   <div class="govuk-summary-list--no-border">
+    <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="{{ changeLink }}">
+      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
     <dt class="govuk-summary-list__key">
       {{ label }}
     </dt>
@@ -29,11 +34,6 @@
     </dd>
      <dd class="govuk-summary-list__value give-details-text">
       {{ noValue }}
-    </dd>
-    <dd class="govuk-summary-list__actions govuk-summary-list change-link">
-      <a class="govuk-link" href="{{ changeLink }}">
-      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
-      </a>
     </dd>
   </div>
 {%- endmacro -%}
