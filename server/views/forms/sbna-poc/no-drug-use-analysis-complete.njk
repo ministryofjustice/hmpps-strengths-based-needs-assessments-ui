@@ -16,13 +16,13 @@
 </ul>
 {%- endmacro -%}
 
-{%- macro renderSummaryListRow(label, optionValue, yesValue, noValue, changeLink) -%}
+{%- macro renderSummaryListRow(label, optionValue, yesValue, noValue) -%}
   <div class="govuk-summary-list--no-border">
-    <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+    {# <dd class="govuk-summary-list__actions govuk-summary-list change-link">
       <a class="govuk-link" href="{{ changeLink }}">
       Change<span class="govuk-visually-hidden">value for {{ label }}</span>
       </a>
-    </dd>
+    </dd> #}
     <dt class="govuk-summary-list__key">
       {{ label }}
     </dt>
@@ -48,6 +48,11 @@
 {% set practitionerAnalysisHtml %}
 <dl class="govuk-summary-list">
   <h2 class="govuk-heading-m">Patterns of behaviours</h2>
+    <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
   {{ renderSummaryListRow(
      renderSelectedOptions(options.allFields["patterns_or_behaviours"]),
      options.allFields["patterns_or_behaviours_yes_details"].value,
@@ -55,6 +60,11 @@
     ""
   ) }}
    <h2 class="govuk-heading-m">Strengths or protective factors</h2>
+      <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+        <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+          Change<span class="govuk-visually-hidden"> POB</span>
+        </a>
+     </dd>
   {{ renderSummaryListRow(
      renderSelectedOptions(options.allFields["strengths_or_protective_factors"]),
      options.allFields["strengths_or_protective_factors_yes_details"].value,
@@ -62,6 +72,11 @@
     ""
   ) }}
   <h2 class="govuk-heading-m">Linked to risk of serious harm</h2>
+     <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
     {{ renderSummaryListRow(
      renderSelectedOptions(options.allFields["linked_to_risk_of_serious_harm"]),
      options.allFields["linked_to_risk_of_serious_harm_yes_details"].value,
@@ -70,6 +85,11 @@
     ""
   ) }}
    <h2 class="govuk-heading-m">Linked to risk of reoffending</h2>
+      <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
     {{ renderSummaryListRow(
      renderSelectedOptions(options.allFields["linked_to_risk_of_reoffending"]),
      options.allFields["linked_to_risk_of_reoffending_yes_details"].value,
@@ -78,6 +98,11 @@
     ""
   ) }}
     <h2 class="govuk-heading-m">Area of need not related to risk</h2>
+       <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
     {{ renderSummaryListRow(
      renderSelectedOptions(options.allFields["not_related_to_risk"]),
      options.allFields["not_related_to_risk_yes_details"].value,
