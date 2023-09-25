@@ -1,0 +1,22 @@
+<div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">
+    {{ field.text }}
+  </dt>
+  <dd class="govuk-summary-list__value">
+    <ul class="govuk-list">
+      {% for option in field.options %}
+        {% if option.checked %}
+          <li class="summary-details-list">
+            <span>{{ option.text }}</span>
+            <span class="govuk-!-font-size-14">{{ fieldDetails.value }}</span>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </dd>
+  <dd class="govuk-summary-list__actions">
+    <a class="govuk-link" href="{{ backLink }}#{{field.code}}">
+    Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+    </a>
+  </dd>
+</div>

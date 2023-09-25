@@ -20,9 +20,9 @@
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
-{{ renderQuestion(options.fields["accommodation_practitioner_analysis"], errors) }}
-{{ renderQuestion(options.fields["accommodation_serious_harm"], errors) }}
-{{ renderQuestion(options.fields["accommodation_risk_of_reoffending"], errors) }}
+{% for field in form.fields %}
+  {{ renderQuestion(options.fields[field], errors) }}
+{% endfor %}
 
 <div class="questiongroup-action-buttons">
   {{ govukButton({

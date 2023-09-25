@@ -6,6 +6,7 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "components/question/macro.njk" import renderQuestion %}
 {% from "components/summary/accommodation/macro.njk" import renderSummaryFor %}
+{% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
 {% set accommodationSummaryHtml %}
 <dl class="govuk-summary-list">
@@ -21,20 +22,30 @@
 
 {% set practitionerAnalysisHtml %}
 <dl class="govuk-summary-list">
-  {{ renderSummaryListRow(
-    options.allFields["accommodation_practitioner_analysis"].text,
-    options.allFields["accommodation_practitioner_analysis"].value,
-    "accommodation-summary-analysis-no-accommodation#practitioner-analysis"
+  {{ renderAnalysisSummary(
+    options.allFields["practitioner_analysis_patterns_of_behaviour"],
+    options.allFields["practitioner_analysis_patterns_of_behaviour_details"],
+    backLink
   ) }}
-  {{ renderSummaryListRow(
-    options.allFields["accommodation_serious_harm"].text,
-    renderSelectedOptions(options.allFields["accommodation_serious_harm"]),
-    "accommodation-summary-analysis-no-accommodation#practitioner-analysis"
+  {{ renderAnalysisSummary(
+    options.allFields["practitioner_analysis_strengths_or_protective_factors"],
+    options.allFields["practitioner_analysis_strengths_or_protective_factors_details"],
+    backLink
   ) }}
-  {{ renderSummaryListRow(
-    options.allFields["accommodation_risk_of_reoffending"].text,
-    renderSelectedOptions(options.allFields["accommodation_risk_of_reoffending"]),
-    "accommodation-summary-analysis-no-accommodation#practitioner-analysis"
+  {{ renderAnalysisSummary(
+    options.allFields["practitioner_analysis_risk_of_serious_harm"],
+    options.allFields["practitioner_analysis_risk_of_serious_harm_details"],
+    backLink
+  ) }}
+  {{ renderAnalysisSummary(
+    options.allFields["practitioner_analysis_risk_of_reoffending"],
+    options.allFields["practitioner_analysis_risk_of_reoffending_details"],
+    backLink
+  ) }}
+  {{ renderAnalysisSummary(
+    options.allFields["practitioner_analysis_related_to_risk"],
+    options.allFields["practitioner_analysis_related_to_risk_details"],
+    backLink
   ) }}
 </dl>
 {% endset -%}

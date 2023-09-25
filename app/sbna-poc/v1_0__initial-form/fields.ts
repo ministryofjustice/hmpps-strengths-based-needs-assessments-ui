@@ -696,38 +696,138 @@ const fields: FormWizard.Fields = {
     },
     useSmallLabel: true,
   },
-  accommodation_practitioner_analysis: {
-    text: 'Practitioner analysis',
+  practitioner_analysis_patterns_of_behaviour: {
+    text: 'Are there any patterns of behaviours related to this area?',
     hint: {
-      text: 'Include any strengths, needs or risks which may link to risk of serious harm or risk of reoffending.',
+      text: 'Include repeated circumstances or behaviours.',
       kind: 'text',
     },
-    code: 'accommodation_practitioner_analysis',
+    code: 'practitioner_analysis_patterns_of_behaviour',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_patterns_of_behaviour_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_patterns_of_behaviour_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     characterCountMax: 4000,
+    useSmallLabel: true,
   },
-  accommodation_serious_harm: {
-    text: "Is [subject]'s accommodation linked to risk of serious harm?",
-    code: 'accommodation_serious_harm',
+  practitioner_analysis_strengths_or_protective_factors: {
+    text: 'Are there any strengths or protective factors related to this area?',
+    hint: {
+      text: 'Include any strategies, people or support networks that helped.',
+      kind: 'text',
+    },
+    code: 'practitioner_analysis_strengths_or_protective_factors',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'yes', kind: 'option' },
-      { text: 'No', value: 'no', kind: 'option' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_strengths_or_protective_factors_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_strengths_or_protective_factors_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
     ],
     characterCountMax: 4000,
+    useSmallLabel: true,
   },
-  accommodation_risk_of_reoffending: {
-    text: "Is [subject]'s accommodation linked to risk of reoffending?",
-    code: 'accommodation_risk_of_reoffending',
+  practitioner_analysis_risk_of_serious_harm: {
+    text: 'Is this an area linked to risk of serious harm?',
+    code: 'practitioner_analysis_risk_of_serious_harm',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'yes', kind: 'option' },
-      { text: 'No', value: 'no', kind: 'option' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_risk_of_serious_harm_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_risk_of_serious_harm_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
     ],
     characterCountMax: 4000,
+    useSmallLabel: true,
+  },
+  practitioner_analysis_risk_of_reoffending: {
+    text: 'Is this an area linked to risk of reoffending?',
+    code: 'practitioner_analysis_risk_of_reoffending',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_risk_of_reoffending_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_risk_of_reoffending_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: 4000,
+    useSmallLabel: true,
+  },
+  practitioner_analysis_related_to_risk: {
+    text: 'Is this an area of need which is not related to risk?',
+    code: 'practitioner_analysis_related_to_risk',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_related_to_risk_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_related_to_risk_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: 4000,
+    useSmallLabel: true,
   },
   drug_use: {
     text: 'Has [subject] ever used drugs?',
