@@ -321,7 +321,6 @@ const steps: FormWizard.Steps = {
     pageTitle: 'Drug use',
     controller: SaveAndContinueController,
     fields: [],
-    // next: ,
     template: 'forms/sbna-poc/no-drug-use-analysis-complete',
   },
 }
