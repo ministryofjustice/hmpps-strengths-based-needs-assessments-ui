@@ -1,5 +1,5 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import { DateTime, Interval } from 'luxon'
+import { DateTime } from 'luxon'
 
 const immigrationAccommodationHint = `
     <div class="govuk-!-width-two-thirds">
@@ -1233,13 +1233,13 @@ const fields: FormWizard.Fields = {
   },
   patterns_or_behaviours: {
     text: 'Are there any patterns or behaviours related to this area?',
-    hint: 'Include repeated circumstances or behaviours.',
+    hint: { text: 'Include repeated circumstances or behaviours.', kind: 'text' },
     code: 'patterns_or_behaviours',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   patterns_or_behaviours_yes_details: {
@@ -1268,13 +1268,13 @@ const fields: FormWizard.Fields = {
   },
   strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
-    hint: 'Include any strategies, people or support networks that helped.',
+    hint: { text: 'Include any strategies, people or support networks that helped.', kind: 'text' },
     code: 'strengths_or_protective_factors',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   strengths_or_protective_factors_yes_details: {
@@ -1307,8 +1307,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   linked_to_risk_of_serious_harm_yes_details: {
@@ -1341,8 +1341,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   linked_to_risk_of_reoffending_yes_details: {
@@ -1375,8 +1375,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   not_related_to_risk_yes_details: {
