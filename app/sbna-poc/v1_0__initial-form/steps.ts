@@ -271,8 +271,24 @@ const steps: FormWizard.Steps = {
   '/no-drug-use-summary': {
     pageTitle: 'Drug use',
     controller: SaveAndContinueController,
-    fields: [],
-    // next: ,
+    fields: [
+      'patterns_or_behaviours',
+      'patterns_or_behaviours_yes_details',
+      'patterns_or_behaviours_no_details',
+      'strengths_or_protective_factors',
+      'strengths_or_protective_factors_yes_details',
+      'strengths_or_protective_factors_no_details',
+      'linked_to_risk_of_serious_harm',
+      'linked_to_risk_of_serious_harm_yes_details',
+      'linked_to_risk_of_serious_harm_no_details',
+      'linked_to_risk_of_reoffending',
+      'linked_to_risk_of_reoffending_yes_details',
+      'linked_to_risk_of_reoffending_no_details',
+      'not_related_to_risk',
+      'not_related_to_risk_yes_details',
+      'not_related_to_risk_no_details',
+    ],
+    next: 'no-drug-use-analysis-complete',
     template: 'forms/sbna-poc/no-drug-use-summary-analysis',
   },
   '/drug-usage-details': {
@@ -303,6 +319,13 @@ const steps: FormWizard.Steps = {
     ],
     // next: ,
     template: 'forms/default',
+  },
+
+  '/no-drug-use-analysis-complete': {
+    pageTitle: 'Drug use',
+    controller: SaveAndContinueController,
+    fields: [],
+    template: 'forms/sbna-poc/no-drug-use-analysis-complete',
   },
 }
 
