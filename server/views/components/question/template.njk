@@ -10,11 +10,6 @@
 {%- from "components/collections/living_with_children/macro.njk" import livingWithChildren -%}
 {%- from "components/collections/living_with_partner/macro.njk" import livingWithPartner -%}
 
-{% set labelClasses = '' %}
-{% if not question.useSmallLabel %}
-{% set labelClasses = labelClasses + ' govuk-label--m' %}
-{% endif %}
-
 {% set errorMessageText = errors[question.code].message %}
 {% if errorMessageText %}
   {% set errorMessage = { text: errorMessageText } %}
@@ -33,7 +28,7 @@
       label: {
         text: question.text,
         isPageHeading: false,
-        classes: question.code + labelClasses
+        classes: question.code + " " + question.labelClasses
       },
       hint: question.hint,
       errorMessage: errorMessage,
@@ -49,7 +44,7 @@
       label: {
         text: question.text,
         isPageHeading: false,
-        classes: question.code + labelClasses
+        classes: question.code + " " + question.labelClasses
       },
       formGroup : {
         classes: question.classes | default('govuk-!-width-two-thirds')
@@ -70,7 +65,7 @@
       fieldset: {
         legend: {
           text: question.text,
-          classes: question.code + labelClasses
+          classes: question.code + " " + question.labelClasses
         }
       },
       items: question.options,
@@ -90,7 +85,7 @@
       fieldset: {
         legend: {
           text: question.text,
-          classes: question.code + labelClasses
+          classes: question.code + " " + question.labelClasses
         }
       },
       items: question.options,
@@ -108,7 +103,7 @@
       },
       label: {
         text: question.text,
-        classes: question.code + labelClasses
+        classes: question.code + " " + question.labelClasses
       },
       attributes: question.attributes,
       items: question.options,
@@ -136,7 +131,7 @@
         legend: {
           text: question.text,
           isPageHeading: false,
-          classes: question.code + labelClasses
+          classes: question.code + " " + question.labelClasses
         }
       },
       hint: question.hint,

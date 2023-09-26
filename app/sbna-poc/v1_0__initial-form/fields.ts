@@ -26,6 +26,13 @@ const currentAccommodationHint = `
     </details>
   `
 
+const noAccommodationHint = `
+  <div class="govuk-!-width-two-thirds">
+    <p class="govuk-hint">Consider current and past homelessness issues.</p>
+    <p class="govuk-hint">Select all that apply.</p>
+  </div>
+`
+
 const suitableHousingConcernsOptions: FormWizard.Field.Options = [
   { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
@@ -54,6 +61,9 @@ function livingWithValidator() {
 
 const characterLimit = 400
 
+const mediumLabel = 'govuk-label--m'
+const visuallyHidden = 'govuk-visually-hidden'
+
 const fields: FormWizard.Fields = {
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
@@ -66,6 +76,7 @@ const fields: FormWizard.Fields = {
       { text: 'Temporary', value: 'TEMPORARY', kind: 'option' },
       { text: 'No accommodation', value: 'NO_ACCOMMODATION', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   type_of_settled_accommodation: {
     text: 'Select the type of settled accommodation?',
@@ -85,7 +96,7 @@ const fields: FormWizard.Fields = {
       value: 'SETTLED',
       displayInline: true,
     },
-    useSmallLabel: true,
+    labelClasses: visuallyHidden,
   },
   type_of_temporary_accommodation: {
     text: 'Select the type of temporary accommodation?',
@@ -109,7 +120,7 @@ const fields: FormWizard.Fields = {
       value: 'TEMPORARY',
       displayInline: true,
     },
-    useSmallLabel: true,
+    labelClasses: visuallyHidden,
   },
   short_term_accommodation_end_date: {
     text: 'Enter expected end date (optional)',
@@ -124,7 +135,6 @@ const fields: FormWizard.Fields = {
       value: 'SHORT_TERM',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   approved_premises_end_date: {
     text: 'Enter expected end date (optional)',
@@ -139,7 +149,6 @@ const fields: FormWizard.Fields = {
       value: 'APPROVED_PREMISES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   cas2_end_date: {
     text: 'Enter expected end date (optional)',
@@ -154,7 +163,6 @@ const fields: FormWizard.Fields = {
       value: 'CAS2',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   cas3_end_date: {
     text: 'Enter expected end date (optional)',
@@ -169,7 +177,6 @@ const fields: FormWizard.Fields = {
       value: 'CAS3',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   immigration_accommodation_end_date: {
     text: 'Enter expected end date (optional)',
@@ -184,7 +191,6 @@ const fields: FormWizard.Fields = {
       value: 'IMMIGRATION',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   type_of_no_accommodation: {
     text: 'Select the type of accommodation?',
@@ -204,7 +210,7 @@ const fields: FormWizard.Fields = {
       value: 'NO_ACCOMMODATION',
       displayInline: true,
     },
-    useSmallLabel: true,
+    labelClasses: visuallyHidden,
   },
   awaiting_assessment_details: {
     text: 'Give details',
@@ -223,7 +229,6 @@ const fields: FormWizard.Fields = {
       value: 'AWAITING_ASSESSMENT',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   living_with: {
     text: 'Who is [subject] living with?',
@@ -244,9 +249,11 @@ const fields: FormWizard.Fields = {
       orDivider,
       { text: 'Alone', value: 'ALONE', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   living_with_children_details: {
     text: 'Give details (optional)',
+    hint: { text: 'Include name, date of birth or age, gender and their relationship to [subject]', kind: 'text' },
     code: 'living_with_children_details',
     type: FieldType.TextArea,
     dependent: {
@@ -254,10 +261,10 @@ const fields: FormWizard.Fields = {
       value: 'CHILD_UNDER_18',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   living_with_partner_details: {
     text: 'Give details (optional)',
+    hint: { text: 'Include name, age and gender.', kind: 'text' },
     code: 'living_with_partner_details',
     type: FieldType.TextArea,
     dependent: {
@@ -265,7 +272,6 @@ const fields: FormWizard.Fields = {
       value: 'PARTNER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   // living_with_children: {
   //   text: 'Placeholder',
@@ -296,7 +302,6 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   suitable_housing: {
     text: "Is [subject]'s overall accommodation suitable?",
@@ -308,9 +313,11 @@ const fields: FormWizard.Fields = {
       { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   suitable_housing_concerns: {
-    text: 'Select all that apply (optional)',
+    text: 'What are the concerns?',
+    hint: { text: 'Select all that apply (optional)', kind: 'text' },
     code: 'suitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,
@@ -320,7 +327,7 @@ const fields: FormWizard.Fields = {
       value: 'YES_WITH_CONCERNS',
       displayInline: true,
     },
-    useSmallLabel: true,
+    labelClasses: visuallyHidden,
   },
   suitable_housing_concerns_other_details: {
     text: 'Give details',
@@ -339,10 +346,10 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   unsuitable_housing_concerns: {
-    text: 'Select all that apply (optional)',
+    text: 'What are the concerns?',
+    hint: { text: 'Select all that apply (optional)', kind: 'text' },
     code: 'unsuitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,
@@ -352,7 +359,7 @@ const fields: FormWizard.Fields = {
       value: 'NO',
       displayInline: true,
     },
-    useSmallLabel: true,
+    labelClasses: visuallyHidden,
   },
   unsuitable_housing_concerns_other_details: {
     text: 'Give details',
@@ -371,7 +378,6 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   suitable_housing_location: {
     text: "Is the location of [subject]'s accommodation suitable?",
@@ -382,9 +388,11 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   suitable_housing_location_concerns: {
-    text: 'Select all that apply (optional)',
+    text: 'What are the concerns with the location?',
+    hint: { text: 'Select all that apply (optional)', kind: 'text' },
     code: 'suitable_housing_location_concerns',
     type: FieldType.CheckBox,
     multiple: true,
@@ -402,7 +410,7 @@ const fields: FormWizard.Fields = {
       value: 'NO',
       displayInline: true,
     },
-    useSmallLabel: true,
+    labelClasses: visuallyHidden,
   },
   suitable_housing_location_concerns_other_details: {
     text: 'Give details',
@@ -421,11 +429,10 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   no_accommodation_reason: {
     text: 'Why does [subject] have no accommodation?',
-    hint: { text: 'Consider current and past homelessness issues', kind: 'text' },
+    hint: { html: noAccommodationHint, kind: 'html' },
     code: 'no_accommodation_reason',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select why they have no accommodation' }],
@@ -438,6 +445,7 @@ const fields: FormWizard.Fields = {
       { text: 'Left previous accommodation due to risk to others', value: 'RISK_TO_OTHERS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   no_accommodation_reason_other_details: {
     text: 'Give details',
@@ -456,7 +464,6 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   past_accommodation_details: {
     text: 'What has helped [subject] stay in accommodation in the past?',
@@ -470,6 +477,7 @@ const fields: FormWizard.Fields = {
         message: `Details must be ${characterLimit} characters or less`,
       },
     ],
+    labelClasses: mediumLabel,
   },
   suitable_housing_planned: {
     text: 'Does [subject] have future accommodation planned?',
@@ -480,6 +488,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   future_accommodation_type: {
     text: 'What is the type of future accommodation?',
@@ -502,6 +511,7 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
+    labelClasses: visuallyHidden,
   },
   suitable_housing_planned_awaiting_assessment_details: {
     text: 'Give details',
@@ -520,7 +530,6 @@ const fields: FormWizard.Fields = {
       value: 'AWAITING_ASSESSMENT',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   awaiting_accommodation_placement_details: {
     text: 'Give details',
@@ -539,11 +548,10 @@ const fields: FormWizard.Fields = {
       value: 'AWAITING_PLACEMENT',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   suitable_housing_planned_other_details: {
     text: 'Give details',
-    hint: { text: 'Include where and who with', kind: 'text' },
+    hint: { text: 'Include where and who with.', kind: 'text' },
     code: 'suitable_housing_planned_other_details',
     type: FieldType.TextArea,
     validate: [
@@ -559,7 +567,6 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   accommodation_changes: {
     text: 'Does [subject] want to make changes to their accommodation?',
@@ -581,6 +588,7 @@ const fields: FormWizard.Fields = {
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   accommodation_made_changes_details: {
     text: 'Give details',
@@ -599,7 +607,6 @@ const fields: FormWizard.Fields = {
       value: 'MADE_CHANGES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   accommodation_making_changes_details: {
     text: 'Give details',
@@ -618,7 +625,6 @@ const fields: FormWizard.Fields = {
       value: 'MAKING_CHANGES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   accommodation_want_to_make_changes_details: {
     text: 'Give details',
@@ -637,7 +643,6 @@ const fields: FormWizard.Fields = {
       value: 'WANT_TO_MAKE_CHANGES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   accommodation_needs_help_to_make_changes_details: {
     text: 'Give details',
@@ -656,7 +661,6 @@ const fields: FormWizard.Fields = {
       value: 'NEEDS_HELP_TO_MAKE_CHANGES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   accommodation_thinking_about_making_changes_details: {
     text: 'Give details',
@@ -675,7 +679,6 @@ const fields: FormWizard.Fields = {
       value: 'THINKING_ABOUT_MAKING_CHANGES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   accommodation_does_not_want_to_make_changes_details: {
     text: 'Give details',
@@ -694,7 +697,6 @@ const fields: FormWizard.Fields = {
       value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   practitioner_analysis_patterns_of_behaviour: {
     text: 'Are there any patterns of behaviours related to this area?',
@@ -709,6 +711,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   practitioner_analysis_patterns_of_behaviour_details: {
     text: 'Give details',
@@ -723,7 +726,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: 4000,
-    useSmallLabel: true,
   },
   practitioner_analysis_strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
@@ -738,6 +740,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   practitioner_analysis_strengths_or_protective_factors_details: {
     text: 'Give details',
@@ -752,7 +755,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: 4000,
-    useSmallLabel: true,
   },
   practitioner_analysis_risk_of_serious_harm: {
     text: 'Is this an area linked to risk of serious harm?',
@@ -777,7 +779,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: 4000,
-    useSmallLabel: true,
   },
   practitioner_analysis_risk_of_reoffending: {
     text: 'Is this an area linked to risk of reoffending?',
@@ -788,6 +789,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   practitioner_analysis_risk_of_reoffending_details: {
     text: 'Give details',
@@ -802,7 +804,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: 4000,
-    useSmallLabel: true,
   },
   practitioner_analysis_related_to_risk: {
     text: 'Is this an area of need which is not related to risk?',
@@ -813,6 +814,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   practitioner_analysis_related_to_risk_details: {
     text: 'Give details',
@@ -827,7 +829,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: 4000,
-    useSmallLabel: true,
   },
   drug_use: {
     text: 'Has [subject] ever used drugs?',
@@ -838,6 +839,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   drug_use_changes: {
     text: 'Does [subject] want to make changes to their drug use?',
@@ -856,6 +858,7 @@ const fields: FormWizard.Fields = {
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   drug_use_positive_change: {
     text: 'Give details',
@@ -867,7 +870,6 @@ const fields: FormWizard.Fields = {
       value: 'POSITIVE_CHANGE',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   drug_use_active_change: {
     text: 'Give details',
@@ -879,7 +881,6 @@ const fields: FormWizard.Fields = {
       value: 'ACTIVE_CHANGE',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   drug_use_known_change: {
     text: 'Give details',
@@ -891,7 +892,6 @@ const fields: FormWizard.Fields = {
       value: 'KNOWN_CHANGE',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   drug_use_help_change: {
     text: 'Give details',
@@ -903,7 +903,6 @@ const fields: FormWizard.Fields = {
       value: 'HELP_CHANGE',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   drug_use_think_change: {
     text: 'Give details',
@@ -915,7 +914,6 @@ const fields: FormWizard.Fields = {
       value: 'THINK_CHANGE',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   drug_use_no_change: {
     text: 'Give details',
@@ -927,7 +925,6 @@ const fields: FormWizard.Fields = {
       value: 'NO_CHANGE',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   // child_name: {
   //   text: 'Name',
@@ -1002,6 +999,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    multiple: true,
     options: [
       { text: 'Amphetamines', value: 'AMPHETAMINES', kind: 'option' },
       { text: 'Benzodiazepines', value: 'BENZODIAZEPINES', kind: 'option' },
@@ -1016,6 +1014,7 @@ const fields: FormWizard.Fields = {
       { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE', kind: 'option' },
       { text: 'Other', value: 'OTHER_DRUG_TYPE', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   drug_usage: {
     text: 'How often is [subject] using this drug?',
@@ -1029,6 +1028,7 @@ const fields: FormWizard.Fields = {
       { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   drug_usage_heroin: {
     text: 'How often is [subject] using this drug?',
@@ -1042,6 +1042,7 @@ const fields: FormWizard.Fields = {
       { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   daily_drug_usage_treatment: {
     text: 'Is [subject] receiving treatment?',
@@ -1057,7 +1058,6 @@ const fields: FormWizard.Fields = {
       value: 'DAILY',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   weekly_drug_usage_treatment: {
     text: 'Is [subject] receiving treatment?',
@@ -1073,7 +1073,6 @@ const fields: FormWizard.Fields = {
       value: 'WEEKLY',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   monthly_drug_usage_treatment: {
     text: 'Is [subject] receiving treatment?',
@@ -1089,7 +1088,6 @@ const fields: FormWizard.Fields = {
       value: 'MONTHLY',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   occasionally_drug_usage_treatment: {
     text: 'Is [subject] receiving treatment?',
@@ -1105,7 +1103,6 @@ const fields: FormWizard.Fields = {
       value: 'OCCASIONALLY',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   drug_past_usage: {
     text: 'Has [subject] used this drug in the past?',
@@ -1116,6 +1113,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   drug_use_reasons: {
     text: 'Why did [subject] start using drugs?',
@@ -1135,6 +1133,7 @@ const fields: FormWizard.Fields = {
       { text: 'Cultural or religious practices', value: 'CULTURAL_RELIGIOUS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   drug_use_reason_details: {
     text: 'Give details',
@@ -1146,7 +1145,6 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   drug_use_impact: {
     text: "What's the impact of [subject] using drugs?",
@@ -1183,6 +1181,7 @@ const fields: FormWizard.Fields = {
       { text: 'Links to offending', value: 'OFFENDING', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   drug_use_impact_details: {
     text: 'Give details',
@@ -1195,7 +1194,6 @@ const fields: FormWizard.Fields = {
       value: 'OTHER',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   reducing_or_stopping_drug_use: {
     text: 'Has anything helped [subject] to stop or reduce using drugs in the past?',
@@ -1206,6 +1204,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   reducing_or_stopping_drug_use_details: {
     text: 'Give details',
@@ -1217,7 +1216,6 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   motivated_stopping_drug_use: {
     text: 'Is [subject] motivated to stop or reduce their drug use?',
@@ -1230,6 +1228,7 @@ const fields: FormWizard.Fields = {
       { text: 'Motivated to stop or reduce', value: 'MOTIVATED', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   patterns_or_behaviours: {
     text: 'Are there any patterns or behaviours related to this area?',
@@ -1241,6 +1240,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   patterns_or_behaviours_yes_details: {
     text: 'Give details',
@@ -1252,7 +1252,6 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   patterns_or_behaviours_no_details: {
     text: 'Give details',
@@ -1264,7 +1263,6 @@ const fields: FormWizard.Fields = {
       value: 'NO',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
@@ -1276,6 +1274,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   strengths_or_protective_factors_yes_details: {
     text: 'Give details',
@@ -1287,7 +1286,6 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   strengths_or_protective_factors_no_details: {
     text: 'Give details',
@@ -1299,7 +1297,6 @@ const fields: FormWizard.Fields = {
       value: 'NO',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   linked_to_risk_of_serious_harm: {
     text: 'Is this an area linked to risk of serious harm?',
@@ -1310,6 +1307,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   linked_to_risk_of_serious_harm_yes_details: {
     text: 'Give details',
@@ -1321,7 +1319,6 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   linked_to_risk_of_serious_harm_no_details: {
     text: 'Give details',
@@ -1333,7 +1330,6 @@ const fields: FormWizard.Fields = {
       value: 'NO',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   linked_to_risk_of_reoffending: {
     text: 'Is this an area linked to risk of reoffedning?',
@@ -1344,6 +1340,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   linked_to_risk_of_reoffending_yes_details: {
     text: 'Give details',
@@ -1355,7 +1352,6 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   linked_to_risk_of_reoffending_no_details: {
     text: 'Give details',
@@ -1367,7 +1363,6 @@ const fields: FormWizard.Fields = {
       value: 'NO',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   not_related_to_risk: {
     text: 'Is this an area of need which is not related to risk?',
@@ -1378,6 +1373,7 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
   },
   not_related_to_risk_yes_details: {
     text: 'Give details',
@@ -1389,7 +1385,6 @@ const fields: FormWizard.Fields = {
       value: 'YES',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
   not_related_to_risk_no_details: {
     text: 'Give details',
@@ -1401,7 +1396,6 @@ const fields: FormWizard.Fields = {
       value: 'NO',
       displayInline: true,
     },
-    useSmallLabel: true,
   },
 }
 export default fields
