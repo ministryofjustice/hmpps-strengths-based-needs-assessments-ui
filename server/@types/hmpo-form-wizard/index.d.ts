@@ -146,7 +146,6 @@ declare module 'hmpo-form-wizard' {
       text: string
       code: string
       hint?: Hint
-      // hint?: Record<string, string>
       type: FieldType
       multiple?: boolean
       options?: FormWizard.Field.Options
@@ -155,7 +154,7 @@ declare module 'hmpo-form-wizard' {
       dependent?: Dependent
       invalidates?: string[]
       value?: string | string[]
-      useSmallLabel?: boolean
+      labelClasses?: string
       characterCountMax?: number
       classes?: string
     }
