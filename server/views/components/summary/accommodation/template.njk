@@ -210,14 +210,25 @@
       {% if option.checked %}
         <li class="summary-details-list">
           <span>{{ option.text }}</span>
-          {% switch option.value %}
-          {% case "AWAITING_ASSESSMENT" %}
-            <span class="govuk-!-font-size-14">{{ answers["suitable_housing_planned_awaiting_assessment_details"] }}</span>
-          {% case "AWAITING_PLACEMENT" %}
-            <span class="govuk-!-font-size-14">{{ answers["awaiting_accommodation_placement_details"] }}</span>
-          {% case "OTHER" %}
-            <span class="govuk-!-font-size-14">{{ answers["suitable_housing_planned_other_details"] }}</span>
-          {% endswitch %}
+          {% if option.value == "YES" %}
+            <ul class="govuk-list">
+              {% for subOption in fields["future_accommodation_type"].options %}
+                {% if subOption.checked %}
+                  <li class="summary-details-list">
+                    <span class="govuk-!-font-size-14">{{ subOption.text }}</span>
+                    {%- switch subOption.value -%}
+                    {% case "AWAITING_ASSESSMENT" %}
+                      <span class="govuk-!-font-size-14">{{ answers["suitable_housing_planned_awaiting_assessment_details"] }}</span>
+                    {% case "AWAITING_PLACEMENT" %}
+                      <span class="govuk-!-font-size-14">{{ answers["awaiting_accommodation_placement_details"] }}</span>
+                    {% case "OTHER" %}
+                      <span class="govuk-!-font-size-14">{{ answers["suitable_housing_planned_other_details"] }}</span>
+                    {%- endswitch -%}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ui>
+          {% endif %}
         </li>
       {% endif %}
     {% endfor %}

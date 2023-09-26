@@ -1,4 +1,5 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import { DateTime } from 'luxon'
 
 const immigrationAccommodationHint = `
     <div class="govuk-!-width-two-thirds">
@@ -25,15 +26,33 @@ const currentAccommodationHint = `
     </details>
   `
 
-const suitableHousingConcernsOptions = [
-  { text: 'Safety of accommodation', value: 'SAFETY' },
-  { text: 'Overcrowding', value: 'OVERCROWDING' },
-  { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM' },
-  { text: 'Victimised by someone living with them', value: 'VICTIMISATION' },
-  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES' },
-  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION' },
-  { text: 'Other', value: 'OTHER' },
+const suitableHousingConcernsOptions: FormWizard.Field.Options = [
+  { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
+  { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
+  { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM', kind: 'option' },
+  { text: 'Victimised by someone living with them', value: 'VICTIMISATION', kind: 'option' },
+  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES', kind: 'option' },
+  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
+  { text: 'Other', value: 'OTHER', kind: 'option' },
 ]
+
+const orDivider: FormWizard.Field.Divider = {
+  divider: 'or',
+  kind: 'divider',
+}
+
+function futureDateValidator(value: string) {
+  const now = DateTime.now().startOf('day')
+  const date = DateTime.fromISO(value)
+  return date >= now
+}
+
+function livingWithValidator() {
+  const answers = this.values.living_with || []
+  return !(answers.includes('ALONE') && answers.length > 1)
+}
+
+const characterLimit = 400
 
 const fields: FormWizard.Fields = {
   current_accommodation: {
@@ -41,25 +60,25 @@ const fields: FormWizard.Fields = {
     hint: { html: currentAccommodationHint, kind: 'html' },
     code: 'current_accommodation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Current accommodation is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select current accommodation' }],
     options: [
-      { text: 'Settled', value: 'SETTLED' },
-      { text: 'Temporary', value: 'TEMPORARY' },
-      { text: 'No accommodation', value: 'NO_ACCOMMODATION' },
+      { text: 'Settled', value: 'SETTLED', kind: 'option' },
+      { text: 'Temporary', value: 'TEMPORARY', kind: 'option' },
+      { text: 'No accommodation', value: 'NO_ACCOMMODATION', kind: 'option' },
     ],
   },
   type_of_settled_accommodation: {
-    text: 'What is the type of settled accommodation?',
+    text: 'Select the type of settled accommodation?',
     code: 'type_of_settled_accommodation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select the type of settled accommodation' }],
     options: [
-      { text: 'Homeowner', value: 'HOMEOWNER' },
-      { text: 'Renting privately', value: 'RENTING_PRIVATELY' },
-      { text: 'Renting from social, local authority or other', value: 'RENTING_OTHER' },
-      { text: 'Living with friends or family', value: 'FRIENDS_OR_FAMILY' },
-      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION' },
-      { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE' },
+      { text: 'Homeowner', value: 'HOMEOWNER', kind: 'option' },
+      { text: 'Renting privately', value: 'RENTING_PRIVATELY', kind: 'option' },
+      { text: 'Renting from social, local authority or other', value: 'RENTING_OTHER', kind: 'option' },
+      { text: 'Living with friends or family', value: 'FRIENDS_OR_FAMILY', kind: 'option' },
+      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
+      { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -69,16 +88,21 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   type_of_temporary_accommodation: {
-    text: 'What is the type of temporary accommodation?',
+    text: 'Select the type of temporary accommodation?',
     code: 'type_of_temporary_accommodation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select the type of temporary accommodation' }],
     options: [
-      { text: 'Short term accommodation', value: 'SHORT_TERM' },
-      { text: 'Approved premises', value: 'APPROVED_PREMISES' },
-      { text: 'Community Accommodation Service Tier 2 (CAS2)', value: 'CAS2' },
-      { text: 'Community Accommodation Service Tier 3 (CAS3)', value: 'CAS3' },
-      { text: 'Immigration accommodation', value: 'IMMIGRATION', hint: { html: immigrationAccommodationHint } },
+      { text: 'Short term accommodation', value: 'SHORT_TERM', kind: 'option' },
+      { text: 'Approved premises', value: 'APPROVED_PREMISES', kind: 'option' },
+      { text: 'Community Accommodation Service Tier 2 (CAS2)', value: 'CAS2', kind: 'option' },
+      { text: 'Community Accommodation Service Tier 3 (CAS3)', value: 'CAS3', kind: 'option' },
+      {
+        text: 'Immigration accommodation',
+        value: 'IMMIGRATION',
+        hint: { html: immigrationAccommodationHint },
+        kind: 'option',
+      },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -91,6 +115,10 @@ const fields: FormWizard.Fields = {
     text: 'Enter expected end date (optional)',
     code: 'short_term_accommodation_end_date',
     type: FieldType.Date,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter a valid date' },
+      { fn: futureDateValidator, message: 'Enter a future date' },
+    ],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'SHORT_TERM',
@@ -102,6 +130,10 @@ const fields: FormWizard.Fields = {
     text: 'Enter expected end date (optional)',
     code: 'approved_premises_end_date',
     type: FieldType.Date,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter a valid date' },
+      { fn: futureDateValidator, message: 'Enter a future date' },
+    ],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'APPROVED_PREMISES',
@@ -113,6 +145,10 @@ const fields: FormWizard.Fields = {
     text: 'Enter expected end date (optional)',
     code: 'cas2_end_date',
     type: FieldType.Date,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter a valid date' },
+      { fn: futureDateValidator, message: 'Enter a future date' },
+    ],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'CAS2',
@@ -124,6 +160,10 @@ const fields: FormWizard.Fields = {
     text: 'Enter expected end date (optional)',
     code: 'cas3_end_date',
     type: FieldType.Date,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter a valid date' },
+      { fn: futureDateValidator, message: 'Enter a future date' },
+    ],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'CAS3',
@@ -135,6 +175,10 @@ const fields: FormWizard.Fields = {
     text: 'Enter expected end date (optional)',
     code: 'immigration_accommodation_end_date',
     type: FieldType.Date,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter a valid date' },
+      { fn: futureDateValidator, message: 'Enter a future date' },
+    ],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'IMMIGRATION',
@@ -143,17 +187,17 @@ const fields: FormWizard.Fields = {
     useSmallLabel: true,
   },
   type_of_no_accommodation: {
-    text: 'What is the type of accommodation?',
+    text: 'Select the type of accommodation?',
     code: 'type_of_no_accommodation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select the type of no accommodation' }],
     options: [
-      { text: 'Campsite', value: 'CAMPSITE' },
-      { text: 'Shelter', value: 'SHELTER' },
-      { text: 'Rough sleeping', value: 'ROUGH_SLEEPING' },
-      { text: 'Homeless - includes squatting', value: 'HOMELESS' },
-      { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL' },
-      { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT' },
+      { text: 'Campsite', value: 'CAMPSITE', kind: 'option' },
+      { text: 'Shelter', value: 'SHELTER', kind: 'option' },
+      { text: 'Rough sleeping', value: 'ROUGH_SLEEPING', kind: 'option' },
+      { text: 'Homeless - includes squatting', value: 'HOMELESS', kind: 'option' },
+      { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL', kind: 'option' },
+      { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -166,7 +210,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'awaiting_assessment_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'type_of_no_accommodation',
       value: 'AWAITING_ASSESSMENT',
@@ -180,14 +231,18 @@ const fields: FormWizard.Fields = {
     code: 'living_with',
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: "Select who they are living with, or select 'Alone'" },
+      { fn: livingWithValidator, message: "Select who they are living with, or select 'Alone'" },
+    ],
     options: [
-      { text: 'Family', value: 'FAMILY' },
-      { text: 'Friends', value: 'FRIENDS' },
-      { text: 'Partner', value: 'PARTNER' },
-      { text: 'Child under 18 years old', value: 'CHILD_UNDER_18' },
-      { text: 'Other', value: 'OTHER' },
-      { text: 'Alone', value: 'ALONE' },
+      { text: 'Family', value: 'FAMILY', kind: 'option' },
+      { text: 'Friends', value: 'FRIENDS', kind: 'option' },
+      { text: 'Partner', value: 'PARTNER', kind: 'option' },
+      { text: 'Child under 18 years old', value: 'CHILD_UNDER_18', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
+      orDivider,
+      { text: 'Alone', value: 'ALONE', kind: 'option' },
     ],
   },
   living_with_children_details: {
@@ -247,11 +302,11 @@ const fields: FormWizard.Fields = {
     text: "Is [subject]'s overall accommodation suitable?",
     code: 'suitable_housing',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if the overall accommodation is suitable' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   suitable_housing_concerns: {
@@ -271,7 +326,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'suitable_housing_concerns_other_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'suitable_housing_concerns',
       value: 'OTHER',
@@ -296,7 +358,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'unsuitable_housing_concerns_other_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'unsuitable_housing_concerns',
       value: 'OTHER',
@@ -308,10 +377,10 @@ const fields: FormWizard.Fields = {
     text: "Is the location of [subject]'s accommodation suitable?",
     code: 'suitable_housing_location',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if the location of the accommodation is suitable' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   suitable_housing_location_concerns: {
@@ -320,13 +389,13 @@ const fields: FormWizard.Fields = {
     type: FieldType.CheckBox,
     multiple: true,
     options: [
-      { text: 'Safety of the area', value: 'AREA_SAFETY' },
-      { text: 'Close to criminal associates', value: 'CRIMINAL_ASSOCIATES' },
-      { text: 'Difficulty with neighbours', value: 'NEIGHBOUR_DIFFICULTY' },
-      { text: 'Close to victim or possible victims', value: 'VICTIM_PROXIMITY' },
-      { text: 'Close to someone who has victimised them', value: 'VICTIMISATION' },
-      { text: 'Honour-based perpetrator or victim', value: 'HONOUR_BASED' },
-      { text: 'Other', value: 'OTHER' },
+      { text: 'Safety of the area', value: 'AREA_SAFETY', kind: 'option' },
+      { text: 'Close to criminal associates', value: 'CRIMINAL_ASSOCIATES', kind: 'option' },
+      { text: 'Difficulty with neighbours', value: 'NEIGHBOUR_DIFFICULTY', kind: 'option' },
+      { text: 'Close to victim or possible victims', value: 'VICTIM_PROXIMITY', kind: 'option' },
+      { text: 'Close to someone who has victimised them', value: 'VICTIMISATION', kind: 'option' },
+      { text: 'Honour-based perpetrator or victim', value: 'HONOUR_BASED', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     dependent: {
       field: 'suitable_housing_location',
@@ -339,7 +408,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'suitable_housing_location_concerns_other_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'suitable_housing_location_concerns',
       value: 'OTHER',
@@ -352,22 +428,29 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Consider current and past homelessness issues', kind: 'text' },
     code: 'no_accommodation_reason',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select why they have no accommodation' }],
     options: [
-      { text: 'Financial difficulties', value: 'FINANCIAL_DIFFICULTIES' },
-      { text: 'Alcohol related problems', value: 'ALCOHOL_PROBLEMS' },
-      { text: 'Drug related problems', value: 'DRUG_PROBLEMS' },
-      { text: 'No accommodation when released from prison', value: 'PRISON_RELEASE' },
-      { text: 'Left previous accommodation for their own safety', value: 'SAFETY' },
-      { text: 'Left previous accommodation due to risk to others', value: 'RISK_TO_OTHERS' },
-      { text: 'Other', value: 'OTHER' },
+      { text: 'Financial difficulties', value: 'FINANCIAL_DIFFICULTIES', kind: 'option' },
+      { text: 'Alcohol related problems', value: 'ALCOHOL_PROBLEMS', kind: 'option' },
+      { text: 'Drug related problems', value: 'DRUG_PROBLEMS', kind: 'option' },
+      { text: 'No accommodation when released from prison', value: 'PRISON_RELEASE', kind: 'option' },
+      { text: 'Left previous accommodation for their own safety', value: 'SAFETY', kind: 'option' },
+      { text: 'Left previous accommodation due to risk to others', value: 'RISK_TO_OTHERS', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
   },
   no_accommodation_reason_other_details: {
     text: 'Give details',
     code: 'no_accommodation_reason_other_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'no_accommodation_reason',
       value: 'OTHER',
@@ -379,42 +462,61 @@ const fields: FormWizard.Fields = {
     text: 'What has helped [subject] stay in accommodation in the past?',
     code: 'past_accommodation_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  },
-  suitable_housing_details: {
-    text: "What's helped [subject] stay in suitable housing in the past?",
-    code: 'suitable_housing_details',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    dependent: {
-      field: 'current_accommodation',
-      value: 'NO_ACCOMMODATION',
-    },
+    validate: [
+      { type: ValidationType.Required, message: "Enter what's helped to stay in accommodation in the past" },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
   },
   suitable_housing_planned: {
     text: 'Does [subject] have future accommodation planned?',
     code: 'suitable_housing_planned',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have future accommodation planned' }],
     options: [
-      { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT' },
-      { text: 'Awaiting placement', value: 'AWAITING_PLACEMENT' },
-      { text: 'Buying a house', value: 'BUYING_HOUSE' },
-      { text: 'Rent privately', value: 'RENT_PRIVATELY' },
-      { text: 'Rent from social, local authority or other', value: 'RENT_SOCIAL' },
-      { text: 'Living with friends or family', value: 'LIVING_WITH_FRIENDS_OR_FAMILY' },
-      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION' },
-      { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE' },
-      { text: 'Other', value: 'OTHER' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
+  },
+  future_accommodation_type: {
+    text: 'What is the type of future accommodation?',
+    code: 'future_accommodation_type',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select the type of future accommodation' }],
+    options: [
+      { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT', kind: 'option' },
+      { text: 'Awaiting placement', value: 'AWAITING_PLACEMENT', kind: 'option' },
+      { text: 'Buying a house', value: 'BUYING_HOUSE', kind: 'option' },
+      { text: 'Rent privately', value: 'RENT_PRIVATELY', kind: 'option' },
+      { text: 'Rent from social, local authority or other', value: 'RENT_SOCIAL', kind: 'option' },
+      { text: 'Living with friends or family', value: 'LIVING_WITH_FRIENDS_OR_FAMILY', kind: 'option' },
+      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
+      { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
+    ],
+    dependent: {
+      field: 'suitable_housing_planned',
+      value: 'YES',
+      displayInline: true,
+    },
   },
   suitable_housing_planned_awaiting_assessment_details: {
     text: 'Give details',
     code: 'suitable_housing_planned_awaiting_assessment_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
-      field: 'suitable_housing_planned',
+      field: 'future_accommodation_type',
       value: 'AWAITING_ASSESSMENT',
       displayInline: true,
     },
@@ -424,9 +526,16 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'awaiting_accommodation_placement_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
-      field: 'suitable_housing_planned',
+      field: 'future_accommodation_type',
       value: 'AWAITING_PLACEMENT',
       displayInline: true,
     },
@@ -437,9 +546,16 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Include where and who with', kind: 'text' },
     code: 'suitable_housing_planned_other_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
-      field: 'suitable_housing_planned',
+      field: 'future_accommodation_type',
       value: 'OTHER',
       displayInline: true,
     },
@@ -450,24 +566,34 @@ const fields: FormWizard.Fields = {
     hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
     code: 'accommodation_changes',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they want to make changes to their accommodation' },
+    ],
     options: [
-      { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES' },
-      { text: 'I am actively making changes', value: 'MAKING_CHANGES' },
-      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES' },
-      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES' },
-      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES' },
-      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES' },
-      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER' },
-      { text: '[subject] is not present', value: 'NOT_PRESENT' },
-      { text: 'Not applicable', value: 'NOT_APPLICABLE' },
+      { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
+      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
+      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
+      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
+      orDivider,
+      { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
   },
   accommodation_made_changes_details: {
     text: 'Give details',
     code: 'accommodation_made_changes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'accommodation_changes',
       value: 'MADE_CHANGES',
@@ -479,7 +605,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'accommodation_making_changes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'accommodation_changes',
       value: 'MAKING_CHANGES',
@@ -491,7 +624,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'accommodation_want_to_make_changes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'accommodation_changes',
       value: 'WANT_TO_MAKE_CHANGES',
@@ -503,7 +643,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'accommodation_needs_help_to_make_changes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'accommodation_changes',
       value: 'NEEDS_HELP_TO_MAKE_CHANGES',
@@ -515,7 +662,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'accommodation_thinking_about_making_changes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'accommodation_changes',
       value: 'THINKING_ABOUT_MAKING_CHANGES',
@@ -527,7 +681,14 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'accommodation_does_not_want_to_make_changes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'accommodation_changes',
       value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
@@ -535,38 +696,138 @@ const fields: FormWizard.Fields = {
     },
     useSmallLabel: true,
   },
-  accommodation_practitioner_analysis: {
-    text: 'Practitioner analysis',
+  practitioner_analysis_patterns_of_behaviour: {
+    text: 'Are there any patterns of behaviours related to this area?',
     hint: {
-      text: 'Include any strengths, needs or risks which may link to risk of serious harm or risk of reoffending.',
+      text: 'Include repeated circumstances or behaviours.',
       kind: 'text',
     },
-    code: 'accommodation_practitioner_analysis',
+    code: 'practitioner_analysis_patterns_of_behaviour',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_patterns_of_behaviour_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_patterns_of_behaviour_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     characterCountMax: 4000,
+    useSmallLabel: true,
   },
-  accommodation_serious_harm: {
-    text: "Is [subject]'s accommodation linked to risk of serious harm?",
-    code: 'accommodation_serious_harm',
+  practitioner_analysis_strengths_or_protective_factors: {
+    text: 'Are there any strengths or protective factors related to this area?',
+    hint: {
+      text: 'Include any strategies, people or support networks that helped.',
+      kind: 'text',
+    },
+    code: 'practitioner_analysis_strengths_or_protective_factors',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'yes' },
-      { text: 'No', value: 'no' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_strengths_or_protective_factors_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_strengths_or_protective_factors_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
     ],
     characterCountMax: 4000,
+    useSmallLabel: true,
   },
-  accommodation_risk_of_reoffending: {
-    text: "Is [subject]'s accommodation linked to risk of reoffending?",
-    code: 'accommodation_risk_of_reoffending',
+  practitioner_analysis_risk_of_serious_harm: {
+    text: 'Is this an area linked to risk of serious harm?',
+    code: 'practitioner_analysis_risk_of_serious_harm',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'yes' },
-      { text: 'No', value: 'no' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_risk_of_serious_harm_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_risk_of_serious_harm_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
     ],
     characterCountMax: 4000,
+    useSmallLabel: true,
+  },
+  practitioner_analysis_risk_of_reoffending: {
+    text: 'Is this an area linked to risk of reoffending?',
+    code: 'practitioner_analysis_risk_of_reoffending',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_risk_of_reoffending_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_risk_of_reoffending_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: 4000,
+    useSmallLabel: true,
+  },
+  practitioner_analysis_related_to_risk: {
+    text: 'Is this an area of need which is not related to risk?',
+    code: 'practitioner_analysis_related_to_risk',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  practitioner_analysis_related_to_risk_details: {
+    text: 'Give details',
+    code: 'practitioner_analysis_related_to_risk_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: 4000,
+    useSmallLabel: true,
   },
   drug_use: {
     text: 'Has [subject] ever used drugs?',
@@ -574,8 +835,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Drug use is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   drug_use_changes: {
@@ -585,15 +846,15 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Drug use change field is required' }],
     options: [
-      { text: 'I have already made positive changes', value: 'POSITIVE_CHANGE' },
-      { text: 'I am actively making changes', value: 'ACTIVE_CHANGE' },
-      { text: 'I want to make changes and know how to', value: 'KNOWN_CHANGE' },
-      { text: 'I want to make changes but need help', value: 'HELP_CHANGE' },
-      { text: 'I am thinking about making changes', value: 'THINK_CHANGE' },
-      { text: 'I do not want to make changes', value: 'NO_CHANGE' },
-      { text: 'I do not want to answer', value: 'NO_ANSWER_CHANGE' },
-      { text: '[subject] is not present', value: 'NOT_PRESENT' },
-      { text: 'Not applicable', value: 'NOT_APPLICABLE' },
+      { text: 'I have already made positive changes', value: 'POSITIVE_CHANGE', kind: 'option' },
+      { text: 'I am actively making changes', value: 'ACTIVE_CHANGE', kind: 'option' },
+      { text: 'I want to make changes and know how to', value: 'KNOWN_CHANGE', kind: 'option' },
+      { text: 'I want to make changes but need help', value: 'HELP_CHANGE', kind: 'option' },
+      { text: 'I am thinking about making changes', value: 'THINK_CHANGE', kind: 'option' },
+      { text: 'I do not want to make changes', value: 'NO_CHANGE', kind: 'option' },
+      { text: 'I do not want to answer', value: 'NO_ANSWER_CHANGE', kind: 'option' },
+      { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
   },
   drug_use_positive_change: {
@@ -742,18 +1003,18 @@ const fields: FormWizard.Fields = {
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Amphetamines', value: 'AMPHETAMINES' },
-      { text: 'Benzodiazepines', value: 'BENZODIAZEPINES' },
-      { text: 'Cannabis', value: 'CANNABIS' },
-      { text: 'Cocaine', value: 'COCAINE' },
-      { text: 'Crack', value: 'CRACK' },
-      { text: 'Ecstasy', value: 'ECSTASY' },
-      { text: 'Heroin', value: 'HEROIN' },
-      { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED' },
-      { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED' },
-      { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION' },
-      { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE' },
-      { text: 'Other', value: 'OTHER_DRUG_TYPE' },
+      { text: 'Amphetamines', value: 'AMPHETAMINES', kind: 'option' },
+      { text: 'Benzodiazepines', value: 'BENZODIAZEPINES', kind: 'option' },
+      { text: 'Cannabis', value: 'CANNABIS', kind: 'option' },
+      { text: 'Cocaine', value: 'COCAINE', kind: 'option' },
+      { text: 'Crack', value: 'CRACK', kind: 'option' },
+      { text: 'Ecstasy', value: 'ECSTASY', kind: 'option' },
+      { text: 'Heroin', value: 'HEROIN', kind: 'option' },
+      { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
+      { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED', kind: 'option' },
+      { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION', kind: 'option' },
+      { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE', kind: 'option' },
+      { text: 'Other', value: 'OTHER_DRUG_TYPE', kind: 'option' },
     ],
   },
   drug_usage: {
@@ -762,11 +1023,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Daily', value: 'DAILY' },
-      { text: 'Weekly', value: 'WEEKLY' },
-      { text: 'Monthly', value: 'MONTHLY' },
-      { text: 'Occasionally', value: 'OCCASIONALLY' },
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE' },
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
   },
   drug_usage_heroin: {
@@ -775,11 +1036,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Daily', value: 'DAILY' },
-      { text: 'Weekly', value: 'WEEKLY' },
-      { text: 'Monthly', value: 'MONTHLY' },
-      { text: 'Occasionally', value: 'OCCASIONALLY' },
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE' },
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
   },
   daily_drug_usage_treatment: {
@@ -788,8 +1049,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
     dependent: {
       field: 'drug_usage_heroin',
@@ -804,8 +1065,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
     dependent: {
       field: 'drug_usage_heroin',
@@ -820,8 +1081,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
     dependent: {
       field: 'drug_usage_heroin',
@@ -836,8 +1097,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
     dependent: {
       field: 'drug_usage_heroin',
@@ -852,8 +1113,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   drug_use_reasons: {
@@ -863,16 +1124,16 @@ const fields: FormWizard.Fields = {
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Recreation or pleasure', value: 'RECREATION_PLEASURE' },
-      { text: 'Curiosity or experimentation', value: 'CURIOSITY_EXPERIMENTATION' },
-      { text: 'Manage stress or emotional issues', value: 'STRESS_EMOTIONAL_ISSUES' },
-      { text: 'Self-medication for pain', value: 'SELF_MEDICATION_PAIN' },
-      { text: 'Manage withdrawal symptoms', value: 'MANAGE_WITHDRAWAL' },
-      { text: 'Peer pressure or social influence', value: 'SOCIAL_PEER_PRESSURE' },
-      { text: 'Enhance performance', value: 'ENHANCE_PERFORMANCE' },
-      { text: 'Escapism or avoidance', value: 'ESCAPISM_AVOIDANCE' },
-      { text: 'Cultural or religious practices', value: 'CULTURAL_RELIGIOUS' },
-      { text: 'Other', value: 'OTHER' },
+      { text: 'Recreation or pleasure', value: 'RECREATION_PLEASURE', kind: 'option' },
+      { text: 'Curiosity or experimentation', value: 'CURIOSITY_EXPERIMENTATION', kind: 'option' },
+      { text: 'Manage stress or emotional issues', value: 'STRESS_EMOTIONAL_ISSUES', kind: 'option' },
+      { text: 'Self-medication for pain', value: 'SELF_MEDICATION_PAIN', kind: 'option' },
+      { text: 'Manage withdrawal symptoms', value: 'MANAGE_WITHDRAWAL', kind: 'option' },
+      { text: 'Peer pressure or social influence', value: 'SOCIAL_PEER_PRESSURE', kind: 'option' },
+      { text: 'Enhance performance', value: 'ENHANCE_PERFORMANCE', kind: 'option' },
+      { text: 'Escapism or avoidance', value: 'ESCAPISM_AVOIDANCE', kind: 'option' },
+      { text: 'Cultural or religious practices', value: 'CULTURAL_RELIGIOUS', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
   },
   drug_use_reason_details: {
@@ -894,25 +1155,33 @@ const fields: FormWizard.Fields = {
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Physical or mental health', value: 'PHYSICAL_MENTAL_HEALTH', hint: { text: 'Includes overdose.' } },
+      {
+        text: 'Physical or mental health',
+        value: 'PHYSICAL_MENTAL_HEALTH',
+        hint: { text: 'Includes overdose.' },
+        kind: 'option',
+      },
       {
         text: 'Relationships',
         value: 'RELATIONSHIPS',
         hint: { text: 'Includes isolation or neglecting responsibilities.' },
+        kind: 'option',
       },
-      { text: 'Finances', value: 'FINANCES', hint: { text: 'Includes having no money.' } },
+      { text: 'Finances', value: 'FINANCES', hint: { text: 'Includes having no money.' }, kind: 'option' },
       {
         text: 'Community',
         value: 'COMMUNITY',
         hint: { text: 'Includes limited opportunities or judgement from others.' },
+        kind: 'option',
       },
       {
         text: 'Behavioural',
         value: 'BEHAVIOURAL',
         hint: { text: 'Includes unemployment, disruption on education or lack of productivity.' },
+        kind: 'option',
       },
-      { text: 'Links to offending', value: 'OFFENDING' },
-      { text: 'Other', value: 'OTHER' },
+      { text: 'Links to offending', value: 'OFFENDING', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
   },
   drug_use_impact_details: {
@@ -934,8 +1203,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   reducing_or_stopping_drug_use_details: {
@@ -956,21 +1225,21 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Does not show motivation to stop or reduce', value: 'NO_MOTIVATION' },
-      { text: 'Shows some motivation to stop or reduce', value: 'SOME_MOTIVATION' },
-      { text: 'Motivated to stop or reduce', value: 'MOTIVATED' },
-      { text: 'Not applicable', value: 'NOT_APPLICABLE' },
+      { text: 'Does not show motivation to stop or reduce', value: 'NO_MOTIVATION', kind: 'option' },
+      { text: 'Shows some motivation to stop or reduce', value: 'SOME_MOTIVATION', kind: 'option' },
+      { text: 'Motivated to stop or reduce', value: 'MOTIVATED', kind: 'option' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
   },
   patterns_or_behaviours: {
     text: 'Are there any patterns or behaviours related to this area?',
-    hint: 'Include repeated circumstances or behaviours.',
+    hint: { text: 'Include repeated circumstances or behaviours.', kind: 'text' },
     code: 'patterns_or_behaviours',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   patterns_or_behaviours_yes_details: {
@@ -999,13 +1268,13 @@ const fields: FormWizard.Fields = {
   },
   strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
-    hint: 'Include any strategies, people or support networks that helped.',
+    hint: { text: 'Include any strategies, people or support networks that helped.', kind: 'text' },
     code: 'strengths_or_protective_factors',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   strengths_or_protective_factors_yes_details: {
@@ -1038,8 +1307,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   linked_to_risk_of_serious_harm_yes_details: {
@@ -1072,8 +1341,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   linked_to_risk_of_reoffending_yes_details: {
@@ -1106,8 +1375,8 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES' },
-      { text: 'No', value: 'NO' },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
   not_related_to_risk_yes_details: {

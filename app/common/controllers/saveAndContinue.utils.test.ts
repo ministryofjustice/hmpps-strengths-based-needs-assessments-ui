@@ -1,5 +1,11 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
-import { combineDateFields, formatForNunjucks, withPlaceholdersFrom, withValuesFrom } from './saveAndContinue.utils'
+import {
+  combineDateFields,
+  formatForNunjucks,
+  whereSelectable,
+  withPlaceholdersFrom,
+  withValuesFrom,
+} from './saveAndContinue.utils'
 
 describe('saveAndContinue.utils', () => {
   describe('withPlaceholdersFrom', () => {
@@ -54,19 +60,19 @@ describe('saveAndContinue.utils', () => {
           code: 'radio_field',
           type: FieldType.Radio,
           options: [
-            { text: 'Foo', value: 'FOO' },
-            { text: 'Bar', value: 'BAR' },
-          ],
+            { text: 'Foo', value: 'FOO', kind: 'option' },
+            { text: 'Bar', value: 'BAR', kind: 'option' },
+          ] as FormWizard.Field.Options,
         },
         {
           text: 'Checkbox field',
           code: 'checkbox_field',
           type: FieldType.CheckBox,
           options: [
-            { text: 'Foo', value: 'FOO' },
-            { text: 'Bar', value: 'BAR' },
-            { text: 'Baz', value: 'BAZ' },
-          ],
+            { text: 'Foo', value: 'FOO', kind: 'option' },
+            { text: 'Bar', value: 'BAR', kind: 'option' },
+            { text: 'Baz', value: 'BAZ', kind: 'option' },
+          ] as FormWizard.Field.Options,
         },
         {
           text: 'Date field',
@@ -78,11 +84,12 @@ describe('saveAndContinue.utils', () => {
       expect(textField.value).toEqual('Text field value')
       expect(textAreaField.value).toEqual('Text area field value')
 
-      const [radioFirstOption, radioSecondOption] = radioField.options || []
+      const [radioFirstOption, radioSecondOption] = radioField.options.filter(whereSelectable) || []
       expect(radioFirstOption.checked).toEqual(true)
       expect(radioSecondOption.checked).toEqual(false)
 
-      const [checkboxFirstOption, checkboxSecondOption, checkboxThirdOption] = checkboxField.options || []
+      const [checkboxFirstOption, checkboxSecondOption, checkboxThirdOption] =
+        checkboxField.options.filter(whereSelectable) || []
       expect(checkboxFirstOption.checked).toEqual(true)
       expect(checkboxSecondOption.checked).toEqual(false)
       expect(checkboxThirdOption.checked).toEqual(true)
@@ -109,18 +116,18 @@ describe('saveAndContinue.utils', () => {
           code: 'radio_field',
           type: FieldType.Radio,
           options: [
-            { text: 'Foo', value: 'FOO' },
-            { text: 'Bar', value: 'BAR' },
-          ],
+            { text: 'Foo', value: 'FOO', kind: 'option' },
+            { text: 'Bar', value: 'BAR', kind: 'option' },
+          ] as FormWizard.Field.Options,
         },
         {
           text: 'Checkbox field',
           code: 'checkbox_field',
           type: FieldType.CheckBox,
           options: [
-            { text: 'Foo', value: 'FOO' },
-            { text: 'Bar', value: 'BAR' },
-          ],
+            { text: 'Foo', value: 'FOO', kind: 'option' },
+            { text: 'Bar', value: 'BAR', kind: 'option' },
+          ] as FormWizard.Field.Options,
         },
         {
           text: 'Date field',
@@ -132,11 +139,11 @@ describe('saveAndContinue.utils', () => {
       expect(textField.value).toBeUndefined()
       expect(textAreaField.value).toBeUndefined()
 
-      const [radioFirstOption, radioSecondOption] = radioField.options || []
+      const [radioFirstOption, radioSecondOption] = radioField.options.filter(whereSelectable) || []
       expect(radioFirstOption.checked).toEqual(false)
       expect(radioSecondOption.checked).toEqual(false)
 
-      const [checkboxFirstOption, checkboxSecondOption] = checkboxField.options || []
+      const [checkboxFirstOption, checkboxSecondOption] = checkboxField.options.filter(whereSelectable) || []
       expect(checkboxFirstOption.checked).toEqual(false)
       expect(checkboxSecondOption.checked).toEqual(false)
 

@@ -106,18 +106,24 @@ declare module 'hmpo-form-wizard' {
     }
 
     namespace Field {
-      interface Option {
+      type Option = {
         text: string
         value: string
         checked?: boolean
         conditional?: { html: string }
         hint?: { text: string } | { html: string }
+        kind: 'option'
       }
 
-      type Options = Option[]
+      type Divider = {
+        divider: string
+        kind: 'divider'
+      }
+
+      type Options = Array<Option | Divider>
     }
 
-    type AnswerValue = string | number | (string | number)[]
+    type AnswerValue = string | number | Array<string | number>
 
     type FormatterFn = (val: AnswerValue) => AnswerValue
 
@@ -143,7 +149,7 @@ declare module 'hmpo-form-wizard' {
       // hint?: Record<string, string>
       type: FieldType
       multiple?: boolean
-      options?: FormWizard.Field.Option[]
+      options?: FormWizard.Field.Options
       formatter?: Formatter[]
       validate?: Validate[]
       dependent?: Dependent
