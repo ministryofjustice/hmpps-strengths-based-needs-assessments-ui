@@ -60,6 +60,7 @@ function livingWithValidator() {
 }
 
 const characterLimit = 400
+const summaryCharacterLimit = 4000
 
 const mediumLabel = 'govuk-label--m'
 const visuallyHidden = 'govuk-visually-hidden'
@@ -721,11 +722,11 @@ const fields: FormWizard.Fields = {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
       },
     ],
-    characterCountMax: 4000,
+    characterCountMax: summaryCharacterLimit,
   },
   practitioner_analysis_strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
@@ -750,11 +751,11 @@ const fields: FormWizard.Fields = {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
       },
     ],
-    characterCountMax: 4000,
+    characterCountMax: summaryCharacterLimit,
   },
   practitioner_analysis_risk_of_serious_harm: {
     text: 'Is this an area linked to risk of serious harm?',
@@ -774,11 +775,11 @@ const fields: FormWizard.Fields = {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
       },
     ],
-    characterCountMax: 4000,
+    characterCountMax: summaryCharacterLimit,
   },
   practitioner_analysis_risk_of_reoffending: {
     text: 'Is this an area linked to risk of reoffending?',
@@ -799,11 +800,11 @@ const fields: FormWizard.Fields = {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
       },
     ],
-    characterCountMax: 4000,
+    characterCountMax: summaryCharacterLimit,
   },
   practitioner_analysis_related_to_risk: {
     text: 'Is this an area of need which is not related to risk?',
@@ -824,11 +825,11 @@ const fields: FormWizard.Fields = {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
       },
     ],
-    characterCountMax: 4000,
+    characterCountMax: summaryCharacterLimit,
   },
   drug_use: {
     text: 'Has [subject] ever used drugs?',
