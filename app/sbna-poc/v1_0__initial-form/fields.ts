@@ -1252,7 +1252,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'patterns_or_behaviours_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'patterns_or_behaviours',
       value: 'YES',
@@ -1263,7 +1271,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'patterns_or_behaviours_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'patterns_or_behaviours',
       value: 'NO',
@@ -1286,7 +1302,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'strengths_or_protective_factors_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'strengths_or_protective_factors',
       value: 'YES',
@@ -1297,7 +1321,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'strengths_or_protective_factors_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'strengths_or_protective_factors',
       value: 'NO',
@@ -1319,7 +1351,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_serious_harm_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_serious_harm',
       value: 'YES',
@@ -1330,7 +1370,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_serious_harm_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_serious_harm',
       value: 'NO',
@@ -1352,7 +1400,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_reoffending_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_reoffending',
       value: 'YES',
@@ -1363,7 +1419,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_reoffending_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_reoffending',
       value: 'NO',
@@ -1385,7 +1449,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'not_related_to_risk_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'not_related_to_risk',
       value: 'YES',
@@ -1396,7 +1468,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'not_related_to_risk_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'not_related_to_risk',
       value: 'NO',
