@@ -338,7 +338,7 @@ const steps: FormWizard.Steps = {
       'occasionally_drug_usage_treatment',
     ],
     next: 'drug-use-details',
-    template: 'forms/default',
+    template: 'forms/sbna-poc/drug-usage',
   },
   '/drug-use-details': {
     pageTitle: 'Drug use',
