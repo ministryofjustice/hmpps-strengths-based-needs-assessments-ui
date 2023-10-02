@@ -1043,11 +1043,6 @@ const fields: FormWizard.Fields = {
       { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
-    dependent: {
-      field: 'drug_use_type',
-      value: 'HEROIN',
-      displayInline: true,
-    },
     labelClasses: mediumLabel,
   },
   daily_drug_usage_treatment: {

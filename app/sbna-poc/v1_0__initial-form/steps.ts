@@ -332,10 +332,12 @@ const steps: FormWizard.Steps = {
     controller: SaveAndContinueController,
     fields: [
       'drug_usage_heroin',
+      'drug_usage',
       'daily_drug_usage_treatment',
       'weekly_drug_usage_treatment',
       'monthly_drug_usage_treatment',
       'occasionally_drug_usage_treatment',
+      'drug_use_type',
     ],
     next: 'drug-use-details',
     template: 'forms/sbna-poc/drug-usage',
