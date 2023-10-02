@@ -280,7 +280,7 @@ const steps: FormWizard.Steps = {
     template: 'forms/sbna-poc/accommodation-analysis-complete-no-accommodation',
   },
   '/employment-education-finance': {
-    pageTitle: 'Employment, education and finance',
+    pageTitle: 'Employment and education ',
     controller: SaveAndContinueController,
     fields: [],
     template: 'forms/default',
