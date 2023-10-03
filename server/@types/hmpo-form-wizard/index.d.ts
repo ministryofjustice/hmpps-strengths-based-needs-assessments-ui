@@ -141,9 +141,12 @@ declare module 'hmpo-form-wizard' {
 
     type Hint = { kind: 'html'; html: string } | { kind: 'text'; text: string }
 
+    // type AdditionalText = string
+
     interface Field {
       default?: string | number | []
       text: string
+      // additionalText?: AdditionalText
       code: string
       hint?: Hint
       type: FieldType

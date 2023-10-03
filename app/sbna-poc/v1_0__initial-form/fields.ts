@@ -1009,6 +1009,7 @@ const fields: FormWizard.Fields = {
       { text: 'Crack', value: 'CRACK', kind: 'option' },
       { text: 'Ecstasy', value: 'ECSTASY', kind: 'option' },
       { text: 'Heroin', value: 'HEROIN', kind: 'option' },
+      { text: 'Ketamine (also known as MDMA)', value: 'KETAMINE', kind: 'option' },
       { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
       { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED', kind: 'option' },
       { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION', kind: 'option' },
@@ -1016,6 +1017,17 @@ const fields: FormWizard.Fields = {
       { text: 'Other', value: 'OTHER_DRUG_TYPE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+  },
+  other_drug_details: {
+    text: 'Enter drug name',
+    code: 'other_drug_details',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter drug name' }],
+    dependent: {
+      field: 'drug_use_type',
+      value: 'OTHER_DRUG_TYPE',
+      displayInline: true,
+    },
   },
   drug_usage: {
     text: 'How often is [subject] using this drug?',
@@ -1033,7 +1045,8 @@ const fields: FormWizard.Fields = {
     labelClasses: mediumLabel,
   },
   drug_usage_heroin: {
-    text: 'How often is [subject] using this drug?',
+    text: 'Heroin',
+    // additionalText: 'How often is [subject] using this drug?',
     code: 'drug_usage_heroin',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
