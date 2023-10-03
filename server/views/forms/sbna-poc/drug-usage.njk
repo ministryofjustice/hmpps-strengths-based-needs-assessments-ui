@@ -4,19 +4,36 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "components/question/macro.njk" import renderQuestion %}
 
-{% from "components/summary/accommodation/macro.njk" import renderSummaryFor %}
-
-
 {% block formContent %}
 <form method="post" action="{{ action }}">
-    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+  <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 
   {%- if answers["drug_use_type"] == "HEROIN" -%}
   {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
   {%- endif -%}
 
-  {%- if answers["drug_use_type"] != "HEROIN" -%}
+  {%- if answers["drug_use_type"] != "HEROIN" -%}  
   {{ renderQuestion(options.fields["drug_usage"], errors) }}
+  {%- endif -%}
+
+  {%- if answers["drug_use_type"] == "METHADONE_NOT_PRESCRIBED" -%}
+  {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
+  {%- endif -%}
+
+  {%- if answers["drug_use_type"] == "CRACK" -%}
+  {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
+  {%- endif -%}
+
+  {%- if answers["drug_use_type"] == "AMPHETAMINES" -%}
+  {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
+  {%- endif -%}
+
+  {%- if answers["drug_use_type"] == "BENZODIAZEPINES" -%}
+  {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
+  {%- endif -%}
+
+  {%- if answers["drug_use_type"] == "OTHER_DRUG_TYPE" -%}
+  {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
   {%- endif -%}
 </form>
 {% endblock %}
