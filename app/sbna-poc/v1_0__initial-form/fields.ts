@@ -85,9 +85,21 @@ const createReceivingTreatment = (
   },
 })
 
-// const createInjectingDrug = () :FormWizard.Field => ({
-
-// })
+const createInjectingDrug = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
+  text: 'Is [subject] injecting this drug?',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+  options: [
+    { text: 'Yes', value: 'YES', kind: 'option' },
+    { text: 'No', value: 'NO', kind: 'option' },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
 
 const fields: FormWizard.Fields = {
   current_accommodation: {
@@ -1084,6 +1096,10 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  daily_injecting_drug: createInjectingDrug('daily_injecting_drug', 'drug_usage_heroin', 'DAILY'),
+  weekly_injecting_drug: createInjectingDrug('weekly_injecting_drug', 'drug_usage_heroin', 'WEEKLY'),
+  monthly_injecting_drug: createInjectingDrug('monthly_injecting_drug', 'drug_usage_heroin', 'MONTHLY'),
+  occasionally_injecting_drug: createInjectingDrug('occasionally_injecting_drug', 'drug_usage_heroin', 'OCCASIONALLY'),
   daily_drug_usage_treatment: createReceivingTreatment('daily_drug_usage_treatment', 'drug_usage_heroin', 'DAILY'),
   weekly_drug_usage_treatment: createReceivingTreatment('weekly_drug_usage_treatment', 'drug_usage_heroin', 'WEEKLY'),
   monthly_drug_usage_treatment: createReceivingTreatment(
