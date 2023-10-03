@@ -65,6 +65,30 @@ const summaryCharacterLimit = 4000
 const mediumLabel = 'govuk-label--m'
 const visuallyHidden = 'govuk-visually-hidden'
 
+const createReceivingTreatment = (
+  fieldCode: string,
+  dependentFieldCode: string,
+  valueCode: string,
+): FormWizard.Field => ({
+  text: 'Is [subject] receiving treatment?',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Select if they are receiving treatment' }],
+  options: [
+    { text: 'Yes', value: 'YES', kind: 'option' },
+    { text: 'No', value: 'NO', kind: 'option' },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
+// const createInjectingDrug = () :FormWizard.Field => ({
+
+// })
+
 const fields: FormWizard.Fields = {
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
@@ -1060,66 +1084,18 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  daily_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'daily_drug_usage_treatment',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'DAILY',
-      displayInline: true,
-    },
-  },
-  weekly_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'weekly_drug_usage_treatment',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'WEEKLY',
-      displayInline: true,
-    },
-  },
-  monthly_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'monthly_drug_usage_treatment',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'MONTHLY',
-      displayInline: true,
-    },
-  },
-  occasionally_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'occasionally_drug_usage_treatment',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'OCCASIONALLY',
-      displayInline: true,
-    },
-  },
+  daily_drug_usage_treatment: createReceivingTreatment('daily_drug_usage_treatment', 'drug_usage_heroin', 'DAILY'),
+  weekly_drug_usage_treatment: createReceivingTreatment('weekly_drug_usage_treatment', 'drug_usage_heroin', 'WEEKLY'),
+  monthly_drug_usage_treatment: createReceivingTreatment(
+    'monthly_drug_usage_treatment',
+    'drug_usage_heroin',
+    'MONTHLY',
+  ),
+  occasionally_drug_usage_treatment: createReceivingTreatment(
+    'occasionally_drug_usage_treatment',
+    'drug_usage_heroin',
+    'OCCASIONALLY',
+  ),
   drug_past_usage: {
     text: 'Has [subject] used this drug in the past?',
     code: 'drug_past_usage',
