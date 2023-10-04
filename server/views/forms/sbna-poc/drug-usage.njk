@@ -8,15 +8,117 @@
 <form method="post" action="{{ action }}">
   <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 
-  {%- if answers["drug_use_type"] == "HEROIN" -%}
-  {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
-  {%- endif -%}
+  {%- macro renderHeroinUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "HEROIN" %}
+           {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
 
-  {%- if answers["drug_use_type"] != "HEROIN" -%}  
+{%- macro renderMethadoneNotPrescribedUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "METHADONE_NOT_PRESCRIBED" %}
+           {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderCrackUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "CRACK" %}
+           {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderAmphetaminesUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "AMPHETAMINES" %}
+           {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderBenzodiazepinesUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "BENZODIAZEPINES" %}
+           {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderOtherDrugUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="govuk-!-font-size-14">{{ option.text }}</span>
+          {% if option.value == "OTHER_DRUG_TYPE" %}
+           {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{{ renderHeroinUsageQuestion(options.fields, options.answers)}}
+{{ renderMethadoneNotPrescribedUsageQuestion(options.fields, options.answers)}}
+{{ renderCrackUsageQuestion(options.fields, options.answers)}}
+{{ renderAmphetaminesUsageQuestion(options.fields, options.answers)}}
+{{ renderBenzodiazepinesUsageQuestion(options.fields, options.answers)}}
+{{ renderOtherDrugUsageQuestion(options.fields, options.answers)}}
+
+  {# {% for option in field.options %}
+   {%- if value["drug_use_type"] == "HEROIN" -%}
+    {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
+    and 
+    {%- if answers["drug_use_type"] == "METHADONE_NOT_PRESCRIBED" -%}
+     {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
+   {%- endif -%} #}
+  {# {% endfor %} #}
+
+  {# {%- if answers["drug_use_type"] != "HEROIN" -%}  
   {{ renderQuestion(options.fields["drug_usage"], errors) }}
-  {%- endif -%}
+  {%- endif -%}  #}
 
-  {%- if answers["drug_use_type"] == "METHADONE_NOT_PRESCRIBED" -%}
+  {# {%- if answers["drug_use_type"] == "METHADONE_NOT_PRESCRIBED" -%}
   {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
   {%- endif -%}
 
@@ -33,7 +135,7 @@
   {%- endif -%}
 
   {%- if answers["drug_use_type"] == "OTHER_DRUG_TYPE" -%}
-  {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
-  {%- endif -%}
+  {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }} 
+  {%- endif -%}  #}
 </form>
 {% endblock %}
