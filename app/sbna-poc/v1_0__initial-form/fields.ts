@@ -1081,8 +1081,7 @@ const fields: FormWizard.Fields = {
     labelClasses: mediumLabel,
   },
   drug_usage_heroin: {
-    text: 'Heroin',
-    // additionalText: 'How often is [subject] using this drug?',
+    text: 'How often is [subject] using this drug?',
     code: 'drug_usage_heroin',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -1124,8 +1123,7 @@ const fields: FormWizard.Fields = {
     labelClasses: mediumLabel,
   },
   drug_usage_methadone_not_prescribed: {
-    text: 'Methadone (not prescribed)',
-    // additionalText: 'How often is [subject] using this drug?',
+    text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_not_prescribed',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -1160,8 +1158,7 @@ const fields: FormWizard.Fields = {
     'OCCASIONALLY',
   ),
   drug_usage_crack: {
-    text: 'Crack',
-    // additionalText: 'How often is [subject] using this drug?',
+    text: 'How often is [subject] using this drug?',
     code: 'drug_usage_crack',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -1184,8 +1181,7 @@ const fields: FormWizard.Fields = {
     'OCCASIONALLY',
   ),
   drug_usage_amphetamines: {
-    text: 'Amphetamines',
-    // additionalText: 'How often is [subject] using this drug?',
+    text: 'How often is [subject] using this drug?',
     code: 'drug_usage_amphetamines',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -1220,8 +1216,7 @@ const fields: FormWizard.Fields = {
     'OCCASIONALLY',
   ),
   drug_usage_benzodiazepines: {
-    text: 'Benzodiazepines',
-    // additionalText: 'How often is [subject] using this drug?',
+    text: 'How often is [subject] using this drug?',
     code: 'drug_usage_benzodiazepines',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
@@ -1256,8 +1251,7 @@ const fields: FormWizard.Fields = {
     'OCCASIONALLY',
   ),
   drug_usage_other_drug: {
-    text: 'Other drug',
-    // additionalText: 'How often is [subject] using this drug?',
+    text: 'How often is [subject] using this drug?',
     code: 'drug_usage_other_drug',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],

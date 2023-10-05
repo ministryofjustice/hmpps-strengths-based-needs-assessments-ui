@@ -11,43 +11,29 @@
   {%- macro renderHeroinUsageQuestion(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="govuk-!-font-size-14">{{ option.text }}</span>
-          {% if option.value == "HEROIN" %}
+        {% if option.value == "HEROIN" %}
+           <h2 class="govuk-heading-m">Heroin</h2>
            {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
-          {% endif %}
-        </li>
       {% endif %}
     {% endfor %}
   </ul>
 {%- endmacro -%}
 
 {%- macro renderMethadoneNotPrescribedUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="govuk-!-font-size-14">{{ option.text }}</span>
-          {% if option.value == "METHADONE_NOT_PRESCRIBED" %}
+        {% if option.value == "METHADONE_NOT_PRESCRIBED" %}
+            <h2 class="govuk-heading-m">Methadone (Not prescribed)</h2>
            {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
-          {% endif %}
-        </li>
       {% endif %}
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderCrackUsageQuestion(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="govuk-!-font-size-14">{{ option.text }}</span>
-          {% if option.value == "CRACK" %}
+      {% if option.value == "CRACK" %}
+          <h2 class="govuk-heading-m">Crack</h2>
            {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
-          {% endif %}
-        </li>
       {% endif %}
     {% endfor %}
   </ul>
@@ -56,14 +42,10 @@
 {%- macro renderAmphetaminesUsageQuestion(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="govuk-!-font-size-14">{{ option.text }}</span>
           {% if option.value == "AMPHETAMINES" %}
+           <h2 class="govuk-heading-m">Amphetamines</h2>
            {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
           {% endif %}
-        </li>
-      {% endif %}
     {% endfor %}
   </ul>
 {%- endmacro -%}
@@ -71,14 +53,10 @@
 {%- macro renderBenzodiazepinesUsageQuestion(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="govuk-!-font-size-14">{{ option.text }}</span>
           {% if option.value == "BENZODIAZEPINES" %}
+           <h2 class="govuk-heading-m">Benzodiazepines</h2>   
            {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
           {% endif %}
-        </li>
-      {% endif %}
     {% endfor %}
   </ul>
 {%- endmacro -%}
@@ -86,14 +64,10 @@
 {%- macro renderOtherDrugUsageQuestion(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="govuk-!-font-size-14">{{ option.text }}</span>
           {% if option.value == "OTHER_DRUG_TYPE" %}
+           <h2 class="govuk-heading-m">Other drug</h2>   
            {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
           {% endif %}
-        </li>
-      {% endif %}
     {% endfor %}
   </ul>
 {%- endmacro -%}
