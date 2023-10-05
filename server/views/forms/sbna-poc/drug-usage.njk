@@ -72,12 +72,98 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderCannabisUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+          {% if option.value == "CANNABIS" %}
+           <h2 class="govuk-heading-m">Cannabis</h2>   
+           {{ renderQuestion(options.fields["drug_usage_cannabis"], errors) }}
+          {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderCocaineUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+          {% if option.value == "COCAINE" %}
+           <h2 class="govuk-heading-m">Cocaine</h2>   
+           {{ renderQuestion(options.fields["drug_usage_cocaine"], errors) }}
+          {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderEcstasyUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+          {% if option.value == "ECSTASY" %}
+           <h2 class="govuk-heading-m">Ecstasy</h2>   
+           {{ renderQuestion(options.fields["drug_usage_ecstasy"], errors) }}
+          {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderKetamineUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+          {% if option.value == "KETAMINE" %}
+           <h2 class="govuk-heading-m">Ketamine (also known as MDMA)</h2>   
+           {{ renderQuestion(options.fields["drug_usage_ketamine"], errors) }}
+          {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderMethadonePrescribedUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+          {% if option.value == "METHADONE_PRESCRIBED" %}
+           <h2 class="govuk-heading-m">Methadone (prescribed)</h2>   
+           {{ renderQuestion(options.fields["drug_usage_methadone_prescribed"], errors) }}
+          {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+
+{%- macro renderNonPrescribedUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+          {% if option.value == "NON_PRESCRIBED_MEDICATION" %}
+           <h2 class="govuk-heading-m">Non-prescribed medication</h2>   
+           {{ renderQuestion(options.fields["drug_usage_non_prescribed_medication"], errors) }}
+          {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderPsychoactiveSubstancesUsageQuestion(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_type"].options %}
+          {% if option.value == "PSYCHOACTIVE_SUBSTANCES_SPICE" %}
+           <h2 class="govuk-heading-m">Psychoactive substances (spice)</h2>   
+           {{ renderQuestion(options.fields["drug_usage_psychoactive_substances"], errors) }}
+          {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
 {{ renderHeroinUsageQuestion(options.fields, options.answers)}}
 {{ renderMethadoneNotPrescribedUsageQuestion(options.fields, options.answers)}}
 {{ renderCrackUsageQuestion(options.fields, options.answers)}}
 {{ renderAmphetaminesUsageQuestion(options.fields, options.answers)}}
 {{ renderBenzodiazepinesUsageQuestion(options.fields, options.answers)}}
 {{ renderOtherDrugUsageQuestion(options.fields, options.answers)}}
+{{ renderCannabisUsageQuestion(options.fields, options.answers)}}
+{{ renderCocaineUsageQuestion(options.fields, options.answers)}}
+{{ renderEcstasyUsageQuestion(options.fields, options.answers)}}
+{{ renderKetamineUsageQuestion(options.fields, options.answers)}}
+{{ renderMethadonePrescribedUsageQuestion(options.fields, options.answers)}}
+{{ renderNonPrescribedUsageQuestion(options.fields, options.answers)}}
+{{ renderPsychoactiveSubstancesUsageQuestion(options.fields, options.answers)}}
+
 
   {# {% for option in field.options %}
    {%- if value["drug_use_type"] == "HEROIN" -%}
