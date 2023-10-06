@@ -8,161 +8,164 @@
 <form method="post" action="{{ action }}">
   <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 
-  {%- macro renderHeroinUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["drug_use_type"].options %}
-        {% if option.value == "HEROIN" %}
-           <h2 class="govuk-heading-m">Heroin</h2>
-           {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
+{%- macro renderHeroinUsageQuestion(fields, answers) -%}	
+    {% for option in fields["drug_use_type"].options %}	   
+        {% if option.checked %}	          
+          {% if option.value == "HEROIN" %}	
+            <h2 class="govuk-heading-m">Heroin</h2>
+           {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}	    
+          {% endif %}	
+      {% endif %}	     
+    {% endfor %}	  
+{%- endmacro -%}	
 
 {%- macro renderMethadoneNotPrescribedUsageQuestion(fields, answers) -%}
     {% for option in fields["drug_use_type"].options %}
+       {% if option.checked %}	 
         {% if option.value == "METHADONE_NOT_PRESCRIBED" %}
             <h2 class="govuk-heading-m">Methadone (Not prescribed)</h2>
            {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
       {% endif %}
+    {% endif %}	 
     {% endfor %}
 {%- endmacro -%}
 
 {%- macro renderCrackUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+    {% if option.checked %}	
       {% if option.value == "CRACK" %}
           <h2 class="govuk-heading-m">Crack</h2>
            {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
       {% endif %}
+     {% endif %}	
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderAmphetaminesUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+       {% if option.checked %}	
           {% if option.value == "AMPHETAMINES" %}
            <h2 class="govuk-heading-m">Amphetamines</h2>
            {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderBenzodiazepinesUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "BENZODIAZEPINES" %}
            <h2 class="govuk-heading-m">Benzodiazepines</h2>   
            {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderOtherDrugUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "OTHER_DRUG_TYPE" %}
-           <h2 class="govuk-heading-m">Other drug</h2>   
+            {{ options.allFields["other_drug_details"].value }}
            {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderCannabisUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "CANNABIS" %}
            <h2 class="govuk-heading-m">Cannabis</h2>   
            {{ renderQuestion(options.fields["drug_usage_cannabis"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderCocaineUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "COCAINE" %}
            <h2 class="govuk-heading-m">Cocaine</h2>   
            {{ renderQuestion(options.fields["drug_usage_cocaine"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderEcstasyUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "ECSTASY" %}
            <h2 class="govuk-heading-m">Ecstasy</h2>   
            {{ renderQuestion(options.fields["drug_usage_ecstasy"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderKetamineUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "KETAMINE" %}
            <h2 class="govuk-heading-m">Ketamine (also known as MDMA)</h2>   
            {{ renderQuestion(options.fields["drug_usage_ketamine"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderMethadonePrescribedUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "METHADONE_PRESCRIBED" %}
            <h2 class="govuk-heading-m">Methadone (prescribed)</h2>   
            {{ renderQuestion(options.fields["drug_usage_methadone_prescribed"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 
 {%- macro renderNonPrescribedUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "NON_PRESCRIBED_MEDICATION" %}
            <h2 class="govuk-heading-m">Non-prescribed medication</h2>   
            {{ renderQuestion(options.fields["drug_usage_non_prescribed_medication"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
 {%- macro renderPsychoactiveSubstancesUsageQuestion(fields, answers) -%}
-  <ul class="govuk-list">
     {% for option in fields["drug_use_type"].options %}
+      {% if option.checked %}	
           {% if option.value == "PSYCHOACTIVE_SUBSTANCES_SPICE" %}
            <h2 class="govuk-heading-m">Psychoactive substances (spice)</h2>   
            {{ renderQuestion(options.fields["drug_usage_psychoactive_substances"], errors) }}
           {% endif %}
+       {% endif %}	 
     {% endfor %}
-  </ul>
 {%- endmacro -%}
 
-{{ renderHeroinUsageQuestion(options.fields, options.answers)}}
-{{ renderMethadoneNotPrescribedUsageQuestion(options.fields, options.answers)}}
-{{ renderCrackUsageQuestion(options.fields, options.answers)}}
-{{ renderAmphetaminesUsageQuestion(options.fields, options.answers)}}
-{{ renderBenzodiazepinesUsageQuestion(options.fields, options.answers)}}
-{{ renderOtherDrugUsageQuestion(options.fields, options.answers)}}
-{{ renderCannabisUsageQuestion(options.fields, options.answers)}}
-{{ renderCocaineUsageQuestion(options.fields, options.answers)}}
-{{ renderEcstasyUsageQuestion(options.fields, options.answers)}}
-{{ renderKetamineUsageQuestion(options.fields, options.answers)}}
-{{ renderMethadonePrescribedUsageQuestion(options.fields, options.answers)}}
-{{ renderNonPrescribedUsageQuestion(options.fields, options.answers)}}
-{{ renderPsychoactiveSubstancesUsageQuestion(options.fields, options.answers)}}
+
+{{ renderHeroinUsageQuestion(options.fields, options.answers) }}
+{{ renderMethadoneNotPrescribedUsageQuestion(options.fields, options.answers) }}
+{{ renderCrackUsageQuestion(options.fields, options.answers) }}
+{{ renderAmphetaminesUsageQuestion(options.fields, options.answers) }}
+{{ renderBenzodiazepinesUsageQuestion(options.fields, options.answers) }}
+{{ renderOtherDrugUsageQuestion(options.fields, options.answers) }} 
+{{ renderCannabisUsageQuestion(options.fields, options.answers) }} 
+{{ renderCocaineUsageQuestion(options.fields, options.answers) }}
+{{ renderEcstasyUsageQuestion(options.fields, options.answers) }}
+{{ renderKetamineUsageQuestion(options.fields, options.answers) }}
+{{ renderMethadonePrescribedUsageQuestion(options.fields, options.answers) }}
+{{ renderNonPrescribedUsageQuestion(options.fields, options.answers) }}
+{{ renderPsychoactiveSubstancesUsageQuestion(options.fields, options.answers) }} 
 
 
   {# {% for option in field.options %}

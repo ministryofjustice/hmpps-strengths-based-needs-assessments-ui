@@ -331,7 +331,7 @@ const steps: FormWizard.Steps = {
     pageTitle: 'Usage details',
     controller: SaveAndContinueController,
     fields: [
-      'drug_usage',
+      // 'drug_usage',
       'drug_use_type',
       'drug_usage_heroin',
       'drug_usage_methadone_not_prescribed',
@@ -339,6 +339,7 @@ const steps: FormWizard.Steps = {
       'drug_usage_amphetamines',
       'drug_usage_benzodiazepines',
       'drug_usage_other_drug',
+      'other_drug_details',
       'drug_usage_cannabis',
       'drug_usage_cocaine',
       'drug_usage_ecstasy',
