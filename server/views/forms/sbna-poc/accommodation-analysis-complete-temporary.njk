@@ -8,16 +8,22 @@
 {% from "components/summary/accommodation/macro.njk" import renderSummaryFor %}
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
+{%- if answers["type_of_temporary_accommodation"] == "SHORT_TERM" or answers["type_of_temporary_accommodation"] == "IMMIGRATION" -%}
+{% set changeLink = "temporary-accommodation-2" %}
+{%- else -%}
+{% set changeLink = "temporary-accommodation" %}
+{%- endif -%}
+
 {% set accommodationSummaryHtml %}
 <dl class="govuk-summary-list">
   {{ renderSummaryFor("current_accommodation", { fields: options.allFields, answers: answers, backLink: "accommodation" }) }}
   {%- if answers["current_accommodation"] == "SETTLED" or not (answers["type_of_temporary_accommodation"] == "SHORT_TERM" or answers["type_of_temporary_accommodation"] == "IMMIGRATION") -%}
-  {{ renderSummaryFor("living_with", { fields: options.allFields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryFor("living_with", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
   {%- endif -%}
-  {{ renderSummaryFor("suitable_housing_location", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("suitable_housing", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("suitable_housing_planned", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryFor("suitable_housing_location", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
+  {{ renderSummaryFor("suitable_housing", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
+  {{ renderSummaryFor("suitable_housing_planned", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
+  {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
 </dl>
 {% endset -%}
 

@@ -11,10 +11,10 @@
 {% set accommodationSummaryHtml %}
 <dl class="govuk-summary-list">
   {{ renderSummaryFor("current_accommodation", { fields: options.allFields, answers: answers, backLink: "accommodation" }) }}
-  {{ renderSummaryFor("living_with", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("suitable_housing_location", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("suitable_housing", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryFor("living_with", { fields: options.allFields, answers: answers, backLink: "settled-accommodation" }) }}
+  {{ renderSummaryFor("suitable_housing_location", { fields: options.allFields, answers: answers, backLink: "settled-accommodation" }) }}
+  {{ renderSummaryFor("suitable_housing", { fields: options.allFields, answers: answers, backLink: "settled-accommodation" }) }}
+  {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: "settled-accommodation" }) }}
 </dl>
 {% endset -%}
 
