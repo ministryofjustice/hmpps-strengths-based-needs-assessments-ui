@@ -101,11 +101,27 @@ const createInjectingDrug = (fieldCode: string, dependentFieldCode: string, valu
   },
 })
 
-const createPastDrugUsage = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
+const createPastDrugUsage = (fieldCode: string): FormWizard.Field => ({
   text: 'Has [subject] used this drug in the past?',
   code: fieldCode,
   type: FieldType.Radio,
   validate: [{ type: ValidationType.Required, message: 'Error message' }],
+  options: [
+    { text: 'Yes', value: 'YES', kind: 'option' },
+    { text: 'No', value: 'NO', kind: 'option' },
+  ],
+  labelClasses: mediumLabel,
+})
+
+const createPastInjectingDrug = (
+  fieldCode: string,
+  dependentFieldCode: string,
+  valueCode: string,
+): FormWizard.Field => ({
+  text: 'Was [subject] injecting this drug?',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
   options: [
     { text: 'Yes', value: 'YES', kind: 'option' },
     { text: 'No', value: 'NO', kind: 'option' },
@@ -115,7 +131,6 @@ const createPastDrugUsage = (fieldCode: string, dependentFieldCode: string, valu
     value: valueCode,
     displayInline: true,
   },
-  labelClasses: mediumLabel,
 })
 
 const fields: FormWizard.Fields = {
@@ -1125,17 +1140,8 @@ const fields: FormWizard.Fields = {
     'drug_usage_heroin',
     'OCCASIONALLY',
   ),
-  // drug_past_usage: {
-  //   text: 'Has [subject] used this drug in the past?',
-  //   code: 'drug_past_usage',
-  //   type: FieldType.CheckBox,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  //   options: [
-  //     { text: 'Yes', value: 'YES', kind: 'option' },
-  //     { text: 'No', value: 'NO', kind: 'option' },
-  //   ],
-  //   labelClasses: mediumLabel,
-  // },
+  past_drug_usage_heroin: createPastDrugUsage('past_drug_usage_heroin'),
+  past_injecting_drug_heroin: createPastInjectingDrug('past_injecting_drug_heroin', 'past_drug_usage_heroin', 'YES'),
   drug_usage_methadone_not_prescribed: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_not_prescribed',
@@ -1171,6 +1177,12 @@ const fields: FormWizard.Fields = {
     'drug_usage_methadone_not_prescribed',
     'OCCASIONALLY',
   ),
+  past_drug_usage_methadone_not_prescribed: createPastDrugUsage('past_drug_usage_methadone_not_prescribed'),
+  past_injecting_drug_methadone_not_prescribed: createPastInjectingDrug(
+    'past_injecting_drug_methadone_not_prescribed',
+    'past_drug_usage_methadone_not_prescribed',
+    'YES',
+  ),
   drug_usage_crack: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_crack',
@@ -1194,6 +1206,8 @@ const fields: FormWizard.Fields = {
     'drug_usage_crack',
     'OCCASIONALLY',
   ),
+  past_drug_usage_crack: createPastDrugUsage('past_drug_usage_crack'),
+  past_injecting_drug_crack: createPastInjectingDrug('past_injecting_drug_crack', 'past_drug_usage_crack', 'YES'),
   drug_usage_amphetamines: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_amphetamines',
@@ -1228,6 +1242,12 @@ const fields: FormWizard.Fields = {
     'occasionally_injecting_drug_amphetamines',
     'drug_usage_amphetamines',
     'OCCASIONALLY',
+  ),
+  past_drug_usage_amphetamines: createPastDrugUsage('past_drug_usage_amphetamines'),
+  past_injecting_drug_amphetamines: createPastInjectingDrug(
+    'past_injecting_drug_amphetamines',
+    'past_drug_usage_amphetamines',
+    'YES',
   ),
   drug_usage_benzodiazepines: {
     text: 'How often is [subject] using this drug?',
@@ -1264,6 +1284,12 @@ const fields: FormWizard.Fields = {
     'drug_usage_benzodiazepines',
     'OCCASIONALLY',
   ),
+  past_drug_usage_benzodiazepines: createPastDrugUsage('past_drug_usage_benzodiazepines'),
+  past_injecting_drug_benzodiazepines: createPastInjectingDrug(
+    'past_injecting_drug_benzodiazepines',
+    'past_drug_usage_benzodiazepines',
+    'YES',
+  ),
   drug_usage_other_drug: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_other_drug',
@@ -1299,6 +1325,8 @@ const fields: FormWizard.Fields = {
     'drug_usage_other_drug',
     'OCCASIONALLY',
   ),
+  past_drug_usage_other: createPastDrugUsage('past_drug_usage_other'),
+  past_injecting_drug_other: createPastInjectingDrug('past_injecting_drug_other', 'past_drug_usage_other', 'YES'),
   drug_usage_cannabis: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_cannabis',

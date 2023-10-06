@@ -13,7 +13,8 @@
         {% if option.checked %}	          
           {% if option.value == "HEROIN" %}	
             <h2 class="govuk-heading-m">Heroin</h2>
-           {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}	    
+           {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}	   
+          {{ renderQuestion(options.fields["past_drug_usage_heroin"], errors) }} 
           {% endif %}	
       {% endif %}	     
     {% endfor %}	  
@@ -25,6 +26,7 @@
         {% if option.value == "METHADONE_NOT_PRESCRIBED" %}
             <h2 class="govuk-heading-m">Methadone (Not prescribed)</h2>
            {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
+           {{ renderQuestion(options.fields["past_drug_usage_methadone_not_prescribed"], errors) }} 
       {% endif %}
     {% endif %}	 
     {% endfor %}
@@ -36,6 +38,7 @@
       {% if option.value == "CRACK" %}
           <h2 class="govuk-heading-m">Crack</h2>
            {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
+            {{ renderQuestion(options.fields["past_drug_usage_crack"], errors) }}
       {% endif %}
      {% endif %}	
     {% endfor %}
@@ -47,6 +50,7 @@
           {% if option.value == "AMPHETAMINES" %}
            <h2 class="govuk-heading-m">Amphetamines</h2>
            {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
+           {{ renderQuestion(options.fields["past_drug_usage_amphetamines"], errors) }}
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -58,6 +62,7 @@
           {% if option.value == "BENZODIAZEPINES" %}
            <h2 class="govuk-heading-m">Benzodiazepines</h2>   
            {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
+           {{ renderQuestion(options.fields["past_drug_usage_benzodiazepines"], errors) }}
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -69,6 +74,7 @@
           {% if option.value == "OTHER_DRUG_TYPE" %}
             {{ options.allFields["other_drug_details"].value }}
            {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
+           {{ renderQuestion(options.fields["past_drug_usage_other"], errors) }}
           {% endif %}
        {% endif %}	 
     {% endfor %}
