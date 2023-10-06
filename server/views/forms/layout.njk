@@ -1,4 +1,5 @@
 {% extends "../partials/layout.njk" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set mainClasses = "app-container govuk-body" %}
@@ -42,6 +43,12 @@
           </ul>
         </div>
         <div class="govuk-grid-column-three-quarters">
+          {% if backLink %}
+            {{ govukBackLink({
+              text: "Back",
+              href: backLink
+            }) }}
+          {% endif %}
           <h2 class="govuk-heading-l">{{ options.pageTitle }}</h2>
           {%- if errors | length -%}
           {{ govukErrorSummary({

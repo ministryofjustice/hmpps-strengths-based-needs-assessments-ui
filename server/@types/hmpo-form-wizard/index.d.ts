@@ -179,6 +179,7 @@ declare module 'hmpo-form-wizard' {
       fields?: string[]
       controller?: typeof FormWizard.Controller
       navigationOrder?: number
+      backLink?: string
     }
 
     interface Steps {
