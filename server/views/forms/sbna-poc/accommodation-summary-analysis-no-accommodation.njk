@@ -7,15 +7,21 @@
 {% from "components/question/macro.njk" import renderQuestion %}
 {% from "components/summary/accommodation/macro.njk" import renderSummaryFor %}
 
+{%- if answers["type_of_no_accommodation"] == "AWAITING_ASSESSMENT" -%}
+{% set changeLink = "no-accommodation-2" %}
+{%- else -%}
+{% set changeLink = "no-accommodation" %}
+{%- endif -%}
+
 {% set accommodationSummaryHtml %}
 <dl class="govuk-summary-list">
   {{ renderSummaryFor("current_accommodation", { fields: options.allFields, answers: answers, backLink: "accommodation" }) }}
   {%- if answers["type_of_no_accommodation"] != "AWAITING_ASSESSMENT" -%}
-  {{ renderSummaryFor("no_accommodation_reason", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("past_accommodation_details", { fields: options.allFields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryFor("suitable_housing_planned", { fields: options.allFields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryFor("no_accommodation_reason", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
+  {{ renderSummaryFor("past_accommodation_details", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
+  {{ renderSummaryFor("suitable_housing_planned", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
   {%- endif -%}
-  {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
 </dl>
 {% endset -%}
 
