@@ -1342,6 +1342,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  past_drug_usage_cannabis: createPastDrugUsage('past_drug_usage_cannabis'),
   drug_usage_cocaine: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_cocaine',
@@ -1357,6 +1358,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  past_drug_usage_cocaine: createPastDrugUsage('past_drug_usage_cocaine'),
   drug_usage_ecstasy: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_ecstasy',
@@ -1372,6 +1374,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  past_drug_usage_ecstasy: createPastDrugUsage('past_drug_usage_ecstasy'),
   drug_usage_ketamine: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_ketamine',
@@ -1387,6 +1390,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  past_drug_usage_ketamine: createPastDrugUsage('past_drug_usage_ketamine'),
   drug_usage_methadone_prescribed: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_prescribed',
@@ -1402,6 +1406,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  past_drug_usage_methadone_prescribed: createPastDrugUsage('past_drug_usage_methadone_prescribed'),
   drug_usage_non_prescribed_medication: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_non_prescribed_medication',
@@ -1417,6 +1422,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  past_drug_usage_non_prescribed_medication: createPastDrugUsage('past_drug_usage_non_prescribed_medication'),
   drug_usage_psychoactive_substances: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_psychoactive_substances',
@@ -1432,6 +1438,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  past_drug_usage_psychoactive_substances: createPastDrugUsage('past_drug_usage_psychoactive_substances'),
   drug_use_reasons: {
     text: 'Why did [subject] start using drugs?',
     hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
