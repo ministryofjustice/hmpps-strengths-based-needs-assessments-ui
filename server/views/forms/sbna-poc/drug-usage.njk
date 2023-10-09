@@ -25,7 +25,7 @@
     {% for option in fields["drug_use_type"].options %}
        {% if option.checked %}	 
         {% if option.value == "METHADONE_NOT_PRESCRIBED" %}
-            <h2 class="govuk-heading-m">Methadone (Not prescribed)</h2>
+            <h2 class="govuk-heading-m">Methadone (not prescribed)</h2>
            {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_methadone_not_prescribed"], errors) }} 
            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
