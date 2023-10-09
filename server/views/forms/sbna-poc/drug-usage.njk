@@ -29,21 +29,21 @@
            {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_methadone_not_prescribed"], errors) }} 
            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-      {% endif %}
-    {% endif %}	 
+        {% endif %}
+      {% endif %}	 
     {% endfor %}
 {%- endmacro -%}
 
 {%- macro renderCrackUsageQuestion(fields, answers) -%}
     {% for option in fields["drug_use_type"].options %}
-    {% if option.checked %}	
-      {% if option.value == "CRACK" %}
+      {% if option.checked %}	
+       {% if option.value == "CRACK" %}
           <h2 class="govuk-heading-m">Crack</h2>
            {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
             {{ renderQuestion(options.fields["past_drug_usage_crack"], errors) }}
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-      {% endif %}
-     {% endif %}	
+        {% endif %}
+      {% endif %}	
     {% endfor %}
 {%- endmacro -%}
 
