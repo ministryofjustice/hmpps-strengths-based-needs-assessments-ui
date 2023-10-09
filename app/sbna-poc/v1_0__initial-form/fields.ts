@@ -775,7 +775,7 @@ const fields: FormWizard.Fields = {
     },
     code: 'practitioner_analysis_patterns_of_behaviour',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -804,7 +804,7 @@ const fields: FormWizard.Fields = {
     },
     code: 'practitioner_analysis_strengths_or_protective_factors',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -829,7 +829,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of serious harm?',
     code: 'practitioner_analysis_risk_of_serious_harm',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -853,7 +853,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of reoffending?',
     code: 'practitioner_analysis_risk_of_reoffending',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -878,7 +878,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area of need which is not related to risk?',
     code: 'practitioner_analysis_related_to_risk',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
