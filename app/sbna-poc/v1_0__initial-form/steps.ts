@@ -14,6 +14,7 @@ const stepOptions: FormWizard.Steps = {
     entryPoint: true,
     template: `forms/sbna-poc/start`,
     next: 'accommodation',
+    section: 'none',
   },
   '/accommodation': {
     pageTitle: 'Accommodation',
@@ -40,6 +41,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     template: 'forms/default',
     navigationOrder: 1,
+    section: 'accommodation',
   },
   '/settled-accommodation': {
     pageTitle: 'Accommodation',
@@ -67,6 +69,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-summary-analysis-settled',
     template: 'forms/default',
     backLink: 'accommodation',
+    section: 'accommodation',
   },
   '/temporary-accommodation': {
     pageTitle: 'Accommodation',
@@ -99,6 +102,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-summary-analysis-temporary',
     template: 'forms/default',
     backLink: 'accommodation',
+    section: 'accommodation',
   },
   '/temporary-accommodation-2': {
     pageTitle: 'Accommodation',
@@ -127,6 +131,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-summary-analysis-temporary',
     template: 'forms/default',
     backLink: 'accommodation',
+    section: 'accommodation',
   },
   '/no-accommodation': {
     pageTitle: 'Accommodation',
@@ -151,6 +156,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-summary-analysis-no-accommodation',
     template: 'forms/default',
     backLink: 'accommodation',
+    section: 'accommodation',
   },
   '/no-accommodation-2': {
     pageTitle: 'Accommodation',
@@ -167,6 +173,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-summary-analysis-no-accommodation',
     template: 'forms/default',
     backLink: 'accommodation',
+    section: 'accommodation',
   },
   // '/add-living-with-child': {
   //   pageTitle: 'Child details',
@@ -227,8 +234,9 @@ const stepOptions: FormWizard.Steps = {
       'practitioner_analysis_related_to_risk',
       'practitioner_analysis_related_to_risk_details',
     ],
-    next: 'accommodation-analysis-complete-no-accommodation',
+    next: 'accommodation-analysis-complete-no-accommodation#practitioner-analysis',
     template: 'forms/sbna-poc/accommodation-summary-analysis-no-accommodation',
+    section: 'accommodation',
   },
   '/accommodation-summary-analysis-temporary': {
     pageTitle: 'Accommodation',
@@ -245,8 +253,9 @@ const stepOptions: FormWizard.Steps = {
       'practitioner_analysis_related_to_risk',
       'practitioner_analysis_related_to_risk_details',
     ],
-    next: 'accommodation-analysis-complete-temporary',
+    next: 'accommodation-analysis-complete-temporary#practitioner-analysis',
     template: 'forms/sbna-poc/accommodation-summary-analysis-temporary',
+    section: 'accommodation',
   },
   '/accommodation-summary-analysis-settled': {
     pageTitle: 'Accommodation',
@@ -263,26 +272,30 @@ const stepOptions: FormWizard.Steps = {
       'practitioner_analysis_related_to_risk',
       'practitioner_analysis_related_to_risk_details',
     ],
-    next: 'accommodation-analysis-complete-settled',
+    next: 'accommodation-analysis-complete-settled#practitioner-analysis',
     template: 'forms/sbna-poc/accommodation-summary-analysis-settled',
+    section: 'accommodation',
   },
   '/accommodation-analysis-complete-settled': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/accommodation-analysis-complete-settled',
+    section: 'accommodation',
   },
   '/accommodation-analysis-complete-temporary': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/accommodation-analysis-complete-temporary',
+    section: 'accommodation',
   },
   '/accommodation-analysis-complete-no-accommodation': {
     pageTitle: 'Accommodation',
     controller: SaveAndContinueController,
     next: 'employment-education-finance',
     template: 'forms/sbna-poc/accommodation-analysis-complete-no-accommodation',
+    section: 'accommodation',
   },
   '/employment-education-finance': {
     pageTitle: 'Employment and education ',
@@ -290,6 +303,7 @@ const stepOptions: FormWizard.Steps = {
     fields: [],
     template: 'forms/default',
     navigationOrder: 2,
+    section: 'employment-education-finance',
   },
   '/drug-use': {
     pageTitle: 'Drug use',
@@ -301,6 +315,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     template: 'forms/default',
     navigationOrder: 3,
+    section: 'drug-use',
   },
   '/drug-use-type': {
     pageTitle: 'Drug use',
@@ -309,6 +324,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'drug-usage-details',
     template: 'forms/default',
     backLink: 'drug-use',
+    section: 'drug-use',
   },
   '/no-drug-use-summary': {
     pageTitle: 'Drug use',
@@ -332,6 +348,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     next: 'no-drug-use-analysis-complete',
     template: 'forms/sbna-poc/no-drug-use-summary-analysis',
+    section: 'drug-use',
   },
   '/drug-usage-details': {
     pageTitle: 'Usage details',
@@ -368,6 +385,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     next: 'drug-use-details',
     template: 'forms/sbna-poc/drug-usage',
+    section: 'drug-use',
   },
   '/drug-use-details': {
     pageTitle: 'Drug use',
@@ -384,6 +402,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     // next: ,
     template: 'forms/default',
+    section: 'drug-use',
   },
 
   '/no-drug-use-analysis-complete': {
@@ -391,6 +410,7 @@ const stepOptions: FormWizard.Steps = {
     controller: SaveAndContinueController,
     fields: [],
     template: 'forms/sbna-poc/no-drug-use-analysis-complete',
+    section: 'drug-use',
   },
 }
 

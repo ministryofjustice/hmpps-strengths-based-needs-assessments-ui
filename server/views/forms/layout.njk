@@ -38,7 +38,7 @@
         <div class="govuk-grid-column-one-quarter">
           <ul class="govuk-list navigation">
             {% for link in form.navigation %}
-              <li><a href="{{ link.url }}" class="govuk-link">{{ link.label }}</a></li>
+              <li><a href="{{ link.url }}?action=resume" class="govuk-link">{{ link.label }}</a></li>
             {% endfor %}
           </ul>
         </div>

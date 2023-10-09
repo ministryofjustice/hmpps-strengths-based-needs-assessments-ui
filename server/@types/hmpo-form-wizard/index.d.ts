@@ -72,6 +72,7 @@ declare module 'hmpo-form-wizard' {
         options: {
           allFields: { [key: string]: Field }
           journeyName: string
+          section: string
         }
       }
       sessionModel: {
@@ -92,6 +93,8 @@ declare module 'hmpo-form-wizard' {
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      getValues(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       saveValues(req: Request, res: express.Response, next: express.NextFunction): Promise
 
@@ -180,6 +183,7 @@ declare module 'hmpo-form-wizard' {
       controller?: typeof FormWizard.Controller
       navigationOrder?: number
       backLink?: string
+      section: string
     }
 
     interface Steps {

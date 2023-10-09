@@ -9,10 +9,12 @@ const steps: FormWizard.Steps = {
     reset: true,
     entryPoint: true,
     template: `forms/oastub/start`,
+    section: 'oastub',
   },
   '/create-one-time-link': {
     pageTitle: 'OAStub',
     controller: StartController,
+    section: 'oastub',
   },
 }
 

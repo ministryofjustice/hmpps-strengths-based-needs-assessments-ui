@@ -49,6 +49,23 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
   }
 
+  async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
+    const isResume = req.query.action === 'resume'
+    const thisSection = req.form.options.section
+    const resumeState = (req.sessionModel.get('resumeState') as Record<string, string | null>) || {}
+    const lastPage = resumeState[thisSection]
+    const { lastSection } = resumeState
+
+    if (lastPage && (thisSection !== lastSection || isResume)) {
+      req.sessionModel.set('resumeState', { ...resumeState, [thisSection]: null, lastSection: thisSection })
+      return res.redirect(lastPage)
+    }
+
+    req.sessionModel.set('resumeState', { ...resumeState, [thisSection]: req.url.slice(1), lastSection: thisSection })
+
+    return super.getValues(req, res, next)
+  }
+
   async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const { assessmentUUID } = req.session.sessionData as SessionInformation
@@ -69,6 +86,10 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       }
 
       await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove })
+
+      const thisSection = req.form.options.section
+      const resumeState = (req.sessionModel.get('resumeState') as Record<string, string | null>) || {}
+      req.sessionModel.set('resumeState', { ...resumeState, [thisSection]: null })
 
       super.saveValues(req, res, next)
     } catch (error) {
