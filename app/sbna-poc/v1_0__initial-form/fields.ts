@@ -65,6 +65,74 @@ const summaryCharacterLimit = 4000
 const mediumLabel = 'govuk-label--m'
 const visuallyHidden = 'govuk-visually-hidden'
 
+const createReceivingTreatment = (
+  fieldCode: string,
+  dependentFieldCode: string,
+  valueCode: string,
+): FormWizard.Field => ({
+  text: 'Is [subject] receiving treatment?',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Select if they are receiving treatment' }],
+  options: [
+    { text: 'Yes', value: 'YES', kind: 'option' },
+    { text: 'No', value: 'NO', kind: 'option' },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
+const createInjectingDrug = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
+  text: 'Is [subject] injecting this drug?',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+  options: [
+    { text: 'Yes', value: 'YES', kind: 'option' },
+    { text: 'No', value: 'NO', kind: 'option' },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
+const createPastDrugUsage = (fieldCode: string): FormWizard.Field => ({
+  text: 'Has [subject] used this drug in the past?',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Error message' }],
+  options: [
+    { text: 'Yes', value: 'YES', kind: 'option' },
+    { text: 'No', value: 'NO', kind: 'option' },
+  ],
+  labelClasses: mediumLabel,
+})
+
+const createPastInjectingDrug = (
+  fieldCode: string,
+  dependentFieldCode: string,
+  valueCode: string,
+): FormWizard.Field => ({
+  text: 'Was [subject] injecting this drug?',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+  options: [
+    { text: 'Yes', value: 'YES', kind: 'option' },
+    { text: 'No', value: 'NO', kind: 'option' },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
 const fields: FormWizard.Fields = {
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
@@ -1009,6 +1077,7 @@ const fields: FormWizard.Fields = {
       { text: 'Crack', value: 'CRACK', kind: 'option' },
       { text: 'Ecstasy', value: 'ECSTASY', kind: 'option' },
       { text: 'Heroin', value: 'HEROIN', kind: 'option' },
+      { text: 'Ketamine (also known as MDMA)', value: 'KETAMINE', kind: 'option' },
       { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
       { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED', kind: 'option' },
       { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION', kind: 'option' },
@@ -1017,19 +1086,16 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  drug_usage: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
-    labelClasses: mediumLabel,
+  other_drug_details: {
+    text: 'Enter drug name',
+    code: 'other_drug_details',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter drug name' }],
+    dependent: {
+      field: 'drug_use_type',
+      value: 'OTHER_DRUG_TYPE',
+      displayInline: true,
+    },
   },
   drug_usage_heroin: {
     text: 'How often is [subject] using this drug?',
@@ -1041,81 +1107,338 @@ const fields: FormWizard.Fields = {
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
       { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
       { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
   },
-  daily_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'daily_drug_usage_treatment',
+  daily_injecting_drug_heroin: createInjectingDrug('daily_injecting_drug', 'drug_usage_heroin', 'DAILY'),
+  weekly_injecting_drug_heroin: createInjectingDrug('weekly_injecting_drug', 'drug_usage_heroin', 'WEEKLY'),
+  monthly_injecting_drug_heroin: createInjectingDrug('monthly_injecting_drug', 'drug_usage_heroin', 'MONTHLY'),
+  occasionally_injecting_drug_heroin: createInjectingDrug(
+    'occasionally_injecting_drug',
+    'drug_usage_heroin',
+    'OCCASIONALLY',
+  ),
+  daily_drug_usage_treatment_heroin: createReceivingTreatment(
+    'daily_drug_usage_treatment',
+    'drug_usage_heroin',
+    'DAILY',
+  ),
+  weekly_drug_usage_treatment_heroin: createReceivingTreatment(
+    'weekly_drug_usage_treatment',
+    'drug_usage_heroin',
+    'WEEKLY',
+  ),
+  monthly_drug_usage_treatment_heroin: createReceivingTreatment(
+    'monthly_drug_usage_treatment',
+    'drug_usage_heroin',
+    'MONTHLY',
+  ),
+  occasionally_drug_usage_treatment: createReceivingTreatment(
+    'occasionally_drug_usage_treatment',
+    'drug_usage_heroin',
+    'OCCASIONALLY',
+  ),
+  past_drug_usage_heroin: createPastDrugUsage('past_drug_usage_heroin'),
+  past_injecting_drug_heroin: createPastInjectingDrug('past_injecting_drug_heroin', 'past_drug_usage_heroin', 'YES'),
+  drug_usage_methadone_not_prescribed: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_methadone_not_prescribed',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Field is required' }],
     options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'DAILY',
-      displayInline: true,
-    },
-  },
-  weekly_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'weekly_drug_usage_treatment',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'WEEKLY',
-      displayInline: true,
-    },
-  },
-  monthly_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'monthly_drug_usage_treatment',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'MONTHLY',
-      displayInline: true,
-    },
-  },
-  occasionally_drug_usage_treatment: {
-    text: 'Is [subject] receiving treatment?',
-    code: 'occasionally_drug_usage_treatment',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    dependent: {
-      field: 'drug_usage_heroin',
-      value: 'OCCASIONALLY',
-      displayInline: true,
-    },
-  },
-  drug_past_usage: {
-    text: 'Has [subject] used this drug in the past?',
-    code: 'drug_past_usage',
-    type: FieldType.CheckBox,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
   },
+  daily_injecting_drug_methadone_not_prescribed: createInjectingDrug(
+    'daily_injecting_drug_methadone_not_prescribed',
+    'drug_usage_methadone_not_prescribed',
+    'DAILY',
+  ),
+  weekly_injecting_methadone_not_prescribed: createInjectingDrug(
+    'weekly_injecting_drug_methadone_not_prescribed',
+    'drug_usage_methadone_not_prescribed',
+    'WEEKLY',
+  ),
+  monthly_injecting_drug_methadone_not_prescribed: createInjectingDrug(
+    'monthly_injecting_drug_methadone_not_prescribed',
+    'drug_usage_methadone_not_prescribed',
+    'MONTHLY',
+  ),
+  occasionally_injecting_drug_methadone_not_prescribed: createInjectingDrug(
+    'occasionally_injecting_drug_methadone_not_prescribed',
+    'drug_usage_methadone_not_prescribed',
+    'OCCASIONALLY',
+  ),
+  past_drug_usage_methadone_not_prescribed: createPastDrugUsage('past_drug_usage_methadone_not_prescribed'),
+  past_injecting_drug_methadone_not_prescribed: createPastInjectingDrug(
+    'past_injecting_drug_methadone_not_prescribed',
+    'past_drug_usage_methadone_not_prescribed',
+    'YES',
+  ),
+  drug_usage_crack: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_crack',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  daily_injecting_drug_crack: createInjectingDrug('daily_injecting_drug_crack', 'drug_usage_crack', 'DAILY'),
+  weekly_injecting_drug_crack: createInjectingDrug('weekly_injecting_drug_crack', 'drug_usage_crack', 'WEEKLY'),
+  monthly_injecting_drug_crack: createInjectingDrug('monthly_injecting_drug_crack', 'drug_usage_crack', 'MONTHLY'),
+  occasionally_injecting_drug_crack: createInjectingDrug(
+    'occasionally_injecting_drug_crack',
+    'drug_usage_crack',
+    'OCCASIONALLY',
+  ),
+  past_drug_usage_crack: createPastDrugUsage('past_drug_usage_crack'),
+  past_injecting_drug_crack: createPastInjectingDrug('past_injecting_drug_crack', 'past_drug_usage_crack', 'YES'),
+  drug_usage_amphetamines: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_amphetamines',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  daily_injecting_drug_amphetamines: createInjectingDrug(
+    'daily_injecting_drug_amphetamines',
+    'drug_usage_amphetamines',
+    'DAILY',
+  ),
+  weekly_injecting_drug_amphetamines: createInjectingDrug(
+    'weekly_injecting_drug_amphetamines',
+    'drug_usage_amphetamines',
+    'WEEKLY',
+  ),
+  monthly_injecting_drug_amphetamines: createInjectingDrug(
+    'monthly_injecting_drug_amphetamines',
+    'drug_usage_amphetamines',
+    'MONTHLY',
+  ),
+  occasionally_injecting_drug_amphetamines: createInjectingDrug(
+    'occasionally_injecting_drug_amphetamines',
+    'drug_usage_amphetamines',
+    'OCCASIONALLY',
+  ),
+  past_drug_usage_amphetamines: createPastDrugUsage('past_drug_usage_amphetamines'),
+  past_injecting_drug_amphetamines: createPastInjectingDrug(
+    'past_injecting_drug_amphetamines',
+    'past_drug_usage_amphetamines',
+    'YES',
+  ),
+  drug_usage_benzodiazepines: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_benzodiazepines',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  daily_injecting_drug_benzodiazepines: createInjectingDrug(
+    'daily_injecting_drug_benzodiazepines',
+    'drug_usage_benzodiazepines',
+    'DAILY',
+  ),
+  weekly_injecting_drug_benzodiazepines: createInjectingDrug(
+    'weekly_injecting_drug_benzodiazepines',
+    'drug_usage_benzodiazepines',
+    'WEEKLY',
+  ),
+  monthly_injecting_drug_benzodiazepines: createInjectingDrug(
+    'monthly_injecting_drug_benzodiazepines',
+    'drug_usage_benzodiazepines',
+    'MONTHLY',
+  ),
+  occasionally_injecting_drug_benzodiazepines: createInjectingDrug(
+    'occasionally_injecting_drug_benzodiazepines',
+    'drug_usage_benzodiazepines',
+    'OCCASIONALLY',
+  ),
+  past_drug_usage_benzodiazepines: createPastDrugUsage('past_drug_usage_benzodiazepines'),
+  past_injecting_drug_benzodiazepines: createPastInjectingDrug(
+    'past_injecting_drug_benzodiazepines',
+    'past_drug_usage_benzodiazepines',
+    'YES',
+  ),
+  drug_usage_other_drug: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_other_drug',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  daily_injecting_drug_other_drug: createInjectingDrug(
+    'daily_injecting_drug_other_drug',
+    'drug_usage_other_drug',
+    'DAILY',
+  ),
+  weekly_injecting_drug_other_drug: createInjectingDrug(
+    'weekly_injecting_drug_other_drug',
+    'drug_usage_other_drug',
+    'WEEKLY',
+  ),
+  monthly_injecting_drug_other_drug: createInjectingDrug(
+    'monthly_injecting_drug_other_drug',
+    'drug_usage_other_drug',
+    'MONTHLY',
+  ),
+  occasionally_injecting_drug_other_drug: createInjectingDrug(
+    'occasionally_injecting_drug_other_drug',
+    'drug_usage_other_drug',
+    'OCCASIONALLY',
+  ),
+  past_drug_usage_other: createPastDrugUsage('past_drug_usage_other'),
+  past_injecting_drug_other: createPastInjectingDrug('past_injecting_drug_other', 'past_drug_usage_other', 'YES'),
+  drug_usage_cannabis: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_cannabis',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  past_drug_usage_cannabis: createPastDrugUsage('past_drug_usage_cannabis'),
+  drug_usage_cocaine: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_cocaine',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  past_drug_usage_cocaine: createPastDrugUsage('past_drug_usage_cocaine'),
+  drug_usage_ecstasy: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_ecstasy',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  past_drug_usage_ecstasy: createPastDrugUsage('past_drug_usage_ecstasy'),
+  drug_usage_ketamine: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_ketamine',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  past_drug_usage_ketamine: createPastDrugUsage('past_drug_usage_ketamine'),
+  drug_usage_methadone_prescribed: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_methadone_prescribed',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  past_drug_usage_methadone_prescribed: createPastDrugUsage('past_drug_usage_methadone_prescribed'),
+  drug_usage_non_prescribed_medication: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_non_prescribed_medication',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  past_drug_usage_non_prescribed_medication: createPastDrugUsage('past_drug_usage_non_prescribed_medication'),
+  drug_usage_psychoactive_substances: {
+    text: 'How often is [subject] using this drug?',
+    code: 'drug_usage_psychoactive_substances',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    options: [
+      { text: 'Daily', value: 'DAILY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+      orDivider,
+      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  past_drug_usage_psychoactive_substances: createPastDrugUsage('past_drug_usage_psychoactive_substances'),
   drug_use_reasons: {
     text: 'Why did [subject] start using drugs?',
     hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
@@ -1247,7 +1570,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'patterns_or_behaviours_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'patterns_or_behaviours',
       value: 'YES',
@@ -1258,7 +1589,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'patterns_or_behaviours_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'patterns_or_behaviours',
       value: 'NO',
@@ -1281,7 +1620,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'strengths_or_protective_factors_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'strengths_or_protective_factors',
       value: 'YES',
@@ -1292,7 +1639,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'strengths_or_protective_factors_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'strengths_or_protective_factors',
       value: 'NO',
@@ -1314,7 +1669,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_serious_harm_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_serious_harm',
       value: 'YES',
@@ -1325,7 +1688,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_serious_harm_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_serious_harm',
       value: 'NO',
@@ -1347,7 +1718,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_reoffending_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_reoffending',
       value: 'YES',
@@ -1358,7 +1737,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'linked_to_risk_of_reoffending_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'linked_to_risk_of_reoffending',
       value: 'NO',
@@ -1380,7 +1767,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'not_related_to_risk_yes_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'not_related_to_risk',
       value: 'YES',
@@ -1391,7 +1786,15 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'not_related_to_risk_no_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
     dependent: {
       field: 'not_related_to_risk',
       value: 'NO',
