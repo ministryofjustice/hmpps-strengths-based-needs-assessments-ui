@@ -26,8 +26,8 @@
         <div class="govuk-grid-column-full">
           <div class= "return-to-assessment">
             {{ govukButton({
-                  text: "Return to assessment",
-                  classes: "govuk-button--secondary"
+              text: "Return to assessment",
+              classes: "govuk-button--secondary"
             }) }}
           </div>
           <h1 class="govuk-heading-l">{{ options.journeyPageTitle }}</h1>
@@ -49,7 +49,11 @@
               href: backLink
             }) }}
           {% endif %}
-          <h2 class="govuk-heading-l">{{ options.pageTitle }}</h2>
+          {% if form.fields.length == 1 %}
+            <h2 class="govuk-body-l govuk-!-margin-0">{{ options.pageTitle }}</h2>
+          {% else %}
+            <h2 class="govuk-heading-l">{{ options.pageTitle }}</h2>
+          {% endif %}
           {%- if errors | length -%}
           {{ govukErrorSummary({
             titleText: "There is a problem",
