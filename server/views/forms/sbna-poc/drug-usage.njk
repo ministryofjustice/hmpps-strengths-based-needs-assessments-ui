@@ -15,6 +15,7 @@
             <h2 class="govuk-heading-m">Heroin</h2>
            {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}	   
           {{ renderQuestion(options.fields["past_drug_usage_heroin"], errors) }} 
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}	
       {% endif %}	     
     {% endfor %}	  
@@ -27,6 +28,7 @@
             <h2 class="govuk-heading-m">Methadone (Not prescribed)</h2>
            {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_methadone_not_prescribed"], errors) }} 
+           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
       {% endif %}
     {% endif %}	 
     {% endfor %}
@@ -39,6 +41,7 @@
           <h2 class="govuk-heading-m">Crack</h2>
            {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
             {{ renderQuestion(options.fields["past_drug_usage_crack"], errors) }}
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
       {% endif %}
      {% endif %}	
     {% endfor %}
@@ -51,6 +54,7 @@
            <h2 class="govuk-heading-m">Amphetamines</h2>
            {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_amphetamines"], errors) }}
+           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -63,6 +67,7 @@
            <h2 class="govuk-heading-m">Benzodiazepines</h2>   
            {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_benzodiazepines"], errors) }}
+           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -72,9 +77,10 @@
     {% for option in fields["drug_use_type"].options %}
       {% if option.checked %}	
           {% if option.value == "OTHER_DRUG_TYPE" %}
-            {{ options.allFields["other_drug_details"].value }}
+            <h2 class="govuk-heading-m">{{ options.allFields["other_drug_details"].value }}</h2>
            {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_other"], errors) }}
+           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -87,6 +93,7 @@
            <h2 class="govuk-heading-m">Cannabis</h2>   
            {{ renderQuestion(options.fields["drug_usage_cannabis"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_cannabis"], errors) }}
+           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -99,6 +106,7 @@
            <h2 class="govuk-heading-m">Cocaine</h2>   
            {{ renderQuestion(options.fields["drug_usage_cocaine"], errors) }}
            {{ renderQuestion(options.fields["past_drug_usage_cocaine"], errors) }}
+           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -111,6 +119,7 @@
            <h2 class="govuk-heading-m">Ecstasy</h2>   
            {{ renderQuestion(options.fields["drug_usage_ecstasy"], errors) }}
              {{ renderQuestion(options.fields["past_drug_usage_ecstasy"], errors) }}
+             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -123,6 +132,7 @@
            <h2 class="govuk-heading-m">Ketamine (also known as MDMA)</h2>   
            {{ renderQuestion(options.fields["drug_usage_ketamine"], errors) }}
             {{ renderQuestion(options.fields["past_drug_usage_ketamine"], errors) }}
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -135,11 +145,11 @@
            <h2 class="govuk-heading-m">Methadone (prescribed)</h2>   
            {{ renderQuestion(options.fields["drug_usage_methadone_prescribed"], errors) }}
             {{ renderQuestion(options.fields["past_drug_usage_methadone_prescribed"], errors) }}
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
 {%- endmacro -%}
-
 
 {%- macro renderNonPrescribedUsageQuestion(fields, answers) -%}
     {% for option in fields["drug_use_type"].options %}
@@ -148,6 +158,7 @@
            <h2 class="govuk-heading-m">Non-prescribed medication</h2>   
            {{ renderQuestion(options.fields["drug_usage_non_prescribed_medication"], errors) }}
             {{ renderQuestion(options.fields["past_drug_usage_non_prescribed_medication"], errors) }}
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
@@ -160,11 +171,11 @@
            <h2 class="govuk-heading-m">Psychoactive substances (spice)</h2>   
            {{ renderQuestion(options.fields["drug_usage_psychoactive_substances"], errors) }}
             {{ renderQuestion(options.fields["past_drug_usage_psychoactive_substances"], errors) }}
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
        {% endif %}	 
     {% endfor %}
 {%- endmacro -%}
-
 
 {{ renderHeroinUsageQuestion(options.fields, options.answers) }}
 {{ renderMethadoneNotPrescribedUsageQuestion(options.fields, options.answers) }}
@@ -179,39 +190,11 @@
 {{ renderMethadonePrescribedUsageQuestion(options.fields, options.answers) }}
 {{ renderNonPrescribedUsageQuestion(options.fields, options.answers) }}
 {{ renderPsychoactiveSubstancesUsageQuestion(options.fields, options.answers) }} 
-
-
-  {# {% for option in field.options %}
-   {%- if value["drug_use_type"] == "HEROIN" -%}
-    {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
-    and 
-    {%- if answers["drug_use_type"] == "METHADONE_NOT_PRESCRIBED" -%}
-     {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
-   {%- endif -%} #}
-  {# {% endfor %} #}
-
-  {# {%- if answers["drug_use_type"] != "HEROIN" -%}  
-  {{ renderQuestion(options.fields["drug_usage"], errors) }}
-  {%- endif -%}  #}
-
-  {# {%- if answers["drug_use_type"] == "METHADONE_NOT_PRESCRIBED" -%}
-  {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
-  {%- endif -%}
-
-  {%- if answers["drug_use_type"] == "CRACK" -%}
-  {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
-  {%- endif -%}
-
-  {%- if answers["drug_use_type"] == "AMPHETAMINES" -%}
-  {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
-  {%- endif -%}
-
-  {%- if answers["drug_use_type"] == "BENZODIAZEPINES" -%}
-  {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
-  {%- endif -%}
-
-  {%- if answers["drug_use_type"] == "OTHER_DRUG_TYPE" -%}
-  {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }} 
-  {%- endif -%}  #}
 </form>
+
+{{ govukButton({
+  text: "Save and continue",
+  href: "/form/sbna-poc/drug-use-details"
+}) }}
+
 {% endblock %}
