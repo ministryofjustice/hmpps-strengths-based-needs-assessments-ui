@@ -8,7 +8,27 @@
   <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in form.fields %}
-      {{ renderQuestion(options.fields[field], errors, collections, action) }}
+      {% set fieldPrototype = options.fields[field] %}
+
+      {% if form.fields.length == 1 %}
+      {% set labelClasses = "govuk-label--l" %}
+      {% else %}
+      {% set labelClasses = fieldPrototype.labelClasses %}
+      {% endif %}
+
+      {% set fieldOptions = {
+        text: fieldPrototype.text,
+        code: fieldPrototype.code,
+        hint: fieldPrototype.hint,
+        type: fieldPrototype.type,
+        options: fieldPrototype.options,
+        value: fieldPrototype.value,
+        labelClasses: labelClasses,
+        characterCountMax: fieldPrototype.characterCountMax,
+        classes: fieldPrototype.classes
+      } %}
+
+      {{ renderQuestion(fieldOptions, errors, collections, action) }}
     {% endfor %}
 
     <div class="questiongroup-action-buttons">

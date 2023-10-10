@@ -9,8 +9,8 @@
   <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 
 {%- macro renderHeroinUsageQuestion(fields, answers) -%}	
-    {% for option in fields["drug_use_type"].options %}	   
-        {% if option.checked %}	          
+    {% for option in fields["drug_use_type"].options %}
+        {% if option.checked %}
           {% if option.value == "HEROIN" %}	
             <h2 class="govuk-heading-m">Heroin</h2>
            {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}	   
@@ -173,7 +173,7 @@
             {{ renderQuestion(options.fields["past_drug_usage_psychoactive_substances"], errors) }}
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
-       {% endif %}	 
+       {% endif %}	
     {% endfor %}
 {%- endmacro -%}
 
