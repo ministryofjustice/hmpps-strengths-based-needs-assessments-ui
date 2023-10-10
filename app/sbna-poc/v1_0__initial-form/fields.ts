@@ -89,7 +89,7 @@ const createInjectingDrug = (fieldCode: string, dependentFieldCode: string, valu
   text: 'Is [subject] injecting this drug?',
   code: fieldCode,
   type: FieldType.Radio,
-  validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+  validate: [{ type: ValidationType.Required, message: 'Select if they are injecting this drug' }],
   options: [
     { text: 'Yes', value: 'YES', kind: 'option' },
     { text: 'No', value: 'NO', kind: 'option' },
@@ -105,7 +105,7 @@ const createPastDrugUsage = (fieldCode: string): FormWizard.Field => ({
   text: 'Has [subject] used this drug in the past?',
   code: fieldCode,
   type: FieldType.Radio,
-  validate: [{ type: ValidationType.Required, message: 'Error message' }],
+  validate: [{ type: ValidationType.Required, message: 'Select if they have used this drug in the past' }],
   options: [
     { text: 'Yes', value: 'YES', kind: 'option' },
     { text: 'No', value: 'NO', kind: 'option' },
@@ -121,7 +121,7 @@ const createPastInjectingDrug = (
   text: 'Was [subject] injecting this drug?',
   code: fieldCode,
   type: FieldType.Radio,
-  validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+  validate: [{ type: ValidationType.Required, message: 'Select if they were injecting this drug ' }],
   options: [
     { text: 'Yes', value: 'YES', kind: 'option' },
     { text: 'No', value: 'NO', kind: 'option' },
@@ -775,7 +775,7 @@ const fields: FormWizard.Fields = {
     },
     code: 'practitioner_analysis_patterns_of_behaviour',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -804,7 +804,7 @@ const fields: FormWizard.Fields = {
     },
     code: 'practitioner_analysis_strengths_or_protective_factors',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -829,7 +829,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of serious harm?',
     code: 'practitioner_analysis_risk_of_serious_harm',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -853,7 +853,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of reoffending?',
     code: 'practitioner_analysis_risk_of_reoffending',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -878,7 +878,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area of need which is not related to risk?',
     code: 'practitioner_analysis_related_to_risk',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -903,7 +903,7 @@ const fields: FormWizard.Fields = {
     text: 'Has [subject] ever used drugs?',
     code: 'drug_use',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Drug use is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have ever used drugs' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -915,7 +915,7 @@ const fields: FormWizard.Fields = {
     code: 'drug_use_changes',
     hint: { text: 'This question must be directly answered by [subject] ', kind: 'text' },
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Drug use change field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they want to make changes to their drug use' }],
     options: [
       { text: 'I have already made positive changes', value: 'POSITIVE_CHANGE', kind: 'option' },
       { text: 'I am actively making changes', value: 'ACTIVE_CHANGE', kind: 'option' },
@@ -933,7 +933,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_positive_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'POSITIVE_CHANGE',
@@ -944,7 +944,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_active_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'ACTIVE_CHANGE',
@@ -955,7 +955,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_known_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'KNOWN_CHANGE',
@@ -966,7 +966,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_help_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'HELP_CHANGE',
@@ -977,7 +977,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_think_change:',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'THINK_CHANGE',
@@ -988,7 +988,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_no_change:',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'NO_CHANGE',
@@ -1067,7 +1067,7 @@ const fields: FormWizard.Fields = {
     code: 'drug_use_type',
     hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
     multiple: true,
     options: [
       { text: 'Amphetamines', value: 'AMPHETAMINES', kind: 'option' },
@@ -1101,7 +1101,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_heroin',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1146,7 +1146,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_not_prescribed',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1187,7 +1187,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_crack',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1212,7 +1212,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_amphetamines',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1253,7 +1253,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_benzodiazepines',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1294,7 +1294,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_other_drug',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1331,7 +1331,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_cannabis',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1347,7 +1347,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_cocaine',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1363,7 +1363,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_ecstasy',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1379,7 +1379,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_ketamine',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1395,7 +1395,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_prescribed',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1411,7 +1411,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_non_prescribed_medication',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1427,7 +1427,7 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_psychoactive_substances',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1444,7 +1444,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
     code: 'drug_use_reasons',
     type: FieldType.CheckBox,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select why they started using drugs' }],
     options: [
       { text: 'Recreation or pleasure', value: 'RECREATION_PLEASURE', kind: 'option' },
       { text: 'Curiosity or experimentation', value: 'CURIOSITY_EXPERIMENTATION', kind: 'option' },
@@ -1463,7 +1463,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_reason_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_reasons',
       value: 'OTHER',
@@ -1475,7 +1475,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Select all that apply', kind: 'text' },
     code: 'drug_use_impact',
     type: FieldType.CheckBox,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select the impact of them using drugs' }],
     options: [
       {
         text: 'Physical or mental health',
@@ -1512,7 +1512,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Consider impact on themselves or others.', kind: 'text' },
     code: 'drug_use_impact_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_impact',
       value: 'OTHER',
@@ -1523,7 +1523,12 @@ const fields: FormWizard.Fields = {
     text: 'Has anything helped [subject] to stop or reduce using drugs in the past?',
     code: 'reducing_or_stopping_drug_use',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if anything has helped them to stop or reduce using drugs in the past',
+      },
+    ],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1534,7 +1539,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'reducing_or_stopping_drug_use_details',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'reducing_or_stopping_drug_use',
       value: 'YES',
@@ -1545,7 +1550,9 @@ const fields: FormWizard.Fields = {
     text: 'Is [subject] motivated to stop or reduce their drug use?',
     code: 'motivated_stopping_drug_use',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they are motivated to stop or reduce their drug use' },
+    ],
     options: [
       { text: 'Does not show motivation to stop or reduce', value: 'NO_MOTIVATION', kind: 'option' },
       { text: 'Shows some motivation to stop or reduce', value: 'SOME_MOTIVATION', kind: 'option' },
@@ -1559,7 +1566,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Include repeated circumstances or behaviours.', kind: 'text' },
     code: 'patterns_or_behaviours',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1609,7 +1616,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Include any strategies, people or support networks that helped.', kind: 'text' },
     code: 'strengths_or_protective_factors',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1658,7 +1665,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of serious harm?',
     code: 'linked_to_risk_of_serious_harm',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1707,7 +1714,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of reoffedning?',
     code: 'linked_to_risk_of_reoffending',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1756,7 +1763,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area of need which is not related to risk?',
     code: 'not_related_to_risk',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
