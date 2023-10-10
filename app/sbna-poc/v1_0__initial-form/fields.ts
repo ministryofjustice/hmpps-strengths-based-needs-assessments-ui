@@ -944,7 +944,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_active_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'ACTIVE_CHANGE',
@@ -955,7 +955,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_known_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'KNOWN_CHANGE',
@@ -966,7 +966,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_help_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'HELP_CHANGE',
@@ -977,7 +977,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_think_change:',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'THINK_CHANGE',
@@ -988,7 +988,7 @@ const fields: FormWizard.Fields = {
     text: 'Give details',
     code: 'drug_use_no_change:',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
       value: 'NO_CHANGE',
@@ -1566,7 +1566,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Include repeated circumstances or behaviours.', kind: 'text' },
     code: 'patterns_or_behaviours',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1616,7 +1616,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Include any strategies, people or support networks that helped.', kind: 'text' },
     code: 'strengths_or_protective_factors',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1665,7 +1665,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of serious harm?',
     code: 'linked_to_risk_of_serious_harm',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1714,7 +1714,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area linked to risk of reoffedning?',
     code: 'linked_to_risk_of_reoffending',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -1763,7 +1763,7 @@ const fields: FormWizard.Fields = {
     text: 'Is this an area of need which is not related to risk?',
     code: 'not_related_to_risk',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Field is required' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
