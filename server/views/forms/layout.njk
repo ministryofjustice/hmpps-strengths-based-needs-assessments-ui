@@ -36,11 +36,15 @@
       </div>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-quarter">
-          <ul class="govuk-list navigation">
-            {% for link in form.navigation %}
-              <li><a href="{{ link.url }}?action=resume" class="govuk-link">{{ link.label }}</a></li>
-            {% endfor %}
-          </ul>
+          <nav class="moj-side-navigation side-navigation" aria-label="Side navigation">
+            <ul class="moj-side-navigation__list">
+              {% for link in form.navigation %}
+                <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
+                  <a href="{{ link.url }}?action=resume"{% if link.active %} aria-current="location"{% endif %}>{{ link.label }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
         </div>
         <div class="govuk-grid-column-three-quarters">
           {% if backLink %}
