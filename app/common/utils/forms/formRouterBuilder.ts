@@ -10,6 +10,25 @@ const removeQueryParamsFrom = (urlWithParams: string) => {
   return url
 }
 
+interface NavigationItem {
+  url: string
+  label: string
+  active: boolean
+}
+
+const createNavigation = (steps: FormWizard.Steps, baseUrl: string, currentSection: string): Array<NavigationItem> => {
+  return Object.entries(steps)
+    .filter(([_, stepConfig]) => stepConfig.navigationOrder)
+    .sort(([_A, stepConfigA], [_B, stepConfigB]) => stepConfigA.navigationOrder - stepConfigB.navigationOrder)
+    .map(([path, stepConfig]) => ({
+      url: `${baseUrl}${path}`,
+      label: stepConfig.pageTitle,
+      active: stepConfig.section === currentSection,
+    }))
+}
+
+const getStepFrom = (steps: FormWizard.Steps, url: string): FormWizard.Step => steps[removeQueryParamsFrom(url)]
+
 const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
   const router = express.Router()
 
@@ -17,15 +36,11 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
     router.get('/fields', (req: Request, res: Response) => res.json(FormFieldsResponse.from(form, options)))
 
     router.use((req: Request, res: Response, next: NextFunction) => {
-      const { fields = [] } = form.steps[removeQueryParamsFrom(req.url)]
-      const steps = Object.entries(form.steps)
-        .filter(([_, stepConfig]) => stepConfig.navigationOrder)
-        .sort(([_A, stepConfigA], [_B, stepConfigB]) => stepConfigA.navigationOrder - stepConfigB.navigationOrder)
-        .map(([path, stepConfig]) => ({ url: `${req.baseUrl}${path}`, label: stepConfig.pageTitle }))
+      const { fields = [], section: currentSection } = getStepFrom(form.steps, req.url)
 
       res.locals.form = {
         fields: fields.filter(fieldCode => !form.fields[fieldCode]?.dependent?.displayInline),
-        navigation: steps,
+        navigation: createNavigation(form.steps, req.baseUrl, currentSection),
       }
 
       next()
