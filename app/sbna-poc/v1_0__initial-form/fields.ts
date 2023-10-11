@@ -1887,5 +1887,111 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
+  finance_money_management: {
+    text: 'How good is [subject] at managing their money?',
+    code: 'finance_money_management',
+    hint: { text: 'This includes things like budgeting, prioritising bills and paying rent..', kind: 'text' },
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    options: [
+      {
+        text: 'Good',
+        value: 'GOOD',
+        hint: { text: 'Able to manage their money well and is a strength.' },
+        kind: 'option',
+      },
+      {
+        text: 'Fairly good',
+        value: 'FAIRLY_GOOD',
+        hint: { text: 'Able to manage their money for everyday necessities.' },
+        kind: 'option',
+      },
+      {
+        text: 'Fairly bad',
+        value: 'FAIRLY_BAD',
+        hint: { text: 'Unable to manage their money well.' },
+        kind: 'option',
+      },
+      {
+        text: 'Bad',
+        value: 'BAD',
+        hint: { text: 'Unable to manage their money which is creating other problems.' },
+        kind: 'option',
+      },
+    ],
+    labelClasses: mediumLabel,
+  },
+  good_money_management_details: {
+    text: 'Give details',
+    code: 'good_money_management_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_money_management',
+      value: 'GOOD',
+      displayInline: true,
+    },
+  },
+  fairly_good_money_management_details: {
+    text: 'Give details',
+    code: 'fairly_good_money_management_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_money_management',
+      value: 'FAIRLY_GOOD',
+      displayInline: true,
+    },
+  },
+  fairly_bad_money_management_details: {
+    text: 'Give details',
+    code: 'fairly_bad_money_management_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_money_management',
+      value: 'FAIRLY_BAD',
+      displayInline: true,
+    },
+  },
+  bad_money_management_details: {
+    text: 'Give details',
+    code: 'bad_money_management_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_money_management',
+      value: 'BAD',
+      displayInline: true,
+    },
+  },
 }
 export default fields
