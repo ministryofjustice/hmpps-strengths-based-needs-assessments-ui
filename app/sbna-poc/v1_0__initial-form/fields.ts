@@ -1902,6 +1902,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'error message' }],
     options: [
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
+      { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
       { text: 'Pension', value: 'PENSION', kind: 'option' },
       {
         text: 'Work related benefits',
@@ -2240,6 +2241,7 @@ const fields: FormWizard.Fields = {
   unknown_debt_details: {
     text: 'Give details (optional)',
     code: 'unknown_debt_details',
+    hint: { text: "Consider if they might have debt due to a partner or family member's finances.", kind: 'text' },
     type: FieldType.TextArea,
     validate: [
       {
@@ -2251,6 +2253,162 @@ const fields: FormWizard.Fields = {
     dependent: {
       field: 'finance_debt',
       value: 'UNKNOWN',
+      displayInline: true,
+    },
+  },
+  changes_to_finance: {
+    text: 'Does [subject] want to make changes to their finance?',
+    hint: { text: 'This question must be directly answered by [subject].', kind: 'text' },
+    code: 'changes_to_finance',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    options: [
+      {
+        text: 'I have already made positive changes and want to maintain them',
+        value: 'POSITIVE_CHANGES',
+        kind: 'option',
+      },
+      {
+        text: 'I am actively making changes',
+        value: 'ACTIVE_CHANGE',
+        kind: 'option',
+      },
+      {
+        text: 'I want to make changes and know how to',
+        value: 'KNOWN_CHANGES',
+        kind: 'option',
+      },
+      {
+        text: 'I want to make changes but need help',
+        value: 'MAKE_CHANGES_HELP',
+        kind: 'option',
+      },
+      {
+        text: 'I am thinking about making changes',
+        value: 'THINKING_CHANGES',
+        kind: 'option',
+      },
+      {
+        text: 'I do not want to make changes',
+        value: 'NO_CHANGES',
+        kind: 'option',
+      },
+      {
+        text: 'I do not want to answer',
+        value: 'NO_ANSWER',
+        kind: 'option',
+      },
+      orDivider,
+      { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  finance_positive_change_details: {
+    text: 'Give details',
+    code: 'finance_positive_change_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'changes_to_finance',
+      value: 'POSITIVE_CHANGES',
+      displayInline: true,
+    },
+  },
+  finance_active_change_details: {
+    text: 'Give details',
+    code: 'finance_active_change_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'changes_to_finance',
+      value: 'ACTIVE_CHANGE',
+      displayInline: true,
+    },
+  },
+  finance_known_change_details: {
+    text: 'Give details',
+    code: 'finance_known_change_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'changes_to_finance',
+      value: 'KNOWN_CHANGES',
+      displayInline: true,
+    },
+  },
+  finance_help_change_details: {
+    text: 'Give details',
+    code: 'finance_help_change_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'changes_to_finance',
+      value: 'MAKE_CHANGES_HELP',
+      displayInline: true,
+    },
+  },
+  finance_thinking_change_details: {
+    text: 'Give details',
+    code: 'finance_thinking_change_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'changes_to_finance',
+      value: 'THINKING_CHANGES',
+      displayInline: true,
+    },
+  },
+  finance_no_change_details: {
+    text: 'Give details',
+    code: 'finance_no_change_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'changes_to_finance',
+      value: 'NO_CHANGES',
       displayInline: true,
     },
   },

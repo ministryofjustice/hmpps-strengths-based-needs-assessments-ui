@@ -416,7 +416,14 @@ const stepOptions: FormWizard.Steps = {
   '/finance': {
     pageTitle: 'Finance',
     controller: SaveAndContinueController,
-    fields: ['finance_income', 'finance_bank_account', 'finance_money_management', 'finance_gambling', 'finance_debt'],
+    fields: [
+      'finance_income',
+      'finance_bank_account',
+      'finance_money_management',
+      'finance_gambling',
+      'finance_debt',
+      'changes_to_finance',
+    ],
     navigationOrder: 3,
     // next: ,
     template: 'forms/default',
