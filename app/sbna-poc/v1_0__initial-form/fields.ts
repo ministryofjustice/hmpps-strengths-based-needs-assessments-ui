@@ -1993,5 +1993,102 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
+  finance_gambling: {
+    text: 'Is [subject] affected by gambling?',
+    code: 'finance_gambling',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    options: [
+      {
+        text: 'Yes, their own gambling',
+        value: 'YES_THEIR_GAMBLING',
+        kind: 'option',
+      },
+      {
+        text: "Yes, someone else's gambling",
+        value: 'YES_SOMEONE_ELSES_GAMBLING',
+        kind: 'option',
+      },
+      {
+        text: 'No',
+        value: 'NO',
+        kind: 'option',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
+        kind: 'option',
+      },
+    ],
+    labelClasses: mediumLabel,
+  },
+  yes_their_gambling_details: {
+    text: 'Give details (optional)',
+    code: 'yes_their_gambling_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_gambling',
+      value: 'YES_THEIR_GAMBLING',
+      displayInline: true,
+    },
+  },
+  yes_someone_elses_gambling_details: {
+    text: 'Give details (optional)',
+    code: 'yes_someone_elses_gambling_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_gambling',
+      value: 'YES_SOMEONE_ELSES_GAMBLING',
+      displayInline: true,
+    },
+  },
+  no_gambling_details: {
+    text: 'Give details (optional)',
+    code: 'no_gambling_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_gambling',
+      value: 'NO',
+      displayInline: true,
+    },
+  },
+  unknown_gambling_details: {
+    text: 'Give details (optional)',
+    code: 'unknown_gambling_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_gambling',
+      value: 'UNKNOWN',
+      displayInline: true,
+    },
+  },
 }
 export default fields
