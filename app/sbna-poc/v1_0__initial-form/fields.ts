@@ -1874,5 +1874,18 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
+  finance_bank_account: {
+    text: 'Does [subject] have a personal bank account?',
+    code: 'finance_bank_account',
+    hint: { text: 'This does not include solely having a joint account.', kind: 'text' },
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
 }
 export default fields
