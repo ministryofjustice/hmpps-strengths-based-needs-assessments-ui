@@ -133,6 +133,92 @@ const createPastInjectingDrug = (
   },
 })
 
+const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
+  text: 'Select type of debt',
+  code: fieldCode,
+  type: FieldType.Radio,
+  validate: [{ type: ValidationType.Required, message: 'Error message' }],
+  options: [
+    { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
+    { text: 'Debt to others', value: 'DEBT_TO_OTHERS', kind: 'option' },
+    { text: 'Formal debt and debt to others', value: 'FORMAL_AND_DEBT_TO_OTHERS', kind: 'option' },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
+const createFormalDebtDetails = (
+  fieldCode: string,
+  dependentFieldCode: string,
+  valueCode: string,
+): FormWizard.Field => ({
+  text: 'Give details (optional)',
+  hint: { text: 'Includes things like credit cards, phone bills or rent arrears.', kind: 'text' },
+  code: fieldCode,
+  type: FieldType.TextArea,
+  validate: [
+    {
+      type: ValidationType.MaxLength,
+      arguments: [characterLimit],
+      message: `Details must be ${characterLimit} characters or less`,
+    },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
+const createDebtToOthersDetails = (
+  fieldCode: string,
+  dependentFieldCode: string,
+  valueCode: string,
+): FormWizard.Field => ({
+  text: 'Give details (optional)',
+  hint: { text: 'Includes things like owing money to family, friends, other prisoners or loan sharks.', kind: 'text' },
+  code: fieldCode,
+  type: FieldType.TextArea,
+  validate: [
+    {
+      type: ValidationType.MaxLength,
+      arguments: [characterLimit],
+      message: `Details must be ${characterLimit} characters or less`,
+    },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
+const createFormalAndDebtOthersDetails = (
+  fieldCode: string,
+  dependentFieldCode: string,
+  valueCode: string,
+): FormWizard.Field => ({
+  text: 'Give details (optional)',
+  hint: { text: 'Includes things like rent arrears and owing others money.', kind: 'text' },
+  code: fieldCode,
+  type: FieldType.TextArea,
+  validate: [
+    {
+      type: ValidationType.MaxLength,
+      arguments: [characterLimit],
+      message: `Details must be ${characterLimit} characters or less`,
+    },
+  ],
+  dependent: {
+    field: dependentFieldCode,
+    value: valueCode,
+    displayInline: true,
+  },
+})
+
 const fields: FormWizard.Fields = {
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
@@ -2086,6 +2172,84 @@ const fields: FormWizard.Fields = {
     ],
     dependent: {
       field: 'finance_gambling',
+      value: 'UNKNOWN',
+      displayInline: true,
+    },
+  },
+  finance_debt: {
+    text: 'Is [subject] affected by debt?',
+    code: 'finance_debt',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    options: [
+      {
+        text: 'Yes, their own debt',
+        value: 'YES_THEIR_DEBT',
+        kind: 'option',
+      },
+      {
+        text: "Yes, someone else's debt",
+        value: 'YES_SOMEONE_ELSES_DEBT',
+        kind: 'option',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
+        kind: 'option',
+      },
+      {
+        text: 'No',
+        value: 'NO',
+        kind: 'option',
+      },
+    ],
+    labelClasses: mediumLabel,
+  },
+  yes_type_of_debt: createDebtType('yes_type_of_debt', 'finance_debt', 'YES_THEIR_DEBT'),
+  yes_formal_debt_details: createFormalDebtDetails('yes_formal_debt_details', 'yes_type_of_debt', 'FORMAL_DEBT'),
+  yes_debt_to_others_details: createDebtToOthersDetails(
+    'yes_debt_to_others_details',
+    'yes_type_of_debt',
+    'DEBT_TO_OTHERS',
+  ),
+  yes_formal_debt_to_others_details: createFormalAndDebtOthersDetails(
+    'yes_formal_debt_to_others_details',
+    'yes_type_of_debt',
+    'FORMAL_AND_DEBT_TO_OTHERS',
+  ),
+  yes_someone_elses_type_of_debt: createDebtType(
+    'yes_someone_elses_type_of_debt',
+    'finance_debt',
+    'YES_SOMEONE_ELSES_DEBT',
+  ),
+  yes_someone_elses_formal_debt_details: createFormalDebtDetails(
+    'yes_someone_elses_formal_debt_details',
+    'yes_someone_elses_type_of_debt',
+    'FORMAL_DEBT',
+  ),
+  yes_someone_elses_debt_to_others_details: createDebtToOthersDetails(
+    'yes_someone_elses_debt_to_others_details',
+    'yes_someone_elses_type_of_debt',
+    'DEBT_TO_OTHERS',
+  ),
+  yes__someone_elses_formal_debt_to_others_details: createFormalAndDebtOthersDetails(
+    'yes__someone_elses_formal_debt_to_others_details',
+    'yes_someone_elses_type_of_debt',
+    'FORMAL_AND_DEBT_TO_OTHERS',
+  ),
+  unknown_debt_details: {
+    text: 'Give details (optional)',
+    code: 'unknown_debt_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_debt',
       value: 'UNKNOWN',
       displayInline: true,
     },
