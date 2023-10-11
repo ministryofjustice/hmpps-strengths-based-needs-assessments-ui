@@ -1808,5 +1808,71 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
+  finance_income: {
+    text: 'Where does [subject] get their money from? ',
+    code: 'finance_income',
+    hint: { text: 'Select all that apply', kind: 'text' },
+    type: FieldType.CheckBox,
+    validate: [{ type: ValidationType.Required, message: 'error message' }],
+    options: [
+      { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
+      { text: 'Pension', value: 'PENSION', kind: 'option' },
+      {
+        text: 'Work related benefits',
+        value: 'WORK_RELATED_BENEFITS',
+        hint: { text: "For example, Universal Credit or Jobseeker's Allowance (JSA)." },
+        kind: 'option',
+      },
+      {
+        text: 'Disability benefits',
+        value: 'DISABILITY_BENEFITS',
+        hint: {
+          text: 'For example, Personal Independence Payment (PIP) (also known as Disability Living Allowance) or Severe Disablement Allowance.',
+        },
+        kind: 'option',
+      },
+      { text: "Carer's allowance", value: 'CARERS_ALLOWANCE', kind: 'option' },
+      { text: 'Family or Friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
+      { text: 'Undeclared (includes cash in hand)', value: 'Undeclared', kind: 'option' },
+      { text: 'Offending', value: 'OFFENDING', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
+      orDivider,
+      { text: 'No money', value: 'NO_MONEY', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  family_or_friends_details: {
+    text: 'Is [subject] over reliant on family or friends for money?',
+    code: 'family_or_friends_details',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+    dependent: {
+      field: 'finance_income',
+      value: 'FAMILY_OR_FRIENDS',
+      displayInline: true,
+    },
+  },
+  other_income_details: {
+    text: 'Give details',
+    code: 'other_income_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'finance_income',
+      value: 'OTHER',
+      displayInline: true,
+    },
+  },
 }
 export default fields

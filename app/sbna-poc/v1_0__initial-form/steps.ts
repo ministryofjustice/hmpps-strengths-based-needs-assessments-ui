@@ -314,7 +314,7 @@ const stepOptions: FormWizard.Steps = {
       { field: 'drug_use', value: 'NO', next: 'no-drug-use-summary' },
     ],
     template: 'forms/default',
-    navigationOrder: 3,
+    navigationOrder: 4,
     section: 'drug-use',
   },
   '/drug-use-type': {
@@ -412,6 +412,15 @@ const stepOptions: FormWizard.Steps = {
     fields: [],
     template: 'forms/sbna-poc/no-drug-use-analysis-complete',
     section: 'drug-use',
+  },
+  '/finance': {
+    pageTitle: 'Finance',
+    controller: SaveAndContinueController,
+    fields: ['finance_income'],
+    navigationOrder: 3,
+    // next: ,
+    template: 'forms/default',
+    section: 'finance',
   },
 }
 
