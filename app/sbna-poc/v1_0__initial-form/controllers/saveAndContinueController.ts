@@ -14,6 +14,7 @@ const isPractitionerAnalysisPage = (url: string) =>
     '/accommodation-summary-analysis-settled',
     '/accommodation-summary-analysis-temporary',
     '/accommodation-summary-analysis-no-accommodation',
+    '/no-drug-use-summary',
   ].includes(url)
 
 class SaveAndContinueController extends BaseSaveAndContinueController {

@@ -65,7 +65,16 @@
 {{ renderQuestion(options.fields["linked_to_risk_of_serious_harm"], errors) }}
 {{ renderQuestion(options.fields["linked_to_risk_of_reoffending"], errors) }}
 {{ renderQuestion(options.fields["not_related_to_risk"], errors) }}
+
 <div class="questiongroup-action-buttons">
+  {% set saveDraftAction = action + "?action=saveDraft" %}
+  {{ govukButton({
+    text: "Save",
+    classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
+    attributes: {
+      "formaction": saveDraftAction
+    }
+  }) }}
   {{ govukButton({
     text: buttonText | default("Mark as complete"),
     classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
