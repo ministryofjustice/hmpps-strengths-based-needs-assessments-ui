@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 declare module 'hmpo-form-wizard' {
   import express from 'express'
 
@@ -86,6 +87,7 @@ declare module 'hmpo-form-wizard' {
           journeyName: string
           section: string
           sectionProgressRules: Array<SectionProgressRule>
+          fields: Fields
         }
         persistedAnswers: { [key: string]: AnswerDto }
       }
@@ -115,6 +117,14 @@ declare module 'hmpo-form-wizard' {
       saveValues(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       successHandler(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      errorHandler(error: Error, req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      setErrors(error: Error, req: Request, res: express.Response)
+    }
+
+    namespace Controller {
+      export class Error {}
     }
 
     interface Config {
@@ -214,3 +224,4 @@ declare module 'hmpo-form-wizard' {
 
   export default FormWizard
 }
+/* eslint-enable max-classes-per-file */

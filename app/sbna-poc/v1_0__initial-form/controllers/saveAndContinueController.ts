@@ -9,6 +9,13 @@ import { buildRequestBody, mergeAnswers } from './saveAndContinueController.util
 
 type ResumeUrl = string | null
 
+const isPractitionerAnalysisPage = (url: string) =>
+  [
+    '/accommodation-summary-analysis-settled',
+    '/accommodation-summary-analysis-temporary',
+    '/accommodation-summary-analysis-no-accommodation',
+  ].includes(url)
+
 class SaveAndContinueController extends BaseSaveAndContinueController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
@@ -98,8 +105,17 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     return null
   }
 
-  async validate(req: FormWizard.Request, res: Response, next: NextFunction) {
-    super.validate(req, res, next)
+  async process(req: FormWizard.Request, res: Response, next: NextFunction) {
+    if (req.query.action === 'saveDraft') {
+      const { fields } = req.form.options
+
+      req.form.options.fields = Object.entries(fields).reduce(
+        (otherFields, [key, config]) => ({ ...otherFields, [key]: { ...config, validate: [] } }),
+        { ...fields },
+      )
+    }
+
+    super.process(req, res, next)
   }
 
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -110,8 +126,10 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
   setSectionProgress(req: FormWizard.Request) {
     const sectionProgressRules = req.form.options.sectionProgressRules || []
+    const isValidated = req.query.action !== 'saveDraft'
+
     req.form.values = sectionProgressRules.reduce(
-      (entries, { field, conditionFn }) => ({ ...entries, [field]: conditionFn(true, req.form.values) }),
+      (entries, { field, conditionFn }) => ({ ...entries, [field]: conditionFn(isValidated, req.form.values) }),
       req.form.values || {},
     )
   }
@@ -152,6 +170,14 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
+    if (req.query.action === 'saveDraft') {
+      const redirectUrl = req.baseUrl + req.path
+
+      return isPractitionerAnalysisPage(req.path)
+        ? res.redirect(`${redirectUrl}#practitioner-analysis`)
+        : res.redirect(redirectUrl)
+    }
+
     if (req.query.action === 'addChild') {
       return res.redirect('add-living-with-child')
     }
@@ -193,6 +219,18 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
 
     return super.successHandler(req, res, next)
+  }
+
+  async errorHandler(error: Error, req: FormWizard.Request, res: Response, next: NextFunction) {
+    if (
+      Object.values(error).every(e => e instanceof FormWizard.Controller.Error) &&
+      isPractitionerAnalysisPage(req.path)
+    ) {
+      this.setErrors(error, req, res)
+      return res.redirect(`${req.baseUrl + req.path}#practitioner-analysis`)
+    }
+
+    return super.errorHandler(error, req, res, next)
   }
 }
 
