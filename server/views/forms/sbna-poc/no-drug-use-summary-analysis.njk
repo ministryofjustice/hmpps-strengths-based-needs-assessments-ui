@@ -49,12 +49,14 @@
     }
   ]
 }) }}
- <div class="questiongroup-action-buttons">
-        {{ govukButton({
-            text: buttonText | default('Go to practitioner analysis'),
-            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
-        }) }}
-  </div>  
+
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: "Go to practitioner analysis",
+    classes: "govuk-!-margin-bottom-3",
+    href: "#practitioner-analysis"
+  }) }}
+</div>
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}

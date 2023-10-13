@@ -17,27 +17,33 @@
 {%- endmacro -%}
 
 {%- macro renderSummaryListRow(label, optionValue, yesValue, noValue) -%}
-  <div class="govuk-summary-list--no-border">
-    <dt class="govuk-summary-list__key">
-      {{ label }}
-    </dt>
-     <dd class="govuk-summary-list__value give-details-text">
-      {{ optionValue }} 
-    </dd>
+<div class="govuk-summary-list--no-border">
+  <dt class="govuk-summary-list__key">
+    {{ label }}
+  </dt>
     <dd class="govuk-summary-list__value give-details-text">
-       {{ yesValue }}
-    </dd>
-     <dd class="govuk-summary-list__value give-details-text">
-      {{ noValue }}
-    </dd>
-  </div>
+    {{ optionValue }} 
+  </dd>
+  <dd class="govuk-summary-list__value give-details-text">
+      {{ yesValue }}
+  </dd>
+    <dd class="govuk-summary-list__value give-details-text">
+    {{ noValue }}
+  </dd>
+</div>
 {%- endmacro -%}
 
 {% block formContent %}
 <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 {% set drugUseSummaryHtml %}
-
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: "Go to practitioner analysis",
+    classes: "govuk-!-margin-bottom-3",
+    href: "#practitioner-analysis"
+  }) }}
+</div>
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
@@ -106,12 +112,6 @@
     ""
   ) }} 
 </dl>
-<div class="questiongroup-action-buttons">
-  {{ govukButton({
-    text: buttonText | default("Mark as complete"),
-    classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
-  }) }}
-</div>
 {% endset -%}
 
 {{ govukTabs({

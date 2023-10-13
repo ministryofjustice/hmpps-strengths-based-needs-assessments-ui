@@ -15,6 +15,14 @@
   {{ renderSummaryFor("suitable_housing", { fields: options.allFields, answers: answers, backLink: "settled-accommodation" }) }}
   {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: "settled-accommodation" }) }}
 </dl>
+
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: "Go to practitioner analysis",
+    classes: "govuk-!-margin-bottom-3",
+    href: "#practitioner-analysis"
+  }) }}
+</div>
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
