@@ -258,6 +258,24 @@ const createFormalAndDebtOthersDetails = (
 })
 
 const fields: FormWizard.Fields = {
+  accommodation_section_complete: {
+    text: 'Is the accommodation section complete?',
+    code: 'accommodation_analysis_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  accommodation_analysis_section_complete: {
+    text: 'Is the accommodation analysis section complete?',
+    code: 'accommodation_analysis_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
     hint: { html: currentAccommodationHint, kind: 'html' },

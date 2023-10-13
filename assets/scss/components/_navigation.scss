@@ -1,8 +1,24 @@
 .side-navigation {
-    @include govuk-font(19);
-    padding: 0;
+  @include govuk-font(19);
+  padding: 0;
+}
+
+.section-label {
+  width: 80%;
+  display: inline-block;
+}
+
+.section-complete {
+  @include govuk-font(14);
+  float: right;
+  border-radius: 50%;
+  background-color: $govuk-brand-colour;
+  color: govuk-colour('white');
+  padding: 3px;
+  width: 19px;
+  height: 19px;
 }
 
 .return-to-assessment {
-    float: right;
+  float: right;
 }

@@ -73,6 +73,9 @@ declare module 'hmpo-form-wizard' {
     values?: string[]
     collection?: Record<string, AnswerDto>[]
   }
+  
+  type ConditionFn = (isValid: boolean, values: Record<string, string | Array<string>>) => string
+  type SectionProgressRule = { field: string; conditionFn: ConditionFn }
 
   namespace FormWizard {
     interface Request extends express.Request {
@@ -82,6 +85,7 @@ declare module 'hmpo-form-wizard' {
           allFields: { [key: string]: Field }
           journeyName: string
           section: string
+          sectionProgressRules: Array<SectionProgressRule>
         }
         persistedAnswers: { [key: string]: AnswerDto }
       }
@@ -101,6 +105,8 @@ declare module 'hmpo-form-wizard' {
       configure(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      validate(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
 
@@ -194,6 +200,7 @@ declare module 'hmpo-form-wizard' {
       navigationOrder?: number
       backLink?: string
       section: string
+      sectionProgressRules?: Array<SectionProgressRule>
     }
 
     interface Steps {
