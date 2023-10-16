@@ -1153,8 +1153,8 @@ const fields: FormWizard.Fields = {
     code: 'drug_use_type',
     hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
-    validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
     multiple: true,
+    validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
     options: [
       { text: 'Amphetamines', value: 'AMPHETAMINES', kind: 'option' },
       { text: 'Benzodiazepines', value: 'BENZODIAZEPINES', kind: 'option' },
@@ -1530,6 +1530,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
     code: 'drug_use_reasons',
     type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select why they started using drugs' }],
     options: [
       { text: 'Recreation or pleasure', value: 'RECREATION_PLEASURE', kind: 'option' },
@@ -1561,6 +1562,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Select all that apply', kind: 'text' },
     code: 'drug_use_impact',
     type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select the impact of them using drugs' }],
     options: [
       {
@@ -1899,6 +1901,7 @@ const fields: FormWizard.Fields = {
     code: 'finance_income',
     hint: { text: 'Select all that apply', kind: 'text' },
     type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'error message' }],
     options: [
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
