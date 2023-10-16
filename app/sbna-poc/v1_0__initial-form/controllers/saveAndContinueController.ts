@@ -15,6 +15,7 @@ const isPractitionerAnalysisPage = (url: string) =>
     '/accommodation-summary-analysis-temporary',
     '/accommodation-summary-analysis-no-accommodation',
     '/no-drug-use-summary',
+    // TODO: Add for finance
   ].includes(url)
 
 class SaveAndContinueController extends BaseSaveAndContinueController {
@@ -73,6 +74,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       },
       { sectionName: 'employment-education-finance', fieldCodes: [] },
       { sectionName: 'drug-use', fieldCodes: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
+      { sectionName: 'finance', fieldCodes: ['finance_section_complete', 'finance_analysis_section_complete'] },
     ]
 
     res.locals.assessmentProgress = sections.reduce(checkProgress(res.locals.values), {})

@@ -278,7 +278,7 @@ const fields: FormWizard.Fields = {
   },
   drug_use_section_complete: {
     text: 'Is the drug use section complete?',
-    code: 'drug_use_analysis_section_complete',
+    code: 'drug_use_section_complete',
     type: FieldType.Radio,
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
@@ -286,8 +286,26 @@ const fields: FormWizard.Fields = {
     ],
   },
   drug_use_analysis_section_complete: {
-    text: 'Is the drug use section complete?',
+    text: 'Is the drug use analysis section complete?',
     code: 'drug_use_analysis_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  finance_section_complete: {
+    text: 'Is the finance section complete?',
+    code: 'finance_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  finance_analysis_section_complete: {
+    text: 'Is the finance analysis section complete?',
+    code: 'finance_analysis_section_complete',
     type: FieldType.Radio,
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },

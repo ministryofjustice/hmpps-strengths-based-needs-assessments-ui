@@ -557,6 +557,13 @@ const stepOptions: FormWizard.Steps = {
     // next: ,
     template: 'forms/default',
     section: 'finance',
+    sectionProgressRules: [
+      {
+        fieldCode: 'finance_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
+      { fieldCode: 'finance_analysis_section_complete', conditionFn: () => 'NO' },
+    ],
   },
 }
 
