@@ -43,8 +43,8 @@ const stepOptions: FormWizard.Steps = {
     navigationOrder: 1,
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_section_complete', conditionFn: () => 'NO' },
-      { field: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'accommodation_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/settled-accommodation': {
@@ -75,8 +75,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
-      { field: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'accommodation_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
+      { fieldCode: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/temporary-accommodation': {
@@ -112,8 +112,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
-      { field: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'accommodation_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
+      { fieldCode: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/temporary-accommodation-2': {
@@ -145,8 +145,11 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
-      { field: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
+      {
+        fieldCode: 'accommodation_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
+      { fieldCode: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/no-accommodation': {
@@ -174,8 +177,11 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
-      { field: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
+      {
+        fieldCode: 'accommodation_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
+      { fieldCode: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/no-accommodation-2': {
@@ -195,8 +201,11 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
-      { field: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
+      {
+        fieldCode: 'accommodation_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
+      { fieldCode: 'accommodation_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   // '/add-living-with-child': {
@@ -262,7 +271,10 @@ const stepOptions: FormWizard.Steps = {
     template: 'forms/sbna-poc/accommodation-summary-analysis-no-accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_analysis_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
+      {
+        fieldCode: 'accommodation_analysis_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
     ],
   },
   '/accommodation-summary-analysis-temporary': {
@@ -284,7 +296,10 @@ const stepOptions: FormWizard.Steps = {
     template: 'forms/sbna-poc/accommodation-summary-analysis-temporary',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_analysis_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
+      {
+        fieldCode: 'accommodation_analysis_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
     ],
   },
   '/accommodation-summary-analysis-settled': {
@@ -306,7 +321,10 @@ const stepOptions: FormWizard.Steps = {
     template: 'forms/sbna-poc/accommodation-summary-analysis-settled',
     section: 'accommodation',
     sectionProgressRules: [
-      { field: 'accommodation_analysis_section_complete', conditionFn: (isValid: boolean) => (isValid ? 'YES' : 'NO') },
+      {
+        fieldCode: 'accommodation_analysis_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
     ],
   },
   '/accommodation-analysis-complete-settled': {
@@ -351,11 +369,11 @@ const stepOptions: FormWizard.Steps = {
     section: 'drug-use',
     sectionProgressRules: [
       {
-        field: 'drug_use_section_complete',
+        fieldCode: 'drug_use_section_complete',
         conditionFn: (isValid: boolean, answers: Record<string, string | string[]>) =>
           isValid && answers.drug_use === 'NO' ? 'YES' : 'NO',
       },
-      { field: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/drug-use-type': {
@@ -367,8 +385,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'drug-use',
     section: 'drug-use',
     sectionProgressRules: [
-      { field: 'drug_use_section_complete', conditionFn: () => 'NO' },
-      { field: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'drug_use_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/drug-usage-details': {
@@ -441,8 +459,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'drug-use-type',
     section: 'drug-use',
     sectionProgressRules: [
-      { field: 'drug_use_section_complete', conditionFn: () => 'NO' },
-      { field: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'drug_use_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/drug-use-details': {
@@ -463,8 +481,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'drug-usage-details',
     section: 'drug-use',
     sectionProgressRules: [
-      { field: 'drug_use_section_complete', conditionFn: () => 'YES' },
-      { field: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
+      { fieldCode: 'drug_use_section_complete', conditionFn: () => 'YES' },
+      { fieldCode: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
     ],
   },
   '/no-drug-use-summary': {
@@ -490,7 +508,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'no-drug-use-analysis-complete',
     template: 'forms/sbna-poc/no-drug-use-summary-analysis',
     section: 'drug-use',
-    sectionProgressRules: [{ field: 'drug_use_analysis_section_complete', conditionFn: () => 'YES' }],
+    sectionProgressRules: [{ fieldCode: 'drug_use_analysis_section_complete', conditionFn: () => 'YES' }],
   },
   '/no-drug-use-analysis-complete': {
     pageTitle: 'Drug use',

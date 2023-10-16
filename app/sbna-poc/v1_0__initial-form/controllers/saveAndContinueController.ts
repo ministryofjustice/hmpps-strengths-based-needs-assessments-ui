@@ -51,28 +51,28 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
     res.locals.collections = Object.entries(savedAnswers)
       .filter(([_, answer]) => answer.type === FieldType.Collection)
-      .reduce((rest, [field, answer]) => ({ ...rest, [field]: answer.collection }), {})
+      .reduce((rest, [fieldCode, answer]) => ({ ...rest, [fieldCode]: answer.collection }), {})
   }
 
   updateAssessmentProgress(res: Response) {
     type Progress = Record<string, boolean>
-    type SectionCompleteRule = { section: string; fields: Array<string> }
+    type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
     type AnswerValues = Record<string, string>
 
-    const isComplete = (values: AnswerValues) => (field: string) => values[field] === 'YES'
+    const isComplete = (answers: AnswerValues) => (fieldCode: string) => answers[fieldCode] === 'YES'
     const checkProgress =
-      (values: AnswerValues) =>
-      (progress: Progress, { section, fields }: SectionCompleteRule) => ({
-        ...progress,
-        [section]: fields.every(isComplete(values)),
+      (answers: AnswerValues) =>
+      (assessmentProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule) => ({
+        ...assessmentProgress,
+        [sectionName]: fieldCodes.every(isComplete(answers)),
       })
     const sections: Array<SectionCompleteRule> = [
       {
-        section: 'accommodation',
-        fields: ['accommodation_section_complete', 'accommodation_analysis_section_complete'],
+        sectionName: 'accommodation',
+        fieldCodes: ['accommodation_section_complete', 'accommodation_analysis_section_complete'],
       },
-      { section: 'employment-education-finance', fields: [] },
-      { section: 'drug-use', fields: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
+      { sectionName: 'employment-education-finance', fieldCodes: [] },
+      { sectionName: 'drug-use', fieldCodes: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
     ]
 
     res.locals.assessmentProgress = sections.reduce(checkProgress(res.locals.values), {})
@@ -91,17 +91,17 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
   async getResumeUrl(req: FormWizard.Request): Promise<ResumeUrl> {
     const isResuming = req.query.action === 'resume'
-    const thisSection = req.form.options.section
+    const sectionName = req.form.options.section
     const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    const lastPageVisited = resumeState[thisSection]
+    const lastPageVisited = resumeState[sectionName]
     const { lastSection } = resumeState
 
-    if (lastPageVisited && (thisSection !== lastSection || isResuming)) {
-      req.sessionModel.set('resumeState', { ...resumeState, [thisSection]: null, lastSection: thisSection })
+    if (lastPageVisited && (sectionName !== lastSection || isResuming)) {
+      req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null, lastSection: sectionName })
       return lastPageVisited
     }
 
-    req.sessionModel.set('resumeState', { ...resumeState, [thisSection]: req.url.slice(1), lastSection: thisSection })
+    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: req.url.slice(1), lastSection: sectionName })
 
     return null
   }
@@ -111,7 +111,10 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       const { fields } = req.form.options
 
       req.form.options.fields = Object.entries(fields).reduce(
-        (otherFields, [key, config]) => ({ ...otherFields, [key]: { ...config, validate: [] } }),
+        (modifiedFields, [fieldCode, fieldConfig]) => ({
+          ...modifiedFields,
+          [fieldCode]: { ...fieldConfig, validate: [] },
+        }),
         { ...fields },
       )
     }
@@ -130,7 +133,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const isValidated = req.query.action !== 'saveDraft'
 
     req.form.values = sectionProgressRules.reduce(
-      (entries, { field, conditionFn }) => ({ ...entries, [field]: conditionFn(isValidated, req.form.values) }),
+      (answers, { fieldCode, conditionFn }) => ({ ...answers, [fieldCode]: conditionFn(isValidated, req.form.values) }),
       req.form.values || {},
     )
   }
@@ -153,9 +156,9 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   setResumeUrl(req: FormWizard.Request) {
-    const thisSection = req.form.options.section
+    const sectionName = req.form.options.section
     const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    req.sessionModel.set('resumeState', { ...resumeState, [thisSection]: null })
+    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
   }
 
   async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
