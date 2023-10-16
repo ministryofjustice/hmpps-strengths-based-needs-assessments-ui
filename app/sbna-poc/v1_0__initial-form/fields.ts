@@ -59,6 +59,15 @@ function livingWithValidator() {
   return !(answers.includes('ALONE') && answers.length > 1)
 }
 
+function createRequiredIfCollectionContainsWith(field: string, requiredValue: string) {
+  return function requiredIfCollectionContains(value: string) {
+    const persistedAnswers = this.sessionModel?.options?.req?.request?.form?.persistedAnswers || {}
+    const values = persistedAnswers[field]?.values || []
+
+    return !values.includes(requiredValue) || (values.includes(requiredValue) && value !== '')
+  }
+}
+
 const characterLimit = 400
 const summaryCharacterLimit = 4000
 
@@ -1298,7 +1307,13 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_amphetamines',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    // validate: [{ type: ValidationType.Required, message: 'Select how often they are using amphetamines' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'AMPHETAMINES'),
+        message: 'Select how often they are using amphetamines',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1308,6 +1323,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'AMPHETAMINES' },
   },
   daily_injecting_drug_amphetamines: createInjectingDrug(
     'daily_injecting_drug_amphetamines',
