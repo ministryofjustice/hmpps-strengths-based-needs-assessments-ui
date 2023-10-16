@@ -39,17 +39,18 @@
 {% endfor %}
 
 <div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: buttonText | default("Mark as complete"),
+    classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
+  }) }}
+
   {% set saveDraftAction = action + "?action=saveDraft" %}
   {{ govukButton({
-    text: "Save",
+    text: "Save as draft",
     classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
     attributes: {
       "formaction": saveDraftAction
     }
-  }) }}
-  {{ govukButton({
-    text: buttonText | default("Mark as complete"),
-    classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
   }) }}
 </div>
 {% endset -%}
