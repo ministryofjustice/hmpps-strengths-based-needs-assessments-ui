@@ -110,11 +110,16 @@ const createInjectingDrug = (fieldCode: string, dependentFieldCode: string, valu
   },
 })
 
-const createPastDrugUsage = (fieldCode: string): FormWizard.Field => ({
+const createPastDrugUsage = (fieldCode: string, dependentFieldValue: string): FormWizard.Field => ({
   text: 'Has [subject] used this drug in the past?',
   code: fieldCode,
   type: FieldType.Radio,
-  validate: [{ type: ValidationType.Required, message: 'Select if they have used this drug in the past' }],
+  validate: [
+    {
+      fn: createRequiredIfCollectionContainsWith('drug_use_type', dependentFieldValue),
+      message: 'Select if they have used this drug in the past',
+    },
+  ],
   options: [
     { text: 'Yes', value: 'YES', kind: 'option' },
     { text: 'No', value: 'NO', kind: 'option' },
@@ -1196,7 +1201,12 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_heroin',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'HEROIN'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1235,13 +1245,18 @@ const fields: FormWizard.Fields = {
     'drug_usage_heroin',
     'OCCASIONALLY',
   ),
-  past_drug_usage_heroin: createPastDrugUsage('past_drug_usage_heroin'),
+  past_drug_usage_heroin: createPastDrugUsage('past_drug_usage_heroin', 'HEROIN'),
   past_injecting_drug_heroin: createPastInjectingDrug('past_injecting_drug_heroin', 'past_drug_usage_heroin', 'YES'),
   drug_usage_methadone_not_prescribed: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_not_prescribed',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'NON_PRESCRIBED_MEDICATION'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1272,7 +1287,10 @@ const fields: FormWizard.Fields = {
     'drug_usage_methadone_not_prescribed',
     'OCCASIONALLY',
   ),
-  past_drug_usage_methadone_not_prescribed: createPastDrugUsage('past_drug_usage_methadone_not_prescribed'),
+  past_drug_usage_methadone_not_prescribed: createPastDrugUsage(
+    'past_drug_usage_methadone_not_prescribed',
+    'METHADONE_NOT_PRESCRIBED',
+  ),
   past_injecting_drug_methadone_not_prescribed: createPastInjectingDrug(
     'past_injecting_drug_methadone_not_prescribed',
     'past_drug_usage_methadone_not_prescribed',
@@ -1282,7 +1300,12 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_crack',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'CRACK'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1301,17 +1324,16 @@ const fields: FormWizard.Fields = {
     'drug_usage_crack',
     'OCCASIONALLY',
   ),
-  past_drug_usage_crack: createPastDrugUsage('past_drug_usage_crack'),
+  past_drug_usage_crack: createPastDrugUsage('past_drug_usage_crack', 'CRACK'),
   past_injecting_drug_crack: createPastInjectingDrug('past_injecting_drug_crack', 'past_drug_usage_crack', 'YES'),
   drug_usage_amphetamines: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_amphetamines',
     type: FieldType.Radio,
-    // validate: [{ type: ValidationType.Required, message: 'Select how often they are using amphetamines' }],
     validate: [
       {
         fn: createRequiredIfCollectionContainsWith('drug_use_type', 'AMPHETAMINES'),
-        message: 'Select how often they are using amphetamines',
+        message: 'Select how often they are using this drug',
       },
     ],
     options: [
@@ -1345,7 +1367,7 @@ const fields: FormWizard.Fields = {
     'drug_usage_amphetamines',
     'OCCASIONALLY',
   ),
-  past_drug_usage_amphetamines: createPastDrugUsage('past_drug_usage_amphetamines'),
+  past_drug_usage_amphetamines: createPastDrugUsage('past_drug_usage_amphetamines', 'AMPHETAMINES'),
   past_injecting_drug_amphetamines: createPastInjectingDrug(
     'past_injecting_drug_amphetamines',
     'past_drug_usage_amphetamines',
@@ -1355,7 +1377,12 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_benzodiazepines',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'BENZODIAZEPINES'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1386,7 +1413,7 @@ const fields: FormWizard.Fields = {
     'drug_usage_benzodiazepines',
     'OCCASIONALLY',
   ),
-  past_drug_usage_benzodiazepines: createPastDrugUsage('past_drug_usage_benzodiazepines'),
+  past_drug_usage_benzodiazepines: createPastDrugUsage('past_drug_usage_benzodiazepines', 'BENZODIAZEPINES'),
   past_injecting_drug_benzodiazepines: createPastInjectingDrug(
     'past_injecting_drug_benzodiazepines',
     'past_drug_usage_benzodiazepines',
@@ -1396,7 +1423,12 @@ const fields: FormWizard.Fields = {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_other_drug',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'OTHER_DRUG_TYPE'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1427,13 +1459,18 @@ const fields: FormWizard.Fields = {
     'drug_usage_other_drug',
     'OCCASIONALLY',
   ),
-  past_drug_usage_other: createPastDrugUsage('past_drug_usage_other'),
+  past_drug_usage_other: createPastDrugUsage('past_drug_usage_other', 'OTHER_DRUG_TYPE'),
   past_injecting_drug_other: createPastInjectingDrug('past_injecting_drug_other', 'past_drug_usage_other', 'YES'),
   drug_usage_cannabis: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_cannabis',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'CANNABIS'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1444,12 +1481,17 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  past_drug_usage_cannabis: createPastDrugUsage('past_drug_usage_cannabis'),
+  past_drug_usage_cannabis: createPastDrugUsage('past_drug_usage_cannabis', 'CANNABIS'),
   drug_usage_cocaine: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_cocaine',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'COCAINE'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1460,12 +1502,17 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  past_drug_usage_cocaine: createPastDrugUsage('past_drug_usage_cocaine'),
+  past_drug_usage_cocaine: createPastDrugUsage('past_drug_usage_cocaine', 'COCAINE'),
   drug_usage_ecstasy: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_ecstasy',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'ECSTASY'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1476,12 +1523,17 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  past_drug_usage_ecstasy: createPastDrugUsage('past_drug_usage_ecstasy'),
+  past_drug_usage_ecstasy: createPastDrugUsage('past_drug_usage_ecstasy', 'ECSTASY'),
   drug_usage_ketamine: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_ketamine',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'KETAMINE'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1492,12 +1544,17 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  past_drug_usage_ketamine: createPastDrugUsage('past_drug_usage_ketamine'),
+  past_drug_usage_ketamine: createPastDrugUsage('past_drug_usage_ketamine', 'KETAMINE'),
   drug_usage_methadone_prescribed: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_prescribed',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'METHADONE_PRESCRIBED'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1508,12 +1565,20 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  past_drug_usage_methadone_prescribed: createPastDrugUsage('past_drug_usage_methadone_prescribed'),
+  past_drug_usage_methadone_prescribed: createPastDrugUsage(
+    'past_drug_usage_methadone_prescribed',
+    'METHADONE_PRESCRIBED',
+  ),
   drug_usage_non_prescribed_medication: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_non_prescribed_medication',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'NON_PRESCRIBED_MEDICATION'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1524,12 +1589,20 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  past_drug_usage_non_prescribed_medication: createPastDrugUsage('past_drug_usage_non_prescribed_medication'),
+  past_drug_usage_non_prescribed_medication: createPastDrugUsage(
+    'past_drug_usage_non_prescribed_medication',
+    'NON_PRESCRIBED_MEDICATION',
+  ),
   drug_usage_psychoactive_substances: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_psychoactive_substances',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they are using this drug' }],
+    validate: [
+      {
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'PSYCHOACTIVE_SUBSTANCES_SPICE'),
+        message: 'Select how often they are using this drug',
+      },
+    ],
     options: [
       { text: 'Daily', value: 'DAILY', kind: 'option' },
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
@@ -1540,7 +1613,10 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  past_drug_usage_psychoactive_substances: createPastDrugUsage('past_drug_usage_psychoactive_substances'),
+  past_drug_usage_psychoactive_substances: createPastDrugUsage(
+    'past_drug_usage_psychoactive_substances',
+    'PSYCHOACTIVE_SUBSTANCES_SPICE',
+  ),
   drug_use_reasons: {
     text: 'Why did [subject] start using drugs?',
     hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },

@@ -342,7 +342,6 @@ const stepOptions: FormWizard.Steps = {
       'past_drug_usage_benzodiazepines',
       'drug_usage_other_drug',
       'past_drug_usage_other',
-      'other_drug_details',
       'drug_usage_cannabis',
       'past_drug_usage_cannabis',
       'drug_usage_cocaine',
