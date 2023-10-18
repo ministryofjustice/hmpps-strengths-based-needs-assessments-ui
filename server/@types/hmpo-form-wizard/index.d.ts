@@ -65,6 +65,15 @@ declare module 'hmpo-form-wizard' {
 
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
+  interface AnswerDto {
+    type: FieldType
+    description: string
+    options?: Option[]
+    value?: string
+    values?: string[]
+    collection?: Record<string, AnswerDto>[]
+  }
+
   namespace FormWizard {
     interface Request extends express.Request {
       form: {
@@ -74,6 +83,7 @@ declare module 'hmpo-form-wizard' {
           journeyName: string
           section: string
         }
+        persistedAnswers: { [key: string]: AnswerDto }
       }
       sessionModel: {
         set: (key: string, value: unknown) => void

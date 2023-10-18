@@ -21,6 +21,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       const sessionData = req.session.sessionData as SessionInformation
       res.locals.user = { username: sessionData.userDisplayName }
       await this.apiService.validateSession(sessionData.uuid)
+      req.form.persistedAnswers = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
 
       super.configure(req, res, next)
     } catch (error) {
