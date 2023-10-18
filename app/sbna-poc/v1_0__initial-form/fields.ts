@@ -1376,7 +1376,7 @@ const fields: FormWizard.Fields = {
     'DAILY',
     'METHADONE_NOT_PRESCRIBED',
   ),
-  weekly_injecting_methadone_not_prescribed: createInjectingDrug(
+  weekly_injecting_drug_methadone_not_prescribed: createInjectingDrug(
     'weekly_injecting_drug_methadone_not_prescribed',
     'drug_usage_methadone_not_prescribed',
     'WEEKLY',
@@ -1597,10 +1597,10 @@ const fields: FormWizard.Fields = {
     'OCCASIONALLY',
     'OTHER_DRUG_TYPE',
   ),
-  past_drug_usage_other: createPastDrugUsage('past_drug_usage_other', 'OTHER_DRUG_TYPE'),
-  past_injecting_drug_other: createPastInjectingDrug(
-    'past_injecting_drug_other',
-    'past_drug_usage_other',
+  past_drug_usage_other_drug: createPastDrugUsage('past_drug_usage_other_drug', 'OTHER_DRUG_TYPE'),
+  past_injecting_drug_other_drug: createPastInjectingDrug(
+    'past_injecting_drug_other_drug',
+    'past_drug_usage_other_drug',
     'YES',
     'OTHER_DRUG_TYPE',
   ),
