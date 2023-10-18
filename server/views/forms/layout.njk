@@ -1,6 +1,7 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{%- from "moj/components/banner/macro.njk" import mojBanner -%}
 
 {% set mainClasses = "app-container govuk-body" %}
 
@@ -39,7 +40,10 @@
             <ul class="moj-side-navigation__list">
               {% for link in form.navigation %}
                 <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
-                  <a href="{{ link.url }}?action=resume"{% if link.active %} aria-current="location"{% endif %}>{{ link.label }}</a>
+                  <a href="{{ link.url }}?action=resume"{% if link.active %} aria-current="location"{% endif %}>
+                    <span class="section-label">{{ link.label }}</span>
+                    {% if assessmentProgress[link.url] %}<span class="section-complete">✓</span>{% endif %}
+                  </a>
                 </li>
               {% endfor %}
             </ul>
@@ -58,6 +62,13 @@
               errorList: toErrorSummary(errors)
             }) }}
           {%- endif -%}
+          {% if isSaved %}
+            {{ mojBanner({
+              type: 'success',
+              text: 'Your progress has been saved',
+              iconFallbackText: 'Success'
+            }) }}
+          {% endif %}
           {%- if form.fields.length == 1 -%}
             <h2 class="govuk-body-l govuk-!-margin-0">{{ options.pageTitle }}</h2>
           {%- else -%}

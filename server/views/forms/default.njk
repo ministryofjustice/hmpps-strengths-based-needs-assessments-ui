@@ -36,6 +36,15 @@
         text: buttonText | default('Save and continue'),
         classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
       }) }}
+
+      {% set saveDraftAction = action + "?action=saveDraft" %}
+      {{ govukButton({
+        text: "Save as draft",
+        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
+        attributes: {
+          "formaction": saveDraftAction
+        }
+      }) }}
     </div>
   </form>
 {% endblock %}

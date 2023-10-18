@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 declare module 'hmpo-form-wizard' {
   import express from 'express'
 
@@ -74,6 +75,9 @@ declare module 'hmpo-form-wizard' {
     collection?: Record<string, AnswerDto>[]
   }
 
+  type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => string
+  type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }
+
   namespace FormWizard {
     interface Request extends express.Request {
       form: {
@@ -82,6 +86,8 @@ declare module 'hmpo-form-wizard' {
           allFields: { [key: string]: Field }
           journeyName: string
           section: string
+          sectionProgressRules: Array<SectionProgressRule>
+          fields: Fields
         }
         persistedAnswers: { [key: string]: AnswerDto }
       }
@@ -102,6 +108,8 @@ declare module 'hmpo-form-wizard' {
 
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
 
+      validate(req: Request, res: express.Response, next: express.NextFunction): Promise
+
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       getValues(req: Request, res: express.Response, next: express.NextFunction): Promise
@@ -109,6 +117,14 @@ declare module 'hmpo-form-wizard' {
       saveValues(req: Request, res: express.Response, next: express.NextFunction): Promise
 
       successHandler(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      errorHandler(error: Error, req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      setErrors(error: Error, req: Request, res: express.Response)
+    }
+
+    namespace Controller {
+      export class Error {}
     }
 
     interface Config {
@@ -194,6 +210,7 @@ declare module 'hmpo-form-wizard' {
       navigationOrder?: number
       backLink?: string
       section: string
+      sectionProgressRules?: Array<SectionProgressRule>
     }
 
     interface Steps {
@@ -207,3 +224,4 @@ declare module 'hmpo-form-wizard' {
 
   export default FormWizard
 }
+/* eslint-enable max-classes-per-file */

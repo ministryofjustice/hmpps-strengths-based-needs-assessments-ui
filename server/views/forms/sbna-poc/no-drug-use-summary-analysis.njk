@@ -49,12 +49,14 @@
     }
   ]
 }) }}
- <div class="questiongroup-action-buttons">
-        {{ govukButton({
-            text: buttonText | default('Go to practitioner analysis'),
-            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
-        }) }}
-  </div>  
+
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: "Go to practitioner analysis",
+    classes: "govuk-!-margin-bottom-3",
+    href: "#practitioner-analysis"
+  }) }}
+</div>
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
@@ -63,10 +65,20 @@
 {{ renderQuestion(options.fields["linked_to_risk_of_serious_harm"], errors) }}
 {{ renderQuestion(options.fields["linked_to_risk_of_reoffending"], errors) }}
 {{ renderQuestion(options.fields["not_related_to_risk"], errors) }}
+
 <div class="questiongroup-action-buttons">
   {{ govukButton({
     text: buttonText | default("Mark as complete"),
     classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
+  }) }}
+
+  {% set saveDraftAction = action + "?action=saveDraft" %}
+  {{ govukButton({
+    text: "Save as draft",
+    classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
+    attributes: {
+      "formaction": saveDraftAction
+    }
   }) }}
 </div>
 {% endset -%}

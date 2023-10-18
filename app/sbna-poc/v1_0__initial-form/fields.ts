@@ -258,6 +258,60 @@ const createFormalAndDebtOthersDetails = (
 })
 
 const fields: FormWizard.Fields = {
+  accommodation_section_complete: {
+    text: 'Is the accommodation section complete?',
+    code: 'accommodation_analysis_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  accommodation_analysis_section_complete: {
+    text: 'Is the accommodation analysis section complete?',
+    code: 'accommodation_analysis_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  drug_use_section_complete: {
+    text: 'Is the drug use section complete?',
+    code: 'drug_use_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  drug_use_analysis_section_complete: {
+    text: 'Is the drug use analysis section complete?',
+    code: 'drug_use_analysis_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  finance_section_complete: {
+    text: 'Is the finance section complete?',
+    code: 'finance_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  finance_analysis_section_complete: {
+    text: 'Is the finance analysis section complete?',
+    code: 'finance_analysis_section_complete',
+    type: FieldType.Radio,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
     hint: { html: currentAccommodationHint, kind: 'html' },

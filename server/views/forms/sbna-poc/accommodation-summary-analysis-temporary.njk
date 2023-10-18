@@ -24,6 +24,14 @@
   {{ renderSummaryFor("suitable_housing_planned", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
   {{ renderSummaryFor("accommodation_changes", { fields: options.allFields, answers: answers, backLink: changeLink }) }}
 </dl>
+
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: "Go to practitioner analysis",
+    classes: "govuk-!-margin-bottom-3",
+    href: "#practitioner-analysis"
+  }) }}
+</div>
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
@@ -35,6 +43,15 @@
   {{ govukButton({
     text: buttonText | default("Mark as complete"),
     classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
+  }) }}
+
+  {% set saveDraftAction = action + "?action=saveDraft" %}
+  {{ govukButton({
+    text: "Save as draft",
+    classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
+    attributes: {
+      "formaction": saveDraftAction
+    }
   }) }}
 </div>
 {% endset -%}
