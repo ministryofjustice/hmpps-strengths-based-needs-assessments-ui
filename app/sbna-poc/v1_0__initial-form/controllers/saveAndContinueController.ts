@@ -85,6 +85,9 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       await this.fetchAnswers(req, res)
       this.updateAssessmentProgress(res)
 
+      res.locals.isSaved = req.sessionModel.get('isSaved') || false
+      req.sessionModel.set('isSaved', false)
+
       super.locals(req, res, next)
     } catch (error) {
       next(error)
@@ -178,6 +181,8 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     if (req.query.action === 'saveDraft') {
       const redirectUrl = req.baseUrl + req.path
+
+      req.sessionModel.set('isSaved', true)
 
       return isPractitionerAnalysisPage(req.path)
         ? res.redirect(`${redirectUrl}#practitioner-analysis`)
