@@ -74,7 +74,7 @@ declare module 'hmpo-form-wizard' {
     values?: string[]
     collection?: Record<string, AnswerDto>[]
   }
-  
+
   type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => string
   type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }
 
