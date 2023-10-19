@@ -554,7 +554,7 @@ const stepOptions: FormWizard.Steps = {
       'family_or_friends_details',
     ],
     navigationOrder: 3,
-    // next: ,
+    next: 'finance-summary-analysis',
     template: 'forms/default',
     section: 'finance',
     sectionProgressRules: [
@@ -564,6 +564,15 @@ const stepOptions: FormWizard.Steps = {
       },
       { fieldCode: 'finance_analysis_section_complete', conditionFn: () => 'NO' },
     ],
+  },
+  '/finance-summary-analysis': {
+    pageTitle: 'Finance',
+    controller: SaveAndContinueController,
+    fields: [],
+    // next: '',
+    template: 'forms/sbna-poc/finance-summary-analysis',
+    section: 'finance',
+    sectionProgressRules: [{ fieldCode: 'finance_analysis_section_complete', conditionFn: () => 'YES' }],
   },
 }
 
