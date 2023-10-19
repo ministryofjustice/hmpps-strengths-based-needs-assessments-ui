@@ -138,11 +138,17 @@
 {% endset -%}
 
 {% set practitionerAnalysisHtml %}
-{{ renderQuestion(options.fields["patterns_or_behaviours"], errors) }}
-{{ renderQuestion(options.fields["strengths_or_protective_factors"], errors) }}
-{{ renderQuestion(options.fields["linked_to_risk_of_serious_harm"], errors) }}
-{{ renderQuestion(options.fields["linked_to_risk_of_reoffending"], errors) }}
-{{ renderQuestion(options.fields["not_related_to_risk"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_patterns_of_behaviour"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_patterns_of_behaviour_details"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_strengths_or_protective_factors"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_strengths_or_protective_factors_details"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_risk_of_serious_harm"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_risk_of_serious_harm_details"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_risk_of_reoffending"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_risk_of_reoffending_details"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_related_to_risk"], errors) }}
+{{ renderQuestion(options.fields["finance_practitioner_analysis_related_to_risk_details"], errors) }}
+
 
 <div class="questiongroup-action-buttons">
   {{ govukButton({

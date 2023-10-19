@@ -2640,5 +2640,137 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
+  finance_practitioner_analysis_patterns_of_behaviour: {
+    text: 'Are there any patterns of behaviours related to this area?',
+    hint: {
+      text: 'Include repeated circumstances or behaviours.',
+      kind: 'text',
+    },
+    code: 'finance_practitioner_analysis_patterns_of_behaviour',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  finance_practitioner_analysis_patterns_of_behaviour_details: {
+    text: 'Give details',
+    code: 'finance_practitioner_analysis_patterns_of_behaviour_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
+  },
+  finance_practitioner_analysis_strengths_or_protective_factors: {
+    text: 'Are there any strengths or protective factors related to this area?',
+    hint: {
+      text: 'Include any strategies, people or support networks that helped.',
+      kind: 'text',
+    },
+    code: 'finance_practitioner_analysis_strengths_or_protective_factors',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  finance_practitioner_analysis_strengths_or_protective_factors_details: {
+    text: 'Give details',
+    code: 'finance_practitioner_analysis_strengths_or_protective_factors_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
+  },
+  finance_practitioner_analysis_risk_of_serious_harm: {
+    text: 'Is this an area linked to risk of serious harm?',
+    code: 'finance_practitioner_analysis_risk_of_serious_harm',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+  },
+  finance_practitioner_analysis_risk_of_serious_harm_details: {
+    text: 'Give details',
+    code: 'finance_practitioner_analysis_risk_of_serious_harm_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
+  },
+  finance_practitioner_analysis_risk_of_reoffending: {
+    text: 'Is this an area linked to risk of reoffending?',
+    code: 'finance_practitioner_analysis_risk_of_reoffending',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  finance_practitioner_analysis_risk_of_reoffending_details: {
+    text: 'Give details',
+    code: 'finance_practitioner_analysis_risk_of_reoffending_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
+  },
+  finance_practitioner_analysis_related_to_risk: {
+    text: 'Is this an area of need which is not related to risk?',
+    code: 'finance_practitioner_analysis_related_to_risk',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  finance_practitioner_analysis_related_to_risk_details: {
+    text: 'Give details',
+    code: 'finance_practitioner_analysis_related_to_risk_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [summaryCharacterLimit],
+        message: `Details must be ${summaryCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: summaryCharacterLimit,
+  },
 }
 export default fields
