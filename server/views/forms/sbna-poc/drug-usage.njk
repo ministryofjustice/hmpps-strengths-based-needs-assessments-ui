@@ -75,7 +75,7 @@
       {% if option.value == "OTHER_DRUG_TYPE" %}
         <h2 class="govuk-heading-m">{{ options.allFields["other_drug_details"].value }}</h2>
         {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
-        {{ renderQuestion(options.fields["past_drug_usage_other"], errors) }}
+        {{ renderQuestion(options.fields["past_drug_usage_other_drug"], errors) }}
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
       {% endif %}
     {% endif %}
@@ -194,6 +194,15 @@
       {{ govukButton({
         text: buttonText | default('Save and continue'),
         classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+      }) }}
+
+      {% set saveDraftAction = action + "?action=saveDraft" %}
+      {{ govukButton({
+        text: "Save as draft",
+        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
+        attributes: {
+          "formaction": saveDraftAction
+        }
       }) }}
     </div>
   </form>
