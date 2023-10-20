@@ -580,10 +580,23 @@ const stepOptions: FormWizard.Steps = {
       'finance_practitioner_analysis_related_to_risk',
       'finance_practitioner_analysis_related_to_risk_details',
     ],
-    next: 'drug-use',
+    next: 'finance-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/finance-summary-analysis',
     section: 'finance',
-    sectionProgressRules: [{ fieldCode: 'finance_analysis_section_complete', conditionFn: () => 'YES' }],
+    sectionProgressRules: [
+      {
+        fieldCode: 'finance_analysis_section_complete',
+        conditionFn: (isValidated: boolean) => (isValidated ? 'YES' : 'NO'),
+      },
+    ],
+  },
+  '/finance-analysis-complete': {
+    pageTitle: 'Finance',
+    controller: SaveAndContinueController,
+    fields: [],
+    next: 'drug-use',
+    template: 'forms/sbna-poc/finance-analysis-complete',
+    section: 'finance',
   },
 }
 
