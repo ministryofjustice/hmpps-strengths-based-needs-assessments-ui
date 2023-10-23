@@ -1,0 +1,97 @@
+{%- macro renderSelectedOptions(field) -%}
+  <ul class="govuk-list">
+    {% for option in field.options %}
+      {% if option.checked %}
+        <li>
+          {{ option.text }}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderMoneyManagement(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["finance_money_management"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {% switch option.value %}
+          {% case "GOOD" %}
+            <span class="govuk-!-font-size-14">{{ answers["good_money_management_details"] }}</span>
+          {% case "FAIRLY_GOOD" %}
+            <span class="govuk-!-font-size-14">{{ answers["fairly_good_money_management_details"] }}</span>
+          {% case "FAIRLY_BAD" %}
+            <span class="govuk-!-font-size-14">{{ answers["fairly_bad_money_management_details"] }}</span>
+          {% case "BAD" %}
+            <span class="govuk-!-font-size-14">{{ answers["bad_money_management_details"] }}</span>
+          {% endswitch %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderFinanceChange(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["changes_to_finance"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "POSITIVE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["finance_positive_change_details"] }}</span>
+            {% case "ACTIVE_CHANGE" %}
+              <span class="govuk-!-font-size-14">{{ answers["finance_active_change_details"] }}</span>
+            {% case "KNOWN_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["finance_known_change_details"] }}</span>
+            {% case "MAKE_CHANGES_HELP" %}
+              <span class="govuk-!-font-size-14">{{ answers["finance_help_change_details"] }}</span>
+            {% case "THINKING_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["finance_thinking_change_details"] }}</span>
+            {% case "NO_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["finance_no_change_details"] }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSummaryListRow(label, value, changeLink) -%}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      {{ label }}
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ value }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="{{ changeLink }}">
+      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
+  </div>
+{%- endmacro -%}
+
+{%- switch field -%}
+{% case "finance_money_management" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderMoneyManagement(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+  {% case "changes_to_finance" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderFinanceChange(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+  {% case "past_accommodation_details" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    options.fields[field].value,
+    options.backLink + "#" + field
+  ) }}
+{%- endswitch -%}
