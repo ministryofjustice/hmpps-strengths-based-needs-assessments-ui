@@ -83,6 +83,37 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderFinanceDebt(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["finance_debt"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {% if option.value == "YES_THEIR_DEBT" %}
+            <ul class="govuk-list">
+              {% for subOption in fields["yes_type_of_debt""].options %}
+                {% if subOption.checked %}
+                  <li class="summary-details-list">
+                    <span class="govuk-!-font-size-14">{{ subOption.text }}</span>
+                    {%- switch subOption.value -%}
+                    {% case "FORMAL_DEBT" %}
+                      <span class="govuk-!-font-size-14">{{ answers["yes_formal_debt_details"] }}</span>
+                    {% case "DEBT_TO_OTHERS" %}
+                      <span class="govuk-!-font-size-14">{{ answers["yes_debt_to_others_details"] }}</span>
+                    {% case "FORMAL_AND_DEBT_TO_OTHERS" %}
+                      <span class="govuk-!-font-size-14">{{ answers["yes_formal_debt_to_others_details"] }}</span>
+                    {%- endswitch -%}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ui>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
 {%- macro renderSummaryListRow(label, value, changeLink) -%}
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
@@ -112,10 +143,16 @@
     renderFinanceChange(options.fields, options.answers),
     options.backLink + "#" + field
   ) }}
-   {% case "finance_gambling" %}
+  {% case "finance_gambling" %}
   {{ renderSummaryListRow(
     options.fields[field].text,
     renderFinanceGambling(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+  {% case "finance_debt" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderFinanceDebt(options.fields, options.answers),
     options.backLink + "#" + field
   ) }}
 {%- endswitch -%}
