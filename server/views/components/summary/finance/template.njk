@@ -59,6 +59,30 @@
   </ul>
 {%- endmacro -%}
 
+
+{%- macro renderFinanceGambling(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["finance_gambling"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "YES_THEIR_GAMBLING" %}
+              <span class="govuk-!-font-size-14">{{ answers["yes_their_gambling_details"] }}</span>
+            {% case "YES_SOMEONE_ELSES_GAMBLING" %}
+              <span class="govuk-!-font-size-14">{{ answers["yes_someone_elses_gambling_details"] }}</span>
+            {% case "NO" %}
+              <span class="govuk-!-font-size-14">{{ answers["no_gambling_details"] }}</span>
+            {% case "UNKNOWN" %}
+              <span class="govuk-!-font-size-14">{{ answers["unknown_gambling_details"] }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
 {%- macro renderSummaryListRow(label, value, changeLink) -%}
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
@@ -88,10 +112,10 @@
     renderFinanceChange(options.fields, options.answers),
     options.backLink + "#" + field
   ) }}
-  {% case "past_accommodation_details" %}
+   {% case "finance_gambling" %}
   {{ renderSummaryListRow(
     options.fields[field].text,
-    options.fields[field].value,
+    renderFinanceGambling(options.fields, options.answers),
     options.backLink + "#" + field
   ) }}
 {%- endswitch -%}
