@@ -5,6 +5,7 @@
 {% from "components/question/macro.njk" import renderQuestion %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "components/summary/finance/macro.njk" import renderSummaryFor %}
 
 {%- macro renderSelectedOptions(field) -%}
 <ul class="govuk-list">
@@ -30,116 +31,15 @@
 </div>
 {%- endmacro -%}
 
-{% block formContent %}
-<form method="post" action="{{ action }}">
-    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 {% set financeSummaryHtml %}
-{{ govukSummaryList({
-  rows: [
-    {
-      key: {
-        text: options.allFields["finance_income"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["finance_income"])
-      },
-      actions: {
-        items: [
-          {
-            href: "finance#finance_income-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-     {
-      key: {
-        text: options.allFields["finance_bank_account"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["finance_bank_account"])
-      },
-      actions: {
-        items: [
-          {
-            href: "finance#finance_bank_account-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["finance_money_management"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["finance_money_management"])
-      },
-      actions: {
-        items: [
-          {
-            href: "finance#finance_money_management-hint",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["finance_gambling"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["finance_gambling"])
-      },
-      actions: {
-        items: [
-          {
-            href: "finance#",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["finance_debt"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["finance_debt"])
-      },
-      actions: {
-        items: [
-          {
-            href: "finance#",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: options.allFields["changes_to_finance"].text
-      },
-      value: {
-        text: renderSelectedOptions(options.allFields["changes_to_finance"])
-      },
-      actions: {
-        items: [
-          {
-            href: "finance#",
-            text: "Change",
-            visuallyHiddenText: ""
-          }
-        ]
-      }
-    }
-  ]
-}) }}
+<dl class="govuk-summary-list">
+  {{ renderSummaryFor("finance_income", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryFor("finance_bank_account", { fields: options.allFields, answers: answers, backLink: "finance#finance_bank_account-hint" }) }}
+  {{ renderSummaryFor("finance_money_management", { fields: options.allFields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
+  {{ renderSummaryFor("finance_gambling", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryFor("finance_debt", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryFor("changes_to_finance", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+</dl>
 
 <div class="questiongroup-action-buttons">
   {{ govukButton({
@@ -210,6 +110,9 @@
 </dl>
 {% endset -%}
 
+{% block formContent %}
+  <form method="post" action="{{ action }}">
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 {{ govukTabs({
   items: [
     {
