@@ -1,0 +1,134 @@
+{% extends "../layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "components/question/macro.njk" import renderQuestion %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "components/summary/finance/macro.njk" import renderSummaryFor %}
+
+{%- macro renderSelectedOptions(field) -%}
+<ul class="govuk-list">
+ {% for option in field.options %}
+  {%  if option.checked  %}
+  <li> {{ option.text }} </li>
+  {% endif %}
+ {% endfor %}
+</ul>
+{%- endmacro -%}
+
+{%- macro renderSummaryListRow(label, optionValue, detailsValue) -%}
+<div class="govuk-summary-list--no-border">
+  <dt class="govuk-summary-list__key">
+    {{ label }}
+  </dt>
+    <dd class="govuk-summary-list__value give-details-text">
+    {{ optionValue }} 
+  </dd>
+  <dd class="govuk-summary-list__value give-details-text">
+      {{ detailsValue }}
+  </dd>
+</div>
+{%- endmacro -%}
+
+{% set financeSummaryHtml %}
+<dl class="govuk-summary-list">
+  {{ renderSummaryFor("finance_income", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryFor("finance_bank_account", { fields: options.allFields, answers: answers, backLink: "finance#finance_bank_account-hint" }) }}
+  {{ renderSummaryFor("finance_money_management", { fields: options.allFields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
+  {{ renderSummaryFor("finance_gambling", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryFor("finance_debt", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryFor("changes_to_finance", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+</dl>
+
+<div class="questiongroup-action-buttons">
+  {{ govukButton({
+    text: "Go to practitioner analysis",
+    classes: "govuk-!-margin-bottom-3",
+    href: "#practitioner-analysis"
+  }) }}
+</div>
+{% endset -%}
+
+{% set practitionerAnalysisHtml %}
+<dl class="govuk-summary-list">
+  <h2 class="govuk-heading-m">Patterns of behaviours</h2>
+    <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
+  {{ renderSummaryListRow(
+     renderSelectedOptions(options.allFields["finance_practitioner_analysis_patterns_of_behaviour"]),
+     options.allFields["finance_practitioner_analysis_patterns_of_behaviour_details"].value,
+    ""
+  ) }}
+   <h2 class="govuk-heading-m">Strengths or protective factors</h2>
+      <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+        <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+          Change<span class="govuk-visually-hidden"> POB</span>
+        </a>
+     </dd>
+  {{ renderSummaryListRow(
+     renderSelectedOptions(options.allFields["finance_practitioner_analysis_strengths_or_protective_factors"]),
+     options.allFields["finance_practitioner_analysis_strengths_or_protective_factors_details"].value,
+    ""
+  ) }}
+  <h2 class="govuk-heading-m">Linked to risk of serious harm</h2>
+     <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
+    {{ renderSummaryListRow(
+     renderSelectedOptions(options.allFields["finance_practitioner_analysis_risk_of_serious_harm"]),
+     options.allFields["finance_practitioner_analysis_risk_of_serious_harm_details"].value,
+    ""
+  ) }}
+   <h2 class="govuk-heading-m">Linked to risk of reoffending</h2>
+      <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
+    {{ renderSummaryListRow(
+     renderSelectedOptions(options.allFields["finance_practitioner_analysis_risk_of_reoffending"]),
+     options.allFields["finance_practitioner_analysis_risk_of_reoffending_details"].value,
+    ""
+  ) }}
+    <h2 class="govuk-heading-m">Area of need not related to risk</h2>
+       <dd class="govuk-summary-list__actions govuk-summary-list change-link">
+      <a class="govuk-link" href="no-drug-use-summary#practitioner-analysis">
+        Change<span class="govuk-visually-hidden"> POB</span>
+      </a>
+    </dd>
+    {{ renderSummaryListRow(
+     renderSelectedOptions(options.allFields["finance_practitioner_analysis_related_to_risk"]),
+     options.allFields["finance_practitioner_analysis_related_to_risk_details"].value,
+    ""
+  ) }} 
+</dl>
+{% endset -%}
+
+{% block formContent %}
+  <form method="post" action="{{ action }}">
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+{{ govukTabs({
+  items: [
+    {
+      label: "Summary",
+      id: "finance-summary",
+      panel: {
+        html: financeSummaryHtml
+      }
+    },
+    {
+      label: "Practitioner analysis",
+      id: "practitioner-analysis",
+      panel: {
+        html: practitionerAnalysisHtml
+      }
+    }
+  ]
+}) }}
+{% endblock %}
