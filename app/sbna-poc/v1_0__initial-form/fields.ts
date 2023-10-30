@@ -1896,9 +1896,9 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  patterns_or_behaviours_yes_details: {
+  patterns_or_behaviours_details: {
     text: 'Give details',
-    code: 'patterns_or_behaviours_yes_details',
+    code: 'patterns_or_behaviours_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -1909,30 +1909,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'patterns_or_behaviours',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  patterns_or_behaviours_no_details: {
-    text: 'Give details',
-    code: 'patterns_or_behaviours_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'patterns_or_behaviours',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
@@ -1946,9 +1922,9 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  strengths_or_protective_factors_yes_details: {
+  strengths_or_protective_factors_details: {
     text: 'Give details',
-    code: 'strengths_or_protective_factors_yes_details',
+    code: 'strengths_or_protective_factors_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -1959,30 +1935,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'strengths_or_protective_factors',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  strengths_or_protective_factors_no_details: {
-    text: 'Give details',
-    code: 'strengths_or_protective_factors_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'strengths_or_protective_factors',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   linked_to_risk_of_serious_harm: {
     text: 'Is this an area linked to risk of serious harm?',
@@ -1995,9 +1947,9 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  linked_to_risk_of_serious_harm_yes_details: {
+  linked_to_risk_of_serious_harm_details: {
     text: 'Give details',
-    code: 'linked_to_risk_of_serious_harm_yes_details',
+    code: 'linked_to_risk_of_serious_harm_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -2008,30 +1960,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_serious_harm',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  linked_to_risk_of_serious_harm_no_details: {
-    text: 'Give details',
-    code: 'linked_to_risk_of_serious_harm_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_serious_harm',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   linked_to_risk_of_reoffending: {
     text: 'Is this an area linked to risk of reoffedning?',
@@ -2044,9 +1972,9 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  linked_to_risk_of_reoffending_yes_details: {
+  linked_to_risk_of_reoffending_details: {
     text: 'Give details',
-    code: 'linked_to_risk_of_reoffending_yes_details',
+    code: 'linked_to_risk_of_reoffending_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -2057,30 +1985,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_reoffending',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  linked_to_risk_of_reoffending_no_details: {
-    text: 'Give details',
-    code: 'linked_to_risk_of_reoffending_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_reoffending',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   not_related_to_risk: {
     text: 'Is this an area of need which is not related to risk?',
@@ -2093,9 +1997,9 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  not_related_to_risk_yes_details: {
+  not_related_to_risk_details: {
     text: 'Give details',
-    code: 'not_related_to_risk_yes_details',
+    code: 'not_related_to_risk_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -2106,30 +2010,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'not_related_to_risk',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  not_related_to_risk_no_details: {
-    text: 'Give details',
-    code: 'not_related_to_risk_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'not_related_to_risk',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   finance_income: {
     text: 'Where does [subject] get their money from? ',

@@ -104,9 +104,10 @@
 {%- macro renderFinanceBankAccount(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["finance_bank_account"].options %}
-        {% if option.checked %}
+      {% if option.checked %}
         <li class="summary-details-list">
           <span>{{ option.text }}</span>
+        </li>
       {% endif %}
     {% endfor %}
   </ul>
