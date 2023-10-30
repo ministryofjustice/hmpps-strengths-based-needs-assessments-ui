@@ -8,7 +8,7 @@
 {% from "components/summary/accommodation/macro.njk" import renderSummaryFor %}
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
-{% set accommodationSummaryHtml %}
+{% set summaryHtml %}
 <dl class="govuk-summary-list">
   {{ renderSummaryFor("current_accommodation", { fields: options.allFields, answers: answers, backLink: "accommodation" }) }}
   {{ renderSummaryFor("living_with", { fields: options.allFields, answers: answers, backLink: "settled-accommodation" }) }}
@@ -26,8 +26,8 @@
 </div>
 {% endset -%}
 
-{% set practitionerAnalysisHtml %}
-<dl class="govuk-summary-list">
+{% set analysisHtml %}
+<section>
   {{ renderAnalysisSummary(
     options.allFields["practitioner_analysis_patterns_of_behaviour"],
     options.allFields["practitioner_analysis_patterns_of_behaviour_details"],
@@ -53,24 +53,24 @@
     options.allFields["practitioner_analysis_related_to_risk_details"],
     "accommodation-summary-analysis-settled#practitioner-analysis"
   ) }}
-</dl>
+</section>
 {% endset -%}
 
 {% block formContent %}
 {{ govukTabs({
   items: [
     {
-      label: "Accommodation summary",
+      label: "Summary",
       id: "accommodation-summary",
       panel: {
-        html: accommodationSummaryHtml
+        html: summaryHtml
       }
     },
     {
       label: "Practitioner analysis",
       id: "practitioner-analysis",
       panel: {
-        html: practitionerAnalysisHtml
+        html: analysisHtml
       }
     }
   ]

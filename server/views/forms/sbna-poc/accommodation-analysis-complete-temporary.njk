@@ -14,7 +14,7 @@
 {% set changeLink = "temporary-accommodation" %}
 {%- endif -%}
 
-{% set accommodationSummaryHtml %}
+{% set summaryHtml %}
 <dl class="govuk-summary-list">
   {{ renderSummaryFor("current_accommodation", { fields: options.allFields, answers: answers, backLink: "accommodation" }) }}
   {%- if answers["current_accommodation"] == "SETTLED" or not (answers["type_of_temporary_accommodation"] == "SHORT_TERM" or answers["type_of_temporary_accommodation"] == "IMMIGRATION") -%}
@@ -35,51 +35,51 @@
 </div>
 {% endset -%}
 
-{% set practitionerAnalysisHtml %}
-<dl class="govuk-summary-list">
+{% set analysisHtml %}
+<section>
   {{ renderAnalysisSummary(
     options.allFields["practitioner_analysis_patterns_of_behaviour"],
     options.allFields["practitioner_analysis_patterns_of_behaviour_details"],
-    "accommodation-summary-analysis-temporary#practitioner-analysis"
+    "accommodation-summary-analysis-settled#practitioner-analysis"
   ) }}
   {{ renderAnalysisSummary(
     options.allFields["practitioner_analysis_strengths_or_protective_factors"],
     options.allFields["practitioner_analysis_strengths_or_protective_factors_details"],
-    "accommodation-summary-analysis-temporary#practitioner-analysis"
+    "accommodation-summary-analysis-settled#practitioner-analysis"
   ) }}
   {{ renderAnalysisSummary(
     options.allFields["practitioner_analysis_risk_of_serious_harm"],
     options.allFields["practitioner_analysis_risk_of_serious_harm_details"],
-    "accommodation-summary-analysis-temporary#practitioner-analysis"
+    "accommodation-summary-analysis-settled#practitioner-analysis"
   ) }}
   {{ renderAnalysisSummary(
     options.allFields["practitioner_analysis_risk_of_reoffending"],
     options.allFields["practitioner_analysis_risk_of_reoffending_details"],
-    "accommodation-summary-analysis-temporary#practitioner-analysis"
+    "accommodation-summary-analysis-settled#practitioner-analysis"
   ) }}
   {{ renderAnalysisSummary(
     options.allFields["practitioner_analysis_related_to_risk"],
     options.allFields["practitioner_analysis_related_to_risk_details"],
-    "accommodation-summary-analysis-temporary#practitioner-analysis"
+    "accommodation-summary-analysis-settled#practitioner-analysis"
   ) }}
-</dl>
+</section>
 {% endset -%}
 
 {% block formContent %}
 {{ govukTabs({
   items: [
     {
-      label: "Accommodation summary",
+      label: "Summary",
       id: "accommodation-summary",
       panel: {
-        html: accommodationSummaryHtml
+        html: summaryHtml
       }
     },
     {
       label: "Practitioner analysis",
       id: "practitioner-analysis",
       panel: {
-        html: practitionerAnalysisHtml
+        html: analysisHtml
       }
     }
   ]

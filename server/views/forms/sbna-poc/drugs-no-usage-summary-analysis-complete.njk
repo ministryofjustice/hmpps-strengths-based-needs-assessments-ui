@@ -23,7 +23,7 @@
 {% endset -%}
 
 {% set analysisHtml %}
-<dl class="govuk-summary-list">
+<section>
   {{ renderAnalysisSummary(
     options.allFields["patterns_or_behaviours"],
     options.allFields["patterns_or_behaviours_details"],
@@ -49,7 +49,7 @@
     options.allFields["not_related_to_risk_details"],
     "no-drug-use-summary#practitioner-analysis"
   ) }}
-</dl>
+</section>
 {% endset -%}
 
 {% block formContent %}

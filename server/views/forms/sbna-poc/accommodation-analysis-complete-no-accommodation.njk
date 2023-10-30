@@ -14,7 +14,7 @@
 {% set changeLink = "no-accommodation" %}
 {%- endif -%}
 
-{% set accommodationSummaryHtml %}
+{% set summaryHtml %}
 <dl class="govuk-summary-list">
   {{ renderSummaryFor("current_accommodation", { fields: options.allFields, answers: answers, backLink: "accommodation" }) }}
   {%- if answers["type_of_no_accommodation"] != "AWAITING_ASSESSMENT" -%}
@@ -34,8 +34,8 @@
 </div>
 {% endset -%}
 
-{% set practitionerAnalysisHtml %}
-<dl class="govuk-summary-list">
+{% set analysisHtml %}
+<section>
   {{ renderAnalysisSummary(
     options.allFields["practitioner_analysis_patterns_of_behaviour"],
     options.allFields["practitioner_analysis_patterns_of_behaviour_details"],
@@ -61,24 +61,24 @@
     options.allFields["practitioner_analysis_related_to_risk_details"],
     "accommodation-summary-analysis-no-accommodation#practitioner-analysis"
   ) }}
-</dl>
+</section>
 {% endset -%}
 
 {% block formContent %}
 {{ govukTabs({
   items: [
     {
-      label: "Accommodation summary",
+      label: "Summary",
       id: "accommodation-summary",
       panel: {
-        html: accommodationSummaryHtml
+        html: summaryHtml
       }
     },
     {
       label: "Practitioner analysis",
       id: "practitioner-analysis",
       panel: {
-        html: practitionerAnalysisHtml
+        html: analysisHtml
       }
     }
   ]
