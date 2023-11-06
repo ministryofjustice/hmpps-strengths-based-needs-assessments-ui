@@ -1,16 +1,18 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
-import { Answers, UpdateAnswersDto } from '../../../../server/services/strengthsBasedNeedsService'
+import { AnswerDto, Answers, UpdateAnswersDto } from '../../../../server/services/strengthsBasedNeedsService'
 import { whereSelectable } from '../../../common/controllers/saveAndContinue.utils'
 
 type SubmittedAnswers = Record<string, string | string[]>
 
 export const buildRequestBody = (
   fields: FormWizard.Fields,
+  allFields: FormWizard.Fields,
   submittedAnswers: SubmittedAnswers,
-  allAnswers: SubmittedAnswers,
 ): UpdateAnswersDto => {
-  const answersToAdd = getAnswersToAdd(fields, submittedAnswers)
-  const answersToRemove = getAnswersToRemove(fields, allAnswers)
+  const answersToAdd = getAnswersToAdd(fields, allFields, submittedAnswers)
+  const answersToRemove = getAnswersToRemove(fields, allFields, submittedAnswers).filter(
+    it => !Object.keys(answersToAdd).includes(it),
+  )
 
   return {
     answersToAdd,
@@ -32,57 +34,99 @@ export const mergeAnswers = (savedAnswers: Answers, submittedAnswersValues: Subm
   }
 }
 
-export const getAnswersToRemove = (fields: FormWizard.Fields, answers: SubmittedAnswers): string[] => {
-  const dependencyMet = (dependency: FormWizard.Dependent, allAnswers: SubmittedAnswers) => {
-    const answer = allAnswers[dependency.field]
+export const dependencyMet = (field: FormWizard.Field, fields: FormWizard.Fields, answers: SubmittedAnswers) => {
+  const dependency = field.dependent
 
-    return Array.isArray(answer) ? answer.includes(dependency.value) : answer === dependency.value
+  if (!dependency) {
+    return true
   }
 
-  return Object.keys(fields).reduce((fieldsToRemove, thisField) => {
-    const dependency = fields[thisField].dependent
+  const parentField = fields[dependency.field]
+  const parentFieldAnswer = answers[parentField.code]
 
-    if (dependency && !dependencyMet(dependency, answers)) {
-      return [...fieldsToRemove, thisField]
-    }
-
-    return fieldsToRemove
-  }, [])
+  return Array.isArray(parentFieldAnswer)
+    ? parentFieldAnswer.includes(dependency.value)
+    : parentFieldAnswer === dependency.value
 }
 
-export const getAnswersToAdd = (fields: FormWizard.Fields, answers: SubmittedAnswers): Answers => {
-  return Object.entries(answers)
-    .filter(([key]) => fields[key]?.type !== FieldType.Collection)
-    .reduce((answerDtos, [key, thisAnswer]) => {
-      const field = fields[key]
-      if (field) {
-        switch (field.type) {
+const getDependencyChain = (field: FormWizard.Field, fields: Array<FormWizard.Field>): Array<FormWizard.Field> => {
+  return fields
+    .filter(it => it.dependent?.field === field.code)
+    .map(it => [it, ...getDependencyChain(it, fields)])
+    .flat()
+}
+
+const matchingDependencyValue = (requiredValue: string, answer: string | Array<string>) =>
+  Array.isArray(answer) ? answer.includes(requiredValue) : answer === requiredValue
+
+const whereDependencyNotMet = (field: FormWizard.Field, answers: SubmittedAnswers) => (it: FormWizard.Field) => {
+  return it.dependent?.field === field.code && !matchingDependencyValue(it.dependent?.value, answers[field.code])
+}
+
+const toFieldCodes = (fields: Array<FormWizard.Field>) => fields.map(it => it.code)
+
+const getDependents =
+  (allFields: FormWizard.Fields, answers: SubmittedAnswers) =>
+  (field: FormWizard.Field): Array<string> => {
+    const fields = Object.values(allFields)
+
+    const dependents = fields
+      .filter(whereDependencyNotMet(field, answers))
+      .map(it => [it, ...getDependencyChain(it, fields)])
+      .flatMap(toFieldCodes)
+
+    return [...new Set(dependents)]
+  }
+
+export const getAnswersToRemove = (
+  fields: FormWizard.Fields,
+  allFields: FormWizard.Fields,
+  answers: SubmittedAnswers,
+): string[] => {
+  const toRemove = Object.values(fields).map(getDependents(allFields, answers)).flat()
+
+  return toRemove
+}
+
+export const getAnswersToAdd = (
+  fields: FormWizard.Fields,
+  allFields: FormWizard.Fields,
+  answers: SubmittedAnswers,
+): Answers => {
+  return Object.values(fields)
+    .filter(it => it.type !== FieldType.Collection)
+    .filter(it => dependencyMet(it, allFields, answers))
+    .reduce((answerDtos, it) => {
+      const thisAnswer = answers[it.code]
+
+      if (it) {
+        switch (it.type) {
           case FieldType.CheckBox:
             return {
               ...answerDtos,
-              [key]: {
-                type: fields[key].type,
-                description: fields[key].text,
-                options: field.options.filter(whereSelectable),
+              [it.code]: {
+                type: it.type,
+                description: it.text,
+                options: it.options.filter(whereSelectable),
                 values: thisAnswer,
               },
             }
           case FieldType.Radio:
             return {
               ...answerDtos,
-              [key]: {
-                type: field.type,
-                description: field.text,
-                options: field.options.filter(whereSelectable),
+              [it.code]: {
+                type: it.type,
+                description: it.text,
+                options: it.options.filter(whereSelectable),
                 value: thisAnswer,
               },
             }
           default:
             return {
               ...answerDtos,
-              [key]: {
-                type: field.type,
-                description: field.text,
+              [it.code]: {
+                type: it.type,
+                description: it.text,
                 value: thisAnswer,
               },
             }
@@ -92,3 +136,9 @@ export const getAnswersToAdd = (fields: FormWizard.Fields, answers: SubmittedAns
       }
     }, {})
 }
+
+export const flattenAnswers = (answers: Record<string, AnswerDto>) =>
+  Object.entries(answers).reduce(
+    (allAnswers, [key, answer]) => ({ ...allAnswers, [key]: answer.value || answer.values }),
+    {},
+  )

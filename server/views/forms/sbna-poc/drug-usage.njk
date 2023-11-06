@@ -176,19 +176,19 @@
 {% block formContent %}
   <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-    {{ renderHeroinUsageQuestion(options.fields, options.answers) }}
-    {{ renderMethadoneNotPrescribedUsageQuestion(options.fields, options.answers) }}
-    {{ renderCrackUsageQuestion(options.fields, options.answers) }}
     {{ renderAmphetaminesUsageQuestion(options.fields, options.answers) }}
     {{ renderBenzodiazepinesUsageQuestion(options.fields, options.answers) }}
-    {{ renderOtherDrugUsageQuestion(options.fields, options.answers) }}
     {{ renderCannabisUsageQuestion(options.fields, options.answers) }}
     {{ renderCocaineUsageQuestion(options.fields, options.answers) }}
+    {{ renderCrackUsageQuestion(options.fields, options.answers) }}
     {{ renderEcstasyUsageQuestion(options.fields, options.answers) }}
+    {{ renderHeroinUsageQuestion(options.fields, options.answers) }}
     {{ renderKetamineUsageQuestion(options.fields, options.answers) }}
     {{ renderMethadonePrescribedUsageQuestion(options.fields, options.answers) }}
+    {{ renderMethadoneNotPrescribedUsageQuestion(options.fields, options.answers) }}
     {{ renderNonPrescribedUsageQuestion(options.fields, options.answers) }}
     {{ renderPsychoactiveSubstancesUsageQuestion(options.fields, options.answers) }}
+    {{ renderOtherDrugUsageQuestion(options.fields, options.answers) }}
 
     <div class="questiongroup-action-buttons">
       {{ govukButton({

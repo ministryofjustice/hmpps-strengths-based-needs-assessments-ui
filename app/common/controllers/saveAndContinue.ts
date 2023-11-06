@@ -8,18 +8,45 @@ import {
   withPlaceholdersFrom,
   withValuesFrom,
 } from './saveAndContinue.utils'
+import { mergeAnswers } from '../../sbna-poc/v1_0__initial-form/controllers/saveAndContinueController.utils'
 
 class SaveAndContinueController extends BaseController {
+  async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
+    const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
+      ...others,
+      [key]: { ...field, id: key },
+    })
+
+    req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
+    req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
+
+    super.configure(req, res, next)
+  }
+
   async process(req: FormWizard.Request, res: Response, next: NextFunction) {
     req.form.values = combineDateFields(req.body, req.form.values)
+    const mergedAnswers = mergeAnswers(req.form.persistedAnswers, req.form.values)
+    req.form.values = Object.entries(req.form.options.fields)
+      .filter(([_, field]) => {
+        const dependentValue = mergedAnswers[field.dependent?.field]
+        return (
+          !field.dependent ||
+          (Array.isArray(dependentValue)
+            ? dependentValue.includes(field.dependent.value)
+            : dependentValue === field.dependent.value)
+        )
+      })
+      .reduce((updatedAnswers, [key, field]) => ({ ...updatedAnswers, [field.code]: req.form.values[key] }), {})
 
-    super.process(req, res, next)
+    req.form.submittedAnswers = req.form.values
+
+    return super.process(req, res, next)
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const fields = Object.values(req.form.options.allFields)
+    const fields = Object.entries(req.form.options.allFields).map(([key, field]) => ({ ...field, id: key }))
 
-    const fieldsWithMappedAnswers = fields.map(withValuesFrom(res.locals.values))
+    const fieldsWithMappedAnswers = fields.map(withValuesFrom(req.form.submittedAnswers))
     const fieldsWithReplacements = fieldsWithMappedAnswers.map(withPlaceholdersFrom(res.locals.placeholderValues || {}))
     const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
       action: res.locals.action,

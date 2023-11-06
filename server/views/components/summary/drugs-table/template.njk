@@ -1,0 +1,257 @@
+{% macro renderDrugUsage(drugName, frequency, previously, changeLink) %}
+<tr class="govuk-table__row">
+  <th scope="row" class="govuk-table__header">{{ drugName }}</th>
+  <td class="govuk-table__cell">{{ frequency }}</td>
+  <td class="govuk-table__cell">{{ previously }}</td>
+  <td class="govuk-table__cell with-text-right">
+    <a href="{{ changeLink }}" class="govuk-link">Change</a>
+  </td>
+</tr>
+{% endmacro %}
+
+{% macro renderDrugInjected(currently, previously) %}
+<tr class="govuk-table__row govuk-!-font-size-16">
+  <th scope="row" class="govuk-table__header">Injected</th>
+  <td class="govuk-table__cell">{{ currently }}</td>
+  <td class="govuk-table__cell">{{ previously }}</td>
+  <td class="govuk-table__cell"></td>
+</tr>
+{% endmacro %}
+
+{% macro renderReceivingTreatment(currently, previously) %}
+<tr class="govuk-table__row govuk-!-font-size-16">
+  <th scope="row" class="govuk-table__header">Receiving treatment</th>
+  <td class="govuk-table__cell">{{ currently }}</td>
+  <td class="govuk-table__cell">{{ previously }}</td>
+  <td class="govuk-table__cell"></td>
+</tr>
+{% endmacro %}
+
+{% macro getLabelForYesNoOption(value) %}
+{% if value === "YES" %}Yes{% elif value === "NO" %}No{% else %}N/A{% endif %}
+{% endmacro %}
+
+{% macro renderAmphetamines(fields, answers) %}
+{% if answerIncludes("AMPHETAMINES", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "AMPHETAMINES"),
+    getSelectedAnswers(fields["drug_usage_amphetamines"]),
+    getSelectedAnswers(fields["past_drug_usage_amphetamines"]),
+    "drug-usage-details#drug_usage_amphetamines"
+  ) }}
+  {{ renderDrugInjected(
+    getLabelForYesNoOption(answers["injecting_drug_amphetamines"]),
+    getLabelForYesNoOption(answers["past_injecting_drug_amphetamines"])
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderBenzodiazepines(fields, answers) %}
+{% if answerIncludes("BENZODIAZEPINES", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "BENZODIAZEPINES"),
+    getSelectedAnswers(fields["drug_usage_benzodiazepines"]),
+    getSelectedAnswers(fields["past_drug_usage_benzodiazepines"]),
+    "drug-usage-details#drug_usage_benzodiazepines"
+  ) }}
+  {{ renderDrugInjected(
+    getLabelForYesNoOption(answers["injecting_drug_benzodiazepines"]),
+    getLabelForYesNoOption(answers["past_injecting_drug_benzodiazepines"])
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderCannabis(fields, answers) %}
+  {% if answerIncludes("CANNABIS", answers["drug_use_type"]) %}
+  <tbody class="govuk-table__body border-bottom">
+    {{ renderDrugUsage(
+      getLabelForOption(fields["drug_use_type"], "CANNABIS"),
+      getSelectedAnswers(fields["drug_usage_cannabis"]),
+      getSelectedAnswers(fields["past_drug_usage_cannabis"]),
+      "drug-usage-details#drug_usage_cannabis"
+    ) }}
+  </tbody>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderCocaine(fields, answers) %}
+{% if answerIncludes("COCAINE", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "COCAINE"),
+    getSelectedAnswers(fields["drug_usage_cocaine"]),
+    getSelectedAnswers(fields["past_drug_usage_cocaine"]),
+    "drug-usage-details#drug_usage_cocaine"
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderCrack(fields, answers) %}
+{% if answerIncludes("CRACK", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "CRACK"),
+    getSelectedAnswers(fields["drug_usage_crack"]),
+    getSelectedAnswers(fields["past_drug_usage_crack"]),
+    "drug-usage-details#drug_usage_crack"
+  ) }}
+  {{ renderDrugInjected(
+    getLabelForYesNoOption(answers["injecting_drug_crack"]),
+    getLabelForYesNoOption(answers["past_injecting_drug_crack"])
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderEcstacy(fields, answers) %}
+{% if answerIncludes("ECSTASY", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "ECSTASY"),
+    getSelectedAnswers(fields["drug_usage_ecstasy"]),
+    getSelectedAnswers(fields["past_drug_usage_ecstasy"]),
+    "drug-usage-details#drug_usage_ecstasy"
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderHeroin(fields, answers) %}
+{% if answerIncludes("HEROIN", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "HEROIN"),
+    getSelectedAnswers(fields["drug_usage_heroin"]),
+    getSelectedAnswers(fields["past_drug_usage_heroin"]),
+    "drug-usage-details#drug_usage_heroin"
+  ) }}
+  {{ renderReceivingTreatment(
+    getLabelForYesNoOption(answers["drug_usage_treatment_heroin"]),
+    getLabelForYesNoOption(answers["past_injecting_drug_heroin"])
+  ) }}
+  {{ renderDrugInjected(
+    getLabelForYesNoOption(answers["injecting_drug_heroin"]),
+    getLabelForYesNoOption(answers["past_injecting_drug_heroin"])
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderKetamine(fields, answers) %}
+{% if answerIncludes("KETAMINE", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "KETAMINE"),
+    getSelectedAnswers(fields["drug_usage_ketamine"]),
+    getSelectedAnswers(fields["past_drug_usage_ketamine"]),
+    "drug-usage-details#drug_usage_ketamine"
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderPrescribedMethadone(fields, answers) %}
+  {% if answerIncludes("METHADONE_PRESCRIBED", answers["drug_use_type"]) %}
+  <tbody class="govuk-table__body border-bottom">
+    {{ renderDrugUsage(
+      getLabelForOption(fields["drug_use_type"], "METHADONE_PRESCRIBED"),
+      getSelectedAnswers(fields["drug_usage_methadone_prescribed"]),
+      getSelectedAnswers(fields["past_drug_usage_methadone_prescribed"]),
+      "drug-usage-details#drug_usage_methadone_prescribed"
+    ) }}
+  </tbody>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderNonPrescribedMethadone(fields, answers) %}
+{% if answerIncludes("METHADONE_NOT_PRESCRIBED", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "METHADONE_PRESCRIBED"),
+    getSelectedAnswers(fields["drug_usage_methadone_not_prescribed"]),
+    getSelectedAnswers(fields["past_drug_usage_methadone_not_prescribed"]),
+    "drug-usage-details#drug_usage_methadone_not_prescribed"
+  ) }}
+  {{ renderDrugInjected(
+    getLabelForYesNoOption(answers["injecting_drug_methadone_not_prescribed"]),
+    getLabelForYesNoOption(answers["past_injecting_drug_methadone_not_prescribed"])
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderNonPrescribedMedication(fields, answers) %}
+{% if answerIncludes("NON_PRESCRIBED_MEDICATION", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "NON_PRESCRIBED_MEDICATION"),
+    getSelectedAnswers(fields["drug_usage_non_prescribed_medication"]),
+    getSelectedAnswers(fields["past_drug_usage_non_prescribed_medication"]),
+    "drug-usage-details#drug_usage_non_prescribed_medication"
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderPsychoactiveSubstance(fields, answers) %}
+{% if answerIncludes("PSYCHOACTIVE_SUBSTANCES_SPICE", answers["drug_use_type"]) %}
+<tbody class="govuk-table__body border-bottom">
+  {{ renderDrugUsage(
+    getLabelForOption(fields["drug_use_type"], "PSYCHOACTIVE_SUBSTANCES_SPICE"),
+    getSelectedAnswers(fields["drug_usage_psychoactive_substances"]),
+    getSelectedAnswers(fields["past_drug_usage_psychoactive_substances"]),
+    "drug-usage-details#drug_usage_psychoactive_substances"
+  ) }}
+</tbody>
+{% endif %}
+{% endmacro %}
+
+{% macro renderOtherDrug(fields, answers) %}
+  {% if answerIncludes("OTHER_DRUG_TYPE", answers["drug_use_type"]) %}
+  <tbody class="govuk-table__body border-bottom">
+    {{ renderDrugUsage(
+      answers["other_drug_details"],
+      getSelectedAnswers(fields["drug_usage_other_drug"]),
+      getSelectedAnswers(fields["past_drug_usage_other_drug"]),
+      "drug-usage-details#drug_usage_other_drug"
+    ) }}
+    {{ renderDrugInjected(
+      getLabelForYesNoOption(answers["injecting_drug_other_drug"]),
+      getLabelForYesNoOption(answers["past_injecting_drug_other_drug"])
+    ) }}
+  </tbody>
+  {% endif %}
+{% endmacro %}
+
+<table class="govuk-table drugs-summary-table">
+  <caption class="govuk-table__caption govuk-table__caption--s">
+    Drugs {{ options.subject | default("the person") }} has used
+    <span class="normal-font-weight to-the-right"><a href="drug-use-type#drug_use_type" class="govuk-link">Change</a></span>
+  </caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header normal-font-weight">Drug</th>
+      <th scope="col" class="govuk-table__header normal-font-weight">Currently</th>
+      <th scope="col" class="govuk-table__header normal-font-weight">Previously</th>
+      <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
+    </tr>
+  </thead>
+  {{ renderAmphetamines(options.fields, options.answers) }}
+  {{ renderBenzodiazepines(options.fields, options.answers) }}
+  {{ renderCannabis(options.fields, options.answers) }}
+  {{ renderCocaine(options.fields, options.answers) }}
+  {{ renderCrack(options.fields, options.answers) }}
+  {{ renderEcstacy(options.fields, options.answers) }}
+  {{ renderHeroin(options.fields, options.answers) }}
+  {{ renderKetamine(options.fields, options.answers) }}
+  {{ renderPrescribedMethadone(options.fields, options.answers) }}
+  {{ renderNonPrescribedMethadone(options.fields, options.answers) }}
+  {{ renderNonPrescribedMedication(options.fields, options.answers) }}
+  {{ renderPsychoactiveSubstance(options.fields, options.answers) }}
+  {{ renderOtherDrug(options.fields, options.answers) }}
+</table>

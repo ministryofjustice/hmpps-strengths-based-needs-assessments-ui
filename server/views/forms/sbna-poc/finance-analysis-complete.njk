@@ -1,4 +1,4 @@
-{% extends "../layout.njk" %}
+{% extends "../summary.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
@@ -8,98 +8,43 @@
 {% from "components/summary/finance/macro.njk" import renderSummaryFor %}
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
-{%- macro renderSelectedOptions(field) -%}
-<ul class="govuk-list">
- {% for option in field.options %}
-  {%  if option.checked  %}
-  <li> {{ option.text }} </li>
-  {% endif %}
- {% endfor %}
-</ul>
-{%- endmacro -%}
+{% block summaryPanel %}
+  <dl class="govuk-summary-list">
+    {{ renderSummaryFor("finance_income", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+    {{ renderSummaryFor("finance_bank_account", { fields: options.allFields, answers: answers, backLink: "finance#finance_bank_account-hint" }) }}
+    {{ renderSummaryFor("finance_money_management", { fields: options.allFields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
+    {{ renderSummaryFor("finance_gambling", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+    {{ renderSummaryFor("finance_debt", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+    {{ renderSummaryFor("changes_to_finance", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  </dl>
+{% endblock %}
 
-{%- macro renderSummaryListRow(label, optionValue, detailsValue) -%}
-<div class="govuk-summary-list--no-border">
-  <dt class="govuk-summary-list__key">
-    {{ label }}
-  </dt>
-    <dd class="govuk-summary-list__value give-details-text">
-    {{ optionValue }} 
-  </dd>
-  <dd class="govuk-summary-list__value give-details-text">
-      {{ detailsValue }}
-  </dd>
-</div>
-{%- endmacro -%}
-
-{% set summaryHtml %}
-<dl class="govuk-summary-list">
-  {{ renderSummaryFor("finance_income", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-  {{ renderSummaryFor("finance_bank_account", { fields: options.allFields, answers: answers, backLink: "finance#finance_bank_account-hint" }) }}
-  {{ renderSummaryFor("finance_money_management", { fields: options.allFields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
-  {{ renderSummaryFor("finance_gambling", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-  {{ renderSummaryFor("finance_debt", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-  {{ renderSummaryFor("changes_to_finance", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-</dl>
-
-<div class="questiongroup-action-buttons">
-  {{ govukButton({
-    text: "Go to practitioner analysis",
-    classes: "govuk-!-margin-bottom-3",
-    href: "#practitioner-analysis"
-  }) }}
-</div>
-{% endset -%}
-
-{% set analysisHtml %}
-<section>
-  {{ renderAnalysisSummary(
-    options.allFields["finance_practitioner_analysis_patterns_of_behaviour"],
-    options.allFields["finance_practitioner_analysis_patterns_of_behaviour_details"],
-    "finance-summary-analysis#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["finance_practitioner_analysis_strengths_or_protective_factors"],
-    options.allFields["finance_practitioner_analysis_strengths_or_protective_factors_details"],
-    "finance-summary-analysis#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["finance_practitioner_analysis_risk_of_serious_harm"],
-    options.allFields["finance_practitioner_analysis_risk_of_serious_harm_details"],
-    "finance-summary-analysis#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["finance_practitioner_analysis_risk_of_reoffending"],
-    options.allFields["finance_practitioner_analysis_risk_of_reoffending_details"],
-    "finance-summary-analysis#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["finance_practitioner_analysis_related_to_risk"],
-    options.allFields["finance_practitioner_analysis_related_to_risk_details"],
-    "finance-summary-analysis#practitioner-analysis"
-  ) }}
-</section>
-{% endset -%}
-
-{% block formContent %}
-  <form method="post" action="{{ action }}">
-    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-{{ govukTabs({
-  items: [
-    {
-      label: "Summary",
-      id: "finance-summary",
-      panel: {
-        html: summaryHtml
-      }
-    },
-    {
-      label: "Practitioner analysis",
-      id: "practitioner-analysis",
-      panel: {
-        html: analysisHtml
-      }
-    }
-  ]
-}) }}
+{% block analysisPanel %}
+  <section>
+    {{ renderAnalysisSummary(
+      options.allFields["finance_practitioner_analysis_patterns_of_behaviour"],
+      options.allFields["finance_practitioner_analysis_patterns_of_behaviour_details"],
+      "finance-summary-analysis#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["finance_practitioner_analysis_strengths_or_protective_factors"],
+      options.allFields["finance_practitioner_analysis_strengths_or_protective_factors_details"],
+      "finance-summary-analysis#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["finance_practitioner_analysis_risk_of_serious_harm"],
+      options.allFields["finance_practitioner_analysis_risk_of_serious_harm_details"],
+      "finance-summary-analysis#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["finance_practitioner_analysis_risk_of_reoffending"],
+      options.allFields["finance_practitioner_analysis_risk_of_reoffending_details"],
+      "finance-summary-analysis#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["finance_practitioner_analysis_related_to_risk"],
+      options.allFields["finance_practitioner_analysis_related_to_risk_details"],
+      "finance-summary-analysis#practitioner-analysis"
+    ) }}
+  </section>
 {% endblock %}

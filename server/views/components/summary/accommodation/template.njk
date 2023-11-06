@@ -10,6 +10,22 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderSummaryListRow(label, value, changeLink) -%}
+  <div class="govuk-summary-list__row as-block clearfix">
+    <dt class="govuk-summary-list__key to-the-left">
+      {{ label }}
+    </dt>
+    <dd class="govuk-summary-list__value to-the-left summary-value">
+      {{ value }}
+    </dd>
+    <dd class="govuk-summary-list__actions to-the-right">
+      <a class="govuk-link" href="{{ changeLink }}">
+      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
+  </div>
+{%- endmacro -%}
+
 {%- macro renderCurrentAccommodation(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["current_accommodation"].options %}
@@ -248,22 +264,6 @@
       {% endif %}
     {% endfor %}
   </ul>
-{%- endmacro -%}
-
-{%- macro renderSummaryListRow(label, value, changeLink) -%}
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      {{ label }}
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {{ value }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ changeLink }}">
-      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
-      </a>
-    </dd>
-  </div>
 {%- endmacro -%}
 
 {%- switch field -%}

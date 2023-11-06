@@ -16,8 +16,8 @@ const renderConditionalQuestion = (
   locals: Locals = { errors: {}, collections: {}, action: '/' },
   _nunjucks = nunjucks,
 ): FormWizard.Field => {
-  const conditionalFields = dependentFieldNodes.map(({ code, dependents }) => {
-    const [config] = allFields.filter(field => field.code === code)
+  const conditionalFields = dependentFieldNodes.map(({ id, dependents }) => {
+    const [config] = allFields.filter(field => field.id === id)
     return { config, dependents }
   })
 
@@ -59,11 +59,11 @@ const renderConditionalQuestion = (
 }
 
 export type FormErrors = { [code: string]: string }
-type Node = { code: string; dependents?: Node[] }
+type Node = { code: string; id: string; dependents?: Node[] }
 
 export const compileConditionalFields = (fields: FormWizard.Field[], locals: Locals) => {
   const fieldsWithDependencies = fields.filter(field => field.dependent && field.dependent.displayInline)
-  const fieldCodes = fieldsWithDependencies.map(field => field.code)
+  const fieldCodes = fieldsWithDependencies.map(field => field.id)
 
   const rootFieldsWithDependencies = fieldsWithDependencies
     .filter(field => !fieldCodes.includes(field.dependent.field))
@@ -76,9 +76,9 @@ export const compileConditionalFields = (fields: FormWizard.Field[], locals: Loc
       .map(field => {
         const dependents = fieldsWithDependencies.filter(otherField => field.code === otherField.dependent.field)
         if (dependents.length > 0) {
-          return { code: field.code, dependents: buildNode(field.code) }
+          return { code: field.code, id: field.id, dependents: buildNode(field.code) }
         }
-        return { code: field.code }
+        return { code: field.code, id: field.id }
       })
 
   const dependencyTree = rootFieldsWithDependencies.map(questionCode => {
@@ -89,9 +89,9 @@ export const compileConditionalFields = (fields: FormWizard.Field[], locals: Loc
     (otherFields, { code: fieldCode, dependents }) => {
       const [thisField] = otherFields.filter(field => field.code === fieldCode)
 
-      const updatedQuestion = renderConditionalQuestion(fields, thisField, dependents, locals)
+      const updatedField = renderConditionalQuestion(fields, thisField, dependents, locals)
 
-      return otherFields.map(field => (field.code === updatedQuestion.code ? updatedQuestion : field))
+      return otherFields.map(field => (field.code === updatedField.code ? updatedField : field))
     },
     [...fields],
   )
@@ -148,8 +148,9 @@ export const withValuesFrom =
     switch (field.type) {
       case FieldType.Text:
       case FieldType.TextArea:
-        return { ...field, value: answers[field.code] as string }
+        return { ...field, value: answers[field.code] }
       case FieldType.Radio:
+      case FieldType.Dropdown:
         return {
           ...field,
           options: field.options.map(option => {
@@ -159,7 +160,6 @@ export const withValuesFrom =
           }),
         }
       case FieldType.CheckBox:
-      case FieldType.Dropdown:
         return {
           ...field,
           options: field.options.map(option => {

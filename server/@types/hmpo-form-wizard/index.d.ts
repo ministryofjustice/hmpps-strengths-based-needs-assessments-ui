@@ -90,6 +90,7 @@ declare module 'hmpo-form-wizard' {
           fields: Fields
         }
         persistedAnswers: { [key: string]: AnswerDto }
+        submittedAnswers: Record<string, string | string[]>
       }
       sessionModel: {
         set: (key: string, value: unknown) => void
@@ -174,6 +175,7 @@ declare module 'hmpo-form-wizard' {
       default?: string | number | []
       text: string
       code: string
+      id?: string
       hint?: Hint
       type: FieldType
       multiple?: boolean

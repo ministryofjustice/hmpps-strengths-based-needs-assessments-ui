@@ -1,4 +1,4 @@
-{% extends "../layout.njk" %}
+{% extends "../summary.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
@@ -7,62 +7,30 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "components/summary/drugs/macro.njk" import renderSummaryFor %}
 
-{% set summaryHtml %}
-<dl class="govuk-summary-list">
-  {{ renderSummaryFor("drug_use", { fields: options.allFields, answers: answers, backLink: "drug-use" }) }}
-</dl>
+{% block summaryPanel %}
+  <dl class="govuk-summary-list">
+    {{ renderSummaryFor("drug_use", { fields: options.allFields, answers: answers, backLink: "drug-use" }) }}
+  </dl>
+{% endblock %}
 
-<div class="questiongroup-action-buttons">
-  {{ govukButton({
-    text: "Go to practitioner analysis",
-    classes: "govuk-!-margin-bottom-3",
-    href: "#practitioner-analysis"
-  }) }}
-</div>
-{% endset -%}
+{% block analysisPanel %}
+  {% for field in (form.fields | removeSectionCompleteFields) %}
+    {{ renderQuestion(options.fields[field], errors) }}
+  {% endfor %}
 
-{% set analysisHtml %}
-{% for field in form.fields %}
-  {{ renderQuestion(options.fields[field], errors) }}
-{% endfor %}
+  <div class="questiongroup-action-buttons">
+    {{ govukButton({
+      text: buttonText | default("Mark as complete"),
+      classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
+    }) }}
 
-<div class="questiongroup-action-buttons">
-  {{ govukButton({
-    text: buttonText | default("Mark as complete"),
-    classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
-  }) }}
-
-  {% set saveDraftAction = action + "?action=saveDraft" %}
-  {{ govukButton({
-    text: "Save as draft",
-    classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
-    attributes: {
-      "formaction": saveDraftAction
-    }
-  }) }}
-</div>
-{% endset -%}
-
-{% block formContent %}
-<form method="post" action="{{ action }}">
-  <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-  {{ govukTabs({
-    items: [
-      {
-        label: "Summary",
-        id: "drug-use-summary",
-        panel: {
-          html: summaryHtml
-        }
-      },
-      {
-        label: "Practitioner analysis",
-        id: "practitioner-analysis",
-        panel: {
-          html: analysisHtml
-        }
+    {% set saveDraftAction = action + "?action=saveDraft" %}
+    {{ govukButton({
+      text: "Save as draft",
+      classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
+      attributes: {
+        "formaction": saveDraftAction
       }
-    ]
-  }) }}
-</form>
+    }) }}
+  </div>
 {% endblock %}

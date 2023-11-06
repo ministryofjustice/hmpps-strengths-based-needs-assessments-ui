@@ -1,4 +1,4 @@
-{% extends "../layout.njk" %}
+{% extends "../summary.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
@@ -8,69 +8,38 @@
 {% from "components/summary/drugs/macro.njk" import renderSummaryFor %}
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
-{% set summaryHtml %}
+{% block summaryPanel %}
 <dl class="govuk-summary-list">
   {{ renderSummaryFor("drug_use", { fields: options.allFields, answers: answers, backLink: "drug-use" }) }}
 </dl>
+{% endblock %}
 
-<div class="questiongroup-action-buttons">
-  {{ govukButton({
-    text: "Go to practitioner analysis",
-    classes: "govuk-!-margin-bottom-3",
-    href: "#practitioner-analysis"
-  }) }}
-</div>
-{% endset -%}
-
-{% set analysisHtml %}
-<section>
-  {{ renderAnalysisSummary(
-    options.allFields["patterns_or_behaviours"],
-    options.allFields["patterns_or_behaviours_details"],
-    "no-drug-use-summary#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["strengths_or_protective_factors"],
-    options.allFields["strengths_or_protective_factors_details"],
-    "no-drug-use-summary#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["linked_to_risk_of_serious_harm"],
-    options.allFields["linked_to_risk_of_serious_harm_details"],
-    "no-drug-use-summary#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["linked_to_risk_of_reoffending"],
-    options.allFields["linked_to_risk_of_reoffending_details"],
-    "no-drug-use-summary#practitioner-analysis"
-  ) }}
-  {{ renderAnalysisSummary(
-    options.allFields["not_related_to_risk"],
-    options.allFields["not_related_to_risk_details"],
-    "no-drug-use-summary#practitioner-analysis"
-  ) }}
-</section>
-{% endset -%}
-
-{% block formContent %}
-<form method="post" action="{{ action }}">
-  <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-{{ govukTabs({
-  items: [
-    {
-      label: "Summary",
-      id: "drug-use-summary",
-      panel: {
-        html: summaryHtml
-      }
-    },
-    {
-      label: "Practitioner analysis",
-      id: "practitioner-analysis",
-      panel: {
-        html: analysisHtml
-      }
-    }
-  ]
-}) }}
+{% block analysisPanel %}
+  <section>
+    {{ renderAnalysisSummary(
+      options.allFields["patterns_or_behaviours"],
+      options.allFields["patterns_or_behaviours_details"],
+      "no-drug-use-summary#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["strengths_or_protective_factors"],
+      options.allFields["strengths_or_protective_factors_details"],
+      "no-drug-use-summary#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["linked_to_risk_of_serious_harm"],
+      options.allFields["linked_to_risk_of_serious_harm_details"],
+      "no-drug-use-summary#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["linked_to_risk_of_reoffending"],
+      options.allFields["linked_to_risk_of_reoffending_details"],
+      "no-drug-use-summary#practitioner-analysis"
+    ) }}
+    {{ renderAnalysisSummary(
+      options.allFields["not_related_to_risk"],
+      options.allFields["not_related_to_risk_details"],
+      "no-drug-use-summary#practitioner-analysis"
+    ) }}
+  </section>
 {% endblock %}
