@@ -7,7 +7,7 @@
 {% block formContent %}
   <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-    {% for field in form.fields %}
+    {% for field in (form.fields | removeSectionCompleteFields) %}
       {% set fieldPrototype = options.fields[field] %}
 
       {% if form.fields.length == 1 %}
@@ -19,6 +19,7 @@
       {% set fieldOptions = {
         text: fieldPrototype.text,
         code: fieldPrototype.code,
+        id: fieldPrototype.id,
         hint: fieldPrototype.hint,
         type: fieldPrototype.type,
         options: fieldPrototype.options,

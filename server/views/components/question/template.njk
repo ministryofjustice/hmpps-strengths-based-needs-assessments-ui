@@ -7,8 +7,6 @@
 {%- from "govuk/components/summary-list/macro.njk" import govukSummaryList -%}
 {%- from "govuk/components/button/macro.njk" import govukButton -%}
 {%- from "govuk/components/character-count/macro.njk" import govukCharacterCount -%}
-{%- from "components/collections/living_with_children/macro.njk" import livingWithChildren -%}
-{%- from "components/collections/living_with_partner/macro.njk" import livingWithPartner -%}
 
 {% set errorMessageText = errors[question.code].message %}
 {% if errorMessageText %}
@@ -18,8 +16,8 @@
 {% switch question.type %}
   {% case 'TEXT' %}
     {{ govukInput({
-      id: question.code,
-      name: question.code,
+      id: question.id,
+      name: question.id,
       value: question.value | safe,
       formGroup : {
         classes: formClass or question.classes
@@ -28,7 +26,7 @@
       label: {
         text: question.text,
         isPageHeading: false,
-        classes: question.code + " " + question.labelClasses
+        classes: question.id + " " + question.labelClasses
       },
       hint: question.hint,
       errorMessage: errorMessage,
@@ -37,14 +35,14 @@
 
   {% case 'TEXT_AREA' %}
     {{ govukCharacterCount({
-      name:question.code,
-      id: question.code,
+      name:question.id,
+      id: question.id,
       maxlength: question.characterCountMax | default(400),
       value: question.value | safe,
       label: {
         text: question.text,
         isPageHeading: false,
-        classes: question.code + " " + question.labelClasses
+        classes: question.id + " " + question.labelClasses
       },
       formGroup : {
         classes: question.classes | default('govuk-!-width-two-thirds')
@@ -56,8 +54,8 @@
 
   {% case 'RADIO' %}
     {{ govukRadios({
-      idPrefix: question.code,
-      name: question.code,
+      idPrefix: question.id,
+      name: question.id,
       formGroup : {
         classes: question.classes
       },
@@ -65,7 +63,7 @@
       fieldset: {
         legend: {
           text: question.text,
-          classes: question.code + " " + question.labelClasses
+          classes: question.id + " " + question.labelClasses
         }
       },
       items: question.options,
@@ -76,8 +74,8 @@
 
   {% case 'CHECKBOX' %}
     {{ govukCheckboxes({
-      idPrefix: question.code,
-      name: question.code,
+      idPrefix: question.id,
+      name: question.id,
       formGroup : {
         classes: question.classes
       },
@@ -85,7 +83,7 @@
       fieldset: {
         legend: {
           text: question.text,
-          classes: question.code + " " + question.labelClasses
+          classes: question.id + " " + question.labelClasses
         }
       },
       items: question.options,
@@ -96,14 +94,14 @@
 
   {% case 'DROPDOWN' %}
     {{ govukSelect({
-      id: question.code,
-      name: question.code,
+      id: question.id,
+      name: question.id,
       formGroup : {
         classes: question.classes
       },
       label: {
         text: question.text,
-        classes: question.code + " " + question.labelClasses
+        classes: question.id + " " + question.labelClasses
       },
       attributes: question.attributes,
       items: question.options,
@@ -125,13 +123,13 @@
     {% endif %}
 
     {{ govukDateInput({
-      id: question.code,
-      namePrefix: question.code,
+      id: question.id,
+      namePrefix: question.id,
       fieldset: {
         legend: {
           text: question.text,
           isPageHeading: false,
-          classes: question.code + " " + question.labelClasses
+          classes: question.id + " " + question.labelClasses
         }
       },
       hint: question.hint,
@@ -156,19 +154,6 @@
       attributes: question.attributes
     }) }}
 
-  {% case "COLLECTION" %}
-    {% switch question.code %}
-
-      {% case "living_with_children" %}
-        {{ livingWithChildren(question, collections, action) }}
-
-      {% case "living_with_partner" %}
-        {{ livingWithPartner(question, collections, action) }}
-
-      {% default %}
-
-    {% endswitch %}
-
   {% default %}
-    <!-- {{ question.code }} - {{ question.type }} questions are not currently rendered -->
+    <!-- {{ question.id }} - {{ question.type }} questions are not currently rendered -->
 {% endswitch %}

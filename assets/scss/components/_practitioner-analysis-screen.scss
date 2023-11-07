@@ -3,6 +3,19 @@
   width: 80%;
 }
 
-.change-link {
+.analysis-summary__item {
+  margin-bottom: govuk-spacing(3)
+}
+
+.analysis-summary__row {
+  @include govuk-clearfix;
+  width: 100%;
+}
+.analysis-summary__heading {
+  float: left;
+}
+
+.analysis-summary__action {
   float: right;
+  text-align: right;
 }

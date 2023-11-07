@@ -5,7 +5,7 @@ import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
   SubjectResponse,
 } from '../../../../server/services/strengthsBasedNeedsService'
-import { buildRequestBody, mergeAnswers } from './saveAndContinueController.utils'
+import { buildRequestBody, flattenAnswers, mergeAnswers } from './saveAndContinueController.utils'
 
 type ResumeUrl = string | null
 
@@ -33,6 +33,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       res.locals.user = { username: sessionData.userDisplayName }
       await this.apiService.validateSession(sessionData.uuid)
       req.form.persistedAnswers = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
+      req.form.submittedAnswers = flattenAnswers(req.form.persistedAnswers)
 
       super.configure(req, res, next)
     } catch (error) {
@@ -137,24 +138,25 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const sectionProgressRules = req.form.options.sectionProgressRules || []
     const isValidated = req.query.action !== 'saveDraft'
 
-    req.form.values = sectionProgressRules.reduce(
+    req.form.submittedAnswers = sectionProgressRules.reduce(
       (answers, { fieldCode, conditionFn }) => ({ ...answers, [fieldCode]: conditionFn(isValidated, req.form.values) }),
-      req.form.values || {},
+      req.form.submittedAnswers || {},
     )
   }
 
   async saveAnswers(req: FormWizard.Request) {
     const { assessmentUUID } = req.session.sessionData as SessionInformation
 
-    const savedAnswers = await this.apiService.fetchAnswers(assessmentUUID)
-    const submittedAnswers = req.form.values
-    const allAnswers = mergeAnswers(savedAnswers, submittedAnswers)
-
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options.allFields, submittedAnswers, allAnswers)
+    const answers = { ...flattenAnswers(req.form.persistedAnswers), ...req.form.submittedAnswers }
+    const { answersToAdd, answersToRemove } = buildRequestBody(
+      req.form.options.fields,
+      req.form.options.allFields,
+      answers,
+    )
 
     req.form.values = {
-      ...req.form.values,
-      ...answersToRemove.reduce((acc, fieldCode) => ({ ...acc, [fieldCode]: null }), {}),
+      ...answers,
+      ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
     }
 
     await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove })
@@ -187,46 +189,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       return isPractitionerAnalysisPage(req.path)
         ? res.redirect(`${redirectUrl}#practitioner-analysis`)
         : res.redirect(redirectUrl)
-    }
-
-    if (req.query.action === 'addChild') {
-      return res.redirect('add-living-with-child')
-    }
-
-    if (req.query.action === 'removeChild' && req.query.index) {
-      const { assessmentUUID } = req.session.sessionData as SessionInformation
-
-      await this.apiService.removeFromCollection(
-        assessmentUUID,
-        'living_with_children',
-        Number.parseInt(req.query.index as string, 10),
-      )
-
-      return res.redirect(req.path.slice(1))
-    }
-
-    if (req.query.action === 'editChild' && req.query.index) {
-      return res.redirect(`edit-living-with-child?index=${Number.parseInt(req.query.index as string, 10)}`)
-    }
-
-    if (req.query.action === 'addPartner') {
-      return res.redirect('add-living-with-partner')
-    }
-
-    if (req.query.action === 'removePartner' && req.query.index) {
-      const { assessmentUUID } = req.session.sessionData as SessionInformation
-
-      await this.apiService.removeFromCollection(
-        assessmentUUID,
-        'living_with_partner',
-        Number.parseInt(req.query.index as string, 10),
-      )
-
-      return res.redirect(req.path.slice(1))
-    }
-
-    if (req.query.action === 'editPartner' && req.query.index) {
-      return res.redirect(`edit-living-with-partner?index=${Number.parseInt(req.query.index as string, 10)}`)
     }
 
     return super.successHandler(req, res, next)

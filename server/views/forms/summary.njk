@@ -1,0 +1,42 @@
+{% extends "./layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "components/question/macro.njk" import renderQuestion %}
+
+{% block formContent %}
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <h2 class="govuk-tabs__title">
+    Content
+  </h2>
+  <ul class="govuk-tabs__list">
+    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+      <a class="govuk-tabs__tab" href="#summary">
+        Summary
+      </a>
+    </li>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#practitioner-analysis">
+        Practitioner analysis
+      </a>
+    </li>
+  </ul>
+  <div class="govuk-tabs__panel no-border" id="summary">
+    {% block summaryPanel %}{% endblock %}
+
+    <div class="questiongroup-action-buttons">
+      {{ govukButton({
+        text: "Go to practitioner analysis",
+        classes: "govuk-!-margin-bottom-3",
+        href: "#practitioner-analysis"
+      }) }}
+    </div>
+  </div>
+  <div class="govuk-tabs__panel no-border govuk-tabs__panel--hidden" id="practitioner-analysis">    
+    <form method="post" action="{{ action }}">
+      <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+      {% block analysisPanel %}{% endblock %}
+    </form>
+  </div>
+</div>
+{% endblock %}

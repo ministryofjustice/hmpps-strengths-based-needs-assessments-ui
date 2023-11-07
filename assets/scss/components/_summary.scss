@@ -3,3 +3,61 @@
     display: block;
   }
 }
+
+.drugs-summary-table {
+  width: 100%;
+  margin-top: govuk-spacing(3);
+  margin-bottom: govuk-spacing(3);
+  border: 1px solid $govuk-border-colour;
+
+  caption {
+    margin-bottom: govuk-spacing(3);
+  }
+
+  th, td {
+    padding: govuk-spacing(3) !important;
+  }
+}
+
+.normal-font-weight {
+  font-weight: normal;
+}
+
+.clearfix {
+  @include govuk-clearfix;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $govuk-border-colour;
+
+  th, td {
+    border-bottom: none;
+  }
+}
+
+.as-block {
+  display: block;
+  width: 100%;
+}
+
+.to-the-left {
+  float: left;
+  text-align: left;
+}
+
+.to-the-right {
+  float: right;
+  text-align: right;
+}
+
+.with-text-right {
+  text-align: right;
+}
+
+.summary-value {
+  width: 40%;
+}
+
+.no-border {
+  border: none !important;
+}

@@ -1,0 +1,161 @@
+{%- macro renderSelectedOptions(field) -%}
+  <ul class="govuk-list">
+    {% for option in field.options %}
+      {% if option.checked %}
+        <li>
+          {{ option.text }}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSummaryListRow(label, value, changeLink) -%}
+  <div class="govuk-summary-list__row as-block clearfix">
+    <dt class="govuk-summary-list__key to-the-left">
+      {{ label }}
+    </dt>
+    <dd class="govuk-summary-list__value to-the-left summary-value">
+      {{ value }}
+    </dd>
+    <dd class="govuk-summary-list__actions to-the-right">
+      <a class="govuk-link" href="{{ changeLink }}">
+      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
+  </div>
+{%- endmacro -%}
+
+{%- macro renderDrugUse(fields) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderDrugUseReasons(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_reasons"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- if option.value === "OTHER" -%}
+            <span class="govuk-!-font-size-14">{{ answers["drug_use_reason_details"] }}</span>
+          {%- endif -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderDrugUseImpact(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_impact"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- if option.value === "OTHER" -%}
+            <span class="govuk-!-font-size-14">{{ answers["drug_use_impact_details"] }}</span>
+          {%- endif -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderReduceOrStopDrugUse(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["reducing_or_stopping_drug_use"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- if option.value === "YES" -%}
+            <span class="govuk-!-font-size-14">{{ answers["reducing_or_stopping_drug_use_details"] }}</span>
+          {%- endif -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderMotivatedToReduceOrStopDrugUse(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["motivated_stopping_drug_use"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderDrugUseChanges(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["drug_use_changes"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {%- case "POSITIVE_CHANGE" -%}
+              <span class="govuk-!-font-size-14">{{ answers["drug_use_positive_change"] }}</span>
+            {%- case "ACTIVE_CHANGE" -%}
+              <span class="govuk-!-font-size-14">{{ answers["drug_use_active_change"] }}</span>
+            {%- case "KNOWN_CHANGE" -%}
+              <span class="govuk-!-font-size-14">{{ answers["drug_use_known_change"] }}</span>
+            {%- case "HELP_CHANGE" -%}
+              <span class="govuk-!-font-size-14">{{ answers["drug_use_help_change"] }}</span>
+            {%- case "THINK_CHANGE" -%}
+              <span class="govuk-!-font-size-14">{{ answers["drug_use_think_change"] }}</span>
+            {%- case "NO_CHANGE" -%}
+              <span class="govuk-!-font-size-14">{{ answers["drug_use_no_change"] }}</span>
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- switch field -%}
+{% case "drug_use" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderDrugUse(options.fields),
+    options.backLink + "#" + field
+  ) }}
+{% case "drug_use_reasons" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderDrugUseReasons(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+{% case "drug_use_impact" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderDrugUseImpact(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+{% case "reducing_or_stopping_drug_use" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderReduceOrStopDrugUse(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+{% case "motivated_stopping_drug_use" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderMotivatedToReduceOrStopDrugUse(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+{% case "drug_use_changes" %}
+  {{ renderSummaryListRow(
+    options.fields[field].text,
+    renderDrugUseChanges(options.fields, options.answers),
+    options.backLink + "#" + field
+  ) }}
+{%- endswitch -%}

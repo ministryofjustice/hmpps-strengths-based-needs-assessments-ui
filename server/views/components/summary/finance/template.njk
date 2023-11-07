@@ -10,6 +10,22 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderSummaryListRow(label, value, changeLink) -%}
+  <div class="govuk-summary-list__row as-block clearfix">
+    <dt class="govuk-summary-list__key to-the-left">
+      {{ label }}
+    </dt>
+    <dd class="govuk-summary-list__value to-the-left summary-value">
+      {{ value }}
+    </dd>
+    <dd class="govuk-summary-list__actions to-the-right">
+      <a class="govuk-link" href="{{ changeLink }}">
+      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
+  </div>
+{%- endmacro -%}
+
 {%- macro renderMoneyManagement(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["finance_money_management"].options %}
@@ -104,9 +120,10 @@
 {%- macro renderFinanceBankAccount(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["finance_bank_account"].options %}
-        {% if option.checked %}
+      {% if option.checked %}
         <li class="summary-details-list">
           <span>{{ option.text }}</span>
+        </li>
       {% endif %}
     {% endfor %}
   </ul>
@@ -148,7 +165,7 @@
                     {% case "DEBT_TO_OTHERS" %}
                     <span class="govuk-!-font-size-14">{{ answers["yes_someone_elses_debt_to_others_details"] }}</span>
                     {% case "FORMAL_AND_DEBT_TO_OTHERS" %}
-                    <span class="govuk-!-font-size-14">{{ answers["yes__someone_elses_formal_debt_to_others_details"] }}</span>
+                    <span class="govuk-!-font-size-14">{{ answers["yes_someone_elses_formal_debt_to_others_details"] }}</span>
                     {%- endswitch -%}
                     </li>
                 {% endif %}
@@ -163,22 +180,6 @@
       {% endif %}
     {% endfor %}
   </ul>
-{%- endmacro -%}
-
-{%- macro renderSummaryListRow(label, value, changeLink) -%}
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      {{ label }}
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {{ value }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ changeLink }}">
-      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
-      </a>
-    </dd>
-  </div>
 {%- endmacro -%}
 
 {%- switch field -%}

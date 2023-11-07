@@ -5,16 +5,20 @@
 {% from "components/question/macro.njk" import renderQuestion %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
-{% from "components/summary/finance/macro.njk" import renderSummaryFor %}
+{% from "components/summary/drugs/macro.njk" import renderSummaryFor %}
+{% from "components/summary/drugs-table/macro.njk" import renderDrugsTable %}
 
 {% block summaryPanel %}
-  <dl class="govuk-summary-list">
-    {{ renderSummaryFor("finance_income", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-    {{ renderSummaryFor("finance_bank_account", { fields: options.allFields, answers: answers, backLink: "finance#finance_bank_account-hint" }) }}
-    {{ renderSummaryFor("finance_money_management", { fields: options.allFields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
-    {{ renderSummaryFor("finance_gambling", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-    {{ renderSummaryFor("finance_debt", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-    {{ renderSummaryFor("changes_to_finance", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
+  <dl class="govuk-summary-list as-block">
+    {{ renderSummaryFor("drug_use", { fields: options.allFields, answers: answers, backLink: "drug-use" }) }}
+    <div class="govuk-summary-list__row as-block">
+      {{ renderDrugsTable({fields: options.allFields, answers: answers, subject: subjectDetails.givenName}) }}
+    </div>
+    {{ renderSummaryFor("drug_use_reasons", { fields: options.allFields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryFor("drug_use_impact", { fields: options.allFields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryFor("reducing_or_stopping_drug_use", { fields: options.allFields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryFor("motivated_stopping_drug_use", { fields: options.allFields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryFor("drug_use_changes", { fields: options.allFields, answers: answers, backLink: "drug-use-details" }) }}
   </dl>
 {% endblock %}
 

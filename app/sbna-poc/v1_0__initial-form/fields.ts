@@ -100,6 +100,8 @@ const createReceivingTreatment = (
     value: valueCode,
     displayInline: true,
   },
+  labelClasses: mediumLabel,
+  classes: 'govuk-radios--small',
 })
 
 const createInjectingDrug = (
@@ -126,6 +128,8 @@ const createInjectingDrug = (
     value: valueCode,
     displayInline: true,
   },
+  labelClasses: mediumLabel,
+  classes: 'govuk-radios--small',
 })
 
 const createPastDrugUsage = (fieldCode: string, dependentFieldValue: string): FormWizard.Field => ({
@@ -143,6 +147,10 @@ const createPastDrugUsage = (fieldCode: string, dependentFieldValue: string): Fo
     { text: 'No', value: 'NO', kind: 'option' },
   ],
   labelClasses: mediumLabel,
+  dependent: {
+    field: 'drug_use_type',
+    value: dependentFieldValue,
+  },
 })
 
 const createPastInjectingDrug = (
@@ -169,6 +177,8 @@ const createPastInjectingDrug = (
     value: valueCode,
     displayInline: true,
   },
+  labelClasses: mediumLabel,
+  classes: 'govuk-radios--small',
 })
 
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
@@ -260,7 +270,7 @@ const createFormalAndDebtOthersDetails = (
 const fields: FormWizard.Fields = {
   accommodation_section_complete: {
     text: 'Is the accommodation section complete?',
-    code: 'accommodation_analysis_section_complete',
+    code: 'accommodation_section_complete',
     type: FieldType.Radio,
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
@@ -959,6 +969,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   practitioner_analysis_patterns_of_behaviour_details: {
     text: 'Give details',
@@ -988,6 +999,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   practitioner_analysis_strengths_or_protective_factors_details: {
     text: 'Give details',
@@ -1012,6 +1024,8 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   practitioner_analysis_risk_of_serious_harm_details: {
     text: 'Give details',
@@ -1037,6 +1051,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   practitioner_analysis_risk_of_reoffending_details: {
     text: 'Give details',
@@ -1062,6 +1077,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   practitioner_analysis_related_to_risk_details: {
     text: 'Give details',
@@ -1173,73 +1189,6 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  // child_name: {
-  //   text: 'Name',
-  //   code: 'child_name',
-  //   type: FieldType.Text,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  // },
-  // child_date_of_birth: {
-  //   text: 'Date of birth',
-  //   hint: { text: 'For example, 31 3 2011' },
-  //   code: 'child_date_of_birth',
-  //   type: FieldType.Date,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  // },
-  // child_age: {
-  //   text: 'Age',
-  //   code: 'child_age',
-  //   type: FieldType.Text,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  // },
-  // relationship_to_child: {
-  //   text: "Select [subject]'s relationship to the child",
-  //   code: 'relationship_to_child',
-  //   type: FieldType.Radio,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  //   options: [
-  //     { text: 'Parent or carer', value: 'PARENT_OR_CARER' },
-  //     { text: 'Family member', value: 'FAMILY_MEMBER' },
-  //     { text: 'Friend', value: 'FRIEND' },
-  //     { text: 'Other', value: 'OTHER' },
-  //   ],
-  // },
-  // child_gender: {
-  //   text: 'Select gender',
-  //   code: 'child_gender',
-  //   type: FieldType.Radio,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  //   options: [
-  //     { text: 'Boy', value: 'BOY' },
-  //     { text: 'Girl', value: 'GIRL' },
-  //     { text: 'Non-binary', value: 'NON_BINARY' },
-  //     { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
-  //   ],
-  // },
-  // partner_name: {
-  //   text: 'Name',
-  //   code: 'partner_name',
-  //   type: FieldType.Text,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  // },
-  // partner_age: {
-  //   text: 'Age',
-  //   code: 'partner_age',
-  //   type: FieldType.Text,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  // },
-  // partner_gender: {
-  //   text: 'Select gender',
-  //   code: 'partner_gender',
-  //   type: FieldType.Radio,
-  //   validate: [{ type: ValidationType.Required, message: 'Field is required' }],
-  //   options: [
-  //     { text: 'Boy', value: 'BOY' },
-  //     { text: 'Girl', value: 'GIRL' },
-  //     { text: 'Non-binary', value: 'NON_BINARY' },
-  //     { text: 'Prefer not to say', value: 'PREFER_NOT_TO_SAY' },
-  //   ],
-  // },
   drug_use_type: {
     text: 'Which drugs have [subject] used?',
     code: 'drug_use_type',
@@ -1294,51 +1243,37 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'HEROIN' },
   },
-  daily_injecting_drug_heroin: createInjectingDrug(
-    'daily_injecting_drug_heroin',
-    'drug_usage_heroin',
-    'DAILY',
-    'HEROIN',
-  ),
-  weekly_injecting_drug_heroin: createInjectingDrug(
-    'weekly_injecting_drug_heroin',
-    'drug_usage_heroin',
-    'WEEKLY',
-    'HEROIN',
-  ),
-  monthly_injecting_drug_heroin: createInjectingDrug(
-    'monthly_injecting_drug_heroin',
-    'drug_usage_heroin',
-    'MONTHLY',
-    'HEROIN',
-  ),
+  daily_injecting_drug_heroin: createInjectingDrug('injecting_drug_heroin', 'drug_usage_heroin', 'DAILY', 'HEROIN'),
+  weekly_injecting_drug_heroin: createInjectingDrug('injecting_drug_heroin', 'drug_usage_heroin', 'WEEKLY', 'HEROIN'),
+  monthly_injecting_drug_heroin: createInjectingDrug('injecting_drug_heroin', 'drug_usage_heroin', 'MONTHLY', 'HEROIN'),
   occasionally_injecting_drug_heroin: createInjectingDrug(
-    'occasionally_injecting_drug_heroin',
+    'injecting_drug_heroin',
     'drug_usage_heroin',
     'OCCASIONALLY',
     'HEROIN',
   ),
   daily_drug_usage_treatment_heroin: createReceivingTreatment(
-    'daily_drug_usage_treatment_heroin',
+    'drug_usage_treatment_heroin',
     'drug_usage_heroin',
     'DAILY',
     'HEROIN',
   ),
   weekly_drug_usage_treatment_heroin: createReceivingTreatment(
-    'weekly_drug_usage_treatment_heroin',
+    'drug_usage_treatment_heroin',
     'drug_usage_heroin',
     'WEEKLY',
     'HEROIN',
   ),
   monthly_drug_usage_treatment_heroin: createReceivingTreatment(
-    'monthly_drug_usage_treatment_heroin',
+    'drug_usage_treatment_heroin',
     'drug_usage_heroin',
     'MONTHLY',
     'HEROIN',
   ),
   occasionally_drug_usage_treatment: createReceivingTreatment(
-    'occasionally_drug_usage_treatment',
+    'drug_usage_treatment_heroin',
     'drug_usage_heroin',
     'OCCASIONALLY',
     'HEROIN',
@@ -1350,13 +1285,19 @@ const fields: FormWizard.Fields = {
     'YES',
     'HEROIN',
   ),
+  past_receiving_treatment_heroin: createReceivingTreatment(
+    'past_receiving_treatment_heroin',
+    'past_drug_usage_heroin',
+    'YES',
+    'HEROIN',
+  ),
   drug_usage_methadone_not_prescribed: {
     text: 'How often is [subject] using this drug?',
     code: 'drug_usage_methadone_not_prescribed',
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'NON_PRESCRIBED_MEDICATION'),
+        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'METHADONE_NOT_PRESCRIBED'),
         message: 'Select how often they are using this drug',
       },
     ],
@@ -1369,27 +1310,28 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'METHADONE_NOT_PRESCRIBED' },
   },
   daily_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'daily_injecting_drug_methadone_not_prescribed',
+    'injecting_drug_methadone_not_prescribed',
     'drug_usage_methadone_not_prescribed',
     'DAILY',
     'METHADONE_NOT_PRESCRIBED',
   ),
   weekly_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'weekly_injecting_drug_methadone_not_prescribed',
+    'injecting_drug_methadone_not_prescribed',
     'drug_usage_methadone_not_prescribed',
     'WEEKLY',
     'METHADONE_NOT_PRESCRIBED',
   ),
   monthly_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'monthly_injecting_drug_methadone_not_prescribed',
+    'injecting_drug_methadone_not_prescribed',
     'drug_usage_methadone_not_prescribed',
     'MONTHLY',
     'METHADONE_NOT_PRESCRIBED',
   ),
   occasionally_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'occasionally_injecting_drug_methadone_not_prescribed',
+    'injecting_drug_methadone_not_prescribed',
     'drug_usage_methadone_not_prescribed',
     'OCCASIONALLY',
     'METHADONE_NOT_PRESCRIBED',
@@ -1423,22 +1365,13 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'CRACK' },
   },
-  daily_injecting_drug_crack: createInjectingDrug('daily_injecting_drug_crack', 'drug_usage_crack', 'DAILY', 'CRACK'),
-  weekly_injecting_drug_crack: createInjectingDrug(
-    'weekly_injecting_drug_crack',
-    'drug_usage_crack',
-    'WEEKLY',
-    'CRACK',
-  ),
-  monthly_injecting_drug_crack: createInjectingDrug(
-    'monthly_injecting_drug_crack',
-    'drug_usage_crack',
-    'MONTHLY',
-    'CRACK',
-  ),
+  daily_injecting_drug_crack: createInjectingDrug('injecting_drug_crack', 'drug_usage_crack', 'DAILY', 'CRACK'),
+  weekly_injecting_drug_crack: createInjectingDrug('injecting_drug_crack', 'drug_usage_crack', 'WEEKLY', 'CRACK'),
+  monthly_injecting_drug_crack: createInjectingDrug('injecting_drug_crack', 'drug_usage_crack', 'MONTHLY', 'CRACK'),
   occasionally_injecting_drug_crack: createInjectingDrug(
-    'occasionally_injecting_drug_crack',
+    'injecting_drug_crack',
     'drug_usage_crack',
     'OCCASIONALLY',
     'CRACK',
@@ -1472,25 +1405,25 @@ const fields: FormWizard.Fields = {
     dependent: { field: 'drug_use_type', value: 'AMPHETAMINES' },
   },
   daily_injecting_drug_amphetamines: createInjectingDrug(
-    'daily_injecting_drug_amphetamines',
+    'injecting_drug_amphetamines',
     'drug_usage_amphetamines',
     'DAILY',
     'AMPHETAMINES',
   ),
   weekly_injecting_drug_amphetamines: createInjectingDrug(
-    'weekly_injecting_drug_amphetamines',
+    'injecting_drug_amphetamines',
     'drug_usage_amphetamines',
     'WEEKLY',
     'AMPHETAMINES',
   ),
   monthly_injecting_drug_amphetamines: createInjectingDrug(
-    'monthly_injecting_drug_amphetamines',
+    'injecting_drug_amphetamines',
     'drug_usage_amphetamines',
     'MONTHLY',
     'AMPHETAMINES',
   ),
   occasionally_injecting_drug_amphetamines: createInjectingDrug(
-    'occasionally_injecting_drug_amphetamines',
+    'injecting_drug_amphetamines',
     'drug_usage_amphetamines',
     'OCCASIONALLY',
     'AMPHETAMINES',
@@ -1521,27 +1454,28 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'BENZODIAZEPINES' },
   },
   daily_injecting_drug_benzodiazepines: createInjectingDrug(
-    'daily_injecting_drug_benzodiazepines',
+    'injecting_drug_benzodiazepines',
     'drug_usage_benzodiazepines',
     'DAILY',
     'BENZODIAZEPINES',
   ),
   weekly_injecting_drug_benzodiazepines: createInjectingDrug(
-    'weekly_injecting_drug_benzodiazepines',
+    'injecting_drug_benzodiazepines',
     'drug_usage_benzodiazepines',
     'WEEKLY',
     'BENZODIAZEPINES',
   ),
   monthly_injecting_drug_benzodiazepines: createInjectingDrug(
-    'monthly_injecting_drug_benzodiazepines',
+    'injecting_drug_benzodiazepines',
     'drug_usage_benzodiazepines',
     'MONTHLY',
     'BENZODIAZEPINES',
   ),
   occasionally_injecting_drug_benzodiazepines: createInjectingDrug(
-    'occasionally_injecting_drug_benzodiazepines',
+    'injecting_drug_benzodiazepines',
     'drug_usage_benzodiazepines',
     'OCCASIONALLY',
     'BENZODIAZEPINES',
@@ -1572,27 +1506,28 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'OTHER_DRUG_TYPE' },
   },
   daily_injecting_drug_other_drug: createInjectingDrug(
-    'daily_injecting_drug_other_drug',
+    'injecting_drug_other_drug',
     'drug_usage_other_drug',
     'DAILY',
     'OTHER_DRUG_TYPE',
   ),
   weekly_injecting_drug_other_drug: createInjectingDrug(
-    'weekly_injecting_drug_other_drug',
+    'injecting_drug_other_drug',
     'drug_usage_other_drug',
     'WEEKLY',
     'OTHER_DRUG_TYPE',
   ),
   monthly_injecting_drug_other_drug: createInjectingDrug(
-    'monthly_injecting_drug_other_drug',
+    'injecting_drug_other_drug',
     'drug_usage_other_drug',
     'MONTHLY',
     'OTHER_DRUG_TYPE',
   ),
   occasionally_injecting_drug_other_drug: createInjectingDrug(
-    'occasionally_injecting_drug_other_drug',
+    'injecting_drug_other_drug',
     'drug_usage_other_drug',
     'OCCASIONALLY',
     'OTHER_DRUG_TYPE',
@@ -1623,6 +1558,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'CANNABIS' },
   },
   past_drug_usage_cannabis: createPastDrugUsage('past_drug_usage_cannabis', 'CANNABIS'),
   drug_usage_cocaine: {
@@ -1644,6 +1580,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'COCAINE' },
   },
   past_drug_usage_cocaine: createPastDrugUsage('past_drug_usage_cocaine', 'COCAINE'),
   drug_usage_ecstasy: {
@@ -1665,6 +1602,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'ECSTASY' },
   },
   past_drug_usage_ecstasy: createPastDrugUsage('past_drug_usage_ecstasy', 'ECSTASY'),
   drug_usage_ketamine: {
@@ -1686,6 +1624,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'KETAMINE' },
   },
   past_drug_usage_ketamine: createPastDrugUsage('past_drug_usage_ketamine', 'KETAMINE'),
   drug_usage_methadone_prescribed: {
@@ -1707,6 +1646,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'METHADONE_PRESCRIBED' },
   },
   past_drug_usage_methadone_prescribed: createPastDrugUsage(
     'past_drug_usage_methadone_prescribed',
@@ -1731,6 +1671,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'NON_PRESCRIBED_MEDICATION' },
   },
   past_drug_usage_non_prescribed_medication: createPastDrugUsage(
     'past_drug_usage_non_prescribed_medication',
@@ -1755,6 +1696,7 @@ const fields: FormWizard.Fields = {
       { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE' },
   },
   past_drug_usage_psychoactive_substances: createPastDrugUsage(
     'past_drug_usage_psychoactive_substances',
@@ -1895,10 +1837,11 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
-  patterns_or_behaviours_yes_details: {
+  patterns_or_behaviours_details: {
     text: 'Give details',
-    code: 'patterns_or_behaviours_yes_details',
+    code: 'patterns_or_behaviours_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -1909,30 +1852,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'patterns_or_behaviours',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  patterns_or_behaviours_no_details: {
-    text: 'Give details',
-    code: 'patterns_or_behaviours_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'patterns_or_behaviours',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
@@ -1945,10 +1864,11 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
-  strengths_or_protective_factors_yes_details: {
+  strengths_or_protective_factors_details: {
     text: 'Give details',
-    code: 'strengths_or_protective_factors_yes_details',
+    code: 'strengths_or_protective_factors_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -1959,30 +1879,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'strengths_or_protective_factors',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  strengths_or_protective_factors_no_details: {
-    text: 'Give details',
-    code: 'strengths_or_protective_factors_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'strengths_or_protective_factors',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   linked_to_risk_of_serious_harm: {
     text: 'Is this an area linked to risk of serious harm?',
@@ -1994,10 +1890,11 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
-  linked_to_risk_of_serious_harm_yes_details: {
+  linked_to_risk_of_serious_harm_details: {
     text: 'Give details',
-    code: 'linked_to_risk_of_serious_harm_yes_details',
+    code: 'linked_to_risk_of_serious_harm_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -2008,30 +1905,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_serious_harm',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  linked_to_risk_of_serious_harm_no_details: {
-    text: 'Give details',
-    code: 'linked_to_risk_of_serious_harm_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_serious_harm',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   linked_to_risk_of_reoffending: {
     text: 'Is this an area linked to risk of reoffedning?',
@@ -2043,10 +1916,11 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
-  linked_to_risk_of_reoffending_yes_details: {
+  linked_to_risk_of_reoffending_details: {
     text: 'Give details',
-    code: 'linked_to_risk_of_reoffending_yes_details',
+    code: 'linked_to_risk_of_reoffending_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -2057,30 +1931,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_reoffending',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  linked_to_risk_of_reoffending_no_details: {
-    text: 'Give details',
-    code: 'linked_to_risk_of_reoffending_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'linked_to_risk_of_reoffending',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   not_related_to_risk: {
     text: 'Is this an area of need which is not related to risk?',
@@ -2092,10 +1942,11 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
-  not_related_to_risk_yes_details: {
+  not_related_to_risk_details: {
     text: 'Give details',
-    code: 'not_related_to_risk_yes_details',
+    code: 'not_related_to_risk_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -2106,30 +1957,6 @@ const fields: FormWizard.Fields = {
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'not_related_to_risk',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  not_related_to_risk_no_details: {
-    text: 'Give details',
-    code: 'not_related_to_risk_no_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-    dependent: {
-      field: 'not_related_to_risk',
-      value: 'NO',
-      displayInline: true,
-    },
   },
   finance_income: {
     text: 'Where does [subject] get their money from? ',
@@ -2471,8 +2298,8 @@ const fields: FormWizard.Fields = {
     'yes_someone_elses_type_of_debt',
     'DEBT_TO_OTHERS',
   ),
-  yes__someone_elses_formal_debt_to_others_details: createFormalAndDebtOthersDetails(
-    'yes__someone_elses_formal_debt_to_others_details',
+  yes_someone_elses_formal_debt_to_others_details: createFormalAndDebtOthersDetails(
+    'yes_someone_elses_formal_debt_to_others_details',
     'yes_someone_elses_type_of_debt',
     'FORMAL_AND_DEBT_TO_OTHERS',
   ),
@@ -2664,6 +2491,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   finance_practitioner_analysis_patterns_of_behaviour_details: {
     text: 'Give details',
@@ -2693,6 +2521,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   finance_practitioner_analysis_strengths_or_protective_factors_details: {
     text: 'Give details',
@@ -2717,6 +2546,8 @@ const fields: FormWizard.Fields = {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
+    labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   finance_practitioner_analysis_risk_of_serious_harm_details: {
     text: 'Give details',
@@ -2742,6 +2573,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   finance_practitioner_analysis_risk_of_reoffending_details: {
     text: 'Give details',
@@ -2767,6 +2599,7 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: mediumLabel,
+    classes: 'govuk-radios--inline',
   },
   finance_practitioner_analysis_related_to_risk_details: {
     text: 'Give details',
