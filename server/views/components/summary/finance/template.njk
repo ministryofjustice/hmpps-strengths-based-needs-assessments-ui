@@ -55,17 +55,17 @@
         <li class="summary-details-list">
           <span>{{ option.text }}</span>
           {%- switch option.value -%}
-            {% case "POSITIVE_CHANGES" %}
+            {% case "MADE_CHANGES" %}
               <span class="govuk-!-font-size-14">{{ answers["finance_positive_change_details"] }}</span>
-            {% case "ACTIVE_CHANGE" %}
+            {% case "MAKING_CHANGES" %}
               <span class="govuk-!-font-size-14">{{ answers["finance_active_change_details"] }}</span>
-            {% case "KNOWN_CHANGES" %}
+            {% case "WANT_TO_MAKE_CHANGES" %}
               <span class="govuk-!-font-size-14">{{ answers["finance_known_change_details"] }}</span>
-            {% case "MAKE_CHANGES_HELP" %}
+            {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
               <span class="govuk-!-font-size-14">{{ answers["finance_help_change_details"] }}</span>
-            {% case "THINKING_CHANGES" %}
+            {% case "THINKING_ABOUT_MAKING_CHANGES" %}
               <span class="govuk-!-font-size-14">{{ answers["finance_thinking_change_details"] }}</span>
-            {% case "NO_CHANGES" %}
+            {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
               <span class="govuk-!-font-size-14">{{ answers["finance_no_change_details"] }}</span>
             {% default %}
           {%- endswitch -%}

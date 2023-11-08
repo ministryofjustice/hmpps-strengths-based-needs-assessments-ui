@@ -2,8 +2,10 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
   futureDateValidator,
+  inlineRadios,
   mediumLabel,
   orDivider,
+  requiredWhen,
   summaryCharacterLimit,
   visuallyHidden,
   yesNoOptions,
@@ -700,25 +702,28 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  practitioner_analysis_patterns_of_behaviour: {
+  accommodation_practitioner_analysis_patterns_of_behaviour: {
     text: 'Are there any patterns of behaviours related to this area?',
     hint: {
       text: 'Include repeated circumstances or behaviours.',
       kind: 'text',
     },
-    code: 'practitioner_analysis_patterns_of_behaviour',
+    code: 'accommodation_practitioner_analysis_patterns_of_behaviour',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  practitioner_analysis_patterns_of_behaviour_details: {
+  accommodation_practitioner_analysis_patterns_of_behaviour_details: {
     text: 'Give details',
-    code: 'practitioner_analysis_patterns_of_behaviour_details',
+    code: 'accommodation_practitioner_analysis_patterns_of_behaviour_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        fn: requiredWhen('accommodation_practitioner_analysis_patterns_of_behaviour', 'YES'),
+        message: 'Enter details',
+      },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -727,25 +732,28 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  practitioner_analysis_strengths_or_protective_factors: {
+  accommodation_practitioner_analysis_strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
     hint: {
       text: 'Include any strategies, people or support networks that helped.',
       kind: 'text',
     },
-    code: 'practitioner_analysis_strengths_or_protective_factors',
+    code: 'accommodation_practitioner_analysis_strengths_or_protective_factors',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  practitioner_analysis_strengths_or_protective_factors_details: {
+  accommodation_practitioner_analysis_strengths_or_protective_factors_details: {
     text: 'Give details',
-    code: 'practitioner_analysis_strengths_or_protective_factors_details',
+    code: 'accommodation_practitioner_analysis_strengths_or_protective_factors_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        fn: requiredWhen('accommodation_practitioner_analysis_strengths_or_protective_factors', 'YES'),
+        message: 'Enter details',
+      },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -754,21 +762,21 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  practitioner_analysis_risk_of_serious_harm: {
+  accommodation_practitioner_analysis_risk_of_serious_harm: {
     text: 'Is this an area linked to risk of serious harm?',
-    code: 'practitioner_analysis_risk_of_serious_harm',
+    code: 'accommodation_practitioner_analysis_risk_of_serious_harm',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  practitioner_analysis_risk_of_serious_harm_details: {
+  accommodation_practitioner_analysis_risk_of_serious_harm_details: {
     text: 'Give details',
-    code: 'practitioner_analysis_risk_of_serious_harm_details',
+    code: 'accommodation_practitioner_analysis_risk_of_serious_harm_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('accommodation_practitioner_analysis_risk_of_serious_harm', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -777,21 +785,21 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  practitioner_analysis_risk_of_reoffending: {
+  accommodation_practitioner_analysis_risk_of_reoffending: {
     text: 'Is this an area linked to risk of reoffending?',
-    code: 'practitioner_analysis_risk_of_reoffending',
+    code: 'accommodation_practitioner_analysis_risk_of_reoffending',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  practitioner_analysis_risk_of_reoffending_details: {
+  accommodation_practitioner_analysis_risk_of_reoffending_details: {
     text: 'Give details',
-    code: 'practitioner_analysis_risk_of_reoffending_details',
+    code: 'accommodation_practitioner_analysis_risk_of_reoffending_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('accommodation_practitioner_analysis_risk_of_reoffending', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -800,21 +808,21 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  practitioner_analysis_related_to_risk: {
+  accommodation_practitioner_analysis_related_to_risk: {
     text: 'Is this an area of need which is not related to risk?',
-    code: 'practitioner_analysis_related_to_risk',
+    code: 'accommodation_practitioner_analysis_related_to_risk',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  practitioner_analysis_related_to_risk_details: {
+  accommodation_practitioner_analysis_related_to_risk_details: {
     text: 'Give details',
-    code: 'practitioner_analysis_related_to_risk_details',
+    code: 'accommodation_practitioner_analysis_related_to_risk_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('accommodation_practitioner_analysis_related_to_risk', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],

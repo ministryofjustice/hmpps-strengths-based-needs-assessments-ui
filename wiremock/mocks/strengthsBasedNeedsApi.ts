@@ -66,7 +66,7 @@ export default async () => {
           { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
           { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED', kind: 'option' },
           { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION', kind: 'option' },
-          { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE', kind: 'option' },
+          { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES', kind: 'option' },
           { text: 'Other', value: 'OTHER_DRUG_TYPE', kind: 'option' },
         ],
         values: ['AMPHETAMINES'],

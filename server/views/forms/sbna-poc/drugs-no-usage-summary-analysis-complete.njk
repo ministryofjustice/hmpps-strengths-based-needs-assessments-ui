@@ -17,28 +17,28 @@
 {% block analysisPanel %}
   <section>
     {{ renderAnalysisSummary(
-      options.allFields["patterns_or_behaviours"],
-      options.allFields["patterns_or_behaviours_details"],
+      options.allFields["drugs_practitioner_analysis_patterns_of_behaviour"],
+      options.allFields["drugs_practitioner_analysis_patterns_of_behaviour_details"],
       "no-drug-use-summary#practitioner-analysis"
     ) }}
     {{ renderAnalysisSummary(
-      options.allFields["strengths_or_protective_factors"],
-      options.allFields["strengths_or_protective_factors_details"],
+      options.allFields["drugs_practitioner_analysis_strengths_or_protective_factors"],
+      options.allFields["drugs_practitioner_analysis_strengths_or_protective_factors_details"],
       "no-drug-use-summary#practitioner-analysis"
     ) }}
     {{ renderAnalysisSummary(
-      options.allFields["linked_to_risk_of_serious_harm"],
-      options.allFields["linked_to_risk_of_serious_harm_details"],
+      options.allFields["drugs_practitioner_analysis_risk_of_serious_harm"],
+      options.allFields["drugs_practitioner_analysis_risk_of_serious_harm_details"],
       "no-drug-use-summary#practitioner-analysis"
     ) }}
     {{ renderAnalysisSummary(
-      options.allFields["linked_to_risk_of_reoffending"],
-      options.allFields["linked_to_risk_of_reoffending_details"],
+      options.allFields["drugs_practitioner_analysis_risk_of_reoffending"],
+      options.allFields["drugs_practitioner_analysis_risk_of_reoffending_details"],
       "no-drug-use-summary#practitioner-analysis"
     ) }}
     {{ renderAnalysisSummary(
-      options.allFields["not_related_to_risk"],
-      options.allFields["not_related_to_risk_details"],
+      options.allFields["drugs_practitioner_analysis_related_to_risk"],
+      options.allFields["drugs_practitioner_analysis_related_to_risk_details"],
       "no-drug-use-summary#practitioner-analysis"
     ) }}
   </section>
