@@ -1,5 +1,5 @@
-import steps from './steps'
-import fields from './fields'
+import steps from './steps/index'
+import fields from './fields/index'
 
 export default {
   steps,
