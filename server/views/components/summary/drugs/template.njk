@@ -102,17 +102,17 @@
         <li class="summary-details-list">
           <span>{{ option.text }}</span>
           {%- switch option.value -%}
-            {%- case "POSITIVE_CHANGE" -%}
+            {%- case "MADE_CHANGES" -%}
               <span class="govuk-!-font-size-14">{{ answers["drug_use_positive_change"] }}</span>
-            {%- case "ACTIVE_CHANGE" -%}
+            {%- case "MAKING_CHANGES" -%}
               <span class="govuk-!-font-size-14">{{ answers["drug_use_active_change"] }}</span>
-            {%- case "KNOWN_CHANGE" -%}
+            {%- case "WANT_TO_MAKE_CHANGES" -%}
               <span class="govuk-!-font-size-14">{{ answers["drug_use_known_change"] }}</span>
-            {%- case "HELP_CHANGE" -%}
+            {%- case "NEEDS_HELP_TO_MAKE_CHANGES" -%}
               <span class="govuk-!-font-size-14">{{ answers["drug_use_help_change"] }}</span>
-            {%- case "THINK_CHANGE" -%}
+            {%- case "THINKING_ABOUT_MAKING_CHANGES" -%}
               <span class="govuk-!-font-size-14">{{ answers["drug_use_think_change"] }}</span>
-            {%- case "NO_CHANGE" -%}
+            {%- case "DOES_NOT_WANT_TO_MAKE_CHANGES" -%}
               <span class="govuk-!-font-size-14">{{ answers["drug_use_no_change"] }}</span>
           {%- endswitch -%}
         </li>

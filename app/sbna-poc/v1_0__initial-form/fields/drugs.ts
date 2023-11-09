@@ -1,8 +1,16 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import { mediumLabel, orDivider, summaryCharacterLimit, yesNoOptions } from './common'
+import {
+  inlineRadios,
+  mediumLabel,
+  orDivider,
+  requiredWhen,
+  smallRadios,
+  summaryCharacterLimit,
+  yesNoOptions,
+} from './common'
 
-function createRequiredIfCollectionContainsWith(field: string, requiredValue: string) {
-  return function requiredIfCollectionContains(value: string) {
+function requiredWhenContains(field: string, requiredValue: string) {
+  return function validateRequiredWhenContains(value: string) {
     const persistedAnswers = this.sessionModel?.options?.req?.form?.persistedAnswers || {}
     const values = persistedAnswers[field]?.values
 
@@ -11,6 +19,15 @@ function createRequiredIfCollectionContainsWith(field: string, requiredValue: st
     )
   }
 }
+
+const frequencyOptions: FormWizard.Field.Options = [
+  { text: 'Daily', value: 'DAILY', kind: 'option' },
+  { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+  { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+  { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+  orDivider,
+  { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
+]
 
 const createReceivingTreatment = (
   fieldCode: string,
@@ -23,7 +40,7 @@ const createReceivingTreatment = (
   type: FieldType.Radio,
   validate: [
     {
-      fn: createRequiredIfCollectionContainsWith('drug_use_type', dependentFieldValue),
+      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
       message: 'Select if they are receiving treatment',
     },
   ],
@@ -34,7 +51,7 @@ const createReceivingTreatment = (
     displayInline: true,
   },
   labelClasses: mediumLabel,
-  classes: 'govuk-radios--small',
+  classes: smallRadios,
 })
 
 const createInjectingDrug = (
@@ -48,7 +65,7 @@ const createInjectingDrug = (
   type: FieldType.Radio,
   validate: [
     {
-      fn: createRequiredIfCollectionContainsWith('drug_use_type', dependentFieldValue),
+      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
       message: 'Select if they are injecting this drug',
     },
   ],
@@ -59,7 +76,7 @@ const createInjectingDrug = (
     displayInline: true,
   },
   labelClasses: mediumLabel,
-  classes: 'govuk-radios--small',
+  classes: smallRadios,
 })
 
 const createPastDrugUsage = (fieldCode: string, dependentFieldValue: string): FormWizard.Field => ({
@@ -68,7 +85,7 @@ const createPastDrugUsage = (fieldCode: string, dependentFieldValue: string): Fo
   type: FieldType.Radio,
   validate: [
     {
-      fn: createRequiredIfCollectionContainsWith('drug_use_type', dependentFieldValue),
+      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
       message: 'Select if they have used this drug in the past',
     },
   ],
@@ -91,7 +108,7 @@ const createPastInjectingDrug = (
   type: FieldType.Radio,
   validate: [
     {
-      fn: createRequiredIfCollectionContainsWith('drug_use_type', dependentFieldValue),
+      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
       message: 'Select if they were injecting this drug',
     },
   ],
@@ -102,7 +119,7 @@ const createPastInjectingDrug = (
     displayInline: true,
   },
   labelClasses: mediumLabel,
-  classes: 'govuk-radios--small',
+  classes: smallRadios,
 })
 
 const fields: FormWizard.Fields = {
@@ -133,13 +150,13 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they want to make changes to their drug use' }],
     options: [
-      { text: 'I have already made positive changes', value: 'POSITIVE_CHANGE', kind: 'option' },
-      { text: 'I am actively making changes', value: 'ACTIVE_CHANGE', kind: 'option' },
-      { text: 'I want to make changes and know how to', value: 'KNOWN_CHANGE', kind: 'option' },
-      { text: 'I want to make changes but need help', value: 'HELP_CHANGE', kind: 'option' },
-      { text: 'I am thinking about making changes', value: 'THINK_CHANGE', kind: 'option' },
-      { text: 'I do not want to make changes', value: 'NO_CHANGE', kind: 'option' },
-      { text: 'I do not want to answer', value: 'NO_ANSWER_CHANGE', kind: 'option' },
+      { text: 'I have already made positive changes', value: 'MADE_CHANGES', kind: 'option' },
+      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
+      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
+      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
@@ -152,7 +169,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
-      value: 'POSITIVE_CHANGE',
+      value: 'MADE_CHANGES',
       displayInline: true,
     },
   },
@@ -163,7 +180,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
-      value: 'ACTIVE_CHANGE',
+      value: 'MAKING_CHANGES',
       displayInline: true,
     },
   },
@@ -174,7 +191,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
-      value: 'KNOWN_CHANGE',
+      value: 'WANT_TO_MAKE_CHANGES',
       displayInline: true,
     },
   },
@@ -185,7 +202,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
-      value: 'HELP_CHANGE',
+      value: 'NEEDS_HELP_TO_MAKE_CHANGES',
       displayInline: true,
     },
   },
@@ -196,7 +213,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
-      value: 'THINK_CHANGE',
+      value: 'THINKING_ABOUT_MAKING_CHANGES',
       displayInline: true,
     },
   },
@@ -207,7 +224,7 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Enter details' }],
     dependent: {
       field: 'drug_use_changes',
-      value: 'NO_CHANGE',
+      value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
       displayInline: true,
     },
   },
@@ -226,11 +243,11 @@ const fields: FormWizard.Fields = {
       { text: 'Crack', value: 'CRACK', kind: 'option' },
       { text: 'Ecstasy', value: 'ECSTASY', kind: 'option' },
       { text: 'Heroin', value: 'HEROIN', kind: 'option' },
-      { text: 'Ketamine (also known as MDMA)', value: 'KETAMINE', kind: 'option' },
+      { text: 'Ketamine', value: 'KETAMINE', kind: 'option' },
       { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
       { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED', kind: 'option' },
       { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION', kind: 'option' },
-      { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE', kind: 'option' },
+      { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES', kind: 'option' },
       { text: 'Other', value: 'OTHER_DRUG_TYPE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
@@ -252,18 +269,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'HEROIN'),
+        fn: requiredWhenContains('drug_use_type', 'HEROIN'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'HEROIN' },
   },
@@ -319,18 +329,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'METHADONE_NOT_PRESCRIBED'),
+        fn: requiredWhenContains('drug_use_type', 'METHADONE_NOT_PRESCRIBED'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'METHADONE_NOT_PRESCRIBED' },
   },
@@ -374,18 +377,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'CRACK'),
+        fn: requiredWhenContains('drug_use_type', 'CRACK'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'CRACK' },
   },
@@ -411,18 +407,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'AMPHETAMINES'),
+        fn: requiredWhenContains('drug_use_type', 'AMPHETAMINES'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'AMPHETAMINES' },
   },
@@ -463,18 +452,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'BENZODIAZEPINES'),
+        fn: requiredWhenContains('drug_use_type', 'BENZODIAZEPINES'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'BENZODIAZEPINES' },
   },
@@ -515,18 +497,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'OTHER_DRUG_TYPE'),
+        fn: requiredWhenContains('drug_use_type', 'OTHER_DRUG_TYPE'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'OTHER_DRUG_TYPE' },
   },
@@ -567,18 +542,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'CANNABIS'),
+        fn: requiredWhenContains('drug_use_type', 'CANNABIS'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'CANNABIS' },
   },
@@ -589,18 +557,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'COCAINE'),
+        fn: requiredWhenContains('drug_use_type', 'COCAINE'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'COCAINE' },
   },
@@ -611,18 +572,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'ECSTASY'),
+        fn: requiredWhenContains('drug_use_type', 'ECSTASY'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'ECSTASY' },
   },
@@ -633,18 +587,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'KETAMINE'),
+        fn: requiredWhenContains('drug_use_type', 'KETAMINE'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'KETAMINE' },
   },
@@ -655,18 +602,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'METHADONE_PRESCRIBED'),
+        fn: requiredWhenContains('drug_use_type', 'METHADONE_PRESCRIBED'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'METHADONE_PRESCRIBED' },
   },
@@ -680,18 +620,11 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'NON_PRESCRIBED_MEDICATION'),
+        fn: requiredWhenContains('drug_use_type', 'NON_PRESCRIBED_MEDICATION'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
     dependent: { field: 'drug_use_type', value: 'NON_PRESCRIBED_MEDICATION' },
   },
@@ -705,24 +638,17 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     validate: [
       {
-        fn: createRequiredIfCollectionContainsWith('drug_use_type', 'PSYCHOACTIVE_SUBSTANCES_SPICE'),
+        fn: requiredWhenContains('drug_use_type', 'PSYCHOACTIVE_SUBSTANCES'),
         message: 'Select how often they are using this drug',
       },
     ],
-    options: [
-      { text: 'Daily', value: 'DAILY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
-      orDivider,
-      { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
-    ],
+    options: frequencyOptions,
     labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'PSYCHOACTIVE_SUBSTANCES_SPICE' },
+    dependent: { field: 'drug_use_type', value: 'PSYCHOACTIVE_SUBSTANCES' },
   },
   past_drug_usage_psychoactive_substances: createPastDrugUsage(
     'past_drug_usage_psychoactive_substances',
-    'PSYCHOACTIVE_SUBSTANCES_SPICE',
+    'PSYCHOACTIVE_SUBSTANCES',
   ),
   drug_use_reasons: {
     text: 'Why did [subject] start using drugs?',
@@ -845,22 +771,22 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  patterns_or_behaviours: {
+  drugs_practitioner_analysis_patterns_of_behaviour: {
     text: 'Are there any patterns or behaviours related to this area?',
     hint: { text: 'Include repeated circumstances or behaviours.', kind: 'text' },
-    code: 'patterns_or_behaviours',
+    code: 'drugs_practitioner_analysis_patterns_of_behaviour',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  patterns_or_behaviours_details: {
+  drugs_practitioner_analysis_patterns_of_behaviour_details: {
     text: 'Give details',
-    code: 'patterns_or_behaviours_details',
+    code: 'drugs_practitioner_analysis_patterns_of_behaviour_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('drugs_practitioner_analysis_patterns_of_behaviour', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -869,22 +795,25 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  strengths_or_protective_factors: {
+  drugs_practitioner_analysis_strengths_or_protective_factors: {
     text: 'Are there any strengths or protective factors related to this area?',
     hint: { text: 'Include any strategies, people or support networks that helped.', kind: 'text' },
-    code: 'strengths_or_protective_factors',
+    code: 'drugs_practitioner_analysis_strengths_or_protective_factors',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  strengths_or_protective_factors_details: {
+  drugs_practitioner_analysis_strengths_or_protective_factors_details: {
     text: 'Give details',
-    code: 'strengths_or_protective_factors_details',
+    code: 'drugs_practitioner_analysis_strengths_or_protective_factors_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        fn: requiredWhen('drugs_practitioner_analysis_strengths_or_protective_factors', 'YES'),
+        message: 'Enter details',
+      },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -893,21 +822,21 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  linked_to_risk_of_serious_harm: {
+  drugs_practitioner_analysis_risk_of_serious_harm: {
     text: 'Is this an area linked to risk of serious harm?',
-    code: 'linked_to_risk_of_serious_harm',
+    code: 'drugs_practitioner_analysis_risk_of_serious_harm',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  linked_to_risk_of_serious_harm_details: {
+  drugs_practitioner_analysis_risk_of_serious_harm_details: {
     text: 'Give details',
-    code: 'linked_to_risk_of_serious_harm_details',
+    code: 'drugs_practitioner_analysis_risk_of_serious_harm_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('drugs_practitioner_analysis_risk_of_serious_harm', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -916,21 +845,21 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  linked_to_risk_of_reoffending: {
-    text: 'Is this an area linked to risk of reoffedning?',
-    code: 'linked_to_risk_of_reoffending',
+  drugs_practitioner_analysis_risk_of_reoffending: {
+    text: 'Is this an area linked to risk of reoffending?',
+    code: 'drugs_practitioner_analysis_risk_of_reoffending',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  linked_to_risk_of_reoffending_details: {
+  drugs_practitioner_analysis_risk_of_reoffending_details: {
     text: 'Give details',
-    code: 'linked_to_risk_of_reoffending_details',
+    code: 'drugs_practitioner_analysis_risk_of_reoffending_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('drugs_practitioner_analysis_risk_of_reoffending', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -939,21 +868,21 @@ const fields: FormWizard.Fields = {
     ],
     characterCountMax: summaryCharacterLimit,
   },
-  not_related_to_risk: {
+  drugs_practitioner_analysis_related_to_risk: {
     text: 'Is this an area of need which is not related to risk?',
-    code: 'not_related_to_risk',
+    code: 'drugs_practitioner_analysis_related_to_risk',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
-  not_related_to_risk_details: {
+  drugs_practitioner_analysis_related_to_risk_details: {
     text: 'Give details',
-    code: 'not_related_to_risk_details',
+    code: 'drugs_practitioner_analysis_related_to_risk_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('drugs_practitioner_analysis_related_to_risk', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],

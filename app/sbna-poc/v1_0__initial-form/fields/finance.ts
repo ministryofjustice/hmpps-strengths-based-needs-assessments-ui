@@ -1,5 +1,13 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import { characterLimit, mediumLabel, orDivider, summaryCharacterLimit, yesNoOptions } from './common'
+import {
+  characterLimit,
+  inlineRadios,
+  mediumLabel,
+  orDivider,
+  requiredWhen,
+  summaryCharacterLimit,
+  yesNoOptions,
+} from './common'
 
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
   text: 'Select type of debt',
@@ -469,37 +477,37 @@ const fields: FormWizard.Fields = {
     options: [
       {
         text: 'I have already made positive changes and want to maintain them',
-        value: 'POSITIVE_CHANGES',
+        value: 'MADE_CHANGES',
         kind: 'option',
       },
       {
         text: 'I am actively making changes',
-        value: 'ACTIVE_CHANGE',
+        value: 'MAKING_CHANGES',
         kind: 'option',
       },
       {
         text: 'I want to make changes and know how to',
-        value: 'KNOWN_CHANGES',
+        value: 'WANT_TO_MAKE_CHANGES',
         kind: 'option',
       },
       {
         text: 'I want to make changes but need help',
-        value: 'MAKE_CHANGES_HELP',
+        value: 'NEEDS_HELP_TO_MAKE_CHANGES',
         kind: 'option',
       },
       {
         text: 'I am thinking about making changes',
-        value: 'THINKING_CHANGES',
+        value: 'THINKING_ABOUT_MAKING_CHANGES',
         kind: 'option',
       },
       {
         text: 'I do not want to make changes',
-        value: 'NO_CHANGES',
+        value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
         kind: 'option',
       },
       {
         text: 'I do not want to answer',
-        value: 'NO_ANSWER',
+        value: 'DOES_NOT_WANT_TO_ANSWER',
         kind: 'option',
       },
       orDivider,
@@ -522,7 +530,7 @@ const fields: FormWizard.Fields = {
     ],
     dependent: {
       field: 'changes_to_finance',
-      value: 'POSITIVE_CHANGES',
+      value: 'MADE_CHANGES',
       displayInline: true,
     },
   },
@@ -540,7 +548,7 @@ const fields: FormWizard.Fields = {
     ],
     dependent: {
       field: 'changes_to_finance',
-      value: 'ACTIVE_CHANGE',
+      value: 'MAKING_CHANGES',
       displayInline: true,
     },
   },
@@ -558,7 +566,7 @@ const fields: FormWizard.Fields = {
     ],
     dependent: {
       field: 'changes_to_finance',
-      value: 'KNOWN_CHANGES',
+      value: 'WANT_TO_MAKE_CHANGES',
       displayInline: true,
     },
   },
@@ -576,7 +584,7 @@ const fields: FormWizard.Fields = {
     ],
     dependent: {
       field: 'changes_to_finance',
-      value: 'MAKE_CHANGES_HELP',
+      value: 'NEEDS_HELP_TO_MAKE_CHANGES',
       displayInline: true,
     },
   },
@@ -594,7 +602,7 @@ const fields: FormWizard.Fields = {
     ],
     dependent: {
       field: 'changes_to_finance',
-      value: 'THINKING_CHANGES',
+      value: 'THINKING_ABOUT_MAKING_CHANGES',
       displayInline: true,
     },
   },
@@ -612,7 +620,7 @@ const fields: FormWizard.Fields = {
     ],
     dependent: {
       field: 'changes_to_finance',
-      value: 'NO_CHANGES',
+      value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
       displayInline: true,
     },
   },
@@ -627,14 +635,14 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
   finance_practitioner_analysis_patterns_of_behaviour_details: {
     text: 'Give details',
     code: 'finance_practitioner_analysis_patterns_of_behaviour_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('finance_practitioner_analysis_patterns_of_behaviour', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -654,14 +662,17 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
   finance_practitioner_analysis_strengths_or_protective_factors_details: {
     text: 'Give details',
     code: 'finance_practitioner_analysis_strengths_or_protective_factors_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        fn: requiredWhen('finance_practitioner_analysis_strengths_or_protective_factors_details', 'YES'),
+        message: 'Enter details',
+      },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -677,14 +688,14 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
   finance_practitioner_analysis_risk_of_serious_harm_details: {
     text: 'Give details',
     code: 'finance_practitioner_analysis_risk_of_serious_harm_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('finance_practitioner_analysis_risk_of_serious_harm', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -700,14 +711,14 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
   finance_practitioner_analysis_risk_of_reoffending_details: {
     text: 'Give details',
     code: 'finance_practitioner_analysis_risk_of_reoffending_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('finance_practitioner_analysis_risk_of_reoffending', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -723,14 +734,14 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: 'govuk-radios--inline',
+    classes: inlineRadios,
   },
   finance_practitioner_analysis_related_to_risk_details: {
     text: 'Give details',
     code: 'finance_practitioner_analysis_related_to_risk_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
+      { fn: requiredWhen('finance_practitioner_analysis_related_to_risk', 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],

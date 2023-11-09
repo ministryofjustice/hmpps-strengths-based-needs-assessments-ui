@@ -199,10 +199,10 @@
 {% endmacro %}
 
 {% macro renderPsychoactiveSubstance(fields, answers) %}
-{% if answerIncludes("PSYCHOACTIVE_SUBSTANCES_SPICE", answers["drug_use_type"]) %}
+{% if answerIncludes("PSYCHOACTIVE_SUBSTANCES", answers["drug_use_type"]) %}
 <tbody class="govuk-table__body border-bottom">
   {{ renderDrugUsage(
-    getLabelForOption(fields["drug_use_type"], "PSYCHOACTIVE_SUBSTANCES_SPICE"),
+    getLabelForOption(fields["drug_use_type"], "PSYCHOACTIVE_SUBSTANCES"),
     getSelectedAnswers(fields["drug_usage_psychoactive_substances"]),
     getSelectedAnswers(fields["past_drug_usage_psychoactive_substances"]),
     "drug-usage-details#drug_usage_psychoactive_substances"

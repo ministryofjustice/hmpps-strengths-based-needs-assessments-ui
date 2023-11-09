@@ -163,7 +163,7 @@
 {%- macro renderPsychoactiveSubstancesUsageQuestion(fields, answers) -%}
   {% for option in options.allFields["drug_use_type"].options %}
     {% if option.checked %}
-      {% if option.value == "PSYCHOACTIVE_SUBSTANCES_SPICE" %}
+      {% if option.value == "PSYCHOACTIVE_SUBSTANCES" %}
         <h2 class="govuk-heading-m">Psychoactive substances (spice)</h2>
         {{ renderQuestion(options.fields["drug_usage_psychoactive_substances"], errors) }}
         {{ renderQuestion(options.fields["past_drug_usage_psychoactive_substances"], errors) }}

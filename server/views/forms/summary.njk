@@ -32,8 +32,8 @@
       }) }}
     </div>
   </div>
-  <div class="govuk-tabs__panel no-border govuk-tabs__panel--hidden" id="practitioner-analysis">    
-    <form method="post" action="{{ action }}">
+  <div class="govuk-tabs__panel no-border govuk-tabs__panel--hidden" id="practitioner-analysis">
+    <form method="post" action="{{ action }}#practitioner-analysis">
       <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
       {% block analysisPanel %}{% endblock %}
     </form>
