@@ -14,8 +14,12 @@ const isPractitionerAnalysisPage = (url: string) =>
     '/accommodation-summary-analysis-settled',
     '/accommodation-summary-analysis-temporary',
     '/accommodation-summary-analysis-no-accommodation',
+    '/drug-use-analysis',
     '/no-drug-use-summary',
-    // TODO: Add for finance
+    'finance-summary-analysis',
+    'alcohol-usage-last-three-months-analysis',
+    'alcohol-usage-but-not-last-three-months-analysis',
+    'alcohol-no-usage-analysis',
   ].includes(url)
 
 class SaveAndContinueController extends BaseSaveAndContinueController {
@@ -45,7 +49,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const sessionData = req.session.sessionData as SessionInformation
     res.locals.sessionData = sessionData
     res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
-    res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName }
+    res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName, alcohol_units: 8 } // TODO: Hardcoded alcohol units for now, will need to calculate this based on gender
 
     const savedAnswers = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
     const submittedAnswers = res.locals.values
@@ -74,8 +78,12 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
         fieldCodes: ['accommodation_section_complete', 'accommodation_analysis_section_complete'],
       },
       { sectionName: 'employment-education-finance', fieldCodes: [] },
-      { sectionName: 'drug-use', fieldCodes: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
       { sectionName: 'finance', fieldCodes: ['finance_section_complete', 'finance_analysis_section_complete'] },
+      { sectionName: 'drug-use', fieldCodes: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
+      {
+        sectionName: 'alcohol-use',
+        fieldCodes: ['alcohol_use_section_complete', 'alcohol_use_analysis_section_complete'],
+      },
     ]
 
     res.locals.assessmentProgress = sections.reduce(checkProgress(res.locals.values), {})
