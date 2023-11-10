@@ -10,7 +10,7 @@
     {% for field in (form.fields | removeSectionCompleteFields) %}
       {% set fieldPrototype = options.fields[field] %}
 
-      {% if form.fields.length == 1 %}
+      {% if (form.fields | removeSectionCompleteFields).length == 1 %}
       {% set labelClasses = "govuk-label--l" %}
       {% else %}
       {% set labelClasses = fieldPrototype.labelClasses %}
