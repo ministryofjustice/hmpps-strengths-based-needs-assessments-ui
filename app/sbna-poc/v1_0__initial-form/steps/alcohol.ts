@@ -34,7 +34,7 @@ const stepOptions: FormWizard.Steps = {
       'alcohol_units',
       'alcohol_binge_drinking',
       'alcohol_binge_drinking_frequency',
-      'alcohol_link_to_reoffending',
+      'alcohol_evidence_of_excess_drinking',
       'alcohol_past_issues',
       'alcohol_past_issues_details',
       'alcohol_reasons_for_use',

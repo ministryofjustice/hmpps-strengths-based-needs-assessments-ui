@@ -95,11 +95,17 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_link_to_reoffending: {
-    text: 'Has [subject] ever drank alcohol?',
-    code: 'alcohol_link_to_reoffending',
+  alcohol_evidence_of_excess_drinking: {
+    text: 'Has [subject] shown evidence of binge drinking or excessive alcohol use in the last 6 months?',
+    code: 'alcohol_evidence_of_excess_drinking',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'PLACEHOLDER' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message:
+          '[PLACEHOLDER] Select if they have shown evidence of binge drinking or excessive alcohol use in the last 6 months',
+      },
+    ],
     options: [
       {
         text: 'Yes, evidence shows a detrimental effect on all areas of their life and directly relates to offending',
