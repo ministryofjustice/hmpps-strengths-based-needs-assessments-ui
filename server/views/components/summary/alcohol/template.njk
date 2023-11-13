@@ -214,7 +214,7 @@
 
 <dl class="govuk-summary-list">
   {{ renderSummaryItemFor("alcohol_use", { fields: fields, answers: answers, backLink: "alcohol-use" }) }}    
-  {% if answers["alcohol_use"] !== "NO" %}    
+  {% if answers["alcohol_use"] !== "NO" %}
     {% if answers["alcohol_use"] === "YES_WITHIN_LAST_THREE_MONTHS" %}
       {{ renderSummaryItemFor("alcohol_frequency", { fields: fields, answers: answers, backLink: backLink }) }}
       {{ renderSummaryItemFor("alcohol_units", { fields: fields, answers: answers, backLink: backLink }) }}

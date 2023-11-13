@@ -8,14 +8,7 @@
 {% from "components/summary/finance/macro.njk" import renderSummaryFor %}
 
 {% block summaryPanel %}
-  <dl class="govuk-summary-list">
-    {{ renderSummaryFor("finance_income", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-    {{ renderSummaryFor("finance_bank_account", { fields: options.allFields, answers: answers, backLink: "finance#finance_bank_account-hint" }) }}
-    {{ renderSummaryFor("finance_money_management", { fields: options.allFields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
-    {{ renderSummaryFor("finance_gambling", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-    {{ renderSummaryFor("finance_debt", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-    {{ renderSummaryFor("changes_to_finance", { fields: options.allFields, answers: answers, backLink: "finance" }) }}
-  </dl>
+  {{ renderSummaryFor(options.allFields, answers) }}
 {% endblock %}
 
 {% block analysisPanel %}

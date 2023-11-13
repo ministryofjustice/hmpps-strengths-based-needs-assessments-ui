@@ -1,3 +1,5 @@
+{% from "components/summary/drugs-table/macro.njk" import renderDrugsTable %}
+
 {%- macro renderSelectedOptions(field) -%}
   <ul class="govuk-list">
     {% for option in field.options %}
@@ -121,41 +123,57 @@
   </ul>
 {%- endmacro -%}
 
-{%- switch field -%}
-{% case "drug_use" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderDrugUse(options.fields),
-    options.backLink + "#" + field
-  ) }}
-{% case "drug_use_reasons" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderDrugUseReasons(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "drug_use_impact" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderDrugUseImpact(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "reducing_or_stopping_drug_use" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderReduceOrStopDrugUse(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "motivated_stopping_drug_use" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderMotivatedToReduceOrStopDrugUse(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "drug_use_changes" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderDrugUseChanges(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{%- endswitch -%}
+{% macro renderSummaryItemFor(field, options) %}
+  {%- switch field -%}
+  {% case "drug_use" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderDrugUse(options.fields),
+      options.backLink + "#" + field
+    ) }}
+  {% case "drug_use_reasons" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderDrugUseReasons(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "drug_use_impact" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderDrugUseImpact(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "reducing_or_stopping_drug_use" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderReduceOrStopDrugUse(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "motivated_stopping_drug_use" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderMotivatedToReduceOrStopDrugUse(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "drug_use_changes" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderDrugUseChanges(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {%- endswitch -%}
+{% endmacro %}
+
+<dl class="govuk-summary-list as-block">
+  {{ renderSummaryItemFor("drug_use", { fields: fields, answers: answers, backLink: "drug-use" }) }}
+  {% if answers["drug_use"] !== "NO" %}
+    <div class="govuk-summary-list__row as-block">
+      {{ renderDrugsTable({fields: fields, answers: answers, subject: subject}) }}
+    </div>
+    {{ renderSummaryItemFor("drug_use_reasons", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryItemFor("drug_use_impact", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryItemFor("reducing_or_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryItemFor("motivated_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryItemFor("drug_use_changes", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
+  {% endif %}
+</dl>

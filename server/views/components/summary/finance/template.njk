@@ -182,41 +182,52 @@
   </ul>
 {%- endmacro -%}
 
-{%- switch field -%}
-{% case "finance_money_management" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderMoneyManagement(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-  {% case "changes_to_finance" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderFinanceChange(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-  {% case "finance_gambling" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderFinanceGambling(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-  {% case "finance_debt" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderFinanceDebt(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-  {% case "finance_income" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderFinanceIncome(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-  {% case "finance_bank_account" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderFinanceBankAccount(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{%- endswitch -%}
+{% macro renderSummaryItemFor(field, options) %}
+  {%- switch field -%}
+  {% case "finance_money_management" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderMoneyManagement(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+    {% case "changes_to_finance" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderFinanceChange(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+    {% case "finance_gambling" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderFinanceGambling(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+    {% case "finance_debt" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderFinanceDebt(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+    {% case "finance_income" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderFinanceIncome(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+    {% case "finance_bank_account" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderFinanceBankAccount(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {%- endswitch -%}
+{% endmacro %}
+
+<dl class="govuk-summary-list">
+  {{ renderSummaryItemFor("finance_income", { fields: fields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryItemFor("finance_bank_account", { fields: fields, answers: answers, backLink: "finance#finance_bank_account-hint" }) }}
+  {{ renderSummaryItemFor("finance_money_management", { fields: fields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
+  {{ renderSummaryItemFor("finance_gambling", { fields: fields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryItemFor("finance_debt", { fields: fields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryItemFor("changes_to_finance", { fields: fields, answers: answers, backLink: "finance" }) }}
+</dl>
