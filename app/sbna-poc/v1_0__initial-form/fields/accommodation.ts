@@ -71,30 +71,6 @@ const fields: FormWizard.Fields = {
     type: FieldType.Radio,
     options: yesNoOptions,
   },
-  drug_use_section_complete: {
-    text: 'Is the drug use section complete?',
-    code: 'drug_use_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
-  },
-  drug_use_analysis_section_complete: {
-    text: 'Is the drug use analysis section complete?',
-    code: 'drug_use_analysis_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
-  },
-  finance_section_complete: {
-    text: 'Is the finance section complete?',
-    code: 'finance_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
-  },
-  finance_analysis_section_complete: {
-    text: 'Is the finance analysis section complete?',
-    code: 'finance_analysis_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
-  },
   current_accommodation: {
     text: "What is [subject]'s current accommodation?",
     hint: { html: currentAccommodationHint, kind: 'html' },
@@ -106,7 +82,6 @@ const fields: FormWizard.Fields = {
       { text: 'Temporary', value: 'TEMPORARY', kind: 'option' },
       { text: 'No accommodation', value: 'NO_ACCOMMODATION', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
   },
   type_of_settled_accommodation: {
     text: 'Select the type of settled accommodation?',

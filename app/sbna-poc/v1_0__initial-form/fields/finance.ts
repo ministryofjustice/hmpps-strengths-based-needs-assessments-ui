@@ -114,7 +114,12 @@ const fields: FormWizard.Fields = {
     hint: { text: 'Select all that apply', kind: 'text' },
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'error message' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select where they currently get their money from, or select ‘No money’',
+      },
+    ],
     options: [
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
       { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
@@ -147,7 +152,9 @@ const fields: FormWizard.Fields = {
     text: 'Is [subject] over reliant on family or friends for money?',
     code: 'family_or_friends_details',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they are over reliant on family or friends for money' },
+    ],
     options: yesNoOptions,
     dependent: {
       field: 'finance_income',
@@ -178,7 +185,7 @@ const fields: FormWizard.Fields = {
     code: 'finance_bank_account',
     hint: { text: 'This does not include solely having a joint account.', kind: 'text' },
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have a personal bank account' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
@@ -191,7 +198,7 @@ const fields: FormWizard.Fields = {
     code: 'finance_money_management',
     hint: { text: 'This includes things like budgeting, prioritising bills and paying rent..', kind: 'text' },
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how good they are at managing their money' }],
     options: [
       {
         text: 'Good',
@@ -296,7 +303,7 @@ const fields: FormWizard.Fields = {
     text: 'Is [subject] affected by gambling?',
     code: 'finance_gambling',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they are affected by gambling' }],
     options: [
       {
         text: 'Yes, their own gambling',
@@ -393,7 +400,7 @@ const fields: FormWizard.Fields = {
     text: 'Is [subject] affected by debt?',
     code: 'finance_debt',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they are affected by debt' }],
     options: [
       {
         text: 'Yes, their own debt',
@@ -473,7 +480,7 @@ const fields: FormWizard.Fields = {
     hint: { text: 'This question must be directly answered by [subject].', kind: 'text' },
     code: 'changes_to_finance',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Error message' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they want to make changes to their finance' }],
     options: [
       {
         text: 'I have already made positive changes and want to maintain them',

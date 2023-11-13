@@ -1,0 +1,125 @@
+import FormWizard from 'hmpo-form-wizard'
+import SaveAndContinueController from '../controllers/saveAndContinueController'
+
+const defaultTitle = 'Alcohol use'
+const sectionName = 'alcohol-use'
+
+const stepOptions: FormWizard.Steps = {
+  '/alcohol-use': {
+    pageTitle: defaultTitle,
+    controller: SaveAndContinueController,
+    fields: ['alcohol_use', 'alcohol_use_section_complete', 'alcohol_use_analysis_section_complete'],
+    next: [
+      { field: 'alcohol_use', value: 'YES_WITHIN_LAST_THREE_MONTHS', next: 'alcohol-usage-last-three-months' },
+      { field: 'alcohol_use', value: 'YES_NOT_IN_LAST_THREE_MONTHS', next: 'alcohol-usage-but-not-last-three-months' },
+      { field: 'alcohol_use', value: 'NO', next: 'alcohol-no-usage-analysis' },
+    ],
+    template: 'forms/default',
+    navigationOrder: 5,
+    section: sectionName,
+    sectionProgressRules: [
+      {
+        fieldCode: 'alcohol_use_section_complete',
+        conditionFn: (isValid: boolean, answers: Record<string, string | string[]>) =>
+          isValid && answers.alcohol_use === 'NO' ? 'YES' : 'NO',
+      },
+      { fieldCode: 'alcohol_use_analysis_section_complete', conditionFn: () => 'NO' },
+    ],
+  },
+  '/alcohol-usage-last-three-months': {
+    pageTitle: defaultTitle,
+    controller: SaveAndContinueController,
+    fields: [
+      'alcohol_frequency',
+      'alcohol_units',
+      'alcohol_binge_drinking',
+      'alcohol_binge_drinking_frequency',
+      'alcohol_evidence_of_excess_drinking',
+      'alcohol_past_issues',
+      'alcohol_past_issues_details',
+      'alcohol_reasons_for_use',
+      'alcohol_reasons_for_use_other_details',
+      'alcohol_impact_of_use',
+      'alcohol_impact_of_use_other_details',
+      'alcohol_stopped_or_reduced',
+      'alcohol_stopped_or_reduced_details',
+      'alcohol_changes',
+      'alcohol_made_changes_details',
+      'alcohol_making_changes_details',
+      'alcohol_want_to_make_changes_details',
+      'alcohol_needs_help_to_make_changes_details',
+      'alcohol_thinking_about_making_changes_details',
+      'alcohol_does_not_want_to_make_changes_details',
+      'alcohol_use_section_complete',
+      'alcohol_use_analysis_section_complete',
+    ],
+    backLink: sectionName,
+    next: ['alcohol-usage-last-three-months-analysis'],
+    template: 'forms/default',
+    section: sectionName,
+    sectionProgressRules: [
+      { fieldCode: 'drug_use_section_complete', conditionFn: () => 'YES' },
+      { fieldCode: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
+    ],
+  },
+  '/alcohol-usage-but-not-last-three-months': {
+    pageTitle: defaultTitle,
+    controller: SaveAndContinueController,
+    fields: [
+      'alcohol_past_issues',
+      'alcohol_past_issues_details',
+      'alcohol_reasons_for_use',
+      'alcohol_reasons_for_use_other_details',
+      'alcohol_impact_of_use',
+      'alcohol_impact_of_use_other_details',
+      'alcohol_stopped_or_reduced',
+      'alcohol_stopped_or_reduced_details',
+      'alcohol_changes',
+      'alcohol_made_changes_details',
+      'alcohol_making_changes_details',
+      'alcohol_want_to_make_changes_details',
+      'alcohol_needs_help_to_make_changes_details',
+      'alcohol_thinking_about_making_changes_details',
+      'alcohol_does_not_want_to_make_changes_details',
+      'alcohol_use_section_complete',
+      'alcohol_use_analysis_section_complete',
+    ],
+    backLink: sectionName,
+    next: ['alcohol-usage-but-not-last-three-months-analysis'],
+    template: 'forms/default',
+    section: sectionName,
+    sectionProgressRules: [
+      { fieldCode: 'drug_use_section_complete', conditionFn: () => 'YES' },
+      { fieldCode: 'drug_use_analysis_section_complete', conditionFn: () => 'NO' },
+    ],
+  },
+  '/alcohol-usage-last-three-months-analysis': {
+    pageTitle: defaultTitle,
+    controller: SaveAndContinueController,
+    fields: [],
+    next: [],
+    template: 'forms/default',
+    section: sectionName,
+    sectionProgressRules: [],
+  },
+  'alcohol-usage-but-not-last-three-months-analysis': {
+    pageTitle: defaultTitle,
+    controller: SaveAndContinueController,
+    fields: [],
+    next: [],
+    template: 'forms/default',
+    section: sectionName,
+    sectionProgressRules: [],
+  },
+  '/alcohol-no-usage-analysis': {
+    pageTitle: defaultTitle,
+    controller: SaveAndContinueController,
+    fields: [],
+    next: [],
+    template: 'forms/default',
+    section: sectionName,
+    sectionProgressRules: [],
+  },
+}
+
+export default stepOptions

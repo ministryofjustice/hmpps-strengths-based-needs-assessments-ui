@@ -114,7 +114,7 @@ export const whereSelectable = (o: FormWizard.Field.Option | FormWizard.Field.Di
 
 export const withPlaceholdersFrom = (replacementValues: { [key: string]: string }) => {
   const replacer = replaceWithValuesFrom(replacementValues)
-  const placeholderPattern = /(\[\w+\])/
+  const placeholderPattern = /(\[\w+\])/g
 
   return (field: FormWizard.Field): FormWizard.Field => {
     const modifiedField = { ...field }
