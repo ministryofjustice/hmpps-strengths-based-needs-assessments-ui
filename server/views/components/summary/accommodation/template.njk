@@ -266,53 +266,96 @@
   </ul>
 {%- endmacro -%}
 
-{%- switch field -%}
-{% case "current_accommodation" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderCurrentAccommodation(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "living_with" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderLivingWith(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "suitable_housing_location" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderSuitableHousingLocation(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "suitable_housing" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderSuitableHousingLocation(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "accommodation_changes" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderAccommodationChange(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "suitable_housing_planned" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderSuitableHousingPlanned(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "no_accommodation_reason" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    renderNoAccommodationReason(options.fields, options.answers),
-    options.backLink + "#" + field
-  ) }}
-{% case "past_accommodation_details" %}
-  {{ renderSummaryListRow(
-    options.fields[field].text,
-    options.fields[field].value,
-    options.backLink + "#" + field
-  ) }}
-{%- endswitch -%}
+{% macro renderSummaryItemFor(field, options) %}
+  {%- switch field -%}
+  {% case "current_accommodation" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderCurrentAccommodation(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "living_with" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderLivingWith(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "suitable_housing_location" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderSuitableHousingLocation(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "suitable_housing" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderSuitableHousingLocation(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "accommodation_changes" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderAccommodationChange(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "suitable_housing_planned" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderSuitableHousingPlanned(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "no_accommodation_reason" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      renderNoAccommodationReason(options.fields, options.answers),
+      options.backLink + "#" + field
+    ) }}
+  {% case "past_accommodation_details" %}
+    {{ renderSummaryListRow(
+      options.fields[field].text,
+      options.fields[field].value,
+      options.backLink + "#" + field
+    ) }}
+  {%- endswitch -%}
+{% endmacro %}
+
+{% set backLink = "" %}
+
+{% if answers["current_accommodation"] === "SETTLED" %}
+  {% set backLink = "settled-accommodation" %}
+{% elif answers["current_accommodation"] === "TEMPORARY" %}
+  {% if answers["type_of_temporary_accommodation"] === "SHORT_TERM" or answers["type_of_temporary_accommodation"] === "IMMIGRATION" %}
+    {% set backLink = "temporary-accommodation-2" %}
+  {% else %}
+    {% set backLink = "temporary-accommodation" %}
+  {% endif %}
+{% elif answers["current_accommodation"] === "NO_ACCOMMODATION" %}
+  {% if answers["type_of_no_accommodation"] === "AWAITING_ASSESSMENT" %}
+    {% set backLink = "no-accommodation-2" %}
+  {% else %}
+    {% set backLink = "no-accommodation" %}
+  {% endif %}
+{% endif %}
+
+<dl class="govuk-summary-list">
+  {{ renderSummaryItemFor("current_accommodation", { fields: fields, answers: answers, backLink: "accommodation" }) }}
+  {% if answers["current_accommodation"] === "SETTLED" %}
+    {{ renderSummaryItemFor("living_with", { fields: fields, answers: answers, backLink: backLink }) }}
+    {{ renderSummaryItemFor("suitable_housing_location", { fields: fields, answers: answers, backLink: backLink }) }}
+    {{ renderSummaryItemFor("suitable_housing", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% elif answers["current_accommodation"] === "TEMPORARY" %}
+    {% if not (answers["type_of_temporary_accommodation"] == "SHORT_TERM" or answers["type_of_temporary_accommodation"] == "IMMIGRATION") %}
+      {{ renderSummaryItemFor("living_with", { fields: fields, answers: answers, backLink: backLink }) }}
+    {% endif %}
+    {{ renderSummaryItemFor("suitable_housing_location", { fields: fields, answers: answers, backLink: backLink }) }}
+    {{ renderSummaryItemFor("suitable_housing", { fields: fields, answers: answers, backLink: backLink }) }}
+    {{ renderSummaryItemFor("suitable_housing_planned", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% elif answers["current_accommodation"] === "NO_ACCOMMODATION" %}
+    {% if answers["type_of_no_accommodation"] !== "AWAITING_ASSESSMENT" %}
+      {{ renderSummaryItemFor("no_accommodation_reason", { fields: fields, answers: answers, backLink: backLink }) }}
+      {{ renderSummaryItemFor("past_accommodation_details", { fields: fields, answers: answers, backLink: backLink }) }}
+      {{ renderSummaryItemFor("suitable_housing_planned", { fields: fields, answers: answers, backLink: backLink }) }}
+    {% endif %}
+  {% endif %}
+  {{ renderSummaryItemFor("accommodation_changes", { fields: fields, answers: answers, backLink: backLink }) }} 
+</dl>
