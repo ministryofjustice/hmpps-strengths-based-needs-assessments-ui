@@ -167,13 +167,13 @@
 <dl class="govuk-summary-list as-block">
   {{ renderSummaryItemFor("drug_use", { fields: fields, answers: answers, backLink: "drug-use" }) }}
   {% if answers["drug_use"] !== "NO" %}
-    <div class="govuk-summary-list__row as-block">
-      {{ renderDrugsTable({fields: fields, answers: answers, subject: subject}) }}
-    </div>
     {{ renderSummaryItemFor("drug_use_reasons", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
     {{ renderSummaryItemFor("drug_use_impact", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
     {{ renderSummaryItemFor("reducing_or_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
     {{ renderSummaryItemFor("motivated_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
     {{ renderSummaryItemFor("drug_use_changes", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
+    <div class="govuk-summary-list__row as-block">
+      {{ renderDrugsTable({fields: fields, answers: answers, subject: subject}) }}
+    </div>
   {% endif %}
 </dl>
