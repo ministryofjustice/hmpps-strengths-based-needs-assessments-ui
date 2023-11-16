@@ -8,7 +8,7 @@
 {% from "components/summary/drugs/macro.njk" import renderSummaryFor %}
 
 {% block summaryPanel %}
-  {{ renderSummaryFor(options.allFields, answers, subject.givenName) }}
+  {{ renderSummaryFor(options.allFields, answers, subjectDetails.givenName) }}
 {% endblock %}
 
 {% block analysisPanel %}

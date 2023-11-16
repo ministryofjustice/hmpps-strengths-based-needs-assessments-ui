@@ -9,6 +9,13 @@ import {
   yesNoOptions,
 } from './common'
 
+const usageFrequencies = [
+  { text: 'Daily', value: 'DAILY' },
+  { text: 'Weekly', value: 'WEEKLY' },
+  { text: 'Monthly', value: 'MONTHLY' },
+  { text: 'Occasionally', value: 'OCCASIONALLY' },
+]
+
 function requiredWhenContains(field: string, requiredValue: string) {
   return function validateRequiredWhenContains(value: string) {
     const persistedAnswers = this.sessionModel?.options?.req?.form?.persistedAnswers || {}
@@ -21,106 +28,171 @@ function requiredWhenContains(field: string, requiredValue: string) {
 }
 
 const frequencyOptions: FormWizard.Field.Options = [
-  { text: 'Daily', value: 'DAILY', kind: 'option' },
-  { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-  { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-  { text: 'Occasionally', value: 'OCCASIONALLY', kind: 'option' },
+  ...usageFrequencies.map(({ text, value }): FormWizard.Field.Option => ({ text, value, kind: 'option' })),
   orDivider,
   { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
 ]
 
-const createReceivingTreatment = (
-  fieldCode: string,
-  dependentFieldCode: string,
-  valueCode: string,
-  dependentFieldValue: string,
-): FormWizard.Field => ({
-  text: 'Is [subject] receiving treatment?',
-  code: fieldCode,
-  type: FieldType.Radio,
-  validate: [
-    {
-      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
-      message: 'Select if they are receiving treatment',
-    },
-  ],
-  options: yesNoOptions,
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
-  },
-  labelClasses: mediumLabel,
-  classes: smallRadios,
-})
+const fieldCodeWith = (...parts: string[]) => parts.map(it => it.toLowerCase()).join('_')
 
-const createInjectingDrug = (
-  fieldCode: string,
-  dependentFieldCode: string,
-  valueCode: string,
-  dependentFieldValue: string,
-): FormWizard.Field => ({
-  text: 'Is [subject] injecting this drug?',
-  code: fieldCode,
-  type: FieldType.Radio,
-  validate: [
-    {
-      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
-      message: 'Select if they are injecting this drug',
-    },
-  ],
-  options: yesNoOptions,
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
-  },
-  labelClasses: mediumLabel,
-  classes: smallRadios,
-})
-
-const createPastDrugUsage = (fieldCode: string, dependentFieldValue: string): FormWizard.Field => ({
-  text: 'Has [subject] used this drug in the past?',
-  code: fieldCode,
-  type: FieldType.Radio,
-  validate: [
-    {
-      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
-      message: 'Select if they have used this drug in the past',
-    },
-  ],
-  options: yesNoOptions,
-  labelClasses: mediumLabel,
-  dependent: {
-    field: 'drug_use_type',
-    value: dependentFieldValue,
+const createFieldForDrugUsage = (option: string) => ({
+  [fieldCodeWith('drug_usage', option)]: {
+    text: 'How often is [subject] using this drug?',
+    code: fieldCodeWith('drug_usage', option),
+    type: FieldType.Radio,
+    validate: [
+      {
+        fn: requiredWhenContains('drug_use_type', option),
+        message: 'Select how often they are using this drug',
+      },
+    ],
+    options: frequencyOptions,
+    labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: option },
   },
 })
 
-const createPastInjectingDrug = (
-  fieldCode: string,
-  dependentFieldCode: string,
-  valueCode: string,
-  dependentFieldValue: string,
-): FormWizard.Field => ({
-  text: 'Was [subject] injecting this drug?',
-  code: fieldCode,
-  type: FieldType.Radio,
-  validate: [
-    {
-      fn: requiredWhenContains('drug_use_type', dependentFieldValue),
-      message: 'Select if they were injecting this drug',
+const createFieldForInjectingDrug = (option: string, frequency: string) => ({
+  [fieldCodeWith(frequency, 'injecting_drug', option)]: {
+    text: 'Is [subject] injecting this drug?',
+    code: fieldCodeWith('injecting_drug', option),
+    type: FieldType.Radio,
+    validate: [
+      {
+        fn: requiredWhenContains('drug_use_type', option),
+        message: 'Select if they are injecting this drug',
+      },
+    ],
+    options: yesNoOptions,
+    dependent: {
+      field: fieldCodeWith('drug_usage', option),
+      value: frequency,
+      displayInline: true,
     },
-  ],
-  options: yesNoOptions,
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
+    labelClasses: mediumLabel,
+    classes: smallRadios,
   },
-  labelClasses: mediumLabel,
-  classes: smallRadios,
 })
+
+const createFieldForPastDrugUsage = (option: string) => ({
+  [fieldCodeWith('past_drug_usage', option)]: {
+    text: 'Has [subject] used this drug in the past?',
+    code: fieldCodeWith('past_drug_usage', option),
+    type: FieldType.Radio,
+    validate: [
+      {
+        fn: requiredWhenContains('drug_use_type', option),
+        message: 'Select if they have used this drug in the past',
+      },
+    ],
+    options: yesNoOptions,
+    labelClasses: mediumLabel,
+    dependent: { field: 'drug_use_type', value: option },
+  },
+})
+
+const createFieldForPastInjectingDrug = (option: string) => ({
+  [fieldCodeWith('past_injecting_drug', option)]: {
+    text: 'Was [subject] injecting this drug?',
+    code: fieldCodeWith('past_injecting_drug', option),
+    type: FieldType.Radio,
+    validate: [
+      {
+        fn: requiredWhenContains('drug_use_type', option),
+        message: 'Select if they were injecting this drug',
+      },
+    ],
+    options: yesNoOptions,
+    dependent: {
+      field: fieldCodeWith('past_drug_usage', option),
+      value: 'YES',
+      displayInline: true,
+    },
+    labelClasses: mediumLabel,
+    classes: smallRadios,
+  },
+})
+
+const createFieldForReceivingTreatment = (option: string, frequency: string) => ({
+  [fieldCodeWith(frequency, 'drug_usage_treatment', option)]: {
+    text: 'Is [subject] receiving treatment?',
+    code: fieldCodeWith('drug_usage_treatment', option),
+    type: FieldType.Radio,
+    validate: [
+      {
+        fn: requiredWhenContains('drug_use_type', option),
+        message: 'Select if they are receiving treatment',
+      },
+    ],
+    options: yesNoOptions,
+    dependent: {
+      field: fieldCodeWith('drug_usage', option),
+      value: frequency,
+      displayInline: true,
+    },
+    labelClasses: mediumLabel,
+    classes: smallRadios,
+  },
+})
+
+const createFieldForPastReceivingTreatment = (option: string) => ({
+  [fieldCodeWith('past_drug_usage_treatment', option)]: {
+    text: 'Is [subject] receiving treatment?',
+    code: fieldCodeWith('past_drug_usage_treatment', option),
+    type: FieldType.Radio,
+    validate: [
+      {
+        fn: requiredWhenContains('drug_use_type', option),
+        message: 'Select if they are receiving treatment',
+      },
+    ],
+    options: yesNoOptions,
+    dependent: {
+      field: fieldCodeWith('past_drug_usage', option),
+      value: 'YES',
+      displayInline: true,
+    },
+    labelClasses: mediumLabel,
+    classes: smallRadios,
+  },
+})
+
+const flattenFields = (acc: FormWizard.Fields, it: FormWizard.Fields) => ({ ...acc, ...it })
+
+const createFieldsForHeroin = () =>
+  [
+    createFieldsForInjectableDrug('HEROIN'),
+    createFieldForPastReceivingTreatment('HEROIN'),
+    ...usageFrequencies.map(frequency => createFieldForReceivingTreatment('HEROIN', frequency.value)),
+  ].reduce(flattenFields, {})
+
+const createFieldsForInjectableDrug = (option: string) =>
+  [
+    createDrugUsage(option),
+    createFieldForPastInjectingDrug(option),
+    ...usageFrequencies.map(frequency => createFieldForInjectingDrug(option, frequency.value)),
+  ].reduce(flattenFields, {})
+
+const createDrugUsage = (option: string) =>
+  [createFieldForDrugUsage(option), createFieldForPastDrugUsage(option)].reduce(flattenFields, {})
+
+export const drugUsageDetailsFields = [
+  createFieldsForInjectableDrug('AMPHETAMINES'),
+  createFieldsForInjectableDrug('BENZODIAZEPINES'),
+  createDrugUsage('CANNABIS'),
+  createFieldsForInjectableDrug('COCAINE'),
+  createFieldsForInjectableDrug('CRACK'),
+  createDrugUsage('ECSTASY'),
+  createDrugUsage('HALLUCINOGENICS'),
+  createFieldsForHeroin(),
+  createFieldsForInjectableDrug('METHADONE_NOT_PRESCRIBED'),
+  createFieldsForInjectableDrug('MISUSED_PRESCRIBED_DRUGS'),
+  createFieldsForInjectableDrug('OTHER_OPIATES'),
+  createDrugUsage('SOLVENTS'),
+  createFieldsForInjectableDrug('STEROIDS'),
+  createDrugUsage('SPICE'),
+  createFieldsForInjectableDrug('OTHER_DRUG'),
+].reduce(flattenFields, {})
 
 const fields: FormWizard.Fields = {
   drug_use_section_complete: {
@@ -239,19 +311,22 @@ const fields: FormWizard.Fields = {
       { text: 'Amphetamines', value: 'AMPHETAMINES', kind: 'option' },
       { text: 'Benzodiazepines', value: 'BENZODIAZEPINES', kind: 'option' },
       { text: 'Cannabis', value: 'CANNABIS', kind: 'option' },
-      { text: 'Cocaine', value: 'COCAINE', kind: 'option' },
-      { text: 'Crack', value: 'CRACK', kind: 'option' },
-      { text: 'Ecstasy', value: 'ECSTASY', kind: 'option' },
+      { text: 'Cocaine hydrochloride', value: 'COCAINE', kind: 'option' },
+      { text: 'Crack cocaine', value: 'CRACK', kind: 'option' },
+      { text: 'Ecstasy (also known as MDMA)', value: 'ECSTASY', kind: 'option' },
+      { text: 'Hallucinogenics', value: 'HALLUCINOGENICS', kind: 'option' },
       { text: 'Heroin', value: 'HEROIN', kind: 'option' },
-      { text: 'Ketamine', value: 'KETAMINE', kind: 'option' },
       { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
-      { text: 'Methadone (prescribed)', value: 'METHADONE_PRESCRIBED', kind: 'option' },
-      { text: 'Non-prescribed medication', value: 'NON_PRESCRIBED_MEDICATION', kind: 'option' },
-      { text: 'Psychoactive substances (spice)', value: 'PSYCHOACTIVE_SUBSTANCES', kind: 'option' },
-      { text: 'Other', value: 'OTHER_DRUG_TYPE', kind: 'option' },
+      { text: 'Misused prescribed drugs', value: 'MISUSED_PRESCRIBED_DRUGS', kind: 'option' },
+      { text: 'Other opiates', value: 'OTHER_OPIATES', kind: 'option' },
+      { text: 'Solvents (including gases and glues)', value: 'SOLVENTS', kind: 'option' },
+      { text: 'Steroids', value: 'STEROIDS', kind: 'option' },
+      { text: 'Spice', value: 'SPICE', kind: 'option' },
+      { text: 'Other', value: 'OTHER_DRUG', kind: 'option' },
     ],
     labelClasses: mediumLabel,
   },
+  ...drugUsageDetailsFields,
   other_drug_details: {
     text: 'Enter drug name',
     code: 'other_drug_details',
@@ -259,397 +334,10 @@ const fields: FormWizard.Fields = {
     validate: [{ type: ValidationType.Required, message: 'Enter drug name' }],
     dependent: {
       field: 'drug_use_type',
-      value: 'OTHER_DRUG_TYPE',
+      value: 'OTHER_DRUG',
       displayInline: true,
     },
   },
-  drug_usage_heroin: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_heroin',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'HEROIN'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'HEROIN' },
-  },
-  daily_injecting_drug_heroin: createInjectingDrug('injecting_drug_heroin', 'drug_usage_heroin', 'DAILY', 'HEROIN'),
-  weekly_injecting_drug_heroin: createInjectingDrug('injecting_drug_heroin', 'drug_usage_heroin', 'WEEKLY', 'HEROIN'),
-  monthly_injecting_drug_heroin: createInjectingDrug('injecting_drug_heroin', 'drug_usage_heroin', 'MONTHLY', 'HEROIN'),
-  occasionally_injecting_drug_heroin: createInjectingDrug(
-    'injecting_drug_heroin',
-    'drug_usage_heroin',
-    'OCCASIONALLY',
-    'HEROIN',
-  ),
-  daily_drug_usage_treatment_heroin: createReceivingTreatment(
-    'drug_usage_treatment_heroin',
-    'drug_usage_heroin',
-    'DAILY',
-    'HEROIN',
-  ),
-  weekly_drug_usage_treatment_heroin: createReceivingTreatment(
-    'drug_usage_treatment_heroin',
-    'drug_usage_heroin',
-    'WEEKLY',
-    'HEROIN',
-  ),
-  monthly_drug_usage_treatment_heroin: createReceivingTreatment(
-    'drug_usage_treatment_heroin',
-    'drug_usage_heroin',
-    'MONTHLY',
-    'HEROIN',
-  ),
-  occasionally_drug_usage_treatment: createReceivingTreatment(
-    'drug_usage_treatment_heroin',
-    'drug_usage_heroin',
-    'OCCASIONALLY',
-    'HEROIN',
-  ),
-  past_drug_usage_heroin: createPastDrugUsage('past_drug_usage_heroin', 'HEROIN'),
-  past_injecting_drug_heroin: createPastInjectingDrug(
-    'past_injecting_drug_heroin',
-    'past_drug_usage_heroin',
-    'YES',
-    'HEROIN',
-  ),
-  past_receiving_treatment_heroin: createReceivingTreatment(
-    'past_receiving_treatment_heroin',
-    'past_drug_usage_heroin',
-    'YES',
-    'HEROIN',
-  ),
-  drug_usage_methadone_not_prescribed: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_methadone_not_prescribed',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'METHADONE_NOT_PRESCRIBED'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'METHADONE_NOT_PRESCRIBED' },
-  },
-  daily_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'injecting_drug_methadone_not_prescribed',
-    'drug_usage_methadone_not_prescribed',
-    'DAILY',
-    'METHADONE_NOT_PRESCRIBED',
-  ),
-  weekly_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'injecting_drug_methadone_not_prescribed',
-    'drug_usage_methadone_not_prescribed',
-    'WEEKLY',
-    'METHADONE_NOT_PRESCRIBED',
-  ),
-  monthly_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'injecting_drug_methadone_not_prescribed',
-    'drug_usage_methadone_not_prescribed',
-    'MONTHLY',
-    'METHADONE_NOT_PRESCRIBED',
-  ),
-  occasionally_injecting_drug_methadone_not_prescribed: createInjectingDrug(
-    'injecting_drug_methadone_not_prescribed',
-    'drug_usage_methadone_not_prescribed',
-    'OCCASIONALLY',
-    'METHADONE_NOT_PRESCRIBED',
-  ),
-  past_drug_usage_methadone_not_prescribed: createPastDrugUsage(
-    'past_drug_usage_methadone_not_prescribed',
-    'METHADONE_NOT_PRESCRIBED',
-  ),
-  past_injecting_drug_methadone_not_prescribed: createPastInjectingDrug(
-    'past_injecting_drug_methadone_not_prescribed',
-    'past_drug_usage_methadone_not_prescribed',
-    'YES',
-    'METHADONE_NOT_PRESCRIBED',
-  ),
-  drug_usage_crack: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_crack',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'CRACK'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'CRACK' },
-  },
-  daily_injecting_drug_crack: createInjectingDrug('injecting_drug_crack', 'drug_usage_crack', 'DAILY', 'CRACK'),
-  weekly_injecting_drug_crack: createInjectingDrug('injecting_drug_crack', 'drug_usage_crack', 'WEEKLY', 'CRACK'),
-  monthly_injecting_drug_crack: createInjectingDrug('injecting_drug_crack', 'drug_usage_crack', 'MONTHLY', 'CRACK'),
-  occasionally_injecting_drug_crack: createInjectingDrug(
-    'injecting_drug_crack',
-    'drug_usage_crack',
-    'OCCASIONALLY',
-    'CRACK',
-  ),
-  past_drug_usage_crack: createPastDrugUsage('past_drug_usage_crack', 'CRACK'),
-  past_injecting_drug_crack: createPastInjectingDrug(
-    'past_injecting_drug_crack',
-    'past_drug_usage_crack',
-    'YES',
-    'CRACK',
-  ),
-  drug_usage_amphetamines: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_amphetamines',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'AMPHETAMINES'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'AMPHETAMINES' },
-  },
-  daily_injecting_drug_amphetamines: createInjectingDrug(
-    'injecting_drug_amphetamines',
-    'drug_usage_amphetamines',
-    'DAILY',
-    'AMPHETAMINES',
-  ),
-  weekly_injecting_drug_amphetamines: createInjectingDrug(
-    'injecting_drug_amphetamines',
-    'drug_usage_amphetamines',
-    'WEEKLY',
-    'AMPHETAMINES',
-  ),
-  monthly_injecting_drug_amphetamines: createInjectingDrug(
-    'injecting_drug_amphetamines',
-    'drug_usage_amphetamines',
-    'MONTHLY',
-    'AMPHETAMINES',
-  ),
-  occasionally_injecting_drug_amphetamines: createInjectingDrug(
-    'injecting_drug_amphetamines',
-    'drug_usage_amphetamines',
-    'OCCASIONALLY',
-    'AMPHETAMINES',
-  ),
-  past_drug_usage_amphetamines: createPastDrugUsage('past_drug_usage_amphetamines', 'AMPHETAMINES'),
-  past_injecting_drug_amphetamines: createPastInjectingDrug(
-    'past_injecting_drug_amphetamines',
-    'past_drug_usage_amphetamines',
-    'YES',
-    'AMPHETAMINES',
-  ),
-  drug_usage_benzodiazepines: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_benzodiazepines',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'BENZODIAZEPINES'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'BENZODIAZEPINES' },
-  },
-  daily_injecting_drug_benzodiazepines: createInjectingDrug(
-    'injecting_drug_benzodiazepines',
-    'drug_usage_benzodiazepines',
-    'DAILY',
-    'BENZODIAZEPINES',
-  ),
-  weekly_injecting_drug_benzodiazepines: createInjectingDrug(
-    'injecting_drug_benzodiazepines',
-    'drug_usage_benzodiazepines',
-    'WEEKLY',
-    'BENZODIAZEPINES',
-  ),
-  monthly_injecting_drug_benzodiazepines: createInjectingDrug(
-    'injecting_drug_benzodiazepines',
-    'drug_usage_benzodiazepines',
-    'MONTHLY',
-    'BENZODIAZEPINES',
-  ),
-  occasionally_injecting_drug_benzodiazepines: createInjectingDrug(
-    'injecting_drug_benzodiazepines',
-    'drug_usage_benzodiazepines',
-    'OCCASIONALLY',
-    'BENZODIAZEPINES',
-  ),
-  past_drug_usage_benzodiazepines: createPastDrugUsage('past_drug_usage_benzodiazepines', 'BENZODIAZEPINES'),
-  past_injecting_drug_benzodiazepines: createPastInjectingDrug(
-    'past_injecting_drug_benzodiazepines',
-    'past_drug_usage_benzodiazepines',
-    'YES',
-    'BENZODIAZEPINES',
-  ),
-  drug_usage_other_drug: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_other_drug',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'OTHER_DRUG_TYPE'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'OTHER_DRUG_TYPE' },
-  },
-  daily_injecting_drug_other_drug: createInjectingDrug(
-    'injecting_drug_other_drug',
-    'drug_usage_other_drug',
-    'DAILY',
-    'OTHER_DRUG_TYPE',
-  ),
-  weekly_injecting_drug_other_drug: createInjectingDrug(
-    'injecting_drug_other_drug',
-    'drug_usage_other_drug',
-    'WEEKLY',
-    'OTHER_DRUG_TYPE',
-  ),
-  monthly_injecting_drug_other_drug: createInjectingDrug(
-    'injecting_drug_other_drug',
-    'drug_usage_other_drug',
-    'MONTHLY',
-    'OTHER_DRUG_TYPE',
-  ),
-  occasionally_injecting_drug_other_drug: createInjectingDrug(
-    'injecting_drug_other_drug',
-    'drug_usage_other_drug',
-    'OCCASIONALLY',
-    'OTHER_DRUG_TYPE',
-  ),
-  past_drug_usage_other_drug: createPastDrugUsage('past_drug_usage_other_drug', 'OTHER_DRUG_TYPE'),
-  past_injecting_drug_other_drug: createPastInjectingDrug(
-    'past_injecting_drug_other_drug',
-    'past_drug_usage_other_drug',
-    'YES',
-    'OTHER_DRUG_TYPE',
-  ),
-  drug_usage_cannabis: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_cannabis',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'CANNABIS'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'CANNABIS' },
-  },
-  past_drug_usage_cannabis: createPastDrugUsage('past_drug_usage_cannabis', 'CANNABIS'),
-  drug_usage_cocaine: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_cocaine',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'COCAINE'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'COCAINE' },
-  },
-  past_drug_usage_cocaine: createPastDrugUsage('past_drug_usage_cocaine', 'COCAINE'),
-  drug_usage_ecstasy: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_ecstasy',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'ECSTASY'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'ECSTASY' },
-  },
-  past_drug_usage_ecstasy: createPastDrugUsage('past_drug_usage_ecstasy', 'ECSTASY'),
-  drug_usage_ketamine: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_ketamine',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'KETAMINE'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'KETAMINE' },
-  },
-  past_drug_usage_ketamine: createPastDrugUsage('past_drug_usage_ketamine', 'KETAMINE'),
-  drug_usage_methadone_prescribed: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_methadone_prescribed',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'METHADONE_PRESCRIBED'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'METHADONE_PRESCRIBED' },
-  },
-  past_drug_usage_methadone_prescribed: createPastDrugUsage(
-    'past_drug_usage_methadone_prescribed',
-    'METHADONE_PRESCRIBED',
-  ),
-  drug_usage_non_prescribed_medication: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_non_prescribed_medication',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'NON_PRESCRIBED_MEDICATION'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'NON_PRESCRIBED_MEDICATION' },
-  },
-  past_drug_usage_non_prescribed_medication: createPastDrugUsage(
-    'past_drug_usage_non_prescribed_medication',
-    'NON_PRESCRIBED_MEDICATION',
-  ),
-  drug_usage_psychoactive_substances: {
-    text: 'How often is [subject] using this drug?',
-    code: 'drug_usage_psychoactive_substances',
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', 'PSYCHOACTIVE_SUBSTANCES'),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: 'PSYCHOACTIVE_SUBSTANCES' },
-  },
-  past_drug_usage_psychoactive_substances: createPastDrugUsage(
-    'past_drug_usage_psychoactive_substances',
-    'PSYCHOACTIVE_SUBSTANCES',
-  ),
   drug_use_reasons: {
     text: 'Why did [subject] start using drugs?',
     hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },

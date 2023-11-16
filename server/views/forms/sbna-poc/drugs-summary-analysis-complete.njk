@@ -7,7 +7,7 @@
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
 {% block summaryPanel %}
-  {{ renderSummaryFor(options.allFields, answers, subject.givenName) }}
+  {{ renderSummaryFor(options.allFields, answers, subjectDetails.givenName) }}
 {% endblock %}
 
 {% block analysisPanel %}
