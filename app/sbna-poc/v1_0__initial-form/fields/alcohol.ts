@@ -38,7 +38,7 @@ const alcoholUnitsHint = `
           <td class="govuk-table__cell">1.5 unit</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Can of lager/beer/cider (440ml, ABV 5.5%)</td>
+          <td class="govuk-table__cell">Bottle of lager/beer/cider (330ml, ABV 5%)</td>
           <td class="govuk-table__cell">1.7 unit</td>
         </tr>
         <tr class="govuk-table__row">
