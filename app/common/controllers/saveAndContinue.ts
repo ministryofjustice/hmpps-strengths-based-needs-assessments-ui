@@ -44,7 +44,7 @@ class SaveAndContinueController extends BaseController {
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const fields = Object.entries(req.form.options.allFields).map(([key, field]) => ({ ...field, id: key }))
+    const fields = Object.values(req.form.options.allFields).map(field => ({ ...field, id: field.id || field.code }))
 
     const fieldsWithMappedAnswers = fields.map(withValuesFrom(res.locals.values))
     const fieldsWithReplacements = fieldsWithMappedAnswers.map(withPlaceholdersFrom(res.locals.placeholderValues || {}))

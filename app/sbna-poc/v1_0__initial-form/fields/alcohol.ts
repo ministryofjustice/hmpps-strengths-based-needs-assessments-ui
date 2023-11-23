@@ -1,11 +1,10 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
-  inlineRadios,
+  createPractitionerAnalysisFieldsWith,
   mediumLabel,
   orDivider,
-  requiredWhen,
-  summaryCharacterLimit,
+  toFormWizardFields,
   yesNoOptions,
 } from './common'
 
@@ -72,20 +71,8 @@ function orNoImpactValidator() {
   return !(answers.includes('NO_NEGATIVE_IMPACT') && answers.length > 1)
 }
 
-const fields: FormWizard.Fields = {
-  alcohol_use_section_complete: {
-    text: 'Is the alcohol use section complete?',
-    code: 'alcohol_use_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
-  },
-  alcohol_use_analysis_section_complete: {
-    text: 'Is the alcohol use analysis section complete?',
-    code: 'alcohol_use_analysis_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
-  },
-  alcohol_use: {
+export const alcoholUseFields: Array<FormWizard.Field> = [
+  {
     text: 'Has [subject] ever drank alcohol?',
     code: 'alcohol_use',
     type: FieldType.Radio,
@@ -96,96 +83,10 @@ const fields: FormWizard.Fields = {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
   },
-  alcohol_frequency: {
-    text: 'How often has [subject] drank alcohol in the last 3 months?',
-    code: 'alcohol_frequency',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they drank alcohol in the last 3 months' }],
-    options: [
-      { text: 'Once a month or less', value: 'ONCE_A_MONTH_OR_LESS', kind: 'option' },
-      { text: '2 to 4 times a month', value: 'MULTIPLE_TIMES_A_MONTH', kind: 'option' },
-      { text: '2 to 3 times a week', value: 'LESS_THAN_4_TIMES_A_WEEK', kind: 'option' },
-      { text: 'More than 4 times a week', value: 'MORE_THAN_4_TIMES_A_WEEK', kind: 'option' },
-    ],
-    labelClasses: mediumLabel,
-  },
-  alcohol_units: {
-    text: 'How many units of alcohol does [subject] have on a typical day of drinking?',
-    hint: { html: alcoholUnitsHint, kind: 'html' },
-    code: 'alcohol_units',
-    type: FieldType.Radio,
-    validate: [
-      {
-        type: ValidationType.Required,
-        message: 'Select how many units of alcohol they have on a typical day of drinking',
-      },
-    ],
-    options: [
-      { text: '1 to 2 units', value: '1_TO_2_UNITS', kind: 'option' },
-      { text: '3 to 4 units', value: '3_TO_4_UNITS', kind: 'option' },
-      { text: '5 to 6 units', value: '5_TO_6_UNITS', kind: 'option' },
-      { text: '7 to 9 units', value: '7_TO_9_UNITS', kind: 'option' },
-      { text: '10 or more units', value: '10_OR_MORE_UNITS', kind: 'option' },
-    ],
-    labelClasses: mediumLabel,
-  },
-  alcohol_binge_drinking: {
-    text: 'Has [subject] had [alcohol_units] or more units within a single day of drinking in the last 3 months?',
-    code: 'alcohol_binge_drinking',
-    type: FieldType.Radio,
-    validate: [
-      {
-        type: ValidationType.Required,
-        message: 'Select if they had 6 or more units within a single day of drinking in the last 3 months',
-      },
-    ],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-  },
-  alcohol_binge_drinking_frequency: {
-    text: 'Select how often',
-    code: 'alcohol_binge_drinking_frequency',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often' }],
-    options: [
-      { text: 'Less than a month', value: 'LESS_THAN_A_MONTH', kind: 'option' },
-      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
-      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
-      { text: 'Daily or almost daily', value: 'DAILY', kind: 'option' },
-    ],
-    dependent: {
-      field: 'alcohol_binge_drinking',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  alcohol_evidence_of_excess_drinking: {
-    text: 'Has [subject] shown evidence of binge drinking or excessive alcohol use in the last 6 months?',
-    code: 'alcohol_evidence_of_excess_drinking',
-    type: FieldType.Radio,
-    validate: [
-      {
-        type: ValidationType.Required,
-        message:
-          '[PLACEHOLDER] Select if they have shown evidence of binge drinking or excessive alcohol use in the last 6 months',
-      },
-    ],
-    options: [
-      {
-        text: 'Yes, evidence shows a detrimental effect on all areas of their life and directly relates to offending',
-        value: 'DETRIMENTAL_EFFECT',
-        kind: 'option',
-      },
-      {
-        text: 'Yes, evidence shows patterns of alcohol use but no serious problems',
-        value: 'NO_SERIOUS_PROBLEMS',
-        kind: 'option',
-      },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    labelClasses: mediumLabel,
-  },
-  alcohol_past_issues: {
+]
+
+export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
+  {
     text: 'Does [subject] have any past issues with alcohol?',
     code: 'alcohol_past_issues',
     type: FieldType.Radio,
@@ -193,7 +94,7 @@ const fields: FormWizard.Fields = {
     options: yesNoOptions,
     labelClasses: mediumLabel,
   },
-  alcohol_past_issues_details: {
+  {
     text: 'Give details',
     code: 'alcohol_past_issues_details',
     type: FieldType.TextArea,
@@ -211,7 +112,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_reasons_for_use: {
+  {
     text: 'Why does [subject] drink alcohol?',
     hint: { text: 'Select all that apply', kind: 'text' },
     code: 'alcohol_reasons_for_use',
@@ -236,7 +137,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  alcohol_reasons_for_use_other_details: {
+  {
     text: 'Give details',
     code: 'alcohol_reasons_for_use_other_details',
     type: FieldType.TextArea,
@@ -254,7 +155,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_impact_of_use: {
+  {
     text: "What's the impact of [subject] drinking alcohol?",
     hint: { text: 'Select all that apply', kind: 'text' },
     code: 'alcohol_impact_of_use',
@@ -304,11 +205,11 @@ const fields: FormWizard.Fields = {
       { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
       orDivider,
-      { text: 'No negative impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option' },
+      { text: 'No negative impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option', behaviour: 'exclusive' },
     ],
     labelClasses: mediumLabel,
   },
-  alcohol_impact_of_use_other_details: {
+  {
     text: 'Give details',
     hint: { text: 'Consider impact on themselves or others', kind: 'text' },
     code: 'alcohol_impact_of_use_other_details',
@@ -327,7 +228,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_stopped_or_reduced: {
+  {
     text: 'Has anything helped [subject] to stop or reduce drinking alcohol in the past?',
     hint: { text: 'Consider strategies, people or support networks that may have helped', kind: 'text' },
     code: 'alcohol_stopped_or_reduced',
@@ -341,7 +242,7 @@ const fields: FormWizard.Fields = {
     options: yesNoOptions,
     labelClasses: mediumLabel,
   },
-  alcohol_stopped_or_reduced_details: {
+  {
     text: 'Give details',
     code: 'alcohol_stopped_or_reduced_details',
     type: FieldType.TextArea,
@@ -359,7 +260,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_changes: {
+  {
     text: 'Does [subject] want to make changes to their alcohol use?',
     hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
     code: 'alcohol_changes',
@@ -379,7 +280,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  alcohol_made_changes_details: {
+  {
     text: 'Give details',
     code: 'alcohol_made_changes_details',
     type: FieldType.TextArea,
@@ -397,7 +298,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_making_changes_details: {
+  {
     text: 'Give details',
     code: 'alcohol_making_changes_details',
     type: FieldType.TextArea,
@@ -415,7 +316,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_want_to_make_changes_details: {
+  {
     text: 'Give details',
     code: 'alcohol_want_to_make_changes_details',
     type: FieldType.TextArea,
@@ -433,7 +334,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_needs_help_to_make_changes_details: {
+  {
     text: 'Give details',
     code: 'alcohol_needs_help_to_make_changes_details',
     type: FieldType.TextArea,
@@ -451,7 +352,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_thinking_about_making_changes_details: {
+  {
     text: 'Give details',
     code: 'alcohol_thinking_about_making_changes_details',
     type: FieldType.TextArea,
@@ -469,7 +370,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_does_not_want_to_make_changes_details: {
+  {
     text: 'Give details',
     code: 'alcohol_does_not_want_to_make_changes_details',
     type: FieldType.TextArea,
@@ -487,135 +388,122 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  alcohol_practitioner_analysis_patterns_of_behaviour: {
-    text: 'Are there any patterns of behaviours related to this area?',
-    hint: {
-      text: 'Include repeated circumstances or behaviours.',
-      kind: 'text',
+]
+
+export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
+  {
+    text: 'How often has [subject] drank alcohol in the last 3 months?',
+    code: 'alcohol_frequency',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select how often they drank alcohol in the last 3 months' }],
+    options: [
+      { text: 'Once a month or less', value: 'ONCE_A_MONTH_OR_LESS', kind: 'option' },
+      { text: '2 to 4 times a month', value: 'MULTIPLE_TIMES_A_MONTH', kind: 'option' },
+      { text: '2 to 3 times a week', value: 'LESS_THAN_4_TIMES_A_WEEK', kind: 'option' },
+      { text: 'More than 4 times a week', value: 'MORE_THAN_4_TIMES_A_WEEK', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  {
+    text: 'How many units of alcohol does [subject] have on a typical day of drinking?',
+    hint: { html: alcoholUnitsHint, kind: 'html' },
+    code: 'alcohol_units',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select how many units of alcohol they have on a typical day of drinking',
+      },
+    ],
+    options: [
+      { text: '1 to 2 units', value: '1_TO_2_UNITS', kind: 'option' },
+      { text: '3 to 4 units', value: '3_TO_4_UNITS', kind: 'option' },
+      { text: '5 to 6 units', value: '5_TO_6_UNITS', kind: 'option' },
+      { text: '7 to 9 units', value: '7_TO_9_UNITS', kind: 'option' },
+      { text: '10 or more units', value: '10_OR_MORE_UNITS', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  {
+    text: 'Has [subject] had [alcohol_units] or more units within a single day of drinking in the last 3 months?',
+    code: 'alcohol_binge_drinking',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they had 6 or more units within a single day of drinking in the last 3 months',
+      },
+    ],
+    options: yesNoOptions,
+    labelClasses: mediumLabel,
+  },
+  {
+    text: 'Select how often',
+    code: 'alcohol_binge_drinking_frequency',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select how often' }],
+    options: [
+      { text: 'Less than a month', value: 'LESS_THAN_A_MONTH', kind: 'option' },
+      { text: 'Monthly', value: 'MONTHLY', kind: 'option' },
+      { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
+      { text: 'Daily or almost daily', value: 'DAILY', kind: 'option' },
+    ],
+    dependent: {
+      field: 'alcohol_binge_drinking',
+      value: 'YES',
+      displayInline: true,
     },
-    code: 'alcohol_practitioner_analysis_patterns_of_behaviour',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
   },
-  alcohol_practitioner_analysis_patterns_of_behaviour_details: {
-    text: 'Give details',
-    code: 'alcohol_practitioner_analysis_patterns_of_behaviour_details',
-    type: FieldType.TextArea,
+  {
+    text: 'Has [subject] shown evidence of binge drinking or excessive alcohol use in the last 6 months?',
+    code: 'alcohol_evidence_of_excess_drinking',
+    type: FieldType.Radio,
     validate: [
       {
-        fn: requiredWhen('alcohol_practitioner_analysis_patterns_of_behaviour', 'YES'),
-        message: 'Enter details',
-      },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
+        type: ValidationType.Required,
+        message:
+          '[PLACEHOLDER] Select if they have shown evidence of binge drinking or excessive alcohol use in the last 6 months',
       },
     ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  alcohol_practitioner_analysis_strengths_or_protective_factors: {
-    text: 'Are there any strengths or protective factors related to this area?',
-    hint: {
-      text: 'Include any strategies, people or support networks that helped.',
-      kind: 'text',
-    },
-    code: 'alcohol_practitioner_analysis_strengths_or_protective_factors',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
-    options: yesNoOptions,
+    options: [
+      {
+        text: 'Yes, evidence shows a detrimental effect on all areas of their life and directly relates to offending',
+        value: 'DETRIMENTAL_EFFECT',
+        kind: 'option',
+      },
+      {
+        text: 'Yes, evidence shows patterns of alcohol use but no serious problems',
+        value: 'NO_SERIOUS_PROBLEMS',
+        kind: 'option',
+      },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
     labelClasses: mediumLabel,
-    classes: inlineRadios,
   },
-  alcohol_practitioner_analysis_strengths_or_protective_factors_details: {
-    text: 'Give details',
-    code: 'alcohol_practitioner_analysis_strengths_or_protective_factors_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        fn: requiredWhen('alcohol_practitioner_analysis_strengths_or_protective_factors', 'YES'),
-        message: 'Enter details',
-      },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  alcohol_practitioner_analysis_risk_of_serious_harm: {
-    text: 'Is this an area linked to risk of serious harm?',
-    code: 'alcohol_practitioner_analysis_risk_of_serious_harm',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  alcohol_practitioner_analysis_risk_of_serious_harm_details: {
-    text: 'Give details',
-    code: 'alcohol_practitioner_analysis_risk_of_serious_harm_details',
-    type: FieldType.TextArea,
-    validate: [
-      { fn: requiredWhen('alcohol_practitioner_analysis_risk_of_serious_harm', 'YES'), message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  alcohol_practitioner_analysis_risk_of_reoffending: {
-    text: 'Is this an area linked to risk of reoffending?',
-    code: 'alcohol_practitioner_analysis_risk_of_reoffending',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  alcohol_practitioner_analysis_risk_of_reoffending_details: {
-    text: 'Give details',
-    code: 'alcohol_practitioner_analysis_risk_of_reoffending_details',
-    type: FieldType.TextArea,
-    validate: [
-      { fn: requiredWhen('alcohol_practitioner_analysis_risk_of_reoffending', 'YES'), message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  alcohol_practitioner_analysis_related_to_risk: {
-    text: 'Is this an area of need which is not related to risk?',
-    code: 'alcohol_practitioner_analysis_related_to_risk',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  alcohol_practitioner_analysis_related_to_risk_details: {
-    text: 'Give details',
-    code: 'alcohol_practitioner_analysis_related_to_risk_details',
-    type: FieldType.TextArea,
-    validate: [
-      { fn: requiredWhen('alcohol_practitioner_analysis_related_to_risk', 'YES'), message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
+]
+
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith('alcohol')
+
+export const questionSectionComplete: FormWizard.Field = {
+  text: 'Is the alcohol use section complete?',
+  code: 'alcohol_use_section_complete',
+  type: FieldType.Radio,
+  options: yesNoOptions,
 }
 
-export default fields
+export const analysisSectionComplete: FormWizard.Field = {
+  text: 'Is the alcohol use analysis section complete?',
+  code: 'alcohol_use_analysis_section_complete',
+  type: FieldType.Radio,
+  options: yesNoOptions,
+}
+
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+
+export default [
+  ...alcoholUseFields,
+  ...baseAlcoholUsageFields,
+  ...alcoholUsageWithinThreeMonthsFields,
+  ...practitionerAnalysisFields,
+  ...sectionCompleteFields,
+].reduce(toFormWizardFields, {})
