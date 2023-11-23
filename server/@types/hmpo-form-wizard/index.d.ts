@@ -142,6 +142,7 @@ declare module 'hmpo-form-wizard' {
         checked?: boolean
         conditional?: { html: string }
         hint?: { text: string } | { html: string }
+        behaviour?: string
         kind: 'option'
       }
 

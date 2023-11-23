@@ -1,11 +1,11 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
-  inlineRadios,
+  createPractitionerAnalysisFieldsWith,
+  fieldCodeWith,
   mediumLabel,
   orDivider,
-  requiredWhen,
   smallRadios,
-  summaryCharacterLimit,
+  toFormWizardFields,
   yesNoOptions,
 } from './common'
 
@@ -33,181 +33,153 @@ const frequencyOptions: FormWizard.Field.Options = [
   { text: 'Not currently using this drug', value: 'NO_CURRENT_USAGE', kind: 'option' },
 ]
 
-const fieldCodeWith = (...parts: string[]) => parts.map(it => it.toLowerCase()).join('_')
-
-const createFieldForDrugUsage = (option: string) => ({
-  [fieldCodeWith('drug_usage', option)]: {
-    text: 'How often is [subject] using this drug?',
-    code: fieldCodeWith('drug_usage', option),
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', option),
-        message: 'Select how often they are using this drug',
-      },
-    ],
-    options: frequencyOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: option },
-  },
-})
-
-const createFieldForInjectingDrug = (option: string, frequency: string) => ({
-  [fieldCodeWith(frequency, 'injecting_drug', option)]: {
-    text: 'Is [subject] injecting this drug?',
-    code: fieldCodeWith('injecting_drug', option),
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', option),
-        message: 'Select if they are injecting this drug',
-      },
-    ],
-    options: yesNoOptions,
-    dependent: {
-      field: fieldCodeWith('drug_usage', option),
-      value: frequency,
-      displayInline: true,
+const createFieldForDrugUsage = (option: string): FormWizard.Field => ({
+  text: 'How often is [subject] using this drug?',
+  code: fieldCodeWith('drug_usage', option),
+  type: FieldType.Radio,
+  validate: [
+    {
+      fn: requiredWhenContains('drug_use_type', option),
+      message: 'Select how often they are using this drug',
     },
-    labelClasses: mediumLabel,
-    classes: smallRadios,
-  },
+  ],
+  options: frequencyOptions,
+  labelClasses: mediumLabel,
+  dependent: { field: 'drug_use_type', value: option },
 })
 
-const createFieldForPastDrugUsage = (option: string) => ({
-  [fieldCodeWith('past_drug_usage', option)]: {
-    text: 'Has [subject] used this drug in the past?',
-    code: fieldCodeWith('past_drug_usage', option),
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', option),
-        message: 'Select if they have used this drug in the past',
-      },
-    ],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    dependent: { field: 'drug_use_type', value: option },
-  },
-})
-
-const createFieldForPastInjectingDrug = (option: string) => ({
-  [fieldCodeWith('past_injecting_drug', option)]: {
-    text: 'Was [subject] injecting this drug?',
-    code: fieldCodeWith('past_injecting_drug', option),
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', option),
-        message: 'Select if they were injecting this drug',
-      },
-    ],
-    options: yesNoOptions,
-    dependent: {
-      field: fieldCodeWith('past_drug_usage', option),
-      value: 'YES',
-      displayInline: true,
+const createFieldForInjectingDrug = (option: string, frequency: string): FormWizard.Field => ({
+  text: 'Is [subject] injecting this drug?',
+  code: fieldCodeWith('injecting_drug', option),
+  id: fieldCodeWith(frequency, 'injecting_drug', option),
+  type: FieldType.Radio,
+  validate: [
+    {
+      fn: requiredWhenContains('drug_use_type', option),
+      message: 'Select if they are injecting this drug',
     },
-    labelClasses: mediumLabel,
-    classes: smallRadios,
+  ],
+  options: yesNoOptions,
+  dependent: {
+    field: fieldCodeWith('drug_usage', option),
+    value: frequency,
+    displayInline: true,
   },
+  labelClasses: mediumLabel,
+  classes: smallRadios,
 })
 
-const createFieldForReceivingTreatment = (option: string, frequency: string) => ({
-  [fieldCodeWith(frequency, 'drug_usage_treatment', option)]: {
-    text: 'Is [subject] receiving treatment?',
-    code: fieldCodeWith('drug_usage_treatment', option),
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', option),
-        message: 'Select if they are receiving treatment',
-      },
-    ],
-    options: yesNoOptions,
-    dependent: {
-      field: fieldCodeWith('drug_usage', option),
-      value: frequency,
-      displayInline: true,
+const createFieldForPastDrugUsage = (option: string): FormWizard.Field => ({
+  text: 'Has [subject] used this drug in the past?',
+  code: fieldCodeWith('past_drug_usage', option),
+  type: FieldType.Radio,
+  validate: [
+    {
+      fn: requiredWhenContains('drug_use_type', option),
+      message: 'Select if they have used this drug in the past',
     },
-    labelClasses: mediumLabel,
-    classes: smallRadios,
-  },
+  ],
+  options: yesNoOptions,
+  labelClasses: mediumLabel,
+  dependent: { field: 'drug_use_type', value: option },
 })
 
-const createFieldForPastReceivingTreatment = (option: string) => ({
-  [fieldCodeWith('past_drug_usage_treatment', option)]: {
-    text: 'Is [subject] receiving treatment?',
-    code: fieldCodeWith('past_drug_usage_treatment', option),
-    type: FieldType.Radio,
-    validate: [
-      {
-        fn: requiredWhenContains('drug_use_type', option),
-        message: 'Select if they are receiving treatment',
-      },
-    ],
-    options: yesNoOptions,
-    dependent: {
-      field: fieldCodeWith('past_drug_usage', option),
-      value: 'YES',
-      displayInline: true,
+const createFieldForPastInjectingDrug = (option: string): FormWizard.Field => ({
+  text: 'Was [subject] injecting this drug?',
+  code: fieldCodeWith('past_injecting_drug', option),
+  type: FieldType.Radio,
+  validate: [
+    {
+      fn: requiredWhenContains('drug_use_type', option),
+      message: 'Select if they were injecting this drug',
     },
-    labelClasses: mediumLabel,
-    classes: smallRadios,
+  ],
+  options: yesNoOptions,
+  dependent: {
+    field: fieldCodeWith('past_drug_usage', option),
+    value: 'YES',
+    displayInline: true,
   },
+  labelClasses: mediumLabel,
+  classes: smallRadios,
 })
 
-const flattenFields = (acc: FormWizard.Fields, it: FormWizard.Fields) => ({ ...acc, ...it })
-
-const createFieldsForHeroin = () =>
-  [
-    createFieldsForInjectableDrug('HEROIN'),
-    createFieldForPastReceivingTreatment('HEROIN'),
-    ...usageFrequencies.map(frequency => createFieldForReceivingTreatment('HEROIN', frequency.value)),
-  ].reduce(flattenFields, {})
-
-const createFieldsForInjectableDrug = (option: string) =>
-  [
-    createDrugUsage(option),
-    createFieldForPastInjectingDrug(option),
-    ...usageFrequencies.map(frequency => createFieldForInjectingDrug(option, frequency.value)),
-  ].reduce(flattenFields, {})
-
-const createDrugUsage = (option: string) =>
-  [createFieldForDrugUsage(option), createFieldForPastDrugUsage(option)].reduce(flattenFields, {})
-
-export const drugUsageDetailsFields = [
-  createFieldsForInjectableDrug('AMPHETAMINES'),
-  createFieldsForInjectableDrug('BENZODIAZEPINES'),
-  createDrugUsage('CANNABIS'),
-  createFieldsForInjectableDrug('COCAINE'),
-  createFieldsForInjectableDrug('CRACK'),
-  createDrugUsage('ECSTASY'),
-  createDrugUsage('HALLUCINOGENICS'),
-  createFieldsForHeroin(),
-  createFieldsForInjectableDrug('METHADONE_NOT_PRESCRIBED'),
-  createFieldsForInjectableDrug('MISUSED_PRESCRIBED_DRUGS'),
-  createFieldsForInjectableDrug('OTHER_OPIATES'),
-  createDrugUsage('SOLVENTS'),
-  createFieldsForInjectableDrug('STEROIDS'),
-  createDrugUsage('SPICE'),
-  createFieldsForInjectableDrug('OTHER_DRUG'),
-].reduce(flattenFields, {})
-
-const fields: FormWizard.Fields = {
-  drug_use_section_complete: {
-    text: 'Is the drug use section complete?',
-    code: 'drug_use_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
+const createFieldForReceivingTreatment = (option: string, frequency: string): FormWizard.Field => ({
+  text: 'Is [subject] receiving treatment?',
+  code: fieldCodeWith('drug_usage_treatment', option),
+  id: fieldCodeWith(frequency, 'drug_usage_treatment', option),
+  type: FieldType.Radio,
+  validate: [
+    {
+      fn: requiredWhenContains('drug_use_type', option),
+      message: 'Select if they are receiving treatment',
+    },
+  ],
+  options: yesNoOptions,
+  dependent: {
+    field: fieldCodeWith('drug_usage', option),
+    value: frequency,
+    displayInline: true,
   },
-  drug_use_analysis_section_complete: {
-    text: 'Is the drug use analysis section complete?',
-    code: 'drug_use_analysis_section_complete',
-    type: FieldType.Radio,
-    options: yesNoOptions,
+  labelClasses: mediumLabel,
+  classes: smallRadios,
+})
+
+const createFieldForPastReceivingTreatment = (option: string): FormWizard.Field => ({
+  text: 'Is [subject] receiving treatment?',
+  code: fieldCodeWith('past_drug_usage_treatment', option),
+  type: FieldType.Radio,
+  validate: [
+    {
+      fn: requiredWhenContains('drug_use_type', option),
+      message: 'Select if they are receiving treatment',
+    },
+  ],
+  options: yesNoOptions,
+  dependent: {
+    field: fieldCodeWith('past_drug_usage', option),
+    value: 'YES',
+    displayInline: true,
   },
-  drug_use: {
+  labelClasses: mediumLabel,
+  classes: smallRadios,
+})
+
+const createDrugUsage = (option: string): Array<FormWizard.Field> => [
+  createFieldForDrugUsage(option),
+  createFieldForPastDrugUsage(option),
+]
+
+const createFieldsForInjectableDrug = (option: string): Array<FormWizard.Field> => [
+  ...createDrugUsage(option),
+  ...usageFrequencies.map(frequency => createFieldForInjectingDrug(option, frequency.value)),
+  createFieldForPastInjectingDrug(option),
+]
+
+const createFieldsForHeroin = (): Array<FormWizard.Field> => [
+  ...createFieldsForInjectableDrug('HEROIN'),
+  ...usageFrequencies.map(frequency => createFieldForReceivingTreatment('HEROIN', frequency.value)),
+  createFieldForPastReceivingTreatment('HEROIN'),
+]
+
+export const questionSectionComplete: FormWizard.Field = {
+  text: 'Is the drug use section complete?',
+  code: 'drug_use_section_complete',
+  type: FieldType.Radio,
+  options: yesNoOptions,
+}
+
+export const analysisSectionComplete: FormWizard.Field = {
+  text: 'Is the drug use analysis section complete?',
+  code: 'drug_use_analysis_section_complete',
+  type: FieldType.Radio,
+  options: yesNoOptions,
+}
+
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+
+export const drugUseFields: Array<FormWizard.Field> = [
+  {
     text: 'Has [subject] ever used drugs?',
     code: 'drug_use',
     type: FieldType.Radio,
@@ -215,92 +187,10 @@ const fields: FormWizard.Fields = {
     options: yesNoOptions,
     labelClasses: mediumLabel,
   },
-  drug_use_changes: {
-    text: 'Does [subject] want to make changes to their drug use?',
-    code: 'drug_use_changes',
-    hint: { text: 'This question must be directly answered by [subject] ', kind: 'text' },
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they want to make changes to their drug use' }],
-    options: [
-      { text: 'I have already made positive changes', value: 'MADE_CHANGES', kind: 'option' },
-      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
-      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
-      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
-      { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-    ],
-    labelClasses: mediumLabel,
-  },
-  drug_use_positive_change: {
-    text: 'Give details',
-    code: 'drug_use_positive_change',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'MADE_CHANGES',
-      displayInline: true,
-    },
-  },
-  drug_use_active_change: {
-    text: 'Give details',
-    code: 'drug_use_active_change',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'MAKING_CHANGES',
-      displayInline: true,
-    },
-  },
-  drug_use_known_change: {
-    text: 'Give details',
-    code: 'drug_use_known_change',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'WANT_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-  drug_use_help_change: {
-    text: 'Give details',
-    code: 'drug_use_help_change',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'NEEDS_HELP_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-  drug_use_think_change: {
-    text: 'Give details',
-    code: 'drug_use_think_change:',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'THINKING_ABOUT_MAKING_CHANGES',
-      displayInline: true,
-    },
-  },
-  drug_use_no_change: {
-    text: 'Give details',
-    code: 'drug_use_no_change:',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-  drug_use_type: {
+]
+
+export const drugUseTypeFields: Array<FormWizard.Field> = [
+  {
     text: 'Which drugs have [subject] used?',
     code: 'drug_use_type',
     hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
@@ -326,8 +216,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  ...drugUsageDetailsFields,
-  other_drug_details: {
+  {
     text: 'Enter drug name',
     code: 'other_drug_details',
     type: FieldType.TextArea,
@@ -338,7 +227,10 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  drug_use_reasons: {
+]
+
+export const drugUsageDetailsFields: Array<FormWizard.Field> = [
+  {
     text: 'Why did [subject] start using drugs?',
     hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
     code: 'drug_use_reasons',
@@ -359,7 +251,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  drug_use_reason_details: {
+  {
     text: 'Give details',
     code: 'drug_use_reason_details',
     type: FieldType.TextArea,
@@ -370,7 +262,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  drug_use_impact: {
+  {
     text: "What's the impact of [subject] using drugs?",
     hint: { text: 'Select all that apply', kind: 'text' },
     code: 'drug_use_impact',
@@ -408,7 +300,7 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  drug_use_impact_details: {
+  {
     text: 'Give details',
     hint: { text: 'Consider impact on themselves or others.', kind: 'text' },
     code: 'drug_use_impact_details',
@@ -420,7 +312,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  reducing_or_stopping_drug_use: {
+  {
     text: 'Has anything helped [subject] to stop or reduce using drugs in the past?',
     code: 'reducing_or_stopping_drug_use',
     type: FieldType.Radio,
@@ -433,7 +325,7 @@ const fields: FormWizard.Fields = {
     options: yesNoOptions,
     labelClasses: mediumLabel,
   },
-  reducing_or_stopping_drug_use_details: {
+  {
     text: 'Give details',
     code: 'reducing_or_stopping_drug_use_details',
     type: FieldType.TextArea,
@@ -444,7 +336,7 @@ const fields: FormWizard.Fields = {
       displayInline: true,
     },
   },
-  motivated_stopping_drug_use: {
+  {
     text: 'Is [subject] motivated to stop or reduce their drug use?',
     code: 'motivated_stopping_drug_use',
     type: FieldType.Radio,
@@ -459,126 +351,123 @@ const fields: FormWizard.Fields = {
     ],
     labelClasses: mediumLabel,
   },
-  drugs_practitioner_analysis_patterns_of_behaviour: {
-    text: 'Are there any patterns or behaviours related to this area?',
-    hint: { text: 'Include repeated circumstances or behaviours.', kind: 'text' },
-    code: 'drugs_practitioner_analysis_patterns_of_behaviour',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  drugs_practitioner_analysis_patterns_of_behaviour_details: {
-    text: 'Give details',
-    code: 'drugs_practitioner_analysis_patterns_of_behaviour_details',
-    type: FieldType.TextArea,
-    validate: [
-      { fn: requiredWhen('drugs_practitioner_analysis_patterns_of_behaviour', 'YES'), message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  drugs_practitioner_analysis_strengths_or_protective_factors: {
-    text: 'Are there any strengths or protective factors related to this area?',
-    hint: { text: 'Include any strategies, people or support networks that helped.', kind: 'text' },
-    code: 'drugs_practitioner_analysis_strengths_or_protective_factors',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  drugs_practitioner_analysis_strengths_or_protective_factors_details: {
-    text: 'Give details',
-    code: 'drugs_practitioner_analysis_strengths_or_protective_factors_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        fn: requiredWhen('drugs_practitioner_analysis_strengths_or_protective_factors', 'YES'),
-        message: 'Enter details',
-      },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  drugs_practitioner_analysis_risk_of_serious_harm: {
-    text: 'Is this an area linked to risk of serious harm?',
-    code: 'drugs_practitioner_analysis_risk_of_serious_harm',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  drugs_practitioner_analysis_risk_of_serious_harm_details: {
-    text: 'Give details',
-    code: 'drugs_practitioner_analysis_risk_of_serious_harm_details',
-    type: FieldType.TextArea,
-    validate: [
-      { fn: requiredWhen('drugs_practitioner_analysis_risk_of_serious_harm', 'YES'), message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  drugs_practitioner_analysis_risk_of_reoffending: {
-    text: 'Is this an area linked to risk of reoffending?',
-    code: 'drugs_practitioner_analysis_risk_of_reoffending',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  drugs_practitioner_analysis_risk_of_reoffending_details: {
-    text: 'Give details',
-    code: 'drugs_practitioner_analysis_risk_of_reoffending_details',
-    type: FieldType.TextArea,
-    validate: [
-      { fn: requiredWhen('drugs_practitioner_analysis_risk_of_reoffending', 'YES'), message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-  drugs_practitioner_analysis_related_to_risk: {
-    text: 'Is this an area of need which is not related to risk?',
-    code: 'drugs_practitioner_analysis_related_to_risk',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
-    options: yesNoOptions,
-    labelClasses: mediumLabel,
-    classes: inlineRadios,
-  },
-  drugs_practitioner_analysis_related_to_risk_details: {
-    text: 'Give details',
-    code: 'drugs_practitioner_analysis_related_to_risk_details',
-    type: FieldType.TextArea,
-    validate: [
-      { fn: requiredWhen('drugs_practitioner_analysis_related_to_risk', 'YES'), message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [summaryCharacterLimit],
-        message: `Details must be ${summaryCharacterLimit} characters or less`,
-      },
-    ],
-    characterCountMax: summaryCharacterLimit,
-  },
-}
+]
 
-export default fields
+export const drugUseChangesFields: Array<FormWizard.Field> = [
+  {
+    text: 'Does [subject] want to make changes to their drug use?',
+    code: 'drug_use_changes',
+    hint: { text: 'This question must be directly answered by [subject] ', kind: 'text' },
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they want to make changes to their drug use' }],
+    options: [
+      { text: 'I have already made positive changes', value: 'MADE_CHANGES', kind: 'option' },
+      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
+      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
+      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
+      orDivider,
+      { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
+    ],
+    labelClasses: mediumLabel,
+  },
+  {
+    text: 'Give details',
+    code: 'drug_use_positive_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'MADE_CHANGES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details',
+    code: 'drug_use_active_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'MAKING_CHANGES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details',
+    code: 'drug_use_known_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'WANT_TO_MAKE_CHANGES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details',
+    code: 'drug_use_help_change',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'NEEDS_HELP_TO_MAKE_CHANGES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details',
+    code: 'drug_use_think_change:',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'THINKING_ABOUT_MAKING_CHANGES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details',
+    code: 'drug_use_no_change:',
+    type: FieldType.TextArea,
+    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    dependent: {
+      field: 'drug_use_changes',
+      value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
+      displayInline: true,
+    },
+  },
+]
+
+export const drugUseTypeDetailsFields = [
+  createFieldsForInjectableDrug('AMPHETAMINES'),
+  createFieldsForInjectableDrug('BENZODIAZEPINES'),
+  createDrugUsage('CANNABIS'),
+  createFieldsForInjectableDrug('COCAINE'),
+  createFieldsForInjectableDrug('CRACK'),
+  createDrugUsage('ECSTASY'),
+  createDrugUsage('HALLUCINOGENICS'),
+  createFieldsForHeroin(),
+  createFieldsForInjectableDrug('METHADONE_NOT_PRESCRIBED'),
+  createFieldsForInjectableDrug('MISUSED_PRESCRIBED_DRUGS'),
+  createFieldsForInjectableDrug('OTHER_OPIATES'),
+  createDrugUsage('SOLVENTS'),
+  createFieldsForInjectableDrug('STEROIDS'),
+  createDrugUsage('SPICE'),
+  createFieldsForInjectableDrug('OTHER_DRUG'),
+].flat()
+
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith('drugs')
+
+export default [
+  ...drugUseFields,
+  ...drugUsageDetailsFields,
+  ...drugUseChangesFields,
+  ...drugUseTypeFields,
+  ...drugUseTypeDetailsFields,
+  ...sectionCompleteFields,
+  ...practitionerAnalysisFields,
+].reduce(toFormWizardFields, {})
