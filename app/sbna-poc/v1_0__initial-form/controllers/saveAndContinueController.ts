@@ -77,7 +77,10 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
         sectionName: 'accommodation',
         fieldCodes: ['accommodation_section_complete', 'accommodation_analysis_section_complete'],
       },
-      { sectionName: 'employment-education-finance', fieldCodes: [] },
+      {
+        sectionName: 'employment-education',
+        fieldCodes: ['employment_education_section_complete', 'employment_education_analysis_section_complete'],
+      },
       { sectionName: 'finance', fieldCodes: ['finance_section_complete', 'finance_analysis_section_complete'] },
       { sectionName: 'drug-use', fieldCodes: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
       {
