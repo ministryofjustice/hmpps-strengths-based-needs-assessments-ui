@@ -5,6 +5,7 @@ import accommodationSteps from './accommodation'
 import financeSteps from './finance'
 import drugsSteps from './drugs'
 import alcoholSteps from './alcohol'
+import employmentEducationSteps from './employment-education'
 
 const stepOptions: FormWizard.Steps = {
   '/start': {
@@ -16,15 +17,8 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation',
     section: 'none',
   },
-  '/employment-education-finance': {
-    pageTitle: 'Employment and education ',
-    controller: SaveAndContinueController,
-    fields: [],
-    template: 'forms/default',
-    navigationOrder: 2,
-    section: 'employment-education-finance',
-  },
   ...accommodationSteps,
+  ...employmentEducationSteps,
   ...financeSteps,
   ...drugsSteps,
   ...alcoholSteps,
