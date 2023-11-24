@@ -461,22 +461,25 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.Required,
-        message:
-          '[PLACEHOLDER] Select if they have shown evidence of binge drinking or excessive alcohol use in the last 6 months',
+        message: 'Select if there’s evidence of binge drinking or excessive alcohol use in the last 6 months',
       },
     ],
     options: [
       {
-        text: 'Yes, evidence shows a detrimental effect on all areas of their life and directly relates to offending',
-        value: 'DETRIMENTAL_EFFECT',
+        text: 'Evidence of binge drinking or excessive alcohol use',
+        hint: {
+          text: 'There is a detrimental effect on other areas of their life and is often directly related to offending.',
+        },
+        value: 'YES_WITH_EVIDENCE',
         kind: 'option',
       },
       {
-        text: 'Yes, evidence shows patterns of alcohol use but no serious problems',
-        value: 'NO_SERIOUS_PROBLEMS',
+        text: 'Some evidence of binge drinking or excessive alcohol use',
+        hint: { text: 'There is a pattern of alcohol use but has not caused any serious problems.' },
+        value: 'YES_WITH_SOME_EVIDENCE',
         kind: 'option',
       },
-      { text: 'No', value: 'NO', kind: 'option' },
+      { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
     ],
     labelClasses: mediumLabel,
   },
