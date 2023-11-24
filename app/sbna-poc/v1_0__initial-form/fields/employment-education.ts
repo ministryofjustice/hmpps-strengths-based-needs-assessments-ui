@@ -12,7 +12,7 @@ import {
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   { text: 'Has been employed before', value: 'YES', kind: 'option' },
-  { text: 'Has never been employed ', value: 'NO', kind: 'option' },
+  { text: 'Has never been employed', value: 'NO', kind: 'option' },
 ]
 
 const detailsFieldWith =
@@ -30,7 +30,7 @@ const detailsFieldWith =
   })
 
 const createExperienceOfFields = (label: string, prefix: string): Array<FormWizard.Field> => {
-  const parentFieldCode = fieldCodeWith('education', prefix, 'experience')
+  const parentFieldCode = fieldCodeWith(prefix, 'experience')
   const optionsWithDetails: Array<FormWizard.Field.Option> = [
     { text: 'Positive', value: 'POSITIVE', kind: 'option' },
     { text: 'Mostly positive', value: 'MOSTLY_POSITIVE', kind: 'option' },
@@ -163,14 +163,14 @@ export const employmentHistory: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have a stable employment history' }],
     options: [
-      { text: 'Unstable employment history', value: 'YES', kind: 'option' },
-      { text: 'Periods of instability', value: 'YES', kind: 'option' },
+      { text: 'Unstable employment history', value: 'UNSTABLE', kind: 'option' },
+      { text: 'Periods of instability', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
       {
         text: 'Stable employment history',
         hint: {
           text: 'They may have had a break in employment due to things like redundancy, illness or caring for a family member.',
         },
-        value: 'YES',
+        value: 'STABLE',
         kind: 'option',
       },
     ],

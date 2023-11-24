@@ -1,0 +1,327 @@
+{%- macro renderSelectedOptions(field) -%}
+  <ul class="govuk-list">
+    {% for option in field.options %}
+      {% if option.checked %}
+        <li>
+          {{ option.text }}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSubOption(field) -%}
+    {% for option in field.options %}
+      {% if option.checked %}
+        <span class="govuk-!-font-size-14">{{ option.text }}</span>
+      {% endif %}
+    {% endfor %}
+{%- endmacro -%}
+
+{%- macro renderSummaryListRow(label, value, changeLink) -%}
+  <div class="govuk-summary-list__row as-block clearfix">
+    <dt class="govuk-summary-list__key to-the-left">
+      {{ label }}
+    </dt>
+    <dd class="govuk-summary-list__value to-the-left summary-value">
+      {{ value }}
+    </dd>
+    <dd class="govuk-summary-list__actions to-the-right">
+      <a class="govuk-link" href="{{ changeLink }}">
+      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
+  </div>
+{%- endmacro -%}
+
+{%- macro renderPreviouslyEmployed(answer) -%}
+<span class="govuk-!-font-size-14">
+  {% if answer === "YES" %}
+    Has been employed before
+  {% elif answer === "NO" %}
+    Has never been employed
+  {% endif %}
+</span>
+{%- endmacro -%}
+
+{%- macro renderEmploymentStatus(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["employment_status"].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {% switch option.value %}
+            {% case "EMPLOYED" %}
+              <span class="govuk-!-font-size-14">{{ renderSubOption(fields["employment_type"]) }}</span>
+            {% case "CURRENTLY_UNAVAILABLE_FOR_WORK" %}
+              {{ renderPreviouslyEmployed(answers["has_been_employed"]) }}
+            {% case "UNEMPLOYED_LOOKING_FOR_WORK" %}
+              {{ renderPreviouslyEmployed(answers["has_been_employed"]) }}
+            {% case "UNEMPLOYED_NOT_LOOKING_FOR_WORK" %}
+              {{ renderPreviouslyEmployed(answers["has_been_employed"]) }}
+          {% endswitch %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderOtherResponsibilities(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["employment_other_responsibilities"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "VOLUNTEER" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_other_responsibilities_volunteer_details"] }}</span>
+            {% case "OTHER" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_other_responsibilities_other_details"] }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderProfessionalOrVocationalQualifications(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["education_professional_or_vocational_qualifications"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+            {% if option.value === "YES" %}
+              <span class="govuk-!-font-size-14">{{ answers["education_professional_or_vocational_qualifications_details"] }}</span>
+            {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderTransferableSkills(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["education_transferable_skills"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "YES" %}
+              <span class="govuk-!-font-size-14">{{ answers["education_transferable_skills_yes_details"] }}</span>
+            {% case "YES_SOME_SKILLS" %}
+              <span class="govuk-!-font-size-14">{{ answers["education_transferable_skills_yes_some_skills_details"] }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderEducationDifficultiesLevel(field) -%}
+  {% for option in field.options %}
+    {% if option.checked %}
+      {{ option.text }} difficulties
+    {% endif %}
+  {% endfor %}
+{%- endmacro -%}
+
+{%- macro renderEducationDifficulties(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["education_difficulties"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "READING" %}
+              <span class="govuk-!-font-size-14">{{ renderEducationDifficultiesLevel(fields["education_difficulties_reading_severity"]) }}</span>
+            {% case "WRITING" %}
+              <span class="govuk-!-font-size-14">{{ renderEducationDifficultiesLevel(fields["education_difficulties_writing_severity"]) }}</span>
+            {% case "NUMERACY" %}
+              <span class="govuk-!-font-size-14">{{ renderEducationDifficultiesLevel(fields["education_difficulties_numeracy_severity"]) }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderExperience(fieldCode, fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields[fieldCode].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "POSITIVE" %}
+              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_positive_details"] }}</span>
+            {% case "MOSTLY_POSITIVE" %}
+              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_mostly_positive_details"] }}</span>
+            {% case "POSITIVE_AND_NEGATIVE" %}
+              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_positive_and_negative_details"] }}</span>
+            {% case "MOSTLY_NEGATIVE" %}
+              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_mostly_negative_details"] }}</span>
+            {% case "NEGATIVE" %}
+              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_negative_details"] }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderChanges(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["employment_education_changes"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+          <span>{{ option.text }}</span>
+          {%- switch option.value -%}
+            {% case "MADE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_made_changes_details"] }}</span>
+            {% case "MAKING_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_making_changes_details"] }}</span>
+            {% case "WANT_TO_MAKE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_want_to_make_changes_details"] }}</span>
+            {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_needs_help_to_make_changes_details"] }}</span>
+            {% case "THINKING_ABOUT_MAKING_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_thinking_about_making_changes_details"] }}</span>
+            {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_does_not_want_to_make_changes_details"] }}</span>
+            {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{% switch answers["employment_status"] %}
+  {% case "EMPLOYED" %}
+    {% set backLink = "alcohol-usage-last-three-months" %}
+  {% case "YES_NOT_IN_LAST_THREE_MONTHS" %}
+    {% set backLink = "alcohol-usage-but-not-last-three-months" %}
+  {% case "NO" %}
+    {% set backLink = "alcohol-use" %}
+  {% default %}
+{% endswitch %}
+
+{% set backLink = "employment-education" %}
+
+{% if answers["employment_status"] === "EMPLOYED" or answers["employment_status"] === "SELF_EMPLOYED" %}
+  {% set backLink = "employed" %}
+{% elif answers["employment_status"] === "RETIRED" %}
+  {% set backLink = "retired" %}
+{% else %}
+  {% if answers["has_been_employed"] === "YES" %}
+    {% set backLink = "has-been-employed" %}
+  {% else %}
+    {% set backLink = "never-been-employed" %}
+  {% endif %}
+{% endif %}
+
+{% macro renderSummaryItemFor(field, options) %}
+  {%- switch field -%}
+    {% case "employment_status" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderEmploymentStatus(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    {% case "employment_education_changes" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderChanges(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    {% case "employment_area" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        options.answers[field],
+        options.backLink + "#" + field
+      ) }}
+    {% case "employment_previous_job" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        options.answers[field],
+        options.backLink + "#" + field
+      ) }}
+    {% case "stable_employment_history" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderSelectedOptions(options.fields[field]),
+        options.backLink + "#" + field
+      ) }}
+    {% case "employment_other_responsibilities" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderOtherResponsibilities(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    {% case "education_professional_or_vocational_qualifications" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderProfessionalOrVocationalQualifications(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    {% case "education_highest_level_completed" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderSelectedOptions(options.fields[field]),
+        options.backLink + "#" + field
+      ) }}
+    {% case "education_transferable_skills" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderTransferableSkills(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    {% case "education_difficulties" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderEducationDifficulties(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    {% case "education_experience" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderExperience(field, options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    {% case "employment_experience" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderExperience(field, options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+  {%- endswitch -%}
+{% endmacro %}
+
+<dl class="govuk-summary-list">
+  {{ renderSummaryItemFor("employment_status", { fields: fields, answers: answers, backLink: "employment-education" }) }}
+  {% if answers["employment_status"] === "EMPLOYED" %}
+    {{ renderSummaryItemFor("employment_area", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% endif %}
+  {% if answers["employment_status"] === "RETIRED" or answers["has_been_employed"] === "YES" %}
+    {{ renderSummaryItemFor("employment_previous_job", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% endif %}
+  {% if answers["has_been_employed"] !== "NO" %}
+    {{ renderSummaryItemFor("stable_employment_history", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% endif %}
+  {{ renderSummaryItemFor("employment_other_responsibilities", { fields: fields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryItemFor("education_professional_or_vocational_qualifications", { fields: fields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryItemFor("education_highest_level_completed", { fields: fields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryItemFor("education_transferable_skills", { fields: fields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryItemFor("education_difficulties", { fields: fields, answers: answers, backLink: backLink }) }}
+  {{ renderSummaryItemFor("education_experience", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% if answers["employment_status"] === "EMPLOYED" or answers["employment_status"] === "SELF_EMPLOYED" or answers["has_been_employed"] === "YES" %}
+    {{ renderSummaryItemFor("employment_experience", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% endif %}
+  {% if answers["employment_status"] !== "RETIRED" %}
+    {{ renderSummaryItemFor("employment_education_changes", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% endif %}
+</dl>
