@@ -1,8 +1,4 @@
 {% extends "../summary.njk" %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "components/summary/drugs/macro.njk" import renderSummaryFor %}
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
@@ -11,31 +7,9 @@
 {% endblock %}
 
 {% block analysisPanel %}
-  <section>
-    {{ renderAnalysisSummary(
-      options.allFields["drugs_practitioner_analysis_patterns_of_behaviour"],
-      options.allFields["drugs_practitioner_analysis_patterns_of_behaviour_details"],
-      "drug-use-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["drugs_practitioner_analysis_strengths_or_protective_factors"],
-      options.allFields["drugs_practitioner_analysis_strengths_or_protective_factors_details"],
-      "drug-use-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["drugs_practitioner_analysis_risk_of_serious_harm"],
-      options.allFields["drugs_practitioner_analysis_risk_of_serious_harm_details"],
-      "drug-use-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["drugs_practitioner_analysis_risk_of_reoffending"],
-      options.allFields["drugs_practitioner_analysis_risk_of_reoffending_details"],
-      "drug-use-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["drugs_practitioner_analysis_related_to_risk"],
-      options.allFields["drugs_practitioner_analysis_related_to_risk_details"],
-      "drug-use-analysis#practitioner-analysis"
-    ) }}
-  </section>
+  {{ renderAnalysisSummary(
+    "drugs",
+    "drug-use-analysis#practitioner-analysis",
+    options.allFields
+  ) }}
 {% endblock %}

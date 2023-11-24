@@ -1,8 +1,4 @@
 {% extends "../summary.njk" %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "components/summary/alcohol/macro.njk" import renderSummaryFor %}
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
 
@@ -11,31 +7,9 @@
 {% endblock %}
 
 {% block analysisPanel %}
-  <section>
-    {{ renderAnalysisSummary(
-      options.allFields["alcohol_practitioner_analysis_patterns_of_behaviour"],
-      options.allFields["alcohol_practitioner_analysis_patterns_of_behaviour_details"],
-      "alcohol-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["alcohol_practitioner_analysis_strengths_or_protective_factors"],
-      options.allFields["alcohol_practitioner_analysis_strengths_or_protective_factors_details"],
-      "alcohol-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["alcohol_practitioner_analysis_risk_of_serious_harm"],
-      options.allFields["alcohol_practitioner_analysis_risk_of_serious_harm_details"],
-      "alcohol-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["alcohol_practitioner_analysis_risk_of_reoffending"],
-      options.allFields["alcohol_practitioner_analysis_risk_of_reoffending_details"],
-      "alcohol-analysis#practitioner-analysis"
-    ) }}
-    {{ renderAnalysisSummary(
-      options.allFields["alcohol_practitioner_analysis_related_to_risk"],
-      options.allFields["alcohol_practitioner_analysis_related_to_risk_details"],
-      "alcohol-analysis#practitioner-analysis"
-    ) }}
-  </section>
+  {{ renderAnalysisSummary(
+    "alcohol",
+    "alcohol-analysis#practitioner-analysis",
+    options.allFields
+  ) }}
 {% endblock %}
