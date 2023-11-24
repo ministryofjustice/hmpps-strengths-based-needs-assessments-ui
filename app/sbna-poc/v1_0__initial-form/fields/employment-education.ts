@@ -6,6 +6,7 @@ import {
   mediumLabel,
   orDivider,
   toFormWizardFields,
+  visuallyHidden,
   yesNoOptions,
 } from './common'
 
@@ -87,6 +88,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'EMPLOYED',
       displayInline: true,
     },
+    labelClasses: visuallyHidden,
   },
   {
     text: 'Has [subject] been employed before?',
@@ -100,6 +102,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'CURRENTLY_UNAVAILABLE_FOR_WORK',
       displayInline: true,
     },
+    labelClasses: visuallyHidden,
   },
   {
     text: 'Has [subject] been employed before?',
@@ -113,6 +116,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'UNEMPLOYED_LOOKING_FOR_WORK',
       displayInline: true,
     },
+    labelClasses: visuallyHidden,
   },
   {
     text: 'Has [subject] been employed before?',
@@ -126,6 +130,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'UNEMPLOYED_NOT_LOOKING_FOR_WORK',
       displayInline: true,
     },
+    labelClasses: visuallyHidden,
   },
 ]
 
