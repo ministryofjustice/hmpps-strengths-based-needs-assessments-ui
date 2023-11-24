@@ -317,11 +317,11 @@
   {{ renderSummaryItemFor("education_highest_level_completed", { fields: fields, answers: answers, backLink: backLink }) }}
   {{ renderSummaryItemFor("education_transferable_skills", { fields: fields, answers: answers, backLink: backLink }) }}
   {{ renderSummaryItemFor("education_difficulties", { fields: fields, answers: answers, backLink: backLink }) }}
-  {{ renderSummaryItemFor("education_experience", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% if answers["employment_status"] !== "RETIRED" %}
+    {{ renderSummaryItemFor("education_experience", { fields: fields, answers: answers, backLink: backLink }) }}
+  {% endif %}
   {% if answers["employment_status"] === "EMPLOYED" or answers["employment_status"] === "SELF_EMPLOYED" or answers["has_been_employed"] === "YES" %}
     {{ renderSummaryItemFor("employment_experience", { fields: fields, answers: answers, backLink: backLink }) }}
-  {% endif %}
-  {% if answers["employment_status"] !== "RETIRED" %}
-    {{ renderSummaryItemFor("employment_education_changes", { fields: fields, answers: answers, backLink: backLink }) }}
-  {% endif %}
+  {% endif %}  
+  {{ renderSummaryItemFor("employment_education_changes", { fields: fields, answers: answers, backLink: backLink }) }}
 </dl>
