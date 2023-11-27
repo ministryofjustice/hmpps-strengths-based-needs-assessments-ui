@@ -200,6 +200,17 @@ export const educationFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Give details (optional)',
+    code: 'employment_other_responsibilities_carer_details',
+    type: FieldType.TextArea,
+    validate: [],
+    dependent: {
+      field: 'employment_other_responsibilities',
+      value: 'CARER',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
     code: 'employment_other_responsibilities_volunteer_details',
     type: FieldType.TextArea,
     validate: [],

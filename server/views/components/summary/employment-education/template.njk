@@ -73,6 +73,8 @@
         <li class="summary-details-list">
           <span>{{ option.text }}</span>
           {%- switch option.value -%}
+            {% case "CARER" %}
+              <span class="govuk-!-font-size-14">{{ answers["employment_other_responsibilities_carer_details"] }}</span>
             {% case "VOLUNTEER" %}
               <span class="govuk-!-font-size-14">{{ answers["employment_other_responsibilities_volunteer_details"] }}</span>
             {% case "OTHER" %}
