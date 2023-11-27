@@ -10,7 +10,6 @@ import {
   experienceOfEmployment,
   makeChangesFields,
   practitionerAnalysisFields,
-  previousEmploymentFields,
   sectionCompleteFields,
 } from '../fields/employment-education'
 
@@ -56,13 +55,7 @@ const stepOptions: FormWizard.Steps = {
   },
   '/retired': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(
-      previousEmploymentFields,
-      employmentHistory,
-      educationFields,
-      makeChangesFields,
-      sectionCompleteFields,
-    ),
+    fields: fieldCodesFrom(employmentHistory, educationFields, makeChangesFields, sectionCompleteFields),
     backLink: sectionName,
     next: ['employment-education-analysis'],
     section: sectionName,
@@ -74,7 +67,6 @@ const stepOptions: FormWizard.Steps = {
   '/has-been-employed': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
-      previousEmploymentFields,
       employmentHistory,
       educationFields,
       experienceOfEmployment,
