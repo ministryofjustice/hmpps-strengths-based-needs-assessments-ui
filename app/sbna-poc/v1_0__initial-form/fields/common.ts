@@ -18,13 +18,13 @@ export const orDivider: FormWizard.Field.Divider = {
   kind: 'divider',
 }
 
-export function futureDateValidator(value: string) {
+export function validateFutureDate(value: string) {
   const now = DateTime.now().startOf('day')
   const date = DateTime.fromISO(value)
-  return date >= now
+  return date.isValid && date >= now
 }
 
-export function requiredWhen(field: string, requiredValue: string) {
+export function requiredWhenValidator(field: string, requiredValue: string) {
   return function validatedRequiredWhen(value: string = '') {
     const answers: Record<string, string | string[]> = this.sessionModel?.options?.req?.form?.submittedAnswers || {}
     const dependentFieldAnswer = answers[field]
@@ -38,7 +38,7 @@ export function requiredWhen(field: string, requiredValue: string) {
   }
 }
 
-export const fieldCodeWith = (...parts: string[]) => parts.map(it => it.toLowerCase()).join('_')
+export const fieldCodeWith = (...parts: string[]) => parts.map(it => it.trim().toLowerCase()).join('_')
 
 export const toFormWizardFields = (allFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
   ...allFields,
@@ -83,7 +83,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     type: FieldType.TextArea,
     validate: [
       {
-        fn: requiredWhen(`${prefix}_practitioner_analysis_strengths_or_protective_factors`, 'YES'),
+        fn: requiredWhenValidator(`${prefix}_practitioner_analysis_strengths_or_protective_factors`, 'YES'),
         message: 'Enter details',
       },
       {
@@ -108,7 +108,10 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     code: `${prefix}_practitioner_analysis_risk_of_serious_harm_details`,
     type: FieldType.TextArea,
     validate: [
-      { fn: requiredWhen(`${prefix}_practitioner_analysis_risk_of_serious_harm`, 'YES'), message: 'Enter details' },
+      {
+        fn: requiredWhenValidator(`${prefix}_practitioner_analysis_risk_of_serious_harm`, 'YES'),
+        message: 'Enter details',
+      },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -131,7 +134,10 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     code: `${prefix}_practitioner_analysis_risk_of_reoffending_details`,
     type: FieldType.TextArea,
     validate: [
-      { fn: requiredWhen(`${prefix}_practitioner_analysis_risk_of_reoffending`, 'YES'), message: 'Enter details' },
+      {
+        fn: requiredWhenValidator(`${prefix}_practitioner_analysis_risk_of_reoffending`, 'YES'),
+        message: 'Enter details',
+      },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -154,7 +160,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     code: `${prefix}_practitioner_analysis_related_to_risk_details`,
     type: FieldType.TextArea,
     validate: [
-      { fn: requiredWhen(`${prefix}_practitioner_analysis_related_to_risk`, 'YES'), message: 'Enter details' },
+      { fn: requiredWhenValidator(`${prefix}_practitioner_analysis_related_to_risk`, 'YES'), message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
