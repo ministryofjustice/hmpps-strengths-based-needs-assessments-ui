@@ -144,17 +144,6 @@ export const employmentFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const previousEmploymentFields: Array<FormWizard.Field> = [
-  {
-    text: "What was [subject]'s last job? (optional)",
-    hint: { text: 'Include job role, main tasks and responsibilities.', kind: 'text' },
-    code: 'employment_previous_job',
-    type: FieldType.TextArea,
-    validate: [],
-    labelClasses: mediumLabel,
-  },
-]
-
 export const employmentHistory: Array<FormWizard.Field> = [
   {
     text: 'Does [subject] have a stable employment history?',
@@ -175,6 +164,45 @@ export const employmentHistory: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: mediumLabel,
+  },
+  {
+    text: 'Give details (optional)',
+    hint: { text: 'Include what type of work [subject] has done before.', kind: 'text' },
+    code: 'stable_employment_history_details',
+    id: 'stable_employment_history_unstable_details',
+    type: FieldType.TextArea,
+    validate: [],
+    dependent: {
+      field: 'stable_employment_history',
+      value: 'UNSTABLE',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    hint: { text: 'Include what type of work [subject] has done before.', kind: 'text' },
+    code: 'stable_employment_history_details',
+    id: 'stable_employment_history_periods_of_instability_details',
+    type: FieldType.TextArea,
+    validate: [],
+    dependent: {
+      field: 'stable_employment_history',
+      value: 'PERIODS_OF_INSTABILITY',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    hint: { text: 'Include what type of work [subject] has done before.', kind: 'text' },
+    code: 'stable_employment_history_details',
+    id: 'stable_employment_history_stable_details',
+    type: FieldType.TextArea,
+    validate: [],
+    dependent: {
+      field: 'stable_employment_history',
+      value: 'STABLE',
+      displayInline: true,
+    },
   },
 ]
 
@@ -419,8 +447,8 @@ export const educationFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select level of difficulty' }],
     options: [
-      { text: 'Strong', value: 'STRONG', kind: 'option' },
-      { text: 'Mild', value: 'MILD', kind: 'option' },
+      { text: 'Significant difficulties', value: 'SIGNIFICANT_DIFFICULTIES', kind: 'option' },
+      { text: 'Some difficulties', value: 'SOME_DIFFICULTIES', kind: 'option' },
     ],
     dependent: {
       field: 'education_difficulties',
@@ -434,8 +462,8 @@ export const educationFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select level of difficulty' }],
     options: [
-      { text: 'Strong', value: 'STRONG', kind: 'option' },
-      { text: 'Mild', value: 'MILD', kind: 'option' },
+      { text: 'Significant difficulties', value: 'SIGNIFICANT_DIFFICULTIES', kind: 'option' },
+      { text: 'Some difficulties', value: 'SOME_DIFFICULTIES', kind: 'option' },
     ],
     dependent: {
       field: 'education_difficulties',
@@ -449,8 +477,8 @@ export const educationFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select level of difficulty' }],
     options: [
-      { text: 'Strong', value: 'STRONG', kind: 'option' },
-      { text: 'Mild', value: 'MILD', kind: 'option' },
+      { text: 'Significant difficulties', value: 'SIGNIFICANT_DIFFICULTIES', kind: 'option' },
+      { text: 'Some difficulties', value: 'SOME_DIFFICULTIES', kind: 'option' },
     ],
     dependent: {
       field: 'education_difficulties',
@@ -521,7 +549,6 @@ export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionCo
 export default [
   ...employmentStatusFields,
   ...employmentFields,
-  ...previousEmploymentFields,
   ...employmentHistory,
   ...employmentFields,
   ...educationFields,

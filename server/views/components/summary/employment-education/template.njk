@@ -124,7 +124,7 @@
 {%- macro renderEducationDifficultiesLevel(field) -%}
   {% for option in field.options %}
     {% if option.checked %}
-      {{ option.text }} difficulties
+      {{ option.text }}
     {% endif %}
   {% endfor %}
 {%- endmacro -%}
