@@ -77,7 +77,7 @@ describe('sbna-poc/fields/common', () => {
       it('is invalid when a value is not present and the condition is met', () => {
         const validate = requiredWhenValidator('foo', 'bar')
 
-        expect(validate.bind(contextWithAnswers({ foo: 'bar' }))()).toEqual(false)
+        expect(validate.bind(contextWithAnswers({ foo: 'bar' }))('')).toEqual(false)
       })
 
       it('is valid when a value is present and the condition is not met', () => {
@@ -89,7 +89,7 @@ describe('sbna-poc/fields/common', () => {
       it('is valid when no value is present and the condition is not met', () => {
         const validate = requiredWhenValidator('foo', 'bar')
 
-        expect(validate.bind(contextWithAnswers({}))()).toEqual(true)
+        expect(validate.bind(contextWithAnswers({}))('')).toEqual(true)
       })
     })
 
@@ -103,7 +103,7 @@ describe('sbna-poc/fields/common', () => {
       it('is invalid when a value is not present and the condition is met', () => {
         const validate = requiredWhenValidator('foo', 'bar')
 
-        expect(validate.bind(contextWithAnswers({ foo: ['bar'] }))()).toEqual(false)
+        expect(validate.bind(contextWithAnswers({ foo: ['bar'] }))('')).toEqual(false)
       })
 
       it('is valid when a value is present and the condition is not met', () => {
@@ -115,7 +115,7 @@ describe('sbna-poc/fields/common', () => {
       it('is valid when no value is present and the condition is not met', () => {
         const validate = requiredWhenValidator('foo', 'bar')
 
-        expect(validate.bind(contextWithAnswers({ foo: [] }))()).toEqual(true)
+        expect(validate.bind(contextWithAnswers({ foo: [] }))('')).toEqual(true)
       })
     })
   })

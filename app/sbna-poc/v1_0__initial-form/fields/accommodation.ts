@@ -52,7 +52,7 @@ const suitableHousingConcernsOptions: FormWizard.Field.Options = [
   { text: 'Other', value: 'OTHER', kind: 'option' },
 ]
 
-function livingWithValidator() {
+export function livingWithValidator() {
   const answers = this.values.living_with || []
   return !(answers.includes('ALONE') && answers.length > 1)
 }
