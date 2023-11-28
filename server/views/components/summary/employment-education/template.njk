@@ -2,8 +2,8 @@
   <ul class="govuk-list">
     {% for option in field.options %}
       {% if option.checked %}
-        <li>
-          {{ option.text }}
+        <li class="summary-details-list">
+          <span class="summary__answer">{{ option.text }}</span>
         </li>
       {% endif %}
     {% endfor %}
@@ -13,7 +13,7 @@
 {%- macro renderSubOption(field) -%}
     {% for option in field.options %}
       {% if option.checked %}
-        <span class="govuk-!-font-size-14">{{ option.text }}</span>
+        <span class="summary__answer--secondary">{{ option.text }}</span>
       {% endif %}
     {% endfor %}
 {%- endmacro -%}
@@ -21,7 +21,7 @@
 {%- macro renderSummaryListRow(label, value, changeLink) -%}
   <div class="govuk-summary-list__row as-block clearfix">
     <dt class="govuk-summary-list__key to-the-left">
-      {{ label }}
+      <span class="summary__label">{{ label }}</span>
     </dt>
     <dd class="govuk-summary-list__value to-the-left summary-value">
       {{ value }}
@@ -35,7 +35,7 @@
 {%- endmacro -%}
 
 {%- macro renderPreviouslyEmployed(answer) -%}
-<span class="govuk-!-font-size-14">
+<span class="summary__answer--secondary">
   {% if answer === "YES" %}
     Has been employed before
   {% elif answer === "NO" %}
@@ -49,10 +49,10 @@
     {% for option in fields["employment_status"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {% switch option.value %}
             {% case "EMPLOYED" %}
-              <span class="govuk-!-font-size-14">{{ renderSubOption(fields["employment_type"]) }}</span>
+              <span class="summary__answer--secondary">{{ renderSubOption(fields["employment_type"]) }}</span>
             {% case "CURRENTLY_UNAVAILABLE_FOR_WORK" %}
               {{ renderPreviouslyEmployed(answers["has_been_employed"]) }}
             {% case "UNEMPLOYED_LOOKING_FOR_WORK" %}
@@ -71,14 +71,14 @@
     {% for option in fields["employment_other_responsibilities"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "CARER" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_other_responsibilities_carer_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["employment_other_responsibilities_carer_details"] }}</span>
             {% case "VOLUNTEER" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_other_responsibilities_volunteer_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["employment_other_responsibilities_volunteer_details"] }}</span>
             {% case "OTHER" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_other_responsibilities_other_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["employment_other_responsibilities_other_details"] }}</span>
             {% default %}
           {%- endswitch -%}
         </li>
@@ -92,9 +92,9 @@
     {% for option in fields["education_professional_or_vocational_qualifications"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
             {% if option.value === "YES" %}
-              <span class="govuk-!-font-size-14">{{ answers["education_professional_or_vocational_qualifications_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["education_professional_or_vocational_qualifications_details"] }}</span>
             {% endif %}
         </li>
       {% endif %}
@@ -107,12 +107,12 @@
     {% for option in fields["education_transferable_skills"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "YES" %}
-              <span class="govuk-!-font-size-14">{{ answers["education_transferable_skills_yes_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["education_transferable_skills_yes_details"] }}</span>
             {% case "YES_SOME_SKILLS" %}
-              <span class="govuk-!-font-size-14">{{ answers["education_transferable_skills_yes_some_skills_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["education_transferable_skills_yes_some_skills_details"] }}</span>
             {% default %}
           {%- endswitch -%}
         </li>
@@ -134,14 +134,14 @@
     {% for option in fields["education_difficulties"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "READING" %}
-              <span class="govuk-!-font-size-14">{{ renderEducationDifficultiesLevel(fields["education_difficulties_reading_severity"]) }}</span>
+              <span class="summary__answer--secondary">{{ renderEducationDifficultiesLevel(fields["education_difficulties_reading_severity"]) }}</span>
             {% case "WRITING" %}
-              <span class="govuk-!-font-size-14">{{ renderEducationDifficultiesLevel(fields["education_difficulties_writing_severity"]) }}</span>
+              <span class="summary__answer--secondary">{{ renderEducationDifficultiesLevel(fields["education_difficulties_writing_severity"]) }}</span>
             {% case "NUMERACY" %}
-              <span class="govuk-!-font-size-14">{{ renderEducationDifficultiesLevel(fields["education_difficulties_numeracy_severity"]) }}</span>
+              <span class="summary__answer--secondary">{{ renderEducationDifficultiesLevel(fields["education_difficulties_numeracy_severity"]) }}</span>
             {% default %}
           {%- endswitch -%}
         </li>
@@ -155,18 +155,18 @@
     {% for option in fields[fieldCode].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "POSITIVE" %}
-              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_positive_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers[fieldCode + "_positive_details"] }}</span>
             {% case "MOSTLY_POSITIVE" %}
-              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_mostly_positive_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers[fieldCode + "_mostly_positive_details"] }}</span>
             {% case "POSITIVE_AND_NEGATIVE" %}
-              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_positive_and_negative_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers[fieldCode + "_positive_and_negative_details"] }}</span>
             {% case "MOSTLY_NEGATIVE" %}
-              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_mostly_negative_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers[fieldCode + "_mostly_negative_details"] }}</span>
             {% case "NEGATIVE" %}
-              <span class="govuk-!-font-size-14">{{ answers[fieldCode + "_negative_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers[fieldCode + "_negative_details"] }}</span>
             {% default %}
           {%- endswitch -%}
         </li>
@@ -180,20 +180,20 @@
     {% for option in fields["employment_education_changes"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "MADE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_made_changes_details"] }}</span>
+              <span class="govuk-!-font-size-16">{{ answers["employment_education_changes_made_changes_details"] }}</span>
             {% case "MAKING_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_making_changes_details"] }}</span>
+              <span class="govuk-!-font-size-16">{{ answers["employment_education_changes_making_changes_details"] }}</span>
             {% case "WANT_TO_MAKE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_want_to_make_changes_details"] }}</span>
+              <span class="govuk-!-font-size-16">{{ answers["employment_education_changes_want_to_make_changes_details"] }}</span>
             {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_needs_help_to_make_changes_details"] }}</span>
+              <span class="govuk-!-font-size-16">{{ answers["employment_education_changes_needs_help_to_make_changes_details"] }}</span>
             {% case "THINKING_ABOUT_MAKING_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_thinking_about_making_changes_details"] }}</span>
+              <span class="govuk-!-font-size-16">{{ answers["employment_education_changes_thinking_about_making_changes_details"] }}</span>
             {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["employment_education_changes_does_not_want_to_make_changes_details"] }}</span>
+              <span class="govuk-!-font-size-16">{{ answers["employment_education_changes_does_not_want_to_make_changes_details"] }}</span>
             {% default %}
           {%- endswitch -%}
         </li>

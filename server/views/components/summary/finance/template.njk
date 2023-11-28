@@ -2,8 +2,8 @@
   <ul class="govuk-list">
     {% for option in field.options %}
       {% if option.checked %}
-        <li>
-          {{ option.text }}
+        <li class="summary-details-list">
+          <span class="summary__answer">{{ option.text }}</span>
         </li>
       {% endif %}
     {% endfor %}
@@ -13,7 +13,7 @@
 {%- macro renderSummaryListRow(label, value, changeLink) -%}
   <div class="govuk-summary-list__row as-block clearfix">
     <dt class="govuk-summary-list__key to-the-left">
-      {{ label }}
+      <span class="summary__label">{{ label }}</span>
     </dt>
     <dd class="govuk-summary-list__value to-the-left summary-value">
       {{ value }}
@@ -31,16 +31,16 @@
     {% for option in fields["finance_money_management"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {% switch option.value %}
           {% case "GOOD" %}
-            <span class="govuk-!-font-size-14">{{ answers["good_money_management_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["good_money_management_details"] }}</span>
           {% case "FAIRLY_GOOD" %}
-            <span class="govuk-!-font-size-14">{{ answers["fairly_good_money_management_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["fairly_good_money_management_details"] }}</span>
           {% case "FAIRLY_BAD" %}
-            <span class="govuk-!-font-size-14">{{ answers["fairly_bad_money_management_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["fairly_bad_money_management_details"] }}</span>
           {% case "BAD" %}
-            <span class="govuk-!-font-size-14">{{ answers["bad_money_management_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["bad_money_management_details"] }}</span>
           {% endswitch %}
         </li>
       {% endif %}
@@ -53,20 +53,20 @@
     {% for option in fields["changes_to_finance"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "MADE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["finance_positive_change_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["finance_positive_change_details"] }}</span>
             {% case "MAKING_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["finance_active_change_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["finance_active_change_details"] }}</span>
             {% case "WANT_TO_MAKE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["finance_known_change_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["finance_known_change_details"] }}</span>
             {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["finance_help_change_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["finance_help_change_details"] }}</span>
             {% case "THINKING_ABOUT_MAKING_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["finance_thinking_change_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["finance_thinking_change_details"] }}</span>
             {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
-              <span class="govuk-!-font-size-14">{{ answers["finance_no_change_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["finance_no_change_details"] }}</span>
             {% default %}
           {%- endswitch -%}
         </li>
@@ -80,12 +80,12 @@
     {% for option in fields["finance_income"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "FAMILY_OR_FRIENDS" %}
-              <span class="govuk-!-font-size-14">{{ answers["family_or_friends_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["family_or_friends_details"] }}</span>
             {% case "OTHER" %}
-              <span class="govuk-!-font-size-14">{{ answers["other_income_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["other_income_details"] }}</span>
           {%- endswitch -%}
         </li>
       {% endif %}
@@ -99,16 +99,16 @@
     {% for option in fields["finance_gambling"].options %}
         {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "YES_THEIR_GAMBLING" %}
-              <span class="govuk-!-font-size-14">{{ answers["yes_their_gambling_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["yes_their_gambling_details"] }}</span>
             {% case "YES_SOMEONE_ELSES_GAMBLING" %}
-              <span class="govuk-!-font-size-14">{{ answers["yes_someone_elses_gambling_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["yes_someone_elses_gambling_details"] }}</span>
             {% case "NO" %}
-              <span class="govuk-!-font-size-14">{{ answers["no_gambling_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["no_gambling_details"] }}</span>
             {% case "UNKNOWN" %}
-              <span class="govuk-!-font-size-14">{{ answers["unknown_gambling_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["unknown_gambling_details"] }}</span>
             {% default %}
           {%- endswitch -%}
         </li>
@@ -122,7 +122,7 @@
     {% for option in fields["finance_bank_account"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
         </li>
       {% endif %}
     {% endfor %}
@@ -134,20 +134,20 @@
     {% for option in fields["finance_debt"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {% if option.value == "YES_THEIR_DEBT" %}
             <ul class="govuk-list">
               {% for subOption in fields["yes_type_of_debt"].options %}
                 {% if subOption.checked %}
                   <li class="summary-details-list">
-                    <span class="govuk-!-font-size-14">{{ subOption.text }}</span>
+                    <span class="summary__answer--secondary">{{ subOption.text }}</span>
                     {%- switch subOption.value -%}
                     {% case "FORMAL_DEBT" %}
-                      <span class="govuk-!-font-size-14">{{ answers["yes_formal_debt_details"] }}</span>
+                      <span class="summary__answer--secondary">{{ answers["yes_formal_debt_details"] }}</span>
                     {% case "DEBT_TO_OTHERS" %}
-                      <span class="govuk-!-font-size-14">{{ answers["yes_debt_to_others_details"] }}</span>
+                      <span class="summary__answer--secondary">{{ answers["yes_debt_to_others_details"] }}</span>
                     {% case "FORMAL_AND_DEBT_TO_OTHERS" %}
-                      <span class="govuk-!-font-size-14">{{ answers["yes_formal_debt_to_others_details"] }}</span>
+                      <span class="summary__answer--secondary">{{ answers["yes_formal_debt_to_others_details"] }}</span>
                     {%- endswitch -%}
                   </li>
                 {% endif %}
@@ -158,14 +158,14 @@
               {% for subOption in fields["yes_someone_elses_type_of_debt"].options %}
                 {% if subOption.checked %}
                    <li class="summary-details-list">
-                    <span class="govuk-!-font-size-14">{{ subOption.text }}</span>
+                    <span class="summary__answer--secondary">{{ subOption.text }}</span>
                     {%- switch subOption.value -%}
                     {% case "FORMAL_DEBT" %}
-                    <span class="govuk-!-font-size-14">{{ answers["yes_someone_elses_formal_debt_details"] }}</span>
+                    <span class="summary__answer--secondary">{{ answers["yes_someone_elses_formal_debt_details"] }}</span>
                     {% case "DEBT_TO_OTHERS" %}
-                    <span class="govuk-!-font-size-14">{{ answers["yes_someone_elses_debt_to_others_details"] }}</span>
+                    <span class="summary__answer--secondary">{{ answers["yes_someone_elses_debt_to_others_details"] }}</span>
                     {% case "FORMAL_AND_DEBT_TO_OTHERS" %}
-                    <span class="govuk-!-font-size-14">{{ answers["yes_someone_elses_formal_debt_to_others_details"] }}</span>
+                    <span class="summary__answer--secondary">{{ answers["yes_someone_elses_formal_debt_to_others_details"] }}</span>
                     {%- endswitch -%}
                     </li>
                 {% endif %}
@@ -173,7 +173,7 @@
             </ui>
           {% elif option.value == "UNKNOWN" %}
             <ul class="govuk-list">
-            <span class="govuk-!-font-size-14">{{ answers["unknown_debt_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["unknown_debt_details"] }}</span>
             </ul>
           {% endif %}
         </li> 

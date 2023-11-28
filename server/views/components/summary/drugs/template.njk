@@ -4,8 +4,8 @@
   <ul class="govuk-list">
     {% for option in field.options %}
       {% if option.checked %}
-        <li>
-          {{ option.text }}
+        <li class="summary-details-list">
+          <span class="summary__answer">{{ option.text }}</span>
         </li>
       {% endif %}
     {% endfor %}
@@ -15,7 +15,7 @@
 {%- macro renderSummaryListRow(label, value, changeLink) -%}
   <div class="govuk-summary-list__row as-block clearfix">
     <dt class="govuk-summary-list__key to-the-left">
-      {{ label }}
+      <span class="summary__label">{{ label }}</span>
     </dt>
     <dd class="govuk-summary-list__value to-the-left summary-value">
       {{ value }}
@@ -33,7 +33,7 @@
     {% for option in fields["drug_use"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
         </li>
       {% endif %}
     {% endfor %}
@@ -45,9 +45,9 @@
     {% for option in fields["drug_use_reasons"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- if option.value === "OTHER" -%}
-            <span class="govuk-!-font-size-14">{{ answers["drug_use_reason_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["drug_use_reason_details"] }}</span>
           {%- endif -%}
         </li>
       {% endif %}
@@ -60,9 +60,9 @@
     {% for option in fields["drug_use_impact"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- if option.value === "OTHER" -%}
-            <span class="govuk-!-font-size-14">{{ answers["drug_use_impact_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["drug_use_impact_details"] }}</span>
           {%- endif -%}
         </li>
       {% endif %}
@@ -75,9 +75,9 @@
     {% for option in fields["reducing_or_stopping_drug_use"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- if option.value === "YES" -%}
-            <span class="govuk-!-font-size-14">{{ answers["reducing_or_stopping_drug_use_details"] }}</span>
+            <span class="summary__answer--secondary">{{ answers["reducing_or_stopping_drug_use_details"] }}</span>
           {%- endif -%}
         </li>
       {% endif %}
@@ -90,7 +90,7 @@
     {% for option in fields["motivated_stopping_drug_use"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
         </li>
       {% endif %}
     {% endfor %}
@@ -102,20 +102,20 @@
     {% for option in fields["drug_use_changes"].options %}
       {% if option.checked %}
         <li class="summary-details-list">
-          <span>{{ option.text }}</span>
+          <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {%- case "MADE_CHANGES" -%}
-              <span class="govuk-!-font-size-14">{{ answers["drug_use_positive_change"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["drug_use_positive_change"] }}</span>
             {%- case "MAKING_CHANGES" -%}
-              <span class="govuk-!-font-size-14">{{ answers["drug_use_active_change"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["drug_use_active_change"] }}</span>
             {%- case "WANT_TO_MAKE_CHANGES" -%}
-              <span class="govuk-!-font-size-14">{{ answers["drug_use_known_change"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["drug_use_known_change"] }}</span>
             {%- case "NEEDS_HELP_TO_MAKE_CHANGES" -%}
-              <span class="govuk-!-font-size-14">{{ answers["drug_use_help_change"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["drug_use_help_change"] }}</span>
             {%- case "THINKING_ABOUT_MAKING_CHANGES" -%}
-              <span class="govuk-!-font-size-14">{{ answers["drug_use_think_change"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["drug_use_think_change"] }}</span>
             {%- case "DOES_NOT_WANT_TO_MAKE_CHANGES" -%}
-              <span class="govuk-!-font-size-14">{{ answers["drug_use_no_change"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["drug_use_no_change"] }}</span>
           {%- endswitch -%}
         </li>
       {% endif %}
