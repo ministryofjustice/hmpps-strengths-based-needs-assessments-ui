@@ -5,13 +5,16 @@ import { whereSelectable } from '../../../common/controllers/saveAndContinue.uti
 type SubmittedAnswers = Record<string, string | string[]>
 
 export const buildRequestBody = (
-  fields: FormWizard.Fields,
+  fieldsOnCurrentPage: FormWizard.Fields,
   allFields: FormWizard.Fields,
   submittedAnswers: SubmittedAnswers,
 ): UpdateAnswersDto => {
-  const answersToAdd = getAnswersToAdd(fields, allFields, submittedAnswers)
-  const answersToRemove = getAnswersToRemove(fields, allFields, submittedAnswers).filter(
-    it => !Object.keys(answersToAdd).includes(it),
+  const answersToAdd = getAnswersToAdd(fieldsOnCurrentPage, allFields, submittedAnswers)
+  const answersToRemove = getAnswersToRemove(
+    fieldsOnCurrentPage,
+    allFields,
+    submittedAnswers,
+    Object.keys(answersToAdd),
   )
 
   return {
@@ -58,27 +61,29 @@ const whereDependencyNotMet = (field: FormWizard.Field, answers: SubmittedAnswer
 
 const toFieldCodes = (fields: Array<FormWizard.Field>) => fields.map(it => it.code)
 
-const getDependents =
+export const listDependenciesNotMet =
   (allFields: FormWizard.Fields, answers: SubmittedAnswers) =>
   (field: FormWizard.Field): Array<string> => {
     const fields = Object.values(allFields)
 
-    const dependents = fields
+    return fields
       .filter(whereDependencyNotMet(field, answers))
       .map(it => [it, ...getDependencyChain(it, fields)])
       .flatMap(toFieldCodes)
-
-    return [...new Set(dependents)]
   }
 
 export const getAnswersToRemove = (
   fields: FormWizard.Fields,
   allFields: FormWizard.Fields,
   answers: SubmittedAnswers,
+  exclusionList: string[] = [],
 ): string[] => {
-  const toRemove = Object.values(fields).map(getDependents(allFields, answers)).flat()
+  const toRemove = Object.values(fields)
+    .map(listDependenciesNotMet(allFields, answers))
+    .flat()
+    .filter(it => !exclusionList.includes(it))
 
-  return toRemove
+  return [...new Set(toRemove)]
 }
 
 export const getAnswersToAdd = (
