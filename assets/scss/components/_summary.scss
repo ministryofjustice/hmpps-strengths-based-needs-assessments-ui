@@ -61,3 +61,23 @@
 .no-border {
   border: none !important;
 }
+
+.summary__label {
+  @include govuk-font(19, "bold");
+}
+
+.summary__answer {
+  @include govuk-font(19);
+}
+
+.summary__answer--secondary {
+  @include govuk-font(16);
+}
+
+.analysis__answer {
+  @include govuk-font(24);
+}
+
+.analysis__answer--secondary {
+  @include govuk-font(19);
+}

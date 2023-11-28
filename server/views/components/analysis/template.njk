@@ -2,7 +2,7 @@
   <article class="analysis-summary__item">
     <div class="analysis-summary__row">
       <div class="analysis-summary__heading">
-        <h2 class="govuk-heading-s full-width">{{ label }}</h2>
+        <h2 class="govuk-heading-m full-width">{{ label }}</h2>
       </div>
       <div class="analysis-summary__action">
         <a class="govuk-link" href="{{ link }}">
@@ -16,8 +16,8 @@
           {% for option in field.options %}
             {% if option.checked %}
               <li class="summary-details-list">
-                <span>{{ option.text }}</span>
-                <p class="govuk-!-font-size-14">{{ detailsField.value }}</p>
+                <span class="analysis__answer">{{ option.text }}</span>
+                <p class="analysis__answer--secondary">{{ detailsField.value }}</p>
               </li>
             {% endif %}
           {% endfor %}
@@ -31,7 +31,7 @@
   <article class="analysis-summary__item">
     <div class="analysis-summary__row">
       <div class="analysis-summary__heading">
-        <h2 class="govuk-heading-s full-width">{{ label }}</h2>
+        <h2 class="govuk-heading-m full-width">{{ label }}</h2>
       </div>
       <div class="analysis-summary__action">
         <a class="govuk-link" href="{{ link }}">
@@ -41,7 +41,7 @@
     </div>
     <div class="analysis-summary__row">
       <div class="analysis-summary__value">
-        <p class="govuk-!-font-size-14">{{ field.value }}</p>
+        <p class="analysis__answer--secondary">{{ field.value }}</p>
       </div>
     </div>
   </article>

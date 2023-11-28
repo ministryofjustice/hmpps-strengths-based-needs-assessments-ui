@@ -59,7 +59,7 @@ const createExperienceOfFields = (label: string, prefix: string): Array<FormWiza
 
 export const employmentStatusFields: Array<FormWizard.Field> = [
   {
-    text: "What is [subject]'s main employment status?",
+    text: "What is [subject]'s current employment status?",
     code: 'employment_status',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select one option' }],

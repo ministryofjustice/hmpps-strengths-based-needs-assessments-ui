@@ -20,7 +20,7 @@
       name: question.id,
       value: question.value | safe,
       formGroup : {
-        classes: formClass or question.classes
+        classes: "form-group " + (question.classes | default(""))
       },
       attributes: question.attributes,
       label: {
@@ -45,7 +45,7 @@
         classes: question.id + " " + question.labelClasses
       },
       formGroup : {
-        classes: question.classes | default('govuk-!-width-two-thirds')
+        classes: "form-group " + (question.classes | default("govuk-!-width-two-thirds"))
       },
       attributes: question.attributes,
       hint: question.hint,
@@ -57,7 +57,7 @@
       idPrefix: question.id,
       name: question.id,
       formGroup : {
-        classes: question.classes
+        classes: "form-group " + (question.classes | default(""))
       },
       attributes: question.attributes,
       fieldset: {
@@ -77,7 +77,7 @@
       idPrefix: question.id,
       name: question.id,
       formGroup : {
-        classes: question.classes
+        classes: "form-group " + (question.classes | default(""))
       },
       attributes: question.attributes,
       fieldset: {
@@ -97,7 +97,7 @@
       id: question.id,
       name: question.id,
       formGroup : {
-        classes: question.classes
+        classes: "form-group " + (question.classes | default(""))
       },
       label: {
         text: question.text,
@@ -125,6 +125,9 @@
     {{ govukDateInput({
       id: question.id,
       namePrefix: question.id,
+      formGroup : {
+        classes: "form-group " + (question.classes | default(""))
+      },
       fieldset: {
         legend: {
           text: question.text,
