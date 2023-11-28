@@ -2,7 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
   createPractitionerAnalysisFieldsWith,
-  futureDateValidator,
+  validateFutureDate,
   mediumLabel,
   orDivider,
   toFormWizardFields,
@@ -52,7 +52,7 @@ const suitableHousingConcernsOptions: FormWizard.Field.Options = [
   { text: 'Other', value: 'OTHER', kind: 'option' },
 ]
 
-function livingWithValidator() {
+export function livingWithValidator() {
   const answers = this.values.living_with || []
   return !(answers.includes('ALONE') && answers.length > 1)
 }
@@ -136,7 +136,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Date,
     validate: [
       { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: futureDateValidator, message: 'Enter a future date' },
+      { fn: validateFutureDate, message: 'Enter a future date' },
     ],
     dependent: {
       field: 'type_of_temporary_accommodation',
@@ -150,7 +150,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Date,
     validate: [
       { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: futureDateValidator, message: 'Enter a future date' },
+      { fn: validateFutureDate, message: 'Enter a future date' },
     ],
     dependent: {
       field: 'type_of_temporary_accommodation',
@@ -164,7 +164,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Date,
     validate: [
       { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: futureDateValidator, message: 'Enter a future date' },
+      { fn: validateFutureDate, message: 'Enter a future date' },
     ],
     dependent: {
       field: 'type_of_temporary_accommodation',
@@ -178,7 +178,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Date,
     validate: [
       { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: futureDateValidator, message: 'Enter a future date' },
+      { fn: validateFutureDate, message: 'Enter a future date' },
     ],
     dependent: {
       field: 'type_of_temporary_accommodation',
@@ -192,7 +192,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Date,
     validate: [
       { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: futureDateValidator, message: 'Enter a future date' },
+      { fn: validateFutureDate, message: 'Enter a future date' },
     ],
     dependent: {
       field: 'type_of_temporary_accommodation',

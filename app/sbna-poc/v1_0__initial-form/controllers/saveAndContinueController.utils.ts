@@ -20,17 +20,10 @@ export const buildRequestBody = (
   }
 }
 
-export const mergeAnswers = (savedAnswers: Answers, submittedAnswersValues: SubmittedAnswers) => {
-  const savedAnswerValues = Object.entries(savedAnswers).reduce(
-    (modifiedAnswers, [key, answer]) => ({
-      ...modifiedAnswers,
-      [key]: answer.type === FieldType.CheckBox ? answer.values : answer.value,
-    }),
-    {},
-  )
+export const mergeAnswers = (persistedAnswers: Answers, submittedAnswers: SubmittedAnswers) => {
   return {
-    ...savedAnswerValues,
-    ...submittedAnswersValues,
+    ...flattenAnswers(persistedAnswers),
+    ...submittedAnswers,
   }
 }
 
@@ -139,6 +132,9 @@ export const getAnswersToAdd = (
 
 export const flattenAnswers = (answers: Record<string, AnswerDto>) =>
   Object.entries(answers).reduce(
-    (allAnswers, [key, answer]) => ({ ...allAnswers, [key]: answer.value || answer.values }),
+    (allAnswers, [key, answer]) => ({
+      ...allAnswers,
+      [key]: answer.type === FieldType.CheckBox ? answer.values : answer.value,
+    }),
     {},
   )

@@ -66,7 +66,7 @@ const alcoholUnitsHint = `
 </details>
 `
 
-function orNoImpactValidator() {
+export function orNoImpactValidator() {
   const answers = this.values.alcohol_impact_of_use || []
   return !(answers.includes('NO_NEGATIVE_IMPACT') && answers.length > 1)
 }
