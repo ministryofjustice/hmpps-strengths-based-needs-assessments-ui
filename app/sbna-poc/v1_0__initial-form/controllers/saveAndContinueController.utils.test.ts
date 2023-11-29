@@ -1,12 +1,6 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import { AnswerDto } from '../../../../server/services/strengthsBasedNeedsService'
-import {
-  buildRequestBody,
-  flattenAnswers,
-  getAnswersToAdd,
-  getAnswersToRemove,
-  mergeAnswers,
-} from './saveAndContinueController.utils'
+import { buildRequestBody, flattenAnswers, mergeAnswers } from './saveAndContinueController.utils'
 
 describe('sbna-poc/controllers/saveAndContinueController.utils', () => {
   describe('flattenAnswers', () => {
