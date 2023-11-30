@@ -138,4 +138,134 @@ describe('SaveAndContinueController', () => {
       expect(res.locals.assessmentProgress?.['drug-use']).toEqual(false)
     })
   })
+
+  describe('resetResumeUrl', () => {
+    const sessionModel = {
+      get: jest.fn(),
+      set: jest.fn(),
+    }
+
+    const buildRequestWith = (sectionName: string) =>
+      ({
+        form: {
+          options: {
+            section: sectionName,
+          },
+        },
+        sessionModel,
+      }) as unknown as FormWizard.Request
+
+    const withResumeState = (state: Record<string, string>) => (key: string) => (key === 'resumeState' ? state : null)
+
+    beforeEach(() => {
+      sessionModel.get.mockReset()
+      sessionModel.set.mockReset()
+    })
+
+    it('resets the resume URL for the given section', () => {
+      const req = buildRequestWith('foo_section')
+      sessionModel.get.mockImplementation(withResumeState({ foo_section: 'foo' }))
+
+      controller.resetResumeUrl(req)
+
+      expect(sessionModel.set).toBeCalledWith('resumeState', { foo_section: null })
+    })
+
+    it('does not reset the resume URL for other sections', () => {
+      const req = buildRequestWith('foo_section')
+      sessionModel.get.mockImplementation(withResumeState({ foo_section: 'foo', bar_section: 'bar' }))
+
+      controller.resetResumeUrl(req)
+
+      expect(sessionModel.set).toBeCalledWith('resumeState', { foo_section: null, bar_section: 'bar' })
+    })
+
+    it('handles when there is no resume URL for the given section', () => {
+      const req = buildRequestWith('foo_section')
+      sessionModel.get.mockImplementation(withResumeState({}))
+
+      controller.resetResumeUrl(req)
+
+      expect(sessionModel.set).toBeCalledWith('resumeState', { foo_section: null })
+    })
+
+    it('handles when there is no resume state', () => {
+      const req = buildRequestWith('foo_section')
+      sessionModel.get.mockReturnValue(undefined)
+
+      controller.resetResumeUrl(req)
+
+      expect(sessionModel.set).toBeCalledWith('resumeState', { foo_section: null })
+    })
+  })
+
+  describe('getResumeUrl', () => {
+    const sessionModel = {
+      get: jest.fn(),
+      set: jest.fn(),
+    }
+
+    const buildRequestWith = ({
+      url = '/',
+      sectionName,
+      action,
+    }: {
+      url?: string
+      sectionName?: string
+      action?: string
+    }) =>
+      ({
+        form: {
+          options: {
+            section: sectionName,
+          },
+        },
+        url,
+        query: { action },
+        sessionModel,
+      }) as unknown as FormWizard.Request
+
+    const withResumeState = (state: Record<string, string>) => (key: string) => (key === 'resumeState' ? state : null)
+
+    beforeEach(() => {
+      sessionModel.get.mockReset()
+      sessionModel.set.mockReset()
+    })
+
+    it('returns null when there is no resume state', () => {
+      const req = buildRequestWith({ url: '/foo', sectionName: 'foo_section' })
+      sessionModel.get.mockImplementation(withResumeState({}))
+
+      const resumeUrl = controller.getResumeUrl(req)
+
+      expect(resumeUrl).toEqual(null)
+    })
+
+    it('does not return a resume URL when navigating within the same section', () => {
+      const req = buildRequestWith({ url: '/foo', sectionName: 'foo_section' })
+      sessionModel.get.mockImplementation(withResumeState({ foo_section: '/foo/bar', lastSection: 'foo_section' }))
+
+      const resumeUrl = controller.getResumeUrl(req)
+
+      expect(resumeUrl).toEqual(null)
+    })
+
+    it('returns a resume URL when navigating between sections', () => {
+      const req = buildRequestWith({ url: '/foo', sectionName: 'foo_section', action: 'resume' })
+      sessionModel.get.mockImplementation(withResumeState({ foo_section: '/foo/bar', lastSection: 'bar_section' }))
+
+      const resumeUrl = controller.getResumeUrl(req)
+
+      expect(resumeUrl).toEqual('/foo/bar')
+    })
+
+    it('returns null when there is no history for the given section', () => {
+      const req = buildRequestWith({ url: '/foo', sectionName: 'bar_section' })
+      sessionModel.get.mockImplementation(withResumeState({ foo_section: '/foo/bar' }))
+
+      const resumeUrl = controller.getResumeUrl(req)
+
+      expect(resumeUrl).toEqual(null)
+    })
+  })
 })
