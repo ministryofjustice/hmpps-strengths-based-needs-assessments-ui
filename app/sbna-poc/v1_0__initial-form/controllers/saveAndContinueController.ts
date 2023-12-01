@@ -36,8 +36,9 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       const sessionData = req.session.sessionData as SessionInformation
       res.locals.user = { username: sessionData.userDisplayName }
       await this.apiService.validateSession(sessionData.uuid)
-      req.form.persistedAnswers = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
-      req.form.submittedAnswers = flattenAnswers(req.form.persistedAnswers)
+      const answerDtos = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
+      req.form.persistedAnswers = answerDtos
+      req.form.submittedAnswers = flattenAnswers(answerDtos)
 
       super.configure(req, res, next)
     } catch (error) {
@@ -106,7 +107,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
   }
 
-  async getResumeUrl(req: FormWizard.Request): Promise<ResumeUrl> {
+  getResumeUrl(req: FormWizard.Request): ResumeUrl {
     const isResuming = req.query.action === 'resume'
     const sectionName = req.form.options.section
     const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
@@ -140,7 +141,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const resumeUrl = await this.getResumeUrl(req)
+    const resumeUrl = this.getResumeUrl(req)
 
     return resumeUrl ? res.redirect(resumeUrl) : super.getValues(req, res, next)
   }
@@ -173,7 +174,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove })
   }
 
-  setResumeUrl(req: FormWizard.Request) {
+  resetResumeUrl(req: FormWizard.Request) {
     const sectionName = req.form.options.section
     const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
     req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
@@ -183,7 +184,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     try {
       this.setSectionProgress(req)
       await this.saveAnswers(req)
-      this.setResumeUrl(req)
+      this.resetResumeUrl(req)
 
       super.saveValues(req, res, next)
     } catch (error) {
