@@ -22,6 +22,7 @@ const createNavigation = (steps: FormWizard.Steps, baseUrl: string, currentSecti
     .sort(([_A, stepConfigA], [_B, stepConfigB]) => stepConfigA.navigationOrder - stepConfigB.navigationOrder)
     .map(([path, stepConfig]) => ({
       url: path.slice(1),
+      section: stepConfig.section,
       label: stepConfig.pageTitle,
       active: stepConfig.section === currentSection,
     }))
