@@ -24,20 +24,12 @@ describe('sbna-poc/controllers/saveAndContinueController.utils', () => {
   })
 
   describe('mergeAnswers', () => {
-    it('transforms persisted answers in to simple key/value pairs', () => {
-      const persistedAnswers: Record<string, AnswerDto> = {
-        single_value_field: { description: 'Single value field', type: FieldType.Text, value: 'FOO' },
-        single_value_field_2: { description: 'Single value field', type: FieldType.Text, value: 'not updated' },
-        multiple_value_field: {
-          description: 'Multiple value field',
-          type: FieldType.CheckBox,
-          values: ['FOO', 'BAR', 'BAZ'],
-        },
-        multiple_value_field_2: {
-          description: 'Multiple value field',
-          type: FieldType.CheckBox,
-          values: ['NOT_UPDATED'],
-        },
+    it('applies submitted answers over persisted answers', () => {
+      const persistedAnswers: Record<string, string | string[]> = {
+        single_value_field: 'FOO',
+        single_value_field_2: 'not updated',
+        multiple_value_field: ['FOO', 'BAR', 'BAZ'],
+        multiple_value_field_2: ['NOT_UPDATED'],
       }
 
       const submittedAnswers: Record<string, string | string[]> = {

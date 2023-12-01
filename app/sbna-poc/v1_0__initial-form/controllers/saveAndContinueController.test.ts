@@ -79,7 +79,7 @@ describe('SaveAndContinueController', () => {
       expect(conditionFn).toHaveBeenLastCalledWith(true, formValues)
     })
 
-    it('includes the returned value of conditionFn of each field in submittedValues', () => {
+    it('includes the returned value of conditionFn of each field in submittedAnswers', () => {
       const req = buildRequestWith({
         sectionProgressRules: [
           { fieldCode: 'foo_section_complete', conditionFn: () => 'FOO' },
@@ -90,7 +90,7 @@ describe('SaveAndContinueController', () => {
 
       controller.setSectionProgress(req)
 
-      expect(req.form.submittedAnswers).toEqual({
+      expect(req.form.values).toEqual({
         foo_section_complete: 'FOO',
         bar_section_complete: 'BAR',
         baz_section_complete: 'BAZ',

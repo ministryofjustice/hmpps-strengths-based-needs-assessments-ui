@@ -23,9 +23,9 @@ export const buildRequestBody = (
   }
 }
 
-export const mergeAnswers = (persistedAnswers: Answers, submittedAnswers: SubmittedAnswers) => {
+export const mergeAnswers = (persistedAnswers: SubmittedAnswers, submittedAnswers: SubmittedAnswers) => {
   return {
-    ...flattenAnswers(persistedAnswers),
+    ...persistedAnswers,
     ...submittedAnswers,
   }
 }
