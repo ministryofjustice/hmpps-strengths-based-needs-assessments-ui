@@ -45,7 +45,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
   }
 
-  async fetchAnswers(req: FormWizard.Request, res: Response) {
+  async addAssessmentDataToLocals(req: FormWizard.Request, res: Response) {
     const sessionData = req.session.sessionData as SessionInformation
     res.locals.sessionData = sessionData
     res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
@@ -61,7 +61,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const isComplete = (answers: AnswerValues) => (fieldCode: string) => answers[fieldCode] === 'YES'
     const checkProgress =
       (answers: AnswerValues) =>
-      (assessmentProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule) => ({
+      (assessmentProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
         ...assessmentProgress,
         [sectionName]: fieldCodes.every(isComplete(answers)),
       })
@@ -82,12 +82,14 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       },
     ]
 
-    res.locals.assessmentProgress = sections.reduce(checkProgress(res.locals.values), {})
+    const assessmentProgress: Progress = sections.reduce(checkProgress(res.locals.values), {})
+    res.locals.assessmentProgress = assessmentProgress
+    res.locals.assessmentIsComplete = !Object.values(assessmentProgress).includes(false)
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      await this.fetchAnswers(req, res)
+      await this.addAssessmentDataToLocals(req, res)
       this.updateAssessmentProgress(res)
 
       res.locals.isSaved = req.sessionModel.get('isSaved') || false
