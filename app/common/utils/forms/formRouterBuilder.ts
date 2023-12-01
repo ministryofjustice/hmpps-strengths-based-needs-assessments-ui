@@ -4,6 +4,7 @@ import FormWizard from 'hmpo-form-wizard'
 import FormVersionResponse from './responses/formVersionResponse'
 import FormFieldsResponse from './responses/formFieldsResponse'
 import { Form, BaseFormOptions, FormWizardRouter, getLatestVersionFrom } from './common'
+import { createSVGFromForm, createStateDiagramFromForm } from './diagrams'
 
 const removeQueryParamsFrom = (urlWithParams: string) => {
   const [url] = urlWithParams.split('?')
@@ -34,6 +35,11 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
 
   if (form.options.active === true) {
     router.get('/fields', (req: Request, res: Response) => res.json(FormFieldsResponse.from(form, options)))
+    router.get('/diagram', (req: Request, res: Response) => {
+      res.locals.diagram = createStateDiagramFromForm(form)
+      return res.render('pages/diagram')
+    })
+    router.get('/form', (req: Request, res: Response) => res.json(form))
 
     router.use((req: Request, res: Response, next: NextFunction) => {
       const { fields = [], section: currentSection } = getStepFrom(form.steps, req.url)
@@ -69,9 +75,12 @@ export default class FormRouterBuilder {
 
   routers: FormWizardRouter[]
 
+  formConfig: Form[]
+
   latest?: FormWizardRouter
 
-  constructor(routers: FormWizardRouter[], latest: FormWizardRouter) {
+  constructor(formConfig: Form[], routers: FormWizardRouter[], latest: FormWizardRouter) {
+    this.formConfig = formConfig
     this.routers = routers
     this.latest = latest
   }
@@ -79,7 +88,7 @@ export default class FormRouterBuilder {
   static configure(formConfig: Form[], options: BaseFormOptions) {
     const formRouters: FormWizardRouter[] = formConfig.map(form => setupForm(form, options))
 
-    return new FormRouterBuilder(formRouters, getLatestVersionFrom(formRouters))
+    return new FormRouterBuilder(formConfig, formRouters, getLatestVersionFrom(formRouters))
   }
 
   mountActive(): FormRouterBuilder {
