@@ -38,8 +38,6 @@ class SaveAndContinueController extends BaseController {
       })
       .reduce((updatedAnswers, [key, field]) => ({ ...updatedAnswers, [field.code]: req.form.values[key] }), {})
 
-    req.form.submittedAnswers = req.form.values
-
     return super.process(req, res, next)
   }
 
@@ -51,7 +49,6 @@ class SaveAndContinueController extends BaseController {
     const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
       action: res.locals.action,
       errors: res.locals.errors,
-      collections: res.locals.collections,
     })
 
     res.locals.answers = req.form.values

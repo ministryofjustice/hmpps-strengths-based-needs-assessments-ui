@@ -5,7 +5,6 @@ export const formatForNunjucks = (str = '') => str.split('}').join('} ').trim() 
 
 interface Locals {
   errors: unknown
-  collections: unknown
   action: string
 }
 
@@ -13,7 +12,7 @@ const renderConditionalQuestion = (
   allFields: FormWizard.Field[],
   thisField: FormWizard.Field,
   dependentFieldNodes: Node[],
-  locals: Locals = { errors: {}, collections: {}, action: '/' },
+  locals: Locals = { errors: {}, action: '/' },
   _nunjucks = nunjucks,
 ): FormWizard.Field => {
   const conditionalFields = dependentFieldNodes.map(({ id, dependents }) => {
@@ -42,11 +41,10 @@ const renderConditionalQuestion = (
 
       const fieldString = formatForNunjucks(JSON.stringify(field))
       const errorString = formatForNunjucks(JSON.stringify(locals.errors))
-      const collectionsString = formatForNunjucks(JSON.stringify(locals.collections))
 
       const template =
         '{% from "components/question/macro.njk" import renderQuestion %} \n' +
-        `{{ renderQuestion(${fieldString}, ${errorString}, ${collectionsString}, "${locals.action}") }}`
+        `{{ renderQuestion(${fieldString}, ${errorString}, "${locals.action}") }}`
 
       const renderedHtml = _nunjucks.renderString(template, {}).replace(/(\r\n|\n|\r)\s+/gm, '')
 

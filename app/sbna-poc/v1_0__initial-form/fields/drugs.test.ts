@@ -17,25 +17,25 @@ describe('sbna-poc/fields/drugs', () => {
     it('is valid when a value is present and the condition is met', () => {
       const validate = requiredWhenContains('foo', 'BAR')
 
-      expect(validate.bind(contextWithAnswers({ foo: { values: ['BAR'] } }))('baz')).toEqual(true)
+      expect(validate.bind(contextWithAnswers({ foo: ['BAR'] }))('baz')).toEqual(true)
     })
 
     it('is invalid when a value is not present and the condition is met', () => {
       const validate = requiredWhenContains('foo', 'BAR')
 
-      expect(validate.bind(contextWithAnswers({ foo: { values: ['BAR'] } }))('')).toEqual(false)
+      expect(validate.bind(contextWithAnswers({ foo: ['BAR'] }))('')).toEqual(false)
     })
 
     it('is valid when a value is present and the condition is not met', () => {
       const validate = requiredWhenContains('foo', 'BAR')
 
-      expect(validate.bind(contextWithAnswers({ foo: { values: [] } }))('baz')).toEqual(true)
+      expect(validate.bind(contextWithAnswers({ foo: [] }))('baz')).toEqual(true)
     })
 
     it('is valid when no value is present and the condition is not met', () => {
       const validate = requiredWhenContains('foo', 'BAR')
 
-      expect(validate.bind(contextWithAnswers({ foo: { values: [] } }))('')).toEqual(true)
+      expect(validate.bind(contextWithAnswers({ foo: [] }))('')).toEqual(true)
     })
   })
 })

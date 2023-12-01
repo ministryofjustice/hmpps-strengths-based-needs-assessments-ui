@@ -19,7 +19,7 @@ const usageFrequencies = [
 export function requiredWhenContains(field: string, requiredValue: string) {
   return function validateRequiredWhenContains(value: string) {
     const persistedAnswers = this.sessionModel?.options?.req?.form?.persistedAnswers || {}
-    const values = persistedAnswers[field]?.values
+    const values = persistedAnswers[field]
 
     return (
       Array.isArray(values) && (!values.includes(requiredValue) || (values.includes(requiredValue) && value !== ''))

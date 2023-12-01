@@ -81,7 +81,7 @@ declare module 'hmpo-form-wizard' {
 
     interface Request extends express.Request {
       form: {
-        values: { [key: string]: string | string[] }
+        values: Record<string, string | string[]>
         options: {
           allFields: { [key: string]: Field }
           journeyName: string
@@ -89,8 +89,7 @@ declare module 'hmpo-form-wizard' {
           sectionProgressRules: Array<SectionProgressRule>
           fields: Fields
         }
-        persistedAnswers: { [key: string]: AnswerDto }
-        submittedAnswers: Record<string, string | string[]>
+        persistedAnswers: Record<string, string | string[]>
       }
       sessionModel: {
         set: (key: string, value: unknown) => void

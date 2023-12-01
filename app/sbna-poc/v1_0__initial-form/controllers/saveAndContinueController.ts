@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express'
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import BaseSaveAndContinueController from '../../../common/controllers/saveAndContinue'
 import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
@@ -16,10 +16,10 @@ const isPractitionerAnalysisPage = (url: string) =>
     '/accommodation-summary-analysis-no-accommodation',
     '/drug-use-analysis',
     '/no-drug-use-summary',
-    'finance-summary-analysis',
-    'alcohol-usage-last-three-months-analysis',
-    'alcohol-usage-but-not-last-three-months-analysis',
-    'alcohol-no-usage-analysis',
+    '/finance-summary-analysis',
+    '/alcohol-usage-last-three-months-analysis',
+    '/alcohol-usage-but-not-last-three-months-analysis',
+    '/alcohol-no-usage-analysis',
   ].includes(url)
 
 class SaveAndContinueController extends BaseSaveAndContinueController {
@@ -37,8 +37,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       res.locals.user = { username: sessionData.userDisplayName }
       await this.apiService.validateSession(sessionData.uuid)
       const answerDtos = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
-      req.form.persistedAnswers = answerDtos
-      req.form.submittedAnswers = flattenAnswers(answerDtos)
+      req.form.persistedAnswers = flattenAnswers(answerDtos)
 
       super.configure(req, res, next)
     } catch (error) {
@@ -51,14 +50,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     res.locals.sessionData = sessionData
     res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
     res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName, alcohol_units: 8 } // TODO: Hardcoded alcohol units for now, will need to calculate this based on gender
-
-    const savedAnswers = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
-    const submittedAnswers = res.locals.values
-    res.locals.values = mergeAnswers(savedAnswers, submittedAnswers)
-
-    res.locals.collections = Object.entries(savedAnswers)
-      .filter(([_, answer]) => answer.type === FieldType.Collection)
-      .reduce((rest, [fieldCode, answer]) => ({ ...rest, [fieldCode]: answer.collection }), {})
+    res.locals.values = mergeAnswers(req.form.persistedAnswers, res.locals.values)
   }
 
   updateAssessmentProgress(res: Response) {
@@ -150,26 +142,29 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const sectionProgressRules = req.form.options.sectionProgressRules || []
     const isValidated = req.query.action !== 'saveDraft'
 
-    req.form.submittedAnswers = sectionProgressRules.reduce(
+    req.form.values = sectionProgressRules.reduce(
       (answers, { fieldCode, conditionFn }) => ({ ...answers, [fieldCode]: conditionFn(isValidated, req.form.values) }),
-      req.form.submittedAnswers || {},
+      req.form.values || {},
     )
   }
 
-  async saveAnswers(req: FormWizard.Request) {
+  async saveAnswers(req: FormWizard.Request, res: Response) {
     const { assessmentUUID } = req.session.sessionData as SessionInformation
 
-    const answers = { ...flattenAnswers(req.form.persistedAnswers), ...req.form.submittedAnswers }
+    const answers = { ...req.form.persistedAnswers, ...req.form.values }
     const { answersToAdd, answersToRemove } = buildRequestBody(
       req.form.options.fields,
       req.form.options.allFields,
       answers,
     )
 
-    req.form.values = {
+    const updatedAnswers = {
       ...answers,
       ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
     }
+
+    req.form.values = updatedAnswers
+    res.locals.values = req.form.values
 
     await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove })
   }
@@ -183,7 +178,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.setSectionProgress(req)
-      await this.saveAnswers(req)
+      await this.saveAnswers(req, res)
       this.resetResumeUrl(req)
 
       super.saveValues(req, res, next)
