@@ -60,7 +60,7 @@ describe('sbna-poc/fields/common', () => {
         options: {
           req: {
             form: {
-              submittedAnswers: answers,
+              values: answers,
             },
           },
         },

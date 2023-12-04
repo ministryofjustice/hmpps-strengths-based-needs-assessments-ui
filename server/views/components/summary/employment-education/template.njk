@@ -246,12 +246,6 @@
         options.answers[field],
         options.backLink + "#" + field
       ) }}
-    {% case "employment_previous_job" %}
-      {{ renderSummaryListRow(
-        options.fields[field].text,
-        options.answers[field],
-        options.backLink + "#" + field
-      ) }}
     {% case "stable_employment_history" %}
       {{ renderSummaryListRow(
         options.fields[field].text,
@@ -307,9 +301,6 @@
   {{ renderSummaryItemFor("employment_status", { fields: fields, answers: answers, backLink: "employment-education" }) }}
   {% if answers["employment_status"] === "EMPLOYED" %}
     {{ renderSummaryItemFor("employment_area", { fields: fields, answers: answers, backLink: backLink }) }}
-  {% endif %}
-  {% if answers["employment_status"] === "RETIRED" or answers["has_been_employed"] === "YES" %}
-    {{ renderSummaryItemFor("employment_previous_job", { fields: fields, answers: answers, backLink: backLink }) }}
   {% endif %}
   {% if answers["has_been_employed"] !== "NO" %}
     {{ renderSummaryItemFor("stable_employment_history", { fields: fields, answers: answers, backLink: backLink }) }}
