@@ -21,7 +21,7 @@
       </a>
     </li>
   </ul>
-  <div class="govuk-tabs__panel no-border" id="summary">
+  <div class="govuk-tabs__panel summary__panel" id="summary">
     {% block summaryPanel %}{% endblock %}
 
     <div class="questiongroup-action-buttons">
@@ -32,11 +32,13 @@
       }) }}
     </div>
   </div>
-  <div class="govuk-tabs__panel no-border govuk-tabs__panel--hidden" id="practitioner-analysis">
-    <form method="post" action="{{ action }}#practitioner-analysis">
-      <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-      {% block analysisPanel %}{% endblock %}
-    </form>
+  <div class="govuk-tabs__panel summary__panel govuk-tabs__panel--hidden" id="practitioner-analysis">
+    <div class="govuk-!-width-three-quarters">
+      <form method="post" action="{{ action }}#practitioner-analysis">
+        <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+        {% block analysisPanel %}{% endblock %}
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}

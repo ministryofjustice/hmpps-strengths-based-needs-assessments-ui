@@ -5,6 +5,7 @@
 {% from "components/question/macro.njk" import renderQuestion %}
 
 {% block formContent %}
+<div class="govuk-!-width-three-quarters">
   <form method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in (form.fields | removeSectionCompleteFields) %}
@@ -48,4 +49,5 @@
       }) }}
     </div>
   </form>
+</div>
 {% endblock %}

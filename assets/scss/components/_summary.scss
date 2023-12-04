@@ -58,8 +58,9 @@
   width: 40%;
 }
 
-.no-border {
+.summary__panel {
   border: none !important;
+  padding: govuk-spacing(6) 0px !important;
 }
 
 .summary__label {
