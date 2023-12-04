@@ -55,7 +55,7 @@
                 <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
                   <a href="{{ link.url }}?action=resume"{% if link.active %} aria-current="location"{% endif %}>
                     <span class="section-label">{{ link.label }}</span>
-                    {% if assessmentProgress[link.section] %}
+                    {% if sectionProgress[link.section] %}
                       <span class="section-complete">✓</span>
                     {% endif %}
                   </a>
@@ -92,7 +92,7 @@
                 <h2 class="govuk-heading-l">{{ options.pageTitle }}</h2>
               {%- endif -%}
             </div>
-            {% if assessmentProgress[options.section] %}
+            {% if sectionProgress[options.section] %}
               <div class="section-heading__status">
                 {{ govukTag({ text: "Complete" }) }}
               </div>
