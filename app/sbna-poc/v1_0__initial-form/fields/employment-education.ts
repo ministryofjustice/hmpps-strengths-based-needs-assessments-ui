@@ -65,7 +65,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select one option' }],
     options: [
       { text: 'Employed', value: 'EMPLOYED', kind: 'option' },
-      { text: 'Self employed', value: 'SELF_EMPLOYED', kind: 'option' },
+      { text: 'Self-employed', value: 'SELF_EMPLOYED', kind: 'option' },
       { text: 'Retired', value: 'RETIRED', kind: 'option' },
       { text: 'Currently unavailable for work', value: 'CURRENTLY_UNAVAILABLE_FOR_WORK', kind: 'option' },
       { text: 'Unemployed - actively looking for work', value: 'UNEMPLOYED_LOOKING_FOR_WORK', kind: 'option' },
