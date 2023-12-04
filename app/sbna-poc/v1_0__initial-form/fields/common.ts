@@ -45,6 +45,8 @@ export const toFormWizardFields = (allFields: FormWizard.Fields, field: FormWiza
   [field.id || field.code]: field,
 })
 
+const analysisRadioGroupClasses = `${inlineRadios} radio-group--analysis`
+
 export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<FormWizard.Field> => [
   {
     text: 'Are there any patterns of behaviours related to this area? (optional)',
@@ -75,7 +77,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: inlineRadios,
+    classes: analysisRadioGroupClasses,
   },
   {
     text: 'Give details',
@@ -101,7 +103,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: inlineRadios,
+    classes: analysisRadioGroupClasses,
   },
   {
     text: 'Give details',
@@ -127,7 +129,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: inlineRadios,
+    classes: analysisRadioGroupClasses,
   },
   {
     text: 'Give details',
@@ -153,7 +155,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: yesNoOptions,
     labelClasses: mediumLabel,
-    classes: inlineRadios,
+    classes: analysisRadioGroupClasses,
   },
   {
     text: 'Give details',

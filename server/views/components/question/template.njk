@@ -34,6 +34,7 @@
     }) }}
 
   {% case 'TEXT_AREA' %}
+    <div class="form-group">
     {{ govukCharacterCount({
       name:question.id,
       id: question.id,
@@ -45,12 +46,14 @@
         classes: question.id + " " + question.labelClasses
       },
       formGroup : {
-        classes: "form-group " + (question.classes | default("govuk-!-width-two-thirds"))
+        classes: question.classes | default("")
       },
       attributes: question.attributes,
       hint: question.hint,
       errorMessage: errorMessage
     }) }}
+
+    </div>
 
   {% case 'RADIO' %}
     {{ govukRadios({
