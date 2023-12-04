@@ -99,10 +99,17 @@ describe('SaveAndContinueController', () => {
   })
 
   describe('updateAssessmentProgress', () => {
-    const buildResponseWith = ({ formValues }: { formValues?: Record<string, string | string[]> }) =>
+    const buildResponseWith = ({
+      formValues,
+      sectionProgressRules = [],
+    }: {
+      formValues?: Record<string, string | string[]>
+      sectionProgressRules?: Array<{ sectionName: string; fieldCodes: string[] }>
+    }) =>
       ({
         locals: {
           values: formValues,
+          form: { sectionProgressRules },
         },
       }) as unknown as Response
 
@@ -112,11 +119,17 @@ describe('SaveAndContinueController', () => {
           accommodation_section_complete: 'YES',
           accommodation_analysis_section_complete: 'YES',
         },
+        sectionProgressRules: [
+          {
+            sectionName: 'accommodation',
+            fieldCodes: ['accommodation_section_complete', 'accommodation_analysis_section_complete'],
+          },
+        ],
       })
 
       controller.updateAssessmentProgress(res)
 
-      expect(res.locals.assessmentProgress?.accommodation).toEqual(true)
+      expect(res.locals.sectionProgress?.accommodation).toEqual(true)
     })
 
     it('sets the sections to incomplete when their required fields have not been completed', () => {
@@ -129,13 +142,21 @@ describe('SaveAndContinueController', () => {
           drug_use_section_complete: 'NO',
           drug_use_analysis_section_complete: 'NO',
         },
+        sectionProgressRules: [
+          {
+            sectionName: 'alcohol-use',
+            fieldCodes: ['alcohol_use_section_complete', 'alcohol_use_analysis_section_complete'],
+          },
+          { sectionName: 'drug-use', fieldCodes: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
+          { sectionName: 'finance', fieldCodes: ['finance_section_complete', 'finance_analysis_section_complete'] },
+        ],
       })
 
       controller.updateAssessmentProgress(res)
 
-      expect(res.locals.assessmentProgress?.finance).toEqual(false)
-      expect(res.locals.assessmentProgress?.['alcohol-use']).toEqual(false)
-      expect(res.locals.assessmentProgress?.['drug-use']).toEqual(false)
+      expect(res.locals.sectionProgress?.finance).toEqual(false)
+      expect(res.locals.sectionProgress?.['alcohol-use']).toEqual(false)
+      expect(res.locals.sectionProgress?.['drug-use']).toEqual(false)
     })
   })
 

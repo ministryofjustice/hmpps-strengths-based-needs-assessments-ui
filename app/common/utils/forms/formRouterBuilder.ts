@@ -28,6 +28,26 @@ const createNavigation = (steps: FormWizard.Steps, baseUrl: string, currentSecti
     }))
 }
 
+type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
+
+const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
+  const sectionRules: Record<string, Set<string>> = Object.values(steps)
+    .map((step): [string, Array<string>] => [step.section, (step.sectionProgressRules || []).map(it => it.fieldCode)])
+    .filter(([sectionName]) => sectionName !== 'none')
+    .reduce(
+      (sections, [sectionName, rules]) => ({
+        ...sections,
+        [sectionName]: [...(sections[sectionName] || []), ...rules],
+      }),
+      {},
+    )
+
+  return Object.entries(sectionRules).map(([sectionName, fieldCodes]) => ({
+    sectionName,
+    fieldCodes: [...new Set(fieldCodes)],
+  }))
+}
+
 const getStepFrom = (steps: FormWizard.Steps, url: string): FormWizard.Step => steps[removeQueryParamsFrom(url)]
 
 const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
@@ -42,6 +62,7 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
       res.locals.form = {
         fields: fields.filter(fieldCode => !form.fields[fieldCode]?.dependent?.displayInline),
         navigation: createNavigation(form.steps, req.baseUrl, currentSection),
+        sectionProgressRules: createSectionProgressRules(form.steps),
       }
 
       next()

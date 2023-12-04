@@ -58,33 +58,18 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
     type AnswerValues = Record<string, string>
 
-    const isComplete = (answers: AnswerValues) => (fieldCode: string) => answers[fieldCode] === 'YES'
+    const subsectionIsComplete = (answers: AnswerValues) => (fieldCode: string) => answers[fieldCode] === 'YES'
     const checkProgress =
       (answers: AnswerValues) =>
-      (assessmentProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-        ...assessmentProgress,
-        [sectionName]: fieldCodes.every(isComplete(answers)),
+      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
+        ...sectionProgress,
+        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
       })
-    const sections: Array<SectionCompleteRule> = [
-      {
-        sectionName: 'accommodation',
-        fieldCodes: ['accommodation_section_complete', 'accommodation_analysis_section_complete'],
-      },
-      {
-        sectionName: 'employment-education',
-        fieldCodes: ['employment_education_section_complete', 'employment_education_analysis_section_complete'],
-      },
-      { sectionName: 'finance', fieldCodes: ['finance_section_complete', 'finance_analysis_section_complete'] },
-      { sectionName: 'drug-use', fieldCodes: ['drug_use_section_complete', 'drug_use_analysis_section_complete'] },
-      {
-        sectionName: 'alcohol-use',
-        fieldCodes: ['alcohol_use_section_complete', 'alcohol_use_analysis_section_complete'],
-      },
-    ]
 
-    const assessmentProgress: Progress = sections.reduce(checkProgress(res.locals.values), {})
-    res.locals.assessmentProgress = assessmentProgress
-    res.locals.assessmentIsComplete = !Object.values(assessmentProgress).includes(false)
+    const sections = res.locals.form.sectionProgressRules
+    const sectionProgress: Progress = sections.reduce(checkProgress(res.locals.values), {})
+    res.locals.sectionProgress = sectionProgress
+    res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
