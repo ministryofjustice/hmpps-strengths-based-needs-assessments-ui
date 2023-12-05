@@ -6,6 +6,7 @@ import financeSteps from './finance'
 import drugsSteps from './drugs'
 import alcoholSteps from './alcohol'
 import employmentEducationSteps from './employment-education'
+import LandingPageController from '../controllers/landingPageController'
 
 const stepOptions: FormWizard.Steps = {
   '/start': {
@@ -14,6 +15,13 @@ const stepOptions: FormWizard.Steps = {
     reset: true,
     entryPoint: true,
     template: `forms/sbna-poc/start`,
+    next: 'landing-page',
+    section: 'none',
+  },
+  '/landing-page': {
+    pageTitle: 'OAStub',
+    controller: LandingPageController,
+    template: `forms/sbna-poc/landing-page`,
     next: 'accommodation',
     section: 'none',
   },
