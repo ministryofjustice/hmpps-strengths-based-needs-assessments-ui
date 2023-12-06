@@ -7,9 +7,9 @@ import {
   drugUseTypeFields,
   practitionerAnalysisFields,
   analysisSectionComplete,
+  sectionCompleteFields,
 } from '../fields/drugs'
 import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
-import { sectionCompleteFields } from '../fields/accommodation'
 
 const stepOptions: FormWizard.Steps = {
   '/drug-use': {
