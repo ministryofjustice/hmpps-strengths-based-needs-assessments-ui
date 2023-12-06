@@ -16,7 +16,7 @@ interface NavigationItem {
   active: boolean
 }
 
-const createNavigation = (steps: FormWizard.Steps, baseUrl: string, currentSection: string): Array<NavigationItem> => {
+export const createNavigation = (steps: FormWizard.Steps, currentSection: string): Array<NavigationItem> => {
   return Object.entries(steps)
     .filter(([_, stepConfig]) => stepConfig.navigationOrder)
     .sort(([_A, stepConfigA], [_B, stepConfigB]) => stepConfigA.navigationOrder - stepConfigB.navigationOrder)
@@ -30,7 +30,7 @@ const createNavigation = (steps: FormWizard.Steps, baseUrl: string, currentSecti
 
 type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
-const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
+export const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
   const sectionRules: Record<string, Set<string>> = Object.values(steps)
     .map((step): [string, Array<string>] => [step.section, (step.sectionProgressRules || []).map(it => it.fieldCode)])
     .filter(([sectionName]) => sectionName !== 'none')
@@ -48,7 +48,7 @@ const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompl
   }))
 }
 
-const getStepFrom = (steps: FormWizard.Steps, url: string): FormWizard.Step => steps[removeQueryParamsFrom(url)]
+export const getStepFrom = (steps: FormWizard.Steps, url: string): FormWizard.Step => steps[removeQueryParamsFrom(url)]
 
 const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
   const router = express.Router()
@@ -61,7 +61,7 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
 
       res.locals.form = {
         fields: fields.filter(fieldCode => !form.fields[fieldCode]?.dependent?.displayInline),
-        navigation: createNavigation(form.steps, req.baseUrl, currentSection),
+        navigation: createNavigation(form.steps, currentSection),
         sectionProgressRules: createSectionProgressRules(form.steps),
       }
 
