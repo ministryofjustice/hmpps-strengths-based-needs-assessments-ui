@@ -33,13 +33,13 @@
             {% if assessmentIsComplete %}
               {{ govukButton({
                 text: "Return to assessment",
-                href: "/form/oastub/start"
+                href: "/form/sbna-poc/landing-page?status=complete"
               }) }}
             {% else %}
               {{ govukButton({
                 text: "Return to assessment",
                 classes: "govuk-button--secondary",
-                href: "/form/oastub/start"
+                href: "/form/sbna-poc/landing-page"
               }) }}
             {% endif %}
           </div>
