@@ -14,45 +14,91 @@ import {
 const defaultTitle = 'Health and wellbeing'
 const sectionName = 'health-wellbeing'
 
-// const nextWhenOneOf = (values: string[], next: string) =>
-//   values.map(it => ({ field: 'mental_health_condition', value: it, next }))
+const coreQuestionSet = [baseHealthAndWellbeingQuestions, makeChangesFields, sectionCompleteFields]
+
+const whenField = (field: string) => ({
+  includes: (values: string[]) => ({
+    thenGoToStep: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
+      values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
+  }),
+})
 
 const stepOptions: FormWizard.Steps = {
   '/health-wellbeing': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalOrMentalHealthProblemsFields, sectionCompleteFields),
     navigationOrder: 6,
-    next: 'health-wellbeing-2',
-    // next: [
-    //   {
-    //     field: 'physical_health_condition', value: 'YES', next: [
-    //       ...nextWhenOneOf(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'], ''),
-    //       { field: 'mental_health_condition', value: 'NO', next: '' },
-    //     ]
-    //   },
-    //   {
-    //     field: 'physical_health_condition', value: 'NO', next: [
-    //       ...nextWhenOneOf(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'], ''),
-    //       { field: 'mental_health_condition', value: 'NO', next: '' },
-    //     ]
-    //   },
-    // ],
+    next: [
+      {
+        field: 'health_wellbeing_physical_health_condition',
+        value: 'YES',
+        next: [
+          whenField('health_wellbeing_mental_health_condition')
+            .includes(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'])
+            .thenGoToStep('physical-and-mental-health-condition'),
+          whenField('health_wellbeing_mental_health_condition')
+            .includes(['NO', 'UNKNOWN'])
+            .thenGoToStep('physical-health-condition'),
+        ].flat(),
+      },
+      whenField('health_wellbeing_physical_health_condition')
+        .includes(['NO', 'UNKNOWN'])
+        .thenGoToStep(
+          [
+            whenField('health_wellbeing_mental_health_condition')
+              .includes(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'])
+              .thenGoToStep('mental-health-condition'),
+
+            whenField('health_wellbeing_mental_health_condition')
+              .includes(['NO', 'UNKNOWN'])
+              .thenGoToStep('no-physical-or-mental-health-condition'),
+          ].flat(),
+        ),
+    ].flat(),
     section: sectionName,
     sectionProgressRules: [
       setField('health_wellbeing_section_complete', 'NO'),
       setField('health_wellbeing_analysis_section_complete', 'NO'),
     ],
   },
-  '/health-wellbeing-2': {
+  '/physical-and-mental-health-condition': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(
-      physicalHealthConditionsFields,
-      mentalHealthConditionsFields,
-      baseHealthAndWellbeingQuestions,
-      makeChangesFields,
-      sectionCompleteFields,
-    ),
+    fields: fieldCodesFrom(physicalHealthConditionsFields, mentalHealthConditionsFields, ...coreQuestionSet),
     next: 'health-wellbeing-summary-analysis',
+    backLink: 'health-wellbeing',
+    section: sectionName,
+    sectionProgressRules: [
+      setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
+      setField('health_wellbeing_analysis_section_complete', 'NO'),
+    ],
+  },
+  '/physical-health-condition': {
+    pageTitle: defaultTitle,
+    fields: fieldCodesFrom(physicalHealthConditionsFields, ...coreQuestionSet),
+    next: 'health-wellbeing-summary-analysis',
+    backLink: 'health-wellbeing',
+    section: sectionName,
+    sectionProgressRules: [
+      setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
+      setField('health_wellbeing_analysis_section_complete', 'NO'),
+    ],
+  },
+  '/mental-health-condition': {
+    pageTitle: defaultTitle,
+    fields: fieldCodesFrom(mentalHealthConditionsFields, ...coreQuestionSet),
+    next: 'health-wellbeing-summary-analysis',
+    backLink: 'health-wellbeing',
+    section: sectionName,
+    sectionProgressRules: [
+      setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
+      setField('health_wellbeing_analysis_section_complete', 'NO'),
+    ],
+  },
+  '/no-physical-or-mental-health-condition': {
+    pageTitle: defaultTitle,
+    fields: fieldCodesFrom(...coreQuestionSet),
+    next: 'health-wellbeing-summary-analysis',
+    backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
