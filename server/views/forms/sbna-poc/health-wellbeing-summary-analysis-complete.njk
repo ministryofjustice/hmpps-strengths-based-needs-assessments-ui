@@ -1,7 +1,9 @@
 {% extends "../summary.njk" %}
 {% from "components/analysis/macro.njk" import renderAnalysisSummary %}
+{% from "components/summary/health-wellbeing/macro.njk" import renderSummaryFor %}
 
-{% block summaryPanel %}  
+{% block summaryPanel %}
+  {{ renderSummaryFor(options.allFields, answers) }}
 {% endblock %}
 
 {% block analysisPanel %} 

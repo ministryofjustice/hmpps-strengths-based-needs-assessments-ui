@@ -1,8 +1,10 @@
 {% extends "../summary.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "components/question/macro.njk" import renderQuestion %}
+{% from "components/summary/health-wellbeing/macro.njk" import renderSummaryFor %}
 
 {% block summaryPanel %}
+  {{ renderSummaryFor(options.allFields, answers) }}
 {% endblock %}
 
 {% block analysisPanel %}
