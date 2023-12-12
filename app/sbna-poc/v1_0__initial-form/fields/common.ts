@@ -172,3 +172,17 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     characterCountMax: summaryCharacterLimit,
   },
 ]
+
+export const detailsFieldWith =
+  (parentFieldCode: string) =>
+  (option: FormWizard.Field.Option): FormWizard.Field => ({
+    text: 'Give details (optional)',
+    code: fieldCodeWith(parentFieldCode, option.value.toLowerCase(), 'details'),
+    type: FieldType.TextArea,
+    validate: [],
+    dependent: {
+      field: parentFieldCode,
+      value: option.value,
+      displayInline: true,
+    },
+  })

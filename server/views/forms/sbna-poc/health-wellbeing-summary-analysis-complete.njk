@@ -1,0 +1,13 @@
+{% extends "../summary.njk" %}
+{% from "components/analysis/macro.njk" import renderAnalysisSummary %}
+
+{% block summaryPanel %}  
+{% endblock %}
+
+{% block analysisPanel %} 
+  {{ renderAnalysisSummary(
+    "health_wellbeing",
+    "health-wellbeing-analysis#practitioner-analysis",
+    options.allFields
+  ) }}
+{% endblock %}

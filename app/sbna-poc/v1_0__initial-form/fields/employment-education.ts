@@ -2,6 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
   createPractitionerAnalysisFieldsWith,
+  detailsFieldWith,
   fieldCodeWith,
   mediumLabel,
   orDivider,
@@ -14,20 +15,6 @@ const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   { text: 'Has been employed before', value: 'YES', kind: 'option' },
   { text: 'Has never been employed', value: 'NO', kind: 'option' },
 ]
-
-const detailsFieldWith =
-  (parentFieldCode: string) =>
-  (option: FormWizard.Field.Option): FormWizard.Field => ({
-    text: 'Give details (optional)',
-    code: fieldCodeWith(parentFieldCode, option.value.toLowerCase(), 'details'),
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: parentFieldCode,
-      value: option.value,
-      displayInline: true,
-    },
-  })
 
 const createExperienceOfFields = (label: string, prefix: string): Array<FormWizard.Field> => {
   const parentFieldCode = fieldCodeWith(prefix, 'experience')
@@ -520,7 +507,12 @@ export const makeChangesFields: Array<FormWizard.Field> = [
     hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
     code: 'employment_education_changes',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they want to make changes to their alcohol use' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they want to make changes to their employment and education',
+      },
+    ],
     options: makeChangesOptions,
     labelClasses: mediumLabel,
   },

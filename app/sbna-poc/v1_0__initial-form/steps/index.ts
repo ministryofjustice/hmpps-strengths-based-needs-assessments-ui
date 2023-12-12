@@ -1,12 +1,13 @@
 import FormWizard from 'hmpo-form-wizard'
 import SaveAndContinueController from '../controllers/saveAndContinueController'
 import StartController from '../controllers/startController'
+import LandingPageController from '../controllers/landingPageController'
 import accommodationSteps from './accommodation'
 import financeSteps from './finance'
 import drugsSteps from './drugs'
 import alcoholSteps from './alcohol'
 import employmentEducationSteps from './employment-education'
-import LandingPageController from '../controllers/landingPageController'
+import healthAndWellbeingSteps from './health-wellbeing'
 
 const stepOptions: FormWizard.Steps = {
   '/start': {
@@ -30,6 +31,7 @@ const stepOptions: FormWizard.Steps = {
   ...financeSteps,
   ...drugsSteps,
   ...alcoholSteps,
+  ...healthAndWellbeingSteps,
 }
 
 const addStep = (options: FormWizard.Step & { path: string }, steps: FormWizard.Steps): FormWizard.Steps => ({
