@@ -18,7 +18,7 @@ const coreQuestionSet = [baseHealthAndWellbeingQuestions, makeChangesFields, sec
 
 const whenField = (field: string) => ({
   includes: (values: string[]) => ({
-    thenGoToStep: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
+    thenGoNext: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
       values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
   }),
 })
@@ -35,23 +35,23 @@ const stepOptions: FormWizard.Steps = {
         next: [
           whenField('health_wellbeing_mental_health_condition')
             .includes(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'])
-            .thenGoToStep('physical-and-mental-health-condition'),
+            .thenGoNext('physical-and-mental-health-condition'),
           whenField('health_wellbeing_mental_health_condition')
             .includes(['NO', 'UNKNOWN'])
-            .thenGoToStep('physical-health-condition'),
+            .thenGoNext('physical-health-condition'),
         ].flat(),
       },
       whenField('health_wellbeing_physical_health_condition')
         .includes(['NO', 'UNKNOWN'])
-        .thenGoToStep(
+        .thenGoNext(
           [
             whenField('health_wellbeing_mental_health_condition')
               .includes(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'])
-              .thenGoToStep('mental-health-condition'),
+              .thenGoNext('mental-health-condition'),
 
             whenField('health_wellbeing_mental_health_condition')
               .includes(['NO', 'UNKNOWN'])
-              .thenGoToStep('no-physical-or-mental-health-condition'),
+              .thenGoNext('no-physical-or-mental-health-condition'),
           ].flat(),
         ),
     ].flat(),
@@ -64,7 +64,7 @@ const stepOptions: FormWizard.Steps = {
   '/physical-and-mental-health-condition': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalHealthConditionsFields, mentalHealthConditionsFields, ...coreQuestionSet),
-    next: 'health-wellbeing-summary-analysis',
+    next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -75,7 +75,7 @@ const stepOptions: FormWizard.Steps = {
   '/physical-health-condition': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalHealthConditionsFields, ...coreQuestionSet),
-    next: 'health-wellbeing-summary-analysis',
+    next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -86,7 +86,7 @@ const stepOptions: FormWizard.Steps = {
   '/mental-health-condition': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(mentalHealthConditionsFields, ...coreQuestionSet),
-    next: 'health-wellbeing-summary-analysis',
+    next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -97,7 +97,7 @@ const stepOptions: FormWizard.Steps = {
   '/no-physical-or-mental-health-condition': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(...coreQuestionSet),
-    next: 'health-wellbeing-summary-analysis',
+    next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -105,11 +105,11 @@ const stepOptions: FormWizard.Steps = {
       setField('health_wellbeing_analysis_section_complete', 'NO'),
     ],
   },
-  '/health-wellbeing-summary-analysis': {
+  '/health-wellbeing-analysis': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'health-wellbeing-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/health_wellbeing-summary-analysis',
+    template: 'forms/sbna-poc/health-wellbeing-summary-analysis',
     section: sectionName,
     sectionProgressRules: [setFieldWhenValid('health_wellbeing_analysis_section_complete', 'YES', 'NO')],
   },
@@ -117,7 +117,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/sbna-poc/health-wellbeing-complete',
+    template: 'forms/sbna-poc/health-wellbeing-summary-analysis-complete',
     section: sectionName,
   },
 }
