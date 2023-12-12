@@ -3,7 +3,11 @@ import { DateTime } from 'luxon'
 
 export const characterLimit = 400
 export const summaryCharacterLimit = 4000
-export const mediumLabel = 'govuk-label--m'
+export const getMediumLabelClassFor = (type: FieldType) =>
+  type === FieldType.CheckBox || type === FieldType.Radio || type === FieldType.Date
+    ? 'govuk-fieldset__legend--m'
+    : 'govuk-label--m'
+
 export const visuallyHidden = 'govuk-visually-hidden'
 export const inlineRadios = 'govuk-radios--inline'
 export const smallRadios = 'govuk-radios--small'
@@ -64,7 +68,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
   {
     text: 'Are there any strengths or protective factors related to this area?',
@@ -76,7 +80,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
     classes: analysisRadioGroupClasses,
   },
   {
@@ -102,7 +106,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
     classes: analysisRadioGroupClasses,
   },
   {
@@ -128,7 +132,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
     classes: analysisRadioGroupClasses,
   },
   {
@@ -154,7 +158,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if an area of need which is not related to risk' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
     classes: analysisRadioGroupClasses,
   },
   {

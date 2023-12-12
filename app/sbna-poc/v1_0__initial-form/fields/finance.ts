@@ -2,7 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
   createPractitionerAnalysisFieldsWith as createPractitionerAnalysisFieldsWithPrefix,
-  mediumLabel,
+  getMediumLabelClassFor,
   orDivider,
   toFormWizardFields,
   yesNoOptions,
@@ -149,7 +149,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       orDivider,
       { text: 'No money', value: 'NO_MONEY', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Is [subject] over reliant on family or friends for money?',
@@ -194,7 +194,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'How good is [subject] at managing their money?',
@@ -228,7 +228,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -329,7 +329,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -426,7 +426,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   createDebtType('yes_type_of_debt', 'finance_debt', 'YES_THEIR_DEBT'),
   createFormalDebtDetails('yes_formal_debt_details', 'yes_type_of_debt', 'FORMAL_DEBT'),
@@ -512,7 +512,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',

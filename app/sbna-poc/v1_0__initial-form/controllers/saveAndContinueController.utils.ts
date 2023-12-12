@@ -92,7 +92,6 @@ export const getAnswersToAdd = (
   answers: SubmittedAnswers,
 ): Answers => {
   return Object.values(fields)
-    .filter(it => it.type !== FieldType.Collection)
     .filter(it => dependencyMet(it, allFields, answers))
     .reduce((answerDtos, it) => {
       const thisAnswer = answers[it.code]

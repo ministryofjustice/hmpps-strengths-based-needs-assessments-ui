@@ -2,7 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   createPractitionerAnalysisFieldsWith,
   fieldCodeWith,
-  mediumLabel,
+  getMediumLabelClassFor,
   orDivider,
   smallRadios,
   toFormWizardFields,
@@ -44,7 +44,7 @@ const createFieldForDrugUsage = (option: string): FormWizard.Field => ({
     },
   ],
   options: frequencyOptions,
-  labelClasses: mediumLabel,
+  labelClasses: getMediumLabelClassFor(FieldType.Radio),
   dependent: { field: 'drug_use_type', value: option },
 })
 
@@ -65,7 +65,7 @@ const createFieldForInjectingDrug = (option: string, frequency: string): FormWiz
     value: frequency,
     displayInline: true,
   },
-  labelClasses: mediumLabel,
+  labelClasses: getMediumLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -80,7 +80,7 @@ const createFieldForPastDrugUsage = (option: string): FormWizard.Field => ({
     },
   ],
   options: yesNoOptions,
-  labelClasses: mediumLabel,
+  labelClasses: getMediumLabelClassFor(FieldType.Radio),
   dependent: { field: 'drug_use_type', value: option },
 })
 
@@ -100,7 +100,7 @@ const createFieldForPastInjectingDrug = (option: string): FormWizard.Field => ({
     value: 'YES',
     displayInline: true,
   },
-  labelClasses: mediumLabel,
+  labelClasses: getMediumLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -121,7 +121,7 @@ const createFieldForReceivingTreatment = (option: string, frequency: string): Fo
     value: frequency,
     displayInline: true,
   },
-  labelClasses: mediumLabel,
+  labelClasses: getMediumLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -141,7 +141,7 @@ const createFieldForPastReceivingTreatment = (option: string): FormWizard.Field 
     value: 'YES',
     displayInline: true,
   },
-  labelClasses: mediumLabel,
+  labelClasses: getMediumLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -185,7 +185,7 @@ export const drugUseFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever used drugs' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
 ]
 
@@ -214,7 +214,7 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
       { text: 'Spice', value: 'SPICE', kind: 'option' },
       { text: 'Other', value: 'OTHER_DRUG', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Enter drug name',
@@ -249,7 +249,7 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
       { text: 'Cultural or religious practices', value: 'CULTURAL_OR_RELIGIOUS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
@@ -298,7 +298,7 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
       { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
@@ -323,7 +323,7 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
       },
     ],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -349,7 +349,7 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
       { text: 'Motivated to stop or reduce', value: 'MOTIVATED', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
 ]
 
@@ -372,7 +372,7 @@ export const drugUseChangesFields: Array<FormWizard.Field> = [
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
