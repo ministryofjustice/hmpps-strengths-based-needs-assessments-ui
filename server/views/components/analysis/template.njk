@@ -48,8 +48,9 @@
 {% endmacro %}
 
 <section>
-  {{ renderAnalysisSummaryDetailsRow(
+  {{ renderAnalysisSummaryRow(
     "Patterns of behaviours",
+    fields[section + "_practitioner_analysis_patterns_of_behaviour"],
     fields[section + "_practitioner_analysis_patterns_of_behaviour_details"],
     changeLink
   ) }}
