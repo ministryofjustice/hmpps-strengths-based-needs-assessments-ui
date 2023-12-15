@@ -4,7 +4,7 @@ import {
   createPractitionerAnalysisFieldsWith,
   detailsFieldWith,
   fieldCodeWith,
-  mediumLabel,
+  getMediumLabelClassFor,
   orDivider,
   toFormWizardFields,
   visuallyHidden,
@@ -38,7 +38,7 @@ const createExperienceOfFields = (label: string, prefix: string): Array<FormWiza
         { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
         { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
       ],
-      labelClasses: mediumLabel,
+      labelClasses: getMediumLabelClassFor(FieldType.Radio),
     },
     ...optionsWithDetails.map(detailsFieldWith(parentFieldCode)),
   ]
@@ -127,7 +127,7 @@ export const employmentFields: Array<FormWizard.Field> = [
     code: 'employment_area',
     type: FieldType.TextArea,
     validate: [],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 
@@ -150,7 +150,7 @@ export const employmentHistory: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -211,7 +211,7 @@ export const educationFields: Array<FormWizard.Field> = [
       orDivider,
       { text: 'None', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -259,7 +259,7 @@ export const educationFields: Array<FormWizard.Field> = [
       orDivider,
       { text: 'Not sure', value: 'NOT_SURE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -336,7 +336,7 @@ export const educationFields: Array<FormWizard.Field> = [
       { text: 'None of these', value: 'NONE_OF_THESE', kind: 'option' },
       { text: 'Not sure', value: 'NOT_SURE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Does [subject] have skills that could help them in a job or at work?',
@@ -369,7 +369,7 @@ export const educationFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -426,7 +426,7 @@ export const educationFields: Array<FormWizard.Field> = [
       orDivider,
       { text: 'No difficulties', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Select level of difficulty',
@@ -514,7 +514,7 @@ export const makeChangesFields: Array<FormWizard.Field> = [
       },
     ],
     options: makeChangesOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   ...makeChangesOptionsWithDetails.map(detailsFieldWith('employment_education_changes')),
 ]

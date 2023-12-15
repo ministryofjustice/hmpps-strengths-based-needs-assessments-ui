@@ -2,7 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
   createPractitionerAnalysisFieldsWith,
-  mediumLabel,
+  getMediumLabelClassFor,
   orDivider,
   toFormWizardFields,
   yesNoOptions,
@@ -92,7 +92,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have any past issues with alcohol' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -135,7 +135,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
@@ -207,7 +207,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       orDivider,
       { text: 'No negative impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
@@ -240,7 +240,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       },
     ],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -278,7 +278,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -402,7 +402,7 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       { text: '2 to 3 times a week', value: 'LESS_THAN_4_TIMES_A_WEEK', kind: 'option' },
       { text: 'More than 4 times a week', value: 'MORE_THAN_4_TIMES_A_WEEK', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'How many units of alcohol does [subject] have on a typical day of drinking?',
@@ -422,7 +422,7 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       { text: '7 to 9 units', value: '7_TO_9_UNITS', kind: 'option' },
       { text: '10 or more units', value: '10_OR_MORE_UNITS', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Has [subject] had [alcohol_units] or more units within a single day of drinking in the last 3 months?',
@@ -435,7 +435,7 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       },
     ],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Select how often',
@@ -481,7 +481,7 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       },
       { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
 ]
 

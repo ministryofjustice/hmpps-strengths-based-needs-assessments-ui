@@ -3,7 +3,7 @@ import {
   characterLimit,
   createPractitionerAnalysisFieldsWith,
   validateFutureDate,
-  mediumLabel,
+  getMediumLabelClassFor,
   orDivider,
   toFormWizardFields,
   visuallyHidden,
@@ -261,7 +261,7 @@ export const accommodationChangesFields: Array<FormWizard.Field> = [
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
       { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -393,7 +393,7 @@ export const livingWithFields: Array<FormWizard.Field> = [
       orDivider,
       { text: 'Alone', value: 'ALONE', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -436,7 +436,7 @@ export const suitableHousingFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if the location of the accommodation is suitable' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'What are the concerns with the location?',
@@ -488,7 +488,7 @@ export const suitableHousingFields: Array<FormWizard.Field> = [
       { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'What are the concerns?',
@@ -563,7 +563,7 @@ export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have future accommodation planned' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'What is the type of future accommodation?',
@@ -661,7 +661,7 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
       { text: 'Left previous accommodation due to risk to others', value: 'RISK_TO_OTHERS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -693,7 +693,7 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
         message: `Details must be ${characterLimit} characters or less`,
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
 ]
 

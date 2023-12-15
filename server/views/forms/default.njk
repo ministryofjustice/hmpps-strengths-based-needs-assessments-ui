@@ -5,49 +5,54 @@
 {% from "components/question/macro.njk" import renderQuestion %}
 
 {% block formContent %}
-<div class="govuk-!-width-three-quarters">
-  <form method="post" action="{{ action }}">
-    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-    {% for field in (form.fields | removeSectionCompleteFields) %}
-      {% set fieldPrototype = options.fields[field] %}
+  <div class="govuk-!-width-three-quarters">
+    <form method="post" action="{{ action }}">
+      <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+      {% set fieldsOnThisPage = form.fields | removeSectionCompleteFields %}
+      {% for fieldCode in fieldsOnThisPage %}
+        {% set field = options.fields[fieldCode] %}
 
-      {% if (form.fields | removeSectionCompleteFields).length == 1 %}
-      {% set labelClasses = "govuk-label--l" %}
-      {% else %}
-      {% set labelClasses = fieldPrototype.labelClasses %}
-      {% endif %}
+        {% if fieldsOnThisPage.length == 1 %}
+          {% if field.type === "RADIO" or field.type === "CHECKBOX" %}
+            {% set labelClasses = "govuk-fieldset__legend--l" %}
+          {% else %}
+            {% set labelClasses = "govuk-label--l" %}
+          {% endif %}
+        {% else %}
+          {% set labelClasses = field.labelClasses %}
+        {% endif %}
 
-      {% set fieldOptions = {
-        text: fieldPrototype.text,
-        code: fieldPrototype.code,
-        id: fieldPrototype.id,
-        hint: fieldPrototype.hint,
-        type: fieldPrototype.type,
-        options: fieldPrototype.options,
-        value: fieldPrototype.value,
-        labelClasses: labelClasses,
-        characterCountMax: fieldPrototype.characterCountMax,
-        classes: fieldPrototype.classes
-      } %}
+        {% set fieldOptions = {
+          text: field.text,
+          code: field.code,
+          id: field.id,
+          hint: field.hint,
+          type: field.type,
+          options: field.options,
+          value: field.value,
+          labelClasses: labelClasses,
+          characterCountMax: field.characterCountMax,
+          classes: field.classes
+        } %}
 
-      {{ renderQuestion(fieldOptions, errors, action) }}
-    {% endfor %}
+        {{ renderQuestion(fieldOptions, errors, action) }}
+      {% endfor %}
 
-    <div class="questiongroup-action-buttons">
-      {{ govukButton({
+      <div class="questiongroup-action-buttons">
+        {{ govukButton({
         text: buttonText | default('Save and continue'),
         classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
       }) }}
 
-      {% set saveDraftAction = action + "?action=saveDraft" %}
-      {{ govukButton({
+        {% set saveDraftAction = action + "?action=saveDraft" %}
+        {{ govukButton({
         text: "Save as draft",
         classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
         attributes: {
           "formaction": saveDraftAction
         }
       }) }}
-    </div>
-  </form>
-</div>
+      </div>
+    </form>
+  </div>
 {% endblock %}

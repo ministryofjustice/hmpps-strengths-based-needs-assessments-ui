@@ -3,7 +3,7 @@ import {
   characterLimit,
   createPractitionerAnalysisFieldsWith,
   detailsFieldWith,
-  mediumLabel,
+  getMediumLabelClassFor,
   orDivider,
   toFormWizardFields,
   yesNoOptions,
@@ -37,7 +37,7 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -76,7 +76,7 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -143,7 +143,7 @@ export const physicalHealthConditionsFields: Array<FormWizard.Field> = [
         message: `Details must be ${characterLimit} characters or less`,
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 
@@ -159,7 +159,7 @@ export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
         message: `Details must be ${characterLimit} characters or less`,
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 
@@ -175,7 +175,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Has [subject] had a head injury or any illness effecting the brain?',
@@ -193,7 +193,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Does [subject] have any neurodiverse conditions?',
@@ -206,7 +206,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -235,7 +235,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'Yes, some learning difficulties', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
       { text: 'Yes, significant learning difficulties', value: 'YES_SIGNIFICANT_DIFFICULTIES', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -281,7 +281,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'Has some difficulties coping', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
       { text: 'Not able to cope', value: 'NO', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: "What is [subject]'s attitude towards themselves?",
@@ -302,7 +302,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Has [subject] ever self-harmed?',
@@ -311,7 +311,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever self harmed' }],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -340,7 +340,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Select if they have ever attempted suicide or had suicidal thoughts' },
     ],
     options: yesNoOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -376,7 +376,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: '[subject] does not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: "What's helped [subject] during periods of good health and wellbeing?",
@@ -395,7 +395,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'Relationships', value: 'RELATIONSHIPS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -443,7 +443,7 @@ export const makeChangesFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Select if they want to make changes to their health and wellbeing' },
     ],
     options: makeChangesOptions,
-    labelClasses: mediumLabel,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   ...makeChangesOptionsWithDetails.map(detailsFieldWith('health_wellbeing_changes')),
 ]
