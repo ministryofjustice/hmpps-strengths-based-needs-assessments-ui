@@ -53,14 +53,27 @@ const analysisRadioGroupClasses = `${inlineRadios} radio-group--analysis`
 
 export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<FormWizard.Field> => [
   {
-    text: 'Are there any patterns of behaviours related to this area? (optional)',
+    text: 'Are there any patterns of behaviours related to this area?',
     hint: {
       text: 'Include repeated circumstances or behaviours.',
       kind: 'text',
     },
+    code: `${prefix}_practitioner_analysis_patterns_of_behaviour`,
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if there are any patterns of behaviours' }],
+    options: yesNoOptions,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    classes: analysisRadioGroupClasses,
+  },
+  {
+    text: 'Give details',
     code: `${prefix}_practitioner_analysis_patterns_of_behaviour_details`,
     type: FieldType.TextArea,
     validate: [
+      {
+        fn: requiredWhenValidator(`${prefix}_practitioner_analysis_patterns_of_behaviour`, 'YES'),
+        message: 'Enter details',
+      },
       {
         type: ValidationType.MaxLength,
         arguments: [summaryCharacterLimit],
@@ -68,7 +81,6 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string): Array<Form
       },
     ],
     characterCountMax: summaryCharacterLimit,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
   {
     text: 'Are there any strengths or protective factors related to this area?',
