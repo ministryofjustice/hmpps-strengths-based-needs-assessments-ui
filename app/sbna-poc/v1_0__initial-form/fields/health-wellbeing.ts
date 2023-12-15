@@ -314,7 +314,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details (optional)',
+    text: 'Give details',
     code: 'health_wellbeing_self_harmed_details',
     type: FieldType.TextArea,
     validate: [
@@ -343,7 +343,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details (optional)',
+    text: 'Give details',
     code: 'health_wellbeing_attempted_suicide_or_suicidal_thoughts_details',
     type: FieldType.TextArea,
     validate: [
