@@ -49,6 +49,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const sessionData = req.session.sessionData as SessionInformation
     res.locals.sessionData = sessionData
     res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
+    res.locals.assessmentId = sessionData.assessmentUUID
     res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName, alcohol_units: 8 } // TODO: Hardcoded alcohol units for now, will need to calculate this based on gender
     res.locals.values = mergeAnswers(req.form.persistedAnswers, res.locals.values)
   }
