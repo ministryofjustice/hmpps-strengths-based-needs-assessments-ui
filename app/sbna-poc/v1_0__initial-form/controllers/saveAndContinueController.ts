@@ -176,6 +176,10 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
+    if (req.query.redirect === 'false') {
+      return res.send('👍')
+    }
+
     if (req.query.action === 'saveDraft') {
       const redirectUrl = req.baseUrl + req.path
 

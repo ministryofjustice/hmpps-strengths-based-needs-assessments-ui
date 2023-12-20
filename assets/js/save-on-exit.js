@@ -1,22 +1,31 @@
 ;(function initialiseAutosave() {
-  const assessmentInfo = document.querySelector('#assessment-info')
-  const assessmentId = assessmentInfo.dataset.assessmentId || 'assessment-id'
-
-  function shouldSave(element) {
+  function isSavable(element) {
     return element.name.length > 0 && element.name !== 'x-csrf-token'
   }
 
-  function isRadio(element) {
-    return element.type === 'radio'
-  }
+  const isTypeOf = elementType => element => element.type === elementType
 
-  function isCheckbox(element) {
-    return element.type === 'checkbox'
+  const isRadio = isTypeOf('radio')
+  const isCheckbox = isTypeOf('checkbox')
+  const isSelect = element => isTypeOf('select-one')(element) || isTypeOf('select-multiple')(element)
+
+  function getForm() {
+    return document.getElementById('form')
   }
 
   function getFormElements() {
-    const form = document.getElementById('form')
-    return form.elements
+    return getForm()?.elements
+  }
+
+  function getAssessmentId() {
+    const assessmentInfo = document.querySelector('#assessment-info')
+    return assessmentInfo?.dataset?.assessmentId || 'assessment-id'
+  }
+
+  function getKeyForLocalStorage() {
+    const assessmentId = getAssessmentId()
+
+    return assessmentId + window.location.pathname
   }
 
   function saveRadio(data, element) {
@@ -35,13 +44,13 @@
 
   function saveForm() {
     const formElements = getFormElements()
-    const key = assessmentId + window.location.pathname
+    const key = getKeyForLocalStorage()
     const data = {}
 
-    console.log(`saving local form data for: ${key}`)
+    console.log(`Saving local form data for: ${key}`)
 
     for (const element of formElements) {
-      if (shouldSave(element)) {
+      if (isSavable(element)) {
         if (isRadio(element)) {
           saveRadio(data, element)
         } else if (isCheckbox(element)) {
@@ -55,7 +64,23 @@
     localStorage.setItem(key, JSON.stringify(data))
   }
 
-  function removeOldData() {
+  function persistForm() {
+    const form = getForm()
+    const formData = new URLSearchParams(new FormData(form))
+    const formAction = form?.getAttribute('action')
+    const endpoint = `${formAction}?action=saveDraft&redirect=false`
+
+    return fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'x-csrf-token': document.getElementsByName('x-csrf-token')[0].value,
+      },
+    })
+  }
+
+  function removeUnusedLocalStorageEntries() {
+    const assessmentId = getAssessmentId()
     let removedCount = 0
 
     for (let i = 0; i < localStorage.length; i++) {
@@ -79,46 +104,19 @@
     savedValues.includes(element.value) ? element.setAttribute('checked', true) : element.removeAttribute('checked')
   }
 
-  function notifyUserOfUnsavedChanges(formElements, savedState) {
-    const initialState = {}
-
-    for (const element of formElements) {
-      if (shouldSave(element)) {
-        if (isRadio(element)) {
-          saveRadio(initialState, element)
-        } else if (isCheckbox(element)) {
-          saveCheckbox(initialState, element)
-        } else {
-          initialState[element.name] = element.value
-        }
-      }
-    }
-
-    const notificationBanner = document.getElementById('unsaved-data-notification')
-
-    if (savedState && JSON.stringify(initialState) != savedState) {
-      console.log('Notifying user of unsaved changes')
-      notificationBanner?.classList?.remove('govuk-visually-hidden')
-    } else {
-      notificationBanner?.classList?.add('govuk-visually-hidden')
-    }
-  }
-
   function loadForm() {
     const formElements = getFormElements()
-    const key = assessmentId + window.location.pathname
+    const key = getKeyForLocalStorage()
 
-    console.log(`loading local form data for: ${key}`)
+    console.log(`Loading local form data for: ${key}`)
 
     const data = localStorage.getItem(key)
-
-    notifyUserOfUnsavedChanges(formElements, data)
 
     if (data) {
       const parsedData = JSON.parse(data)
 
       for (const element of formElements) {
-        if (shouldSave(element)) {
+        if (isSavable(element)) {
           if (isRadio(element)) {
             loadRadio(parsedData, element)
           } else if (isCheckbox(element)) {
@@ -130,31 +128,58 @@
       }
     }
 
+    console.log(`Clearing local form data for: ${key}`)
+
     localStorage.removeItem(key)
   }
 
-  function removeLocalData() {
-    const page = window.location.pathname
+  function addListenersToFormElements() {
+    const form = getForm()
 
-    console.log(`clearing local form data for: ${page}`)
+    form.addEventListener('submit', () => {
+      removeLoadedData()
+    })
 
-    localStorage.removeItem(page)
+    const formElements = getFormElements()
+
+    let timeoutHandle = null
+
+    const handleEvent = () => {
+      if (timeoutHandle) {
+        clearTimeout(timeoutHandle)
+      }
+
+      console.log('Detected change - setting timeout')
+
+      timeoutHandle = setTimeout(() => {
+        persistForm()
+          .then(response =>
+            response.text().then(text => {
+              console.log(`Form persisted: ${text}`)
+            }),
+          )
+          .catch(e => console.error(`Failed to persist form: ${e.message}`))
+      }, 5 * 1000)
+    }
+
+    document.addEventListener('keyup', handleEvent)
+
+    for (const element of formElements) {
+      if (isRadio(element) || isCheckbox(element) || isSelect(element)) {
+        element.addEventListener('click', handleEvent)
+      }
+    }
   }
 
   window.addEventListener('load', () => {
-    removeOldData()
+    removeUnusedLocalStorageEntries()
     loadForm()
+    addListenersToFormElements()
   })
 
   window.addEventListener('beforeunload', () => {
     saveForm()
 
     return null
-  })
-
-  const form = document.getElementById('form')
-
-  form.addEventListener('submit', () => {
-    removeLocalData()
   })
 })()
