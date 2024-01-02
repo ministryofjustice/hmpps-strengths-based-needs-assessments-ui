@@ -134,12 +134,6 @@
   }
 
   function addListenersToFormElements() {
-    const form = getForm()
-
-    form.addEventListener('submit', () => {
-      removeLoadedData()
-    })
-
     const formElements = getFormElements()
 
     let timeoutHandle = null
@@ -168,6 +162,22 @@
       if (isRadio(element) || isCheckbox(element) || isSelect(element)) {
         element.addEventListener('click', handleEvent)
       }
+    }
+
+    const links = document.getElementsByTagName('a')
+
+    for (const link of links) {
+      link.addEventListener('click', event => {
+        event.preventDefault()
+        return persistForm()
+          .then(response =>
+            response.text().then(text => {
+              console.log(`Form persisted: ${text}`)
+              window.location = link.href
+            }),
+          )
+          .catch(e => console.error(`Failed to persist form: ${e.message}`))
+      })
     }
   }
 
