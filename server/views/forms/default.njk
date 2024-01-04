@@ -6,7 +6,7 @@
 
 {% block formContent %}
   <div class="govuk-!-width-three-quarters">
-    <form method="post" action="{{ action }}">
+    <form id="form" method="post" action="{{ action }}">
       <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
       {% set fieldsOnThisPage = form.fields | removeSectionCompleteFields %}
       {% for fieldCode in fieldsOnThisPage %}
@@ -40,19 +40,27 @@
 
       <div class="questiongroup-action-buttons">
         {{ govukButton({
-        text: buttonText | default('Save and continue'),
-        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
-      }) }}
+          text: buttonText | default('Save and continue'),
+          classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+        }) }}
 
         {% set saveDraftAction = action + "?action=saveDraft" %}
         {{ govukButton({
-        text: "Save as draft",
-        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
-        attributes: {
-          "formaction": saveDraftAction
-        }
-      }) }}
+          id: "save-as-draft-button",
+          text: "Save as draft",
+          classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1 govuk-button--secondary',
+          attributes: {
+            "formaction": saveDraftAction
+          }
+        }) }}
       </div>
     </form>
   </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
+  <script type="module" src="/assets/govukFrontendInit.js"></script>
+  <script src="/assets/moj/all.js"></script>
+  <script src="/assets/save-on-exit.js"></script>
 {% endblock %}
