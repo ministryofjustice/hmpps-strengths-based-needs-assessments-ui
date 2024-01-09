@@ -31,11 +31,12 @@ services:
     ports:
       - "9090:9090"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:9090/auth/health"]
     environment:
       - SERVER_PORT=9090
       - SPRING_PROFILES_ACTIVE=dev
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
 
   hmpps-strengths-based-needs-assessments-api:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest
