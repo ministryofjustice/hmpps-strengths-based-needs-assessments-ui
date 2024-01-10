@@ -67,7 +67,7 @@
   function persistForm() {
     const form = getForm()
     const formData = new URLSearchParams(new FormData(form))
-    const formAction = form?.getAttribute('action')
+    const [formAction] = form?.getAttribute('action').split('#')
     const endpoint = `${formAction}?action=saveDraft&redirect=false`
 
     return fetch(endpoint, {
