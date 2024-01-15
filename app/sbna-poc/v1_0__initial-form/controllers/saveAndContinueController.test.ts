@@ -6,6 +6,8 @@ describe('SaveAndContinueController', () => {
   const controller = new Controller({ route: '/' })
 
   describe('setSectionProgress', () => {
+    const conditionFn = jest.fn()
+
     const buildRequestWith = ({
       sectionProgressRules = [],
       queryParams = {},
@@ -26,8 +28,6 @@ describe('SaveAndContinueController', () => {
         query: queryParams,
       }) as unknown as FormWizard.Request
 
-    const conditionFn = jest.fn()
-
     beforeEach(() => {
       conditionFn.mockReset()
     })
@@ -41,7 +41,7 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      controller.setSectionProgress(req)
+      controller.setSectionProgress(req, true)
 
       expect(conditionFn).toHaveBeenCalledTimes(3)
     })
@@ -51,18 +51,17 @@ describe('SaveAndContinueController', () => {
         sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
       })
 
-      controller.setSectionProgress(req)
+      controller.setSectionProgress(req, true)
 
       expect(conditionFn).toHaveBeenLastCalledWith(true, {})
     })
 
-    it('calls conditionFn with "isValidated" set to "false" when saving as draft', () => {
+    it('calls conditionFn with "isValidated" set to "false" when form failed validation', () => {
       const req = buildRequestWith({
         sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
-        queryParams: { action: 'saveDraft' },
       })
 
-      controller.setSectionProgress(req)
+      controller.setSectionProgress(req, false)
 
       expect(conditionFn).toHaveBeenLastCalledWith(false, {})
     })
@@ -74,7 +73,7 @@ describe('SaveAndContinueController', () => {
         formValues,
       })
 
-      controller.setSectionProgress(req)
+      controller.setSectionProgress(req, true)
 
       expect(conditionFn).toHaveBeenLastCalledWith(true, formValues)
     })
@@ -88,7 +87,7 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      controller.setSectionProgress(req)
+      controller.setSectionProgress(req, true)
 
       expect(req.form.values).toEqual({
         foo_section_complete: 'FOO',
@@ -99,6 +98,18 @@ describe('SaveAndContinueController', () => {
   })
 
   describe('updateAssessmentProgress', () => {
+    const buildRequestWith = ({ persistedAnswers = {} }: { persistedAnswers?: Record<string, string | string[]> }) =>
+      ({
+        form: {
+          options: {
+            sectionProgressRules: [],
+          },
+          values: {},
+          submittedAnswers: {},
+          persistedAnswers,
+        },
+      }) as unknown as FormWizard.Request
+
     const buildResponseWith = ({
       formValues,
       sectionProgressRules = [],
@@ -114,11 +125,14 @@ describe('SaveAndContinueController', () => {
       }) as unknown as Response
 
     it('sets the sections to complete when their required fields have been completed', () => {
-      const res = buildResponseWith({
-        formValues: {
+      const req = buildRequestWith({
+        persistedAnswers: {
           accommodation_section_complete: 'YES',
           accommodation_analysis_section_complete: 'YES',
         },
+      })
+
+      const res = buildResponseWith({
         sectionProgressRules: [
           {
             sectionName: 'accommodation',
@@ -127,14 +141,14 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      controller.updateAssessmentProgress(res)
+      controller.updateAssessmentProgress(req, res)
 
       expect(res.locals.sectionProgress?.accommodation).toEqual(true)
     })
 
     it('sets the sections to incomplete when their required fields have not been completed', () => {
-      const res = buildResponseWith({
-        formValues: {
+      const req = buildRequestWith({
+        persistedAnswers: {
           finance_section_complete: 'YES',
           finance_analysis_section_complete: 'NO',
           alcohol_use_section_complete: 'NO',
@@ -142,6 +156,8 @@ describe('SaveAndContinueController', () => {
           drug_use_section_complete: 'NO',
           drug_use_analysis_section_complete: 'NO',
         },
+      })
+      const res = buildResponseWith({
         sectionProgressRules: [
           {
             sectionName: 'alcohol-use',
@@ -152,7 +168,7 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      controller.updateAssessmentProgress(res)
+      controller.updateAssessmentProgress(req, res)
 
       expect(res.locals.sectionProgress?.finance).toEqual(false)
       expect(res.locals.sectionProgress?.['alcohol-use']).toEqual(false)

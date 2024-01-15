@@ -54,12 +54,15 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     res.locals.values = mergeAnswers(req.form.persistedAnswers, res.locals.values)
   }
 
-  updateAssessmentProgress(res: Response) {
+  updateAssessmentProgress(req: FormWizard.Request, res: Response) {
     type Progress = Record<string, boolean>
     type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
     type AnswerValues = Record<string, string>
 
-    const subsectionIsComplete = (answers: AnswerValues) => (fieldCode: string) => answers[fieldCode] === 'YES'
+    const subsectionIsComplete =
+      (answers: AnswerValues = {}) =>
+      (fieldCode: string) =>
+        answers[fieldCode] === 'YES'
     const checkProgress =
       (answers: AnswerValues) =>
       (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
@@ -68,7 +71,10 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       })
 
     const sections = res.locals.form.sectionProgressRules
-    const sectionProgress: Progress = sections.reduce(checkProgress(res.locals.values), {})
+    const sectionProgress: Progress = sections.reduce(
+      checkProgress(req.form.persistedAnswers as Record<string, string>),
+      {},
+    )
     res.locals.sectionProgress = sectionProgress
     res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
   }
@@ -76,7 +82,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       await this.addAssessmentDataToLocals(req, res)
-      this.updateAssessmentProgress(res)
+      this.updateAssessmentProgress(req, res)
 
       res.locals.isSaved = req.sessionModel.get('isSaved') || false
       req.sessionModel.set('isSaved', false)
@@ -105,19 +111,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   async process(req: FormWizard.Request, res: Response, next: NextFunction) {
-    if (req.query.action === 'saveDraft') {
-      const { fields } = req.form.options
-
-      req.form.options.fields = Object.entries(fields).reduce(
-        (modifiedFields, [fieldCode, fieldConfig]) => ({
-          ...modifiedFields,
-          [fieldCode]: { ...fieldConfig, validate: [] },
-        }),
-        { ...fields },
-      )
-    }
-
-    super.process(req, res, next)
+    return super.process(req, res, next)
   }
 
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -126,9 +120,8 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     return resumeUrl ? res.redirect(resumeUrl) : super.getValues(req, res, next)
   }
 
-  setSectionProgress(req: FormWizard.Request) {
+  setSectionProgress(req: FormWizard.Request, isValidated: boolean) {
     const sectionProgressRules = req.form.options.sectionProgressRules || []
-    const isValidated = req.query.action !== 'saveDraft'
 
     req.form.values = sectionProgressRules.reduce(
       (answers, { fieldCode, conditionFn }) => ({ ...answers, [fieldCode]: conditionFn(isValidated, req.form.values) }),
@@ -136,7 +129,17 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     )
   }
 
-  async saveAnswers(req: FormWizard.Request, res: Response) {
+  resetResumeUrl(req: FormWizard.Request) {
+    const sectionName = req.form.options.section
+    const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
+    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
+  }
+
+  async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
+    return super.saveValues(req, res, next)
+  }
+
+  async persistAnswers(req: FormWizard.Request, res: Response, tags: string[]) {
     const { assessmentUUID } = req.session.sessionData as SessionInformation
 
     const answers = { ...req.form.persistedAnswers, ...req.form.values }
@@ -154,31 +157,18 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     req.form.values = updatedAnswers
     res.locals.values = req.form.values
 
-    await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove })
-  }
-
-  resetResumeUrl(req: FormWizard.Request) {
-    const sectionName = req.form.options.section
-    const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
-  }
-
-  async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
-    try {
-      this.setSectionProgress(req)
-      await this.saveAnswers(req, res)
-      this.resetResumeUrl(req)
-
-      super.saveValues(req, res, next)
-    } catch (error) {
-      next(error)
-    }
+    await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove, tags })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
-    if (req.query.redirect === 'false') {
+    this.setSectionProgress(req, true)
+    await this.persistAnswers(req, res, ['validated', 'unvalidated'])
+
+    if (req.query.jsonResponse === 'true') {
       return res.send('👍')
     }
+
+    this.resetResumeUrl(req)
 
     if (req.query.action === 'saveDraft') {
       const redirectUrl = req.baseUrl + req.path
@@ -194,12 +184,17 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   async errorHandler(error: Error, req: FormWizard.Request, res: Response, next: NextFunction) {
-    if (
-      Object.values(error).every(e => e instanceof FormWizard.Controller.Error) &&
-      isPractitionerAnalysisPage(req.path)
-    ) {
+    if (req.query.jsonResponse === 'true') {
+      return res.send('👍')
+    }
+
+    this.resetResumeUrl(req)
+
+    if (Object.values(error).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
+      this.setSectionProgress(req, false)
+      await this.persistAnswers(req, res, ['unvalidated'])
+
       this.setErrors(error, req, res)
-      return res.redirect(`${req.baseUrl + req.path}#practitioner-analysis`)
     }
 
     return super.errorHandler(error, req, res, next)
