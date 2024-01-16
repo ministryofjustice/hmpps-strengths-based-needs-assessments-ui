@@ -7,7 +7,7 @@ import getHmppsAuthClient from '../data/hmppsAuthClient'
 export interface CreateSessionRequest extends Record<string, unknown> {
   userSessionId: string
   userAccess: string
-  oasysAssessmentId: string
+  oasysAssessmentPk: string
 }
 
 export interface CreateSessionResponse {
@@ -58,6 +58,7 @@ export type Answers = Record<string, AnswerDto>
 export interface UpdateAnswersDto extends Record<string, unknown> {
   answersToAdd: Answers
   answersToRemove: string[]
+  tags?: string[]
 }
 
 export interface UpdateAnswersInCollectionDto extends Record<string, unknown> {
@@ -108,9 +109,9 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return { firstName: 'Paul' }
   }
 
-  async fetchAnswers(assessmentUuid: string): Promise<Answers> {
+  async fetchAnswers(assessmentUuid: string, tag: string = 'unvalidated'): Promise<Answers> {
     const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/assessment/${assessmentUuid}/answers` })
+    const responseBody = await client.get({ path: `/assessment/${assessmentUuid}/version/${tag}/answers` })
     return responseBody as Answers
   }
 

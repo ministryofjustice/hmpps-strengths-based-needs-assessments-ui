@@ -1,4 +1,6 @@
 ;(function initialiseAutosave() {
+  let formHasChangesToBePersisted = false
+
   function isSavable(element) {
     return element.name.length > 0 && element.name !== 'x-csrf-token'
   }
@@ -15,6 +17,10 @@
 
   function getFormElements() {
     return getForm()?.elements
+  }
+
+  function hasFormOnPage() {
+    return getForm() !== null
   }
 
   function getAssessmentId() {
@@ -68,7 +74,7 @@
     const form = getForm()
     const formData = new URLSearchParams(new FormData(form))
     const [formAction] = form?.getAttribute('action').split('#')
-    const endpoint = `${formAction}?action=saveDraft&redirect=false`
+    const endpoint = `${formAction}?action=saveDraft&jsonResponse=true`
 
     return fetch(endpoint, {
       method: 'POST',
@@ -139,6 +145,8 @@
     let timeoutHandle = null
 
     const handleEvent = () => {
+      formHasChangesToBePersisted = true
+
       if (timeoutHandle) {
         clearTimeout(timeoutHandle)
       }
@@ -150,6 +158,7 @@
           .then(response =>
             response.text().then(text => {
               console.log(`Form persisted: ${text}`)
+              formHasChangesToBePersisted = false
             }),
           )
           .catch(e => console.error(`Failed to persist form: ${e.message}`))
@@ -169,26 +178,35 @@
     for (const link of links) {
       link.addEventListener('click', event => {
         event.preventDefault()
-        return persistForm()
-          .then(response =>
-            response.text().then(text => {
-              console.log(`Form persisted: ${text}`)
-              window.location = link.href
-            }),
-          )
-          .catch(e => console.error(`Failed to persist form: ${e.message}`))
+        if (formHasChangesToBePersisted) {
+          return persistForm()
+            .then(response =>
+              response.text().then(text => {
+                console.log(`Form persisted: ${text}`)
+                window.location = link.href
+              }),
+            )
+            .catch(e => console.error(`Failed to persist form: ${e.message}`))
+        } else {
+          window.location = link.href
+        }
       })
     }
   }
 
   window.addEventListener('load', () => {
-    removeUnusedLocalStorageEntries()
-    loadForm()
-    addListenersToFormElements()
+    if (hasFormOnPage()) {
+      console.log(`Form detected, initialising autosave`)
+      removeUnusedLocalStorageEntries()
+      loadForm()
+      addListenersToFormElements()
+    }
   })
 
   window.addEventListener('beforeunload', () => {
-    saveForm()
+    if (hasFormOnPage()) {
+      saveForm()
+    }
 
     return null
   })
