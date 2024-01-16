@@ -1,10 +1,7 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
-  characterLimit,
   createPractitionerAnalysisFieldsWith,
-  detailsFieldWith,
   getMediumLabelClassFor,
-  orDivider,
   toFormWizardFields,
   yesNoOptions,
 } from './common'
@@ -250,5 +247,5 @@ export default [
   analysisSectionComplete,
   questionSectionComplete,
 ]
-  // .flat()
+  .flat()
   .reduce(toFormWizardFields, {})
