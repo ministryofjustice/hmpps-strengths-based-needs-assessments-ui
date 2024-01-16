@@ -132,7 +132,7 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
 export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
   {
     text: 'Does [subject] show evidence of sexual preoccupation?',
-    code: 'thinking_behaviours_attitudes_sexual_preoccupation?',
+    code: 'thinking_behaviours_attitudes_sexual_preoccupation',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
     options: [
@@ -156,6 +156,63 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
         text: 'They describe an unhealthy amount of time in their daily life thinking about or engaging in sexual activity',
         value: 'YES_UNHEALTHY',
         hint: { text: 'It is a major activity each day which impacts on their daily functioning.' },
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] show evidence of offence-related sexual interests?',
+    code: 'thinking_behaviours_attitudes_offence-related-sexual-interest',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'There is evidence of healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
+        value: 'NO_HEALTHY_INTEREST',
+        hint: {
+          text: 'Whilst their offending means that they have engaged in sexual activity that is illegal, their preferred route to sexual gratification is activity which is both legal and consensual. There is no evidence that they need to sexually offend to meet their sexual needs.',
+        },
+        kind: 'option',
+      },
+      {
+        text: 'There is some evidence of healthy sexual activity that they are fulfilled by including consensual sex. There is also evidence of behaviour that has been recurrent and persistent or an interest in sexual activity that is illegal or harmful',
+        value: 'MIXED_INTEREST',
+        kind: 'option',
+      },
+      {
+        text: 'There is no evidence that they have healthy sexual interests. There are recurrent and persistent patterns of a preference for sexual activity that is illegal or harmful',
+        value: 'YES_UNHEALTHY_INTEREST',
+        hint: {
+          text: 'They are strongly aroused to illegal harmful sexual acts with little or no interest in consenting sex with adults..',
+        },
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] show evidence of emotional compatibility with children or feel closer to children than adults?',
+    code: 'thinking_behaviours_attitudes_emotional_compatibility',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'They have or have had a stable intimate relationship with an adult that they value or have the skills, ability and desire to form stable relationships',
+        value: 'STABLE_ADULT_RELATIONSHIPS',
+        kind: 'option',
+      },
+      {
+        text: 'There is evidence of them having stable adult relationships in the past or want an adult relationship but not being able to achieve this. There is also some evidence that they find it easier or would prefer to do so with children',
+        value: 'MIXED_ADULT_CHILD_RELATIONSHIP_INTEREST',
+        kind: 'option',
+      },
+      {
+        text: 'They describe having significant difficulty forming intimate relationships with adults and prefer seeking emotional intimacy with children',
+        value: 'EMOTIONAL_INTIMACY_WITH_CHILDREN',
+        hint: {
+          text: 'They are strongly aroused to illegal harmful sexual acts with little or no interest in consenting sex with adults..',
+        },
         kind: 'option',
       },
     ],
