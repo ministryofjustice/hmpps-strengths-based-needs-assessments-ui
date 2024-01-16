@@ -220,53 +220,7 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const thinkingBehaviourFields: Array<FormWizard.Field> = [
-  {
-    text: 'Give details if [subject] is on prescribed medication or treatment for physical health conditions (optional)',
-    code: 'health_wellbeing_prescribed_medication_physical_conditions',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-  },
-]
-
-const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
-  { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
-  { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
-  { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
-  { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
-  { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
-  { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
-  { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
-]
-
-const makeChangesOptions: FormWizard.Field.Options = [
-  ...makeChangesOptionsWithDetails,
-  orDivider,
-  { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-  { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-]
-
-export const makeChangesFields: Array<FormWizard.Field> = [
-  {
-    text: 'Does [subject] want to make changes to their health and wellbeing?',
-    hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
-    code: 'health_wellbeing_changes',
-    type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select if they want to make changes to their health and wellbeing' },
-    ],
-    options: makeChangesOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  ...makeChangesOptionsWithDetails.map(detailsFieldWith('health_wellbeing_changes')),
-]
+export const thinkingBehaviourFields: Array<FormWizard.Field> = []
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> =
   createPractitionerAnalysisFieldsWith('health_wellbeing')
@@ -279,8 +233,8 @@ export const questionSectionComplete: FormWizard.Field = {
 }
 
 export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the health and wellbeing analysis section complete?',
-  code: 'health_wellbeing_analysis_section_complete',
+  text: 'Is the thinking behaviours and attitude section complete?',
+  code: 'thinking_behaviours_attitudes_analysis_section_complete',
   type: FieldType.Radio,
   options: yesNoOptions,
 }
@@ -291,9 +245,10 @@ export default [
   thinkingBehavioursAttitudesFields,
   riskOfSexualHarmFields,
   thinkingBehaviourFields,
-  makeChangesFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
+  analysisSectionComplete,
+  questionSectionComplete,
 ]
-  .flat()
+  // .flat()
   .reduce(toFormWizardFields, {})

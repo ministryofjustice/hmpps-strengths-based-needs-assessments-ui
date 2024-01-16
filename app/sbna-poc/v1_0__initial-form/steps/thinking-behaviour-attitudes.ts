@@ -2,7 +2,6 @@ import FormWizard from 'hmpo-form-wizard'
 import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
 import {
   analysisSectionComplete,
-  makeChangesFields,
   thinkingBehavioursAttitudesFields,
   riskOfSexualHarmFields,
   thinkingBehaviourFields,
@@ -12,8 +11,6 @@ import {
 
 const defaultTitle = 'Thinking behaviours and attitudes'
 const sectionName = 'thinking-behaviours-attitudes'
-
-const coreQuestionSet = [makeChangesFields, sectionCompleteFields]
 
 const whenField = (field: string) => ({
   includes: (values: string[]) => ({
@@ -49,7 +46,7 @@ const stepOptions: FormWizard.Steps = {
   },
   '/thinking-behaviours-attitudes-sexual-offending': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(riskOfSexualHarmFields, ...coreQuestionSet),
+    fields: fieldCodesFrom(riskOfSexualHarmFields, sectionCompleteFields),
     next: '/thinking-behaviours',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
@@ -60,7 +57,7 @@ const stepOptions: FormWizard.Steps = {
   },
   '/thinking-behaviours': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(thinkingBehaviourFields, ...coreQuestionSet),
+    fields: fieldCodesFrom(thinkingBehaviourFields, sectionCompleteFields),
     next: '/thinking-behaviours-attitudes-continued',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
@@ -72,16 +69,16 @@ const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours-attitudes-summary-analysis': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: 'health-wellbeing-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/health-wellbeing-summary-analysis',
+    next: '',
+    template: '',
     section: sectionName,
-    sectionProgressRules: [setFieldWhenValid('health_wellbeing_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldWhenValid('', 'YES', 'NO')],
   },
   '/thinking-behaviours-attitudes-analysis-complete': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/sbna-poc/health-wellbeing-summary-analysis-complete',
+    template: '',
     section: sectionName,
   },
 }
