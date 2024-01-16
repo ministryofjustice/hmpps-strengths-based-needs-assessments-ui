@@ -4,6 +4,8 @@ import {
   getMediumLabelClassFor,
   toFormWizardFields,
   yesNoOptions,
+  orDivider,
+  detailsFieldWith,
 } from './common'
 
 const sexualHarmWarningText = `
@@ -217,7 +219,214 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const thinkingBehaviourFields: Array<FormWizard.Field> = []
+export const thinkingBehaviourFields: Array<FormWizard.Field> = [
+  {
+    text: 'Is [subject] able to manage their temper?',
+    code: 'thinking_behaviours_attitudes_temper_management',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'Yes, is able to manage their temper well',
+        value: 'YES',
+        kind: 'option',
+      },
+      {
+        text: 'Sometimes has outbreaks of uncontrolled anger',
+        value: 'SOMETIMES',
+        kind: 'option',
+      },
+      {
+        text: 'No, easily loses their temper',
+        value: 'NO',
+        hint: {
+          text: 'This may result in a loss of control or inability to stay calm until they have expressed their anger.',
+        },
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] use violence, aggressive or controlling behaviour to get their own way?',
+    code: 'thinking_behaviours_attitudes_violence_controlling_behaviour',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'No, they do not use violence, aggressive or controlling behaviour to get their own way',
+        value: 'NO_VIOLENCE',
+        kind: 'option',
+      },
+      {
+        text: 'Some evidence of using violence, aggressive or controlling behaviour to get their own way',
+        value: 'SOMETIMES',
+        kind: 'option',
+      },
+      {
+        text: 'Yes, there is a pattern of using violence, aggressive or controlling behaviour to get their own way',
+        value: 'YES_VIOLENCE',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] act on impulse?',
+    code: 'thinking_behaviours_attitudes_impulsive_behaviour',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'Yes, acts on impulse which causes significant problems',
+        value: 'YES_IMPULSIVE_BEHAVIOUR',
+        kind: 'option',
+      },
+      {
+        text: 'Sometimes acts on impulse which causes problems',
+        value: 'SOMETIMES_IMPULSIVE_BEHAVIOUR',
+        kind: 'option',
+      },
+      {
+        text: 'No, considers all aspects of a situation before acting or making a decision',
+        value: 'NO_IMPULSIVE_BEHAVIOUR',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] have a positive attitude towards any criminal justice staff they have come into contact with?',
+    code: 'thinking_behaviours_attitudes_positive_attitude',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'Yes, has a positive attitude',
+        value: 'YES_POSITIVE',
+        kind: 'option',
+      },
+      {
+        text: 'Has a negative attitude or does not fully engage but there are no safety concerns',
+        value: 'NEGATIVE_ATTITUDE_NO_CONCERNS',
+        kind: 'option',
+      },
+      {
+        text: 'No, has a negative attitude and there are safety concerns',
+        value: 'NEGATIVE_ATTITUDE_AND_CONCERNS',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] have hostile orientation to others or to general rules?',
+    code: 'thinking_behaviours_attitudes_hostile_orientation',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'Yes, there is evidence of suspicious, angry or vengeful thinking and behaviour',
+        value: 'YES_HOSTILE_ORIENTATION',
+        kind: 'option',
+      },
+      {
+        text: 'Some evidence of suspicious, angry or vengeful thinking and behaviour',
+        value: 'SOME_HOSTILE_ORIENTATION',
+        kind: 'option',
+      },
+      {
+        text: "No, they're able to have constructive conversations when they disagree with others and can forgive past wrongs",
+        value: 'NO_HOSTILE_ORIENTATION',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] accept supervision and their licence conditions?',
+    code: 'thinking_behaviours_attitudes_supervision',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'Accepts supervision and has responded well to supervision in the past',
+        value: 'YES_SUPERVISION',
+        kind: 'option',
+      },
+      {
+        text: 'Unsure about supervision and has put minimum effort into supervision in the past',
+        value: 'UNSURE_SUPERVISION',
+        kind: 'option',
+      },
+      {
+        text: 'Not prepared to accept supervision and has failed to follow supervision in the past',
+        value: 'NO_SUPERVISION',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] support or excuse criminal behaviour?',
+    code: 'thinking_behaviours_attitudes_criminal_behaviour',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    options: [
+      {
+        text: 'Yes, supports or excuses criminal behaviour or their pattern of behaviour and other evidence indicates this is an issue',
+        value: 'YES_SUPPORTS_CRIMINAL_BEHAVIOUR',
+        kind: 'option',
+      },
+      {
+        text: 'Sometimes supports or excuses criminal behaviour',
+        value: 'SOMETIMES_SUPPORTS_CRIMINAL_BEHAVIOUR',
+        kind: 'option',
+      },
+      {
+        text: 'No, does not support or excuse criminal behaviour',
+        value: 'NOT_SUPPORT_CRIMINAL_BEHAVIOUR',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+]
+
+const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
+  { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
+  { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
+  { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
+  { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
+  { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
+  { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
+  { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
+]
+
+const makeChangesOptions: FormWizard.Field.Options = [
+  ...makeChangesOptionsWithDetails,
+  orDivider,
+  { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
+  { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
+]
+
+export const makeChangesFields: Array<FormWizard.Field> = [
+  {
+    text: 'Does [subject] want to make changes to their thinking behaviours and attitudes?',
+    hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
+    code: 'thinking_behaviours_attitudes_changes',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they want to make changes to their thinking behaviours and attitudes',
+      },
+    ],
+    options: makeChangesOptions,
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  ...makeChangesOptionsWithDetails.map(detailsFieldWith('thinking_behaviours_attitudes_changes')),
+]
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> =
   createPractitionerAnalysisFieldsWith('health_wellbeing')
@@ -246,6 +455,7 @@ export default [
   sectionCompleteFields,
   analysisSectionComplete,
   questionSectionComplete,
+  makeChangesFields,
 ]
   .flat()
   .reduce(toFormWizardFields, {})

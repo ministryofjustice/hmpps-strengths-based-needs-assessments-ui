@@ -5,6 +5,7 @@ import {
   thinkingBehavioursAttitudesFields,
   riskOfSexualHarmFields,
   thinkingBehaviourFields,
+  makeChangesFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
 } from '../fields/thinking-behaviours-attitudes'
@@ -57,8 +58,8 @@ const stepOptions: FormWizard.Steps = {
   },
   '/thinking-behaviours': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(thinkingBehaviourFields, sectionCompleteFields),
-    next: '/thinking-behaviours-attitudes-continued',
+    fields: fieldCodesFrom(thinkingBehaviourFields, makeChangesFields, sectionCompleteFields),
+    next: '',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
