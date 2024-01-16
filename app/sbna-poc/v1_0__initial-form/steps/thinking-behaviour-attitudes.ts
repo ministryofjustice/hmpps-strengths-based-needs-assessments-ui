@@ -4,6 +4,8 @@ import {
   analysisSectionComplete,
   makeChangesFields,
   thinkingBehavioursAttitudesFields,
+  riskOfSexualHarmFields,
+  thinkingBehaviourFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
 } from '../fields/thinking-behaviours-attitudes'
@@ -32,8 +34,10 @@ const stepOptions: FormWizard.Steps = {
         next: [
           whenField('thinking_behaviours_attitudes_risk_sexual_harm')
             .includes(['YES'])
-            .thenGoNext('thinking_behaviours_attitudes_sexual_preoccupation'),
-          whenField('health_wellbeing_mental_health_condition').includes(['NO']).thenGoNext(''),
+            .thenGoNext('thinking-behaviours-attitudes-sexual-offending'),
+          whenField('thinking_behaviours_attitudes_risk_sexual_harm')
+            .includes(['NO'])
+            .thenGoNext('thinking-behaviours'),
         ].flat(),
       },
     ].flat(),
@@ -42,6 +46,43 @@ const stepOptions: FormWizard.Steps = {
       setField('thinking-behaviours-attitudes_section_complete', 'NO'),
       setField('thinking-behaviours-attitudes_analysis_section_complete', 'NO'),
     ],
+  },
+  '/thinking-behaviours-attitudes-sexual-offending': {
+    pageTitle: defaultTitle,
+    fields: fieldCodesFrom(riskOfSexualHarmFields, ...coreQuestionSet),
+    next: '/thinking-behaviours',
+    backLink: 'thinking-behaviours-attitudes',
+    section: sectionName,
+    sectionProgressRules: [
+      setField('thinking-behaviours-attitudes_section_complete', 'NO'),
+      setField('thinking-behaviours-attitudes_analysis_section_complete', 'NO'),
+    ],
+  },
+  '/thinking-behaviours': {
+    pageTitle: defaultTitle,
+    fields: fieldCodesFrom(thinkingBehaviourFields, ...coreQuestionSet),
+    next: '/thinking-behaviours-attitudes-continued',
+    backLink: 'thinking-behaviours-attitudes',
+    section: sectionName,
+    sectionProgressRules: [
+      setField('thinking-behaviours-attitudes_section_complete', 'NO'),
+      setField('thinking-behaviours-attitudes_analysis_section_complete', 'NO'),
+    ],
+  },
+  '/thinking-behaviours-attitudes-summary-analysis': {
+    pageTitle: defaultTitle,
+    fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
+    next: 'health-wellbeing-analysis-complete#practitioner-analysis',
+    template: 'forms/sbna-poc/health-wellbeing-summary-analysis',
+    section: sectionName,
+    sectionProgressRules: [setFieldWhenValid('health_wellbeing_analysis_section_complete', 'YES', 'NO')],
+  },
+  '/thinking-behaviours-attitudes-analysis-complete': {
+    pageTitle: defaultTitle,
+    fields: [],
+    next: [],
+    template: 'forms/sbna-poc/health-wellbeing-summary-analysis-complete',
+    section: sectionName,
   },
 }
 
