@@ -23,7 +23,9 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     hint: { text: 'This includes towards themselves and to others.', kind: 'text' },
     code: 'thinking_behaviours_attitudes_consequences',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they are aware of the consequences of their actions' },
+    ],
     options: [
       { text: 'Yes, is aware of the consequences of their actions', value: 'YES', kind: 'option' },
       { text: 'Sometimes is aware of the consequences of their actions', value: 'SOMETIMES', kind: 'option' },
@@ -35,7 +37,7 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     text: 'Does [subject] show stable behaviour?',
     code: 'thinking_behaviours_attitudes_stable_behaviour',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they show stable behaviour' }],
     options: [
       { text: 'Yes, shows stable behaviour', value: 'YES', kind: 'option' },
       {
@@ -48,10 +50,38 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
+    text: 'Does [subject] engage in activities that could link to offending??',
+    code: 'thinking_behaviours_attitudes_offending_activities',
+    type: FieldType.Radio,
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they engage in activities that could link to offending' },
+    ],
+    options: [
+      {
+        text: 'Yes, regularly engages in activities which encourage offending and is not aware or does not care about the link to offending',
+        value: 'YES_OFFENDING_ACTIVITIES',
+        kind: 'option',
+      },
+      {
+        text: 'Sometimes engages in  activities  linked to offending but recognises the link',
+        value: 'SOMETIMES_OFFENDING_ACTIVITIES',
+        kind: 'option',
+      },
+      {
+        text: 'No, engages in pro-social activities and understand what links to their offending',
+        value: 'NO_OFFENDING_ACTIVITIES',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
     text: 'Is [subject] able to solve problems in a positive way?',
     code: 'thinking_behaviours_attitudes_problem_solving',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they are able to solve problems in a positive way' },
+    ],
     options: [
       { text: 'Yes, is able to solve problems and identify appropriate solutions', value: 'YES', kind: 'option' },
       { text: 'Has limited problem solving skills', value: 'LIMITED_PROBLEM_SOLVING', kind: 'option' },
@@ -67,7 +97,7 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     text: "Does [subject] understand other people's views?",
     code: 'thinking_behaviours_attitudes_peoples_views',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they understand other people’s views' }],
     options: [
       {
         text: "Yes, understands other people's views and is able to distinguish between their own feelings and those of others",
@@ -91,7 +121,9 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     text: 'Does [subject] show manipulative behaviour or a predatory lifestyle?',
     code: 'thinking_behaviours_attitudes_manipulative_predatory_behaviour',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they show manipulative behaviour or a predatory lifestyle' },
+    ],
     options: [
       { text: 'Yes, shows a pattern of manipulative behaviour or a predatory lifestyle', value: 'YES', kind: 'option' },
       {
@@ -112,7 +144,9 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     hint: { html: sexualHarmWarningText, kind: 'html' },
     code: 'thinking_behaviours_attitudes_risk_sexual_harm',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if there are any concerns they are a risk of sexual harm' },
+    ],
     options: [
       {
         text: 'Yes',
@@ -133,7 +167,7 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
     text: 'Does [subject] show evidence of sexual preoccupation?',
     code: 'thinking_behaviours_attitudes_sexual_preoccupation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they show evidence of sexual preoccupation' }],
     options: [
       {
         text: 'There is evidence that they spend a healthy amount of time engaging in sexual activity and thinking about sex, alongside all other important areas of their life',
@@ -164,7 +198,9 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
     text: 'Does [subject] show evidence of offence-related sexual interests?',
     code: 'thinking_behaviours_attitudes_offence-related-sexual-interest',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they show evidence of offence-related sexual interests' },
+    ],
     options: [
       {
         text: 'There is evidence of healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
@@ -194,7 +230,13 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
     text: 'Does [subject] show evidence of emotional compatibility with children or feel closer to children than adults?',
     code: 'thinking_behaviours_attitudes_emotional_compatibility',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message:
+          'Select if they show evidence of emotional compatibility with children or feel closer to children than adults',
+      },
+    ],
     options: [
       {
         text: 'They have or have had a stable intimate relationship with an adult that they value or have the skills, ability and desire to form stable relationships',
@@ -224,7 +266,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     text: 'Is [subject] able to manage their temper?',
     code: 'thinking_behaviours_attitudes_temper_management',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they are able to manage their temper' }],
     options: [
       {
         text: 'Yes, is able to manage their temper well',
@@ -251,7 +293,12 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     text: 'Does [subject] use violence, aggressive or controlling behaviour to get their own way?',
     code: 'thinking_behaviours_attitudes_violence_controlling_behaviour',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they use violence, aggressive or controlling behaviour to get their own way',
+      },
+    ],
     options: [
       {
         text: 'No, they do not use violence, aggressive or controlling behaviour to get their own way',
@@ -275,7 +322,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     text: 'Does [subject] act on impulse?',
     code: 'thinking_behaviours_attitudes_impulsive_behaviour',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they act on impulse' }],
     options: [
       {
         text: 'Yes, acts on impulse which causes significant problems',
@@ -299,7 +346,13 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     text: 'Does [subject] have a positive attitude towards any criminal justice staff they have come into contact with?',
     code: 'thinking_behaviours_attitudes_positive_attitude',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message:
+          'Select if they have a positive attitude towards any criminal justice staff they have come into contact with',
+      },
+    ],
     options: [
       {
         text: 'Yes, has a positive attitude',
@@ -323,7 +376,12 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     text: 'Does [subject] have hostile orientation to others or to general rules?',
     code: 'thinking_behaviours_attitudes_hostile_orientation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they have hostile orientation to others or to general rules',
+      },
+    ],
     options: [
       {
         text: 'Yes, there is evidence of suspicious, angry or vengeful thinking and behaviour',
@@ -347,7 +405,9 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     text: 'Does [subject] accept supervision and their licence conditions?',
     code: 'thinking_behaviours_attitudes_supervision',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they accept supervision and their licence conditions' },
+    ],
     options: [
       {
         text: 'Accepts supervision and has responded well to supervision in the past',
@@ -371,7 +431,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     text: 'Does [subject] support or excuse criminal behaviour?',
     code: 'thinking_behaviours_attitudes_criminal_behaviour',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any physical health conditions' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they support or excuse criminal behaviour' }],
     options: [
       {
         text: 'Yes, supports or excuses criminal behaviour or their pattern of behaviour and other evidence indicates this is an issue',
@@ -419,7 +479,7 @@ export const makeChangesFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select if they want to make changes to their thinking behaviours and attitudes',
+        message: 'Select if they want to make changes to their thinking, behaviours and attitudes',
       },
     ],
     options: makeChangesOptions,
