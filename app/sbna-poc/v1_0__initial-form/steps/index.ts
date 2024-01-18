@@ -8,6 +8,7 @@ import drugsSteps from './drugs'
 import alcoholSteps from './alcohol'
 import employmentEducationSteps from './employment-education'
 import healthAndWellbeingSteps from './health-wellbeing'
+import thinkingBehavioursAttitudeSteps from './thinking-behaviour-attitudes'
 
 const stepOptions: FormWizard.Steps = {
   '/start': {
@@ -32,6 +33,7 @@ const stepOptions: FormWizard.Steps = {
   ...drugsSteps,
   ...alcoholSteps,
   ...healthAndWellbeingSteps,
+  ...thinkingBehavioursAttitudeSteps,
 }
 
 const addStep = (options: FormWizard.Step & { path: string }, steps: FormWizard.Steps): FormWizard.Steps => ({

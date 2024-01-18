@@ -4,6 +4,7 @@ import financeFields from './finance'
 import drugFields from './drugs'
 import alcoholFields from './alcohol'
 import healthAndWellbeingFields from './health-wellbeing'
+import thinkingBehavioursAndAttitudes from './thinking-behaviours-attitudes'
 
 export default {
   ...accommodationFields,
@@ -12,4 +13,5 @@ export default {
   ...drugFields,
   ...alcoholFields,
   ...healthAndWellbeingFields,
+  ...thinkingBehavioursAndAttitudes,
 }
