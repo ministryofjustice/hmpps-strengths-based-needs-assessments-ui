@@ -29,15 +29,9 @@ const stepOptions: FormWizard.Steps = {
       {
         field: 'thinking_behaviours_attitudes_risk_sexual_harm',
         value: 'YES',
-        next: [
-          whenField('thinking_behaviours_attitudes_risk_sexual_harm')
-            .includes(['YES'])
-            .thenGoNext('thinking-behaviours-attitudes-sexual-offending'),
-          whenField('thinking_behaviours_attitudes_risk_sexual_harm')
-            .includes(['NO'])
-            .thenGoNext('thinking-behaviours'),
-        ].flat(),
+        next: 'thinking-behaviours-attitudes-sexual-offending',
       },
+      { field: 'thinking_behaviours_attitudes_risk_sexual_harm', value: 'NO', next: 'thinking-behaviours' },
     ].flat(),
     section: sectionName,
     sectionProgressRules: [
@@ -48,7 +42,7 @@ const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours-attitudes-sexual-offending': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(riskOfSexualHarmFields, sectionCompleteFields),
-    next: '/thinking-behaviours',
+    next: 'thinking-behaviours',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
