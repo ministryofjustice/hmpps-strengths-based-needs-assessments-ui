@@ -492,8 +492,8 @@ export const practitionerAnalysisFields: Array<FormWizard.Field> =
   createPractitionerAnalysisFieldsWith('health_wellbeing')
 
 export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the health and wellbeing section complete?',
-  code: 'health_wellbeing_section_complete',
+  text: 'Is the thinking behaviours and attitude section complete?',
+  code: 'thinking_behaviours_attitudes_section_complete',
   type: FieldType.Radio,
   options: yesNoOptions,
 }
