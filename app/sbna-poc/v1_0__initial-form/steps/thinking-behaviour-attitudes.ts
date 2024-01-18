@@ -13,13 +13,6 @@ import {
 const defaultTitle = 'Thinking behaviours and attitudes'
 const sectionName = 'thinking-behaviours-attitudes'
 
-const whenField = (field: string) => ({
-  includes: (values: string[]) => ({
-    thenGoNext: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
-      values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
-  }),
-})
-
 const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours-attitudes': {
     pageTitle: defaultTitle,
@@ -29,15 +22,9 @@ const stepOptions: FormWizard.Steps = {
       {
         field: 'thinking_behaviours_attitudes_risk_sexual_harm',
         value: 'YES',
-        next: [
-          whenField('thinking_behaviours_attitudes_risk_sexual_harm')
-            .includes(['YES'])
-            .thenGoNext('thinking-behaviours-attitudes-sexual-offending'),
-          whenField('thinking_behaviours_attitudes_risk_sexual_harm')
-            .includes(['NO'])
-            .thenGoNext('thinking-behaviours'),
-        ].flat(),
+        next: 'thinking-behaviours-attitudes-sexual-offending',
       },
+      { field: 'thinking_behaviours_attitudes_risk_sexual_harm', value: 'NO', next: 'thinking-behaviours' },
     ].flat(),
     section: sectionName,
     sectionProgressRules: [
@@ -48,7 +35,7 @@ const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours-attitudes-sexual-offending': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(riskOfSexualHarmFields, sectionCompleteFields),
-    next: '/thinking-behaviours',
+    next: 'thinking-behaviours',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
