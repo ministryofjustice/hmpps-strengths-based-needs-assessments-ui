@@ -13,13 +13,6 @@ import {
 const defaultTitle = 'Thinking behaviours and attitudes'
 const sectionName = 'thinking-behaviours-attitudes'
 
-const whenField = (field: string) => ({
-  includes: (values: string[]) => ({
-    thenGoNext: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
-      values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
-  }),
-})
-
 const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours-attitudes': {
     pageTitle: defaultTitle,
