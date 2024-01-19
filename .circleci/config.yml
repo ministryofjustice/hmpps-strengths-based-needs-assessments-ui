@@ -196,7 +196,8 @@ workflows:
 
   deploy-to-test-env:
     when:
-      - equal: [ test, << pipeline.parameters.deploy >> ]
+      and:
+        - equal: [ "test", << pipeline.parameters.deploy >> ]
     jobs:
       - hmpps/build_docker:
           name: build_docker
