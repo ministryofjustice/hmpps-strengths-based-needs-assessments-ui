@@ -17,10 +17,10 @@ parameters:
     type: string
     default: 20.8-browsers
 
-  trigger-deploy:
+  deploy:
     description: Trigger a manual deployment
-    type: boolean
-    default: false
+    type: string
+    default: ""
 
 jobs:
   build:
@@ -119,6 +119,8 @@ jobs:
 workflows:
   version: 2
   build-test-and-deploy:
+    when:
+      not: << pipeline.parameters.deploy >>
     jobs:
       - build:
           filters:
@@ -191,8 +193,10 @@ workflows:
   #          requires:
   #            - request-prod-approval
   #          helm_timeout: 5m
+
   deploy-to-test-env:
-    when: << pipeline.parameters.trigger-deploy >>
+    when:
+      - equal: [ test, << pipeline.parameters.deploy >> ]
     jobs:
       - hmpps/build_docker:
           name: build_docker
