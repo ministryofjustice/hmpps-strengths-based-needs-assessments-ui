@@ -17,6 +17,11 @@ parameters:
     type: string
     default: 20.8-browsers
 
+  trigger-deploy:
+    description: Trigger a manual deployment
+    type: boolean
+    default: false
+
 jobs:
   build:
     executor:
@@ -137,6 +142,8 @@ workflows:
           name: deploy_dev
           env: "dev"
           jira_update: true
+          pipeline_id: << pipeline.id >>
+          pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
           filters:
             branches:
@@ -180,6 +187,22 @@ workflows:
   #          requires:
   #            - request-prod-approval
   #          helm_timeout: 5m
+  deploy-to-test-env:
+    when: << pipeline.parameters.trigger-deploy >>
+    jobs:
+      - hmpps/build_docker:
+          name: build_docker
+      - hmpps/deploy_env:
+          name: deploy_test
+          env: "test"
+          jira_update: true
+          jira_env_type: "test"
+          pipeline_id: << pipeline.id >>
+          pipeline_number: << pipeline.number >>
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+          helm_timeout: 5m
 
   security:
     triggers:
