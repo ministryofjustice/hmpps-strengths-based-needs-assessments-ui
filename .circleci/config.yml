@@ -164,6 +164,8 @@ workflows:
   #          env: "preprod"
   #          jira_update: true
   #          jira_env_type: staging
+  #          pipeline_id: << pipeline.id >>
+  #          pipeline_number: << pipeline.number >>
   #          context:
   #            - hmpps-common-vars
   #            - hmpps-strengths-based-needs-assessments-ui-preprod
@@ -179,6 +181,8 @@ workflows:
   #          env: "prod"
   #          jira_update: true
   #          jira_env_type: production
+  #          pipeline_id: << pipeline.id >>
+  #          pipeline_number: << pipeline.number >>
   #          slack_notification: true
   #          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
   #          context:
@@ -196,7 +200,7 @@ workflows:
           name: deploy_test
           env: "test"
           jira_update: true
-          jira_env_type: "test"
+          jira_env_type: testing
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
