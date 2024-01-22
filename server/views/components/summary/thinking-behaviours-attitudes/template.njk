@@ -1,0 +1,63 @@
+{%- macro renderSelectedOptions(field) -%}
+  <ul class="govuk-list">
+    {% for option in field.options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="summary__answer">{{ option.text }}</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderSubOption(field) -%}
+    {% for option in field.options %}
+      {% if option.checked %}
+        <span class="summary__answer--secondary">{{ option.text }}</span>
+      {% endif %}
+    {% endfor %}
+{%- endmacro -%}
+
+{%- macro renderSummaryListRow(label, value, changeLink) -%}
+  <div class="govuk-summary-list__row as-block clearfix">
+    <dt class="govuk-summary-list__key to-the-left">
+      <span class="summary__label">{{ label }}</span>
+    </dt>
+    <dd class="govuk-summary-list__value to-the-left summary-value">
+      {{ value }}
+    </dd>
+    <dd class="govuk-summary-list__actions to-the-right">
+      <a class="govuk-link" href="{{ changeLink }}">
+      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
+  </div>
+{%- endmacro -%}
+
+{%- macro renderConsequences(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["thinking_behaviours_attitudes_consequences"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+           <span class="summary__answer">{{ option.text }}</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+
+{% macro renderSummaryItemFor(field, options) %}
+  {%- switch field -%}
+    {% case "thinking_behaviours_attitudes_consequences" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderConsequences(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+  {%- endswitch -%}
+{% endmacro %}
+
+<dl class="govuk-summary-list">
+  {{ renderSummaryItemFor("thinking_behaviours_attitudes_consequences", { fields: fields, answers: answers, backLink: "thinking-behaviours-attitudes" }) }}
+</dl>

@@ -488,8 +488,9 @@ export const makeChangesFields: Array<FormWizard.Field> = [
   ...makeChangesOptionsWithDetails.map(detailsFieldWith('thinking_behaviours_attitudes_changes')),
 ]
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> =
-  createPractitionerAnalysisFieldsWith('health_wellbeing')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'thinking-behaviours-attitudes',
+)
 
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the thinking behaviours and attitude section complete?',
