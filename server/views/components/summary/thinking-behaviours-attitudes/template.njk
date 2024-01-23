@@ -46,6 +46,30 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderStableBehaviour(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["thinking_behaviours_attitudes_stable_behaviour"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+           <span class="summary__answer">{{ option.text }}</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
+{%- macro renderOffendingActivities(fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields["thinking_behaviours_attitudes_offending_activities"].options %}
+        {% if option.checked %}
+        <li class="summary-details-list">
+           <span class="summary__answer">{{ option.text }}</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
 
 {% macro renderSummaryItemFor(field, options) %}
   {%- switch field -%}
@@ -55,9 +79,25 @@
         renderConsequences(options.fields, options.answers),
         options.backLink + "#" + field
       ) }}
+      {% case "thinking_behaviours_attitudes_stable_behaviour" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderStableBehaviour(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+      {% case "thinking_behaviours_attitudes_offending_activities" %}
+      {{ renderSummaryListRow(
+        options.fields[field].text,
+        renderOffendingActivities(options.fields, options.answers),
+        options.backLink + "#" + field
+      ) }}
+    
+    
   {%- endswitch -%}
 {% endmacro %}
 
 <dl class="govuk-summary-list">
   {{ renderSummaryItemFor("thinking_behaviours_attitudes_consequences", { fields: fields, answers: answers, backLink: "thinking-behaviours-attitudes" }) }}
+  {{ renderSummaryItemFor("thinking_behaviours_attitudes_stable_behaviour", { fields: fields, answers: answers, backLink: "thinking-behaviours-attitudes" }) }}
+  {{ renderSummaryItemFor("thinking_behaviours_attitudes_offending_activities", { fields: fields, answers: answers, backLink: "thinking-behaviours-attitudes" }) }}
 </dl>
