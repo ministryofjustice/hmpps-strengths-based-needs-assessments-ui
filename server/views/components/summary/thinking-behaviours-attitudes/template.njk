@@ -1,5 +1,15 @@
 {% import "components/summary/macro.njk" as summary %}
 
+{%- macro renderRiskSexualHarmWarningText()-%}
+          <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span class="govuk-visually-hidden">Warning</span>
+              [subject] does not have any current or previous sexual or sexually motivated offences
+            </strong>
+          </div>
+{%- endmacro -%}
+
 <dl class="govuk-summary-list">
   {% set fieldCodes = [
     "thinking_behaviours_attitudes_consequences",
@@ -7,11 +17,23 @@
     "thinking_behaviours_attitudes_offending_activities",
     "thinking_behaviours_attitudes_problem_solving",
     "thinking_behaviours_attitudes_peoples_views",
-    "thinking_behaviours_attitudes_manipulative_predatory_behaviour",
+    "thinking_behaviours_attitudes_manipulative_predatory_behaviour"
+  ] %}
+
+  {% for fieldCode in fieldCodes %}
+    {{ summary.renderListRow(
+      fields[fieldCode].text,
+      summary.renderSelectedOptions(fields[fieldCode], answers),
+      "thinking-behaviours-attitudes#" + fieldCode
+    ) }}
+  {% endfor %}
+
+ {% set fieldCodes = [
     "thinking_behaviours_attitudes_risk_sexual_harm"
   ] %}
 
   {% for fieldCode in fieldCodes %}
+   {{ renderRiskSexualHarmWarningText() }}
     {{ summary.renderListRow(
       fields[fieldCode].text,
       summary.renderSelectedOptions(fields[fieldCode], answers),
@@ -56,5 +78,4 @@
       "thinking-behaviours#" + fieldCode
     ) }}
   {% endfor %}
-
 </dl>
