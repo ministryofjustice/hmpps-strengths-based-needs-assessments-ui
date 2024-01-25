@@ -1,103 +1,60 @@
-{%- macro renderSelectedOptions(field) -%}
-  <ul class="govuk-list">
-    {% for option in field.options %}
-      {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="summary__answer">{{ option.text }}</span>
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
-
-{%- macro renderSubOption(field) -%}
-    {% for option in field.options %}
-      {% if option.checked %}
-        <span class="summary__answer--secondary">{{ option.text }}</span>
-      {% endif %}
-    {% endfor %}
-{%- endmacro -%}
-
-{%- macro renderSummaryListRow(label, value, changeLink) -%}
-  <div class="govuk-summary-list__row as-block clearfix">
-    <dt class="govuk-summary-list__key to-the-left">
-      <span class="summary__label">{{ label }}</span>
-    </dt>
-    <dd class="govuk-summary-list__value to-the-left summary-value">
-      {{ value }}
-    </dd>
-    <dd class="govuk-summary-list__actions to-the-right">
-      <a class="govuk-link" href="{{ changeLink }}">
-      Change<span class="govuk-visually-hidden">value for {{ label }}</span>
-      </a>
-    </dd>
-  </div>
-{%- endmacro -%}
-
-{%- macro renderConsequences(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["thinking_behaviours_attitudes_consequences"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-           <span class="summary__answer">{{ option.text }}</span>
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
-
-{%- macro renderStableBehaviour(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["thinking_behaviours_attitudes_stable_behaviour"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-           <span class="summary__answer">{{ option.text }}</span>
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
-
-{%- macro renderOffendingActivities(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["thinking_behaviours_attitudes_offending_activities"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-           <span class="summary__answer">{{ option.text }}</span>
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
-
-
-{% macro renderSummaryItemFor(field, options) %}
-  {%- switch field -%}
-    {% case "thinking_behaviours_attitudes_consequences" %}
-      {{ renderSummaryListRow(
-        options.fields[field].text,
-        renderConsequences(options.fields, options.answers),
-        options.backLink + "#" + field
-      ) }}
-      {% case "thinking_behaviours_attitudes_stable_behaviour" %}
-      {{ renderSummaryListRow(
-        options.fields[field].text,
-        renderStableBehaviour(options.fields, options.answers),
-        options.backLink + "#" + field
-      ) }}
-      {% case "thinking_behaviours_attitudes_offending_activities" %}
-      {{ renderSummaryListRow(
-        options.fields[field].text,
-        renderOffendingActivities(options.fields, options.answers),
-        options.backLink + "#" + field
-      ) }}
-    
-    
-  {%- endswitch -%}
-{% endmacro %}
+{% import "components/summary/macro.njk" as summary %}
 
 <dl class="govuk-summary-list">
-  {{ renderSummaryItemFor("thinking_behaviours_attitudes_consequences", { fields: fields, answers: answers, backLink: "thinking-behaviours-attitudes" }) }}
-  {{ renderSummaryItemFor("thinking_behaviours_attitudes_stable_behaviour", { fields: fields, answers: answers, backLink: "thinking-behaviours-attitudes" }) }}
-  {{ renderSummaryItemFor("thinking_behaviours_attitudes_offending_activities", { fields: fields, answers: answers, backLink: "thinking-behaviours-attitudes" }) }}
+  {% set fieldCodes = [
+    "thinking_behaviours_attitudes_consequences",
+    "thinking_behaviours_attitudes_stable_behaviour",
+    "thinking_behaviours_attitudes_offending_activities",
+    "thinking_behaviours_attitudes_problem_solving",
+    "thinking_behaviours_attitudes_peoples_views",
+    "thinking_behaviours_attitudes_manipulative_predatory_behaviour",
+    "thinking_behaviours_attitudes_risk_sexual_harm"
+  ] %}
+
+  {% for fieldCode in fieldCodes %}
+    {{ summary.renderListRow(
+      fields[fieldCode].text,
+      summary.renderSelectedOptions(fields[fieldCode], answers),
+      "thinking-behaviours-attitudes#" + fieldCode
+    ) }}
+  {% endfor %}
+
+
+  {% if answers["thinking_behaviours_attitudes_risk_sexual_harm"] == "YES" %}
+
+    {% set fieldCodes = [
+      "thinking_behaviours_attitudes_sexual_preoccupation",
+      "thinking_behaviours_attitudes_offence_related_sexual_interest",
+      "thinking_behaviours_attitudes_emotional_compatibility"
+    ] %}
+
+    {% for fieldCode in fieldCodes %}
+      {{ summary.renderListRow(
+        fields[fieldCode].text,
+        summary.renderSelectedOptions(fields[fieldCode], answers),
+        "thinking-behaviours-attitudes-sexual-offending#" + fieldCode
+      ) }}
+    {% endfor %}
+
+  {% endif %}
+
+  {% set fieldCodes = [
+    "thinking_behaviours_attitudes_temper_management",
+    "thinking_behaviours_attitudes_violence_controlling_behaviour",
+    "thinking_behaviours_attitudes_impulsive_behaviour",
+    "thinking_behaviours_attitudes_positive_attitude",
+    "thinking_behaviours_attitudes_hostile_orientation",
+    "thinking_behaviours_attitudes_supervision",
+    "thinking_behaviours_attitudes_criminal_behaviour",
+    "thinking_behaviours_attitudes_changes"
+  ] %}
+
+  {% for fieldCode in fieldCodes %}
+    {{ summary.renderListRow(
+      fields[fieldCode].text,
+      summary.renderSelectedOptions(fields[fieldCode], answers),
+      "thinking-behaviours#" + fieldCode
+    ) }}
+  {% endfor %}
+
 </dl>

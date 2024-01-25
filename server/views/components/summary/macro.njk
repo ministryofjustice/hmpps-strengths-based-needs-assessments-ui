@@ -1,0 +1,31 @@
+{%- macro renderListRow(label, value, changeLink) -%}
+  <div class="govuk-summary-list__row as-block clearfix">
+    <dt class="govuk-summary-list__key to-the-left">
+      <span class="summary__label">{{ label }}</span>
+    </dt>
+    <dd class="govuk-summary-list__value to-the-left summary-value">
+      {{ value }}
+    </dd>
+    <dd class="govuk-summary-list__actions to-the-right">
+      <a class="govuk-link" href="{{ changeLink }}">
+        Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+      </a>
+    </dd>
+  </div>
+{%- endmacro -%}
+
+{%- macro renderSelectedOptions(field, answers) -%}
+  <ul class="govuk-list">
+    {% for option in field.options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="summary__answer">{{ option.text }}</span>
+          {% set detailsFieldCode = (field.code + "_" + option.value + "_details") | lower %}
+          {% if detailsFieldCode in answers %}
+            <span class="govuk-!-font-size-16">{{ answers[detailsFieldCode] }}</span>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
