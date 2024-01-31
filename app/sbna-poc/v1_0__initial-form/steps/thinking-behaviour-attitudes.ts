@@ -28,8 +28,8 @@ const stepOptions: FormWizard.Steps = {
     ].flat(),
     section: sectionName,
     sectionProgressRules: [
-      setField('thinking-behaviours-attitudes_section_complete', 'NO'),
-      setField('thinking-behaviours-attitudes_analysis_section_complete', 'NO'),
+      setField('thinking_behaviours_attitudes_section_complete', 'NO'),
+      setField('thinking_behaviours_attitudes_analysis_section_complete', 'NO'),
     ],
   },
   '/thinking-behaviours-attitudes-sexual-offending': {
@@ -50,8 +50,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
-      setField('thinking-behaviours-attitudes_section_complete', 'NO'),
-      setField('thinking-behaviours-attitudes_analysis_section_complete', 'NO'),
+      setField('thinking_behaviours_attitudes_section_complete', 'NO'),
+      setField('thinking_behaviours_attitudes_analysis_section_complete', 'NO'),
     ],
   },
   '/thinking-behaviours-attitudes-summary-analysis': {
@@ -60,7 +60,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/thinking-behaviours-attitudes-summary-analysis',
     section: sectionName,
-    sectionProgressRules: [setFieldWhenValid('', 'YES', 'NO')],
+    sectionProgressRules: [setFieldWhenValid('thinking_behaviours_attitudes_section_complete', 'YES', 'NO')],
   },
   '/thinking-behaviours-attitudes-analysis-complete': {
     pageTitle: defaultTitle,

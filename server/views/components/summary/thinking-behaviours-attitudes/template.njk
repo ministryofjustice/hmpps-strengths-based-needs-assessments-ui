@@ -1,14 +1,14 @@
 {% import "components/summary/macro.njk" as summary %}
 
-{%- macro renderRiskSexualHarmWarningText()-%}
+ {%- macro renderRiskSexualHarmWarningText()-%}
           <div class="govuk-warning-text">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
             <strong class="govuk-warning-text__text">
               <span class="govuk-visually-hidden">Warning</span>
               [subject] does not have any current or previous sexual or sexually motivated offences
             </strong>
-          </div>
-{%- endmacro -%}
+          </div>       
+{%- endmacro -%} 
 
 <dl class="govuk-summary-list">
   {% set fieldCodes = [
