@@ -50,7 +50,7 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Does [subject] engage in activities that could link to offending??',
+    text: 'Does [subject] engage in activities that could link to offending?',
     code: 'thinking_behaviours_attitudes_offending_activities',
     type: FieldType.Radio,
     validate: [
@@ -196,7 +196,7 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Does [subject] show evidence of offence-related sexual interests?',
-    code: 'thinking_behaviours_attitudes_offence-related-sexual-interest',
+    code: 'thinking_behaviours_attitudes_offence_related_sexual_interest',
     type: FieldType.Radio,
     validate: [
       { type: ValidationType.Required, message: 'Select if they show evidence of offence-related sexual interests' },
@@ -488,8 +488,9 @@ export const makeChangesFields: Array<FormWizard.Field> = [
   ...makeChangesOptionsWithDetails.map(detailsFieldWith('thinking_behaviours_attitudes_changes')),
 ]
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> =
-  createPractitionerAnalysisFieldsWith('health_wellbeing')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'thinking-behaviours-attitudes',
+)
 
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the thinking behaviours and attitude section complete?',

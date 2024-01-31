@@ -1,0 +1,81 @@
+{% import "components/summary/macro.njk" as summary %}
+
+ {%- macro renderRiskSexualHarmWarningText()-%}
+          <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span class="govuk-visually-hidden">Warning</span>
+              [subject] does not have any current or previous sexual or sexually motivated offences
+            </strong>
+          </div>       
+{%- endmacro -%} 
+
+<dl class="govuk-summary-list">
+  {% set fieldCodes = [
+    "thinking_behaviours_attitudes_consequences",
+    "thinking_behaviours_attitudes_stable_behaviour",
+    "thinking_behaviours_attitudes_offending_activities",
+    "thinking_behaviours_attitudes_problem_solving",
+    "thinking_behaviours_attitudes_peoples_views",
+    "thinking_behaviours_attitudes_manipulative_predatory_behaviour"
+  ] %}
+
+  {% for fieldCode in fieldCodes %}
+    {{ summary.renderListRow(
+      fields[fieldCode].text,
+      summary.renderSelectedOptions(fields[fieldCode], answers),
+      "thinking-behaviours-attitudes#" + fieldCode
+    ) }}
+  {% endfor %}
+
+ {% set fieldCodes = [
+    "thinking_behaviours_attitudes_risk_sexual_harm"
+  ] %}
+
+  {% for fieldCode in fieldCodes %}
+   {{ renderRiskSexualHarmWarningText() }}
+    {{ summary.renderListRow(
+      fields[fieldCode].text,
+      summary.renderSelectedOptions(fields[fieldCode], answers),
+      "thinking-behaviours-attitudes#" + fieldCode
+    ) }}
+  {% endfor %}
+
+
+  {% if answers["thinking_behaviours_attitudes_risk_sexual_harm"] == "YES" %}
+
+    {% set fieldCodes = [
+      "thinking_behaviours_attitudes_sexual_preoccupation",
+      "thinking_behaviours_attitudes_offence_related_sexual_interest",
+      "thinking_behaviours_attitudes_emotional_compatibility"
+    ] %}
+
+    {% for fieldCode in fieldCodes %}
+      {{ summary.renderListRow(
+        fields[fieldCode].text,
+        summary.renderSelectedOptions(fields[fieldCode], answers),
+        "thinking-behaviours-attitudes-sexual-offending#" + fieldCode
+      ) }}
+    {% endfor %}
+
+  {% endif %}
+
+  {% set fieldCodes = [
+    "thinking_behaviours_attitudes_temper_management",
+    "thinking_behaviours_attitudes_violence_controlling_behaviour",
+    "thinking_behaviours_attitudes_impulsive_behaviour",
+    "thinking_behaviours_attitudes_positive_attitude",
+    "thinking_behaviours_attitudes_hostile_orientation",
+    "thinking_behaviours_attitudes_supervision",
+    "thinking_behaviours_attitudes_criminal_behaviour",
+    "thinking_behaviours_attitudes_changes"
+  ] %}
+
+  {% for fieldCode in fieldCodes %}
+    {{ summary.renderListRow(
+      fields[fieldCode].text,
+      summary.renderSelectedOptions(fields[fieldCode], answers),
+      "thinking-behaviours#" + fieldCode
+    ) }}
+  {% endfor %}
+</dl>

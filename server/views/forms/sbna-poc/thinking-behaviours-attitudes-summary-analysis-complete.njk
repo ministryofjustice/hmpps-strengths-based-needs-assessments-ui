@@ -1,0 +1,15 @@
+{% extends "../summary.njk" %}
+{% from "components/analysis/macro.njk" import renderAnalysisSummary %}
+{% from "components/summary/thinking-behaviours-attitudes/macro.njk" import renderSummaryFor %}
+
+{% block summaryPanel %}
+  {{ renderSummaryFor(options.allFields, answers) }}
+{% endblock %}
+
+{% block analysisPanel %} 
+  {{ renderAnalysisSummary(
+    "thinking-behaviours-attitudes",
+    "thinking-behaviours-attitudes-summary-analysis#practitioner-analysis",
+    options.allFields
+  ) }}
+{% endblock %}
