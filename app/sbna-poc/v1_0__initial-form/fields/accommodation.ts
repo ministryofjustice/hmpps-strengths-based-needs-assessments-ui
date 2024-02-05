@@ -445,12 +445,12 @@ export const suitableHousingFields: Array<FormWizard.Field> = [
     type: FieldType.CheckBox,
     multiple: true,
     options: [
-      { text: 'Safety of the area', value: 'AREA_SAFETY', kind: 'option' },
       { text: 'Close to criminal associates', value: 'CRIMINAL_ASSOCIATES', kind: 'option' },
-      { text: 'Difficulty with neighbours', value: 'NEIGHBOUR_DIFFICULTY', kind: 'option' },
-      { text: 'Close to victim or possible victims', value: 'VICTIM_PROXIMITY', kind: 'option' },
       { text: 'Close to someone who has victimised them', value: 'VICTIMISATION', kind: 'option' },
+      { text: 'Close to victim or possible victims', value: 'VICTIM_PROXIMITY', kind: 'option' },
+      { text: 'Difficulty with neighbours', value: 'NEIGHBOUR_DIFFICULTY', kind: 'option' },
       { text: 'Honour-based perpetrator or victim', value: 'HONOUR_BASED', kind: 'option' },
+      { text: 'Safety of the area', value: 'AREA_SAFETY', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     dependent: {
