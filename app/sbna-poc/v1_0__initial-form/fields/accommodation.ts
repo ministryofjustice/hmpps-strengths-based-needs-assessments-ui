@@ -93,11 +93,11 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select the type of settled accommodation' }],
     options: [
       { text: 'Homeowner', value: 'HOMEOWNER', kind: 'option' },
+      { text: 'Living with friends or family', value: 'FRIENDS_OR_FAMILY', kind: 'option' },
       { text: 'Renting privately', value: 'RENTING_PRIVATELY', kind: 'option' },
       { text: 'Renting from social, local authority or other', value: 'RENTING_OTHER', kind: 'option' },
-      { text: 'Living with friends or family', value: 'FRIENDS_OR_FAMILY', kind: 'option' },
-      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
       { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE', kind: 'option' },
+      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -112,7 +112,6 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select the type of temporary accommodation' }],
     options: [
-      { text: 'Short term accommodation', value: 'SHORT_TERM', kind: 'option' },
       { text: 'Approved premises', value: 'APPROVED_PREMISES', kind: 'option' },
       { text: 'Community Accommodation Service Tier 2 (CAS2)', value: 'CAS2', kind: 'option' },
       { text: 'Community Accommodation Service Tier 3 (CAS3)', value: 'CAS3', kind: 'option' },
@@ -122,6 +121,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
         hint: { html: immigrationAccommodationHint },
         kind: 'option',
       },
+      { text: 'Short term accommodation', value: 'SHORT_TERM', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -206,12 +206,12 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select the type of no accommodation' }],
     options: [
-      { text: 'Campsite', value: 'CAMPSITE', kind: 'option' },
-      { text: 'Shelter', value: 'SHELTER', kind: 'option' },
-      { text: 'Rough sleeping', value: 'ROUGH_SLEEPING', kind: 'option' },
-      { text: 'Homeless - includes squatting', value: 'HOMELESS', kind: 'option' },
-      { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL', kind: 'option' },
       { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT', kind: 'option' },
+      { text: 'Campsite', value: 'CAMPSITE', kind: 'option' },
+      { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL', kind: 'option' },
+      { text: 'Homeless - includes squatting', value: 'HOMELESS', kind: 'option' },
+      { text: 'Rough sleeping', value: 'ROUGH_SLEEPING', kind: 'option' },
+      { text: 'Shelter', value: 'SHELTER', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
