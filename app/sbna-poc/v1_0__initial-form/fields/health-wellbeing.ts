@@ -231,9 +231,9 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have any learning difficulties' }],
     options: [
-      { text: 'No difficulties', value: 'NO', kind: 'option' },
-      { text: 'Yes, some learning difficulties', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
       { text: 'Yes, significant learning difficulties', value: 'YES_SIGNIFICANT_DIFFICULTIES', kind: 'option' },
+      { text: 'Yes, some learning difficulties', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
+      { text: 'No difficulties', value: 'NO', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
