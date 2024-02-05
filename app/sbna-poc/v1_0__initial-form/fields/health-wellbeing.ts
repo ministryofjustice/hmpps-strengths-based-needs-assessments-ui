@@ -398,10 +398,11 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
-    text: 'Give details (optional)',
+    text: 'Give details',
     code: 'health_wellbeing_positive_factors_other_details',
     type: FieldType.TextArea,
     validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
