@@ -573,12 +573,12 @@ export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
     options: [
       { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT', kind: 'option' },
       { text: 'Awaiting placement', value: 'AWAITING_PLACEMENT', kind: 'option' },
-      { text: 'Buying a house', value: 'BUYING_HOUSE', kind: 'option' },
+      { text: 'Buy a house', value: 'BUYING_HOUSE', kind: 'option' },
+      { text: 'Living with friends or family', value: 'LIVING_WITH_FRIENDS_OR_FAMILY', kind: 'option' },
       { text: 'Rent privately', value: 'RENT_PRIVATELY', kind: 'option' },
       { text: 'Rent from social, local authority or other', value: 'RENT_SOCIAL', kind: 'option' },
-      { text: 'Living with friends or family', value: 'LIVING_WITH_FRIENDS_OR_FAMILY', kind: 'option' },
-      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
       { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE', kind: 'option' },
+      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     dependent: {
