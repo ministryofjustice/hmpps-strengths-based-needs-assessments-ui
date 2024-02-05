@@ -43,12 +43,12 @@ const noAccommodationHint = `
 `
 
 const suitableHousingConcernsOptions: FormWizard.Field.Options = [
-  { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
+  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES', kind: 'option' },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
+  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
+  { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
   { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM', kind: 'option' },
   { text: 'Victimised by someone living with them', value: 'VICTIMISATION', kind: 'option' },
-  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES', kind: 'option' },
-  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
   { text: 'Other', value: 'OTHER', kind: 'option' },
 ]
 
