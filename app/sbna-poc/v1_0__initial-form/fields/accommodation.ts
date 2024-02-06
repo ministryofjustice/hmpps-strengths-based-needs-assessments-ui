@@ -43,12 +43,12 @@ const noAccommodationHint = `
 `
 
 const suitableHousingConcernsOptions: FormWizard.Field.Options = [
-  { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
+  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES', kind: 'option' },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
+  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
+  { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
   { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM', kind: 'option' },
   { text: 'Victimised by someone living with them', value: 'VICTIMISATION', kind: 'option' },
-  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES', kind: 'option' },
-  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
   { text: 'Other', value: 'OTHER', kind: 'option' },
 ]
 
@@ -93,11 +93,11 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select the type of settled accommodation' }],
     options: [
       { text: 'Homeowner', value: 'HOMEOWNER', kind: 'option' },
+      { text: 'Living with friends or family', value: 'FRIENDS_OR_FAMILY', kind: 'option' },
       { text: 'Renting privately', value: 'RENTING_PRIVATELY', kind: 'option' },
       { text: 'Renting from social, local authority or other', value: 'RENTING_OTHER', kind: 'option' },
-      { text: 'Living with friends or family', value: 'FRIENDS_OR_FAMILY', kind: 'option' },
-      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
       { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE', kind: 'option' },
+      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -112,7 +112,6 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select the type of temporary accommodation' }],
     options: [
-      { text: 'Short term accommodation', value: 'SHORT_TERM', kind: 'option' },
       { text: 'Approved premises', value: 'APPROVED_PREMISES', kind: 'option' },
       { text: 'Community Accommodation Service Tier 2 (CAS2)', value: 'CAS2', kind: 'option' },
       { text: 'Community Accommodation Service Tier 3 (CAS3)', value: 'CAS3', kind: 'option' },
@@ -122,6 +121,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
         hint: { html: immigrationAccommodationHint },
         kind: 'option',
       },
+      { text: 'Short term accommodation', value: 'SHORT_TERM', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -206,12 +206,12 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select the type of no accommodation' }],
     options: [
-      { text: 'Campsite', value: 'CAMPSITE', kind: 'option' },
-      { text: 'Shelter', value: 'SHELTER', kind: 'option' },
-      { text: 'Rough sleeping', value: 'ROUGH_SLEEPING', kind: 'option' },
-      { text: 'Homeless - includes squatting', value: 'HOMELESS', kind: 'option' },
-      { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL', kind: 'option' },
       { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT', kind: 'option' },
+      { text: 'Campsite', value: 'CAMPSITE', kind: 'option' },
+      { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL', kind: 'option' },
+      { text: 'Homeless - includes squatting', value: 'HOMELESS', kind: 'option' },
+      { text: 'Rough sleeping', value: 'ROUGH_SLEEPING', kind: 'option' },
+      { text: 'Shelter', value: 'SHELTER', kind: 'option' },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -445,12 +445,12 @@ export const suitableHousingFields: Array<FormWizard.Field> = [
     type: FieldType.CheckBox,
     multiple: true,
     options: [
-      { text: 'Safety of the area', value: 'AREA_SAFETY', kind: 'option' },
       { text: 'Close to criminal associates', value: 'CRIMINAL_ASSOCIATES', kind: 'option' },
-      { text: 'Difficulty with neighbours', value: 'NEIGHBOUR_DIFFICULTY', kind: 'option' },
-      { text: 'Close to victim or possible victims', value: 'VICTIM_PROXIMITY', kind: 'option' },
       { text: 'Close to someone who has victimised them', value: 'VICTIMISATION', kind: 'option' },
+      { text: 'Close to victim or possible victims', value: 'VICTIM_PROXIMITY', kind: 'option' },
+      { text: 'Difficulty with neighbours', value: 'NEIGHBOUR_DIFFICULTY', kind: 'option' },
       { text: 'Honour-based perpetrator or victim', value: 'HONOUR_BASED', kind: 'option' },
+      { text: 'Safety of the area', value: 'AREA_SAFETY', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     dependent: {
@@ -573,12 +573,12 @@ export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
     options: [
       { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT', kind: 'option' },
       { text: 'Awaiting placement', value: 'AWAITING_PLACEMENT', kind: 'option' },
-      { text: 'Buying a house', value: 'BUYING_HOUSE', kind: 'option' },
+      { text: 'Buy a house', value: 'BUYING_HOUSE', kind: 'option' },
+      { text: 'Living with friends or family', value: 'LIVING_WITH_FRIENDS_OR_FAMILY', kind: 'option' },
       { text: 'Rent privately', value: 'RENT_PRIVATELY', kind: 'option' },
       { text: 'Rent from social, local authority or other', value: 'RENT_SOCIAL', kind: 'option' },
-      { text: 'Living with friends or family', value: 'LIVING_WITH_FRIENDS_OR_FAMILY', kind: 'option' },
-      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
       { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE', kind: 'option' },
+      { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     dependent: {
@@ -653,12 +653,12 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select why they have no accommodation' }],
     options: [
-      { text: 'Financial difficulties', value: 'FINANCIAL_DIFFICULTIES', kind: 'option' },
       { text: 'Alcohol related problems', value: 'ALCOHOL_PROBLEMS', kind: 'option' },
       { text: 'Drug related problems', value: 'DRUG_PROBLEMS', kind: 'option' },
-      { text: 'No accommodation when released from prison', value: 'PRISON_RELEASE', kind: 'option' },
-      { text: 'Left previous accommodation for their own safety', value: 'SAFETY', kind: 'option' },
+      { text: 'Financial difficulties', value: 'FINANCIAL_DIFFICULTIES', kind: 'option' },
       { text: 'Left previous accommodation due to risk to others', value: 'RISK_TO_OTHERS', kind: 'option' },
+      { text: 'Left previous accommodation for their own safety', value: 'SAFETY', kind: 'option' },
+      { text: 'No accommodation when released from prison', value: 'PRISON_RELEASE', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
@@ -682,11 +682,10 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'What has helped [subject] stay in accommodation in the past?',
+    text: 'What has helped [subject] stay in accommodation in the past? (optional)',
     code: 'past_accommodation_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: "Enter what's helped to stay in accommodation in the past" },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
