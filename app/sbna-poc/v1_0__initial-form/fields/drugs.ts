@@ -7,6 +7,7 @@ import {
   smallRadios,
   toFormWizardFields,
   yesNoOptions,
+  characterLimit,
 } from './common'
 
 const usageFrequencies = [
@@ -375,10 +376,16 @@ export const drugUseChangesFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'drug_use_positive_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_changes',
       value: 'MADE_CHANGES',
@@ -386,10 +393,16 @@ export const drugUseChangesFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'drug_use_active_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_changes',
       value: 'MAKING_CHANGES',
@@ -397,10 +410,16 @@ export const drugUseChangesFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'drug_use_known_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_changes',
       value: 'WANT_TO_MAKE_CHANGES',
@@ -408,10 +427,16 @@ export const drugUseChangesFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'drug_use_help_change',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_changes',
       value: 'NEEDS_HELP_TO_MAKE_CHANGES',
@@ -419,10 +444,16 @@ export const drugUseChangesFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'drug_use_think_change:',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_changes',
       value: 'THINKING_ABOUT_MAKING_CHANGES',
@@ -430,10 +461,16 @@ export const drugUseChangesFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'drug_use_no_change:',
     type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_changes',
       value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
