@@ -515,7 +515,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'finance_positive_change_details',
     type: FieldType.TextArea,
     validate: [
@@ -533,7 +533,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'finance_active_change_details',
     type: FieldType.TextArea,
     validate: [
@@ -551,7 +551,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'finance_known_change_details',
     type: FieldType.TextArea,
     validate: [
@@ -569,7 +569,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'finance_help_change_details',
     type: FieldType.TextArea,
     validate: [
@@ -587,7 +587,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'finance_thinking_change_details',
     type: FieldType.TextArea,
     validate: [
@@ -605,7 +605,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'finance_no_change_details',
     type: FieldType.TextArea,
     validate: [
