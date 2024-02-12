@@ -1,27 +1,145 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
+  characterLimit,
   createPractitionerAnalysisFieldsWith,
+  detailsFieldWith,
   getMediumLabelClassFor,
+  orDivider,
   toFormWizardFields,
   yesNoOptions,
-  orDivider,
-  detailsFieldWith,
 } from './common'
 
 export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   {
-    text: 'xyz', // update
-    code: '', // update
-    type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: '' }, // update
-    ],
+    text: "Who are the important people in [subject]'s life?",
+    code: 'personal_relationships_community_important_people',
+    type: FieldType.CheckBox,
+    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
     options: [
-      { text: 'Yes, is aware of the consequences of their actions', value: 'YES', kind: 'option' }, // update
-      { text: 'Sometimes is aware of the consequences of their actions', value: 'SOMETIMES', kind: 'option' }, // update
-      { text: 'No, is not aware of the consequences of their actions', value: 'NO', kind: 'option' }, // update
+      {
+        text: "Partner or someone they're in an intimate relationship with",
+        value: 'PARTNER/INTIMATE RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Their children or anyone they have parental responsibilities for',
+        value: 'CHILD/PARENTAL RESPONSIBILITIES',
+        kind: 'option',
+      },
+      { text: 'Other children', value: 'OTHER CHILDREN', kind: 'option' },
+      { text: 'Family members', value: 'FAMILY', kind: 'option' },
+      { text: 'Friends', value: 'FRIENDS', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_important_people_partner_details',
+    hint: {
+      text: "Include their name, age, gender and the nature of their relationship. For example, if they're in a casual or committed relationship.",
+      kind: 'text',
+    },
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_important_people',
+      value: 'PARTNER/INTIMATE RELATIONSHIP',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_important_people_child_details',
+    hint: { text: 'Include their name, age, gender and the nature of their relationship.', kind: 'text' },
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_important_people',
+      value: 'CHILD/PARENTAL RESPONSIBILITIES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details about their relationship (optional)',
+    code: 'personal_relationships_community_important_people_other_children_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_important_people',
+      value: 'OTHER CHILDREN',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details about their relationship (optional)',
+    code: 'personal_relationships_community_important_people_family_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_important_people',
+      value: 'FAMILY',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details about their relationship (optional)',
+    code: 'personal_relationships_community_important_people_friends_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_important_people',
+      value: 'FRIENDS',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details',
+    code: 'personal_relationships_community_important_people_other_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Give details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_important_people',
+      value: 'OTHER',
+      displayInline: true,
+    },
   },
 ]
 
