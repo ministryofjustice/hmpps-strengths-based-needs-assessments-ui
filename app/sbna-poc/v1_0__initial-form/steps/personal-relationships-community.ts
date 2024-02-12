@@ -4,6 +4,7 @@ import {
   analysisSectionComplete,
   // add exported fields from fields.js
   personalRelationshipsCommunityFields,
+  personalRelationshipsFields,
   makeChangesFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
@@ -15,15 +16,14 @@ const sectionName = 'personal-relationships-community'
 const stepOptions: FormWizard.Steps = {
   '/personal-relationships-community': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(personalRelationshipsCommunityFields), // add
+    fields: fieldCodesFrom(personalRelationshipsCommunityFields),
     navigationOrder: 7,
     next: [
       {
-        field: 'xyz',
-        value: 'YES',
-        next: 'xyz',
+        field: 'personal_relationships_community_important_people',
+        value: 'CHILD/PARENTAL RESPONSIBILITIES',
+        next: 'personal-relationships',
       },
-      { field: 'xyz', value: 'NO', next: 'xyz' },
     ].flat(),
     section: sectionName,
     sectionProgressRules: [
@@ -34,7 +34,7 @@ const stepOptions: FormWizard.Steps = {
   '/personal-relationships': {
     // update
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(sectionCompleteFields), // add
+    fields: fieldCodesFrom(personalRelationshipsFields),
     next: 'personal-relationships-2', // update
     backLink: 'personal-relationships-community',
     section: sectionName,

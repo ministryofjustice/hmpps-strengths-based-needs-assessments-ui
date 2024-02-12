@@ -143,6 +143,268 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   },
 ]
 
+export const personalRelationshipsFields: Array<FormWizard.Field> = [
+  {
+    text: 'Is [subject] happy with their current relationship status?',
+    code: 'personal_relationships_community_current_relationship',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
+    options: [
+      {
+        text: 'Happy and positive or their relationship status is likely to act as a protective factor',
+        value: 'HAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Has some concerns but is overall happy',
+        value: 'CONCERNS_HAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Unhappy about their relationship status or is unhealthy and directly linked to offending',
+        value: 'UNHAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_happy_relationship',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_current_relationship',
+      value: 'HAPPY_RELATIONSHIP',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_concerned_relationship',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_current_relationship',
+      value: 'CONCERNS_HAPPY_RELATIONSHIP',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_unhappy_relationship',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_current_relationship',
+      value: 'UNHAPPY_RELATIONSHIP',
+      displayInline: true,
+    },
+  },
+  {
+    text: "What is [subject]'s history of intimate relationships? ",
+    code: 'personal_relationships_community_intimate_relationship',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
+    options: [
+      {
+        text: 'History of stable, supportive, positive and rewarding relationships',
+        hint: {
+          text: 'This includes if they do not have a history of relationships but appear capable of starting and maintaining one.',
+        },
+        value: 'STABLE_RELATIONSHIPS',
+        kind: 'option',
+      },
+      {
+        text: 'History of both positive and negative relationships',
+        value: 'POSITIVE_AND_NEGATIVE_RELATIONSHIPS',
+        kind: 'option',
+      },
+      {
+        text: 'History of unstable, unsupportive and destructive relationships',
+        hint: { text: 'This includes if they are single and have never had a relationship but would like one.' },
+        value: 'UNSTABLE_RELATIONSHIPS',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_stable_intimate_relationship',
+    hint: {
+      text: 'Consider patterns and quality of any significant relationships.',
+      kind: 'text',
+    },
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_intimate_relationship',
+      value: 'STABLE_RELATIONSHIPS',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_mixed_intimate_relationship',
+    hint: {
+      text: 'Consider patterns and quality of any significant relationships.',
+      kind: 'text',
+    },
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_intimate_relationship',
+      value: 'POSITIVE_AND_NEGATIVE_RELATIONSHIPS',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_unstable_intimate_relationship',
+    hint: {
+      text: 'Consider patterns and quality of any significant relationships.',
+      kind: 'text',
+    },
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_intimate_relationship',
+      value: 'UNSTABLE_RELATIONSHIPS',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Is [subject] able to resolve any challenges in their intimate relationships?',
+    code: 'personal_relationships_community_challenges_intimate_relationship',
+    hint: {
+      text: 'Consider any healthy and appropriate skills or strengths they may have.',
+      kind: 'text',
+    },
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+  },
+  {
+    text: 'Is [subject] able to manage their parental responsibilities? ',
+    code: 'personal_relationships_community_parental_responsibilities',
+    hint: {
+      text: 'If there are parenting concerns, it does not always mean there are child wellbeing concerns. They may just require some help or support.',
+      kind: 'text',
+    },
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
+    options: [
+      {
+        text: 'Yes, manages parenting responsibilities well',
+        value: 'YES',
+        kind: 'option',
+      },
+      {
+        text: 'Sometimes manages parenting responsibilities well',
+        value: 'SOMETIMES',
+        kind: 'option',
+      },
+      { text: 'No, is not able to manage parenting responsibilities', value: 'NO', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_good_parental_responsibilities',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_parental_responsibilities',
+      value: 'YES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_mixed_parental_responsibilities',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_parental_responsibilities',
+      value: 'SOMETIMES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_bad_parental_responsibilities',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_parental_responsibilities',
+      value: 'NO',
+      displayInline: true,
+    },
+  },
+]
+
 const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
   { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
   { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
@@ -200,6 +462,7 @@ export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionCo
 
 export default [
   personalRelationshipsCommunityFields,
+  personalRelationshipsFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
   analysisSectionComplete,
