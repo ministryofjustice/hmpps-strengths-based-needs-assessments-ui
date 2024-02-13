@@ -148,7 +148,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     text: 'Is [subject] happy with their current relationship status?',
     code: 'personal_relationships_community_current_relationship',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if happy with their current relationship status' }],
     options: [
       {
         text: 'Happy and positive or their relationship status is likely to act as a protective factor',
@@ -223,7 +223,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     text: "What is [subject]'s history of intimate relationships? ",
     code: 'personal_relationships_community_intimate_relationship',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
+    validate: [{ type: ValidationType.Required, message: 'Select their history of intimate relationships' }],
     options: [
       {
         text: 'History of stable, supportive, positive and rewarding relationships',
@@ -335,7 +335,9 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
       kind: 'text',
     },
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they’re able to manage their parental responsibilities' },
+    ],
     options: [
       {
         text: 'Yes, manages parenting responsibilities well',
@@ -354,7 +356,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Give details (optional)',
-    code: 'personal_relationships_community_good_parental_responsibilities',
+    code: 'personal_relationships_community_good_parental_responsibilities_details',
     type: FieldType.TextArea,
     validate: [
       {
@@ -371,7 +373,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_parental_responsibilities',
+    code: 'personal_relationships_community_mixed_parental_responsibilities_details',
     type: FieldType.TextArea,
     validate: [
       {
@@ -388,7 +390,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Give details (optional)',
-    code: 'personal_relationships_community_bad_parental_responsibilities',
+    code: 'personal_relationships_community_bad_parental_responsibilities_details',
     type: FieldType.TextArea,
     validate: [
       {
@@ -402,6 +404,226 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
       value: 'NO',
       displayInline: true,
     },
+  },
+  {
+    text: "What is [subject]'s current relationship like with their family?",
+    code: 'personal_relationships_community_family_relationship',
+    hint: {
+      text: 'Consider any relationships that may act like family support.',
+      kind: 'text',
+    },
+    type: FieldType.Radio,
+    validate: [
+      { type: ValidationType.Required, message: 'Select what their current relationship is like with their family' },
+    ],
+    options: [
+      {
+        text: 'Stable, supportive, positive and rewarding relationship',
+        value: 'STABLE_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Both positive and negative relationship',
+        value: 'MIXED_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Unstable and unsupportive relationship',
+        hint: { text: 'This includes those who have little or no contact with their family.' },
+        value: 'UNSTABLE_RELATIONSHIP',
+        kind: 'option',
+      },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_stable_family_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_family_relationship',
+      value: 'STABLE_RELATIONSHIP',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_mixed_family_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_family_relationship',
+      value: 'MIXED_RELATIONSHIP',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_unstable_family_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_family_relationship',
+      value: 'UNSTABLE_RELATIONSHIP',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'What was [subject]’s experience of their childhood?',
+    code: 'personal_relationships_community_childhood',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select their experience of childhood' }],
+    options: [
+      {
+        text: 'Positive experience',
+        value: 'POSITIVE_CHILDHOOD',
+        kind: 'option',
+      },
+      {
+        text: 'Both positive and negative experience',
+        value: 'MIXED_CHILDHOOD',
+        kind: 'option',
+      },
+      {
+        text: 'Negative experience',
+        hint: {
+          text: 'This includes things like permanent or long-term separation from their parents or guardians, inconsistent care, neglect or abuse.',
+        },
+        value: 'NEGATIVE_CHILDHOOD',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_positive_childhood_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_childhood',
+      value: 'POSITIVE_CHILDHOOD',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_mixed_childhood_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_childhood',
+      value: 'MIXED_CHILDHOOD',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_negative_childhood_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_childhood',
+      value: 'NEGATIVE_CHILDHOOD',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Did [subject] have any childhood behavioural problems?',
+    code: 'personal_relationships_community_childhood_behaviour',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if they had childhood behavioural problems' }],
+    options: [
+      {
+        text: 'Yes',
+        value: 'YES',
+        kind: 'option',
+      },
+      {
+        text: 'No',
+        value: 'NO',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_yes_childhood_behaviour_problems_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_childhood_behaviour',
+      value: 'YES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_no_childhood_behaviour_problems_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_childhood_behaviour',
+      value: 'NO',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Is [subject] part of any groups or communities that gives them a sense of belonging? (optional)',
+    code: 'personal_relationships_community_belonging',
+    type: FieldType.TextArea,
+    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 

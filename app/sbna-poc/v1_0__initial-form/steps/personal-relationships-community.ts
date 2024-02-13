@@ -2,7 +2,6 @@ import FormWizard from 'hmpo-form-wizard'
 import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
 import {
   analysisSectionComplete,
-  // add exported fields from fields.js
   personalRelationshipsCommunityFields,
   personalRelationshipsFields,
   makeChangesFields,
@@ -34,7 +33,7 @@ const stepOptions: FormWizard.Steps = {
   '/personal-relationships': {
     // update
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(personalRelationshipsFields),
+    fields: fieldCodesFrom(personalRelationshipsFields, makeChangesFields),
     next: 'personal-relationships-2', // update
     backLink: 'personal-relationships-community',
     section: sectionName,
