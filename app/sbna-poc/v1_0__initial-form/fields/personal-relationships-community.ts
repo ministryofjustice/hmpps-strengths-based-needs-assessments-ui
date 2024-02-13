@@ -12,6 +12,7 @@ import {
 export const personalRelationshipsFields: Array<FormWizard.Field> = [
   {
     text: "Who are the important people in [subject]'s life?",
+    hint: { text: 'Select all that apply', kind: 'text' },
     code: 'personal_relationships_community_important_people',
     type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
@@ -328,84 +329,6 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
   {
-    text: 'Is [subject] able to manage their parental responsibilities? ',
-    code: 'personal_relationships_community_parental_responsibilities',
-    hint: {
-      text: 'If there are parenting concerns, it does not always mean there are child wellbeing concerns. They may just require some help or support.',
-      kind: 'text',
-    },
-    type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select if they’re able to manage their parental responsibilities' },
-    ],
-    options: [
-      {
-        text: 'Yes, manages parenting responsibilities well',
-        value: 'YES',
-        kind: 'option',
-      },
-      {
-        text: 'Sometimes manages parenting responsibilities well',
-        value: 'SOMETIMES',
-        kind: 'option',
-      },
-      { text: 'No, is not able to manage parenting responsibilities', value: 'NO', kind: 'option' },
-      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_good_parental_responsibilities_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_parental_responsibilities',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_parental_responsibilities_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_parental_responsibilities',
-      value: 'SOMETIMES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_bad_parental_responsibilities_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_parental_responsibilities',
-      value: 'NO',
-      displayInline: true,
-    },
-  },
-  {
     text: "What is [subject]'s current relationship like with their family?",
     code: 'personal_relationships_community_family_relationship',
     hint: {
@@ -627,30 +550,84 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const personalRelationshipsCommunityContinuedFields: Array<FormWizard.Field> = [
+export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
   {
-    text: 'Is [subject] happy with their current relationship status?',
-    code: 'personal_relationships_community_current_relationship',
+    text: 'Is [subject] able to manage their parental responsibilities? ',
+    code: 'personal_relationships_community_parental_responsibilities',
+    hint: {
+      text: 'If there are parenting concerns, it does not always mean there are child wellbeing concerns. They may just require some help or support.',
+      kind: 'text',
+    },
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if happy with their current relationship status' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they’re able to manage their parental responsibilities' },
+    ],
     options: [
       {
-        text: 'Happy and positive or their relationship status is likely to act as a protective factor',
-        value: 'HAPPY_RELATIONSHIP',
+        text: 'Yes, manages parenting responsibilities well',
+        value: 'YES',
         kind: 'option',
       },
       {
-        text: 'Has some concerns but is overall happy',
-        value: 'CONCERNS_HAPPY_RELATIONSHIP',
+        text: 'Sometimes manages parenting responsibilities well',
+        value: 'SOMETIMES',
         kind: 'option',
       },
-      {
-        text: 'Unhappy about their relationship status or is unhealthy and directly linked to offending',
-        value: 'UNHAPPY_RELATIONSHIP',
-        kind: 'option',
-      },
+      { text: 'No, is not able to manage parenting responsibilities', value: 'NO', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_good_parental_responsibilities_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_parental_responsibilities',
+      value: 'YES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_mixed_parental_responsibilities_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_parental_responsibilities',
+      value: 'SOMETIMES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'personal_relationships_community_bad_parental_responsibilities_details',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'personal_relationships_community_parental_responsibilities',
+      value: 'NO',
+      displayInline: true,
+    },
   },
 ]
 
@@ -712,7 +689,7 @@ export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionCo
 export default [
   personalRelationshipsFields,
   personalRelationshipsCommunityFields,
-  personalRelationshipsCommunityContinuedFields,
+  parentalResponsibilitiesFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
   analysisSectionComplete,

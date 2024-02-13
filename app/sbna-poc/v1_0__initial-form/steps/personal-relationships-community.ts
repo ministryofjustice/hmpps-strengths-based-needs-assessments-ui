@@ -4,7 +4,7 @@ import {
   analysisSectionComplete,
   personalRelationshipsFields,
   personalRelationshipsCommunityFields,
-  personalRelationshipsCommunityContinuedFields,
+  parentalResponsibilitiesFields,
   makeChangesFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
@@ -13,12 +13,31 @@ import {
 const defaultTitle = 'Personal relationships and community'
 const sectionName = 'personal-relationships-community'
 
+const whenField = (field: string) => ({
+  includes: (values: string[]) => ({
+    thenGoNext: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
+      values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
+  }),
+})
+
 const stepOptions: FormWizard.Steps = {
   '/personal-relationships': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(personalRelationshipsFields),
     navigationOrder: 7,
     next: [
+      // {
+      // field: 'personal_relationships_community_important_people',
+      //   value: 'CHILD/PARENTAL RESPONSIBILITIES',
+      //   next: [
+      //     whenField('personal_relationships_community_important_people')
+      //       .includes(['CHILD/PARENTAL RESPONSIBILITIES', 'PARTNER/INTIMATE RELATIONSHIP', 'OTHER CHILDREN','FAMILY','FRIENDS','OTHER'])
+      //       .thenGoNext('personal-relationships-community'),
+      //     whenField('personal_relationships_community_important_people')
+      //       .includes(['PARTNER/INTIMATE RELATIONSHIP', 'OTHER CHILDREN','FAMILY','FRIENDS','OTHER'])
+      //       .thenGoNext('personal-relationships-community-2'),
+      //   ].flat(),
+      // },
       {
         field: 'personal_relationships_community_important_people',
         value: 'CHILD/PARENTAL RESPONSIBILITIES',
@@ -58,8 +77,8 @@ const stepOptions: FormWizard.Steps = {
   },
   '/personal-relationships-community': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(personalRelationshipsCommunityFields, makeChangesFields),
-    next: 'personal-relationships-community-2',
+    fields: fieldCodesFrom(personalRelationshipsCommunityFields, parentalResponsibilitiesFields, makeChangesFields),
+    next: 'personal-relationships-community-2', // change, next page is summary page
     backLink: 'personal-relationships',
     section: sectionName,
     sectionProgressRules: [
@@ -69,7 +88,7 @@ const stepOptions: FormWizard.Steps = {
   },
   '/personal-relationships-community-2': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(personalRelationshipsCommunityContinuedFields, makeChangesFields), // update
+    fields: fieldCodesFrom(personalRelationshipsCommunityFields, makeChangesFields),
     next: '', // add
     backLink: 'personal-relationships',
     section: sectionName,
