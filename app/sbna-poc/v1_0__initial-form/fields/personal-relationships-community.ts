@@ -108,7 +108,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details about their relationship (optional)',
+    text: 'Give details about their friendship (optional)',
     code: 'personal_relationships_community_important_people_friends_details',
     type: FieldType.TextArea,
     validate: [
@@ -325,6 +325,7 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
         arguments: [characterLimit],
         message: `Details must be ${characterLimit} characters or less`,
       },
+      { type: ValidationType.Required, message: 'Enter details' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
@@ -545,6 +546,7 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] part of any groups or communities that gives them a sense of belonging? (optional)',
     code: 'personal_relationships_community_belonging',
+    hint: { text: 'For example, online social media or community groups.', kind: 'text' },
     type: FieldType.TextArea,
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
