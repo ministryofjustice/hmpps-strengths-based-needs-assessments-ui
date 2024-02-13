@@ -7,18 +7,18 @@ import {
   parentalResponsibilitiesFields,
   makeChangesFields,
   practitionerAnalysisFields,
-  sectionCompleteFields,
+  // sectionCompleteFields,
 } from '../fields/personal-relationships-community'
 
 const defaultTitle = 'Personal relationships and community'
 const sectionName = 'personal-relationships-community'
 
-const whenField = (field: string) => ({
-  includes: (values: string[]) => ({
-    thenGoNext: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
-      values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
-  }),
-})
+// const whenField = (field: string) => ({
+//   includes: (values: string[]) => ({
+//     thenGoNext: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
+//       values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
+//   }),
+// })
 
 const stepOptions: FormWizard.Steps = {
   '/personal-relationships': {
