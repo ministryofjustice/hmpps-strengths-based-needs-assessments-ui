@@ -9,7 +9,7 @@ import {
   yesNoOptions,
 } from './common'
 
-export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
+export const personalRelationshipsFields: Array<FormWizard.Field> = [
   {
     text: "Who are the important people in [subject]'s life?",
     code: 'personal_relationships_community_important_people',
@@ -143,7 +143,7 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const personalRelationshipsFields: Array<FormWizard.Field> = [
+export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] happy with their current relationship status?',
     code: 'personal_relationships_community_current_relationship',
@@ -627,6 +627,33 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
   },
 ]
 
+export const personalRelationshipsCommunityContinuedFields: Array<FormWizard.Field> = [
+  {
+    text: 'Is [subject] happy with their current relationship status?',
+    code: 'personal_relationships_community_current_relationship',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select if happy with their current relationship status' }],
+    options: [
+      {
+        text: 'Happy and positive or their relationship status is likely to act as a protective factor',
+        value: 'HAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Has some concerns but is overall happy',
+        value: 'CONCERNS_HAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Unhappy about their relationship status or is unhealthy and directly linked to offending',
+        value: 'UNHAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+]
+
 const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
   { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
   { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
@@ -683,8 +710,9 @@ export const analysisSectionComplete: FormWizard.Field = {
 export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
 
 export default [
-  personalRelationshipsCommunityFields,
   personalRelationshipsFields,
+  personalRelationshipsCommunityFields,
+  personalRelationshipsCommunityContinuedFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
   analysisSectionComplete,
