@@ -87,7 +87,7 @@ jobs:
           at: ~/app
       - run:
           name: Extract saved container image
-          command: docker load --input docker_cache/build_image.tar
+          command: docker load --input ~/app/docker_cache/build_image.tar
       - run:
           name: Install Node and npm for running Cypress
           command: |
