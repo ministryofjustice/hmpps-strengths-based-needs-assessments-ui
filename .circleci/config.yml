@@ -88,11 +88,13 @@ jobs:
       - run:
           name: Extract saved container image
           command: docker load --input ~/app/docker_cache/build_image.tar
+      - mem/recall:
+          env_var: APP_VERSION
       - run:
           name: Install Node and npm for running Cypress
           command: |
-            - sudo apt-get update
-            - sudo apt-get install nodejs npm
+            sudo apt-get update
+            sudo apt-get install nodejs npm
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:

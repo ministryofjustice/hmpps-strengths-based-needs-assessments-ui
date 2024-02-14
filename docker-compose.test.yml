@@ -7,6 +7,7 @@ services:
       FORM_CONFIG_BASE_URL: http://ui:3007/form
 
   ui:
+    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
     ports:
       - "3007:3000"
     environment:
