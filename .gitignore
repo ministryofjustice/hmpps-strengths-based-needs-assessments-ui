@@ -124,7 +124,7 @@ assets/stylesheets/*.css
 build-info.json
 dist/
 test_results/
-integration_tests/videos/
-integration_tests/screenshots/
+cypress/videos/
+cypress/screenshots/
 */*.iml
 **/Chart.lock

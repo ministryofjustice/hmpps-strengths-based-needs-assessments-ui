@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+
+  redis:
+    ports:
+      - "6379:6379"
+
+  postgres:
+    ports:
+      - "5432:5432"
+
+  hmpps-auth:
+    ports:
+      - "9090:9090"
+
+  api:
+    ports:
+      - "8080:8080"
+
+  ui:
+    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:local
+    build:
+      target: development
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    volumes:
+      - ./:/app

@@ -78,43 +78,31 @@ jobs:
       - store_artifacts:
           path: test_results/unit-test-reports.html
 
-  integration_test:
-    executor:
-      name: hmpps/node_redis
-      node_tag: << pipeline.parameters.node-version >>
-      redis_tag: "6.2"
+  e2e_test:
+    machine:
+      image: ubuntu-2004:2023.10.1
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/app
       - run:
-          name: Install missing OS dependency
-          command: sudo apt-get install libxss1
+          name: Install Node and npm for running Cypress
+          command: sudo apt-get install nodejs npm
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: Get wiremock
-          command: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+          name: Install Dependencies
+          command: npm i --no-audit
       - run:
-          name: Run wiremock
-          command: java -jar wiremock.jar --port 9091
-          background: true
+          name: Stand up a test environment
+          command: make test-up
       - run:
-          name: Run the node app.
-          command: npm run start-feature
-          background: true
-      - run:
-          name: Wait for node app to start
-          command: sleep 5
-      - run:
-          name: integration tests
-          command: npm run int-test
+          name: Run the end-to-end tests
+          command: make e2e-ci
       - store_test_results:
           path: test_results
       - store_artifacts:
-          path: integration-tests/videos
+          path: cypress/videos
       - store_artifacts:
-          path: integration-tests/screenshots
+          path: cypress/screenshots
 
 workflows:
   version: 2
@@ -129,7 +117,7 @@ workflows:
       - unit_test:
           requires:
             - build
-      - integration_test:
+      - e2e_test:
           requires:
             - build
       - hmpps/helm_lint:
@@ -158,7 +146,7 @@ workflows:
           requires:
             - helm_lint
             - unit_test
-            - integration_test
+            - e2e_test
             - build_docker
           helm_timeout: 5m
   #      - request-preprod-approval:
