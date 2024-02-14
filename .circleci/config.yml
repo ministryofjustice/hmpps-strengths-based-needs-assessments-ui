@@ -83,9 +83,16 @@ jobs:
       image: ubuntu-2004:2023.10.1
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Extract saved container image
+          command: docker load --input docker_cache/build_image.tar
       - run:
           name: Install Node and npm for running Cypress
-          command: sudo apt-get install nodejs npm
+          command: |
+            - sudo apt-get update
+            - sudo apt-get install nodejs npm
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
@@ -117,17 +124,28 @@ workflows:
       - unit_test:
           requires:
             - build
-      - e2e_test:
-          requires:
-            - build
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
           name: build_docker
+          publish: false
+          persist_container_image: true
+          additional_docker_build_args: --tag "quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:latest"
           jira_update: true
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
+      - e2e_test:
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - hmpps/publish_docker:
+          name: publish_docker
+          publish_latest_tag: true
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+            - e2e_test
           filters:
             branches:
               only:
