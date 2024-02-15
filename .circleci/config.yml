@@ -24,7 +24,7 @@ parameters:
     default: ""
 
 jobs:
-  build:
+  lint:
     executor:
       name: hmpps/node
       tag: << pipeline.parameters.node-version >>
@@ -44,24 +44,8 @@ jobs:
             - node_modules
             - ~/.cache
       - run:
-          command: |
-            npm run build
-            DATE=$(date '+%Y-%m-%d')
-            export BUILD_NUMBER=${DATE}.${CIRCLE_BUILD_NUM}
-            export GIT_REF="$CIRCLE_SHA1"
-            npm run record-build-info
-      - run:
-          # Run linter after build because the integration test code depend on compiled typescript...
           name: Linter check
           command: npm run lint
-      - persist_to_workspace:
-          root: .
-          paths:
-            - node_modules
-            - build-info.json
-            - build
-            - dist
-            - .cache/Cypress
 
   unit_test:
     executor:
@@ -141,13 +125,13 @@ workflows:
     when:
       not: << pipeline.parameters.deploy >>
     jobs:
-      - build:
+      - lint:
           filters:
             tags:
               ignore: /.*/
       - unit_test:
           requires:
-            - build
+            - lint
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
@@ -158,6 +142,8 @@ workflows:
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
+          requires:
+            - unit_test
       - e2e_test:
           context: hmpps-common-vars
           requires:
@@ -167,7 +153,6 @@ workflows:
           publish_latest_tag: true
           context: hmpps-common-vars
           requires:
-            - build_docker
             - e2e_test
           filters:
             branches:
@@ -186,9 +171,7 @@ workflows:
                 - main
           requires:
             - helm_lint
-            - unit_test
-            - e2e_test
-            - build_docker
+            - publish_docker
           helm_timeout: 5m
       - e2e_test_dev:
           context: hmpps-common-vars
@@ -235,12 +218,20 @@ workflows:
     jobs:
       - hmpps/build_docker:
           name: build_docker
+          publish: false
+          persist_container_image: true
           jira_update: true
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context:
             - hmpps-common-vars
             - hmpps-strengths-based-needs-assessments-ui-test
+      - hmpps/publish_docker:
+          name: publish_docker
+          publish_latest_tag: false
+          context: hmpps-common-vars
+          requires:
+            - e2e_test
       - hmpps/deploy_env:
           name: deploy_test
           env: "test"
