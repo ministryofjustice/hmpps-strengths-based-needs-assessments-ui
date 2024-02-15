@@ -42,13 +42,14 @@ lint-fix: ## Automatically fixes linting issues.
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint:fix
 
 BASE_URL ?= "http://localhost:3000"
-e2e: ## Run the end-to-end tests in the Cypress app. Override the default base URL with CYPRESS_BASE_URL=...
+e2e: ## Run the end-to-end tests in the Cypress app. Override the default base URL with BASE_URL=...
 	npm i
 	npx cypress open -c baseUrl=$(BASE_URL)
 
-e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI.
+BASE_URL_CI ?= "http://localhost:3007"
+e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
 	npm i
-	npx cypress run -c baseUrl=http://localhost:3007
+	npx cypress run -c baseUrl=$(BASE_URL_CI)
 
 test-up: ## Stands up a test environment with the UI exposed on port 3007.
 	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait
