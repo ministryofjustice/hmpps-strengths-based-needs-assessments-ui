@@ -133,7 +133,6 @@ workflows:
           name: build_docker
           publish: false
           persist_container_image: true
-          additional_docker_build_args: --tag "quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:latest"
           jira_update: true
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
