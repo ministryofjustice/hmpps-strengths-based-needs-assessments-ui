@@ -164,31 +164,32 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
 
 export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
   {
-    text: 'Does [subject] show evidence of sexual preoccupation?',
+    text: 'Is there evidence [subject] shows sexual preoccupation?',
     code: 'thinking_behaviours_attitudes_sexual_preoccupation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they show evidence of sexual preoccupation' }],
+    validate: [{ type: ValidationType.Required, message: "Select if there's evidence of sexual preoccupation" }],
     options: [
       {
-        text: 'There is evidence that they spend a healthy amount of time engaging in sexual activity and thinking about sex, alongside all other important areas of their life',
+        text: 'Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life',
         value: 'YES',
-        hint: {
-          text: 'This may include behaviours such as masturbating regularly, having casual sex outside of a relationship and use of pornography to meet their sexual needs in a healthy way.',
-        },
         kind: 'option',
       },
       {
-        text: 'There is evidence that while they spend a significant amount of time during the day being preoccupied with sex. They are also trying to improve the balance in their day-to-day life to spend more time engaging in other activities',
+        text: 'Shows some evidence of improving their day-to-day life but still spends a significant amount of time preoccupied with sex',
         value: 'SOMETIMES',
+        kind: 'option',
+      },
+      {
+        text: 'No, the amount of time they spend engaging in sexual activity or thinking about sex is healthy and is balanced alongside all other important areas of their life',
+        value: 'NO',
         hint: {
-          text: 'There is also evidence of other interests in their life such as spending time with others, working and other things which are not sex-related.',
+          text: 'This includes behaviours like masturbating regularly, having casual sex or using pornography to meet their needs in a healthy way.',
         },
         kind: 'option',
       },
       {
-        text: 'They describe an unhealthy amount of time in their daily life thinking about or engaging in sexual activity',
-        value: 'YES_UNHEALTHY',
-        hint: { text: 'It is a major activity each day which impacts on their daily functioning.' },
+        text: 'Unknown',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
