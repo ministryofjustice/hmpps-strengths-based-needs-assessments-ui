@@ -195,37 +195,46 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Does [subject] show evidence of offence-related sexual interests?',
+    text: 'Is there evidence [subject] has offence-related sexual interests?',
     code: 'thinking_behaviours_attitudes_offence_related_sexual_interest',
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: 'Select if they show evidence of offence-related sexual interests' },
+      {
+        type: ValidationType.Required,
+        message: 'Select if they show evidence of offence-related sexual interests',
+      },
     ],
     options: [
       {
-        text: 'There is evidence of healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
-        value: 'NO_HEALTHY_INTEREST',
+        text: 'Yes, there are recurrent and persistent patterns of a preference for sexual activity that is illegal or harmful and no evidence of healthy sexual interests',
+        value: 'YES_OFFENCE_RELATED_SEXUAL_INTEREST',
         hint: {
-          text: 'Whilst their offending means that they have engaged in sexual activity that is illegal, their preferred route to sexual gratification is activity which is both legal and consensual. There is no evidence that they need to sexually offend to meet their sexual needs.',
+          text: 'They are strongly aroused by illegal harmful sexual acts with little or no interest in consensual sex.',
         },
         kind: 'option',
       },
       {
-        text: 'There is some evidence of healthy sexual activity that they are fulfilled by including consensual sex. There is also evidence of behaviour that has been recurrent and persistent or an interest in sexual activity that is illegal or harmful',
-        value: 'MIXED_INTEREST',
+        text: 'Shows some evidence of healthy sexual activity including consensual sex but shows behaviour that is recurrent and persistent or an interest in sexual activity that is illegal or harmful',
+        value: 'SOME_OFFENCE_RELATED_SEXUAL_INTEREST',
         kind: 'option',
       },
       {
-        text: 'There is no evidence that they have healthy sexual interests. There are recurrent and persistent patterns of a preference for sexual activity that is illegal or harmful',
-        value: 'YES_UNHEALTHY_INTEREST',
+        text: 'No, they have healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
+        value: 'NO_OFFENCE_RELATED_SEXUAL_INTEREST',
         hint: {
-          text: 'They are strongly aroused to illegal harmful sexual acts with little or no interest in consenting sex with adults..',
+          text: 'While offending, they may have engaged in sexual activity that is illegal but their preferred route to meeting their sexual needs is both legal and consensual.',
         },
+        kind: 'option',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN_OFFENCE_RELATED_SEXUAL_INTEREST',
         kind: 'option',
       },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
+
   {
     text: 'Is there evidence [subject] finds it easier to seek emotional intimacy with children over adults?',
     code: 'thinking_behaviours_attitudes_emotional_intimacy',
