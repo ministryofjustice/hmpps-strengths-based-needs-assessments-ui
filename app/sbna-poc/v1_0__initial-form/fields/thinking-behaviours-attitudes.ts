@@ -227,33 +227,35 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Does [subject] show evidence of emotional compatibility with children or feel closer to children than adults?',
-    code: 'thinking_behaviours_attitudes_emotional_compatibility',
+    text: 'Is there evidence [subject] finds it easier to seek emotional intimacy with children over adults?',
+    code: 'thinking_behaviours_attitudes_emotional_intimacy',
     type: FieldType.Radio,
     validate: [
       {
         type: ValidationType.Required,
         message:
-          'Select if they show evidence of emotional compatibility with children or feel closer to children than adults',
+          'Select if they show evidence that they find it easier to seek emotional intimacy with children over adults',
       },
     ],
     options: [
       {
-        text: 'They have or have had a stable intimate relationship with an adult that they value or have the skills, ability and desire to form stable relationships',
-        value: 'STABLE_ADULT_RELATIONSHIPS',
+        text: 'Yes, they find it easier to seek emotional intimacy with children and have significant difficulty forming intimate relationships with adults',
+        value: 'YES',
         kind: 'option',
       },
       {
-        text: 'There is evidence of them having stable adult relationships in the past or want an adult relationship but not being able to achieve this. There is also some evidence that they find it easier or would prefer to do so with children',
-        value: 'MIXED_ADULT_CHILD_RELATIONSHIP_INTEREST',
+        text: 'Shows some evidence of having or wanting stable adult relationships but finds it easier to seek emotional intimacy with children over adults',
+        value: 'SOMETIMES',
         kind: 'option',
       },
       {
-        text: 'They describe having significant difficulty forming intimate relationships with adults and prefer seeking emotional intimacy with children',
-        value: 'EMOTIONAL_INTIMACY_WITH_CHILDREN',
-        hint: {
-          text: 'They are strongly aroused to illegal harmful sexual acts with little or no interest in consenting sex with adults..',
-        },
+        text: 'No, they have or have had a intimate relationship with an adult that they value or have the skills, ability and desire to form stable relationships',
+        value: 'NO',
+        kind: 'option',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
