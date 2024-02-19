@@ -229,9 +229,9 @@ workflows:
       - hmpps/publish_docker:
           name: publish_docker
           publish_latest_tag: false
-          context: hmpps-common-vars
-          requires:
-            - e2e_test
+          context:
+            - hmpps-common-vars
+            - hmpps-strengths-based-needs-assessments-ui-test
       - hmpps/deploy_env:
           name: deploy_test
           env: "test"
