@@ -76,6 +76,7 @@ services:
       SESSION_SECRET: sessionsecret
       SBNA_API_URL: http://api:8080
       INGRESS_URL: http://localhost:3000
+      HTTPS: false
 
 networks:
   hmpps:
