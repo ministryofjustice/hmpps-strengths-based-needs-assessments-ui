@@ -164,96 +164,108 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
 
 export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
   {
-    text: 'Does [subject] show evidence of sexual preoccupation?',
+    text: 'Is there evidence [subject] shows sexual preoccupation?',
     code: 'thinking_behaviours_attitudes_sexual_preoccupation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they show evidence of sexual preoccupation' }],
+    validate: [{ type: ValidationType.Required, message: "Select if there's evidence of sexual preoccupation" }],
     options: [
       {
-        text: 'There is evidence that they spend a healthy amount of time engaging in sexual activity and thinking about sex, alongside all other important areas of their life',
+        text: 'Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life',
         value: 'YES',
-        hint: {
-          text: 'This may include behaviours such as masturbating regularly, having casual sex outside of a relationship and use of pornography to meet their sexual needs in a healthy way.',
-        },
         kind: 'option',
       },
       {
-        text: 'There is evidence that while they spend a significant amount of time during the day being preoccupied with sex. They are also trying to improve the balance in their day-to-day life to spend more time engaging in other activities',
+        text: 'Shows some evidence of improving their day-to-day life but still spends a significant amount of time preoccupied with sex',
         value: 'SOMETIMES',
+        kind: 'option',
+      },
+      {
+        text: 'No, the amount of time they spend engaging in sexual activity or thinking about sex is healthy and is balanced alongside all other important areas of their life',
+        value: 'NO',
         hint: {
-          text: 'There is also evidence of other interests in their life such as spending time with others, working and other things which are not sex-related.',
+          text: 'This includes behaviours like masturbating regularly, having casual sex or using pornography to meet their needs in a healthy way.',
         },
         kind: 'option',
       },
       {
-        text: 'They describe an unhealthy amount of time in their daily life thinking about or engaging in sexual activity',
-        value: 'YES_UNHEALTHY',
-        hint: { text: 'It is a major activity each day which impacts on their daily functioning.' },
+        text: 'Unknown',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Does [subject] show evidence of offence-related sexual interests?',
+    text: 'Is there evidence [subject] has offence-related sexual interests?',
     code: 'thinking_behaviours_attitudes_offence_related_sexual_interest',
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: 'Select if they show evidence of offence-related sexual interests' },
+      {
+        type: ValidationType.Required,
+        message: 'Select if they show evidence of offence-related sexual interests',
+      },
     ],
     options: [
       {
-        text: 'There is evidence of healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
-        value: 'NO_HEALTHY_INTEREST',
+        text: 'Yes, there are recurrent and persistent patterns of a preference for sexual activity that is illegal or harmful and no evidence of healthy sexual interests',
+        value: 'YES_OFFENCE_RELATED_SEXUAL_INTEREST',
         hint: {
-          text: 'Whilst their offending means that they have engaged in sexual activity that is illegal, their preferred route to sexual gratification is activity which is both legal and consensual. There is no evidence that they need to sexually offend to meet their sexual needs.',
+          text: 'They are strongly aroused by illegal harmful sexual acts with little or no interest in consensual sex.',
         },
         kind: 'option',
       },
       {
-        text: 'There is some evidence of healthy sexual activity that they are fulfilled by including consensual sex. There is also evidence of behaviour that has been recurrent and persistent or an interest in sexual activity that is illegal or harmful',
-        value: 'MIXED_INTEREST',
+        text: 'Shows some evidence of healthy sexual activity including consensual sex but shows behaviour that is recurrent and persistent or an interest in sexual activity that is illegal or harmful',
+        value: 'SOME_OFFENCE_RELATED_SEXUAL_INTEREST',
         kind: 'option',
       },
       {
-        text: 'There is no evidence that they have healthy sexual interests. There are recurrent and persistent patterns of a preference for sexual activity that is illegal or harmful',
-        value: 'YES_UNHEALTHY_INTEREST',
+        text: 'No, they have healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
+        value: 'NO_OFFENCE_RELATED_SEXUAL_INTEREST',
         hint: {
-          text: 'They are strongly aroused to illegal harmful sexual acts with little or no interest in consenting sex with adults..',
+          text: 'While offending, they may have engaged in sexual activity that is illegal but their preferred route to meeting their sexual needs is both legal and consensual.',
         },
+        kind: 'option',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN_OFFENCE_RELATED_SEXUAL_INTEREST',
         kind: 'option',
       },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
+
   {
-    text: 'Does [subject] show evidence of emotional compatibility with children or feel closer to children than adults?',
-    code: 'thinking_behaviours_attitudes_emotional_compatibility',
+    text: 'Is there evidence [subject] finds it easier to seek emotional intimacy with children over adults?',
+    code: 'thinking_behaviours_attitudes_emotional_intimacy',
     type: FieldType.Radio,
     validate: [
       {
         type: ValidationType.Required,
         message:
-          'Select if they show evidence of emotional compatibility with children or feel closer to children than adults',
+          'Select if they show evidence that they find it easier to seek emotional intimacy with children over adults',
       },
     ],
     options: [
       {
-        text: 'They have or have had a stable intimate relationship with an adult that they value or have the skills, ability and desire to form stable relationships',
-        value: 'STABLE_ADULT_RELATIONSHIPS',
+        text: 'Yes, they find it easier to seek emotional intimacy with children and have significant difficulty forming intimate relationships with adults',
+        value: 'YES',
         kind: 'option',
       },
       {
-        text: 'There is evidence of them having stable adult relationships in the past or want an adult relationship but not being able to achieve this. There is also some evidence that they find it easier or would prefer to do so with children',
-        value: 'MIXED_ADULT_CHILD_RELATIONSHIP_INTEREST',
+        text: 'Shows some evidence of having or wanting stable adult relationships but finds it easier to seek emotional intimacy with children over adults',
+        value: 'SOMETIMES',
         kind: 'option',
       },
       {
-        text: 'They describe having significant difficulty forming intimate relationships with adults and prefer seeking emotional intimacy with children',
-        value: 'EMOTIONAL_INTIMACY_WITH_CHILDREN',
-        hint: {
-          text: 'They are strongly aroused to illegal harmful sexual acts with little or no interest in consenting sex with adults..',
-        },
+        text: 'No, they have or have had a intimate relationship with an adult that they value or have the skills, ability and desire to form stable relationships',
+        value: 'NO',
+        kind: 'option',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
