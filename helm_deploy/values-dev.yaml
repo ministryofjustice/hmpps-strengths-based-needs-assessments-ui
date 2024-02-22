@@ -19,6 +19,7 @@ generic-service:
     groups:
       - circleci
       - internal
+      - prisons
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-strengths-based-needs-assessments
