@@ -99,6 +99,7 @@ jobs:
           path: cypress/screenshots
 
   e2e_test_dev:
+    circleci_ip_ranges: true
     executor:
       name: hmpps/node
       tag: << pipeline.parameters.node-version >>
