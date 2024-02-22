@@ -10,24 +10,18 @@
     "compile-sass": "sass --quiet-deps --no-source-map --load-path=node_modules/govuk-frontend/dist --load-path=node_modules/@ministryofjustice/frontend --load-path=. assets/scss/application.scss:./assets/stylesheets/application.css --style compressed",
     "watch-ts": "tsc -w",
     "watch-views": "nodemon --watch server/views -e html,njk -x npm run copy-views",
-    "watch-node": "DEBUG=gov-starter-server* nodemon -r dotenv/config --watch dist/ dist/server.js | bunyan -o short",
+    "watch-node": "DEBUG=gov-starter-server* nodemon --inspect=0.0.0.0 --watch dist/ dist/server.js | bunyan -o short",
     "watch-sass": "npm run compile-sass -- --watch",
     "build": "npm run compile-sass && tsc && npm run copy-views",
     "start": "node $NODE_OPTIONS dist/server.js | bunyan -o short",
     "start:dev": "concurrently -k -p \"[{name}]\" -n \"Views,TypeScript,Node,Sass\" -c \"yellow.bold,cyan.bold,green.bold,blue.bold\" \"npm run watch-views\" \"npm run watch-ts\" \"npm run watch-node\" \"npm run watch-sass\"",
-    "start-feature": "export $(cat feature.env) && node $NODE_DEBUG_OPTION dist/server.js | bunyan -o short",
-    "watch-node-feature": "export $(cat feature.env) && nodemon --watch dist/ $NODE_DEBUG_OPTION dist/server.js | bunyan -o short",
-    "start-feature:dev": "concurrently -k -p \"[{name}]\" -n \"Views,TypeScript,Node,Sass\" -c \"yellow.bold,cyan.bold,green.bold,blue.bold\" \"npm run watch-views\" \"npm run watch-ts\" \"npm run watch-node-feature\" \"npm run watch-sass\"",
     "record-build-info": "node ./bin/record-build-info",
     "lint": "eslint . --cache --max-warnings 0",
     "lint:fix": "eslint . --cache --max-warnings 0 --fix",
-    "typecheck": "tsc && tsc -p integration_tests",
+    "typecheck": "tsc && tsc -p cypress",
     "test": "jest",
     "test:ci": "jest --runInBand",
     "security_audit": "npx audit-ci --config audit-ci.json",
-    "int-test": "cypress run --config video=false",
-    "int-test-ui": "cypress open",
-    "wiremock": "npx ts-node ./wiremock/index.ts",
     "clean": "rm -rf dist build node_modules stylesheets"
   },
   "engines": {
@@ -79,7 +73,7 @@
       "migrations/*",
       "node_modules/*",
       "test/*",
-      "integration_tests/*"
+      "cypress/*"
     ],
     "delay": 2500,
     "ext": "js,json,html,njk"
@@ -153,7 +147,6 @@
     "cookie-session": "^2.1.0",
     "cypress": "^13.6.4",
     "cypress-multi-reporters": "^1.6.4",
-    "dotenv": "^16.4.1",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
