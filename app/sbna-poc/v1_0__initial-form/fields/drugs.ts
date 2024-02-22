@@ -272,6 +272,20 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select the impact of them using drugs' }],
     options: [
       {
+        text: 'Behavioural',
+        value: 'BEHAVIOURAL',
+        hint: { text: 'Includes unemployment, disruption on education or lack of productivity.' },
+        kind: 'option',
+      },
+      {
+        text: 'Community',
+        value: 'COMMUNITY',
+        hint: { text: 'Includes limited opportunities or judgement from others.' },
+        kind: 'option',
+      },
+      { text: 'Finances', value: 'FINANCES', hint: { text: 'Includes having no money.' }, kind: 'option' },
+      { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
+      {
         text: 'Physical or mental health',
         value: 'PHYSICAL_OR_MENTAL_HEALTH',
         hint: { text: 'Includes overdose.' },
@@ -283,20 +297,6 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
         hint: { text: 'Includes isolation or neglecting responsibilities.' },
         kind: 'option',
       },
-      { text: 'Finances', value: 'FINANCES', hint: { text: 'Includes having no money.' }, kind: 'option' },
-      {
-        text: 'Community',
-        value: 'COMMUNITY',
-        hint: { text: 'Includes limited opportunities or judgement from others.' },
-        kind: 'option',
-      },
-      {
-        text: 'Behavioural',
-        value: 'BEHAVIOURAL',
-        hint: { text: 'Includes unemployment, disruption on education or lack of productivity.' },
-        kind: 'option',
-      },
-      { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
