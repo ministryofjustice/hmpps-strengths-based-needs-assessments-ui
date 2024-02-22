@@ -15,5 +15,11 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-dev.svc.cluster.local"
 
+  allowlist:
+    groups:
+      - circleci
+      - internal
+      - prisons
+
 generic-prometheus-alerts:
   alertSeverity: hmpps-strengths-based-needs-assessments
