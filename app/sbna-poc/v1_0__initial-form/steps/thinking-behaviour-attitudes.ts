@@ -17,7 +17,7 @@ const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours-attitudes': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(thinkingBehavioursAttitudesFields, sectionCompleteFields),
-    navigationOrder: 7,
+    navigationOrder: 8,
     next: [
       {
         field: 'thinking_behaviours_attitudes_risk_sexual_harm',
