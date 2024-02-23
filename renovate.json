@@ -3,12 +3,9 @@
   "extends": ["github>ministryofjustice/hmpps-renovate-config:node"],
   "prBodyTemplate": "{{{table}}}{{{notes}}}{{{warnings}}}{{{controls}}}",
   "prCreation": "immediate",
+  "automerge": true,
+  "automergeType": "pr",
   "packageRules": [
-    {
-      "matchPackagePatterns": ["*"],
-      "automerge": true,
-      "automergeType": "pr"
-    },
     {
       "matchManagers": ["npm"],
       "rangeStrategy": "bump"
