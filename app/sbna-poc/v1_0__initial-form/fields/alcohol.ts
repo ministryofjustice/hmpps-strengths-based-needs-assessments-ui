@@ -120,29 +120,28 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
     multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select why they drink alcohol' }],
     options: [
-      { text: 'Peer pressure or social influence', value: 'PEER_PRESSURE', kind: 'option' },
-      { text: 'Socially', value: 'SOCIAL', kind: 'option' },
-      { text: 'On special occasions', value: 'SPECIAL_OCCASIONS', kind: 'option' },
       { text: 'Cultural or religious practice', value: 'CULTURAL_OR_RELIGIOUS', kind: 'option' },
-      { text: 'Manage stress or emotional issues', value: 'MANAGING_EMOTIONAL_ISSUES', kind: 'option' },
-      { text: 'Enjoyment', value: 'ENJOYMENT', kind: 'option' },
       { text: 'Curiosity or experimentation', value: 'CURIOSITY_OR_EXPERIMENTATION', kind: 'option' },
+      { text: 'Enjoyment', value: 'ENJOYMENT', kind: 'option' },
+      { text: 'Manage stress or emotional issues', value: 'MANAGING_EMOTIONAL_ISSUES', kind: 'option' },
+      { text: 'On special occasions', value: 'SPECIAL_OCCASIONS', kind: 'option' },
+      { text: 'Peer pressure or social influence', value: 'PEER_PRESSURE', kind: 'option' },
       {
         text: 'Self-medication or mood altering',
         hint: { text: 'Includes pain management or emotional regulation' },
         value: 'SELF_MEDICATION',
         kind: 'option',
       },
+      { text: 'Socially', value: 'SOCIAL', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'alcohol_reasons_for_use_other_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -164,14 +163,33 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.Required,
-        message: "Select the impact of them drinking alcohol, or select 'No negative impact'",
+        message: "Select the impact of them drinking alcohol, or select 'No impact'",
       },
       {
         fn: orNoImpactValidator,
-        message: "Select the impact of them drinking alcohol, or select 'No negative impact'",
+        message: "Select the impact of them drinking alcohol, or select 'No impact'",
       },
     ],
     options: [
+      {
+        text: 'Behavioural',
+        hint: { text: 'Includes unemployment, disruption on education or lack of productivity.' },
+        value: 'BEHAVIOURAL',
+        kind: 'option',
+      },
+      {
+        text: 'Community',
+        hint: { text: 'Includes limited opportunities or judgement from others.' },
+        value: 'COMMUNITY',
+        kind: 'option',
+      },
+      {
+        text: 'Finances',
+        hint: { text: 'Includes having no money or difficulties.' },
+        value: 'FINANCES',
+        kind: 'option',
+      },
+      { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       {
         text: 'Physical or mental health',
         hint: { text: 'Includes overdose' },
@@ -180,42 +198,22 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       },
       {
         text: 'Relationships',
-        hint: { text: 'Includes isolation or neglecting responsibilities' },
+        hint: { text: 'Includes isolation or neglecting responsibilities.' },
         value: 'RELATIONSHIPS',
         kind: 'option',
       },
-      {
-        text: 'Finances',
-        hint: { text: 'Includes having no money or difficulties' },
-        value: 'FINANCES',
-        kind: 'option',
-      },
-      {
-        text: 'Community',
-        hint: { text: 'Includes limited opportunities or judgement from others' },
-        value: 'COMMUNITY',
-        kind: 'option',
-      },
-      {
-        text: 'Behavioural',
-        hint: { text: 'Includes unemployment, disruption on education or lack of productivity' },
-        value: 'BEHAVIOURAL',
-        kind: 'option',
-      },
-      { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
       orDivider,
-      { text: 'No negative impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option', behaviour: 'exclusive' },
+      { text: 'No impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option', behaviour: 'exclusive' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
-    text: 'Give details',
-    hint: { text: 'Consider impact on themselves or others', kind: 'text' },
+    text: 'Give details (optional)',
+    hint: { text: 'Consider impact on themselves or others.', kind: 'text' },
     code: 'alcohol_impact_of_use_other_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -459,6 +457,13 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       },
     ],
     options: [
+      { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
+      {
+        text: 'Some evidence of binge drinking or excessive alcohol use',
+        hint: { text: 'There is a pattern of alcohol use but has not caused any serious problems.' },
+        value: 'YES_WITH_SOME_EVIDENCE',
+        kind: 'option',
+      },
       {
         text: 'Evidence of binge drinking or excessive alcohol use',
         hint: {
@@ -467,13 +472,6 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
         value: 'YES_WITH_EVIDENCE',
         kind: 'option',
       },
-      {
-        text: 'Some evidence of binge drinking or excessive alcohol use',
-        hint: { text: 'There is a pattern of alcohol use but has not caused any serious problems.' },
-        value: 'YES_WITH_SOME_EVIDENCE',
-        kind: 'option',
-      },
-      { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
