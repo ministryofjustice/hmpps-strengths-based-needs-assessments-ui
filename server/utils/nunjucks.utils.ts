@@ -45,3 +45,7 @@ export function getSelectedAnswers(field: FormWizard.Field) {
 export function removeSectionCompleteFields(fields: string[] = []): string[] {
   return fields.filter(it => !it.endsWith('_section_complete'))
 }
+
+export function removePractitionerAnalysisFields(fields: string[] = []): string[] {
+  return fields.filter(it => !it.includes('_practitioner_analysis_'))
+}

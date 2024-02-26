@@ -1,0 +1,69 @@
+{% extends "../summary-new.njk" %}
+
+{% macro renderAnalysisSummaryRow(label, field, detailsField, link) %}
+  <article class="analysis-summary__item">
+    <div class="analysis-summary__row">
+      <div class="analysis-summary__heading">
+        <h2 class="govuk-heading-m full-width">{{ label }}</h2>
+      </div>
+      <div class="analysis-summary__action">
+        <a class="govuk-link" href="{{ link }}">
+          Change<span class="govuk-visually-hidden">value for {{ label }}</span>
+        </a>
+      </div>
+    </div>
+    <div class="analysis-summary__row">
+      <div class="analysis-summary__value">
+        <ul class="govuk-list">
+          {% for option in field.options %}
+            {% if option.checked %}
+              <li class="summary-details-list">
+                <span class="analysis__answer">{{ option.text }}</span>
+                <p class="analysis__answer--secondary">{{ detailsField.value }}</p>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </article>
+{% endmacro %}
+
+{% block analysisPanel %}
+  {% set section = options.section | replace("-", "_") %}
+  {% set fields = options.allFields %}
+  {% set changeLink = options.section + '-analysis#practitioner-analysis' %}
+
+  <section>
+    {{ renderAnalysisSummaryRow(
+      "Patterns of behaviours",
+      fields[section + "_practitioner_analysis_patterns_of_behaviour"],
+      fields[section + "_practitioner_analysis_patterns_of_behaviour_details"],
+      changeLink
+    ) }}
+    {{ renderAnalysisSummaryRow(
+      "Strengths or protective factors",
+      fields[section + "_practitioner_analysis_strengths_or_protective_factors"],
+      fields[section + "_practitioner_analysis_strengths_or_protective_factors_details"],
+      changeLink
+    ) }}
+    {{ renderAnalysisSummaryRow(
+      "Linked to risk of serious harm",
+      fields[section + "_practitioner_analysis_risk_of_serious_harm"],
+      fields[section + "_practitioner_analysis_risk_of_serious_harm_details"],
+      changeLink
+    ) }}
+    {{ renderAnalysisSummaryRow(
+      "Linked to risk of reoffending",
+      fields[section + "_practitioner_analysis_risk_of_reoffending"],
+      fields[section + "_practitioner_analysis_risk_of_reoffending_details"],
+      changeLink
+    ) }}
+    {{ renderAnalysisSummaryRow(
+      "Area of need which is not related to risk",
+      fields[section + "_practitioner_analysis_related_to_risk"],
+      fields[section + "_practitioner_analysis_related_to_risk_details"],
+      changeLink
+    ) }}
+  </section>
+{% endblock %}
