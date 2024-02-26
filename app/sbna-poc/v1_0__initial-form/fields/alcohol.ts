@@ -210,12 +210,11 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     hint: { text: 'Consider impact on themselves or others.', kind: 'text' },
     code: 'alcohol_impact_of_use_other_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
