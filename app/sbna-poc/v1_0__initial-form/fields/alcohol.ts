@@ -164,14 +164,33 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.Required,
-        message: "Select the impact of them drinking alcohol, or select 'No negative impact'",
+        message: "Select the impact of them drinking alcohol, or select 'No impact'",
       },
       {
         fn: orNoImpactValidator,
-        message: "Select the impact of them drinking alcohol, or select 'No negative impact'",
+        message: "Select the impact of them drinking alcohol, or select 'No impact'",
       },
     ],
     options: [
+      {
+        text: 'Behavioural',
+        hint: { text: 'Includes unemployment, disruption on education or lack of productivity.' },
+        value: 'BEHAVIOURAL',
+        kind: 'option',
+      },
+      {
+        text: 'Community',
+        hint: { text: 'Includes limited opportunities or judgement from others.' },
+        value: 'COMMUNITY',
+        kind: 'option',
+      },
+      {
+        text: 'Finances',
+        hint: { text: 'Includes having no money or difficulties.' },
+        value: 'FINANCES',
+        kind: 'option',
+      },
+      { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       {
         text: 'Physical or mental health',
         hint: { text: 'Includes overdose' },
@@ -180,38 +199,19 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       },
       {
         text: 'Relationships',
-        hint: { text: 'Includes isolation or neglecting responsibilities' },
+        hint: { text: 'Includes isolation or neglecting responsibilities.' },
         value: 'RELATIONSHIPS',
         kind: 'option',
       },
-      {
-        text: 'Finances',
-        hint: { text: 'Includes having no money or difficulties' },
-        value: 'FINANCES',
-        kind: 'option',
-      },
-      {
-        text: 'Community',
-        hint: { text: 'Includes limited opportunities or judgement from others' },
-        value: 'COMMUNITY',
-        kind: 'option',
-      },
-      {
-        text: 'Behavioural',
-        hint: { text: 'Includes unemployment, disruption on education or lack of productivity' },
-        value: 'BEHAVIOURAL',
-        kind: 'option',
-      },
-      { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
       orDivider,
-      { text: 'No negative impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option', behaviour: 'exclusive' },
+      { text: 'No impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option', behaviour: 'exclusive' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
-    hint: { text: 'Consider impact on themselves or others', kind: 'text' },
+    hint: { text: 'Consider impact on themselves or others.', kind: 'text' },
     code: 'alcohol_impact_of_use_other_details',
     type: FieldType.TextArea,
     validate: [
