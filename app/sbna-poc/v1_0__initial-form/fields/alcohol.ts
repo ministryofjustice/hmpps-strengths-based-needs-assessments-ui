@@ -457,6 +457,13 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       },
     ],
     options: [
+      { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
+      {
+        text: 'Some evidence of binge drinking or excessive alcohol use',
+        hint: { text: 'There is a pattern of alcohol use but has not caused any serious problems.' },
+        value: 'YES_WITH_SOME_EVIDENCE',
+        kind: 'option',
+      },
       {
         text: 'Evidence of binge drinking or excessive alcohol use',
         hint: {
@@ -465,13 +472,6 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
         value: 'YES_WITH_EVIDENCE',
         kind: 'option',
       },
-      {
-        text: 'Some evidence of binge drinking or excessive alcohol use',
-        hint: { text: 'There is a pattern of alcohol use but has not caused any serious problems.' },
-        value: 'YES_WITH_SOME_EVIDENCE',
-        kind: 'option',
-      },
-      { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
