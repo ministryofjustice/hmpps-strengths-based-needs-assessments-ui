@@ -15,7 +15,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     hint: { text: 'Select all that apply', kind: 'text' },
     code: 'personal_relationships_community_important_people',
     type: FieldType.CheckBox,
-    validate: [{ type: ValidationType.Required, message: 'select at least on option' }],
+    multiple: true,
+    validate: [{ type: ValidationType.Required, message: 'Select at least one option' }],
     options: [
       {
         text: "Partner or someone they're in an intimate relationship with",
@@ -669,19 +670,19 @@ export const makeChangesFields: Array<FormWizard.Field> = [
 ]
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  '', // update
+  'personal_relationships_community',
 )
 
 export const questionSectionComplete: FormWizard.Field = {
-  text: 'e section complete?', // update
-  code: 'section_complete', // update
+  text: 'Is the personal relationships and community section complete?',
+  code: 'personal_relationships_community_section_complete',
   type: FieldType.Radio,
   options: yesNoOptions,
 }
 
 export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is xyz section complete?', // update
-  code: '_section_complete', // update
+  text: 'Is the personal relationships and community analysis section complete?',
+  code: 'personal_relationships_community_analysis_section_complete',
   type: FieldType.Radio,
   options: yesNoOptions,
 }

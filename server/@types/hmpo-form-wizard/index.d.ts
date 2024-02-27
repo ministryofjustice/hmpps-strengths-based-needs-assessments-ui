@@ -186,11 +186,11 @@ declare module 'hmpo-form-wizard' {
 
     namespace Step {
       type NextStepCondition = (req: Request, res: Response) => boolean
+      type Op = (fieldValue, req, res, con) => boolean
+      type FieldValueCondition = { field: string; op?: string | Op; value: string; next: NextStep }
+      type CallbackCondition = { fn: NextStepCondition; next: string }
 
-      type NextStep =
-        | { field: string; op?: string; value: string; next: string | NextStep[] }
-        | { fn: NextStepCondition; next: string }
-        | string
+      type NextStep = FieldValueCondition | CallbackCondition | string | NextStep[]
     }
 
     interface Step {
@@ -198,7 +198,7 @@ declare module 'hmpo-form-wizard' {
       reset?: boolean
       entryPoint?: boolean
       template?: string
-      next?: string | FormWizard.Step.NextStep[]
+      next?: FormWizard.Step.NextStep
       fields?: string[]
       controller?: typeof FormWizard.Controller
       navigationOrder?: number

@@ -27,26 +27,6 @@
   </article>
 {% endmacro %}
 
-{% macro renderAnalysisSummaryDetailsRow(label, field, link) %}
-  <article class="analysis-summary__item">
-    <div class="analysis-summary__row">
-      <div class="analysis-summary__heading">
-        <h2 class="govuk-heading-m full-width">{{ label }}</h2>
-      </div>
-      <div class="analysis-summary__action">
-        <a class="govuk-link" href="{{ link }}">
-          Change<span class="govuk-visually-hidden">value for {{ label }}</span>
-        </a>
-      </div>
-    </div>
-    <div class="analysis-summary__row">
-      <div class="analysis-summary__value">
-        <p class="analysis__answer--secondary">{{ field.value }}</p>
-      </div>
-    </div>
-  </article>
-{% endmacro %}
-
 <section>
   {{ renderAnalysisSummaryRow(
     "Patterns of behaviours",

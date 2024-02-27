@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
+import { fieldCodesFrom, setField, setFieldWhenValid, whenField } from './common'
 import {
   analysisSectionComplete,
   baseHealthAndWellbeingQuestions,
@@ -15,13 +15,6 @@ const defaultTitle = 'Health and wellbeing'
 const sectionName = 'health-wellbeing'
 
 const coreQuestionSet = [baseHealthAndWellbeingQuestions, makeChangesFields, sectionCompleteFields]
-
-const whenField = (field: string) => ({
-  includes: (values: string[]) => ({
-    thenGoNext: (next: FormWizard.Step.NextStep | FormWizard.Step.NextStep[]) =>
-      values.map(it => ({ field, value: it, next }) as FormWizard.Step.NextStep),
-  }),
-})
 
 const stepOptions: FormWizard.Steps = {
   '/health-wellbeing': {
