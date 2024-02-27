@@ -65,15 +65,6 @@ declare module 'hmpo-form-wizard' {
 
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
-  interface AnswerDto {
-    type: FieldType
-    description: string
-    options?: Option[]
-    value?: string
-    values?: string[]
-    collection?: Record<string, AnswerDto>[]
-  }
-
   namespace FormWizard {
     type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => string
     type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }

@@ -1,4 +1,4 @@
-import { Response, NextFunction } from 'express'
+import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseSaveAndContinueController from '../../../common/controllers/saveAndContinue'
 import StrengthsBasedNeedsAssessmentsApiService, {
@@ -36,8 +36,8 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       const sessionData = req.session.sessionData as SessionInformation
       res.locals.user = { username: sessionData.userDisplayName }
       await this.apiService.validateSession(sessionData.uuid)
-      const answerDtos = await this.apiService.fetchAnswers(sessionData.assessmentUUID)
-      req.form.persistedAnswers = flattenAnswers(answerDtos)
+      const assessment = await this.apiService.fetchAssessment(sessionData.assessmentUUID)
+      req.form.persistedAnswers = flattenAnswers(assessment.assessment)
 
       super.configure(req, res, next)
     } catch (error) {
@@ -149,12 +149,10 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       answers,
     )
 
-    const updatedAnswers = {
+    req.form.values = {
       ...answers,
       ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
     }
-
-    req.form.values = updatedAnswers
     res.locals.values = req.form.values
 
     await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove, tags })
