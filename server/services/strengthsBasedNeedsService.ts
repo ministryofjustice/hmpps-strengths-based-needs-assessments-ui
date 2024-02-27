@@ -35,10 +35,6 @@ export interface SubjectResponse {
   pnc: string
 }
 
-export interface OffenderDetailsResponse {
-  firstName: string
-}
-
 interface Option {
   value: string
   text: string
@@ -55,18 +51,17 @@ export interface AnswerDto {
 
 export type Answers = Record<string, AnswerDto>
 
+export type OasysEquivalent = Record<string, string | string[]>
+
+export interface AssessmentResponse {
+  assessment: Answers
+  oasys_equivalent: OasysEquivalent
+}
+
 export interface UpdateAnswersDto extends Record<string, unknown> {
   answersToAdd: Answers
   answersToRemove: string[]
   tags?: string[]
-}
-
-export interface UpdateAnswersInCollectionDto extends Record<string, unknown> {
-  index: number
-  answers: {
-    answersToAdd: Answers
-    answersToRemove: string[]
-  }
 }
 
 export default class StrengthsBasedNeedsAssessmentsApiService {
@@ -105,45 +100,14 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as SubjectResponse
   }
 
-  async getOffenderDetails(): Promise<OffenderDetailsResponse> {
-    return { firstName: 'Paul' }
-  }
-
-  async fetchAnswers(assessmentUuid: string, tag: string = 'unvalidated'): Promise<Answers> {
+  async fetchAssessment(assessmentUuid: string, tag: string = 'unvalidated'): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/assessment/${assessmentUuid}/version/${tag}/answers` })
-    return responseBody as Answers
+    const responseBody = await client.get({ path: `/assessment/${assessmentUuid}?tag=${tag}` })
+    return responseBody as AssessmentResponse
   }
 
   async updateAnswers(assessmentUuid: string, requestBody: UpdateAnswersDto) {
     const client = await this.getRestClient()
     await client.post({ path: `/assessment/${assessmentUuid}/answers`, data: requestBody })
-  }
-
-  async addToCollection(assessmentUuid: string, collectionName: string, requestBody: UpdateAnswersDto) {
-    const client = await this.getRestClient()
-    await client.post({ path: `/assessment/${assessmentUuid}/collection/${collectionName}`, data: requestBody })
-  }
-
-  async updateAnswersInCollection(
-    assessmentUuid: string,
-    collectionName: string,
-    requestBody: UpdateAnswersInCollectionDto,
-  ) {
-    const client = await this.getRestClient()
-    await client.put({ path: `/assessment/${assessmentUuid}/collection/${collectionName}`, data: requestBody })
-  }
-
-  async getFromCollection(assessmentUuid: string, collectionName: string, index: number): Promise<Answers> {
-    const client = await this.getRestClient()
-    const responseBody = await client.get({
-      path: `/assessment/${assessmentUuid}/collection/${collectionName}/index/${index}`,
-    })
-    return responseBody as Answers
-  }
-
-  async removeFromCollection(assessmentUuid: string, collectionName: string, index: number) {
-    const client = await this.getRestClient()
-    await client.delete({ path: `/assessment/${assessmentUuid}/collection/${collectionName}/index/${index}` })
   }
 }
