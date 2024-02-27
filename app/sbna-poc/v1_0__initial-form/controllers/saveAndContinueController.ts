@@ -9,19 +9,6 @@ import { buildRequestBody, flattenAnswers, mergeAnswers } from './saveAndContinu
 
 type ResumeUrl = string | null
 
-const isPractitionerAnalysisPage = (url: string) =>
-  [
-    '/accommodation-summary-analysis-settled',
-    '/accommodation-summary-analysis-temporary',
-    '/accommodation-summary-analysis-no-accommodation',
-    '/drug-use-analysis',
-    '/no-drug-use-summary',
-    '/finance-summary-analysis',
-    '/alcohol-usage-last-three-months-analysis',
-    '/alcohol-usage-but-not-last-three-months-analysis',
-    '/alcohol-no-usage-analysis',
-  ].includes(url)
-
 class SaveAndContinueController extends BaseSaveAndContinueController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
@@ -84,9 +71,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     try {
       await this.addAssessmentDataToLocals(req, res)
       this.updateAssessmentProgress(req, res)
-
-      res.locals.isSaved = req.sessionModel.get('isSaved') || false
-      req.sessionModel.set('isSaved', false)
 
       super.locals(req, res, next)
     } catch (error) {
@@ -168,16 +152,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
 
     this.resetResumeUrl(req)
-
-    if (req.query.action === 'saveDraft') {
-      const redirectUrl = req.baseUrl + req.path
-
-      req.sessionModel.set('isSaved', true)
-
-      return isPractitionerAnalysisPage(req.path)
-        ? res.redirect(`${redirectUrl}#practitioner-analysis`)
-        : res.redirect(redirectUrl)
-    }
 
     return super.successHandler(req, res, next)
   }
