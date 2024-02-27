@@ -11,6 +11,7 @@ import {
   toErrorSummary,
   toOptionDescription,
 } from './nunjucks.utils'
+import getSummaryFields from './nunjucks.summaryFields'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -20,7 +21,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Strengths and needs'
 
-  // Cachebusting version string
+  // Cache busting version string
   if (production) {
     // Version only changes on reboot
     app.locals.version = Date.now().toString()
@@ -64,4 +65,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('getSelectedAnswers', getSelectedAnswers)
 
   njkEnv.addFilter('removeSectionCompleteFields', removeSectionCompleteFields)
+
+  njkEnv.addGlobal('getSummaryFields', function summaryFields() {
+    return getSummaryFields(this.ctx)
+  })
 }

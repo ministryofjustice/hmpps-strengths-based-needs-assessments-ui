@@ -1,0 +1,56 @@
+{%- macro renderNestedFields(summaryFields) -%}
+  {% for summaryField in summaryFields %}
+
+    {% if summaryField.field.type in ["RADIO", "CHECKBOX"] %}
+
+      <ul class="govuk-list">
+        {% for answer in summaryField.answers %}
+          <li class="summary-details-list">
+            <span class="summary__answer--secondary">{{ answer.text }}</span>
+            {{ renderNestedFields(answer.nestedFields) }}
+          </li>
+        {% endfor %}
+      </ul>
+
+    {% else %}
+
+      {% for answer in summaryField.answers %}
+        <span class="summary__answer--secondary">{{ answer.text }}</span>
+        {{ renderNestedFields(answer.nestedFields) }}
+      {% endfor %}
+
+    {% endif %}
+
+  {% endfor %}
+{%- endmacro -%}
+
+<dl class="govuk-summary-list">
+
+  {% for summaryField in getSummaryFields() %}
+
+    <div class="govuk-summary-list__row as-block clearfix">
+      <dt class="govuk-summary-list__key to-the-left">
+        <span class="summary__label">{{ summaryField.field.text }}</span>
+      </dt>
+      <dd class="govuk-summary-list__value to-the-left summary-value">
+        <ul class="govuk-list">
+
+          {% for answer in summaryField.answers %}
+            <li class="summary-details-list">
+              <span class="summary__answer">{{ answer.text }}</span>
+              {{ renderNestedFields(answer.nestedFields) }}
+            </li>
+          {% endfor %}
+
+        </ul>
+      </dd>
+      <dd class="govuk-summary-list__actions to-the-right">
+        <a class="govuk-link" href="{{ summaryField.backLink }}">
+          Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
+        </a>
+      </dd>
+    </div>
+
+  {% endfor %}
+
+</dl>
