@@ -124,15 +124,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       },
     ],
     options: [
-      { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
-      { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
-      { text: 'Pension', value: 'PENSION', kind: 'option' },
-      {
-        text: 'Work related benefits',
-        value: 'WORK_RELATED_BENEFITS',
-        hint: { text: "For example, Universal Credit or Jobseeker's Allowance (JSA)." },
-        kind: 'option',
-      },
+      { text: "Carer's allowance", value: 'CARERS_ALLOWANCE', kind: 'option' },
       {
         text: 'Disability benefits',
         value: 'DISABILITY_BENEFITS',
@@ -141,10 +133,18 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         },
         kind: 'option',
       },
-      { text: "Carer's allowance", value: 'CARERS_ALLOWANCE', kind: 'option' },
+      { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
       { text: 'Family or Friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
-      { text: 'Undeclared (includes cash in hand)', value: 'Undeclared', kind: 'option' },
       { text: 'Offending', value: 'OFFENDING', kind: 'option' },
+      { text: 'Pension', value: 'PENSION', kind: 'option' },
+      { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
+      { text: 'Undeclared (includes cash in hand)', value: 'Undeclared', kind: 'option' },
+      {
+        text: 'Work related benefits',
+        value: 'WORK_RELATED_BENEFITS',
+        hint: { text: "For example, Universal Credit or Jobseeker's Allowance (JSA)." },
+        kind: 'option',
+      },
       { text: 'Other', value: 'OTHER', kind: 'option' },
       orDivider,
       { text: 'No money', value: 'NO_MONEY', kind: 'option', behaviour: 'exclusive' },
@@ -166,11 +166,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'other_income_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
