@@ -38,6 +38,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       await this.apiService.validateSession(sessionData.uuid)
       const assessment = await this.apiService.fetchAssessment(sessionData.assessmentUUID)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
+      res.locals.oasysEquivalent = assessment.oasysEquivalent
 
       super.configure(req, res, next)
     } catch (error) {

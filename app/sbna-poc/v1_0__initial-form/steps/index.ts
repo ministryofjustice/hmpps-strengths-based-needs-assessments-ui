@@ -28,6 +28,11 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation',
     section: 'none',
   },
+  '/data-mapping': {
+    pageTitle: 'OASys Data Mapping',
+    section: 'none',
+    template: `forms/sbna-poc/data-mapping`,
+  },
   ...accommodationSteps,
   ...employmentEducationSteps,
   ...financeSteps,

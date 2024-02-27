@@ -55,7 +55,7 @@ export type OasysEquivalent = Record<string, string | string[]>
 
 export interface AssessmentResponse {
   assessment: Answers
-  oasys_equivalent: OasysEquivalent
+  oasysEquivalent: OasysEquivalent
 }
 
 export interface UpdateAnswersDto extends Record<string, unknown> {
