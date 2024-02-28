@@ -11,7 +11,7 @@ import {
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
   text: 'Select type of debt',
   code: fieldCode,
-  type: FieldType.Radio,
+  type: FieldType.CheckBox,
   validate: [{ type: ValidationType.Required, message: 'Error message' }],
   options: [
     { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
@@ -383,7 +383,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] affected by debt?',
     code: 'finance_debt',
-    type: FieldType.Radio,
+    type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Select if they are affected by debt' }],
     options: [
       {
@@ -396,18 +396,21 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_DEBT',
         kind: 'option',
       },
-      {
-        text: 'Unknown',
-        value: 'UNKNOWN',
-        kind: 'option',
-      },
+      orDivider,
       {
         text: 'No',
         value: 'NO',
         kind: 'option',
+        behaviour: 'exclusive',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
+        kind: 'option',
+        behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   createDebtType('yes_type_of_debt', 'finance_debt', 'YES_THEIR_DEBT'),
   createFormalDebtDetails('yes_formal_debt_details', 'yes_type_of_debt', 'FORMAL_DEBT'),
