@@ -230,11 +230,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'good_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -248,11 +247,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'fairly_good_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -266,11 +264,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'fairly_bad_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -284,11 +281,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'bad_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
