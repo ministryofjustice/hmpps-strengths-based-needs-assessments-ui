@@ -300,7 +300,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] affected by gambling?',
     code: 'finance_gambling',
-    type: FieldType.Radio,
+    type: FieldType.CheckBox,
     validate: [{ type: ValidationType.Required, message: 'Select if they are affected by gambling' }],
     options: [
       {
@@ -313,18 +313,21 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_GAMBLING',
         kind: 'option',
       },
+      orDivider,
       {
         text: 'No',
         value: 'NO',
         kind: 'option',
+        behaviour: 'exclusive',
       },
       {
         text: 'Unknown',
         value: 'UNKNOWN',
         kind: 'option',
+        behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -357,23 +360,6 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     dependent: {
       field: 'finance_gambling',
       value: 'YES_SOMEONE_ELSES_GAMBLING',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'no_gambling_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_gambling',
-      value: 'NO',
       displayInline: true,
     },
   },
