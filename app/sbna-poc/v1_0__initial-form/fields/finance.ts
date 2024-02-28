@@ -9,14 +9,14 @@ import {
 } from './common'
 
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
-  text: 'Select type of debt',
+  text: ' ',
+  hint: { text: 'Select all that apply.', kind: 'text' },
   code: fieldCode,
   type: FieldType.CheckBox,
   validate: [{ type: ValidationType.Required, message: 'Error message' }],
   options: [
-    { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
     { text: 'Debt to others', value: 'DEBT_TO_OTHERS', kind: 'option' },
-    { text: 'Formal debt and debt to others', value: 'FORMAL_AND_DEBT_TO_OTHERS', kind: 'option' },
+    { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
   ],
   dependent: {
     field: dependentFieldCode,
@@ -70,30 +70,6 @@ const createDebtToOthersDetails = (
     displayInline: true,
   },
 })
-
-const createFormalAndDebtOthersDetails = (
-  fieldCode: string,
-  dependentFieldCode: string,
-  valueCode: string,
-): FormWizard.Field => ({
-  text: 'Give details (optional)',
-  hint: { text: 'Includes things like rent arrears and owing others money.', kind: 'text' },
-  code: fieldCode,
-  type: FieldType.TextArea,
-  validate: [
-    {
-      type: ValidationType.MaxLength,
-      arguments: [characterLimit],
-      message: `Details must be ${characterLimit} characters or less`,
-    },
-  ],
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
-  },
-})
-
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the finance section complete?',
   code: 'finance_section_complete',
@@ -415,22 +391,12 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   createDebtType('yes_type_of_debt', 'finance_debt', 'YES_THEIR_DEBT'),
   createFormalDebtDetails('yes_formal_debt_details', 'yes_type_of_debt', 'FORMAL_DEBT'),
   createDebtToOthersDetails('yes_debt_to_others_details', 'yes_type_of_debt', 'DEBT_TO_OTHERS'),
-  createFormalAndDebtOthersDetails(
-    'yes_formal_debt_to_others_details',
-    'yes_type_of_debt',
-    'FORMAL_AND_DEBT_TO_OTHERS',
-  ),
   createDebtType('yes_someone_elses_type_of_debt', 'finance_debt', 'YES_SOMEONE_ELSES_DEBT'),
   createFormalDebtDetails('yes_someone_elses_formal_debt_details', 'yes_someone_elses_type_of_debt', 'FORMAL_DEBT'),
   createDebtToOthersDetails(
     'yes_someone_elses_debt_to_others_details',
     'yes_someone_elses_type_of_debt',
     'DEBT_TO_OTHERS',
-  ),
-  createFormalAndDebtOthersDetails(
-    'yes_someone_elses_formal_debt_to_others_details',
-    'yes_someone_elses_type_of_debt',
-    'FORMAL_AND_DEBT_TO_OTHERS',
   ),
   {
     text: 'Give details (optional)',
