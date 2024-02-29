@@ -20,9 +20,13 @@ class OneTimeLinkController extends BaseController {
   }
 
   async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
-    req.sessionModel.set('oastub-assessment-uuid', req.form.values['oastub-assessment-uuid'])
+    try {
+      req.sessionModel.set('oastub-assessment-uuid', req.form.values['oastub-assessment-uuid'])
 
-    super.saveValues(req, res, next)
+      super.saveValues(req, res, next)
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
