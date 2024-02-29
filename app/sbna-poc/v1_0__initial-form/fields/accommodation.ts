@@ -659,7 +659,7 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
       { text: 'No accommodation when released from prison', value: 'PRISON_RELEASE', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
