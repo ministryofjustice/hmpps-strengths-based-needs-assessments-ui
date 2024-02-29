@@ -2,6 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
   createPractitionerAnalysisFieldsWith,
+  createWantToMakeChangesFields,
   validateFutureDate,
   getMediumLabelClassFor,
   orDivider,
@@ -240,132 +241,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const accommodationChangesFields: Array<FormWizard.Field> = [
-  {
-    text: 'Does [subject] want to make changes to their accommodation?',
-    hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
-    code: 'accommodation_changes',
-    type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select if they want to make changes to their accommodation' },
-    ],
-    options: [
-      { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
-      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
-      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
-      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
-      orDivider,
-      { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'accommodation_made_changes_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'accommodation_changes',
-      value: 'MADE_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'accommodation_making_changes_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'accommodation_changes',
-      value: 'MAKING_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'accommodation_want_to_make_changes_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'accommodation_changes',
-      value: 'WANT_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'accommodation_needs_help_to_make_changes_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'accommodation_changes',
-      value: 'NEEDS_HELP_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'accommodation_thinking_about_making_changes_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'accommodation_changes',
-      value: 'THINKING_ABOUT_MAKING_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'accommodation_does_not_want_to_make_changes_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'accommodation_changes',
-      value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-]
+export const accommodationChangesFields = createWantToMakeChangesFields('their accommodation', 'accommodation')
 
 export const livingWithFields: Array<FormWizard.Field> = [
   {

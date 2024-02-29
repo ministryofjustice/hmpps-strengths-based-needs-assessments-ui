@@ -1,13 +1,13 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   createPractitionerAnalysisFieldsWith,
+  createWantToMakeChangesFields,
   fieldCodeWith,
   getMediumLabelClassFor,
   orDivider,
   smallRadios,
   toFormWizardFields,
   yesNoOptions,
-  characterLimit,
 } from './common'
 
 const usageFrequencies = [
@@ -352,130 +352,7 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const drugUseChangesFields: Array<FormWizard.Field> = [
-  {
-    text: 'Does [subject] want to make changes to their drug use?',
-    code: 'drug_use_changes',
-    hint: { text: 'This question must be directly answered by [subject] ', kind: 'text' },
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they want to make changes to their drug use' }],
-    options: [
-      { text: 'I have already made positive changes', value: 'MADE_CHANGES', kind: 'option' },
-      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
-      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
-      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
-      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
-      orDivider,
-      { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'drug_use_positive_change',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'MADE_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'drug_use_active_change',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'MAKING_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'drug_use_known_change',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'WANT_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'drug_use_help_change',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'NEEDS_HELP_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'drug_use_think_change:',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'THINKING_ABOUT_MAKING_CHANGES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'drug_use_no_change:',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'drug_use_changes',
-      value: 'DOES_NOT_WANT_TO_MAKE_CHANGES',
-      displayInline: true,
-    },
-  },
-]
+export const drugUseChangesFields = createWantToMakeChangesFields('their drug use', 'drug_use')
 
 export const drugUseTypeDetailsFields = [
   createFieldsForInjectableDrug('AMPHETAMINES'),
