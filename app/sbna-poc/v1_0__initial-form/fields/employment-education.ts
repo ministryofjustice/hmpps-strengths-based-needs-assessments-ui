@@ -13,8 +13,8 @@ import {
 } from './common'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
-  { text: 'Has been employed before', value: 'YES', kind: 'option' },
-  { text: 'Has never been employed', value: 'NO', kind: 'option' },
+  { text: 'Yes, has been employed before', value: 'YES', kind: 'option' },
+  { text: 'No, has never been employed', value: 'NO', kind: 'option' },
 ]
 
 const createExperienceOfFields = (label: string, prefix: string): Array<FormWizard.Field> => {
@@ -79,7 +79,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
     labelClasses: visuallyHidden,
   },
   {
-    text: 'Has [subject] been employed before?',
+    text: 'Have they been employed before?',
     id: 'has_been_employed_unavailable_for_work',
     code: 'has_been_employed',
     type: FieldType.Radio,
@@ -90,10 +90,9 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'CURRENTLY_UNAVAILABLE_FOR_WORK',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
   },
   {
-    text: 'Has [subject] been employed before?',
+    text: 'Have they been employed before?',
     id: 'has_been_employed_actively_seeking',
     code: 'has_been_employed',
     type: FieldType.Radio,
@@ -104,10 +103,9 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'UNEMPLOYED_LOOKING_FOR_WORK',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
   },
   {
-    text: 'Has [subject] been employed before?',
+    text: 'Have they been employed before?',
     id: 'has_been_employed_not_actively_seeking',
     code: 'has_been_employed',
     type: FieldType.Radio,
@@ -118,7 +116,6 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'UNEMPLOYED_NOT_LOOKING_FOR_WORK',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
   },
 ]
 

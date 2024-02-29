@@ -10,14 +10,15 @@ import {
 } from './common'
 
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
-  text: 'Select type of debt',
+  text: ' ',
+  hint: { text: 'Select all that apply.', kind: 'text' },
   code: fieldCode,
-  type: FieldType.Radio,
+  type: FieldType.CheckBox,
+  multiple: true,
   validate: [{ type: ValidationType.Required, message: 'Error message' }],
   options: [
-    { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
     { text: 'Debt to others', value: 'DEBT_TO_OTHERS', kind: 'option' },
-    { text: 'Formal debt and debt to others', value: 'FORMAL_AND_DEBT_TO_OTHERS', kind: 'option' },
+    { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
   ],
   dependent: {
     field: dependentFieldCode,
@@ -71,30 +72,6 @@ const createDebtToOthersDetails = (
     displayInline: true,
   },
 })
-
-const createFormalAndDebtOthersDetails = (
-  fieldCode: string,
-  dependentFieldCode: string,
-  valueCode: string,
-): FormWizard.Field => ({
-  text: 'Give details (optional)',
-  hint: { text: 'Includes things like rent arrears and owing others money.', kind: 'text' },
-  code: fieldCode,
-  type: FieldType.TextArea,
-  validate: [
-    {
-      type: ValidationType.MaxLength,
-      arguments: [characterLimit],
-      message: `Details must be ${characterLimit} characters or less`,
-    },
-  ],
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
-  },
-})
-
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the finance section complete?',
   code: 'finance_section_complete',
@@ -113,9 +90,9 @@ export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionCo
 
 export const baseFinanceFields: Array<FormWizard.Field> = [
   {
-    text: 'Where does [subject] get their money from? ',
+    text: 'Where does [subject] currently get their money from? ',
     code: 'finance_income',
-    hint: { text: 'Select all that apply', kind: 'text' },
+    hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     multiple: true,
     validate: [
@@ -125,15 +102,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       },
     ],
     options: [
-      { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
-      { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
-      { text: 'Pension', value: 'PENSION', kind: 'option' },
-      {
-        text: 'Work related benefits',
-        value: 'WORK_RELATED_BENEFITS',
-        hint: { text: "For example, Universal Credit or Jobseeker's Allowance (JSA)." },
-        kind: 'option',
-      },
+      { text: "Carer's allowance", value: 'CARERS_ALLOWANCE', kind: 'option' },
       {
         text: 'Disability benefits',
         value: 'DISABILITY_BENEFITS',
@@ -142,10 +111,18 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         },
         kind: 'option',
       },
-      { text: "Carer's allowance", value: 'CARERS_ALLOWANCE', kind: 'option' },
+      { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
       { text: 'Family or Friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
-      { text: 'Undeclared (includes cash in hand)', value: 'Undeclared', kind: 'option' },
       { text: 'Offending', value: 'OFFENDING', kind: 'option' },
+      { text: 'Pension', value: 'PENSION', kind: 'option' },
+      { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
+      { text: 'Undeclared (includes cash in hand)', value: 'Undeclared', kind: 'option' },
+      {
+        text: 'Work related benefits',
+        value: 'WORK_RELATED_BENEFITS',
+        hint: { text: "For example, Universal Credit or Jobseeker's Allowance (JSA)." },
+        kind: 'option',
+      },
       { text: 'Other', value: 'OTHER', kind: 'option' },
       orDivider,
       { text: 'No money', value: 'NO_MONEY', kind: 'option', behaviour: 'exclusive' },
@@ -167,11 +144,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'other_income_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -200,7 +176,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'How good is [subject] at managing their money?',
     code: 'finance_money_management',
-    hint: { text: 'This includes things like budgeting, prioritising bills and paying rent..', kind: 'text' },
+    hint: { text: 'This includes things like budgeting, prioritising bills and paying rent.', kind: 'text' },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select how good they are at managing their money' }],
     options: [
@@ -232,11 +208,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'good_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -250,11 +225,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'fairly_good_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -268,11 +242,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'fairly_bad_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -286,11 +259,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'bad_money_management_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -306,7 +278,9 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] affected by gambling?',
     code: 'finance_gambling',
-    type: FieldType.Radio,
+    hint: { text: 'Select all that apply.', kind: 'text' },
+    type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select if they are affected by gambling' }],
     options: [
       {
@@ -319,18 +293,21 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_GAMBLING',
         kind: 'option',
       },
+      orDivider,
       {
         text: 'No',
         value: 'NO',
         kind: 'option',
+        behaviour: 'exclusive',
       },
       {
         text: 'Unknown',
         value: 'UNKNOWN',
         kind: 'option',
+        behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -368,23 +345,6 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Give details (optional)',
-    code: 'no_gambling_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_gambling',
-      value: 'NO',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
     code: 'unknown_gambling_details',
     type: FieldType.TextArea,
     validate: [
@@ -403,7 +363,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] affected by debt?',
     code: 'finance_debt',
-    type: FieldType.Radio,
+    type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select if they are affected by debt' }],
     options: [
       {
@@ -416,38 +377,31 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_DEBT',
         kind: 'option',
       },
-      {
-        text: 'Unknown',
-        value: 'UNKNOWN',
-        kind: 'option',
-      },
+      orDivider,
       {
         text: 'No',
         value: 'NO',
         kind: 'option',
+        behaviour: 'exclusive',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
+        kind: 'option',
+        behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   createDebtType('yes_type_of_debt', 'finance_debt', 'YES_THEIR_DEBT'),
   createFormalDebtDetails('yes_formal_debt_details', 'yes_type_of_debt', 'FORMAL_DEBT'),
   createDebtToOthersDetails('yes_debt_to_others_details', 'yes_type_of_debt', 'DEBT_TO_OTHERS'),
-  createFormalAndDebtOthersDetails(
-    'yes_formal_debt_to_others_details',
-    'yes_type_of_debt',
-    'FORMAL_AND_DEBT_TO_OTHERS',
-  ),
   createDebtType('yes_someone_elses_type_of_debt', 'finance_debt', 'YES_SOMEONE_ELSES_DEBT'),
   createFormalDebtDetails('yes_someone_elses_formal_debt_details', 'yes_someone_elses_type_of_debt', 'FORMAL_DEBT'),
   createDebtToOthersDetails(
     'yes_someone_elses_debt_to_others_details',
     'yes_someone_elses_type_of_debt',
     'DEBT_TO_OTHERS',
-  ),
-  createFormalAndDebtOthersDetails(
-    'yes_someone_elses_formal_debt_to_others_details',
-    'yes_someone_elses_type_of_debt',
-    'FORMAL_AND_DEBT_TO_OTHERS',
   ),
   {
     text: 'Give details (optional)',
