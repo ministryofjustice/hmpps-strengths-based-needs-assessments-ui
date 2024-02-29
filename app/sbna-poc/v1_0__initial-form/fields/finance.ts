@@ -13,6 +13,7 @@ const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode
   hint: { text: 'Select all that apply.', kind: 'text' },
   code: fieldCode,
   type: FieldType.CheckBox,
+  multiple: true,
   validate: [{ type: ValidationType.Required, message: 'Error message' }],
   options: [
     { text: 'Debt to others', value: 'DEBT_TO_OTHERS', kind: 'option' },
@@ -277,6 +278,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     text: 'Is [subject] affected by gambling?',
     code: 'finance_gambling',
     type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select if they are affected by gambling' }],
     options: [
       {
@@ -360,6 +362,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     text: 'Is [subject] affected by debt?',
     code: 'finance_debt',
     type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select if they are affected by debt' }],
     options: [
       {
