@@ -207,8 +207,26 @@ declare module 'hmpo-form-wizard' {
       sectionProgressRules?: Array<SectionProgressRule>
     }
 
+    interface RenderedStep {
+      pageTitle: string
+      reset?: boolean
+      entryPoint?: boolean
+      template?: string
+      next?: FormWizard.Step.NextStep
+      fields?: Fields
+      controller?: typeof FormWizard.Controller
+      navigationOrder?: number
+      backLink?: string
+      section: string
+      sectionProgressRules?: Array<SectionProgressRule>
+    }
+
     interface Steps {
       [key: string]: Step
+    }
+
+    interface RenderedSteps {
+      [key: string]: RenderedStep
     }
 
     interface Answers {

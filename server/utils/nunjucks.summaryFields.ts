@@ -2,30 +2,30 @@ import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import { whereSelectable } from '../../app/common/controllers/saveAndContinue.utils'
 import { removePractitionerAnalysisFields, removeSectionCompleteFields } from './nunjucks.utils'
 
-interface SummaryField {
+export interface SummaryField {
   field: FormWizard.Field
   backLink: string
   answers: SummaryFieldAnswer[]
 }
 
-interface SummaryFieldAnswer {
+export interface SummaryFieldAnswer {
   text: string
   value: string
   nestedFields: SummaryField[]
 }
 
-interface Context {
+export interface Context {
   options: {
-    allFields: { [key: string]: FormWizard.Field }
     section: string
-    steps: FormWizard.Steps
+    steps: FormWizard.RenderedSteps
+    allFields: FormWizard.Fields
   }
   answers: FormWizard.Answers
 }
 
-const hasProperty = (a: object, b: string): boolean => Object.prototype.hasOwnProperty.call(a, b)
+export const hasProperty = (a: object, b: string): boolean => Object.prototype.hasOwnProperty.call(a, b)
 
-function getAnswers(field: string, ctx: Context): string[] {
+export function getAnswers(field: string, ctx: Context): string[] {
   const answers = ctx.answers[field]
   switch (typeof answers) {
     case 'string':
@@ -40,11 +40,12 @@ function getAnswers(field: string, ctx: Context): string[] {
 export default function getSummaryFields(ctx: Context): SummaryField[] {
   const summaryFields: SummaryField[] = []
 
-  let [stepPath, step] = Object.entries(ctx.options.steps).find(
-    ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === ctx.options.section,
-  )
+  let [stepPath, step] =
+    Object.entries(ctx.options.steps).find(
+      ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === ctx.options.section,
+    ) || []
 
-  while (step !== undefined) {
+  while (step !== undefined && step.section === ctx.options.section) {
     stepPath = stepPath.replace(/^\//, '')
 
     const fields = removeSectionCompleteFields(removePractitionerAnalysisFields(Object.keys(step.fields)))
@@ -71,7 +72,7 @@ export default function getSummaryFields(ctx: Context): SummaryField[] {
   return summaryFields
 }
 
-function addNestedSummaryField(
+export function addNestedSummaryField(
   field: FormWizard.Field,
   summaryFields: SummaryField[],
   ctx: Context,
@@ -99,7 +100,7 @@ function addNestedSummaryField(
   return false
 }
 
-function getSummaryFieldAnswers(field: FormWizard.Field, ctx: Context): SummaryFieldAnswer[] {
+export function getSummaryFieldAnswers(field: FormWizard.Field, ctx: Context): SummaryFieldAnswer[] {
   switch (field.type) {
     case FieldType.Radio:
     case FieldType.Dropdown:
@@ -124,7 +125,7 @@ function getSummaryFieldAnswers(field: FormWizard.Field, ctx: Context): SummaryF
   }
 }
 
-function getNextStep(currentStep: FormWizard.Step, ctx: Context): [string?, FormWizard.Step?] {
+export function getNextStep(currentStep: FormWizard.RenderedStep, ctx: Context): [string?, FormWizard.RenderedStep?] {
   const nextStep = resolveNextStep(currentStep.next, ctx) as string
 
   if (nextStep === undefined) {
@@ -136,7 +137,11 @@ function getNextStep(currentStep: FormWizard.Step, ctx: Context): [string?, Form
   return [nextStepPath, ctx.options.steps[nextStepPath]]
 }
 
-function resolveNextStep(next: FormWizard.Step.NextStep, ctx: Context): FormWizard.Step.NextStep {
+export function resolveNextStep(next: FormWizard.Step.NextStep, ctx: Context): FormWizard.Step.NextStep {
+  if (next === undefined) {
+    return next
+  }
+
   if (typeof next === 'string') {
     return next
   }
