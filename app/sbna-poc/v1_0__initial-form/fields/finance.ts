@@ -89,9 +89,9 @@ export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionCo
 
 export const baseFinanceFields: Array<FormWizard.Field> = [
   {
-    text: 'Where does [subject] get their money from? ',
+    text: 'Where does [subject] currently get their money from? ',
     code: 'finance_income',
-    hint: { text: 'Select all that apply', kind: 'text' },
+    hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     multiple: true,
     validate: [
