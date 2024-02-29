@@ -95,14 +95,14 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     return null
   }
 
-  async process(req: FormWizard.Request, res: Response, next: NextFunction) {
-    return super.process(req, res, next)
-  }
-
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const resumeUrl = this.getResumeUrl(req)
+    try {
+      const resumeUrl = this.getResumeUrl(req)
 
-    return resumeUrl ? res.redirect(resumeUrl) : super.getValues(req, res, next)
+      return resumeUrl ? res.redirect(resumeUrl) : super.getValues(req, res, next)
+    } catch (error) {
+      return next(error)
+    }
   }
 
   setSectionProgress(req: FormWizard.Request, isValidated: boolean) {
@@ -118,10 +118,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const sectionName = req.form.options.section
     const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
     req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
-  }
-
-  async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
-    return super.saveValues(req, res, next)
   }
 
   async persistAnswers(req: FormWizard.Request, res: Response, tags: string[]) {
@@ -144,33 +140,41 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
-    this.setSectionProgress(req, true)
-    await this.persistAnswers(req, res, ['validated', 'unvalidated'])
+    try {
+      this.setSectionProgress(req, true)
+      await this.persistAnswers(req, res, ['validated', 'unvalidated'])
 
-    if (req.query.jsonResponse === 'true') {
-      return res.send('👍')
+      if (req.query.jsonResponse === 'true') {
+        return res.send('👍')
+      }
+
+      this.resetResumeUrl(req)
+
+      return super.successHandler(req, res, next)
+    } catch (error) {
+      return next(error)
     }
-
-    this.resetResumeUrl(req)
-
-    return super.successHandler(req, res, next)
   }
 
-  async errorHandler(error: Error, req: FormWizard.Request, res: Response, next: NextFunction) {
-    if (req.query.jsonResponse === 'true') {
-      return res.send('👍')
+  async errorHandler(err: Error, req: FormWizard.Request, res: Response, next: NextFunction) {
+    try {
+      if (req.query.jsonResponse === 'true') {
+        return res.send('👍')
+      }
+
+      this.resetResumeUrl(req)
+
+      if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
+        this.setSectionProgress(req, false)
+        await this.persistAnswers(req, res, ['unvalidated'])
+
+        this.setErrors(err, req, res)
+      }
+
+      return super.errorHandler(err, req, res, next)
+    } catch (error) {
+      return next(error)
     }
-
-    this.resetResumeUrl(req)
-
-    if (Object.values(error).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
-      this.setSectionProgress(req, false)
-      await this.persistAnswers(req, res, ['unvalidated'])
-
-      this.setErrors(error, req, res)
-    }
-
-    return super.errorHandler(error, req, res, next)
   }
 }
 
