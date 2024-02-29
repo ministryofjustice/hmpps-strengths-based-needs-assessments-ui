@@ -104,8 +104,8 @@
           {% switch option.value %}
           {% case "PARTNER" %}
             <span class="summary__answer--secondary">{{ answers["living_with_partner_details"] }}</span>
-          {% case "CHILD_UNDER_18" %}
-            <span class="summary__answer--secondary">{{ answers["living_with_children_details"] }}</span>
+          {% case "PERSON_UNDER_18" %}
+            <span class="summary__answer--secondary">{{ answers["living_with_person_under_18_details"] }}</span>
           {% case "OTHER" %}
             <span class="summary__answer--secondary">{{ answers["living_with_other"] }}</span>
           {% endswitch %}
@@ -243,7 +243,7 @@
                   </li>
                 {% endif %}
               {% endfor %}
-            </ui>
+            </ul>
           {% endif %}
         </li>
       {% endif %}

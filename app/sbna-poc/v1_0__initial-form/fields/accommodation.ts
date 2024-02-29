@@ -382,7 +382,7 @@ export const livingWithFields: Array<FormWizard.Field> = [
       { text: 'Family', value: 'FAMILY', kind: 'option' },
       { text: 'Friends', value: 'FRIENDS', kind: 'option' },
       { text: 'Partner', value: 'PARTNER', kind: 'option' },
-      { text: 'Child under 18 years old', value: 'CHILD_UNDER_18', kind: 'option' },
+      { text: 'Person under 18 years old', value: 'PERSON_UNDER_18', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
       orDivider,
       { text: 'Alone', value: 'ALONE', kind: 'option', behaviour: 'exclusive' },
@@ -392,11 +392,11 @@ export const livingWithFields: Array<FormWizard.Field> = [
   {
     text: 'Give details (optional)',
     hint: { text: 'Include name, date of birth or age, gender and their relationship to [subject]', kind: 'text' },
-    code: 'living_with_children_details',
+    code: 'living_with_person_under_18_details',
     type: FieldType.TextArea,
     dependent: {
       field: 'living_with',
-      value: 'CHILD_UNDER_18',
+      value: 'PERSON_UNDER_18',
       displayInline: true,
     },
   },
@@ -423,7 +423,7 @@ export const livingWithFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const suitableHousingFields: Array<FormWizard.Field> = [
+export const suitableLocationFields: Array<FormWizard.Field> = [
   {
     text: "Is the location of [subject]'s accommodation suitable?",
     code: 'suitable_housing_location',
@@ -472,6 +472,9 @@ export const suitableHousingFields: Array<FormWizard.Field> = [
       displayInline: true,
     },
   },
+]
+
+export const suitableAccommodationFields: Array<FormWizard.Field> = [
   {
     text: "Is [subject]'s overall accommodation suitable?",
     code: 'suitable_housing',
@@ -644,7 +647,8 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
     text: 'Why does [subject] have no accommodation?',
     hint: { html: noAccommodationHint, kind: 'html' },
     code: 'no_accommodation_reason',
-    type: FieldType.Radio,
+    type: FieldType.CheckBox,
+    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select why they have no accommodation' }],
     options: [
       { text: 'Alcohol related problems', value: 'ALCOHOL_PROBLEMS', kind: 'option' },
@@ -697,7 +701,8 @@ export default [
   ...accommodationTypeFields,
   ...accommodationChangesFields,
   ...livingWithFields,
-  ...suitableHousingFields,
+  ...suitableLocationFields,
+  ...suitableAccommodationFields,
   ...suitableHousingPlannedFields,
   ...noAccommodationFields,
   ...practitionerAnalysisFields,

@@ -8,7 +8,8 @@ import {
   noAccommodationFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
-  suitableHousingFields,
+  suitableLocationFields,
+  suitableAccommodationFields,
   suitableHousingPlannedFields,
 } from '../fields/accommodation'
 
@@ -18,9 +19,9 @@ const stepOptions: FormWizard.Steps = {
     fields: fieldCodesFrom(accommodationTypeFields, sectionCompleteFields),
     next: [
       { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
-      { field: 'type_of_temporary_accommodation', value: 'SHORT_TERM', next: 'temporary-accommodation-2' },
-      { field: 'type_of_temporary_accommodation', value: 'IMMIGRATION', next: 'temporary-accommodation-2' },
-      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation' },
+      { field: 'type_of_temporary_accommodation', value: 'SHORT_TERM', next: 'temporary-accommodation' },
+      { field: 'type_of_temporary_accommodation', value: 'IMMIGRATION', next: 'temporary-accommodation' },
+      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation-2' },
       { field: 'type_of_no_accommodation', value: 'AWAITING_ASSESSMENT', next: 'no-accommodation-2' },
       { field: 'current_accommodation', value: 'NO_ACCOMMODATION', next: 'no-accommodation' },
     ],
@@ -33,7 +34,13 @@ const stepOptions: FormWizard.Steps = {
   },
   '/settled-accommodation': {
     pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(livingWithFields, suitableHousingFields, accommodationChangesFields, sectionCompleteFields),
+    fields: fieldCodesFrom(
+      livingWithFields,
+      suitableLocationFields,
+      suitableAccommodationFields,
+      accommodationChangesFields,
+      sectionCompleteFields,
+    ),
     next: 'accommodation-summary-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
@@ -46,7 +53,8 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(
       livingWithFields,
-      suitableHousingFields,
+      suitableLocationFields,
+      suitableAccommodationFields,
       suitableHousingPlannedFields,
       accommodationChangesFields,
       sectionCompleteFields,
@@ -62,7 +70,7 @@ const stepOptions: FormWizard.Steps = {
   '/temporary-accommodation-2': {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(
-      suitableHousingFields,
+      suitableAccommodationFields,
       suitableHousingPlannedFields,
       accommodationChangesFields,
       sectionCompleteFields,
