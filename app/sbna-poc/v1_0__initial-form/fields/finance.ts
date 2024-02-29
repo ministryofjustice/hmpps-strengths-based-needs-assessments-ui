@@ -175,7 +175,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'How good is [subject] at managing their money?',
     code: 'finance_money_management',
-    hint: { text: 'This includes things like budgeting, prioritising bills and paying rent..', kind: 'text' },
+    hint: { text: 'This includes things like budgeting, prioritising bills and paying rent.', kind: 'text' },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select how good they are at managing their money' }],
     options: [
@@ -277,6 +277,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] affected by gambling?',
     code: 'finance_gambling',
+    hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select if they are affected by gambling' }],
