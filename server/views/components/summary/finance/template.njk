@@ -190,7 +190,7 @@
       renderMoneyManagement(options.fields, options.answers),
       options.backLink + "#" + field
     ) }}
-    {% case "changes_to_finance" %}
+    {% case "finance_changes" %}
     {{ renderSummaryListRow(
       options.fields[field].text,
       renderFinanceChange(options.fields, options.answers),
@@ -229,5 +229,5 @@
   {{ renderSummaryItemFor("finance_money_management", { fields: fields, answers: answers, backLink: "finance#finance_money_management-hint" }) }}
   {{ renderSummaryItemFor("finance_gambling", { fields: fields, answers: answers, backLink: "finance" }) }}
   {{ renderSummaryItemFor("finance_debt", { fields: fields, answers: answers, backLink: "finance" }) }}
-  {{ renderSummaryItemFor("changes_to_finance", { fields: fields, answers: answers, backLink: "finance" }) }}
+  {{ renderSummaryItemFor("finance_changes", { fields: fields, answers: answers, backLink: "finance" }) }}
 </dl>
