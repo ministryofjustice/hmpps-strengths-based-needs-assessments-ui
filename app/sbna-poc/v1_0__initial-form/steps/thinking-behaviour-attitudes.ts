@@ -10,7 +10,7 @@ import {
   sectionCompleteFields,
 } from '../fields/thinking-behaviours-attitudes'
 
-const defaultTitle = 'Thinking behaviours and attitudes'
+const defaultTitle = 'Thinking, behaviours and attitudes'
 const sectionName = 'thinking-behaviours-attitudes'
 
 const stepOptions: FormWizard.Steps = {
