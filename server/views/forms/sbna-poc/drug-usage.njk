@@ -1,4 +1,4 @@
-{% extends "../layout.njk" %}
+{% extends "../default.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "components/question/macro.njk" import renderQuestion %}
 
@@ -69,7 +69,7 @@
 {%- endmacro -%}
 
 {% block formContent %}
-  <form method="post" action="{{ action }}">
+  <form id="form" method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {{ renderQuestionsForDrugTypes(options.allFields, options.answers) }}
 
