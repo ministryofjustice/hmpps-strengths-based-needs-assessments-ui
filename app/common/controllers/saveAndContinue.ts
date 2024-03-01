@@ -36,7 +36,11 @@ class SaveAndContinueController extends BaseController {
             : dependentValue === field.dependent.value)
         )
       })
-      .reduce((updatedAnswers, [key, field]) => ({ ...updatedAnswers, [field.code]: req.form.values[key] }), {})
+      .reduce((updatedAnswers, [key, field]) => {
+        return field.id
+          ? { ...updatedAnswers, [field.id]: req.form.values[key], [field.code]: req.form.values[key] }
+          : { ...updatedAnswers, [field.code]: req.form.values[key] }
+      }, {})
 
     return super.process(req, res, next)
   }
