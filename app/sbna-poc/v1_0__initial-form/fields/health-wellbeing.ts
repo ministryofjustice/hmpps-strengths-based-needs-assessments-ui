@@ -373,6 +373,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
         value: 'NOT_OPTIMISTIC',
         kind: 'option',
       },
+      orDivider,
       { text: '[subject] does not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
     ],
