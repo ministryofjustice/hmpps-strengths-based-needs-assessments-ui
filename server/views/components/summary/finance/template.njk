@@ -83,7 +83,12 @@
           <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "FAMILY_OR_FRIENDS" %}
-              <span class="summary__answer--secondary">{{ answers["family_or_friends_details"] }}</span>
+              {%- switch answers["family_or_friends_details"] -%}
+                {% case "YES" %}
+                  <span class="summary__answer--secondary">Overly reliant on friends and family for money</span>
+                {% case "No" %}
+                  <span class="summary__answer--secondary">Not overly reliant on friends and family for money</span>
+              {%- endswitch -%}
             {% case "OTHER" %}
               <span class="summary__answer--secondary">{{ answers["other_income_details"] }}</span>
           {%- endswitch -%}
