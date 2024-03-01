@@ -57,10 +57,15 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Does [subject] have any diagnosed mental health problems?',
+    text: 'Does [subject] have any diagnosed or documented mental health problems?',
     code: 'health_wellbeing_mental_health_condition',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any diagnosed mental health problems' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they have any diagnosed or documented mental health problems',
+      },
+    ],
     options: [
       {
         text: 'Yes, ongoing - severe and documented over a prolonged period of time',
@@ -373,18 +378,18 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
         value: 'NOT_OPTIMISTIC',
         kind: 'option',
       },
+      orDivider,
       { text: '[subject] does not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: "What's helped [subject] during periods of good health and wellbeing?",
+    text: "What's helped [subject] during periods of good health and wellbeing? (optional)",
     hint: { html: positiveFactorsHint, kind: 'html' },
     code: 'health_wellbeing_positive_factors',
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select how optimistic they are about their future' }],
     options: [
       { text: 'Accommodation', value: 'ACCOMMODATION', kind: 'option' },
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
