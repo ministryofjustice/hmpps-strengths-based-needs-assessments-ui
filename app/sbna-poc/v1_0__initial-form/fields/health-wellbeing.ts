@@ -379,12 +379,11 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: "What's helped [subject] during periods of good health and wellbeing?",
+    text: "What's helped [subject] during periods of good health and wellbeing? (optional)",
     hint: { html: positiveFactorsHint, kind: 'html' },
     code: 'health_wellbeing_positive_factors',
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select how optimistic they are about their future' }],
     options: [
       { text: 'Accommodation', value: 'ACCOMMODATION', kind: 'option' },
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
