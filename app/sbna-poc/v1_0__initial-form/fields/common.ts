@@ -25,7 +25,7 @@ export const orDivider: FormWizard.Field.Divider = {
 export function validateFutureDate(value: string) {
   const now = DateTime.now().startOf('day')
   const date = DateTime.fromISO(value)
-  return date.isValid && date >= now
+  return date.isValid ? date >= now : true
 }
 
 export function requiredWhenValidator(field: string, requiredValue: string) {
