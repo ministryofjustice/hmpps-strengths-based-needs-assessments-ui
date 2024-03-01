@@ -111,7 +111,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
-      { text: 'Family or Friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
+      { text: 'Family or friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
       { text: 'Offending', value: 'OFFENDING', kind: 'option' },
       { text: 'Pension', value: 'PENSION', kind: 'option' },
       { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
