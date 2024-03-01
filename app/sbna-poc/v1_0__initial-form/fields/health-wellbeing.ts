@@ -57,10 +57,15 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Does [subject] have any diagnosed mental health problems?',
+    text: 'Does [subject] have any diagnosed or documented mental health problems?',
     code: 'health_wellbeing_mental_health_condition',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any diagnosed mental health problems' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they have any diagnosed or documented mental health problems',
+      },
+    ],
     options: [
       {
         text: 'Yes, ongoing - severe and documented over a prolonged period of time',
