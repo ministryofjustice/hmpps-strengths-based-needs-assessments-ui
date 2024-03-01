@@ -148,7 +148,9 @@ export function resolveNextStep(next: FormWizard.Step.NextStep, ctx: Context): F
 
   if (hasProperty(next, 'field') && hasProperty(next, 'value')) {
     const con = next as FormWizard.Step.FieldValueCondition
-    return getAnswers(con.field, ctx)?.includes(con.value) ? resolveNextStep(con.next, ctx) : undefined
+    const conditionMet = (condition: string | string[]) => (value: string) =>
+      Array.isArray(condition) ? condition.includes(value) : condition === value
+    return getAnswers(con.field, ctx)?.some(conditionMet(con.value)) ? resolveNextStep(con.next, ctx) : undefined
   }
 
   if (hasProperty(next, 'fn')) {

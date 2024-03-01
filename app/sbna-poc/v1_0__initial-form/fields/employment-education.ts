@@ -245,32 +245,6 @@ export const educationFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Does [subject] have any professional or vocational qualifications?',
-    code: 'education_professional_or_vocational_qualifications',
-    type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select if they have any professional or vocational qualifications' },
-    ],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-      orDivider,
-      { text: 'Not sure', value: 'NOT_SURE', kind: 'option' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'education_professional_or_vocational_qualifications_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'education_professional_or_vocational_qualifications',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
     text: 'Select the highest level of education [subject] has completed',
     code: 'education_highest_level_completed',
     type: FieldType.Radio,
@@ -335,6 +309,32 @@ export const educationFields: Array<FormWizard.Field> = [
       { text: 'Not sure', value: 'NOT_SURE', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Does [subject] have any professional or vocational qualifications?',
+    code: 'education_professional_or_vocational_qualifications',
+    type: FieldType.Radio,
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they have any professional or vocational qualifications' },
+    ],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+      orDivider,
+      { text: 'Not sure', value: 'NOT_SURE', kind: 'option' },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'education_professional_or_vocational_qualifications_details',
+    type: FieldType.TextArea,
+    validate: [],
+    dependent: {
+      field: 'education_professional_or_vocational_qualifications',
+      value: 'YES',
+      displayInline: true,
+    },
   },
   {
     text: 'Does [subject] have skills that could help them in a job or at work?',
