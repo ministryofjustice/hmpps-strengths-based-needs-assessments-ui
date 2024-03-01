@@ -24,8 +24,15 @@ const stepOptions: FormWizard.Steps = {
       { field: 'employment_status', value: 'EMPLOYED', next: 'employed' },
       { field: 'employment_status', value: 'SELF_EMPLOYED', next: 'employed' },
       { field: 'employment_status', value: 'RETIRED', next: 'retired' },
-      { field: 'has_been_employed', value: 'YES', next: 'has-been-employed' },
-      { field: 'has_been_employed', value: 'NO', next: 'never-been-employed' },
+      {
+        field: 'employment_status',
+        op: 'in',
+        value: ['CURRENTLY_UNAVAILABLE_FOR_WORK', 'UNEMPLOYED_LOOKING_FOR_WORK', 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'],
+        next: [
+          { field: 'has_been_employed', value: 'YES', next: 'has-been-employed' },
+          { field: 'has_been_employed', value: 'NO', next: 'never-been-employed' },
+        ],
+      },
     ],
     navigationOrder: 2,
     section: sectionName,
