@@ -175,6 +175,27 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderHistory(fieldCode, fields, answers) -%}
+  <ul class="govuk-list">
+    {% for option in fields[fieldCode].options %}
+      {% if option.checked %}
+        <li class="summary-details-list">
+          <span class="summary__answer">{{ option.text }}</span>
+          {%- switch option.value -%}
+          {% case "STABLE" %}
+            <span class="summary__answer--secondary">{{ answers[fieldCode + "_stable_details"] }}</span>
+          {% case "PERIODS_OF_INSTABILITY" %}
+            <span class="summary__answer--secondary">{{ answers[fieldCode + "_periods_of_instability_details"] }}</span>
+          {% case "UNSTABLE" %}
+            <span class="summary__answer--secondary">{{ answers[fieldCode + "_unstable_details"] }}</span>
+          {% default %}
+          {%- endswitch -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{%- endmacro -%}
+
 {%- macro renderChanges(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["employment_education_changes"].options %}
@@ -246,10 +267,10 @@
         options.answers[field],
         options.backLink + "#" + field
       ) }}
-    {% case "stable_employment_history" %}
+    {% case "employment_history" %}
       {{ renderSummaryListRow(
         options.fields[field].text,
-        renderSelectedOptions(options.fields[field]),
+        renderHistory(field, options.fields, options.answers),
         options.backLink + "#" + field
       ) }}
     {% case "employment_other_responsibilities" %}
@@ -303,7 +324,7 @@
     {{ renderSummaryItemFor("employment_area", { fields: fields, answers: answers, backLink: backLink }) }}
   {% endif %}
   {% if answers["has_been_employed"] !== "NO" %}
-    {{ renderSummaryItemFor("stable_employment_history", { fields: fields, answers: answers, backLink: backLink }) }}
+    {{ renderSummaryItemFor("employment_history", { fields: fields, answers: answers, backLink: backLink }) }}
   {% endif %}
   {{ renderSummaryItemFor("employment_other_responsibilities", { fields: fields, answers: answers, backLink: backLink }) }}
   {{ renderSummaryItemFor("education_professional_or_vocational_qualifications", { fields: fields, answers: answers, backLink: backLink }) }}
