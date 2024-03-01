@@ -19,46 +19,46 @@ const alcoholUnitsHint = `
     <table class="govuk-table">    
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Type of drink</th>
-          <th scope="col" class="govuk-table__header">Number of alcohol units</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-half">Type of drink</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-half govuk-table__header--numeric">Number of alcohol units</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Single small shot of spirits (25ml, ABV 40%) For example, whisky or vodka.</td>
-          <td class="govuk-table__cell">1 unit</td>
+          <td class="govuk-table__cell">Single small shot of spirits<br>(25ml, ABV 40%)<br>For example, whisky or vodka.</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">1 unit</td>
         </tr>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">Alcopop (275ml, ABV 5.5%)</td>
-          <td class="govuk-table__cell">1.5 unit</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">1.5 units</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Small glass of red/white/rosé wine (125ml, ABV 12%)</td>
-          <td class="govuk-table__cell">1.5 unit</td>
+          <td class="govuk-table__cell">Small glass of red/white/rosé<br>wine (125ml, ABV 12%)</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">1.5 units</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Bottle of lager/beer/cider (330ml, ABV 5%)</td>
-          <td class="govuk-table__cell">1.7 unit</td>
+          <td class="govuk-table__cell">Bottle of lager/beer/cider<br>(330ml, ABV 5%)</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">1.7 units</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Can of lager/beer/cider (440ml, ABV 5.5%)</td>
-          <td class="govuk-table__cell">2.4 unit</td>
+          <td class="govuk-table__cell">Can of lager/beer/cider<br>(440ml, ABV 5.5%)</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">2.4 units</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Pint of lower-strength lager/beer/cider (ABV 3.6%)</td>
-          <td class="govuk-table__cell">2 unit</td>
+          <td class="govuk-table__cell">Pint of lower-strength lager/<br>beer/cider (ABV 3.6%)</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">2 units</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Standard glass of red/white/rose wine (175ml, ABV 12%)</td>
-          <td class="govuk-table__cell">2.1 unit</td>
+          <td class="govuk-table__cell">Standard glass of red/white/rosé<br>wine (175ml, ABV 12%)</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">2.1 units</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Pint of higher-strength lager/beer/cider (ABV 5.2%)</td>
-          <td class="govuk-table__cell">3 unit</td>
+          <td class="govuk-table__cell">Pint of higher-strength lager/<br>beer/cider (ABV 5.2%)</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">3 units</td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Large glass of red/white/rosé wine (250ml, ABV 12%)</td>
-          <td class="govuk-table__cell">3 unit</td>
+          <td class="govuk-table__cell">Large glass of red/white/rosé<br>wine (250ml, ABV 12%)</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">3 units</td>
         </tr>
       </tbody>
     </table>
