@@ -343,10 +343,10 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Select if they are motivated to stop or reduce their drug use' },
     ],
     options: [
-      { text: 'Does not show motivation to stop or reduce', value: 'NO_MOTIVATION', kind: 'option' },
-      { text: 'Shows some motivation to stop or reduce', value: 'SOME_MOTIVATION', kind: 'option' },
       { text: 'Motivated to stop or reduce', value: 'MOTIVATED', kind: 'option' },
-      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
+      { text: 'Shows some motivation to stop or reduce', value: 'SOME_MOTIVATION', kind: 'option' },
+      { text: 'Does not show motivation to stop or reduce', value: 'NO_MOTIVATION', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
