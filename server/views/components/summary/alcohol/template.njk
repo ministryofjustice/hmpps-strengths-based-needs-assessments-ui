@@ -100,7 +100,7 @@
       {% if option.checked %}
         <li class="summary-details-list">
           <span class="summary__answer">{{ option.text }}</span>
-          {% if option.value == "OTHER" %}
+          {% if option.value == "YES" %}
             <span class="summary__answer--secondary"> {{ answers["alcohol_stopped_or_reduced_details"] }} </span>
           {% endif %}
         </li>
