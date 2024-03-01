@@ -161,9 +161,6 @@ export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
-]
-
-export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] currently having psychiatric treatment?',
     code: 'health_wellbeing_psychiatric_treatment',
@@ -177,6 +174,9 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
+]
+
+export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
   {
     text: 'Has [subject] had a head injury or any illness effecting the brain?',
     hint: { html: headInjuryOrIllnessHint, kind: 'html' },
