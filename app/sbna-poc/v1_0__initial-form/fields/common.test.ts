@@ -53,10 +53,13 @@ describe('sbna-poc/fields/common', () => {
 
     it('is invalid when the date is in the future', () => expect(validateFutureDate('1970-01-01')).toEqual(false))
 
-    it('is invalid false when the date is invalid', () => {
-      expect(validateFutureDate('foo')).toEqual(false)
-      expect(validateFutureDate(undefined)).toEqual(false)
-      expect(validateFutureDate(null)).toEqual(false)
+    it('is invalid when the date is invalid', () => {
+      expect(validateFutureDate('9999-99-99')).toEqual(false)
+    })
+
+    it('is valid when no value present', () => {
+      expect(validateFutureDate(undefined)).toEqual(true)
+      expect(validateFutureDate(null)).toEqual(true)
     })
   })
 

@@ -134,10 +134,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     text: 'Enter expected end date (optional)',
     code: 'short_term_accommodation_end_date',
     type: FieldType.Date,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: validateFutureDate, message: 'Enter a future date' },
-    ],
+    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'SHORT_TERM',
@@ -148,10 +145,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     text: 'Enter expected end date (optional)',
     code: 'approved_premises_end_date',
     type: FieldType.Date,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: validateFutureDate, message: 'Enter a future date' },
-    ],
+    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'APPROVED_PREMISES',
@@ -162,10 +156,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     text: 'Enter expected end date (optional)',
     code: 'cas2_end_date',
     type: FieldType.Date,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: validateFutureDate, message: 'Enter a future date' },
-    ],
+    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'CAS2',
@@ -176,10 +167,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     text: 'Enter expected end date (optional)',
     code: 'cas3_end_date',
     type: FieldType.Date,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: validateFutureDate, message: 'Enter a future date' },
-    ],
+    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'CAS3',
@@ -190,10 +178,7 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     text: 'Enter expected end date (optional)',
     code: 'immigration_accommodation_end_date',
     type: FieldType.Date,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter a valid date' },
-      { fn: validateFutureDate, message: 'Enter a future date' },
-    ],
+    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
     dependent: {
       field: 'type_of_temporary_accommodation',
       value: 'IMMIGRATION',
