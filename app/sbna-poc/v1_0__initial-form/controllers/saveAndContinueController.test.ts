@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { Response } from 'express'
-import Controller from './saveAndContinueController'
+import Controller, { Progress } from './saveAndContinueController'
 
 describe('SaveAndContinueController', () => {
   const controller = new Controller({ route: '/' })
@@ -255,6 +255,17 @@ describe('SaveAndContinueController', () => {
         form: {
           options: {
             section: sectionName,
+            steps: {
+              [`/${sectionName}-page-1`]: {
+                section: sectionName,
+              },
+              [`/${sectionName}-page-2`]: {
+                section: sectionName,
+              },
+              '/other-section': {
+                section: 'other',
+              },
+            },
           },
         },
         url,
@@ -272,8 +283,9 @@ describe('SaveAndContinueController', () => {
     it('returns null when there is no resume state', () => {
       const req = buildRequestWith({ url: '/foo', sectionName: 'foo_section' })
       sessionModel.get.mockImplementation(withResumeState({}))
+      const sectionProgress: Progress = {}
 
-      const resumeUrl = controller.getResumeUrl(req)
+      const resumeUrl = controller.getResumeUrl(req, sectionProgress)
 
       expect(resumeUrl).toEqual(null)
     })
@@ -281,28 +293,41 @@ describe('SaveAndContinueController', () => {
     it('does not return a resume URL when navigating within the same section', () => {
       const req = buildRequestWith({ url: '/foo', sectionName: 'foo_section' })
       sessionModel.get.mockImplementation(withResumeState({ foo_section: '/foo/bar', lastSection: 'foo_section' }))
+      const sectionProgress: Progress = {}
 
-      const resumeUrl = controller.getResumeUrl(req)
+      const resumeUrl = controller.getResumeUrl(req, sectionProgress)
 
       expect(resumeUrl).toEqual(null)
     })
 
     it('returns a resume URL when navigating between sections', () => {
       const req = buildRequestWith({ url: '/foo', sectionName: 'foo_section', action: 'resume' })
-      sessionModel.get.mockImplementation(withResumeState({ foo_section: '/foo/bar', lastSection: 'bar_section' }))
+      sessionModel.get.mockImplementation(withResumeState({ foo_section: 'foo/bar', lastSection: 'bar_section' }))
+      const sectionProgress: Progress = {}
 
-      const resumeUrl = controller.getResumeUrl(req)
+      const resumeUrl = controller.getResumeUrl(req, sectionProgress)
 
-      expect(resumeUrl).toEqual('/foo/bar')
+      expect(resumeUrl).toEqual('foo/bar')
     })
 
     it('returns null when there is no history for the given section', () => {
       const req = buildRequestWith({ url: '/foo', sectionName: 'bar_section' })
       sessionModel.get.mockImplementation(withResumeState({ foo_section: '/foo/bar' }))
+      const sectionProgress: Progress = {}
 
-      const resumeUrl = controller.getResumeUrl(req)
+      const resumeUrl = controller.getResumeUrl(req, sectionProgress)
 
       expect(resumeUrl).toEqual(null)
+    })
+
+    it('returns a resume URL when there is no history for the given completed section', () => {
+      const req = buildRequestWith({ url: '/foo', sectionName: 'bar_section', action: 'resume' })
+      sessionModel.get.mockImplementation(withResumeState({ foo_section: '/foo/bar' }))
+      const sectionProgress: Progress = { bar_section: true }
+
+      const resumeUrl = controller.getResumeUrl(req, sectionProgress)
+
+      expect(resumeUrl).toEqual('bar_section-page-2')
     })
   })
 })
