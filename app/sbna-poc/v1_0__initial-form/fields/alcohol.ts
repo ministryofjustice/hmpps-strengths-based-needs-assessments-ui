@@ -87,6 +87,35 @@ export const alcoholUseFields: Array<FormWizard.Field> = [
 
 export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   {
+    text: 'Has [subject] shown evidence of binge drinking or excessive alcohol use in the last 6 months?',
+    code: 'alcohol_evidence_of_excess_drinking',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if there’s evidence of binge drinking or excessive alcohol use in the last 6 months',
+      },
+    ],
+    options: [
+      { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
+      {
+        text: 'Some evidence of binge drinking or excessive alcohol use',
+        hint: { text: 'There is a pattern of alcohol use but has not caused any serious problems.' },
+        value: 'YES_WITH_SOME_EVIDENCE',
+        kind: 'option',
+      },
+      {
+        text: 'Evidence of binge drinking or excessive alcohol use',
+        hint: {
+          text: 'There is a detrimental effect on other areas of their life and is often directly related to offending.',
+        },
+        value: 'YES_WITH_EVIDENCE',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
     text: 'Does [subject] have any past issues with alcohol?',
     code: 'alcohol_past_issues',
     type: FieldType.Radio,
@@ -445,35 +474,6 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       value: 'YES',
       displayInline: true,
     },
-  },
-  {
-    text: 'Has [subject] shown evidence of binge drinking or excessive alcohol use in the last 6 months?',
-    code: 'alcohol_evidence_of_excess_drinking',
-    type: FieldType.Radio,
-    validate: [
-      {
-        type: ValidationType.Required,
-        message: 'Select if there’s evidence of binge drinking or excessive alcohol use in the last 6 months',
-      },
-    ],
-    options: [
-      { text: 'No evidence of binge drinking or excessive alcohol use', value: 'NO_EVIDENCE', kind: 'option' },
-      {
-        text: 'Some evidence of binge drinking or excessive alcohol use',
-        hint: { text: 'There is a pattern of alcohol use but has not caused any serious problems.' },
-        value: 'YES_WITH_SOME_EVIDENCE',
-        kind: 'option',
-      },
-      {
-        text: 'Evidence of binge drinking or excessive alcohol use',
-        hint: {
-          text: 'There is a detrimental effect on other areas of their life and is often directly related to offending.',
-        },
-        value: 'YES_WITH_EVIDENCE',
-        kind: 'option',
-      },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
 ]
 
