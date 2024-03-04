@@ -314,7 +314,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     hint: { text: "Consider what factors or circumstances are associated and if it's recurring.", kind: 'text' },
     code: 'health_wellbeing_self_harmed',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have ever self harmed' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have ever self-harmed' }],
     options: yesNoOptions,
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
