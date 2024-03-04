@@ -56,10 +56,15 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Does [subject] have any diagnosed mental health problems?',
+    text: 'Does [subject] have any diagnosed or documented mental health problems?',
     code: 'health_wellbeing_mental_health_condition',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have any diagnosed mental health problems' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they have any diagnosed or documented mental health problems',
+      },
+    ],
     options: [
       {
         text: 'Yes, ongoing - severe and documented over a prolonged period of time',
@@ -160,9 +165,6 @@ export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
-]
-
-export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] currently having psychiatric treatment?',
     code: 'health_wellbeing_psychiatric_treatment',
@@ -176,6 +178,9 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
+]
+
+export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
   {
     text: 'Has [subject] had a head injury or any illness effecting the brain?',
     hint: { html: headInjuryOrIllnessHint, kind: 'html' },
@@ -308,7 +313,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     hint: { text: "Consider what factors or circumstances are associated and if it's recurring.", kind: 'text' },
     code: 'health_wellbeing_self_harmed',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have ever self harmed' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have ever self-harmed' }],
     options: yesNoOptions,
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
@@ -372,18 +377,18 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
         value: 'NOT_OPTIMISTIC',
         kind: 'option',
       },
+      orDivider,
       { text: '[subject] does not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: "What's helped [subject] during periods of good health and wellbeing?",
+    text: "What's helped [subject] during periods of good health and wellbeing? (optional)",
     hint: { html: positiveFactorsHint, kind: 'html' },
     code: 'health_wellbeing_positive_factors',
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select how optimistic they are about their future' }],
     options: [
       { text: 'Accommodation', value: 'ACCOMMODATION', kind: 'option' },
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },

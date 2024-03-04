@@ -8,7 +8,7 @@
 {%- from "govuk/components/button/macro.njk" import govukButton -%}
 {%- from "govuk/components/character-count/macro.njk" import govukCharacterCount -%}
 
-{% set errorMessageText = errors[question.code].message %}
+{% set errorMessageText = errors[question.id].message %}
 {% if errorMessageText %}
   {% set errorMessage = { text: errorMessageText } %}
 {% endif %}

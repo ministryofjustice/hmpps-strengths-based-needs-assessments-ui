@@ -8,6 +8,7 @@ import StrengthsBasedNeedsAssessmentsApiService, {
 import { buildRequestBody, flattenAnswers, mergeAnswers } from './saveAndContinueController.utils'
 
 type ResumeUrl = string | null
+export type Progress = Record<string, boolean>
 
 class SaveAndContinueController extends BaseSaveAndContinueController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
@@ -33,6 +34,12 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
   }
 
+  async get(req: FormWizard.Request, res: Response, next: NextFunction) {
+    Object.keys(req.form.persistedAnswers).forEach(k => req.sessionModel.set(k, req.form.persistedAnswers[k]))
+
+    return super.get(req, res, next)
+  }
+
   async addAssessmentDataToLocals(req: FormWizard.Request, res: Response) {
     const sessionData = req.session.sessionData as SessionInformation
     res.locals.sessionData = sessionData
@@ -43,7 +50,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   updateAssessmentProgress(req: FormWizard.Request, res: Response) {
-    type Progress = Record<string, boolean>
     type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
     type AnswerValues = Record<string, string>
 
@@ -70,7 +76,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       await this.addAssessmentDataToLocals(req, res)
-      this.updateAssessmentProgress(req, res)
 
       super.locals(req, res, next)
     } catch (error) {
@@ -78,16 +83,19 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
   }
 
-  getResumeUrl(req: FormWizard.Request): ResumeUrl {
+  getResumeUrl(req: FormWizard.Request, sectionProgress: Progress): ResumeUrl {
     const isResuming = req.query.action === 'resume'
     const sectionName = req.form.options.section
     const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    const lastPageVisited = resumeState[sectionName]
+    const [lastStepOfSection] = Object.entries(req.form.options.steps)
+      .reverse()
+      .find(([, step]) => step.section === sectionName)
+    const lastPageVisited = resumeState[sectionName] || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
     const { lastSection } = resumeState
 
     if (lastPageVisited && (sectionName !== lastSection || isResuming)) {
       req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null, lastSection: sectionName })
-      return lastPageVisited
+      return lastPageVisited.replace(/^\//, '')
     }
 
     req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: req.url.slice(1), lastSection: sectionName })
@@ -97,7 +105,8 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const resumeUrl = this.getResumeUrl(req)
+      this.updateAssessmentProgress(req, res)
+      const resumeUrl = this.getResumeUrl(req, res.locals.sectionProgress)
 
       return resumeUrl ? res.redirect(resumeUrl) : super.getValues(req, res, next)
     } catch (error) {
