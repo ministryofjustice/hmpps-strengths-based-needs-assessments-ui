@@ -4,6 +4,7 @@ import {
   createPractitionerAnalysisFieldsWith,
   createWantToMakeChangesFields,
   getMediumLabelClassFor,
+  orDivider,
   toFormWizardFields,
   yesNoOptions,
 } from './common'
