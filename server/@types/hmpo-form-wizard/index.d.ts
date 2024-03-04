@@ -78,6 +78,7 @@ declare module 'hmpo-form-wizard' {
           section: string
           sectionProgressRules: Array<SectionProgressRule>
           fields: Fields
+          steps: Steps
         }
         persistedAnswers: Record<string, string | string[]>
       }
