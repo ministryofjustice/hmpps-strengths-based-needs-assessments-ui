@@ -8,6 +8,8 @@ import {
   makeChangesFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
+  currentRelationshipStatusFields,
+  intimateRelationshipFields,
 } from '../fields/personal-relationships-community'
 
 const defaultTitle = 'Personal relationships and community'
@@ -36,8 +38,10 @@ const stepOptions: FormWizard.Steps = {
   '/personal-relationships-community': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
-      personalRelationshipsCommunityFields,
+      currentRelationshipStatusFields,
+      intimateRelationshipFields,
       parentalResponsibilitiesFields,
+      personalRelationshipsCommunityFields,
       makeChangesFields,
       sectionCompleteFields,
     ),
@@ -51,7 +55,13 @@ const stepOptions: FormWizard.Steps = {
   },
   '/personal-relationships-community-2': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(personalRelationshipsCommunityFields, makeChangesFields, sectionCompleteFields),
+    fields: fieldCodesFrom(
+      currentRelationshipStatusFields,
+      intimateRelationshipFields,
+      personalRelationshipsCommunityFields,
+      makeChangesFields,
+      sectionCompleteFields,
+    ),
     next: 'personal-relationships-community-analysis',
     backLink: 'personal-relationships',
     section: sectionName,
