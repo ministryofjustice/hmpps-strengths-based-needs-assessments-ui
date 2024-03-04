@@ -2,7 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   characterLimit,
   createPractitionerAnalysisFieldsWith,
-  detailsFieldWith,
+  createWantToMakeChangesFields,
   getMediumLabelClassFor,
   orDivider,
   toFormWizardFields,
@@ -422,37 +422,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
   },
 ]
 
-const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
-  { text: 'I have already made changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
-  { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
-  { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
-  { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
-  { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
-  { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
-  { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
-]
-
-const makeChangesOptions: FormWizard.Field.Options = [
-  ...makeChangesOptionsWithDetails,
-  orDivider,
-  { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-  { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-]
-
-export const makeChangesFields: Array<FormWizard.Field> = [
-  {
-    text: 'Does [subject] want to make changes to their health and wellbeing?',
-    hint: { text: 'This question must be directly answered by [subject]', kind: 'text' },
-    code: 'health_wellbeing_changes',
-    type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select if they want to make changes to their health and wellbeing' },
-    ],
-    options: makeChangesOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  ...makeChangesOptionsWithDetails.map(detailsFieldWith('health_wellbeing_changes')),
-]
+export const makeChangesFields = createWantToMakeChangesFields('their health and wellbeing', 'health_wellbeing')
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> =
   createPractitionerAnalysisFieldsWith('health_wellbeing')
