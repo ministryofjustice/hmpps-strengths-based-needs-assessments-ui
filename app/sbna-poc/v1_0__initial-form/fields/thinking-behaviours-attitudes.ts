@@ -458,18 +458,18 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     ],
     options: [
       {
-        text: 'Yes, there is evidence of suspicious, angry or vengeful thinking and behaviour',
-        value: 'YES_HOSTILE_ORIENTATION',
+        text: "They're able to have constructive conversations when they disagree with others and can forgive past wrongs",
+        value: 'NO',
         kind: 'option',
       },
       {
         text: 'Some evidence of suspicious, angry or vengeful thinking and behaviour',
-        value: 'SOME_HOSTILE_ORIENTATION',
+        value: 'SOME',
         kind: 'option',
       },
       {
-        text: "No, they're able to have constructive conversations when they disagree with others and can forgive past wrongs",
-        value: 'NO_HOSTILE_ORIENTATION',
+        text: 'There is evidence of suspicious, angry or vengeful thinking and behaviour',
+        value: 'YES',
         kind: 'option',
       },
     ],
