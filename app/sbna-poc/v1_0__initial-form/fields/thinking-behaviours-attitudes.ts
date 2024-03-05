@@ -508,18 +508,18 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select if they support or excuse criminal behaviour' }],
     options: [
       {
-        text: 'Yes, supports or excuses criminal behaviour or their pattern of behaviour and other evidence indicates this is an issue',
-        value: 'YES_SUPPORTS_CRIMINAL_BEHAVIOUR',
+        text: 'Does not support or excuse criminal behaviour',
+        value: 'NO',
         kind: 'option',
       },
       {
         text: 'Sometimes supports or excuses criminal behaviour',
-        value: 'SOMETIMES_SUPPORTS_CRIMINAL_BEHAVIOUR',
+        value: 'SOMETIMES',
         kind: 'option',
       },
       {
-        text: 'No, does not support or excuse criminal behaviour',
-        value: 'NOT_SUPPORT_CRIMINAL_BEHAVIOUR',
+        text: 'Supports or excuses criminal behaviour or their pattern of behaviour and other evidence indicates this is an issue',
+        value: 'YES',
         kind: 'option',
       },
     ],
