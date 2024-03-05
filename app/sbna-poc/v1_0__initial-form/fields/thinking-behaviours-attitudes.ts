@@ -375,7 +375,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     ],
     options: [
       {
-        text: 'No, they do not use violence, aggressive or controlling behaviour to get their own way',
+        text: 'Does not use violence, aggressive or controlling behaviour to get their own way',
         value: 'NO_VIOLENCE',
         kind: 'option',
       },
@@ -385,7 +385,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       {
-        text: 'Yes, there is a pattern of using violence, aggressive or controlling behaviour to get their own way',
+        text: 'Patterns of using violence, aggressive or controlling behaviour to get their own way',
         value: 'YES_VIOLENCE',
         kind: 'option',
       },
