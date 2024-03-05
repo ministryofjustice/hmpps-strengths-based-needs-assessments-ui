@@ -144,7 +144,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
+export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] happy with their current relationship status?',
     code: 'personal_relationships_community_current_relationship',
@@ -220,6 +220,9 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
       displayInline: true,
     },
   },
+]
+
+export const intimateRelationshipFields: Array<FormWizard.Field> = [
   {
     text: "What is [subject]'s history of intimate relationships? ",
     code: 'personal_relationships_community_intimate_relationship',
@@ -329,6 +332,9 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
   },
+]
+
+export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   {
     text: "What is [subject]'s current relationship like with their family?",
     code: 'personal_relationships_community_family_relationship',
