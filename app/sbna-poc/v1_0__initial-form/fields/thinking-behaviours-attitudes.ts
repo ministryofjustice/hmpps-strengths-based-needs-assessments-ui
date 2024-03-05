@@ -183,15 +183,19 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Select if they show manipulative behaviour or a predatory lifestyle' },
     ],
     options: [
-      { text: 'Yes, shows a pattern of manipulative behaviour or a predatory lifestyle', value: 'YES', kind: 'option' },
       {
-        text: 'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
-        value: 'SOMETIMES',
+        text: 'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
+        value: 'NO',
         kind: 'option',
       },
       {
-        text: 'No, generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
-        value: 'NO',
+        text: 'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
+        value: 'SOME',
+        kind: 'option',
+      },
+      {
+        text: 'Shows a pattern of manipulative behaviour or a predatory lifestyle',
+        value: 'YES',
         kind: 'option',
       },
     ],
