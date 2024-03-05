@@ -399,18 +399,18 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select if they act on impulse' }],
     options: [
       {
-        text: 'Yes, acts on impulse which causes significant problems',
-        value: 'YES_IMPULSIVE_BEHAVIOUR',
+        text: 'Considers all aspects of a situation before acting on or making a decision',
+        value: 'NO',
         kind: 'option',
       },
       {
         text: 'Sometimes acts on impulse which causes problems',
-        value: 'SOMETIMES_IMPULSIVE_BEHAVIOUR',
+        value: 'SOMETIMES',
         kind: 'option',
       },
       {
-        text: 'No, considers all aspects of a situation before acting or making a decision',
-        value: 'NO_IMPULSIVE_BEHAVIOUR',
+        text: 'Acts on impulse which causes significant problems',
+        value: 'YES',
         kind: 'option',
       },
     ],
