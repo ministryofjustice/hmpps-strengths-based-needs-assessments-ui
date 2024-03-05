@@ -75,6 +75,65 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
+    text: 'Is [subject] resilient towards peer pressure or influence by criminal associates?',
+    code: 'thinking_behaviours_attitudes_peer_pressure',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they’re resilient towards peer pressure or influence by criminal associates',
+      },
+    ],
+    options: [
+      {
+        text: 'Yes, resilient towards peer pressure or influence by criminal associates',
+        value: 'YES',
+        kind: 'option',
+      },
+      {
+        text: 'Has been peer pressured or influenced by criminal associates in the past but recognises the link to their offending',
+        value: 'SOME',
+        kind: 'option',
+      },
+      {
+        text: 'No, constantly peer pressured or influenced by criminal associates which is linked to their offending',
+        value: 'NO',
+        kind: 'option',
+      },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'thinking_behaviours_attitudes_peer_pressure_yes_details',
+    type: FieldType.TextArea,
+    dependent: {
+      field: 'thinking_behaviours_attitudes_peer_pressure',
+      value: 'YES',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'thinking_behaviours_attitudes_peer_pressure_some_details',
+    type: FieldType.TextArea,
+    dependent: {
+      field: 'thinking_behaviours_attitudes_peer_pressure',
+      value: 'SOME',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'thinking_behaviours_attitudes_peer_pressure_no_details',
+    type: FieldType.TextArea,
+    dependent: {
+      field: 'thinking_behaviours_attitudes_peer_pressure',
+      value: 'NO',
+      displayInline: true,
+    },
+  },
+  {
     text: 'Is [subject] able to solve problems in a positive way?',
     code: 'thinking_behaviours_attitudes_problem_solving',
     type: FieldType.Radio,
