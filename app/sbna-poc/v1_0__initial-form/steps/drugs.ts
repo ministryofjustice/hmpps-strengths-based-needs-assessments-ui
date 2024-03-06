@@ -13,6 +13,7 @@ import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
 
 const stepOptions: FormWizard.Steps = {
   '/drug-use': {
+    // drugs
     pageTitle: 'Drug use',
     fields: fieldCodesFrom(drugUseFields, sectionCompleteFields),
     next: [
@@ -31,6 +32,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/drug-use-details': {
+    // drug-use
     pageTitle: 'Drug use',
     fields: fieldCodesFrom(drugUsageDetailsFields, sectionCompleteFields),
     next: 'drug-use-type',
@@ -42,6 +44,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/drug-use-type': {
+    // select-drugs
     pageTitle: 'Drug use',
     fields: fieldCodesFrom(drugUseTypeFields, sectionCompleteFields),
     next: 'drug-usage-details',
@@ -53,6 +56,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/drug-usage-details': {
+    // done
     pageTitle: 'Usage details',
     fields: fieldCodesFrom(drugUseTypeDetailsFields, sectionCompleteFields),
     next: 'drug-use-changes',
@@ -65,6 +69,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/drug-use-changes': {
+    // drug-use-changes
     pageTitle: 'Drug use',
     fields: fieldCodesFrom(drugUseChangesFields, sectionCompleteFields),
     next: 'drug-use-analysis',
@@ -76,6 +81,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/drug-use-analysis': {
+    // drug-use-summary
     pageTitle: 'Drug use',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'drug-use-analysis-complete#practitioner-analysis',
@@ -84,6 +90,7 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldWhenValid('drug_use_analysis_section_complete', 'YES', 'NO')],
   },
   '/drug-use-analysis-complete': {
+    // drug-use-analysis
     pageTitle: 'Drug use',
     fields: [],
     template: 'forms/sbna-poc/drugs-summary-analysis-complete',

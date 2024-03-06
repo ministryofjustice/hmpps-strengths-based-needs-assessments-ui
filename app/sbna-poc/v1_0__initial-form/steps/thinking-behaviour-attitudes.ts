@@ -15,6 +15,7 @@ const sectionName = 'thinking-behaviours-attitudes'
 
 const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours-attitudes': {
+    // done
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(thinkingBehavioursAttitudesFields, sectionCompleteFields),
     navigationOrder: 8,
@@ -33,6 +34,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/thinking-behaviours-attitudes-sexual-offending': {
+    // done
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(riskOfSexualHarmFields, sectionCompleteFields),
     next: 'thinking-behaviours',
@@ -44,6 +46,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/thinking-behaviours': {
+    // done
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(thinkingBehaviourFields, makeChangesFields, sectionCompleteFields),
     next: 'thinking-behaviours-attitudes-summary-analysis',
@@ -55,6 +58,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/thinking-behaviours-attitudes-summary-analysis': {
+    // /thinking-behaviours-attitudes-summary
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
@@ -63,6 +67,7 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldWhenValid('thinking_behaviours_attitudes_analysis_section_complete', 'YES', 'NO')],
   },
   '/thinking-behaviours-attitudes-analysis-complete': {
+    // thinking-behaviours-attitudes-analysis
     pageTitle: defaultTitle,
     fields: [],
     next: [],

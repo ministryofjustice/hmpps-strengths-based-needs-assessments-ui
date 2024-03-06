@@ -20,6 +20,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/finance-summary-analysis': {
+    // finance-summary
     pageTitle: 'Finance',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'finance-analysis-complete#practitioner-analysis',
@@ -28,6 +29,7 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldWhenValid('finance_analysis_section_complete', 'YES', 'NO')],
   },
   '/finance-analysis-complete': {
+    // finance-analysis
     pageTitle: 'Finance',
     fields: [],
     next: [],

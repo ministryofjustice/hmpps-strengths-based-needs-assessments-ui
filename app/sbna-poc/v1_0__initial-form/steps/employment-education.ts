@@ -18,6 +18,7 @@ const sectionName = 'employment-education'
 
 const stepOptions: FormWizard.Steps = {
   '/employment-education': {
+    // current-employment
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(employmentStatusFields, sectionCompleteFields),
     next: [
@@ -42,6 +43,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/employed': {
+    // done
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
       employmentFields,
@@ -61,6 +63,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/retired': {
+    // done
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(employmentHistory, educationFields, makeChangesFields, sectionCompleteFields),
     backLink: sectionName,
@@ -72,6 +75,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/has-been-employed': {
+    // employed-before
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
       employmentHistory,
@@ -90,6 +94,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/never-been-employed': {
+    // never-employed
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(educationFields, experienceOfEducation, makeChangesFields, sectionCompleteFields),
     backLink: sectionName,
@@ -101,6 +106,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/employment-education-analysis': {
+    // employment-summary
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: ['employment-education-analysis-complete'],
@@ -109,6 +115,7 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldWhenValid('employment_education_analysis_section_complete', 'YES', 'NO')],
   },
   '/employment-education-analysis-complete': {
+    // employment-analysis
     pageTitle: defaultTitle,
     fields: [],
     next: [],

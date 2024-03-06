@@ -15,6 +15,7 @@ import {
 
 const stepOptions: FormWizard.Steps = {
   '/accommodation': {
+    // current-accommodation
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(accommodationTypeFields, sectionCompleteFields),
     next: [
@@ -33,6 +34,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/settled-accommodation': {
+    // done
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(
       livingWithFields,
@@ -42,7 +44,7 @@ const stepOptions: FormWizard.Steps = {
       sectionCompleteFields,
     ),
     next: 'accommodation-summary-analysis',
-    backLink: 'accommodation',
+    backLink: 'current-accommodation',
     section: 'accommodation',
     sectionProgressRules: [
       setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
@@ -50,6 +52,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/temporary-accommodation': {
+    // done - short term or immigration
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(
       livingWithFields,
@@ -68,6 +71,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/temporary-accommodation-2': {
+    // /temporary-accommodation-cas-ap
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(
       suitableAccommodationFields,
@@ -84,6 +88,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/no-accommodation': {
+    // done
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(
       noAccommodationFields,
@@ -100,6 +105,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/no-accommodation-2': {
+    // no-accommodation-awaiting-assessment
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(accommodationChangesFields, sectionCompleteFields),
     next: 'accommodation-summary-analysis',
@@ -111,6 +117,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/accommodation-summary-analysis': {
+    // accommodation-summary
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'accommodation-analysis-complete#practitioner-analysis',
@@ -119,6 +126,7 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldWhenValid('accommodation_analysis_section_complete', 'YES', 'NO')],
   },
   '/accommodation-analysis-complete': {
+    // accommodation-analysis
     pageTitle: 'Accommodation',
     next: [],
     template: 'forms/sbna-poc/accommodation-summary-analysis-complete',

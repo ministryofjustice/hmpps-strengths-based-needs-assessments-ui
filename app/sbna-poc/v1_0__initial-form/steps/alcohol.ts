@@ -14,6 +14,7 @@ const sectionName = 'alcohol-use'
 
 const stepOptions: FormWizard.Steps = {
   '/alcohol-use': {
+    // alcohol
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(alcoholUseFields, sectionCompleteFields),
     next: [
@@ -33,6 +34,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/alcohol-usage-last-three-months': {
+    /// alcohol-use-last-three-months
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(alcoholUsageWithinThreeMonthsFields, baseAlcoholUsageFields, sectionCompleteFields),
     backLink: sectionName,
@@ -44,6 +46,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/alcohol-usage-but-not-last-three-months': {
+    // alcohol-use-less-three-months
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(baseAlcoholUsageFields, sectionCompleteFields),
     backLink: sectionName,
@@ -55,6 +58,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/alcohol-analysis': {
+    // alcohol-summary'
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: ['alcohol-analysis-complete'],
@@ -63,6 +67,7 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldWhenValid('alcohol_use_analysis_section_complete', 'YES', 'NO')],
   },
   '/alcohol-analysis-complete': {
+    // alcohol-analysis'
     pageTitle: defaultTitle,
     fields: [],
     next: [],

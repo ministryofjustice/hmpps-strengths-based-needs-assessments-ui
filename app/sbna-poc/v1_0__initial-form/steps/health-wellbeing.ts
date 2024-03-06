@@ -18,6 +18,7 @@ const coreQuestionSet = [baseHealthAndWellbeingQuestions, makeChangesFields, sec
 
 const stepOptions: FormWizard.Steps = {
   '/health-wellbeing': {
+    // done
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalOrMentalHealthProblemsFields, sectionCompleteFields),
     navigationOrder: 6,
@@ -55,6 +56,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/physical-and-mental-health-condition': {
+    // physical-mental-health
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalHealthConditionsFields, mentalHealthConditionsFields, ...coreQuestionSet),
     next: 'health-wellbeing-analysis',
@@ -66,6 +68,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/physical-health-condition': {
+    // physical-health
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalHealthConditionsFields, ...coreQuestionSet),
     next: 'health-wellbeing-analysis',
@@ -77,6 +80,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/mental-health-condition': {
+    // mental-health
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(mentalHealthConditionsFields, ...coreQuestionSet),
     next: 'health-wellbeing-analysis',
@@ -88,6 +92,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/no-physical-or-mental-health-condition': {
+    // no-physical-mental-health
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(...coreQuestionSet),
     next: 'health-wellbeing-analysis',
@@ -99,6 +104,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/health-wellbeing-analysis': {
+    // /health-wellbeing-summary
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'health-wellbeing-analysis-complete#practitioner-analysis',
@@ -107,6 +113,7 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldWhenValid('health_wellbeing_analysis_section_complete', 'YES', 'NO')],
   },
   '/health-wellbeing-analysis-complete': {
+    // /health-wellbeing-analysis
     pageTitle: defaultTitle,
     fields: [],
     next: [],

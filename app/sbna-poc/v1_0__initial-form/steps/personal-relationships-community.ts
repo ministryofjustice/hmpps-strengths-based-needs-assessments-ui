@@ -17,6 +17,7 @@ const sectionName = 'personal-relationships-community'
 
 const stepOptions: FormWizard.Steps = {
   '/personal-relationships': {
+    // done
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(personalRelationshipsFields, sectionCompleteFields),
     navigationOrder: 7,
@@ -36,6 +37,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/personal-relationships-community': {
+    // /personal-relationships-community-children    //contains the extra questions with children
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
       currentRelationshipStatusFields,
@@ -54,6 +56,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/personal-relationships-community-2': {
+    // /personal-relationships-community
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
       currentRelationshipStatusFields,
@@ -71,6 +74,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/personal-relationships-community-analysis': {
+    // /personal-relationships-community-summary
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'personal-relationships-community-analysis-complete#practitioner-analysis',
@@ -81,6 +85,7 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/personal-relationships-community-analysis-complete': {
+    // /personal-relationships-community-analysis
     pageTitle: defaultTitle,
     fields: [],
     next: [],
