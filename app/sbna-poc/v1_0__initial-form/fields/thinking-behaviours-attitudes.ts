@@ -183,15 +183,19 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Select if they show manipulative behaviour or a predatory lifestyle' },
     ],
     options: [
-      { text: 'Yes, shows a pattern of manipulative behaviour or a predatory lifestyle', value: 'YES', kind: 'option' },
       {
-        text: 'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
-        value: 'SOMETIMES',
+        text: 'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
+        value: 'NO',
         kind: 'option',
       },
       {
-        text: 'No, generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
-        value: 'NO',
+        text: 'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
+        value: 'SOME',
+        kind: 'option',
+      },
+      {
+        text: 'Shows a pattern of manipulative behaviour or a predatory lifestyle',
+        value: 'YES',
         kind: 'option',
       },
     ],
@@ -371,7 +375,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     ],
     options: [
       {
-        text: 'No, they do not use violence, aggressive or controlling behaviour to get their own way',
+        text: 'Does not use violence, aggressive or controlling behaviour to get their own way',
         value: 'NO_VIOLENCE',
         kind: 'option',
       },
@@ -381,7 +385,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       {
-        text: 'Yes, there is a pattern of using violence, aggressive or controlling behaviour to get their own way',
+        text: 'Patterns of using violence, aggressive or controlling behaviour to get their own way',
         value: 'YES_VIOLENCE',
         kind: 'option',
       },
@@ -395,18 +399,18 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select if they act on impulse' }],
     options: [
       {
-        text: 'Yes, acts on impulse which causes significant problems',
-        value: 'YES_IMPULSIVE_BEHAVIOUR',
+        text: 'Considers all aspects of a situation before acting on or making a decision',
+        value: 'NO',
         kind: 'option',
       },
       {
         text: 'Sometimes acts on impulse which causes problems',
-        value: 'SOMETIMES_IMPULSIVE_BEHAVIOUR',
+        value: 'SOMETIMES',
         kind: 'option',
       },
       {
-        text: 'No, considers all aspects of a situation before acting or making a decision',
-        value: 'NO_IMPULSIVE_BEHAVIOUR',
+        text: 'Acts on impulse which causes significant problems',
+        value: 'YES',
         kind: 'option',
       },
     ],
@@ -454,18 +458,18 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     ],
     options: [
       {
-        text: 'Yes, there is evidence of suspicious, angry or vengeful thinking and behaviour',
-        value: 'YES_HOSTILE_ORIENTATION',
+        text: "They're able to have constructive conversations when they disagree with others and can forgive past wrongs",
+        value: 'NO',
         kind: 'option',
       },
       {
         text: 'Some evidence of suspicious, angry or vengeful thinking and behaviour',
-        value: 'SOME_HOSTILE_ORIENTATION',
+        value: 'SOME',
         kind: 'option',
       },
       {
-        text: "No, they're able to have constructive conversations when they disagree with others and can forgive past wrongs",
-        value: 'NO_HOSTILE_ORIENTATION',
+        text: 'There is evidence of suspicious, angry or vengeful thinking and behaviour',
+        value: 'YES',
         kind: 'option',
       },
     ],
@@ -504,18 +508,18 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select if they support or excuse criminal behaviour' }],
     options: [
       {
-        text: 'Yes, supports or excuses criminal behaviour or their pattern of behaviour and other evidence indicates this is an issue',
-        value: 'YES_SUPPORTS_CRIMINAL_BEHAVIOUR',
+        text: 'Does not support or excuse criminal behaviour',
+        value: 'NO',
         kind: 'option',
       },
       {
         text: 'Sometimes supports or excuses criminal behaviour',
-        value: 'SOMETIMES_SUPPORTS_CRIMINAL_BEHAVIOUR',
+        value: 'SOMETIMES',
         kind: 'option',
       },
       {
-        text: 'No, does not support or excuse criminal behaviour',
-        value: 'NOT_SUPPORT_CRIMINAL_BEHAVIOUR',
+        text: 'Supports or excuses criminal behaviour or their pattern of behaviour and other evidence indicates this is an issue',
+        value: 'YES',
         kind: 'option',
       },
     ],
