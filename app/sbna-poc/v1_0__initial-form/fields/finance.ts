@@ -406,7 +406,6 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'Give details (optional)',
     code: 'unknown_debt_details',
-    hint: { text: "Consider if they might have debt due to a partner or family member's finances.", kind: 'text' },
     type: FieldType.TextArea,
     validate: [
       {
