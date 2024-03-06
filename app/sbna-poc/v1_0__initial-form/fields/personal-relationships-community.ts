@@ -224,13 +224,13 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
 
 export const intimateRelationshipFields: Array<FormWizard.Field> = [
   {
-    text: "What is [subject]'s history of intimate relationships? ",
+    text: "What is [subject]'s history of intimate relationships?",
     code: 'personal_relationships_community_intimate_relationship',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their history of intimate relationships' }],
     options: [
       {
-        text: 'History of stable, supportive, positive and rewarding relationships',
+        text: 'History of stable, supportive, positive and rewarding relationships',
         hint: {
           text: 'This includes if they do not have a history of relationships but appear capable of starting and maintaining one.',
         },
@@ -665,14 +665,15 @@ export const analysisSectionComplete: FormWizard.Field = {
 export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
 
 export default [
+  analysisSectionComplete,
   personalRelationshipsFields,
   personalRelationshipsCommunityFields,
   parentalResponsibilitiesFields,
+  makeChangesFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
-  analysisSectionComplete,
-  questionSectionComplete,
-  makeChangesFields,
+  currentRelationshipStatusFields,
+  intimateRelationshipFields,
 ]
   .flat()
   .reduce(toFormWizardFields, {})

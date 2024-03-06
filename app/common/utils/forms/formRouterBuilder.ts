@@ -50,6 +50,28 @@ export const createSectionProgressRules = (steps: FormWizard.Steps): Array<Secti
 
 export const getStepFrom = (steps: FormWizard.Steps, url: string): FormWizard.Step => steps[removeQueryParamsFrom(url)]
 
+function checkFormIntegrity(form: Form) {
+  const fieldsIncludedInSteps = Object.values(form.steps)
+    .map(it => it.fields || [])
+    .flat()
+  const fields = Object.keys(form.fields)
+
+  fieldsIncludedInSteps.forEach(it => {
+    if (!fields.includes(it)) {
+      throw new Error(
+        `Field: "${it}" has been used in a step but does not exist in the field configuration, have you exported this in Form Wizard fields?`,
+      )
+    }
+  })
+  fields.forEach(it => {
+    if (!fieldsIncludedInSteps.includes(it)) {
+      throw new Error(
+        `Field: "${it}" does not exist in the step configuration, has this field been removed from a page?`,
+      )
+    }
+  })
+}
+
 const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
   const router = express.Router()
 
@@ -67,6 +89,8 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
 
       next()
     })
+
+    checkFormIntegrity(form)
 
     router.use(
       FormWizard(form.steps, form.fields, {
