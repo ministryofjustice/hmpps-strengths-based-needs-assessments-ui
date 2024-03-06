@@ -171,9 +171,9 @@
     {{ renderSummaryItemFor("drug_use_impact", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
     {{ renderSummaryItemFor("reducing_or_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
     {{ renderSummaryItemFor("motivated_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
-    {{ renderSummaryItemFor("drug_use_changes", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
-    <div class="govuk-summary-list__row as-block">
+    <div class="govuk-summary-list__row as-block govuk-summary-list__row--no-border">
       {{ renderDrugsTable({fields: fields, answers: answers, subject: subject}) }}
     </div>
+    {{ renderSummaryItemFor("drug_use_changes", { fields: fields, answers: answers, backLink: "drug-use-changes" }) }}
   {% endif %}
 </dl>
