@@ -3,7 +3,6 @@ import { whereSelectable } from '../../app/common/controllers/saveAndContinue.ut
 import { removePractitionerAnalysisFields, removeSectionCompleteFields } from './nunjucks.utils'
 
 export interface SummaryField {
-  id: string
   field: FormWizard.Field
   backLink: string
   answers: SummaryFieldAnswer[]
@@ -57,11 +56,10 @@ export default function getSummaryFields(ctx: Context): SummaryField[] {
         continue
       }
       if (field.dependent !== undefined) {
-        addNestedSummaryField(field, fieldId, summaryFields, ctx, stepPath)
+        addNestedSummaryField(field, summaryFields, ctx, stepPath)
         continue
       }
       summaryFields.push({
-        id: fieldId,
         field,
         backLink: `${stepPath}#${fieldId}`,
         answers: getSummaryFieldAnswers(field, ctx),
@@ -76,19 +74,18 @@ export default function getSummaryFields(ctx: Context): SummaryField[] {
 
 export function addNestedSummaryField(
   field: FormWizard.Field,
-  fieldId: string,
   summaryFields: SummaryField[],
   ctx: Context,
   stepPath: string,
 ): boolean {
   const parentField = field.dependent.field
-  const parentFieldPos = summaryFields.findIndex(f => f.id === parentField)
+  const parentFieldPos = summaryFields.findIndex(f => (f.field.id || f.field.code) === parentField)
 
   if (parentFieldPos > -1) {
     const answer = summaryFields[parentFieldPos].answers.find(it => it.value === field.dependent.value)
     if (answer !== undefined) {
+      const fieldId = field.id || field.code
       answer.nestedFields.push({
-        id: fieldId,
         field,
         backLink: `${stepPath}#${fieldId}`,
         answers: getSummaryFieldAnswers(field, ctx),
@@ -98,7 +95,7 @@ export function addNestedSummaryField(
   }
   for (const summaryField of summaryFields) {
     for (const answer of summaryField.answers) {
-      if (addNestedSummaryField(field, fieldId, answer.nestedFields, ctx, stepPath)) return true
+      if (addNestedSummaryField(field, answer.nestedFields, ctx, stepPath)) return true
     }
   }
   return false

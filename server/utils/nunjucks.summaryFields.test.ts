@@ -262,7 +262,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
     it('should find the parent field recursively and nest the summary field into the parent field answer', () => {
       const summaryFields: SummaryField[] = [
         {
-          id: 'q0',
           field: { text: 'Q0', code: 'q0', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -274,7 +273,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
-          id: 'q1',
           field: { text: 'Q1', code: 'q1', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -283,7 +281,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'val1',
               nestedFields: [
                 {
-                  id: 'q2',
                   field: { text: 'Q2', code: 'q2', type: FieldType.Text },
                   backLink: '/back',
                   answers: [
@@ -292,7 +289,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
                       value: 'val2',
                       nestedFields: [
                         {
-                          id: 'q3',
                           field: { text: 'Q3', code: 'q3', type: FieldType.Text },
                           backLink: '/back',
                           answers: [
@@ -313,6 +309,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         },
       ]
       const field: FormWizard.Field = {
+        id: 'q4_id',
         text: 'Q4',
         code: 'q4',
         type: FieldType.Text,
@@ -320,10 +317,9 @@ describe('server/utils/nunjucks.summaryFields', () => {
       }
       const ctx = contextWithAnswer('q4', 'val4')
 
-      expect(addNestedSummaryField(field, 'q4_id', summaryFields, ctx, '/test-page')).toEqual(true)
+      expect(addNestedSummaryField(field, summaryFields, ctx, '/test-page')).toEqual(true)
       expect(summaryFields).toEqual([
         {
-          id: 'q0',
           field: { text: 'Q0', code: 'q0', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -335,7 +331,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
-          id: 'q1',
           field: { text: 'Q1', code: 'q1', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -344,7 +339,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'val1',
               nestedFields: [
                 {
-                  id: 'q2',
                   field: { text: 'Q2', code: 'q2', type: FieldType.Text },
                   backLink: '/back',
                   answers: [
@@ -353,7 +347,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
                       value: 'val2',
                       nestedFields: [
                         {
-                          id: 'q3',
                           field: { text: 'Q3', code: 'q3', type: FieldType.Text },
                           backLink: '/back',
                           answers: [
@@ -362,7 +355,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
                               value: 'val3',
                               nestedFields: [
                                 {
-                                  id: 'q4_id',
                                   field,
                                   backLink: '/test-page#q4_id',
                                   answers: [
@@ -396,7 +388,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         dependent: { field: 'q3', value: 'val3' },
       }
       const ctx = contextWithAnswer('q4', 'val4')
-      expect(addNestedSummaryField(field, 'q4_id', [], ctx, '/test-page')).toEqual(false)
+      expect(addNestedSummaryField(field, [], ctx, '/test-page')).toEqual(false)
     })
   })
 
@@ -410,6 +402,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
       const fields: FormWizard.Fields = {
         q1: { text: 'Q1', code: 'q1', type: FieldType.Text },
         q2_id: {
+          id: 'q2_id',
           text: 'Q2',
           code: 'q2',
           type: FieldType.CheckBox,
@@ -472,7 +465,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
 
       const expected: SummaryField[] = [
         {
-          id: 'q1',
           field: ctx.options.allFields.q1,
           backLink: 'step1#q1',
           answers: [
@@ -484,7 +476,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
-          id: 'q2_id',
           field: ctx.options.allFields.q2_id,
           backLink: 'step1#q2_id',
           answers: [
@@ -498,7 +489,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'bar',
               nestedFields: [
                 {
-                  id: 'q3',
                   field: ctx.options.allFields.q3,
                   backLink: 'step2#q3',
                   answers: [
