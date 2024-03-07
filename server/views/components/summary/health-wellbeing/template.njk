@@ -290,8 +290,8 @@
   {% endif %}
   {% if answers["health_wellbeing_mental_health_condition"] === "YES_ONGOING_SEVERE" or answers["health_wellbeing_mental_health_condition"] === "YES_ONGOING" or answers["health_wellbeing_mental_health_condition"] === "YES_IN_THE_PAST" %}
     {{ renderSummaryItemFor("health_wellbeing_prescribed_medication_mental_conditions", { fields: fields, answers: answers, backLink: backLink }) }}
+    {{ renderSummaryItemFor("health_wellbeing_psychiatric_treatment", { fields: fields, answers: answers, backLink: backLink }) }}
   {% endif %}
-  {{ renderSummaryItemFor("health_wellbeing_psychiatric_treatment", { fields: fields, answers: answers, backLink: backLink }) }}
   {{ renderSummaryItemFor("health_wellbeing_head_injury_or_illness", { fields: fields, answers: answers, backLink: backLink }) }}
   {{ renderSummaryItemFor("health_wellbeing_neurodiverse_conditions", { fields: fields, answers: answers, backLink: backLink }) }}
   {{ renderSummaryItemFor("health_wellbeing_learning_difficulties", { fields: fields, answers: answers, backLink: backLink }) }}
