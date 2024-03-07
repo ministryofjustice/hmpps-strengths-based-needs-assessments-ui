@@ -5,6 +5,7 @@ import * as pathModule from 'path'
 import { initialiseName } from './utils'
 import {
   answerIncludes,
+  formatDateForDisplay,
   getLabelForOption,
   getSelectedAnswers,
   removeSectionCompleteFields,
@@ -69,4 +70,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('getSummaryFields', function summaryFields() {
     return getSummaryFields(this.ctx)
   })
+
+  njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
 }

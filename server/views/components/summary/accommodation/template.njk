@@ -63,15 +63,15 @@
           <span class="summary__answer--secondary">Expected end date:</span>
           {% switch option.value %}
             {% case "SHORT_TERM" %}
-              <span class="summary__answer--secondary">{{ answers["short_term_accommodation_end_date"] | default('Not provided') }}</span>
+              <span class="summary__answer--secondary">{{ answers["short_term_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
             {% case "APPROVED_PREMISES" %}
-              <span class="summary__answer--secondary">{{ answers["approved_premises_end_date"] | default('Not provided') }}</span>
+              <span class="summary__answer--secondary">{{ answers["approved_premises_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
             {% case "CAS2" %}
-              <span class="summary__answer--secondary">{{ answers["cas2_end_date"] | default('Not provided') }}</span>
+              <span class="summary__answer--secondary">{{ answers["cas2_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
             {% case "CAS3" %}
-              <span class="summary__answer--secondary">{{ answers["cas3_end_date"] | default('Not provided') }}</span>
+              <span class="summary__answer--secondary">{{ answers["cas3_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
             {% case "IMMIGRATION" %}
-              <span class="summary__answer--secondary">{{ answers["immigration_accommodation_end_date"] | default('Not provided') }}</span>
+              <span class="summary__answer--secondary">{{ answers["immigration_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
           {% endswitch %}
         </li>
       {% endif %}
