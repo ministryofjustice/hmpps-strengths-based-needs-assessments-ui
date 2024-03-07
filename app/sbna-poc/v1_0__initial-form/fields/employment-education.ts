@@ -33,12 +33,7 @@ const createExperienceOfFields = (label: string, prefix: string): Array<FormWiza
       code: parentFieldCode,
       type: FieldType.Radio,
       validate: [{ type: ValidationType.Required, message: `Select their  experience of ${prefix}` }],
-      options: [
-        ...optionsWithDetails,
-        { text: '[subject] does not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
-        { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-        { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-      ],
+      options: [...optionsWithDetails, { text: 'Unknown', value: 'UNKNOWN', kind: 'option' }],
       labelClasses: getMediumLabelClassFor(FieldType.Radio),
     },
     ...optionsWithDetails.map(detailsFieldWith(parentFieldCode)),
@@ -474,7 +469,7 @@ export const educationFields: Array<FormWizard.Field> = [
 ]
 
 export const experienceOfEmployment = createExperienceOfFields(
-  "What is [subject]'s experience of employment?",
+  "What is [subject]'s overall experience of employment?",
   'employment',
 )
 export const experienceOfEducation = createExperienceOfFields(
