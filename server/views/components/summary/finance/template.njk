@@ -85,9 +85,9 @@
             {% case "FAMILY_OR_FRIENDS" %}
               {%- switch answers["family_or_friends_details"] -%}
                 {% case "YES" %}
-                  <span class="summary__answer--secondary">Overly reliant on friends and family for money</span>
-                {% case "No" %}
-                  <span class="summary__answer--secondary">Not overly reliant on friends and family for money</span>
+                  <span class="summary__answer--secondary">Yes, over reliant on friends and family for money</span>
+                {% case "NO" %}
+                  <span class="summary__answer--secondary">No, not over reliant on friends and family for money</span>
               {%- endswitch -%}
             {% case "OTHER" %}
               <span class="summary__answer--secondary">{{ answers["other_income_details"] }}</span>
