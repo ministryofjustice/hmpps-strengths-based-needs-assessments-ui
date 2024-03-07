@@ -1,4 +1,5 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import { DateTime } from 'luxon'
 import { AnswerDto } from '../services/strengthsBasedNeedsService'
 
 export function toOptionDescription(answer: AnswerDto): string {
@@ -48,4 +49,13 @@ export function removeSectionCompleteFields(fields: string[] = []): string[] {
 
 export function removePractitionerAnalysisFields(fields: string[] = []): string[] {
   return fields.filter(it => !it.includes('_practitioner_analysis_'))
+}
+
+export function formatDateForDisplay(value: string): string {
+  if (!value) {
+    return null
+  }
+
+  const date = DateTime.fromISO(value)
+  return date.isValid ? date.toFormat('dd MMMM y') : null
 }
