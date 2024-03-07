@@ -292,7 +292,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     text: "What is [subject]'s attitude towards themselves?",
     code: 'health_wellbeing_attitude_towards_self',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they are able to cope with day-to-day life' }],
+    validate: [{ type: ValidationType.Required, message: 'Select their attitude towards themselves' }],
     options: [
       { text: 'Positive and reasonably happy with themselves', value: 'POSITIVE', kind: 'option' },
       {
