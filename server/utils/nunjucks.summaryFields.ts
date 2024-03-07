@@ -48,20 +48,20 @@ export default function getSummaryFields(ctx: Context): SummaryField[] {
   while (step !== undefined && step.section === ctx.options.section) {
     stepPath = stepPath.replace(/^\//, '')
 
-    const fields = removeSectionCompleteFields(removePractitionerAnalysisFields(Object.keys(step.fields)))
+    const fieldIds = removeSectionCompleteFields(removePractitionerAnalysisFields(Object.keys(step.fields)))
 
-    for (const code of fields) {
-      if (getAnswers(code, ctx) === undefined) {
+    for (const fieldId of fieldIds) {
+      const field = ctx.options.allFields[fieldId]
+      if (!field || getAnswers(field.code, ctx) === undefined) {
         continue
       }
-      const field = ctx.options.allFields[code]
       if (field.dependent !== undefined) {
         addNestedSummaryField(field, summaryFields, ctx, stepPath)
         continue
       }
       summaryFields.push({
         field,
-        backLink: `${stepPath}#${code}`,
+        backLink: `${stepPath}#${fieldId}`,
         answers: getSummaryFieldAnswers(field, ctx),
       })
     }
@@ -79,14 +79,15 @@ export function addNestedSummaryField(
   stepPath: string,
 ): boolean {
   const parentField = field.dependent.field
-  const parentFieldPos = summaryFields.findIndex(f => f.field.code === parentField)
+  const parentFieldPos = summaryFields.findIndex(f => (f.field.id || f.field.code) === parentField)
 
   if (parentFieldPos > -1) {
     const answer = summaryFields[parentFieldPos].answers.find(it => it.value === field.dependent.value)
     if (answer !== undefined) {
+      const fieldId = field.id || field.code
       answer.nestedFields.push({
         field,
-        backLink: `${stepPath}#${field.code}`,
+        backLink: `${stepPath}#${fieldId}`,
         answers: getSummaryFieldAnswers(field, ctx),
       })
       return true

@@ -309,6 +309,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         },
       ]
       const field: FormWizard.Field = {
+        id: 'q4_id',
         text: 'Q4',
         code: 'q4',
         type: FieldType.Text,
@@ -355,7 +356,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
                               nestedFields: [
                                 {
                                   field,
-                                  backLink: '/test-page#q4',
+                                  backLink: '/test-page#q4_id',
                                   answers: [
                                     {
                                       text: 'val4',
@@ -400,7 +401,8 @@ describe('server/utils/nunjucks.summaryFields', () => {
     it('should return relevant summary fields and remove "section complete" and "practitioner analysis" questions', () => {
       const fields: FormWizard.Fields = {
         q1: { text: 'Q1', code: 'q1', type: FieldType.Text },
-        q2: {
+        q2_id: {
+          id: 'q2_id',
           text: 'Q2',
           code: 'q2',
           type: FieldType.CheckBox,
@@ -409,7 +411,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
             { text: 'Bar', value: 'bar', kind: 'option' },
           ],
         },
-        q3: { text: 'Q3', code: 'q3', type: FieldType.Text, dependent: { field: 'q2', value: 'bar' } },
+        q3: { text: 'Q3', code: 'q3', type: FieldType.Text, dependent: { field: 'q2_id', value: 'bar' } },
         q4: { text: 'Q4', code: 'q4', type: FieldType.Text },
         step1_section_complete: { text: 'A', code: 'step1_section_complete', type: FieldType.Text },
         step2_section_complete: { text: 'B', code: 'step2_section_complete', type: FieldType.Text },
@@ -427,7 +429,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               navigationOrder: 1,
               fields: {
                 q1: fields.q1,
-                q2: fields.q2,
+                q2_id: fields.q2_id,
                 step1_section_complete: fields.step1_section_complete,
                 step1_practitioner_analysis_q1: fields.step1_practitioner_analysis_q1,
               },
@@ -474,8 +476,8 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
-          field: ctx.options.allFields.q2,
-          backLink: 'step1#q2',
+          field: ctx.options.allFields.q2_id,
+          backLink: 'step1#q2_id',
           answers: [
             {
               text: 'Foo',
