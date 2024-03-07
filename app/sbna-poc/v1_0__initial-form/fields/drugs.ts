@@ -192,7 +192,7 @@ export const drugUseFields: Array<FormWizard.Field> = [
 
 export const drugUseTypeFields: Array<FormWizard.Field> = [
   {
-    text: 'Which drugs have [subject] used?',
+    text: 'Which drugs has [subject] used?',
     code: 'drug_use_type',
     hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
