@@ -3,6 +3,7 @@ import { whereSelectable } from '../../app/common/controllers/saveAndContinue.ut
 import { removePractitionerAnalysisFields, removeSectionCompleteFields } from './nunjucks.utils'
 
 export interface SummaryField {
+  id: string
   field: FormWizard.Field
   backLink: string
   answers: SummaryFieldAnswer[]
@@ -48,20 +49,21 @@ export default function getSummaryFields(ctx: Context): SummaryField[] {
   while (step !== undefined && step.section === ctx.options.section) {
     stepPath = stepPath.replace(/^\//, '')
 
-    const fields = removeSectionCompleteFields(removePractitionerAnalysisFields(Object.keys(step.fields)))
+    const fieldIds = removeSectionCompleteFields(removePractitionerAnalysisFields(Object.keys(step.fields)))
 
-    for (const code of fields) {
-      if (getAnswers(code, ctx) === undefined) {
+    for (const fieldId of fieldIds) {
+      const field = ctx.options.allFields[fieldId]
+      if (!field || getAnswers(field.code, ctx) === undefined) {
         continue
       }
-      const field = ctx.options.allFields[code]
       if (field.dependent !== undefined) {
-        addNestedSummaryField(field, summaryFields, ctx, stepPath)
+        addNestedSummaryField(field, fieldId, summaryFields, ctx, stepPath)
         continue
       }
       summaryFields.push({
+        id: fieldId,
         field,
-        backLink: `${stepPath}#${code}`,
+        backLink: `${stepPath}#${fieldId}`,
         answers: getSummaryFieldAnswers(field, ctx),
       })
     }
@@ -74,19 +76,21 @@ export default function getSummaryFields(ctx: Context): SummaryField[] {
 
 export function addNestedSummaryField(
   field: FormWizard.Field,
+  fieldId: string,
   summaryFields: SummaryField[],
   ctx: Context,
   stepPath: string,
 ): boolean {
   const parentField = field.dependent.field
-  const parentFieldPos = summaryFields.findIndex(f => f.field.code === parentField)
+  const parentFieldPos = summaryFields.findIndex(f => f.id === parentField)
 
   if (parentFieldPos > -1) {
     const answer = summaryFields[parentFieldPos].answers.find(it => it.value === field.dependent.value)
     if (answer !== undefined) {
       answer.nestedFields.push({
+        id: fieldId,
         field,
-        backLink: `${stepPath}#${field.code}`,
+        backLink: `${stepPath}#${fieldId}`,
         answers: getSummaryFieldAnswers(field, ctx),
       })
       return true
@@ -94,7 +98,7 @@ export function addNestedSummaryField(
   }
   for (const summaryField of summaryFields) {
     for (const answer of summaryField.answers) {
-      if (addNestedSummaryField(field, answer.nestedFields, ctx, stepPath)) return true
+      if (addNestedSummaryField(field, fieldId, answer.nestedFields, ctx, stepPath)) return true
     }
   }
   return false
