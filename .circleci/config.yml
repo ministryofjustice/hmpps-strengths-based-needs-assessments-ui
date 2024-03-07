@@ -233,6 +233,8 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-strengths-based-needs-assessments-ui-test
+          requires:
+            - build_docker
       - hmpps/deploy_env:
           name: deploy_test
           env: "test"
@@ -244,7 +246,7 @@ workflows:
             - hmpps-common-vars
             - hmpps-strengths-based-needs-assessments-ui-test
           requires:
-            - build_docker
+            - publish_docker
           helm_timeout: 5m
 
   security:
