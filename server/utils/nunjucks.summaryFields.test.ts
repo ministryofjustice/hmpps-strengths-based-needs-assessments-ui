@@ -262,6 +262,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
     it('should find the parent field recursively and nest the summary field into the parent field answer', () => {
       const summaryFields: SummaryField[] = [
         {
+          id: 'q0',
           field: { text: 'Q0', code: 'q0', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -273,6 +274,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
+          id: 'q1',
           field: { text: 'Q1', code: 'q1', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -281,6 +283,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'val1',
               nestedFields: [
                 {
+                  id: 'q2',
                   field: { text: 'Q2', code: 'q2', type: FieldType.Text },
                   backLink: '/back',
                   answers: [
@@ -289,6 +292,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
                       value: 'val2',
                       nestedFields: [
                         {
+                          id: 'q3',
                           field: { text: 'Q3', code: 'q3', type: FieldType.Text },
                           backLink: '/back',
                           answers: [
@@ -316,9 +320,10 @@ describe('server/utils/nunjucks.summaryFields', () => {
       }
       const ctx = contextWithAnswer('q4', 'val4')
 
-      expect(addNestedSummaryField(field, summaryFields, ctx, '/test-page')).toEqual(true)
+      expect(addNestedSummaryField(field, 'q4_id', summaryFields, ctx, '/test-page')).toEqual(true)
       expect(summaryFields).toEqual([
         {
+          id: 'q0',
           field: { text: 'Q0', code: 'q0', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -330,6 +335,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
+          id: 'q1',
           field: { text: 'Q1', code: 'q1', type: FieldType.Text },
           backLink: '/back',
           answers: [
@@ -338,6 +344,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'val1',
               nestedFields: [
                 {
+                  id: 'q2',
                   field: { text: 'Q2', code: 'q2', type: FieldType.Text },
                   backLink: '/back',
                   answers: [
@@ -346,6 +353,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
                       value: 'val2',
                       nestedFields: [
                         {
+                          id: 'q3',
                           field: { text: 'Q3', code: 'q3', type: FieldType.Text },
                           backLink: '/back',
                           answers: [
@@ -354,8 +362,9 @@ describe('server/utils/nunjucks.summaryFields', () => {
                               value: 'val3',
                               nestedFields: [
                                 {
+                                  id: 'q4_id',
                                   field,
-                                  backLink: '/test-page#q4',
+                                  backLink: '/test-page#q4_id',
                                   answers: [
                                     {
                                       text: 'val4',
@@ -387,7 +396,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         dependent: { field: 'q3', value: 'val3' },
       }
       const ctx = contextWithAnswer('q4', 'val4')
-      expect(addNestedSummaryField(field, [], ctx, '/test-page')).toEqual(false)
+      expect(addNestedSummaryField(field, 'q4_id', [], ctx, '/test-page')).toEqual(false)
     })
   })
 
@@ -400,7 +409,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
     it('should return relevant summary fields and remove "section complete" and "practitioner analysis" questions', () => {
       const fields: FormWizard.Fields = {
         q1: { text: 'Q1', code: 'q1', type: FieldType.Text },
-        q2: {
+        q2_id: {
           text: 'Q2',
           code: 'q2',
           type: FieldType.CheckBox,
@@ -409,7 +418,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
             { text: 'Bar', value: 'bar', kind: 'option' },
           ],
         },
-        q3: { text: 'Q3', code: 'q3', type: FieldType.Text, dependent: { field: 'q2', value: 'bar' } },
+        q3: { text: 'Q3', code: 'q3', type: FieldType.Text, dependent: { field: 'q2_id', value: 'bar' } },
         q4: { text: 'Q4', code: 'q4', type: FieldType.Text },
         step1_section_complete: { text: 'A', code: 'step1_section_complete', type: FieldType.Text },
         step2_section_complete: { text: 'B', code: 'step2_section_complete', type: FieldType.Text },
@@ -427,7 +436,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               navigationOrder: 1,
               fields: {
                 q1: fields.q1,
-                q2: fields.q2,
+                q2_id: fields.q2_id,
                 step1_section_complete: fields.step1_section_complete,
                 step1_practitioner_analysis_q1: fields.step1_practitioner_analysis_q1,
               },
@@ -463,6 +472,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
 
       const expected: SummaryField[] = [
         {
+          id: 'q1',
           field: ctx.options.allFields.q1,
           backLink: 'step1#q1',
           answers: [
@@ -474,8 +484,9 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
-          field: ctx.options.allFields.q2,
-          backLink: 'step1#q2',
+          id: 'q2_id',
+          field: ctx.options.allFields.q2_id,
+          backLink: 'step1#q2_id',
           answers: [
             {
               text: 'Foo',
@@ -487,6 +498,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'bar',
               nestedFields: [
                 {
+                  id: 'q3',
                   field: ctx.options.allFields.q3,
                   backLink: 'step2#q3',
                   answers: [
