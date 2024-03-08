@@ -294,15 +294,17 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their attitude towards themselves' }],
     options: [
-      { text: 'Positive and reasonably happy with themselves', value: 'POSITIVE', kind: 'option' },
+      { text: 'Positive and reasonably happy', value: 'POSITIVE', kind: 'option' },
       {
-        text: 'There are some aspects of themselves that they do not like or would like to change',
+        text: 'There are some aspects they would like to change or do not like',
         value: 'SOME_NEGATIVE_ASPECTS',
         kind: 'option',
       },
       {
-        text: 'Negative self-image and unhappy with themselves',
-        hint: { text: 'This includes if they have a positive unrealistic self-image which is not true in reality.' },
+        text: 'Negative self-image and unhappy',
+        hint: {
+          text: 'This includes if they have an overly positive or unrealistic self-image which in reality is not true.',
+        },
         value: 'NEGATIVE',
         kind: 'option',
       },
