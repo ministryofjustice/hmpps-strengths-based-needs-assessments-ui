@@ -78,19 +78,19 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
 
   async createSession(requestBody: CreateSessionRequest) {
     const client = await this.getRestClient()
-    const responseBody = await client.post({ path: '/session/create', data: requestBody })
+    const responseBody = await client.post({ path: '/oasys/session/create', data: requestBody })
     return responseBody as CreateSessionResponse
   }
 
   async useOneTimeLink(sessionId: string, requestBody: UseOneTimeLinkRequest): Promise<SessionInformation> {
     const client = await this.getRestClient()
-    const responseBody = await client.post({ path: `/session/${sessionId}`, data: requestBody })
+    const responseBody = await client.post({ path: `/oasys/session/${sessionId}`, data: requestBody })
     return responseBody as SessionInformation
   }
 
   async validateSession(sessionId: string): Promise<SessionInformation> {
     const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/session/${sessionId}/validate` })
+    const responseBody = await client.get({ path: `/oasys/session/${sessionId}/validate` })
     return responseBody as SessionInformation
   }
 
@@ -100,7 +100,7 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as SubjectResponse
   }
 
-  async fetchAssessment(assessmentUuid: string, tag: string = 'unvalidated'): Promise<AssessmentResponse> {
+  async fetchAssessment(assessmentUuid: string, tag: string = 'UNVALIDATED'): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
     const responseBody = await client.get({ path: `/assessment/${assessmentUuid}?tag=${tag}` })
     return responseBody as AssessmentResponse
