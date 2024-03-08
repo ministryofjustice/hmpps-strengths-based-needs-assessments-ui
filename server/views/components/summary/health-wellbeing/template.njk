@@ -191,13 +191,13 @@
     {% case "health_wellbeing_prescribed_medication_physical_conditions" %}
       {{ renderSummaryListRow(
         options.fields[field].text,
-        options.answers[field],
+        options.answers[field] | default("Not entered", true),
         options.backLink + "#" + field
       ) }}
     {% case "health_wellbeing_prescribed_medication_mental_conditions" %}
       {{ renderSummaryListRow(
         options.fields[field].text,
-        options.answers[field],
+        options.answers[field] | default("Not entered", true),
         options.backLink + "#" + field
       ) }}
     {% case "health_wellbeing_psychiatric_treatment" %}
