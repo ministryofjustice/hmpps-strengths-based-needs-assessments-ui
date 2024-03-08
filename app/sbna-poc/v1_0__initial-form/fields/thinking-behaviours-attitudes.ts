@@ -57,18 +57,18 @@ export const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
     ],
     options: [
       {
-        text: 'Yes, regularly engages in activities which encourage offending and is not aware or does not care about the link to offending',
-        value: 'YES_OFFENDING_ACTIVITIES',
+        text: 'Engages in pro-social activities and understands the link to offending',
+        value: 'NO_OFFENDING_ACTIVITIES',
         kind: 'option',
       },
       {
-        text: 'Sometimes engages in  activities  linked to offending but recognises the link',
+        text: 'Sometimes engages in activities linked to offending but recognises the link',
         value: 'SOMETIMES_OFFENDING_ACTIVITIES',
         kind: 'option',
       },
       {
-        text: 'No, engages in pro-social activities and understand what links to their offending',
-        value: 'NO_OFFENDING_ACTIVITIES',
+        text: 'Regularly engages in activities which encourage offending and is not aware or does not care about the link to offending',
+        value: 'YES_OFFENDING_ACTIVITIES',
         kind: 'option',
       },
     ],
