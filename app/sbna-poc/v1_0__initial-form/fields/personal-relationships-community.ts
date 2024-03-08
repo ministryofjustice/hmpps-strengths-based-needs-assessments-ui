@@ -149,20 +149,22 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
     text: 'Is [subject] happy with their current relationship status?',
     code: 'personal_relationships_community_current_relationship',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if happy with their current relationship status' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they are happy with their current relationship status' },
+    ],
     options: [
       {
-        text: 'Happy and positive or their relationship status is likely to act as a protective factor',
+        text: 'Happy and positive about their relationship status or their relationship is likely to act as a protective factor',
         value: 'HAPPY_RELATIONSHIP',
         kind: 'option',
       },
       {
-        text: 'Has some concerns but is overall happy',
+        text: 'Has some concerns about their relationship status but is overall happy',
         value: 'CONCERNS_HAPPY_RELATIONSHIP',
         kind: 'option',
       },
       {
-        text: 'Unhappy about their relationship status or is unhealthy and directly linked to offending',
+        text: 'Unhappy about their relationship status or their relationship is unhealthy and directly linked to offending',
         value: 'UNHAPPY_RELATIONSHIP',
         kind: 'option',
       },
