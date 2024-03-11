@@ -60,3 +60,7 @@ test-down: ## Stops and removes all of the test containers.
 clean: ## Stops and removes all project containers. Deletes local build/cache directories.
 	docker compose down
 	rm -rf dist node_modules test_results
+
+update: ## Downloads the lastest versions of containers.
+	docker compose pull
+	
