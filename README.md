@@ -22,6 +22,10 @@ To start it, run:
 
 The entry point for the service is http://localhost:3000/form/oastub/start
 
+To update containers
+
+`make down update up`
+
 ## Development
 
 To start the UI in development mode with live-reload enabled, run:
