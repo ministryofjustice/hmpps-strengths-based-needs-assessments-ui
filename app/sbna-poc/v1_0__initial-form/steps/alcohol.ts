@@ -10,16 +10,16 @@ import {
 import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
 
 const defaultTitle = 'Alcohol use'
-const sectionName = 'alcohol-use'
+const sectionName = 'alcohol'
 
 const stepOptions: FormWizard.Steps = {
-  '/alcohol-use': {
+  '/alcohol': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(alcoholUseFields, sectionCompleteFields),
     next: [
-      { field: 'alcohol_use', value: 'YES_WITHIN_LAST_THREE_MONTHS', next: 'alcohol-usage-last-three-months' },
-      { field: 'alcohol_use', value: 'YES_NOT_IN_LAST_THREE_MONTHS', next: 'alcohol-usage-but-not-last-three-months' },
-      { field: 'alcohol_use', value: 'NO', next: 'alcohol-analysis' },
+      { field: 'alcohol_use', value: 'YES_WITHIN_LAST_THREE_MONTHS', next: 'alcohol-use-last-three-months' },
+      { field: 'alcohol_use', value: 'YES_NOT_IN_LAST_THREE_MONTHS', next: 'alcohol-use-less-three-months' },
+      { field: 'alcohol_use', value: 'NO', next: 'alcohol-summary' },
     ],
     navigationOrder: 5,
     section: sectionName,
@@ -32,37 +32,37 @@ const stepOptions: FormWizard.Steps = {
       setField('alcohol_use_analysis_section_complete', 'NO'),
     ],
   },
-  '/alcohol-usage-last-three-months': {
+  '/alcohol-use-last-three-months': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(alcoholUsageWithinThreeMonthsFields, baseAlcoholUsageFields, sectionCompleteFields),
     backLink: sectionName,
-    next: ['alcohol-analysis'],
+    next: ['alcohol-summary'],
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('alcohol_use_section_complete', 'YES', 'NO'),
       setField('alcohol_use_analysis_section_complete', 'NO'),
     ],
   },
-  '/alcohol-usage-but-not-last-three-months': {
+  '/alcohol-use-less-three-months': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(baseAlcoholUsageFields, sectionCompleteFields),
     backLink: sectionName,
-    next: ['alcohol-analysis'],
+    next: ['alcohol-summary'],
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('alcohol_use_section_complete', 'YES', 'NO'),
       setField('alcohol_use_analysis_section_complete', 'NO'),
     ],
   },
-  '/alcohol-analysis': {
+  '/alcohol-summary': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: ['alcohol-analysis-complete'],
+    next: ['alcohol-analysis'],
     template: 'forms/sbna-poc/alcohol-summary-analysis',
     section: sectionName,
     sectionProgressRules: [setFieldWhenValid('alcohol_use_analysis_section_complete', 'YES', 'NO')],
   },
-  '/alcohol-analysis-complete': {
+  '/alcohol-analysis': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
