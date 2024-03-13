@@ -46,7 +46,7 @@ const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(thinkingBehaviourFields, makeChangesFields, sectionCompleteFields),
-    next: 'thinking-behaviours-attitudes-summary-analysis',
+    next: 'thinking-behaviours-attitudes-summary',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
@@ -54,15 +54,15 @@ const stepOptions: FormWizard.Steps = {
       setField('thinking_behaviours_attitudes_analysis_section_complete', 'NO'),
     ],
   },
-  '/thinking-behaviours-attitudes-summary-analysis': {
+  '/thinking-behaviours-attitudes-summary': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
+    next: 'thinking-behaviours-attitudes-analysis#practitioner-analysis',
     template: 'forms/sbna-poc/thinking-behaviours-attitudes-summary-analysis',
     section: sectionName,
     sectionProgressRules: [setFieldWhenValid('thinking_behaviours_attitudes_analysis_section_complete', 'YES', 'NO')],
   },
-  '/thinking-behaviours-attitudes-analysis-complete': {
+  '/thinking-behaviours-attitudes-analysis': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
