@@ -14,10 +14,10 @@ import {
 } from '../fields/employment-education'
 
 const defaultTitle = 'Employment and education'
-const sectionName = 'employment-education'
+const sectionName = 'current-employment'
 
 const stepOptions: FormWizard.Steps = {
-  '/employment-education': {
+  '/current-employment': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(employmentStatusFields, sectionCompleteFields),
     next: [
@@ -29,8 +29,8 @@ const stepOptions: FormWizard.Steps = {
         op: 'in',
         value: ['CURRENTLY_UNAVAILABLE_FOR_WORK', 'UNEMPLOYED_LOOKING_FOR_WORK', 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'],
         next: [
-          { field: 'has_been_employed', value: 'YES', next: 'has-been-employed' },
-          { field: 'has_been_employed', value: 'NO', next: 'never-been-employed' },
+          { field: 'has_been_employed', value: 'YES', next: 'employed-before' },
+          { field: 'has_been_employed', value: 'NO', next: 'never-employed' },
         ],
       },
     ],
@@ -53,7 +53,7 @@ const stepOptions: FormWizard.Steps = {
       sectionCompleteFields,
     ),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: ['employment-summary'],
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
@@ -64,14 +64,14 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(employmentHistory, educationFields, makeChangesFields, sectionCompleteFields),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: ['employment-summary'],
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
       setField('employment_education_analysis_section_complete', 'NO'),
     ],
   },
-  '/has-been-employed': {
+  '/employed-before': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
       employmentHistory,
@@ -82,33 +82,33 @@ const stepOptions: FormWizard.Steps = {
       sectionCompleteFields,
     ),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: ['employment-summary'],
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
       setField('employment_education_analysis_section_complete', 'NO'),
     ],
   },
-  '/never-been-employed': {
+  '/never-employed': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(educationFields, experienceOfEducation, makeChangesFields, sectionCompleteFields),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: ['employment-summary'],
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
       setField('employment_education_analysis_section_complete', 'NO'),
     ],
   },
-  '/employment-education-analysis': {
+  '/employment-summary': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: ['employment-education-analysis-complete'],
+    next: ['employment-analysis'],
     template: 'forms/sbna-poc/employment-education-summary-analysis',
     section: sectionName,
     sectionProgressRules: [setFieldWhenValid('employment_education_analysis_section_complete', 'YES', 'NO')],
   },
-  '/employment-education-analysis-complete': {
+  '/employment-analysis': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],

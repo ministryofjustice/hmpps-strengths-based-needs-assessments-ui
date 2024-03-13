@@ -233,7 +233,7 @@
   {% default %}
 {% endswitch %}
 
-{% set backLink = "employment-education" %}
+{% set backLink = "current-employment" %}
 
 {% if answers["employment_status"] === "EMPLOYED" or answers["employment_status"] === "SELF_EMPLOYED" %}
   {% set backLink = "employed" %}
@@ -241,9 +241,9 @@
   {% set backLink = "retired" %}
 {% else %}
   {% if answers["has_been_employed"] === "YES" %}
-    {% set backLink = "has-been-employed" %}
+    {% set backLink = "employed-before" %}
   {% else %}
-    {% set backLink = "never-been-employed" %}
+    {% set backLink = "never-employed" %}
   {% endif %}
 {% endif %}
 
@@ -319,7 +319,7 @@
 {% endmacro %}
 
 <dl class="govuk-summary-list">
-  {{ renderSummaryItemFor("employment_status", { fields: fields, answers: answers, backLink: "employment-education" }) }}
+  {{ renderSummaryItemFor("employment_status", { fields: fields, answers: answers, backLink: "current-employment" }) }}
   {% if answers["employment_status"] === "EMPLOYED" %}
     {{ renderSummaryItemFor("employment_area", { fields: fields, answers: answers, backLink: backLink }) }}
   {% endif %}
