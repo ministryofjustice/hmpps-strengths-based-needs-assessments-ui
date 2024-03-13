@@ -64,6 +64,16 @@ export const getRadio = (subject: JQuery, label: string) => {
     .parent()
 }
 
+export const getCheckbox = (subject: JQuery, label: string) => {
+  return cy
+    .wrap(subject)
+    .find('> .govuk-checkboxes > .govuk-checkboxes__item:visible > label')
+    .contains(label)
+    .should('be.visible')
+    .and('have.length', 1)
+    .parent()
+}
+
 export const hasRadios = (subject: JQuery, options: string[]) => {
   cy.wrap(subject).find('> .govuk-radios > .govuk-radios__item:visible > label').should('have.length', options.length)
 
