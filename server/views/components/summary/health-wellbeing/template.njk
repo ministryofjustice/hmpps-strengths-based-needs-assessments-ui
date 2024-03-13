@@ -273,13 +273,13 @@
 {% set hasMentalCondition = answers["health_wellbeing_mental_health_condition"] === "YES_ONGOING_SEVERE" or answers["health_wellbeing_mental_health_condition"] === "YES_ONGOING" or answers["health_wellbeing_mental_health_condition"] === "YES_IN_THE_PAST" %}
 
 {% if hasPhysicalCondition and hasMentalCondition %}
-  {% set backLink = "physical-and-mental-health-condition" %}
+  {% set backLink = "physical-mental-health" %}
 {% elif hasPhysicalCondition and not hasMentalCondition %}
-  {% set backLink = "physical-health-condition" %}
+  {% set backLink = "physical-health" %}
 {% elif not hasPhysicalCondition and hasMentalCondition %}
-  {% set backLink = "mental-health-condition" %}
+  {% set backLink = "mental-health" %}
 {% elif not hasPhysicalCondition and not hasMentalCondition %}
-  {% set backLink = "no-physical-or-mental-health-condition" %}
+  {% set backLink = "no-physical-mental-health" %}
 {% endif %}
 
 <dl class="govuk-summary-list">

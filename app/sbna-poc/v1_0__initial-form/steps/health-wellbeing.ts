@@ -28,10 +28,10 @@ const stepOptions: FormWizard.Steps = {
         next: [
           whenField('health_wellbeing_mental_health_condition')
             .includes(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'])
-            .thenGoNext('physical-and-mental-health-condition'),
+            .thenGoNext('physical-mental-health'),
           whenField('health_wellbeing_mental_health_condition')
             .includes(['NO', 'UNKNOWN'])
-            .thenGoNext('physical-health-condition'),
+            .thenGoNext('physical-health'),
         ].flat(),
       },
       whenField('health_wellbeing_physical_health_condition')
@@ -40,11 +40,11 @@ const stepOptions: FormWizard.Steps = {
           [
             whenField('health_wellbeing_mental_health_condition')
               .includes(['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'])
-              .thenGoNext('mental-health-condition'),
+              .thenGoNext('mental-health'),
 
             whenField('health_wellbeing_mental_health_condition')
               .includes(['NO', 'UNKNOWN'])
-              .thenGoNext('no-physical-or-mental-health-condition'),
+              .thenGoNext('no-physical-mental-health'),
           ].flat(),
         ),
     ].flat(),
@@ -54,10 +54,10 @@ const stepOptions: FormWizard.Steps = {
       setField('health_wellbeing_analysis_section_complete', 'NO'),
     ],
   },
-  '/physical-and-mental-health-condition': {
+  '/physical-mental-health': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalHealthConditionsFields, mentalHealthConditionsFields, ...coreQuestionSet),
-    next: 'health-wellbeing-analysis',
+    next: 'health-wellbeing-summary',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -65,10 +65,10 @@ const stepOptions: FormWizard.Steps = {
       setField('health_wellbeing_analysis_section_complete', 'NO'),
     ],
   },
-  '/physical-health-condition': {
+  '/physical-health': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(physicalHealthConditionsFields, ...coreQuestionSet),
-    next: 'health-wellbeing-analysis',
+    next: 'health-wellbeing-summary',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -76,10 +76,10 @@ const stepOptions: FormWizard.Steps = {
       setField('health_wellbeing_analysis_section_complete', 'NO'),
     ],
   },
-  '/mental-health-condition': {
+  '/mental-health': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(mentalHealthConditionsFields, ...coreQuestionSet),
-    next: 'health-wellbeing-analysis',
+    next: 'health-wellbeing-summary',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -87,10 +87,10 @@ const stepOptions: FormWizard.Steps = {
       setField('health_wellbeing_analysis_section_complete', 'NO'),
     ],
   },
-  '/no-physical-or-mental-health-condition': {
+  '/no-physical-mental-health': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(...coreQuestionSet),
-    next: 'health-wellbeing-analysis',
+    next: 'health-wellbeing-summary',
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
@@ -98,15 +98,15 @@ const stepOptions: FormWizard.Steps = {
       setField('health_wellbeing_analysis_section_complete', 'NO'),
     ],
   },
-  '/health-wellbeing-analysis': {
+  '/health-wellbeing-summary': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: 'health-wellbeing-analysis-complete#practitioner-analysis',
+    next: 'health-wellbeing-analysis#practitioner-analysis',
     template: 'forms/sbna-poc/health-wellbeing-summary-analysis',
     section: sectionName,
     sectionProgressRules: [setFieldWhenValid('health_wellbeing_analysis_section_complete', 'YES', 'NO')],
   },
-  '/health-wellbeing-analysis-complete': {
+  '/health-wellbeing-analysis': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
