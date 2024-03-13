@@ -12,22 +12,22 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: 'Finance',
     fields: fieldCodesFrom(baseFinanceFields, sectionCompleteFields),
     navigationOrder: 3,
-    next: 'finance-summary-analysis',
+    next: 'finance-summary',
     section: 'finance',
     sectionProgressRules: [
       setFieldWhenValid('finance_section_complete', 'YES', 'NO'),
       setField('finance_analysis_section_complete', 'NO'),
     ],
   },
-  '/finance-summary-analysis': {
+  '/finance-summary': {
     pageTitle: 'Finance',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: 'finance-analysis-complete#practitioner-analysis',
+    next: 'finance-analysis#practitioner-analysis',
     template: 'forms/sbna-poc/finance-summary-analysis',
     section: 'finance',
     sectionProgressRules: [setFieldWhenValid('finance_analysis_section_complete', 'YES', 'NO')],
   },
-  '/finance-analysis-complete': {
+  '/finance-analysis': {
     pageTitle: 'Finance',
     fields: [],
     next: [],
