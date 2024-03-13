@@ -52,10 +52,11 @@ e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI. Override 
 	npx cypress run -c baseUrl=$(BASE_URL_CI)
 
 test-up: ## Stands up a test environment with the UI exposed on port 3007.
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait
+	docker compose --progress plain pull
+	docker compose --progress plain ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait
 
 test-down: ## Stops and removes all of the test containers.
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test down
+	docker compose --progress plain ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test down
 
 clean: ## Stops and removes all project containers. Deletes local build/cache directories.
 	docker compose down
@@ -63,4 +64,3 @@ clean: ## Stops and removes all project containers. Deletes local build/cache di
 
 update: ## Downloads the lastest versions of containers.
 	docker compose pull
-	
