@@ -10,6 +10,7 @@ import {
 } from './commands/option'
 import { assertQuestionCount } from './commands/page'
 import {
+  getCheckbox,
   getQuestion,
   getRadio,
   hasHint,
@@ -52,6 +53,7 @@ declare global {
       hasRadios(options: string[]): Chainable
       hasValidationError(message: string): Chainable
       getRadio(label: string): Chainable
+      getCheckbox(label: string): Chainable
     }
   }
 }
@@ -85,4 +87,5 @@ Cypress.Commands.add('isQuestionNumber', { prevSubject: true }, isQuestionNumber
 Cypress.Commands.add('hasHint', { prevSubject: true }, hasHint)
 Cypress.Commands.add('hasValidationError', { prevSubject: true }, hasValidationError)
 Cypress.Commands.add('getRadio', { prevSubject: true }, getRadio)
+Cypress.Commands.add('getCheckbox', { prevSubject: true }, getCheckbox)
 Cypress.Commands.add('hasRadios', { prevSubject: true }, hasRadios)
