@@ -25,9 +25,9 @@ const stepOptions: FormWizard.Steps = {
         field: 'personal_relationships_community_important_people',
         op: contains,
         value: 'CHILD/PARENTAL RESPONSIBILITIES',
-        next: 'personal-relationships-community',
+        next: 'personal-relationships-community-children',
       },
-      'personal-relationships-community-2',
+      'personal-relationships-community',
     ],
     section: sectionName,
     sectionProgressRules: [
@@ -35,7 +35,7 @@ const stepOptions: FormWizard.Steps = {
       setField('personal_relationships_community_analysis_section_complete', 'NO'),
     ],
   },
-  '/personal-relationships-community': {
+  '/personal-relationships-community-children': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
       currentRelationshipStatusFields,
@@ -45,7 +45,7 @@ const stepOptions: FormWizard.Steps = {
       makeChangesFields,
       sectionCompleteFields,
     ),
-    next: 'personal-relationships-community-analysis',
+    next: 'personal-relationships-community-summary',
     backLink: 'personal-relationships',
     section: sectionName,
     sectionProgressRules: [
@@ -53,7 +53,7 @@ const stepOptions: FormWizard.Steps = {
       setField('personal_relationships_community_analysis_section_complete', 'NO'),
     ],
   },
-  '/personal-relationships-community-2': {
+  '/personal-relationships-community': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(
       currentRelationshipStatusFields,
@@ -62,7 +62,7 @@ const stepOptions: FormWizard.Steps = {
       makeChangesFields,
       sectionCompleteFields,
     ),
-    next: 'personal-relationships-community-analysis',
+    next: 'personal-relationships-community-summary',
     backLink: 'personal-relationships',
     section: sectionName,
     sectionProgressRules: [
@@ -70,17 +70,17 @@ const stepOptions: FormWizard.Steps = {
       setField('personal_relationships_community_analysis_section_complete', 'NO'),
     ],
   },
-  '/personal-relationships-community-analysis': {
+  '/personal-relationships-community-summary': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: 'personal-relationships-community-analysis-complete#practitioner-analysis',
+    next: 'personal-relationships-community-analysis#practitioner-analysis',
     template: 'forms/sbna-poc/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [
       setFieldWhenValid('personal_relationships_community_analysis_section_complete', 'YES', 'NO'),
     ],
   },
-  '/personal-relationships-community-analysis-complete': {
+  '/personal-relationships-community-analysis': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
