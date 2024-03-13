@@ -25,7 +25,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: 'OAStub',
     controller: LandingPageController,
     template: `forms/sbna-poc/landing-page`,
-    next: 'accommodation?action=resume',
+    next: 'current-accommodation?action=resume',
     section: 'none',
   },
   '/data-mapping': {
