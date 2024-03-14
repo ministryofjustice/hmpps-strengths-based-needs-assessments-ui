@@ -1,4 +1,4 @@
-describe( '/employment-education', () => {
+describe('/employment-education', () => {
   const stepUrl = '/employment-education'
   const summaryPage = '/employment-education-analysis'
 
