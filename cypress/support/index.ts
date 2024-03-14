@@ -1,6 +1,7 @@
 import { createAssessment, saveAndContinue } from './commands/assessment'
 import { assertSectionIs, assertStepUrlIs, assertStepUrlIsNot, visitSection, visitStep } from './commands/navigation'
 import {
+  enterText,
   getConditionalQuestion,
   hasConditionalQuestion,
   isChecked,
@@ -39,6 +40,7 @@ declare global {
       isNotChecked(): Chainable
       isOptionNumber(position: number): Chainable
       selectOption(): Chainable
+      enterText(value: string): Chainable
       hasConditionalQuestion(expect?: boolean): Chainable
       getConditionalQuestion(): Chainable
 
@@ -74,6 +76,7 @@ Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)
 Cypress.Commands.add('isNotChecked', { prevSubject: true }, isNotChecked)
 Cypress.Commands.add('isOptionNumber', { prevSubject: true }, isOptionNumber)
 Cypress.Commands.add('selectOption', { prevSubject: true }, selectOption)
+Cypress.Commands.add('enterText', { prevSubject: true }, enterText)
 Cypress.Commands.add('hasConditionalQuestion', { prevSubject: true }, hasConditionalQuestion)
 Cypress.Commands.add('getConditionalQuestion', { prevSubject: true }, getConditionalQuestion)
 
