@@ -1,26 +1,19 @@
-describe('/employment-education', () => {
-  before(() => {
-    const [stepUrl] = Cypress.currentTest.titlePath
-    this.stepUrl = stepUrl
+const stepUrl = '/employment-education'
+const summaryPage = '/employment-education-analysis'
 
+describe(stepUrl, () => {
+  beforeEach(() => {
     cy.createAssessment()
-    cy.visitStep(this.stepUrl)
+    cy.visitStep(stepUrl)
+    cy.assertSectionIs('Employment and education')
     cy.assertQuestionCount(1)
   })
 
-  beforeEach(() => {
-    cy.assertSectionIs('Employment and education')
-    cy.assertStepUrlIs(this.stepUrl)
-  })
+  const question = "What is Paul's current employment status?"
 
-  describe(`What is Paul's current employment status?`, () => {
-    before(() => {
-      const [, question] = Cypress.currentTest.titlePath
-      this.question = question
-    })
-
+  describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(this.question)
+      cy.getQuestion(question)
         .isQuestionNumber(1)
         .hasHint(null)
         .hasRadios([
@@ -32,32 +25,38 @@ describe('/employment-education', () => {
           'Unemployed - not actively looking for work',
         ])
       cy.saveAndContinue()
-      cy.assertStepUrlIs(this.stepUrl)
-      cy.getQuestion(this.question).hasValidationError('Select one option')
+      cy.assertStepUrlIs(stepUrl)
+      cy.getQuestion(question).hasValidationError('Select one option')
     })
 
+    const typesOfEmployment = ['Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship']
+
     it('displays and validates conditional options for Employed', () => {
-      cy.getQuestion(this.question).getRadio('Employed').hasConditionalQuestion(false).selectOption()
-      cy.getQuestion(this.question)
-        .getRadio('Employed')
-        .isChecked()
-        .hasConditionalQuestion()
-        .getConditionalQuestion()
-        .hasRadios(['Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship'])
+      cy.getQuestion(question).getRadio('Employed').hasConditionalQuestion(false).selectOption()
+      cy.getQuestion(question).getRadio('Employed').getConditionalQuestion().hasRadios(typesOfEmployment)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(this.stepUrl)
-      cy.getQuestion(this.question)
-        .getRadio('Employed')
-        .getConditionalQuestion()
-        .hasValidationError('Select one option')
+      cy.assertStepUrlIs(stepUrl)
+      cy.getQuestion(question).getRadio('Employed').getConditionalQuestion().hasValidationError('Select one option')
+    })
+
+    typesOfEmployment.forEach(typeOfEmployment => {
+      it(`summary page displays "Employed - ${typeOfEmployment}"`, () => {
+        cy.visitStep(stepUrl)
+        cy.getQuestion(question).getRadio('Employed').selectOption()
+        cy.getQuestion(question).getRadio('Employed').getConditionalQuestion().getRadio(typeOfEmployment).selectOption()
+        cy.saveAndContinue()
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer('Employed').hasSecondaryAnswer(typeOfEmployment)
+      })
     })
     ;['Self-employed', 'Retired'].forEach(option => {
-      it(`does not display conditional options for radio ${option}`, () => {
-        cy.getQuestion(this.question).getRadio(option).hasConditionalQuestion(false).selectOption()
-        cy.getQuestion(this.question).getRadio(option).isChecked().hasConditionalQuestion(false)
+      it(`summary page displays "${option}"`, () => {
+        cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).selectOption()
+        cy.getQuestion(question).getRadio(option).isChecked().hasConditionalQuestion(false)
         cy.saveAndContinue()
-        cy.assertStepUrlIsNot(this.stepUrl)
-        cy.visitStep(this.stepUrl)
+        cy.assertStepUrlIsNot(stepUrl)
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
       })
     })
     ;[
@@ -66,17 +65,31 @@ describe('/employment-education', () => {
       'Unemployed - not actively looking for work',
     ].forEach(option => {
       it(`displays and validates conditional options for radio ${option}`, () => {
-        cy.getQuestion(this.question).getRadio(option).hasConditionalQuestion(false).selectOption()
-        cy.getQuestion(this.question)
+        cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).selectOption()
+        cy.getQuestion(question)
           .getRadio(option)
-          .isChecked()
-          .hasConditionalQuestion()
           .getConditionalQuestion()
           .hasTitle('Have they been employed before?')
           .hasRadios(['Yes, has been employed before', 'No, has never been employed'])
         cy.saveAndContinue()
-        cy.assertStepUrlIs(this.stepUrl)
-        cy.getQuestion(this.question).getRadio(option).getConditionalQuestion().hasValidationError('Select one option')
+        cy.assertStepUrlIs(stepUrl)
+        cy.getQuestion(question).getRadio(option).getConditionalQuestion().hasValidationError('Select one option')
+      })
+      ;[
+        ['Yes, has been employed before', 'Has been employed before'],
+        ['No, has never been employed', 'Has never been employed'],
+      ].forEach(([hasBeenEmployedRadio, hasBeenEmployedSummary]) => {
+        it(`summary page displays "${option} - ${hasBeenEmployedSummary}"`, () => {
+          cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).selectOption()
+          cy.getQuestion(question)
+            .getRadio(option)
+            .getConditionalQuestion()
+            .getRadio(hasBeenEmployedRadio)
+            .selectOption()
+          cy.saveAndContinue()
+          cy.visitStep(summaryPage)
+          cy.getSummary(question).getAnswer(option).hasSecondaryAnswer(hasBeenEmployedSummary)
+        })
       })
     })
   })
