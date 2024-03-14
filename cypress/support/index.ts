@@ -1,5 +1,12 @@
 import { createAssessment, saveAndContinue } from './commands/assessment'
-import { assertSectionIs, assertStepUrlIs, assertStepUrlIsNot, visitSection, visitStep } from './commands/navigation'
+import {
+  assertQuestionUrl,
+  assertSectionIs,
+  assertStepUrlIs,
+  assertStepUrlIsNot,
+  visitSection,
+  visitStep,
+} from './commands/navigation'
 import {
   enterText,
   getConditionalQuestion,
@@ -35,6 +42,7 @@ declare global {
       visitStep(path: string): Chainable
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
+      assertQuestionUrl(question: string): Chainable
 
       // option
       isChecked(): Chainable
@@ -78,6 +86,7 @@ Cypress.Commands.add('assertSectionIs', assertSectionIs)
 Cypress.Commands.add('visitStep', visitStep)
 Cypress.Commands.add('assertStepUrlIs', assertStepUrlIs)
 Cypress.Commands.add('assertStepUrlIsNot', assertStepUrlIsNot)
+Cypress.Commands.add('assertQuestionUrl', assertQuestionUrl)
 
 // option
 Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)
