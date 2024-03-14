@@ -17,8 +17,8 @@ const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   { text: 'No, has never been employed', value: 'NO', kind: 'option' },
 ]
 
-const createExperienceOfFields = (label: string, prefix: string): Array<FormWizard.Field> => {
-  const parentFieldCode = fieldCodeWith(prefix, 'experience')
+const createExperienceOfFields = (label: string, prefix: string, prefix2?: string): Array<FormWizard.Field> => {
+  const parentFieldCode = fieldCodeWith(prefix)
   const optionsWithDetails: Array<FormWizard.Field.Option> = [
     { text: 'Positive', value: 'POSITIVE', kind: 'option' },
     { text: 'Mostly positive', value: 'MOSTLY_POSITIVE', kind: 'option' },
@@ -32,7 +32,7 @@ const createExperienceOfFields = (label: string, prefix: string): Array<FormWiza
       text: label,
       code: parentFieldCode,
       type: FieldType.Radio,
-      validate: [{ type: ValidationType.Required, message: `Select their experience of ${prefix}` }],
+      validate: [{ type: ValidationType.Required, message: `Select their ${prefix2 ?? ''} experience of ${prefix}` }],
       options: [...optionsWithDetails, { text: 'Unknown', value: 'UNKNOWN', kind: 'option' }],
       labelClasses: getMediumLabelClassFor(FieldType.Radio),
     },
@@ -471,6 +471,7 @@ export const educationFields: Array<FormWizard.Field> = [
 export const experienceOfEmployment = createExperienceOfFields(
   "What is [subject]'s overall experience of employment?",
   'employment',
+  'overall',
 )
 export const experienceOfEducation = createExperienceOfFields(
   "What is [subject]'s experience of education?",
