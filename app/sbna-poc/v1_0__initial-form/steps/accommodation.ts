@@ -14,15 +14,15 @@ import {
 } from '../fields/accommodation'
 
 const stepOptions: FormWizard.Steps = {
-  '/accommodation': {
+  '/current-accommodation': {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(accommodationTypeFields, sectionCompleteFields),
     next: [
       { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
       { field: 'type_of_temporary_accommodation', value: 'SHORT_TERM', next: 'temporary-accommodation' },
       { field: 'type_of_temporary_accommodation', value: 'IMMIGRATION', next: 'temporary-accommodation' },
-      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation-2' },
-      { field: 'type_of_no_accommodation', value: 'AWAITING_ASSESSMENT', next: 'no-accommodation-2' },
+      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation-cas-ap' },
+      { field: 'type_of_no_accommodation', value: 'AWAITING_ASSESSMENT', next: 'no-accommodation-awaiting-assessment' },
       { field: 'current_accommodation', value: 'NO_ACCOMMODATION', next: 'no-accommodation' },
     ],
     navigationOrder: 1,
@@ -41,8 +41,8 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
-    backLink: 'accommodation',
+    next: 'accommodation-summary',
+    backLink: 'current-accommodation',
     section: 'accommodation',
     sectionProgressRules: [
       setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
@@ -59,15 +59,15 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
-    backLink: 'accommodation',
+    next: 'accommodation-summary',
+    backLink: 'current-accommodation',
     section: 'accommodation',
     sectionProgressRules: [
       setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
       setField('accommodation_analysis_section_complete', 'NO'),
     ],
   },
-  '/temporary-accommodation-2': {
+  '/temporary-accommodation-cas-ap': {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(
       suitableAccommodationFields,
@@ -75,8 +75,8 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
-    backLink: 'accommodation',
+    next: 'accommodation-summary',
+    backLink: 'current-accommodation',
     section: 'accommodation',
     sectionProgressRules: [
       setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
@@ -91,34 +91,34 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
-    backLink: 'accommodation',
+    next: 'accommodation-summary',
+    backLink: 'current-accommodation',
     section: 'accommodation',
     sectionProgressRules: [
       setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
       setField('accommodation_analysis_section_complete', 'NO'),
     ],
   },
-  '/no-accommodation-2': {
+  '/no-accommodation-awaiting-assessment': {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(accommodationChangesFields, sectionCompleteFields),
-    next: 'accommodation-summary-analysis',
-    backLink: 'accommodation',
+    next: 'accommodation-summary',
+    backLink: 'current-accommodation',
     section: 'accommodation',
     sectionProgressRules: [
       setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
       setField('accommodation_analysis_section_complete', 'NO'),
     ],
   },
-  '/accommodation-summary-analysis': {
+  '/accommodation-summary': {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: 'accommodation-analysis-complete#practitioner-analysis',
+    next: 'accommodation-analysis#practitioner-analysis',
     template: 'forms/sbna-poc/accommodation-summary-analysis',
     section: 'accommodation',
     sectionProgressRules: [setFieldWhenValid('accommodation_analysis_section_complete', 'YES', 'NO')],
   },
-  '/accommodation-analysis-complete': {
+  '/accommodation-analysis': {
     pageTitle: 'Accommodation',
     next: [],
     template: 'forms/sbna-poc/accommodation-summary-analysis-complete',

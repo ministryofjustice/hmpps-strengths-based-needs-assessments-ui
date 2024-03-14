@@ -165,12 +165,12 @@
 {% endmacro %}
 
 <dl class="govuk-summary-list as-block">
-  {{ renderSummaryItemFor("drug_use", { fields: fields, answers: answers, backLink: "drug-use" }) }}
+  {{ renderSummaryItemFor("drug_use", { fields: fields, answers: answers, backLink: "drugs" }) }}
   {% if answers["drug_use"] !== "NO" %}
-    {{ renderSummaryItemFor("drug_use_reasons", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
-    {{ renderSummaryItemFor("drug_use_impact", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
-    {{ renderSummaryItemFor("reducing_or_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
-    {{ renderSummaryItemFor("motivated_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use-details" }) }}
+    {{ renderSummaryItemFor("drug_use_reasons", { fields: fields, answers: answers, backLink: "drug-use" }) }}
+    {{ renderSummaryItemFor("drug_use_impact", { fields: fields, answers: answers, backLink: "drug-use" }) }}
+    {{ renderSummaryItemFor("reducing_or_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use" }) }}
+    {{ renderSummaryItemFor("motivated_stopping_drug_use", { fields: fields, answers: answers, backLink: "drug-use" }) }}
     <div class="govuk-summary-list__row as-block govuk-summary-list__row--no-border">
       {{ renderDrugsTable({fields: fields, answers: answers, subject: subject}) }}
     </div>

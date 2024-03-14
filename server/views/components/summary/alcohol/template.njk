@@ -138,11 +138,11 @@
 
 {% switch answers["alcohol_use"] %}
   {% case "YES_WITHIN_LAST_THREE_MONTHS" %}
-    {% set backLink = "alcohol-usage-last-three-months" %}
+    {% set backLink = "alcohol-use-last-three-months" %}
   {% case "YES_NOT_IN_LAST_THREE_MONTHS" %}
-    {% set backLink = "alcohol-usage-but-not-last-three-months" %}
+    {% set backLink = "alcohol-use-less-three-months" %}
   {% case "NO" %}
-    {% set backLink = "alcohol-use" %}
+    {% set backLink = "alcohol" %}
   {% default %}
     {% set backLink = "" %}
 {% endswitch %}
@@ -213,7 +213,7 @@
 {% endmacro %}
 
 <dl class="govuk-summary-list">
-  {{ renderSummaryItemFor("alcohol_use", { fields: fields, answers: answers, backLink: "alcohol-use" }) }}    
+  {{ renderSummaryItemFor("alcohol_use", { fields: fields, answers: answers, backLink: "alcohol" }) }}    
   {% if answers["alcohol_use"] !== "NO" %}
     {% if answers["alcohol_use"] === "YES_WITHIN_LAST_THREE_MONTHS" %}
       {{ renderSummaryItemFor("alcohol_frequency", { fields: fields, answers: answers, backLink: backLink }) }}

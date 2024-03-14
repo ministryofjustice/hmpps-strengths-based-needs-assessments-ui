@@ -325,20 +325,20 @@
   {% set backLink = "settled-accommodation" %}
 {% elif answers["current_accommodation"] === "TEMPORARY" %}
   {% if answers["type_of_temporary_accommodation"] === "SHORT_TERM" or answers["type_of_temporary_accommodation"] === "IMMIGRATION" %}
-    {% set backLink = "temporary-accommodation-2" %}
-  {% else %}
     {% set backLink = "temporary-accommodation" %}
+  {% else %}
+    {% set backLink = "temporary-accommodation-cas-ap" %}
   {% endif %}
 {% elif answers["current_accommodation"] === "NO_ACCOMMODATION" %}
   {% if answers["type_of_no_accommodation"] === "AWAITING_ASSESSMENT" %}
-    {% set backLink = "no-accommodation-2" %}
+    {% set backLink = "no-accommodation-awaiting-assessment" %}
   {% else %}
     {% set backLink = "no-accommodation" %}
   {% endif %}
 {% endif %}
 
 <dl class="govuk-summary-list">
-  {{ renderSummaryItemFor("current_accommodation", { fields: fields, answers: answers, backLink: "accommodation" }) }}
+  {{ renderSummaryItemFor("current_accommodation", { fields: fields, answers: answers, backLink: "current-accommodation" }) }}
   {% if answers["current_accommodation"] === "SETTLED" %}
     {{ renderSummaryItemFor("living_with", { fields: fields, answers: answers, backLink: backLink }) }}
     {{ renderSummaryItemFor("suitable_housing_location", { fields: fields, answers: answers, backLink: backLink }) }}
