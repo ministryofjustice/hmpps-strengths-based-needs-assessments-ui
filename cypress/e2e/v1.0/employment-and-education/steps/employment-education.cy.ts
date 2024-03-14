@@ -1,7 +1,7 @@
-const stepUrl = '/employment-education'
-const summaryPage = '/employment-education-analysis'
+describe( '/employment-education', () => {
+  const stepUrl = '/employment-education'
+  const summaryPage = '/employment-education-analysis'
 
-describe(stepUrl, () => {
   beforeEach(() => {
     cy.createAssessment()
     cy.visitStep(stepUrl)
