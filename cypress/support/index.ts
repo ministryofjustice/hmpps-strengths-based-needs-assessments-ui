@@ -20,6 +20,7 @@ import {
   hasValidationError,
   isQuestionNumber,
 } from './commands/question'
+import { clickChange, getAnswer, getSummary, hasNoSecondaryAnswer, hasSecondaryAnswer } from './commands/summary'
 
 declare global {
   namespace Cypress {
@@ -56,6 +57,13 @@ declare global {
       hasValidationError(message: string): Chainable
       getRadio(label: string): Chainable
       getCheckbox(label: string): Chainable
+
+      // summary
+      getSummary(question: string): Chainable
+      clickChange(): Chainable
+      getAnswer(answer: string): Chainable
+      hasSecondaryAnswer(answer: string): Chainable
+      hasNoSecondaryAnswer(): Chainable
     }
   }
 }
@@ -92,3 +100,10 @@ Cypress.Commands.add('hasValidationError', { prevSubject: true }, hasValidationE
 Cypress.Commands.add('getRadio', { prevSubject: true }, getRadio)
 Cypress.Commands.add('getCheckbox', { prevSubject: true }, getCheckbox)
 Cypress.Commands.add('hasRadios', { prevSubject: true }, hasRadios)
+
+// summary
+Cypress.Commands.add('getSummary', getSummary)
+Cypress.Commands.add('clickChange', { prevSubject: true }, clickChange)
+Cypress.Commands.add('getAnswer', { prevSubject: true }, getAnswer)
+Cypress.Commands.add('hasSecondaryAnswer', { prevSubject: true }, hasSecondaryAnswer)
+Cypress.Commands.add('hasNoSecondaryAnswer', { prevSubject: true }, hasNoSecondaryAnswer)
