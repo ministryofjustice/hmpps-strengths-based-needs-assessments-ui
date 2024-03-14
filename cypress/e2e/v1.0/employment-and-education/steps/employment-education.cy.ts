@@ -32,7 +32,7 @@ describe('/employment-education', () => {
     const typesOfEmployment = ['Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship']
 
     it('displays and validates conditional options for Employed', () => {
-      cy.getQuestion(question).getRadio('Employed').hasConditionalQuestion(false).selectOption()
+      cy.getQuestion(question).getRadio('Employed').hasConditionalQuestion(false).clickLabel()
       cy.getQuestion(question).getRadio('Employed').getConditionalQuestion().hasRadios(typesOfEmployment)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
@@ -42,8 +42,8 @@ describe('/employment-education', () => {
     typesOfEmployment.forEach(typeOfEmployment => {
       it(`summary page displays "Employed - ${typeOfEmployment}"`, () => {
         cy.visitStep(stepUrl)
-        cy.getQuestion(question).getRadio('Employed').selectOption()
-        cy.getQuestion(question).getRadio('Employed').getConditionalQuestion().getRadio(typeOfEmployment).selectOption()
+        cy.getQuestion(question).getRadio('Employed').clickLabel()
+        cy.getQuestion(question).getRadio('Employed').getConditionalQuestion().getRadio(typeOfEmployment).clickLabel()
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer('Employed').hasSecondaryAnswer(typeOfEmployment)
@@ -54,7 +54,7 @@ describe('/employment-education', () => {
     })
     ;['Self-employed', 'Retired'].forEach(option => {
       it(`summary page displays "${option}"`, () => {
-        cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).selectOption()
+        cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
         cy.getQuestion(question).getRadio(option).isChecked().hasConditionalQuestion(false)
         cy.saveAndContinue()
         cy.assertStepUrlIsNot(stepUrl)
@@ -71,7 +71,7 @@ describe('/employment-education', () => {
       'Unemployed - not actively looking for work',
     ].forEach(option => {
       it(`displays and validates conditional options for radio ${option}`, () => {
-        cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).selectOption()
+        cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
         cy.getQuestion(question)
           .getRadio(option)
           .getConditionalQuestion()
@@ -86,12 +86,8 @@ describe('/employment-education', () => {
         ['No, has never been employed', 'Has never been employed'],
       ].forEach(([hasBeenEmployedRadio, hasBeenEmployedSummary]) => {
         it(`summary page displays "${option} - ${hasBeenEmployedSummary}"`, () => {
-          cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).selectOption()
-          cy.getQuestion(question)
-            .getRadio(option)
-            .getConditionalQuestion()
-            .getRadio(hasBeenEmployedRadio)
-            .selectOption()
+          cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
+          cy.getQuestion(question).getRadio(option).getConditionalQuestion().getRadio(hasBeenEmployedRadio).clickLabel()
           cy.saveAndContinue()
           cy.visitStep(summaryPage)
           cy.getSummary(question).getAnswer(option).hasSecondaryAnswer(hasBeenEmployedSummary)
