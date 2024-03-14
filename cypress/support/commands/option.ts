@@ -20,7 +20,7 @@ export const isOptionNumber = (subject: JQuery, position: number) => {
   return cy.wrap(subject)
 }
 
-export const selectOption = (subject: JQuery) => {
+export const clickLabel = (subject: JQuery) => {
   cy.wrap(subject).children('label').first().click()
   return cy.wrap(subject)
 }

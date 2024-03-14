@@ -14,7 +14,7 @@ import {
   isChecked,
   isNotChecked,
   isOptionNumber,
-  selectOption,
+  clickLabel,
 } from './commands/option'
 import { assertQuestionCount } from './commands/page'
 import {
@@ -48,7 +48,7 @@ declare global {
       isChecked(): Chainable
       isNotChecked(): Chainable
       isOptionNumber(position: number): Chainable
-      selectOption(): Chainable
+      clickLabel(): Chainable
       enterText(value: string): Chainable
       hasConditionalQuestion(expect?: boolean): Chainable
       getConditionalQuestion(): Chainable
@@ -92,7 +92,7 @@ Cypress.Commands.add('assertQuestionUrl', assertQuestionUrl)
 Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)
 Cypress.Commands.add('isNotChecked', { prevSubject: true }, isNotChecked)
 Cypress.Commands.add('isOptionNumber', { prevSubject: true }, isOptionNumber)
-Cypress.Commands.add('selectOption', { prevSubject: true }, selectOption)
+Cypress.Commands.add('clickLabel', { prevSubject: true }, clickLabel)
 Cypress.Commands.add('enterText', { prevSubject: true }, enterText)
 Cypress.Commands.add('hasConditionalQuestion', { prevSubject: true }, hasConditionalQuestion)
 Cypress.Commands.add('getConditionalQuestion', { prevSubject: true }, getConditionalQuestion)
