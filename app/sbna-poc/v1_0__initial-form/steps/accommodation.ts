@@ -19,11 +19,23 @@ const stepOptions: FormWizard.Steps = {
     fields: fieldCodesFrom(accommodationTypeFields, sectionCompleteFields),
     next: [
       { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
-      { field: 'type_of_temporary_accommodation', value: 'SHORT_TERM', next: 'temporary-accommodation' },
-      { field: 'type_of_temporary_accommodation', value: 'IMMIGRATION', next: 'temporary-accommodation' },
-      { field: 'current_accommodation', value: 'TEMPORARY', next: 'temporary-accommodation-2' },
-      { field: 'type_of_no_accommodation', value: 'AWAITING_ASSESSMENT', next: 'no-accommodation-2' },
-      { field: 'current_accommodation', value: 'NO_ACCOMMODATION', next: 'no-accommodation' },
+      {
+        field: 'current_accommodation',
+        value: 'TEMPORARY',
+        next: [
+          { field: 'type_of_temporary_accommodation', value: 'SHORT_TERM', next: 'temporary-accommodation' },
+          { field: 'type_of_temporary_accommodation', value: 'IMMIGRATION', next: 'temporary-accommodation' },
+          'temporary-accommodation-2',
+        ],
+      },
+      {
+        field: 'current_accommodation',
+        value: 'NO_ACCOMMODATION',
+        next: [
+          { field: 'type_of_no_accommodation', value: 'AWAITING_ASSESSMENT', next: 'no-accommodation-2' },
+          'no-accommodation',
+        ],
+      },
     ],
     navigationOrder: 1,
     section: 'accommodation',
