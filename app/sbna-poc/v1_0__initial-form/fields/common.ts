@@ -2,7 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
 
 export const characterLimit = 400
-export const summaryCharacterLimit = 4000
+export const summaryCharacterLimit = 1000
 export const getMediumLabelClassFor = (type: FieldType) =>
   type === FieldType.CheckBox || type === FieldType.Radio || type === FieldType.Date
     ? 'govuk-fieldset__legend--m'
