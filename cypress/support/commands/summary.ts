@@ -28,12 +28,7 @@ export const getAnswer = (subject: JQuery, answer: string) => {
 }
 
 export const hasSecondaryAnswer = (subject: JQuery, answer: string) => {
-  cy.wrap(subject)
-    .children('.summary__answer--secondary')
-    .first()
-    .should('be.visible')
-    .and('have.length', 1)
-    .and('contain.text', answer)
+  cy.wrap(subject).children('.summary__answer--secondary').contains(answer).should('be.visible').and('have.length', 1)
   return cy.wrap(subject)
 }
 

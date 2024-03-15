@@ -12,17 +12,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
         // .hasHint('') TODO: Update to test for HTML hint?
-        .hasRadios([
-          options.settled,
-          options.temporary,
-          options.noAccommodation,
-        ])
+        .hasRadios([options.settled, options.temporary, options.noAccommodation])
 
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select current accommodation')
-
     })
 
     const typesOfSettledAccommodation = [
@@ -41,14 +36,21 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).getRadio(options.settled).getConditionalQuestion().hasValidationError('Select the type of settled accommodation')
+      cy.getQuestion(question)
+        .getRadio(options.settled)
+        .getConditionalQuestion()
+        .hasValidationError('Select the type of settled accommodation')
     })
 
     typesOfSettledAccommodation.forEach(typeOfSettledAccommodation => {
       it(`summary page displays "${options.settled} - ${typeOfSettledAccommodation}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(options.settled).clickLabel()
-        cy.getQuestion(question).getRadio(options.settled).getConditionalQuestion().getRadio(typeOfSettledAccommodation).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.settled)
+          .getConditionalQuestion()
+          .getRadio(typeOfSettledAccommodation)
+          .clickLabel()
 
         cy.saveAndContinue()
 
@@ -62,29 +64,92 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Community Accommodation Service Tier 2 (CAS2)',
       'Community Accommodation Service Tier 3 (CAS3)',
       'Immigration accommodation',
-      'Short term accommodation'
+      'Short term accommodation',
     ]
 
     it(`displays and validates the conditional options for ${options.temporary}`, () => {
       cy.getQuestion(question).getRadio(options.temporary).hasConditionalQuestion(false).clickLabel()
-      cy.getQuestion(question).getRadio(options.temporary).getConditionalQuestion().hasRadios(typesOfTemporaryAccommodation)
+      cy.getQuestion(question)
+        .getRadio(options.temporary)
+        .getConditionalQuestion()
+        .hasRadios(typesOfTemporaryAccommodation)
 
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).getRadio(options.temporary).getConditionalQuestion().hasValidationError('Select the type of temporary accommodation')
+      cy.getQuestion(question)
+        .getRadio(options.temporary)
+        .getConditionalQuestion()
+        .hasValidationError('Select the type of temporary accommodation')
     })
 
     typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
       it(`summary page displays "${options.temporary} - ${typeOfTemporaryAccommodation}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(options.temporary).clickLabel()
-        cy.getQuestion(question).getRadio(options.temporary).getConditionalQuestion().getRadio(typeOfTemporaryAccommodation).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .clickLabel()
 
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(options.temporary).hasSecondaryAnswer(typeOfTemporaryAccommodation)
+      })
+    })
+
+    typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
+      it(`validates the date "${options.temporary} - ${typeOfTemporaryAccommodation} - Expected end date"`, () => {
+        cy.visitStep(stepUrl)
+        cy.getQuestion(question).getRadio(options.temporary).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .getConditionalQuestion()
+          .enterDate('99-99-9999')
+
+        cy.saveAndContinue()
+
+        cy.assertStepUrlIs(stepUrl)
+
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .getConditionalQuestion()
+          .hasValidationError('Enter a future date')
+      })
+    })
+
+    typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
+      it(`summary page displays "${options.temporary} - ${typeOfTemporaryAccommodation} - Expected end date"`, () => {
+        cy.visitStep(stepUrl)
+        cy.getQuestion(question).getRadio(options.temporary).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .getConditionalQuestion()
+          .enterDate('01-01-2050')
+
+        cy.saveAndContinue()
+
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer(options.temporary).hasSecondaryAnswer('Expected end date:')
+        cy.getSummary(question).getAnswer(options.temporary).hasSecondaryAnswer('01 January 2050')
       })
     })
 
@@ -94,29 +159,64 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Emergency hostel',
       'Homeless',
       'Rough sleeping',
-      'Shelter'
+      'Shelter',
     ]
+
+    const typesOfNoAccommodationWithDetails = ['Awaiting assessment']
 
     it(`displays and validates the conditional options for ${options.noAccommodation}`, () => {
       cy.getQuestion(question).getRadio(options.noAccommodation).hasConditionalQuestion(false).clickLabel()
-      cy.getQuestion(question).getRadio(options.noAccommodation).getConditionalQuestion().hasRadios(typesOfNoAccommodation)
+      cy.getQuestion(question)
+        .getRadio(options.noAccommodation)
+        .getConditionalQuestion()
+        .hasRadios(typesOfNoAccommodation)
 
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).getRadio(options.noAccommodation).getConditionalQuestion().hasValidationError('Select the type of no accommodation')
+      cy.getQuestion(question)
+        .getRadio(options.noAccommodation)
+        .getConditionalQuestion()
+        .hasValidationError('Select the type of no accommodation')
     })
 
     typesOfNoAccommodation.forEach(typeOfNoAccommodation => {
       it(`summary page displays "${options.noAccommodation} - ${typeOfNoAccommodation}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(options.noAccommodation).clickLabel()
-        cy.getQuestion(question).getRadio(options.noAccommodation).getConditionalQuestion().getRadio(typeOfNoAccommodation).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.noAccommodation)
+          .getConditionalQuestion()
+          .getRadio(typeOfNoAccommodation)
+          .clickLabel()
 
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(options.noAccommodation).hasSecondaryAnswer(typeOfNoAccommodation)
+      })
+    })
+
+    typesOfNoAccommodationWithDetails.forEach(typeOfNoAccommodation => {
+      it(`summary page displays "${options.noAccommodation} - ${typeOfNoAccommodation} - Give details"`, () => {
+        cy.visitStep(stepUrl)
+        cy.getQuestion(question).getRadio(options.noAccommodation).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.noAccommodation)
+          .getConditionalQuestion()
+          .getRadio(typeOfNoAccommodation)
+          .clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.noAccommodation)
+          .getConditionalQuestion()
+          .getRadio(typeOfNoAccommodation)
+          .getConditionalQuestion()
+          .enterText('Some details')
+
+        cy.saveAndContinue()
+
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer(options.noAccommodation).hasSecondaryAnswer('Some details')
       })
     })
   })

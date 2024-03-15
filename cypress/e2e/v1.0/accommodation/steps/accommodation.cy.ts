@@ -1,4 +1,4 @@
-import accommodationStatus from "../questions/accommodationStatus"
+import accommodationStatus from '../questions/accommodationStatus'
 
 describe('/accommodation', () => {
   const stepUrl = '/accommodation'
@@ -15,5 +15,4 @@ describe('/accommodation', () => {
   questions.forEach((questionTest, index) => {
     questionTest(stepUrl, summaryPage, index + 1)
   })
-
 })
