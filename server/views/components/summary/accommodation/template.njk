@@ -34,11 +34,11 @@
           <span class="summary__answer">{{ option.text }}</span>
           {% switch option.value %}
           {% case "SETTLED" %}
-            <span>{{ renderSettledAccommodationType(fields["type_of_settled_accommodation"]) }}</span>
+            {{ renderSettledAccommodationType(fields["type_of_settled_accommodation"]) }}
           {% case "TEMPORARY" %}
-            <span>{{ renderTemporaryAccommodationType(fields, answers) }}</span>
+            {{ renderTemporaryAccommodationType(fields, answers) }}
           {% case "NO_ACCOMMODATION" %}
-            <span>{{ renderNoAccommodationType(fields, answers) }}</span>
+            {{ renderNoAccommodationType(fields, answers) }}
           {% endswitch %}
         </li>
       {% endif %}
@@ -55,44 +55,36 @@
 {%- endmacro -%}
 
 {%- macro renderTemporaryAccommodationType(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["type_of_temporary_accommodation"].options %}
-      {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="summary__answer--secondary">{{ option.text }}</span>
-          <span class="summary__answer--secondary">Expected end date:</span>
-          {% switch option.value %}
-            {% case "SHORT_TERM" %}
-              <span class="summary__answer--secondary">{{ answers["short_term_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
-            {% case "APPROVED_PREMISES" %}
-              <span class="summary__answer--secondary">{{ answers["approved_premises_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
-            {% case "CAS2" %}
-              <span class="summary__answer--secondary">{{ answers["cas2_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
-            {% case "CAS3" %}
-              <span class="summary__answer--secondary">{{ answers["cas3_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
-            {% case "IMMIGRATION" %}
-              <span class="summary__answer--secondary">{{ answers["immigration_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
-          {% endswitch %}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
+  {% for option in fields["type_of_temporary_accommodation"].options %}
+    {% if option.checked %}
+      <span class="summary__answer--secondary">{{ option.text }}</span>
+      <span class="summary__answer--secondary">Expected end date:</span>
+      {% switch option.value %}
+        {% case "SHORT_TERM" %}
+          <span class="summary__answer--secondary">{{ answers["short_term_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+        {% case "APPROVED_PREMISES" %}
+          <span class="summary__answer--secondary">{{ answers["approved_premises_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+        {% case "CAS2" %}
+          <span class="summary__answer--secondary">{{ answers["cas2_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+        {% case "CAS3" %}
+          <span class="summary__answer--secondary">{{ answers["cas3_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+        {% case "IMMIGRATION" %}
+          <span class="summary__answer--secondary">{{ answers["immigration_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+      {% endswitch %}
+    {% endif %}
+  {% endfor %}
 {%- endmacro -%}
 
-{%- macro renderNoAccommodationType(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["type_of_no_accommodation"].options %}
-      {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="summary__answer--secondary">{{ option.text }}</span>
-          {% switch option.value %}
-            {% case "AWAITING_ASSESSMENT" %}
-              <span class="summary__answer--secondary">{{ answers["awaiting_assessment_details"] }}</span>
-          {% endswitch %}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
+{%- macro renderNoAccommodationType(fields, answers) -%} 
+  {% for option in fields["type_of_no_accommodation"].options %}
+    {% if option.checked %}
+        <span class="summary__answer--secondary">{{ option.text }}</span>
+        {% switch option.value %}
+          {% case "AWAITING_ASSESSMENT" %}
+            <span class="summary__answer--secondary">{{ answers["awaiting_assessment_details"] }}</span>
+        {% endswitch %}
+    {% endif %}
+  {% endfor %}
 {%- endmacro -%}
 
 {%- macro renderLivingWith(fields, answers) -%}
