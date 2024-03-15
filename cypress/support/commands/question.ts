@@ -2,25 +2,30 @@
 
 export const getQuestion = (title: string) => {
   return cy
-    .get(`form > .form-group > fieldset > legend`)
+    .get(`form > .form-group`)
+    .find('> fieldset > legend, > div > .govuk-form-group > label')
     .contains(title)
     .should('be.visible')
     .and('have.length', 1)
-    .parent()
+    .closest('fieldset, .govuk-form-group')
 }
 
 export const hasTitle = (subject: JQuery, title: string) => {
-  cy.wrap(subject).children('legend').first().should('be.visible').and('have.length', 1).and('contain.text', title)
+  cy.wrap(subject)
+    .find('> legend, > label')
+    .first()
+    .should('be.visible')
+    .and('have.length', 1)
+    .and('contain.text', title)
   return cy.wrap(subject)
 }
 
 export const isQuestionNumber = (subject: JQuery, position: number) => {
   const el = subject
-    .parent()
-    .parent()
+    .parents('form')
     .find('> .form-group')
     .eq(position - 1)
-    .children('fieldset')
+    .find('> fieldset, > div > .govuk-form-group')
   expect(el, 'this should match to a single element').to.have.lengthOf(1)
   expect(el[0], `the question at position ${position} is not the expected question`).to.eql(subject[0])
   return cy.wrap(subject)
@@ -28,10 +33,17 @@ export const isQuestionNumber = (subject: JQuery, position: number) => {
 
 export const hasHint = (subject: JQuery, hint: string) => {
   if (hint) {
-    cy.wrap(subject).children('.govuk-hint').should('contain.text', hint)
+    cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('contain.text', hint)
   } else {
-    cy.wrap(subject).children('.govuk-hint').should('not.exist')
+    cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('not.exist')
   }
+  return cy.wrap(subject)
+}
+
+export const hasLimit = (subject: JQuery, limit: number) => {
+  cy.wrap(subject)
+    .children('.govuk-character-count__message')
+    .should('contain.text', `You have ${limit} characters remaining`)
   return cy.wrap(subject)
 }
 
@@ -51,6 +63,11 @@ export const hasValidationError = (subject: JQuery, message: string) => {
         .click()
       cy.url().then(url => expect(url.endsWith(`#${id}`), `${url} should end with ${id}`).to.be.true)
     })
+  return cy.wrap(subject)
+}
+
+export const hasNoValidationError = (subject: JQuery) => {
+  cy.wrap(subject).children('.govuk-error-message').should('not.exist')
   return cy.wrap(subject)
 }
 
@@ -75,13 +92,45 @@ export const getCheckbox = (subject: JQuery, label: string) => {
 }
 
 export const hasRadios = (subject: JQuery, options: string[]) => {
-  cy.wrap(subject).find('> .govuk-radios > .govuk-radios__item:visible > label').should('have.length', options.length)
+  cy.wrap(subject)
+    .find('> .govuk-radios > :not(.govuk-radios__conditional):visible')
+    .should('have.length', options.length)
 
   options.forEach((label, index) => {
-    cy.wrap(subject)
-      .getRadio(label)
-      .isOptionNumber(index + 1)
-      .isNotChecked()
+    if (label === null) {
+      cy.wrap(subject)
+        .find('> .govuk-radios > :not(.govuk-radios__conditional):visible')
+        .eq(index)
+        .should('contain.text', 'or')
+        .and('have.class', 'govuk-radios__divider')
+    } else {
+      cy.wrap(subject)
+        .getRadio(label)
+        .isOptionNumber(index + 1)
+        .isNotChecked()
+    }
+  })
+  return cy.wrap(subject)
+}
+
+export const hasCheckboxes = (subject: JQuery, options: string[]) => {
+  cy.wrap(subject)
+    .find('> .govuk-checkboxes > :not(.govuk-checkboxes__conditional):visible')
+    .should('have.length', options.length)
+
+  options.forEach((label, index) => {
+    if (label === null) {
+      cy.wrap(subject)
+        .find('> .govuk-checkboxes > :not(.govuk-checkboxes__conditional):visible')
+        .eq(index)
+        .should('contain.text', 'or')
+        .and('have.class', 'govuk-checkboxes__divider')
+    } else {
+      cy.wrap(subject)
+        .getCheckbox(label)
+        .isOptionNumber(index + 1)
+        .isNotChecked()
+    }
   })
   return cy.wrap(subject)
 }

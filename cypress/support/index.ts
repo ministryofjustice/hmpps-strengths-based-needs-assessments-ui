@@ -21,7 +21,10 @@ import {
   getCheckbox,
   getQuestion,
   getRadio,
+  hasCheckboxes,
   hasHint,
+  hasLimit,
+  hasNoValidationError,
   hasRadios,
   hasTitle,
   hasValidationError,
@@ -61,8 +64,11 @@ declare global {
       hasTitle(title: string): Chainable
       isQuestionNumber(position: number): Chainable
       hasHint(hint: string): Chainable
+      hasLimit(limit: number): Chainable
       hasRadios(options: string[]): Chainable
+      hasCheckboxes(options: string[]): Chainable
       hasValidationError(message: string): Chainable
+      hasNoValidationError(): Chainable
       getRadio(label: string): Chainable
       getCheckbox(label: string): Chainable
 
@@ -105,10 +111,13 @@ Cypress.Commands.add('getQuestion', getQuestion)
 Cypress.Commands.add('hasTitle', { prevSubject: true }, hasTitle)
 Cypress.Commands.add('isQuestionNumber', { prevSubject: true }, isQuestionNumber)
 Cypress.Commands.add('hasHint', { prevSubject: true }, hasHint)
+Cypress.Commands.add('hasLimit', { prevSubject: true }, hasLimit)
 Cypress.Commands.add('hasValidationError', { prevSubject: true }, hasValidationError)
+Cypress.Commands.add('hasNoValidationError', { prevSubject: true }, hasNoValidationError)
 Cypress.Commands.add('getRadio', { prevSubject: true }, getRadio)
 Cypress.Commands.add('getCheckbox', { prevSubject: true }, getCheckbox)
 Cypress.Commands.add('hasRadios', { prevSubject: true }, hasRadios)
+Cypress.Commands.add('hasCheckboxes', { prevSubject: true }, hasCheckboxes)
 
 // summary
 Cypress.Commands.add('getSummary', getSummary)

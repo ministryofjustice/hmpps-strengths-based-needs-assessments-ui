@@ -32,7 +32,7 @@ const createExperienceOfFields = (label: string, prefix: string): Array<FormWiza
       text: label,
       code: parentFieldCode,
       type: FieldType.Radio,
-      validate: [{ type: ValidationType.Required, message: `Select their  experience of ${prefix}` }],
+      validate: [{ type: ValidationType.Required, message: `Select their experience of ${prefix}` }],
       options: [...optionsWithDetails, { text: 'Unknown', value: 'UNKNOWN', kind: 'option' }],
       labelClasses: getMediumLabelClassFor(FieldType.Radio),
     },
