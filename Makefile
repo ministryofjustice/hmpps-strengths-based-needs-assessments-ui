@@ -44,7 +44,7 @@ lint-fix: ## Automatically fixes linting issues.
 BASE_URL ?= "http://localhost:3000"
 e2e: ## Run the end-to-end tests in the Cypress app. Override the default base URL with BASE_URL=...
 	npm i
-	npx cypress open -c baseUrl=$(BASE_URL)
+	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
 
 BASE_URL_CI ?= "http://localhost:3007"
 e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
