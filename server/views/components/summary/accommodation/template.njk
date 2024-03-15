@@ -61,15 +61,15 @@
       <span class="summary__answer--secondary">Expected end date:</span>
       {% switch option.value %}
         {% case "SHORT_TERM" %}
-          <span class="summary__answer--secondary">{{ answers["short_term_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+          <span class="summary__answer--secondary">{{ answers["short_term_accommodation_end_date"] | formatDateForDisplay | default('Not provided', true) }}</span>
         {% case "APPROVED_PREMISES" %}
-          <span class="summary__answer--secondary">{{ answers["approved_premises_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+          <span class="summary__answer--secondary">{{ answers["approved_premises_end_date"] | formatDateForDisplay | default('Not provided', true) }}</span>
         {% case "CAS2" %}
-          <span class="summary__answer--secondary">{{ answers["cas2_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+          <span class="summary__answer--secondary">{{ answers["cas2_end_date"] | formatDateForDisplay | default('Not provided', true) }}</span>
         {% case "CAS3" %}
-          <span class="summary__answer--secondary">{{ answers["cas3_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+          <span class="summary__answer--secondary">{{ answers["cas3_end_date"] | formatDateForDisplay | default('Not provided', true) }}</span>
         {% case "IMMIGRATION" %}
-          <span class="summary__answer--secondary">{{ answers["immigration_accommodation_end_date"] | formatDateForDisplay | default('Not provided') }}</span>
+          <span class="summary__answer--secondary">{{ answers["immigration_accommodation_end_date"] | formatDateForDisplay | default('Not provided', true) }}</span>
       {% endswitch %}
     {% endif %}
   {% endfor %}
@@ -81,7 +81,9 @@
         <span class="summary__answer--secondary">{{ option.text }}</span>
         {% switch option.value %}
           {% case "AWAITING_ASSESSMENT" %}
-            <span class="summary__answer--secondary">{{ answers["awaiting_assessment_details"] }}</span>
+            {% if answers["awaiting_assessment_details"] %}
+              <span class="summary__answer--secondary">{{ answers["awaiting_assessment_details"] }}</span>
+            {%endif %}
         {% endswitch %}
     {% endif %}
   {% endfor %}

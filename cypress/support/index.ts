@@ -78,7 +78,7 @@ declare global {
       getSummary(question: string): Chainable
       clickChange(): Chainable
       getAnswer(answer: string): Chainable
-      hasSecondaryAnswer(answer: string): Chainable
+      hasSecondaryAnswer(...answers: string[]): Chainable
       hasNoSecondaryAnswer(): Chainable
     }
   }
