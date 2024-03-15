@@ -10,6 +10,9 @@ export default defineConfig({
     configFile: 'reporter-config.json',
   },
   taskTimeout: 60000,
+  env: {
+    accessibilityReportPath: 'test_results/cypress/accessibilityReport.txt',
+  },
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
@@ -17,5 +20,19 @@ export default defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress/support/index.ts',
     testIsolation: false,
+    setupNodeEvents(on) {
+      on('task', {
+        log(message) {
+          // eslint-disable-next-line no-console
+          console.log(message)
+          return null
+        },
+        table(message) {
+          // eslint-disable-next-line no-console
+          console.table(message)
+          return null
+        },
+      })
+    },
   },
 })
