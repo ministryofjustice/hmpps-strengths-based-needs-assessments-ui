@@ -13,7 +13,7 @@ export const isNotChecked = (subject: JQuery) => {
 export const isOptionNumber = (subject: JQuery, position: number) => {
   const el = subject
     .parent()
-    .find('> .govuk-radios__item:visible, > .govuk-checkboxes__item:visible')
+    .find('> :not(.govuk-radios__conditional):visible, > :not(.govuk-checkboxes__conditional):visible')
     .eq(position - 1)
 
   expect(el[0], `the option at position ${position} is not the expected option`).to.eql(subject[0])
