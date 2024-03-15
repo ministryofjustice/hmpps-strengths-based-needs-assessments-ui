@@ -134,3 +134,24 @@ export const hasCheckboxes = (subject: JQuery, options: string[]) => {
   })
   return cy.wrap(subject)
 }
+
+const enterDateFieldFor = (subject: JQuery) => (label: string, value: string) =>
+  cy
+    .wrap(subject)
+    .find('.govuk-date-input')
+    .find('label')
+    .contains(label)
+    .invoke('attr', 'for')
+    .then(id => cy.get(`#${id}`).should('be.visible').and('have.length', 1).type(value))
+
+export const enterDate = (subject: JQuery, date: string) => {
+  const [day, month, year] = date.split('-')
+
+  const enterDateField = enterDateFieldFor(subject)
+
+  enterDateField('Day', day)
+  enterDateField('Month', month)
+  enterDateField('Year', year)
+
+  return cy.wrap(subject)
+}

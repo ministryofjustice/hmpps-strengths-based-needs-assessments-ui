@@ -27,13 +27,16 @@ export const getAnswer = (subject: JQuery, answer: string) => {
     .parent()
 }
 
-export const hasSecondaryAnswer = (subject: JQuery, answer: string) => {
-  cy.wrap(subject)
-    .children('.summary__answer--secondary')
-    .first()
-    .should('be.visible')
-    .and('have.length', 1)
-    .and('contain.text', answer)
+export const hasSecondaryAnswer = (subject: JQuery, ...answers: string[]) => {
+  answers.forEach(answer =>
+    cy
+      .wrap(subject)
+      .children('.summary__answer--secondary')
+      .contains(answer)
+      .should('be.visible')
+      .and('have.length', 1),
+  )
+  cy.wrap(subject).children('.summary__answer--secondary').should('have.length', answers.length)
   return cy.wrap(subject)
 }
 

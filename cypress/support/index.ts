@@ -18,6 +18,7 @@ import {
 } from './commands/option'
 import { assertQuestionCount } from './commands/page'
 import {
+  enterDate,
   getCheckbox,
   getQuestion,
   getRadio,
@@ -71,12 +72,13 @@ declare global {
       hasNoValidationError(): Chainable
       getRadio(label: string): Chainable
       getCheckbox(label: string): Chainable
+      enterDate(date: string): Chainable
 
       // summary
       getSummary(question: string): Chainable
       clickChange(): Chainable
       getAnswer(answer: string): Chainable
-      hasSecondaryAnswer(answer: string): Chainable
+      hasSecondaryAnswer(...answers: string[]): Chainable
       hasNoSecondaryAnswer(): Chainable
     }
   }
@@ -118,6 +120,7 @@ Cypress.Commands.add('getRadio', { prevSubject: true }, getRadio)
 Cypress.Commands.add('getCheckbox', { prevSubject: true }, getCheckbox)
 Cypress.Commands.add('hasRadios', { prevSubject: true }, hasRadios)
 Cypress.Commands.add('hasCheckboxes', { prevSubject: true }, hasCheckboxes)
+Cypress.Commands.add('enterDate', { prevSubject: true }, enterDate)
 
 // summary
 Cypress.Commands.add('getSummary', getSummary)
