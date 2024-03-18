@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Select the highest level of education Paul has completed'
+  const question = 'Select the highest level of education Sam has completed'
   describe(question, () => {
     const options = [
       ['Entry level', 'For example, entry level diploma'],

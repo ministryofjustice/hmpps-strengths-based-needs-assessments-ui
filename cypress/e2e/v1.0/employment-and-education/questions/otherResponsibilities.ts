@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Paul have any other responsibilities?'
+  const question = 'Does Sam have any other responsibilities?'
   describe(question, () => {
     const options = ['Carer', 'Volunteer', 'Student', 'Other', null, 'None']
 

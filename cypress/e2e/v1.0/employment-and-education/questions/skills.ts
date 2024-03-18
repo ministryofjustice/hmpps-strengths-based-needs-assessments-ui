@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Paul have skills that could help them in a job or at work?'
+  const question = 'Does Sam have skills that could help them in a job or at work?'
   describe(question, () => {
     const options = ['Yes', 'Yes, some skills', 'No']
 

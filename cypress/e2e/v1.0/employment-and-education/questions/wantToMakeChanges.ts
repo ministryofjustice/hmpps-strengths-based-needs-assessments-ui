@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Paul want to make changes to their employment and education?'
+  const question = 'Does Sam want to make changes to their employment and education?'
   const options = [
     'I have already made positive changes and want to maintain them',
     'I am actively making changes',
@@ -9,7 +9,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     'I do not want to make changes',
     'I do not want to answer',
     null,
-    'Paul is not present',
+    'Sam is not present',
     'Not applicable',
   ]
 
@@ -17,7 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it(`displays and validates the question`, () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('This question must be directly answered by Paul.')
+        .hasHint('This question must be directly answered by Sam.')
         .hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
@@ -59,7 +59,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertQuestionUrl(question)
       })
     })
-    ;['I do not want to answer', 'Paul is not present', 'Not applicable'].forEach(option => {
+    ;['I do not want to answer', 'Sam is not present', 'Not applicable'].forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 

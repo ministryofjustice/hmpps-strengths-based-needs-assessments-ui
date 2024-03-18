@@ -26,8 +26,8 @@ describe('/has-been-employed', () => {
   beforeEach(() => {
     cy.createAssessment()
     cy.visitSection('Employment and education')
-    cy.getQuestion("What is Paul's current employment status?").getRadio('Currently unavailable for work').clickLabel()
-    cy.getQuestion("What is Paul's current employment status?")
+    cy.getQuestion("What is Sam's current employment status?").getRadio('Currently unavailable for work').clickLabel()
+    cy.getQuestion("What is Sam's current employment status?")
       .getRadio('Currently unavailable for work')
       .getConditionalQuestion()
       .getRadio('Yes, has been employed before')
