@@ -28,8 +28,8 @@ describe('/employed', () => {
   beforeEach(() => {
     cy.createAssessment()
     cy.visitSection('Employment and education')
-    cy.getQuestion("What is Paul's current employment status?").getRadio('Employed').clickLabel()
-    cy.getQuestion("What is Paul's current employment status?")
+    cy.getQuestion("What is Sam's current employment status?").getRadio('Employed').clickLabel()
+    cy.getQuestion("What is Sam's current employment status?")
       .getRadio('Employed')
       .getConditionalQuestion()
       .getRadio('Full-time')

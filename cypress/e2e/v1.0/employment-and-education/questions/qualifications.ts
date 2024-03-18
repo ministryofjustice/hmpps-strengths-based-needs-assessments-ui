@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Paul have any professional or vocational qualifications?'
+  const question = 'Does Sam have any professional or vocational qualifications?'
   describe(question, () => {
     const options = ['Yes', 'No', null, 'Not sure']
 

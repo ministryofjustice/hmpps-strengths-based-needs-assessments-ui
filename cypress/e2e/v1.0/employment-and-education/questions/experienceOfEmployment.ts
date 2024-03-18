@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = "What is Paul's overall experience of employment?"
+  const question = "What is Sam's overall experience of employment?"
   const options = ['Positive', 'Mostly positive', 'Positive and negative', 'Mostly negative', 'Negative', 'Unknown']
 
   describe(question, () => {

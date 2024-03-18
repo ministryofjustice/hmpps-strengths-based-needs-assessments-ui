@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = "What is Paul's current employment status?"
+  const question = "What is Sam's current employment status?"
 
   describe(question, () => {
     it(`displays and validates the question`, () => {

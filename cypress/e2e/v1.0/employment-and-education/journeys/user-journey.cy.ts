@@ -15,9 +15,9 @@ describe('Origin: /employment-education', () => {
   describe(`Destination: ${destinations.employed}`, () => {
     ;['Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship'].forEach(typeOfEmployment => {
       it(`"Employed" and "${typeOfEmployment}" routes to "${destinations.employed}"`, () => {
-        cy.getQuestion("What is Paul's current employment status?").getRadio('Employed').clickLabel()
+        cy.getQuestion("What is Sam's current employment status?").getRadio('Employed').clickLabel()
 
-        cy.getQuestion("What is Paul's current employment status?")
+        cy.getQuestion("What is Sam's current employment status?")
           .getRadio('Employed')
           .getConditionalQuestion()
           .getRadio(typeOfEmployment)
@@ -30,7 +30,7 @@ describe('Origin: /employment-education', () => {
     })
 
     it(`"Self-employed" routes to "${destinations.employed}"`, () => {
-      cy.getQuestion("What is Paul's current employment status?").getRadio('Self-employed').clickLabel()
+      cy.getQuestion("What is Sam's current employment status?").getRadio('Self-employed').clickLabel()
 
       cy.saveAndContinue()
 
@@ -41,25 +41,25 @@ describe('Origin: /employment-education', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.employed)
 
-        cy.getQuestion("What is Paul's employment history?").getRadio('Continuous employment history').clickLabel()
+        cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Paul have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Paul has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
 
-        cy.getQuestion('Does Paul have any professional or vocational qualifications?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have difficulties with reading, writing or numeracy?')
+        cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
           .clickLabel()
 
-        cy.getQuestion("What is Paul's overall experience of employment?").getRadio('Positive').clickLabel()
+        cy.getQuestion("What is Sam's overall experience of employment?").getRadio('Positive').clickLabel()
 
-        cy.getQuestion("What is Paul's experience of education?").getRadio('Positive').clickLabel()
+        cy.getQuestion("What is Sam's experience of education?").getRadio('Positive').clickLabel()
 
-        cy.getQuestion('Does Paul want to make changes to their employment and education?')
+        cy.getQuestion('Does Sam want to make changes to their employment and education?')
           .getRadio('Not applicable')
           .clickLabel()
 
@@ -71,7 +71,7 @@ describe('Origin: /employment-education', () => {
 
   describe(`Destination: ${destinations.retired}`, () => {
     it(`"Retired" routes to "${destinations.retired}"`, () => {
-      cy.getQuestion("What is Paul's current employment status?").getRadio('Retired').clickLabel()
+      cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
 
       cy.saveAndContinue()
 
@@ -82,21 +82,21 @@ describe('Origin: /employment-education', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.retired)
 
-        cy.getQuestion("What is Paul's employment history?").getRadio('Continuous employment history').clickLabel()
+        cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Paul have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Paul has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
 
-        cy.getQuestion('Does Paul have any professional or vocational qualifications?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have difficulties with reading, writing or numeracy?')
+        cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
           .clickLabel()
 
-        cy.getQuestion('Does Paul want to make changes to their employment and education?')
+        cy.getQuestion('Does Sam want to make changes to their employment and education?')
           .getRadio('Not applicable')
           .clickLabel()
 
@@ -115,9 +115,9 @@ describe('Origin: /employment-education', () => {
   describe(`Destination: ${destinations.hasBeenEmployed}`, () => {
     employmentStatuses.forEach(employmentStatus => {
       it(`"${employmentStatus}" and "Yes, has been employed before" routes to "${destinations.hasBeenEmployed}"`, () => {
-        cy.getQuestion("What is Paul's current employment status?").getRadio(employmentStatus).clickLabel()
+        cy.getQuestion("What is Sam's current employment status?").getRadio(employmentStatus).clickLabel()
 
-        cy.getQuestion("What is Paul's current employment status?")
+        cy.getQuestion("What is Sam's current employment status?")
           .getRadio(employmentStatus)
           .getConditionalQuestion()
           .getRadio('Yes, has been employed before')
@@ -133,25 +133,25 @@ describe('Origin: /employment-education', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.hasBeenEmployed)
 
-        cy.getQuestion("What is Paul's employment history?").getRadio('Continuous employment history').clickLabel()
+        cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Paul have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Paul has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
 
-        cy.getQuestion('Does Paul have any professional or vocational qualifications?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have difficulties with reading, writing or numeracy?')
+        cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
           .clickLabel()
 
-        cy.getQuestion("What is Paul's overall experience of employment?").getRadio('Positive').clickLabel()
+        cy.getQuestion("What is Sam's overall experience of employment?").getRadio('Positive').clickLabel()
 
-        cy.getQuestion("What is Paul's experience of education?").getRadio('Positive').clickLabel()
+        cy.getQuestion("What is Sam's experience of education?").getRadio('Positive').clickLabel()
 
-        cy.getQuestion('Does Paul want to make changes to their employment and education?')
+        cy.getQuestion('Does Sam want to make changes to their employment and education?')
           .getRadio('Not applicable')
           .clickLabel()
 
@@ -164,9 +164,9 @@ describe('Origin: /employment-education', () => {
   describe(`Destination: ${destinations.neverBeenEmployed}`, () => {
     employmentStatuses.forEach(employmentStatus => {
       it(`"${employmentStatus}" and "No, has never been employed" routes to "${destinations.neverBeenEmployed}"`, () => {
-        cy.getQuestion("What is Paul's current employment status?").getRadio(employmentStatus).clickLabel()
+        cy.getQuestion("What is Sam's current employment status?").getRadio(employmentStatus).clickLabel()
 
-        cy.getQuestion("What is Paul's current employment status?")
+        cy.getQuestion("What is Sam's current employment status?")
           .getRadio(employmentStatus)
           .getConditionalQuestion()
           .getRadio('No, has never been employed')
@@ -182,21 +182,21 @@ describe('Origin: /employment-education', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.neverBeenEmployed)
 
-        cy.getQuestion('Does Paul have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Paul has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
 
-        cy.getQuestion('Does Paul have any professional or vocational qualifications?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Paul have difficulties with reading, writing or numeracy?')
+        cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
           .clickLabel()
 
-        cy.getQuestion("What is Paul's experience of education?").getRadio('Positive').clickLabel()
+        cy.getQuestion("What is Sam's experience of education?").getRadio('Positive').clickLabel()
 
-        cy.getQuestion('Does Paul want to make changes to their employment and education?')
+        cy.getQuestion('Does Sam want to make changes to their employment and education?')
           .getRadio('Not applicable')
           .clickLabel()
 

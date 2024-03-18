@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Paul have difficulties with reading, writing or numeracy?'
+  const question = 'Does Sam have difficulties with reading, writing or numeracy?'
   describe(question, () => {
     const options = ['Yes, with reading', 'Yes, with writing', 'Yes, with numeracy', null, 'No difficulties']
 
