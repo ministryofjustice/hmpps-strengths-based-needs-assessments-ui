@@ -29,7 +29,7 @@ describe('/no-accommodation-2', () => {
     cy.assertQuestionCount(questions.length)
   })
 
-  questions.forEach((questionTest, index, allQuestions) => {
-    questionTest(stepUrl, summaryPage, index + 1, allQuestions.length)
+  questions.forEach((questionTest, index) => {
+    questionTest(stepUrl, summaryPage, index + 1)
   })
 })

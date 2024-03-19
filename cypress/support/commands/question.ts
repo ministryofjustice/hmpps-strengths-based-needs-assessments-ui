@@ -34,7 +34,10 @@ export const isQuestionNumber = (subject: JQuery, position: number) => {
 export const hasHint = (subject: JQuery, ...hints: string[]) => {
   hints.forEach(hint => {
     if (hint) {
-      cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('contain.text', hint)
+      cy.wrap(subject)
+        .children('.govuk-hint:not(.govuk-character-count__message)')
+        .should('have.length', 1)
+        .and('contain.text', hint)
     } else {
       cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('not.exist')
     }

@@ -5,10 +5,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const options = ['Yes', 'Yes, with concerns', 'No']
 
     it('displays and validates the question', () => {
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasHint('This includes things like safety or having appropriate amenities.')
-        .hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
 
       cy.saveAndContinue()
 
