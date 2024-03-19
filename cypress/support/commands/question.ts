@@ -31,12 +31,14 @@ export const isQuestionNumber = (subject: JQuery, position: number) => {
   return cy.wrap(subject)
 }
 
-export const hasHint = (subject: JQuery, hint: string) => {
-  if (hint) {
-    cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('contain.text', hint)
-  } else {
-    cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('not.exist')
-  }
+export const hasHint = (subject: JQuery, ...hints: string[]) => {
+  hints.forEach(hint => {
+    if (hint) {
+      cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('contain.text', hint)
+    } else {
+      cy.wrap(subject).children('.govuk-hint:not(.govuk-character-count__message)').should('not.exist')
+    }
+  })
   return cy.wrap(subject)
 }
 
