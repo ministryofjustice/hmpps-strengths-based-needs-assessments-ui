@@ -8,6 +8,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if they have skills that could help them in a job or at work')
+      cy.checkAccessibility()
     })
     ;[
       ['Yes', 'This includes vocational qualifications, academic qualifications or transferable skills.'],
@@ -35,9 +36,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasValidationError('Enter details')
           .enterText('details')
 
+        cy.checkAccessibility()
+
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('details')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -60,6 +64,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.visitStep(summaryPage)
       cy.getSummary(question).getAnswer('No').hasNoSecondaryAnswer()
+      cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)

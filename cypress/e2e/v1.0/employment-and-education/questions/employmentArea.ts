@@ -10,6 +10,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.visitStep(summaryPage)
       cy.getSummary(question).getAnswer('some text').hasNoSecondaryAnswer()
+      cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)

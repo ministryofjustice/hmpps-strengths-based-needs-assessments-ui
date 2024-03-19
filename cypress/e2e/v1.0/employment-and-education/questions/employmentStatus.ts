@@ -17,6 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select one option')
+      cy.checkAccessibility()
     })
 
     const typesOfEmployment = ['Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship']
@@ -27,6 +28,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).getRadio('Employed').getConditionalQuestion().hasValidationError('Select one option')
+      cy.checkAccessibility()
     })
 
     typesOfEmployment.forEach(typeOfEmployment => {
@@ -37,6 +39,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer('Employed').hasSecondaryAnswer(typeOfEmployment)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -50,6 +53,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertStepUrlIsNot(stepUrl)
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -70,6 +74,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.saveAndContinue()
         cy.assertStepUrlIs(stepUrl)
         cy.getQuestion(question).getRadio(option).getConditionalQuestion().hasValidationError('Select one option')
+        cy.checkAccessibility()
       })
       ;[
         ['Yes, has been employed before', 'Has been employed before'],
@@ -81,6 +86,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           cy.saveAndContinue()
           cy.visitStep(summaryPage)
           cy.getSummary(question).getAnswer(option).hasSecondaryAnswer(hasBeenEmployedSummary)
+          cy.checkAccessibility()
           cy.getSummary(question).clickChange()
           cy.assertStepUrlIs(stepUrl)
           cy.assertQuestionUrl(question)

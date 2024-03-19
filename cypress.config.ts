@@ -1,7 +1,5 @@
 import { defineConfig } from 'cypress'
-import fs from 'fs'
-
-const accessibilityReportPath = 'test_results/cypress/accessibilityReport.txt'
+import { clearBeforeRun, generateReport } from './cypress/support/commands/accessibility'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -13,9 +11,6 @@ export default defineConfig({
     configFile: 'reporter-config.json',
   },
   taskTimeout: 60000,
-  env: {
-    accessibilityReportPath,
-  },
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
@@ -24,9 +19,8 @@ export default defineConfig({
     supportFile: 'cypress/support/index.ts',
     testIsolation: false,
     setupNodeEvents(on) {
-      on('before:run', () => {
-        fs.rmSync(accessibilityReportPath, { force: true })
-      })
+      on('before:run', clearBeforeRun)
+      on('after:run', generateReport)
       on('task', {
         log(message) {
           // eslint-disable-next-line no-console

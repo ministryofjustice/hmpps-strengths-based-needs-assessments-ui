@@ -10,6 +10,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).hasValidationError(
         "Select if they have difficulties with reading, writing or numeracy, or select 'No difficulties'",
       )
+      cy.checkAccessibility()
     })
 
     const levelsOfDifficulty = ['Significant difficulties', 'Some difficulties']
@@ -32,6 +33,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getCheckbox(option)
           .getConditionalQuestion()
           .hasValidationError('Select level of difficulty')
+
+        cy.checkAccessibility()
       })
 
       levelsOfDifficulty.forEach(levelOfDifficulty => {
@@ -41,6 +44,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           cy.saveAndContinue()
           cy.visitStep(summaryPage)
           cy.getSummary(question).getAnswer(option).hasSecondaryAnswer(levelOfDifficulty)
+          cy.checkAccessibility()
           cy.getSummary(question).clickChange()
           cy.assertStepUrlIs(stepUrl)
           cy.assertQuestionUrl(question)
@@ -58,6 +62,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.visitStep(summaryPage)
       cy.getSummary(question).getAnswer('No difficulties').hasNoSecondaryAnswer()
+      cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)

@@ -18,6 +18,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select current accommodation')
+
+      cy.checkAccessibility()
     })
 
     const typesOfSettledAccommodation = [
@@ -40,6 +42,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getRadio(options.settled)
         .getConditionalQuestion()
         .hasValidationError('Select the type of settled accommodation')
+      cy.checkAccessibility()
     })
 
     typesOfSettledAccommodation.forEach(typeOfSettledAccommodation => {
@@ -56,6 +59,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(options.settled).hasSecondaryAnswer(typeOfSettledAccommodation)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -84,6 +88,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getRadio(options.temporary)
         .getConditionalQuestion()
         .hasValidationError('Select the type of temporary accommodation')
+      cy.checkAccessibility()
     })
 
     typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
@@ -102,6 +107,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question)
           .getAnswer(options.temporary)
           .hasSecondaryAnswer(typeOfTemporaryAccommodation, 'Expected end date:', 'Not provided')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -134,6 +140,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getRadio(typeOfTemporaryAccommodation)
           .getConditionalQuestion()
           .hasValidationError('Enter a future date')
+
+        cy.checkAccessibility()
       })
     })
 
@@ -159,6 +167,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question)
           .getAnswer(options.temporary)
           .hasSecondaryAnswer(typeOfTemporaryAccommodation, 'Expected end date:', '01 January 2050')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -190,6 +199,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getRadio(options.noAccommodation)
         .getConditionalQuestion()
         .hasValidationError('Select the type of no accommodation')
+      cy.checkAccessibility()
     })
 
     typesOfNoAccommodation.forEach(typeOfNoAccommodation => {
@@ -206,6 +216,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(options.noAccommodation).hasSecondaryAnswer(typeOfNoAccommodation)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -234,6 +245,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question)
           .getAnswer(options.noAccommodation)
           .hasSecondaryAnswer(typeOfNoAccommodation, 'Some details')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
