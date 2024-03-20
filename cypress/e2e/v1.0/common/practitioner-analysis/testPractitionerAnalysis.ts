@@ -1,8 +1,8 @@
-import patternsOfBehaviours from './questions/patternsOfBehaviours';
-import linkedToRiskOfSeriousHarm from './questions/linkedToRiskOfSeriousHarm';
-import linkedToRiskOfReoffending from './questions/linkedToRiskOfReoffending';
-import areaOfNeedWhichIsNotRelatedToRisk from './questions/areaOfNeedWhichIsNotRelatedToRisk';
-import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFactors';
+import patternsOfBehaviours from './questions/patternsOfBehaviours'
+import linkedToRiskOfSeriousHarm from './questions/linkedToRiskOfSeriousHarm'
+import linkedToRiskOfReoffending from './questions/linkedToRiskOfReoffending'
+import areaOfNeedWhichIsNotRelatedToRisk from './questions/areaOfNeedWhichIsNotRelatedToRisk'
+import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFactors'
 
 export default (summaryPage: string, analysisCompletePage: string) => {
   describe(`${summaryPage} - Practitioner Analysis`, () => {

@@ -41,7 +41,7 @@ import {
   getAnalysisSummary,
   hasNoSecondaryAnalysisAnswer,
   hasSecondaryAnalysisAnswer,
-} from './commands/analysisSummary';
+} from './commands/analysisSummary'
 
 declare global {
   namespace Cypress {

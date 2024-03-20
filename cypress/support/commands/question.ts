@@ -11,7 +11,8 @@ export const getQuestion = (title: string) => {
 }
 
 export const getNextQuestion = (subject: JQuery) => {
-  return cy.wrap(subject)
+  return cy
+    .wrap(subject)
     .closest('.form-group')
     .next('.form-group')
     .find('> fieldset, > div > .govuk-form-group')
