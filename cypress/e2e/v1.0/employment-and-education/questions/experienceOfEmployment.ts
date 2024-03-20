@@ -7,7 +7,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select their experience of employment')
+      cy.getQuestion(question).hasValidationError('Select their overall experience of employment')
       cy.checkAccessibility()
     })
     ;['Positive', 'Mostly positive', 'Positive and negative', 'Mostly negative', 'Negative'].forEach(option => {
