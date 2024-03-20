@@ -1,4 +1,4 @@
-import accommodationStatus from '../questions/accommodationStatus'
+import accommodationStatus from './questions/accommodationStatus'
 
 describe('/accommodation', () => {
   const stepUrl = '/accommodation'

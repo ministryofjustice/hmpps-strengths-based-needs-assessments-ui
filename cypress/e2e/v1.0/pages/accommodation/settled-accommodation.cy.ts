@@ -1,7 +1,7 @@
-import livingWith from '../questions/livingWith'
-import suitableAccommodation from '../questions/suitableAccommodation'
-import suitableAccommodationLocation from '../questions/suitableAccommodationLocation'
-import wantToMakeChanges from '../questions/wantToMakeChanges'
+import livingWith from './questions/livingWith'
+import suitableAccommodation from './questions/suitableAccommodation'
+import suitableAccommodationLocation from './questions/suitableAccommodationLocation'
+import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/settled-accommodation', () => {
   const stepUrl = '/settled-accommodation'

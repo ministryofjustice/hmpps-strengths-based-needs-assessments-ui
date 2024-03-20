@@ -1,9 +1,12 @@
-import wantToMakeChanges from '../questions/wantToMakeChanges'
+import noAccommodationReason from './questions/noAccommodationReason'
+import pastAccommodationDetails from './questions/pastAccommodationDetails'
+import suitableAccommodationPlanned from './questions/suitableAccommodationPlanned'
+import wantToMakeChanges from './questions/wantToMakeChanges'
 
-describe('/no-accommodation-2', () => {
-  const stepUrl = '/no-accommodation-2'
+describe('/no-accommodation', () => {
+  const stepUrl = '/no-accommodation'
   const summaryPage = '/accommodation-summary-analysis'
-  const questions = [wantToMakeChanges]
+  const questions = [noAccommodationReason, pastAccommodationDetails, suitableAccommodationPlanned, wantToMakeChanges]
 
   beforeEach(() => {
     cy.createAssessment()
@@ -14,15 +17,8 @@ describe('/no-accommodation-2', () => {
     cy.getQuestion("What is Sam's current accommodation?")
       .getRadio('No accommodation')
       .getConditionalQuestion()
-      .getRadio('Awaiting assessment')
+      .getRadio('Campsite')
       .clickLabel()
-
-    cy.getQuestion("What is Sam's current accommodation?")
-      .getRadio('No accommodation')
-      .getConditionalQuestion()
-      .getRadio('Awaiting assessment')
-      .getConditionalQuestion()
-      .enterText('Some details')
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
