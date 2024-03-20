@@ -19,3 +19,7 @@
   float: right;
   text-align: right;
 }
+
+#practitioner-analysis form {
+  @extend .govuk-\!-width-three-quarters
+}
