@@ -26,6 +26,14 @@
   </div>
 {%- endmacro -%}
 
+{%- macro renderTextAnswer(answer) -%}
+  <ul class="govuk-list">
+    <li class="summary-details-list">
+      <span class="summary__answer">{{ answer }}</span>
+    </li>
+  </ul>
+{%- endmacro -%}
+
 {%- macro renderCurrentAccommodation(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["current_accommodation"].options %}
@@ -109,26 +117,11 @@
   </ul>
 {%- endmacro -%}
 
-{%- macro renderSuitableHousingLocationConcerns(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["suitable_housing_location_concerns"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="summary__answer--secondary">{{ option.text }}</span>
-          {% if option.value == "OTHER" %}
-            <span class="summary__answer--secondary">{{ answers["suitable_housing_location_concerns_other_details"] }}</span>
-          {% endif %}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
-
 {%- macro renderSuitableHousingLocation(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["suitable_housing_location"].options %}
         {% if option.checked %}
-        <li>
+        <li class="summary-details-list">
           <span class="summary__answer">{{ option.text }}</span>
           {% if option.value == "NO" %}
             {{ renderSuitableHousingLocationConcerns(fields, answers) }}
@@ -139,41 +132,22 @@
   </ul>
 {%- endmacro -%}
 
-{%- macro renderSuitableHousingConcerns(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["suitable_housing_concerns"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="summary__answer--secondary">{{ option.text }}</span>
-          {% if option.value == "OTHER" %}
-            <span class="summary__answer--secondary">{{ answers["suitable_housing_concerns_other_details"] }}</span>
-          {% endif %}
-        </li>
+{%- macro renderSuitableHousingLocationConcerns(fields, answers) -%}
+  {% for option in fields["suitable_housing_location_concerns"].options %}
+    {% if option.checked %}
+      <span class="summary__answer--secondary">{{ option.text }}</span>
+      {% if option.value == "OTHER" and answers["suitable_housing_location_concerns_other_details"] %}
+        <span class="summary__answer--secondary">{{ answers["suitable_housing_location_concerns_other_details"] }}</span>
       {% endif %}
-    {% endfor %}
-  </ul>
+    {% endif %}
+  {% endfor %}  
 {%- endmacro -%}
 
-{%- macro renderUnsuitableHousingConcerns(fields, answers) -%}
-  <ul class="govuk-list">
-    {% for option in fields["unsuitable_housing_concerns"].options %}
-        {% if option.checked %}
-        <li class="summary-details-list">
-          <span class="summary__answer--secondary">{{ option.text }}</span>
-          {% if option.value == "OTHER" %}
-            <span class="summary__answer--secondary">{{ answers["unsuitable_housing_concerns_other_details"] }}</span>
-          {% endif %}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-{%- endmacro -%}
-
-{%- macro renderSuitableHousingLocation(fields, answers) -%}
+{%- macro renderSuitableHousing(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["suitable_housing"].options %}
-        {% if option.checked %}
-        <li>
+      {% if option.checked %}
+        <li class="summary-details-list">
           <span class="summary__answer">{{ option.text }}</span>
           {% if option.value == "YES_WITH_CONCERNS" %}
             {{ renderSuitableHousingConcerns(fields, answers) }}
@@ -187,6 +161,28 @@
   </ul>
 {%- endmacro -%}
 
+{%- macro renderSuitableHousingConcerns(fields, answers) -%}  
+  {% for option in fields["suitable_housing_concerns"].options %}
+    {% if option.checked %}
+      <span class="summary__answer--secondary">{{ option.text }}</span>
+      {% if option.value == "OTHER" and answers["suitable_housing_concerns_other_details"] %}
+        <span class="summary__answer--secondary">{{ answers["suitable_housing_concerns_other_details"] }}</span>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{%- endmacro -%}
+
+{%- macro renderUnsuitableHousingConcerns(fields, answers) -%}
+  {% for option in fields["unsuitable_housing_concerns"].options %}
+    {% if option.checked %}
+      <span class="summary__answer--secondary">{{ option.text }}</span>
+      {% if option.value == "OTHER" and answers["unsuitable_housing_concerns_other_details"] %}
+        <span class="summary__answer--secondary">{{ answers["unsuitable_housing_concerns_other_details"] }}</span>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{%- endmacro -%}
+
 {%- macro renderAccommodationChange(fields, answers) -%}
   <ul class="govuk-list">
     {% for option in fields["accommodation_changes"].options %}
@@ -195,17 +191,17 @@
           <span class="summary__answer">{{ option.text }}</span>
           {%- switch option.value -%}
             {% case "MADE_CHANGES" %}
-              <span class="summary__answer--secondary">{{ answers["accommodation_made_changes_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["accommodation_changes_made_changes_details"] }}</span>
             {% case "MAKING_CHANGES" %}
-              <span class="summary__answer--secondary">{{ answers["accommodation_making_changes_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["accommodation_changes_making_changes_details"] }}</span>
             {% case "WANT_TO_MAKE_CHANGES" %}
-              <span class="summary__answer--secondary">{{ answers["accommodation_want_to_make_changes_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["accommodation_changes_want_to_make_changes_details"] }}</span>
             {% case "NEEDS_HELP_TO_MAKE_CHANGES" %}
-              <span class="summary__answer--secondary">{{ answers["accommodation_needs_help_to_make_changes_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["accommodation_changes_needs_help_to_make_changes_details"] }}</span>
             {% case "THINKING_ABOUT_MAKING_CHANGES" %}
-              <span class="summary__answer--secondary">{{ answers["accommodation_thinking_about_making_changes_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["accommodation_changes_thinking_about_making_changes_details"] }}</span>
             {% case "DOES_NOT_WANT_TO_MAKE_CHANGES" %}
-              <span class="summary__answer--secondary">{{ answers["accommodation_does_not_want_to_make_changes_details"] }}</span>
+              <span class="summary__answer--secondary">{{ answers["accommodation_changes_does_not_want_to_make_changes_details"] }}</span>
             {% default %}
           {%- endswitch -%}
         </li>
@@ -221,23 +217,18 @@
         <li class="summary-details-list">
           <span class="summary__answer">{{ option.text }}</span>
           {% if option.value == "YES" %}
-            <ul class="govuk-list">
-              {% for subOption in fields["future_accommodation_type"].options %}
-                {% if subOption.checked %}
-                  <li class="summary-details-list">
-                    <span class="summary__answer--secondary">{{ subOption.text }}</span>
-                    {%- switch subOption.value -%}
-                    {% case "AWAITING_ASSESSMENT" %}
-                      <span class="summary__answer--secondary">{{ answers["suitable_housing_planned_awaiting_assessment_details"] }}</span>
-                    {% case "AWAITING_PLACEMENT" %}
-                      <span class="summary__answer--secondary">{{ answers["awaiting_accommodation_placement_details"] }}</span>
-                    {% case "OTHER" %}
-                      <span class="summary__answer--secondary">{{ answers["suitable_housing_planned_other_details"] }}</span>
-                    {%- endswitch -%}
-                  </li>
+            {% for subOption in fields["future_accommodation_type"].options %}
+              {% if subOption.checked %}
+                <span class="summary__answer--secondary">{{ subOption.text }}</span>
+                {% if subOption.value == "AWAITING_ASSESSMENT" and answers["suitable_housing_planned_awaiting_assessment_details"]  %}
+                  <span class="summary__answer--secondary">{{ answers["suitable_housing_planned_awaiting_assessment_details"] }}</span>
+                {% elif subOption.value == "AWAITING_PLACEMENT" and answers["awaiting_accommodation_placement_details"]  %}
+                  <span class="summary__answer--secondary">{{ answers["awaiting_accommodation_placement_details"] }}</span>
+                {% elif subOption.value == "OTHER" and answers["suitable_housing_planned_other_details"]  %}
+                  <span class="summary__answer--secondary">{{ answers["suitable_housing_planned_other_details"] }}</span>
                 {% endif %}
-              {% endfor %}
-            </ul>
+              {% endif %}
+            {% endfor %}
           {% endif %}
         </li>
       {% endif %}
@@ -283,7 +274,7 @@
   {% case "suitable_housing" %}
     {{ renderSummaryListRow(
       options.fields[field].text,
-      renderSuitableHousingLocation(options.fields, options.answers),
+      renderSuitableHousing(options.fields, options.answers),
       options.backLink + "#" + field
     ) }}
   {% case "accommodation_changes" %}
@@ -307,7 +298,7 @@
   {% case "past_accommodation_details" %}
     {{ renderSummaryListRow(
       options.fields[field].text,
-      options.fields[field].value,
+      renderTextAnswer(options.fields[field].value),
       options.backLink + "#" + field
     ) }}
   {%- endswitch -%}
@@ -319,9 +310,9 @@
   {% set backLink = "settled-accommodation" %}
 {% elif answers["current_accommodation"] === "TEMPORARY" %}
   {% if answers["type_of_temporary_accommodation"] === "SHORT_TERM" or answers["type_of_temporary_accommodation"] === "IMMIGRATION" %}
-    {% set backLink = "temporary-accommodation-2" %}
-  {% else %}
     {% set backLink = "temporary-accommodation" %}
+  {% else %}
+    {% set backLink = "temporary-accommodation-2" %}
   {% endif %}
 {% elif answers["current_accommodation"] === "NO_ACCOMMODATION" %}
   {% if answers["type_of_no_accommodation"] === "AWAITING_ASSESSMENT" %}
@@ -338,7 +329,7 @@
     {{ renderSummaryItemFor("suitable_housing_location", { fields: fields, answers: answers, backLink: backLink }) }}
     {{ renderSummaryItemFor("suitable_housing", { fields: fields, answers: answers, backLink: backLink }) }}
   {% elif answers["current_accommodation"] === "TEMPORARY" %}
-    {% if not (answers["type_of_temporary_accommodation"] == "SHORT_TERM" or answers["type_of_temporary_accommodation"] == "IMMIGRATION") %}
+    {% if (answers["type_of_temporary_accommodation"] == "SHORT_TERM" or answers["type_of_temporary_accommodation"] == "IMMIGRATION") %}
       {{ renderSummaryItemFor("living_with", { fields: fields, answers: answers, backLink: backLink }) }}
     {% endif %}
     {{ renderSummaryItemFor("suitable_housing_location", { fields: fields, answers: answers, backLink: backLink }) }}
