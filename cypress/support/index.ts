@@ -1,4 +1,4 @@
-import { createAssessment, saveAndContinue } from './commands/assessment'
+import { createAssessment, markAsComplete, saveAndContinue } from './commands/assessment'
 import {
   assertQuestionUrl,
   assertSectionIs,
@@ -20,6 +20,7 @@ import { assertQuestionCount } from './commands/page'
 import {
   enterDate,
   getCheckbox,
+  getNextQuestion,
   getQuestion,
   getRadio,
   hasCheckboxes,
@@ -34,6 +35,13 @@ import {
 import { clickChange, getAnswer, getSummary, hasNoSecondaryAnswer, hasSecondaryAnswer } from './commands/summary'
 import 'cypress-axe'
 import { checkAccessibility } from './commands/accessibility'
+import {
+  clickChangeAnalysis,
+  getAnalysisAnswer,
+  getAnalysisSummary,
+  hasNoSecondaryAnalysisAnswer,
+  hasSecondaryAnalysisAnswer,
+} from './commands/analysisSummary'
 
 declare global {
   namespace Cypress {
@@ -41,9 +49,17 @@ declare global {
       // accessibility
       checkAccessibility(): Chainable
 
+      // analysis summary
+      getAnalysisSummary(question: string): Chainable
+      clickChangeAnalysis(): Chainable
+      getAnalysisAnswer(answer: string): Chainable
+      hasSecondaryAnalysisAnswer(answer: string): Chainable
+      hasNoSecondaryAnalysisAnswer(): Chainable
+
       // assessment
       createAssessment(): Chainable
       saveAndContinue(): Chainable
+      markAsComplete(): Chainable
 
       // navigation
       visitSection(name: string): Chainable
@@ -67,6 +83,7 @@ declare global {
 
       // question
       getQuestion(title: string): Chainable
+      getNextQuestion(): Chainable
       hasTitle(title: string): Chainable
       isQuestionNumber(position: number): Chainable
       hasHint(...hints: string[]): Chainable
@@ -92,9 +109,17 @@ declare global {
 // accessibility
 Cypress.Commands.add('checkAccessibility', checkAccessibility)
 
+// analysis summary
+Cypress.Commands.add('getAnalysisSummary', getAnalysisSummary)
+Cypress.Commands.add('clickChangeAnalysis', { prevSubject: true }, clickChangeAnalysis)
+Cypress.Commands.add('getAnalysisAnswer', { prevSubject: true }, getAnalysisAnswer)
+Cypress.Commands.add('hasSecondaryAnalysisAnswer', { prevSubject: true }, hasSecondaryAnalysisAnswer)
+Cypress.Commands.add('hasNoSecondaryAnalysisAnswer', { prevSubject: true }, hasNoSecondaryAnalysisAnswer)
+
 // assessment
 Cypress.Commands.add('createAssessment', createAssessment)
 Cypress.Commands.add('saveAndContinue', saveAndContinue)
+Cypress.Commands.add('markAsComplete', markAsComplete)
 
 // navigation
 Cypress.Commands.add('visitSection', visitSection)
@@ -118,6 +143,7 @@ Cypress.Commands.add('assertQuestionCount', assertQuestionCount)
 
 // question
 Cypress.Commands.add('getQuestion', getQuestion)
+Cypress.Commands.add('getNextQuestion', { prevSubject: true }, getNextQuestion)
 Cypress.Commands.add('hasTitle', { prevSubject: true }, hasTitle)
 Cypress.Commands.add('isQuestionNumber', { prevSubject: true }, isQuestionNumber)
 Cypress.Commands.add('hasHint', { prevSubject: true }, hasHint)

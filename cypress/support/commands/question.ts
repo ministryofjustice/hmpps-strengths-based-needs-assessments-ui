@@ -10,6 +10,16 @@ export const getQuestion = (title: string) => {
     .closest('fieldset, .govuk-form-group')
 }
 
+export const getNextQuestion = (subject: JQuery) => {
+  return cy
+    .wrap(subject)
+    .closest('.form-group')
+    .next('.form-group')
+    .find('> fieldset, > div > .govuk-form-group')
+    .should('be.visible')
+    .and('have.length', 1)
+}
+
 export const hasTitle = (subject: JQuery, title: string) => {
   cy.wrap(subject)
     .find('> legend, > label')
@@ -48,7 +58,7 @@ export const hasHint = (subject: JQuery, ...hints: string[]) => {
 export const hasLimit = (subject: JQuery, limit: number) => {
   cy.wrap(subject)
     .children('.govuk-character-count__message')
-    .should('contain.text', `You have ${limit} characters remaining`)
+    .should('contain.text', `You have ${limit.toLocaleString()} characters remaining`)
   return cy.wrap(subject)
 }
 
