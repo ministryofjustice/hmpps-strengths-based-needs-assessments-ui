@@ -243,10 +243,10 @@ export const educationFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Select the highest level of education [subject] has completed',
+    text: 'Select the highest level of academic qualification [subject] has completed ',
     code: 'education_highest_level_completed',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select the highest level of education completed' }],
+    validate: [{ type: ValidationType.Required, message: 'Select the highest level of academic qualification completed' }],
     options: [
       {
         text: 'Entry level',
