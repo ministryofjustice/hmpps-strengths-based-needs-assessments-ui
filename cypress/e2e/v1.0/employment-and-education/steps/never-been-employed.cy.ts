@@ -36,4 +36,8 @@ describe('/never-been-employed', () => {
   questions.forEach((questionTest, index) => {
     questionTest(stepUrl, summaryPage, index + 1)
   })
+
+  it('Should have no accessibility violations', () => {
+    cy.checkAccessibility()
+  })
 })

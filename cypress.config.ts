@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress'
+import { clearBeforeRun, generateReport } from './cypress/support/commands/accessibility'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -17,5 +18,21 @@ export default defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress/support/index.ts',
     testIsolation: false,
+    setupNodeEvents(on) {
+      on('before:run', clearBeforeRun)
+      on('after:run', generateReport)
+      on('task', {
+        log(message) {
+          // eslint-disable-next-line no-console
+          console.log(message)
+          return null
+        },
+        table(message) {
+          // eslint-disable-next-line no-console
+          console.table(message)
+          return null
+        },
+      })
+    },
   },
 })

@@ -16,6 +16,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select their employment history')
+      cy.checkAccessibility()
     })
 
     options.forEach(option => {
@@ -29,6 +30,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasHint("Include what type of work they've done before.")
           .hasLimit(400)
 
+        cy.checkAccessibility()
+
         cy.saveAndContinue()
         cy.getQuestion(question)
           .hasNoValidationError()
@@ -40,6 +43,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('some text')
+
+        cy.checkAccessibility()
+
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)

@@ -32,10 +32,15 @@ import {
   isQuestionNumber,
 } from './commands/question'
 import { clickChange, getAnswer, getSummary, hasNoSecondaryAnswer, hasSecondaryAnswer } from './commands/summary'
+import 'cypress-axe'
+import { checkAccessibility } from './commands/accessibility'
 
 declare global {
   namespace Cypress {
     interface Chainable {
+      // accessibility
+      checkAccessibility(): Chainable
+
       // assessment
       createAssessment(): Chainable
       saveAndContinue(): Chainable
@@ -83,6 +88,9 @@ declare global {
     }
   }
 }
+
+// accessibility
+Cypress.Commands.add('checkAccessibility', checkAccessibility)
 
 // assessment
 Cypress.Commands.add('createAssessment', createAssessment)

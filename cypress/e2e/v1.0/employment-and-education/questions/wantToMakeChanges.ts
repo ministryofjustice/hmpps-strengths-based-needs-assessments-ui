@@ -24,6 +24,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).hasValidationError(
         'Select if they want to make changes to their employment and education',
       )
+      cy.checkAccessibility()
     })
     ;[
       'I have already made positive changes and want to maintain them',
@@ -51,9 +52,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasNoValidationError()
           .enterText('some text')
 
+        cy.checkAccessibility()
+
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('some text')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
@@ -70,6 +74,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)

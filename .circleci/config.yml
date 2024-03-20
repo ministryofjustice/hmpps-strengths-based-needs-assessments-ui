@@ -97,6 +97,9 @@ jobs:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
+      - store_artifacts:
+          path: test_results/cypress/accessibilityReport.txt
+          destination: accessibilityReport.txt
 
   e2e_test_dev:
     circleci_ip_ranges: true
@@ -119,6 +122,9 @@ jobs:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
+      - store_artifacts:
+          path: test_results/cypress/accessibilityReport.txt
+          destination: accessibilityReport.txt
 
 workflows:
   version: 2

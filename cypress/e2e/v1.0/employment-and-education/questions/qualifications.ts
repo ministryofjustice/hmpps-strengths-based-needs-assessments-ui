@@ -8,6 +8,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if they have any professional or vocational qualifications')
+      cy.checkAccessibility()
     })
 
     it(`conditional field is displayed for "Yes"`, () => {
@@ -28,9 +29,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasNoValidationError()
         .enterText('some text')
 
+      cy.checkAccessibility()
+
       cy.saveAndContinue()
       cy.visitStep(summaryPage)
       cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer('some text')
+      cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
@@ -46,6 +50,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
