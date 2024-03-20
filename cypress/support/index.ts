@@ -69,7 +69,7 @@ declare global {
       getQuestion(title: string): Chainable
       hasTitle(title: string): Chainable
       isQuestionNumber(position: number): Chainable
-      hasHint(hint: string): Chainable
+      hasHint(...hints: string[]): Chainable
       hasLimit(limit: number): Chainable
       hasRadios(options: string[]): Chainable
       hasCheckboxes(options: string[]): Chainable
