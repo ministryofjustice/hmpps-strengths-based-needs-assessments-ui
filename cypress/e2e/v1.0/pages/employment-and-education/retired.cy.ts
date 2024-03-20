@@ -1,10 +1,10 @@
-import qualifications from '../questions/qualifications'
-import skills from '../questions/skills'
-import difficulties from '../questions/difficulties'
-import employmentHistory from '../questions/employmentHistory'
-import otherResponsibilities from '../questions/otherResponsibilities'
-import levelOfEducation from '../questions/levelOfEducation'
-import wantToMakeChanges from '../questions/wantToMakeChanges'
+import qualifications from './questions/qualifications'
+import skills from './questions/skills'
+import difficulties from './questions/difficulties'
+import employmentHistory from './questions/employmentHistory'
+import otherResponsibilities from './questions/otherResponsibilities'
+import levelOfEducation from './questions/levelOfEducation'
+import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/retired', () => {
   const stepUrl = '/retired'

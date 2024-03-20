@@ -1,4 +1,4 @@
-import employmentStatus from '../questions/employmentStatus'
+import employmentStatus from './questions/employmentStatus'
 
 describe('/employment-education', () => {
   const stepUrl = '/employment-education'
