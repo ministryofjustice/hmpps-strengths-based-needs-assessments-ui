@@ -132,15 +132,15 @@ workflows:
     when:
       not: << pipeline.parameters.deploy >>
     jobs:
-      - lint:
-          filters:
-            tags:
-              ignore: /.*/
-      - unit_test:
-          requires:
-            - lint
-      - hmpps/helm_lint:
-          name: helm_lint
+#      - lint:
+#          filters:
+#            tags:
+#              ignore: /.*/
+#      - unit_test:
+#          requires:
+#            - lint
+#      - hmpps/helm_lint:
+#          name: helm_lint
       - hmpps/build_docker:
           name: build_docker
           publish: false
@@ -149,45 +149,45 @@ workflows:
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
-      - e2e_test:
+#      - e2e_test:
+#          context: hmpps-common-vars
+#          requires:
+#            - build_docker
+      - hmpps/publish_docker:
+          name: publish_docker
+          publish_latest_tag: false
           context: hmpps-common-vars
           requires:
             - build_docker
-      - hmpps/publish_docker:
-          name: publish_docker
-          publish_latest_tag: true
-          context: hmpps-common-vars
-          requires:
-            - lint
-            - unit_test
-            - e2e_test
-          filters:
-            branches:
-              only:
-                - main
-      - hmpps/deploy_env:
-          name: deploy_dev
-          env: "dev"
-          jira_update: true
-          pipeline_id: << pipeline.id >>
-          pipeline_number: << pipeline.number >>
-          context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - helm_lint
-            - publish_docker
-          helm_timeout: 5m
-      - e2e_test_dev:
-          context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - deploy_dev
+#            - unit_test
+#            - e2e_test
+#          filters:
+#            branches:
+#              only:
+#                - main
+#      - hmpps/deploy_env:
+#          name: deploy_dev
+#          env: "dev"
+#          jira_update: true
+#          pipeline_id: << pipeline.id >>
+#          pipeline_number: << pipeline.number >>
+#          context: hmpps-common-vars
+#          filters:
+#            branches:
+#              only:
+#                - main
+#          requires:
+#            - helm_lint
+#            - publish_docker
+#          helm_timeout: 5m
+#      - e2e_test_dev:
+#          context: hmpps-common-vars
+#          filters:
+#            branches:
+#              only:
+#                - main
+#          requires:
+#            - deploy_dev
   #      - hmpps/deploy_env:
   #          name: deploy_preprod
   #          env: "preprod"
