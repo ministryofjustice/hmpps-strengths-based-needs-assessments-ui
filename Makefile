@@ -46,14 +46,13 @@ e2e: ## Run the end-to-end tests in the Cypress app. Override the default base U
 	npm i
 	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
 
-BASE_URL_CI ?= "http://localhost:3007"
+BASE_URL_CI ?= "http://ui:3000"
 e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
-	npm i
-	npx cypress run -c baseUrl=$(BASE_URL_CI)
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm -e CYPRESS_BASE_URL=${BASE_URL_CI} cypress
 
-test-up: ## Stands up a test environment with the UI exposed on port 3007.
+test-up: ## Stands up a test environment.
 	docker compose --progress plain pull
-	docker compose --progress plain ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait
+	docker compose --progress plain ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait --force-recreate
 
 test-down: ## Stops and removes all of the test containers.
 	docker compose --progress plain ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test down
