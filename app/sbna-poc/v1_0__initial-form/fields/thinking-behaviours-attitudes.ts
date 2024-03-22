@@ -533,7 +533,7 @@ export const makeChangesFields = createWantToMakeChangesFields(
 )
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'thinking-behaviours-attitudes',
+  'thinking_behaviours_attitudes',
 )
 
 export const questionSectionComplete: FormWizard.Field = {
