@@ -181,27 +181,23 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select how good they are at managing their money' }],
     options: [
       {
-        text: 'Good',
+        text: 'Able to manage their money well and is a strength',
         value: 'GOOD',
-        hint: { text: 'Able to manage their money well and is a strength.' },
         kind: 'option',
       },
       {
-        text: 'Fairly good',
+        text: 'Able to manage their money for everyday necessities',
         value: 'FAIRLY_GOOD',
-        hint: { text: 'Able to manage their money for everyday necessities.' },
         kind: 'option',
       },
       {
-        text: 'Fairly bad',
+        text: 'Unable to manage their money well',
         value: 'FAIRLY_BAD',
-        hint: { text: 'Unable to manage their money well.' },
         kind: 'option',
       },
       {
-        text: 'Bad',
+        text: 'Unable to manage their money which is creating other problems',
         value: 'BAD',
-        hint: { text: 'Unable to manage their money which is creating other problems.' },
         kind: 'option',
       },
     ],
