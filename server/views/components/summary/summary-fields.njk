@@ -6,7 +6,7 @@
       <ul class="govuk-list">
         {% for answer in summaryField.answers %}
           <li class="summary-details-list">
-            <span class="summary__answer--secondary">{{ answer.text }}</span>
+            <span class="summary__answer--secondary">{{ answer.text | striptags(true) | escape | nl2br | safe }}</span>
             {{ renderNestedFields(answer.nestedFields) }}
           </li>
         {% endfor %}
@@ -15,7 +15,7 @@
     {% else %}
 
       {% for answer in summaryField.answers %}
-        <span class="summary__answer--secondary">{{ answer.text }}</span>
+        <span class="summary__answer--secondary">{{ answer.text  | striptags(true) | escape | nl2br | safe }}</span>
         {{ renderNestedFields(answer.nestedFields) }}
       {% endfor %}
 
@@ -37,7 +37,7 @@
 
           {% for answer in summaryField.answers %}
             <li class="summary-details-list">
-              <span class="summary__answer">{{ answer.text }}</span>
+              <span class="summary__answer">{{ answer.text | striptags(true) | escape | nl2br | safe }}</span>
               {{ renderNestedFields(answer.nestedFields) }}
             </li>
           {% endfor %}
