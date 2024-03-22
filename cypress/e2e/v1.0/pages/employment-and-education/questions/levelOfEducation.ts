@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Select the highest level of education Sam has completed'
+  const question = 'Select the highest level of academic qualification Sam has completed'
   describe(question, () => {
     const options = [
       ['Entry level', 'For example, entry level diploma'],
@@ -23,7 +23,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasRadios(options.map(([label]) => label))
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select the highest level of education completed')
+      cy.getQuestion(question).hasValidationError('Select the highest level of academic qualification completed')
       cy.checkAccessibility()
     })
 

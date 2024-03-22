@@ -54,7 +54,9 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of academic qualification Sam has completed')
+          .getRadio('Entry level')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
@@ -103,7 +105,9 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of academic qualification Sam has completed')
+          .getRadio('Entry level')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
@@ -162,7 +166,9 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of academic qualification Sam has completed')
+          .getRadio('Entry level')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
@@ -217,7 +223,9 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
 
-        cy.getQuestion('Select the highest level of education Sam has completed').getRadio('Entry level').clickLabel()
+        cy.getQuestion('Select the highest level of academic qualification Sam has completed')
+          .getRadio('Entry level')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
