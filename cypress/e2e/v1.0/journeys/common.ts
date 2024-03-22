@@ -18,11 +18,39 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
       })
 
       cy.markAsComplete()
+
       cy.assertStepUrlIs(destination)
-
       cy.get('#practitioner-analysis').should('be.visible')
-
       cy.sectionMarkedAsComplete(sectionName)
+
+      // Check editing the practitioner analysis removes the complete status
+      cy.get('#tab_summary').click()
+      cy.get('#summary').should('be.visible')
+
+      cy.get('#summary .govuk-summary-list__actions .govuk-link').filter(':contains(Change)').last().click()
+
+      cy.saveAndContinue()
+
+      cy.assertStepUrlIs(origin)
+      cy.sectionNotMarkedAsComplete(sectionName)
+      cy.get('#tab_practitioner-analysis').click()
+      cy.get('#practitioner-analysis').should('be.visible')
+      cy.markAsComplete()
+
+      cy.assertStepUrlIs(destination)
+      cy.get('#tab_practitioner-analysis').click()
+      cy.get('#practitioner-analysis').should('be.visible')
+      cy.sectionMarkedAsComplete(sectionName)
+
+      cy.get('#tab_summary').click()
+      cy.get('#summary').should('be.visible')
+
+      // Check editing questions in the section removes the complete status
+      cy.get('#summary .govuk-summary-list__actions .govuk-link').filter(':contains(Change)').first().click()
+
+      cy.saveAndContinue()
+      cy.visitStep(destination)
+      cy.sectionNotMarkedAsComplete(sectionName)
     })
   })
 }
