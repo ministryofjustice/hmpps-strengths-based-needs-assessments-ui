@@ -3,14 +3,27 @@ version: '3.8'
 services:
   api:
     environment:
-      LINK_BASE_URL: http://localhost:3007/form
+      LINK_BASE_URL: http://ui:3000/form
 
   ui:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
-    ports:
-      - "3007:3000"
     environment:
-      INGRESS_URL: http://localhost:3007
+      INGRESS_URL: http://ui:3000
+      HMPPS_AUTH_EXTERNAL_URL: http://hmpps-auth:9090/auth
+
+  cypress:
+    image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
+    networks:
+      - hmpps
+    volumes:
+      - ./:/e2e
+    working_dir: /e2e
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        npm i --no-audit
+        npx cypress install
+        npx cypress run --browser chrome --headless
 
 volumes:
   test_results:
