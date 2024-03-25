@@ -191,18 +191,19 @@ export const employmentHistory: Array<FormWizard.Field> = [
 
 export const educationFields: Array<FormWizard.Field> = [
   {
-    text: 'Does [subject] have any other responsibilities?',
+    text: 'Does [subject] have any additional day-to-day commitments?',
     hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'employment_other_responsibilities',
     type: FieldType.CheckBox,
     multiple: true,
     validate: [
-      { type: ValidationType.Required, message: "Select if they have any other responsibilities, or select 'None'" },
+      { type: ValidationType.Required, message: "Select if they have any additional day-to-day commitments, or select ‘None’"},
     ],
     options: [
-      { text: 'Carer', value: 'CARER', kind: 'option' },
-      { text: 'Volunteer', value: 'VOLUNTEER', kind: 'option' },
-      { text: 'Student', value: 'STUDENT', kind: 'option' },
+      { text: 'Caring responsibilities', value: 'CARER', kind: 'option' },
+      { text: 'Child responsibilities', value: 'CHILD', kind: 'option' },
+      { text: 'Studying', value: 'STUDYING', kind: 'option' },
+      { text: 'Volunteering', value: 'VOLUNTEER', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
       orDivider,
       { text: 'None', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
@@ -217,6 +218,17 @@ export const educationFields: Array<FormWizard.Field> = [
     dependent: {
       field: 'employment_other_responsibilities',
       value: 'CARER',
+      displayInline: true,
+    },
+  },
+  {
+    text: 'Give details (optional)',
+    code: 'employment_other_responsibilities_child_details',
+    type: FieldType.TextArea,
+    validate: [],
+    dependent: {
+      field: 'employment_other_responsibilities',
+      value: 'CHILD',
       displayInline: true,
     },
   },
