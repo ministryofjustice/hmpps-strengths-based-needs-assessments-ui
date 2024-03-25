@@ -8,7 +8,7 @@ describe('Origin: /accommodation', () => {
     temporary2: '/temporary-accommodation-2',
     noAccommodation: '/no-accommodation',
     noAccommodation2: '/no-accommodation-2',
-    analysis: '/accommodation-summary-analysis',
+    analysis: '/accommodation-analysis',
     analysisComplete: '/accommodation-analysis-complete',
   }
 
