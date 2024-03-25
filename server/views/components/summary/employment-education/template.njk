@@ -83,6 +83,8 @@
           {%- switch option.value -%}
             {% case "CARER" %}
               <span class="summary__answer--secondary">{{ answers["employment_other_responsibilities_carer_details"] }}</span>
+             {% case "CHILD" %}
+              <span class="summary__answer--secondary">{{ answers["employment_other_responsibilities_child_details"] }}</span>
             {% case "VOLUNTEER" %}
               <span class="summary__answer--secondary">{{ answers["employment_other_responsibilities_volunteer_details"] }}</span>
             {% case "OTHER" %}
