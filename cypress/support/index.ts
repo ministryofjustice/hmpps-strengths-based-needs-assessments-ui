@@ -166,3 +166,6 @@ Cypress.Commands.add('clickChange', { prevSubject: true }, clickChange)
 Cypress.Commands.add('getAnswer', { prevSubject: true }, getAnswer)
 Cypress.Commands.add('hasSecondaryAnswer', { prevSubject: true }, hasSecondaryAnswer)
 Cypress.Commands.add('hasNoSecondaryAnswer', { prevSubject: true }, hasNoSecondaryAnswer)
+
+// take full-page screenshots on failure
+Cypress.Screenshot.defaults({ capture: 'fullPage' })
