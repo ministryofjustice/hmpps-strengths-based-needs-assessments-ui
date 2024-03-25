@@ -1,13 +1,23 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam have any additional day-to-day commitments?'
   describe(question, () => {
-    const options = ['Caring responsibilities', 'Child responsibilities', 'Studying', 'Volunteering', 'Other', null, 'None']
+    const options = [
+      'Caring responsibilities',
+      'Child responsibilities',
+      'Studying',
+      'Volunteering',
+      'Other',
+      null,
+      'None',
+    ]
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Select all that apply.').hasCheckboxes(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError("Select if they have any additional day-to-day commitments, or select ‘None’")
+      cy.getQuestion(question).hasValidationError(
+        'Select if they have any additional day-to-day commitments, or select ‘None’',
+      )
       cy.checkAccessibility()
     })
     ;['Caring responsibilities', 'Child responsibilities', 'Volunteering', 'Other'].forEach(option => {

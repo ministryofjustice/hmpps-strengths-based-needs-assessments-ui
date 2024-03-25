@@ -197,7 +197,10 @@ export const educationFields: Array<FormWizard.Field> = [
     type: FieldType.CheckBox,
     multiple: true,
     validate: [
-      { type: ValidationType.Required, message: "Select if they have any additional day-to-day commitments, or select ‘None’"},
+      {
+        type: ValidationType.Required,
+        message: 'Select if they have any additional day-to-day commitments, or select ‘None’',
+      },
     ],
     options: [
       { text: 'Caring responsibilities', value: 'CARER', kind: 'option' },
