@@ -43,12 +43,11 @@ export function getSelectedAnswers(field: FormWizard.Field) {
     .join(', ')
 }
 
-export function removeSectionCompleteFields(fields: string[] = []): string[] {
-  return fields.filter(it => !it.endsWith('_section_complete'))
-}
+export const isSectionCompleteField = (field: string) => field.endsWith('_section_complete')
+export const isPractitionerAnalysisField = (field: string) => field.includes('_practitioner_analysis_')
 
-export function removePractitionerAnalysisFields(fields: string[] = []): string[] {
-  return fields.filter(it => !it.includes('_practitioner_analysis_'))
+export function removeSectionCompleteFields(fields: string[] = []): string[] {
+  return fields.filter(field => !isSectionCompleteField(field))
 }
 
 export function formatDateForDisplay(value: string): string {

@@ -1,6 +1,6 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import { whereSelectable } from '../../app/common/controllers/saveAndContinue.utils'
-import { formatDateForDisplay, removePractitionerAnalysisFields, removeSectionCompleteFields } from './nunjucks.utils'
+import { formatDateForDisplay, isPractitionerAnalysisField, isSectionCompleteField } from './nunjucks.utils'
 
 export interface SummaryField {
   field: FormWizard.Field
@@ -41,38 +41,35 @@ const isDisplayable = (ctx: Context, field: FormWizard.Field) =>
   field && (getAnswers(field.code, ctx) !== undefined || field.summary?.displayAlways)
 
 export default function getSummaryFields(ctx: Context): SummaryField[] {
-  const summaryFields: SummaryField[] = []
-
-  let [stepPath, step] =
+  const [initialStepPath, initialStep] =
     Object.entries(ctx.options.steps).find(
       ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === ctx.options.section,
     ) || []
 
-  while (step !== undefined && step.section === ctx.options.section) {
-    stepPath = stepPath.replace(/^\//, '')
-
-    const fieldIds = removeSectionCompleteFields(removePractitionerAnalysisFields(Object.keys(step.fields)))
-
-    for (const fieldId of fieldIds) {
-      const field = ctx.options.allFields[fieldId]
-      if (!isDisplayable(ctx, field)) {
-        continue
-      }
-      if (field.dependent !== undefined) {
-        addNestedSummaryField(field, summaryFields, ctx, stepPath)
-        continue
-      }
-      summaryFields.push({
-        field,
-        backLink: `${stepPath}#${fieldId}`,
-        answers: getSummaryFieldAnswers(field, ctx),
-      })
-    }
-
-    ;[stepPath, step] = getNextStep(step, ctx)
-  }
-
-  return summaryFields
+  return getSteps(initialStep, initialStepPath, ctx).reduce(
+    (summaryFields: SummaryField[], [stepPath, step]) =>
+      Object.keys(step.fields)
+        .map(fieldId => ctx.options.allFields[fieldId])
+        .filter(
+          field =>
+            !isSectionCompleteField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(ctx, field),
+        )
+        .reduce((fields, field) => {
+          if (field.dependent) {
+            addNestedSummaryField(field, fields, ctx, stepPath)
+            return fields
+          }
+          return [
+            ...fields,
+            {
+              field,
+              backLink: `${stepPath}#${field.id}`,
+              answers: getSummaryFieldAnswers(field, ctx),
+            },
+          ]
+        }, summaryFields),
+    [],
+  )
 }
 
 export function addNestedSummaryField(
@@ -82,26 +79,23 @@ export function addNestedSummaryField(
   stepPath: string,
 ): boolean {
   const parentField = field.dependent.field
-  const parentFieldPos = summaryFields.findIndex(f => (f.field.id || f.field.code) === parentField)
+  const parentFieldPos = summaryFields.findIndex(f => f.field.id === parentField)
 
   if (parentFieldPos > -1) {
     const answer = summaryFields[parentFieldPos].answers.find(it => it.value === field.dependent.value)
     if (answer !== undefined) {
-      const fieldId = field.id || field.code
       answer.nestedFields.push({
         field,
-        backLink: `${stepPath}#${fieldId}`,
+        backLink: `${stepPath}#${field.id}`,
         answers: getSummaryFieldAnswers(field, ctx),
       })
       return true
     }
   }
-  for (const summaryField of summaryFields) {
-    for (const answer of summaryField.answers) {
-      if (addNestedSummaryField(field, answer.nestedFields, ctx, stepPath)) return true
-    }
-  }
-  return false
+
+  return summaryFields.some(summaryField =>
+    summaryField.answers.some(answer => addNestedSummaryField(field, answer.nestedFields, ctx, stepPath)),
+  )
 }
 
 export function getSummaryFieldAnswers(field: FormWizard.Field, ctx: Context): SummaryFieldAnswer[] {
@@ -139,24 +133,22 @@ export function getSummaryFieldAnswers(field: FormWizard.Field, ctx: Context): S
   }
 }
 
-export function getNextStep(currentStep: FormWizard.RenderedStep, ctx: Context): [string?, FormWizard.RenderedStep?] {
-  const nextStep = resolveNextStep(currentStep.next, ctx) as string
-
-  if (nextStep === undefined) {
-    return []
-  }
-
+export function getSteps(
+  step: FormWizard.RenderedStep,
+  path: string,
+  ctx: Context,
+  acc: [string, FormWizard.RenderedStep][] = [],
+): [string, FormWizard.RenderedStep][] {
+  if (step === undefined || step.section !== ctx.options.section) return acc
+  acc.push([path.replace(/^\//, ''), step])
+  const nextStep = resolveNextStep(step.next, ctx) as string
+  if (nextStep === undefined) return acc
   const nextStepPath = `/${nextStep.split('#')[0]}`
-
-  return [nextStepPath, ctx.options.steps[nextStepPath]]
+  return getSteps(ctx.options.steps[nextStepPath], nextStepPath, ctx, acc)
 }
 
 export function resolveNextStep(next: FormWizard.Step.NextStep, ctx: Context): FormWizard.Step.NextStep {
-  if (next === undefined) {
-    return next
-  }
-
-  if (typeof next === 'string') {
+  if (next === undefined || typeof next === 'string') {
     return next
   }
 
@@ -172,11 +164,8 @@ export function resolveNextStep(next: FormWizard.Step.NextStep, ctx: Context): F
     throw new Error(`unable to resolve ${con.next} - callbacks are not supported yet`)
   }
 
-  for (const nestedNext of next as FormWizard.Step.NextStep[]) {
-    const check = resolveNextStep(nestedNext, ctx)
-    if (check !== undefined) {
-      return check
-    }
+  if (Array.isArray(next)) {
+    return next.reduce((result, it) => result || resolveNextStep(it, ctx), undefined)
   }
 
   return undefined
