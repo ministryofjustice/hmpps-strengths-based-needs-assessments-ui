@@ -1,20 +1,27 @@
+import { testPractitionerAnalysis } from './common'
+
 describe('Origin: /employment-education', () => {
   const destinations = {
+    landingPage: '/employment-education',
     employed: '/employed',
     retired: '/retired',
     hasBeenEmployed: '/has-been-employed',
     neverBeenEmployed: '/never-been-employed',
     analysis: '/employment-education-analysis',
+    analysisComplete: '/employment-education-analysis-complete',
   }
 
-  beforeEach(() => {
-    cy.createAssessment()
-    cy.visitSection('Employment and education')
-  })
+  const sectionName = 'Employment and education'
 
   describe(`Destination: ${destinations.employed}`, () => {
-    ;['Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship'].forEach(typeOfEmployment => {
+    before(() => {
+      cy.createAssessment()
+    })
+
+    Array.of('Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship').forEach(typeOfEmployment => {
       it(`"Employed" and "${typeOfEmployment}" routes to "${destinations.employed}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current employment status?").getRadio('Employed').clickLabel()
 
         cy.getQuestion("What is Sam's current employment status?")
@@ -30,6 +37,8 @@ describe('Origin: /employment-education', () => {
     })
 
     it(`"Self-employed" routes to "${destinations.employed}"`, () => {
+      cy.visitStep(destinations.landingPage)
+
       cy.getQuestion("What is Sam's current employment status?").getRadio('Self-employed').clickLabel()
 
       cy.saveAndContinue()
@@ -68,11 +77,19 @@ describe('Origin: /employment-education', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 
   describe(`Destination: ${destinations.retired}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     it(`"Retired" routes to "${destinations.retired}"`, () => {
+      cy.visitStep(destinations.landingPage)
+
       cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
 
       cy.saveAndContinue()
@@ -107,6 +124,8 @@ describe('Origin: /employment-education', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 
@@ -117,8 +136,14 @@ describe('Origin: /employment-education', () => {
   ]
 
   describe(`Destination: ${destinations.hasBeenEmployed}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     employmentStatuses.forEach(employmentStatus => {
       it(`"${employmentStatus}" and "Yes, has been employed before" routes to "${destinations.hasBeenEmployed}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current employment status?").getRadio(employmentStatus).clickLabel()
 
         cy.getQuestion("What is Sam's current employment status?")
@@ -164,12 +189,20 @@ describe('Origin: /employment-education', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 
   describe(`Destination: ${destinations.neverBeenEmployed}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     employmentStatuses.forEach(employmentStatus => {
       it(`"${employmentStatus}" and "No, has never been employed" routes to "${destinations.neverBeenEmployed}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current employment status?").getRadio(employmentStatus).clickLabel()
 
         cy.getQuestion("What is Sam's current employment status?")
@@ -211,6 +244,8 @@ describe('Origin: /employment-education', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 })

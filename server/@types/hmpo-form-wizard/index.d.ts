@@ -179,6 +179,10 @@ declare module 'hmpo-form-wizard' {
       labelClasses?: string
       characterCountMax?: number
       classes?: string
+      summary?: {
+        displayFn?: (value: string) => string
+        displayAlways?: boolean
+      }
     }
 
     interface Fields {

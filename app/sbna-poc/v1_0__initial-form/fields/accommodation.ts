@@ -10,6 +10,7 @@ import {
   visuallyHidden,
   yesNoOptions,
 } from './common'
+import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 
 const immigrationAccommodationHint = `
     <div class="govuk-!-width-two-thirds">
@@ -73,6 +74,8 @@ export const analysisSectionComplete: FormWizard.Field = {
 }
 
 export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+
+const endDateSummaryDisplay = (value: string) => `Expected end date:\n${formatDateForDisplay(value) || 'Not provided'}`
 
 export const accommodationTypeFields: Array<FormWizard.Field> = [
   {
@@ -141,6 +144,10 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       value: 'SHORT_TERM',
       displayInline: true,
     },
+    summary: {
+      displayFn: endDateSummaryDisplay,
+      displayAlways: true,
+    },
   },
   {
     text: 'Enter expected end date (optional)',
@@ -151,6 +158,10 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       field: 'type_of_temporary_accommodation',
       value: 'APPROVED_PREMISES',
       displayInline: true,
+    },
+    summary: {
+      displayFn: endDateSummaryDisplay,
+      displayAlways: true,
     },
   },
   {
@@ -163,6 +174,10 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       value: 'CAS2',
       displayInline: true,
     },
+    summary: {
+      displayFn: endDateSummaryDisplay,
+      displayAlways: true,
+    },
   },
   {
     text: 'Enter expected end date (optional)',
@@ -174,6 +189,10 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       value: 'CAS3',
       displayInline: true,
     },
+    summary: {
+      displayFn: endDateSummaryDisplay,
+      displayAlways: true,
+    },
   },
   {
     text: 'Enter expected end date (optional)',
@@ -184,6 +203,10 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       field: 'type_of_temporary_accommodation',
       value: 'IMMIGRATION',
       displayInline: true,
+    },
+    summary: {
+      displayFn: endDateSummaryDisplay,
+      displayAlways: true,
     },
   },
   {

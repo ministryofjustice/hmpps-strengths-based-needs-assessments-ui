@@ -16,7 +16,7 @@ import {
   isOptionNumber,
   clickLabel,
 } from './commands/option'
-import { assertQuestionCount } from './commands/page'
+import { assertQuestionCount, sectionMarkedAsComplete, sectionNotMarkedAsComplete } from './commands/page'
 import {
   enterDate,
   getCheckbox,
@@ -80,6 +80,8 @@ declare global {
 
       // page
       assertQuestionCount(count: number): Chainable
+      sectionMarkedAsComplete(section: string): Chainable
+      sectionNotMarkedAsComplete(section: string): Chainable
 
       // question
       getQuestion(title: string): Chainable
@@ -140,6 +142,8 @@ Cypress.Commands.add('getConditionalQuestion', { prevSubject: true }, getConditi
 
 // page
 Cypress.Commands.add('assertQuestionCount', assertQuestionCount)
+Cypress.Commands.add('sectionMarkedAsComplete', sectionMarkedAsComplete)
+Cypress.Commands.add('sectionNotMarkedAsComplete', sectionNotMarkedAsComplete)
 
 // question
 Cypress.Commands.add('getQuestion', getQuestion)
