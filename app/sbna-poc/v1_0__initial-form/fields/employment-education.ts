@@ -13,8 +13,18 @@ import {
 } from './common'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
-  { text: 'Yes, has been employed before', value: 'YES', kind: 'option' },
-  { text: 'No, has never been employed', value: 'NO', kind: 'option' },
+  {
+    text: 'Yes, has been employed before',
+    summary: { displayFn: () => 'Has been employed before' },
+    value: 'YES',
+    kind: 'option',
+  },
+  {
+    text: 'No, has never been employed',
+    summary: { displayFn: () => 'Has never been employed' },
+    value: 'NO',
+    kind: 'option',
+  },
 ]
 
 const createErrorForExperienceOfFields = (subject: string, prefix?: string) =>

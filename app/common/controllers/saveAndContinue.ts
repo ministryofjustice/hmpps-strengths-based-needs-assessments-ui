@@ -4,7 +4,7 @@ import BaseController from './baseController'
 import {
   combineDateFields,
   compileConditionalFields,
-  fieldsByCode,
+  fieldsById,
   withPlaceholdersFrom,
   withValuesFrom,
 } from './saveAndContinue.utils'
@@ -46,9 +46,7 @@ class SaveAndContinueController extends BaseController {
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const fields = Object.values(req.form.options.allFields).map(field => ({ ...field, id: field.id || field.code }))
-
-    const fieldsWithMappedAnswers = fields.map(withValuesFrom(res.locals.values))
+    const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
     const fieldsWithReplacements = fieldsWithMappedAnswers.map(withPlaceholdersFrom(res.locals.placeholderValues || {}))
     const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
       action: res.locals.action,
@@ -59,8 +57,8 @@ class SaveAndContinueController extends BaseController {
 
     res.locals.options.fields = fieldsWithRenderedConditionals
       .filter(it => res.locals.form.fields.includes(it.code))
-      .reduce(fieldsByCode, {})
-    res.locals.options.allFields = fieldsWithRenderedConditionals.reduce(fieldsByCode, {})
+      .reduce(fieldsById, {})
+    res.locals.options.allFields = fieldsWithRenderedConditionals.reduce(fieldsById, {})
 
     super.locals(req, res, next)
   }

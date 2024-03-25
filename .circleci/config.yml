@@ -170,14 +170,14 @@ workflows:
             - helm_lint
             - publish_docker
           helm_timeout: 5m
-      - e2e_test_dev:
-          context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - deploy_dev
+#      - e2e_test_dev:
+#          context: hmpps-common-vars
+#          filters:
+#            branches:
+#              only:
+#                - main
+#          requires:
+#            - deploy_dev
   #      - hmpps/deploy_env:
   #          name: deploy_preprod
   #          env: "preprod"

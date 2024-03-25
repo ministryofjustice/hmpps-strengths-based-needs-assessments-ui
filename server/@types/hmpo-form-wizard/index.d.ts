@@ -134,6 +134,9 @@ declare module 'hmpo-form-wizard' {
         hint?: { text: string } | { html: string }
         behaviour?: string
         kind: 'option'
+        summary?: {
+          displayFn?: (text: string, value: string) => string
+        }
       }
 
       type Divider = {

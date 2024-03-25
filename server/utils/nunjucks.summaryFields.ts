@@ -113,7 +113,7 @@ export function getSummaryFieldAnswers(field: FormWizard.Field, ctx: Context): S
         .filter(o => whereSelectable(o) && getAnswers(field.code, ctx)?.includes(o.value))
         .map(o => {
           return {
-            text: whereSelectable(o) ? o.text : '',
+            text: whereSelectable(o) ? o.summary?.displayFn(o.text, o.value) || o.text : '',
             value: whereSelectable(o) ? o.value : '',
             nestedFields: [],
           } as SummaryFieldAnswer
