@@ -53,7 +53,7 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
+    next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
@@ -71,7 +71,7 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
+    next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
@@ -87,7 +87,7 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
+    next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
@@ -103,7 +103,7 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-summary-analysis',
+    next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
@@ -114,7 +114,7 @@ const stepOptions: FormWizard.Steps = {
   '/no-accommodation-2': {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(accommodationChangesFields, sectionCompleteFields),
-    next: 'accommodation-summary-analysis',
+    next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
@@ -122,18 +122,18 @@ const stepOptions: FormWizard.Steps = {
       setField('accommodation_analysis_section_complete', 'NO'),
     ],
   },
-  '/accommodation-summary-analysis': {
+  '/accommodation-analysis': {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'accommodation-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/accommodation-summary-analysis',
+    template: 'forms/sbna-poc/summary-analysis-incomplete',
     section: 'accommodation',
     sectionProgressRules: [setFieldWhenValid('accommodation_analysis_section_complete', 'YES', 'NO')],
   },
   '/accommodation-analysis-complete': {
     pageTitle: 'Accommodation',
     next: [],
-    template: 'forms/sbna-poc/accommodation-summary-analysis-complete',
+    template: 'forms/sbna-poc/summary-analysis-complete',
     section: 'accommodation',
   },
 }

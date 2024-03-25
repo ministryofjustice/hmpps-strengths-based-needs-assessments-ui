@@ -246,8 +246,8 @@ describe('server/utils/nunjucks.summaryFields', () => {
 
     it('should return date field answer', () => {
       textField.type = FieldType.Date
-      const ctx = contextWithAnswer('q2', '10/10/1010')
-      const expected: SummaryFieldAnswer[] = [{ text: '10/10/1010', value: '10/10/1010', nestedFields: [] }]
+      const ctx = contextWithAnswer('q2', '1970-01-01')
+      const expected: SummaryFieldAnswer[] = [{ text: '01 January 1970', value: '01 January 1970', nestedFields: [] }]
       expect(getSummaryFieldAnswers(textField, ctx)).toEqual(expected)
     })
 

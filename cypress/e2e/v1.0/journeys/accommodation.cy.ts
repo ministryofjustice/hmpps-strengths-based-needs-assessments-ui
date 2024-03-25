@@ -1,30 +1,37 @@
+import { testPractitionerAnalysis } from './common'
+
 describe('Origin: /accommodation', () => {
   const destinations = {
+    landingPage: '/accommodation',
     settled: '/settled-accommodation',
     temporary: '/temporary-accommodation',
     temporary2: '/temporary-accommodation-2',
     noAccommodation: '/no-accommodation',
     noAccommodation2: '/no-accommodation-2',
-    analysis: '/accommodation-summary-analysis',
+    analysis: '/accommodation-analysis',
+    analysisComplete: '/accommodation-analysis-complete',
   }
 
-  beforeEach(() => {
-    cy.createAssessment()
-    cy.visitSection('Accommodation')
-  })
+  const sectionName = 'Accommodation'
 
   describe(`Destination: ${destinations.settled}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     const typeOfAccommodation = 'Settled'
 
-    ;[
+    Array.of(
       'Homeowner',
       'Living with friends or family',
       'Renting privately',
       'Renting from social, local authority or other',
       'Residential healthcare',
       'Supported accommodation',
-    ].forEach(typeOfSettledAccommodation => {
+    ).forEach(typeOfSettledAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfSettledAccommodation}" routes to "${destinations.settled}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
 
         cy.getQuestion("What is Sam's current accommodation?")
@@ -54,14 +61,22 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 
   describe(`Destination: ${destinations.temporary}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     const typeOfAccommodation = 'Temporary'
 
-    ;['Immigration accommodation', 'Short term accommodation'].forEach(typeOfTemporaryAccommodation => {
+    Array.of('Immigration accommodation', 'Short term accommodation').forEach(typeOfTemporaryAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
 
         cy.getQuestion("What is Sam's current accommodation?")
@@ -93,18 +108,26 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 
   describe(`Destination: ${destinations.temporary2}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     const typeOfAccommodation = 'Temporary'
 
-    ;[
+    Array.of(
       'Approved premises',
       'Community Accommodation Service Tier 2 (CAS2)',
       'Community Accommodation Service Tier 3 (CAS3)',
-    ].forEach(typeOfTemporaryAccommodation => {
+    ).forEach(typeOfTemporaryAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary2}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
 
         cy.getQuestion("What is Sam's current accommodation?")
@@ -132,14 +155,22 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 
   describe(`Destination: ${destinations.noAccommodation}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     const typeOfAccommodation = 'No accommodation'
 
-    ;['Campsite', 'Emergency hostel', 'Homeless', 'Rough sleeping', 'Shelter'].forEach(typeOfNoAccommodation => {
+    Array.of('Campsite', 'Emergency hostel', 'Homeless', 'Rough sleeping', 'Shelter').forEach(typeOfNoAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
 
         cy.getQuestion("What is Sam's current accommodation?")
@@ -167,14 +198,22 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 
   describe(`Destination: ${destinations.noAccommodation2}`, () => {
+    before(() => {
+      cy.createAssessment()
+    })
+
     const typeOfAccommodation = 'No accommodation'
 
-    ;['Awaiting assessment'].forEach(typeOfNoAccommodation => {
+    Array.of('Awaiting assessment').forEach(typeOfNoAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation2}"`, () => {
+        cy.visitStep(destinations.landingPage)
+
         cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
 
         cy.getQuestion("What is Sam's current accommodation?")
@@ -205,6 +244,8 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
       })
+
+      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
   })
 })
