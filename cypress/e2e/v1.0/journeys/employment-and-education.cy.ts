@@ -33,6 +33,7 @@ describe('Origin: /employment-education', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.employed)
+        cy.assertResumeUrlIs(sectionName, destinations.employed)
       })
     })
 
@@ -44,6 +45,7 @@ describe('Origin: /employment-education', () => {
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(destinations.employed)
+      cy.assertResumeUrlIs(sectionName, destinations.employed)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -76,6 +78,7 @@ describe('Origin: /employment-education', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -95,6 +98,7 @@ describe('Origin: /employment-education', () => {
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(destinations.retired)
+      cy.assertResumeUrlIs(sectionName, destinations.retired)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -123,6 +127,7 @@ describe('Origin: /employment-education', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -155,6 +160,7 @@ describe('Origin: /employment-education', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.hasBeenEmployed)
+        cy.assertResumeUrlIs(sectionName, destinations.hasBeenEmployed)
       })
     })
 
@@ -188,6 +194,7 @@ describe('Origin: /employment-education', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -214,6 +221,7 @@ describe('Origin: /employment-education', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.neverBeenEmployed)
+        cy.assertResumeUrlIs(sectionName, destinations.neverBeenEmployed)
       })
     })
 
@@ -243,6 +251,7 @@ describe('Origin: /employment-education', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

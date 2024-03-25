@@ -32,12 +32,15 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(origin)
+      cy.assertResumeUrlIs(sectionName, origin)
+
       cy.sectionNotMarkedAsComplete(sectionName)
       cy.get('#tab_practitioner-analysis').click()
       cy.get('#practitioner-analysis').should('be.visible')
       cy.markAsComplete()
 
       cy.assertStepUrlIs(destination)
+      cy.assertResumeUrlIs(sectionName, destination)
       cy.get('#tab_practitioner-analysis').click()
       cy.get('#practitioner-analysis').should('be.visible')
       cy.sectionMarkedAsComplete(sectionName)
