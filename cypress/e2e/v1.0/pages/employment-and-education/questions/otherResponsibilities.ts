@@ -1,16 +1,16 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Sam have any other responsibilities?'
+  const question = 'Does Sam have any additional day-to-day commitments?'
   describe(question, () => {
-    const options = ['Carer', 'Volunteer', 'Student', 'Other', null, 'None']
+    const options = ['Caring responsibilities', 'Child responsibilities', 'Studying', 'Volunteering', 'Other', null, 'None']
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Select all that apply.').hasCheckboxes(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError("Select if they have any other responsibilities, or select 'None'")
+      cy.getQuestion(question).hasValidationError("Select if they have any additional day-to-day commitments, or select ‘None’")
       cy.checkAccessibility()
     })
-    ;['Carer', 'Volunteer', 'Other'].forEach(option => {
+    ;['Caring responsibilities', 'Child responsibilities', 'Volunteering', 'Other'].forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
@@ -40,7 +40,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertQuestionUrl(question)
       })
     })
-    ;['Student', 'None'].forEach(option => {
+    ;['Studying', 'None'].forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
