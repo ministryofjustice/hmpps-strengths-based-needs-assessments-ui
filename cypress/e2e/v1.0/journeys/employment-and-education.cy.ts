@@ -43,7 +43,7 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('None').clickLabel()
 
         cy.getQuestion('Select the highest level of academic qualification Sam has completed')
           .getRadio('Entry level')
@@ -86,7 +86,7 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('None').clickLabel()
 
         cy.getQuestion('Select the highest level of academic qualification Sam has completed')
           .getRadio('Entry level')
@@ -139,7 +139,7 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('None').clickLabel()
 
         cy.getQuestion('Select the highest level of academic qualification Sam has completed')
           .getRadio('Entry level')
@@ -188,7 +188,7 @@ describe('Origin: /employment-education', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.neverBeenEmployed)
 
-        cy.getQuestion('Does Sam have any other responsibilities?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('None').clickLabel()
 
         cy.getQuestion('Select the highest level of academic qualification Sam has completed')
           .getRadio('Entry level')
