@@ -95,9 +95,9 @@ export const compileConditionalFields = (fields: FormWizard.Field[], locals: Loc
   )
 }
 
-export const fieldsByCode = (otherFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
+export const fieldsById = (otherFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
   ...otherFields,
-  [field.code]: field,
+  [field.id]: field,
 })
 
 const replaceWithValuesFrom = (replacementValues: { [key: string]: string }) => (token: string) => {
