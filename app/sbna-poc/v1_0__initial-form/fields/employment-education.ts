@@ -351,10 +351,17 @@ export const educationFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details (optional)',
+    text: 'Give details',
     code: 'education_professional_or_vocational_qualifications_details',
     type: FieldType.TextArea,
-    validate: [],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [characterLimit],
+        message: `Details must be ${characterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'education_professional_or_vocational_qualifications',
       value: 'YES',
