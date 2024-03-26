@@ -27,13 +27,13 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getRadio('Yes')
         .getConditionalQuestion()
         .hasValidationError('Enter details')
-        .enterText('details')
+        .enterText('Some text')
 
       cy.checkAccessibility()
 
       cy.saveAndContinue()
       cy.visitStep(summaryPage)
-      cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer('details')
+      cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer('Some text')
       cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
