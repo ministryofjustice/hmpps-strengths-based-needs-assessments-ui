@@ -15,6 +15,11 @@ export const visitStep = (path: string) => {
   return cy.visit(`/form/sbna-poc${path}`)
 }
 
+export const assertResumeUrlIs = (section: string, path: string) => {
+  cy.visitSection(section)
+  return cy.assertStepUrlIs(path)
+}
+
 export const assertStepUrlIs = (path: string) => {
   return cy
     .location()
