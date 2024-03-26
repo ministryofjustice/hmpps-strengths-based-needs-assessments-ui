@@ -322,7 +322,6 @@ export const educationFields: Array<FormWizard.Field> = [
     detailsField({
       parentFieldCode: 'education_transferable_skills',
       dependentValue: option,
-      required: true,
     }),
   ),
   {
