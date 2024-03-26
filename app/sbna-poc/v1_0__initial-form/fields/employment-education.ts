@@ -402,11 +402,10 @@ export const educationFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'education_transferable_skills_yes_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
@@ -420,11 +419,10 @@ export const educationFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Give details',
+    text: 'Give details (optional)',
     code: 'education_transferable_skills_yes_some_skills_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [characterLimit],
