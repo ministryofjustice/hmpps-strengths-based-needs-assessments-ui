@@ -1,12 +1,8 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import {
-  characterLimit,
-  createPractitionerAnalysisFieldsWith,
-  createWantToMakeChangesFields,
-  getMediumLabelClassFor,
-  toFormWizardFields,
-  yesNoOptions,
-} from './common'
+import { getMediumLabelClassFor, toFormWizardFields, yesNoOptions } from './common'
+import { detailsCharacterLimit } from './common/detailsField'
+import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
+import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 
 export const personalRelationshipsFields: Array<FormWizard.Field> = [
   {
@@ -45,8 +41,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -63,8 +59,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -80,8 +76,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -97,8 +93,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -114,8 +110,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -132,8 +128,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Give details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -178,8 +174,8 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -195,8 +191,8 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -212,8 +208,8 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -264,8 +260,8 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -285,8 +281,8 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -306,8 +302,8 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -327,8 +323,8 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
       { type: ValidationType.Required, message: 'Enter details' },
     ],
@@ -376,8 +372,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -393,8 +389,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -410,8 +406,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -454,8 +450,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -471,8 +467,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -488,8 +484,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -524,8 +520,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -541,8 +537,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -595,8 +591,8 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -612,8 +608,8 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -629,8 +625,8 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {

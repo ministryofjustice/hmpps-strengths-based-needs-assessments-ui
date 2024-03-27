@@ -1,13 +1,8 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import {
-  characterLimit,
-  createPractitionerAnalysisFieldsWith,
-  createWantToMakeChangesFields,
-  getMediumLabelClassFor,
-  orDivider,
-  toFormWizardFields,
-  yesNoOptions,
-} from './common'
+import { getMediumLabelClassFor, orDivider, toFormWizardFields, yesNoOptions } from './common'
+import { detailsCharacterLimit } from './common/detailsField'
+import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
+import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 
 const headInjuryOrIllnessHint = `
 <div class="govuk-!-width-two-thirds">
@@ -46,8 +41,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -90,8 +85,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -107,8 +102,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -124,8 +119,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -144,8 +139,8 @@ export const physicalHealthConditionsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
@@ -160,8 +155,8 @@ export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
@@ -220,8 +215,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -249,8 +244,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -266,8 +261,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -328,8 +323,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -357,8 +352,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -412,8 +407,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {

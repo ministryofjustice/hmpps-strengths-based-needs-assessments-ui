@@ -1,13 +1,8 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import {
-  characterLimit,
-  createPractitionerAnalysisFieldsWith,
-  createWantToMakeChangesFields,
-  getMediumLabelClassFor,
-  orDivider,
-  toFormWizardFields,
-  yesNoOptions,
-} from './common'
+import { getMediumLabelClassFor, orDivider, toFormWizardFields, yesNoOptions } from './common'
+import { detailsCharacterLimit } from './common/detailsField'
+import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
+import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
   text: ' ',
@@ -39,8 +34,8 @@ const createFormalDebtDetails = (
   validate: [
     {
       type: ValidationType.MaxLength,
-      arguments: [characterLimit],
-      message: `Details must be ${characterLimit} characters or less`,
+      arguments: [detailsCharacterLimit],
+      message: `Details must be ${detailsCharacterLimit} characters or less`,
     },
   ],
   dependent: {
@@ -62,8 +57,8 @@ const createDebtToOthersDetails = (
   validate: [
     {
       type: ValidationType.MaxLength,
-      arguments: [characterLimit],
-      message: `Details must be ${characterLimit} characters or less`,
+      arguments: [detailsCharacterLimit],
+      message: `Details must be ${detailsCharacterLimit} characters or less`,
     },
   ],
   dependent: {
@@ -150,8 +145,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -210,8 +205,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -227,8 +222,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -244,8 +239,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -261,8 +256,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -312,8 +307,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -329,8 +324,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -346,8 +341,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -406,8 +401,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {

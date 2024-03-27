@@ -1,7 +1,5 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
-  createPractitionerAnalysisFieldsWith,
-  createWantToMakeChangesFields,
   fieldCodeWith,
   getMediumLabelClassFor,
   orDivider,
@@ -9,6 +7,8 @@ import {
   toFormWizardFields,
   yesNoOptions,
 } from './common'
+import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
+import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 
 const usageFrequencies = [
   { text: 'Daily', value: 'DAILY' },

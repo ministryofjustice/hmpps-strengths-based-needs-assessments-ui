@@ -1,9 +1,5 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
-  characterLimit,
-  createPractitionerAnalysisFieldsWith,
-  createWantToMakeChangesFields,
-  detailsFieldWith,
   fieldCodeWith,
   getMediumLabelClassFor,
   orDivider,
@@ -11,6 +7,9 @@ import {
   visuallyHidden,
   yesNoOptions,
 } from './common'
+import { detailsField, detailsFieldWith } from './common/detailsField'
+import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
+import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   {
@@ -49,7 +48,7 @@ const createExperienceOfFields = (label: string, subject: string, prefix?: strin
       options: [...optionsWithDetails, { text: 'Unknown', value: 'UNKNOWN', kind: 'option' }],
       labelClasses: getMediumLabelClassFor(FieldType.Radio),
     },
-    ...optionsWithDetails.map(detailsFieldWith(parentFieldCode)),
+    ...optionsWithDetails.map(detailsFieldWith({ parentFieldCode })),
   ]
 }
 
@@ -137,6 +136,19 @@ export const employmentFields: Array<FormWizard.Field> = [
   },
 ]
 
+const employmentHistoryOptions: FormWizard.Field.Options = [
+  {
+    text: 'Continuous employment history',
+    hint: {
+      text: 'They may have had a break in employment due to things like redundancy, illness or caring for a family member.',
+    },
+    value: 'STABLE',
+    kind: 'option',
+  },
+  { text: 'Generally in employment but changes jobs often', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
+  { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
+]
+
 export const employmentHistory: Array<FormWizard.Field> = [
   {
     text: "What is [subject]'s employment history?",
@@ -144,59 +156,15 @@ export const employmentHistory: Array<FormWizard.Field> = [
     code: 'employment_history',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their employment history' }],
-    options: [
-      {
-        text: 'Continuous employment history',
-        hint: {
-          text: 'They may have had a break in employment due to things like redundancy, illness or caring for a family member.',
-        },
-        value: 'STABLE',
-        kind: 'option',
-      },
-      { text: 'Generally in employment but changes jobs often', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
-      { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
-    ],
+    options: employmentHistoryOptions,
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
-  {
-    text: 'Give details (optional)',
-    hint: { text: "Include what type of work they've done before.", kind: 'text' },
-    code: 'employment_history_stable_details',
-    id: 'employment_history_stable_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'employment_history',
-      value: 'STABLE',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: "Include what type of work they've done before.", kind: 'text' },
-    code: 'employment_history_periods_of_instability_details',
-    id: 'employment_history_periods_of_instability_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'employment_history',
-      value: 'PERIODS_OF_INSTABILITY',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: "Include what type of work they've done before.", kind: 'text' },
-    code: 'employment_history_unstable_details',
-    id: 'employment_history_unstable_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'employment_history',
-      value: 'UNSTABLE',
-      displayInline: true,
-    },
-  },
+  ...employmentHistoryOptions.map(
+    detailsFieldWith({
+      parentFieldCode: 'employment_history',
+      textHint: "Include what type of work they've done before.",
+    }),
+  ),
 ]
 
 export const educationFields: Array<FormWizard.Field> = [
@@ -223,50 +191,12 @@ export const educationFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
-  {
-    text: 'Give details (optional)',
-    code: 'employment_other_responsibilities_carer_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'employment_other_responsibilities',
-      value: 'CARER',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'employment_other_responsibilities_child_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'employment_other_responsibilities',
-      value: 'CHILD',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'employment_other_responsibilities_volunteer_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'employment_other_responsibilities',
-      value: 'VOLUNTEER',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'employment_other_responsibilities_other_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'employment_other_responsibilities',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
+  ...['CARER', 'CHILD', 'VOLUNTEER', 'OTHER'].map(option =>
+    detailsField({
+      parentFieldCode: 'employment_other_responsibilities',
+      dependentValue: option,
+    }),
+  ),
   {
     text: 'Select the highest level of academic qualification [subject] has completed',
     code: 'education_highest_level_completed',
@@ -350,17 +280,10 @@ export const educationFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
-  {
-    text: 'Give details (optional)',
-    code: 'education_professional_or_vocational_qualifications_details',
-    type: FieldType.TextArea,
-    validate: [],
-    dependent: {
-      field: 'education_professional_or_vocational_qualifications',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
+  detailsField({
+    parentFieldCode: 'education_professional_or_vocational_qualifications',
+    dependentValue: 'YES',
+  }),
   {
     text: 'Does [subject] have skills that could help them in a job or at work?',
     code: 'education_transferable_skills',
@@ -394,42 +317,13 @@ export const educationFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
-  {
-    text: 'Give details',
-    code: 'education_transferable_skills_yes_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'education_transferable_skills',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details',
-    code: 'education_transferable_skills_yes_some_skills_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'education_transferable_skills',
-      value: 'YES_SOME_SKILLS',
-      displayInline: true,
-    },
-  },
+  ...['YES', 'YES_SOME_SKILLS'].map(option =>
+    detailsField({
+      parentFieldCode: 'education_transferable_skills',
+      dependentValue: option,
+      required: true,
+    }),
+  ),
   {
     text: 'Does [subject] have difficulties with reading, writing or numeracy?',
     hint: { text: 'Select all that apply.', kind: 'text' },
