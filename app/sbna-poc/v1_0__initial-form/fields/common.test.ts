@@ -127,23 +127,23 @@ describe('sbna-poc/fields/common', () => {
         expect(validate.bind(contextWithAnswers({ foo: [] }))('')).toEqual(true)
       })
     })
+  })
 
-    describe('getMediumLabelClassFor', () => {
-      it('returns the correct class for fields that use legends', () => {
-        const expectedClass = 'govuk-fieldset__legend--m'
+  describe('getMediumLabelClassFor', () => {
+    it('returns the correct class for fields that use legends', () => {
+      const expectedClass = 'govuk-fieldset__legend--m'
 
-        expect(getMediumLabelClassFor(FieldType.CheckBox)).toEqual(expectedClass)
-        expect(getMediumLabelClassFor(FieldType.Radio)).toEqual(expectedClass)
-        expect(getMediumLabelClassFor(FieldType.Date)).toEqual(expectedClass)
-      })
+      expect(getMediumLabelClassFor(FieldType.CheckBox)).toEqual(expectedClass)
+      expect(getMediumLabelClassFor(FieldType.Radio)).toEqual(expectedClass)
+      expect(getMediumLabelClassFor(FieldType.Date)).toEqual(expectedClass)
+    })
 
-      it('returns the correct class for fields that use labels', () => {
-        const expectedClass = 'govuk-label--m'
+    it('returns the correct class for fields that use labels', () => {
+      const expectedClass = 'govuk-label--m'
 
-        expect(getMediumLabelClassFor(FieldType.TextArea)).toEqual(expectedClass)
-        expect(getMediumLabelClassFor(FieldType.Text)).toEqual(expectedClass)
-        expect(getMediumLabelClassFor(FieldType.Dropdown)).toEqual(expectedClass)
-      })
+      expect(getMediumLabelClassFor(FieldType.TextArea)).toEqual(expectedClass)
+      expect(getMediumLabelClassFor(FieldType.Text)).toEqual(expectedClass)
+      expect(getMediumLabelClassFor(FieldType.Dropdown)).toEqual(expectedClass)
     })
   })
 })
