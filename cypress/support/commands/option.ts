@@ -41,7 +41,7 @@ export const getConditionalQuestion = (subject: JQuery) => {
   return cy
     .wrap(subject)
     .next('.govuk-radios__conditional:visible, .govuk-checkboxes__conditional:visible')
-    .find('> .form-group > fieldset, > .form-group > div > .govuk-form-group')
+    .find('> .form-group > fieldset, > .form-group > .govuk-form-group')
     .should('be.visible')
     .and('have.length', 1)
 }

@@ -3,7 +3,7 @@
 export const getQuestion = (title: string) => {
   return cy
     .get(`form > .form-group`)
-    .find('> fieldset > legend, > div > .govuk-form-group > label')
+    .find('> fieldset > legend, > .govuk-form-group > label')
     .contains(title)
     .should('be.visible')
     .and('have.length', 1)
@@ -15,7 +15,7 @@ export const getNextQuestion = (subject: JQuery) => {
     .wrap(subject)
     .closest('.form-group')
     .next('.form-group')
-    .find('> fieldset, > div > .govuk-form-group')
+    .find('> fieldset, > .govuk-form-group')
     .should('be.visible')
     .and('have.length', 1)
 }
@@ -35,7 +35,7 @@ export const isQuestionNumber = (subject: JQuery, position: number) => {
     .parents('form')
     .find('> .form-group')
     .eq(position - 1)
-    .find('> fieldset, > div > .govuk-form-group')
+    .find('> fieldset, > .govuk-form-group')
   expect(el, 'this should match to a single element').to.have.lengthOf(1)
   expect(el[0], `the question at position ${position} is not the expected question`).to.eql(subject[0])
   return cy.wrap(subject)
