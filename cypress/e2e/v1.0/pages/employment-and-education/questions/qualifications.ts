@@ -17,7 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .getRadio('Yes')
         .getConditionalQuestion()
-        .hasTitle('Give details (optional)')
+        .hasTitle('Give details')
         .hasHint(null)
         .hasLimit(400)
 
@@ -26,14 +26,14 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasNoValidationError()
         .getRadio('Yes')
         .getConditionalQuestion()
-        .hasNoValidationError()
-        .enterText('some text')
+        .hasValidationError('Enter details')
+        .enterText('Some text')
 
       cy.checkAccessibility()
 
       cy.saveAndContinue()
       cy.visitStep(summaryPage)
-      cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer('some text')
+      cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer('Some text')
       cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)

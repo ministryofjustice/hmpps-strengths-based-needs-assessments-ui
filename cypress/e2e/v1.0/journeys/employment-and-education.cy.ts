@@ -60,7 +60,11 @@ describe('Origin: /employment-education', () => {
           .getRadio('Entry level')
           .clickLabel()
 
-        cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any professional or vocational qualifications?')
+          .getRadio('Yes')
+          .clickLabel()
+          .getConditionalQuestion()
+          .enterText('Some details')
 
         cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
 
