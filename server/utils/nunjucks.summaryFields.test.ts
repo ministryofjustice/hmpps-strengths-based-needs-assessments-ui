@@ -3,7 +3,7 @@ import getSummaryFields, {
   addNestedSummaryField,
   Context,
   getAnswers,
-  getNextStep,
+  getSteps,
   getSummaryFieldAnswers,
   resolveNextStep,
   SummaryField,
@@ -21,6 +21,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
   const contextWithStep = (stepPath: string, step: FormWizard.RenderedStep): Context =>
     ({
       options: {
+        section: step.section,
         steps: {
           [stepPath]: step,
         },
@@ -173,29 +174,40 @@ describe('server/utils/nunjucks.summaryFields', () => {
     })
   })
 
-  describe('getNextStep', () => {
+  describe('getSteps', () => {
     const currentStep: FormWizard.RenderedStep = { pageTitle: 'page 1', section: 'none' }
     const nextStep: FormWizard.RenderedStep = { pageTitle: 'page 2', section: 'none' }
     const ctx = contextWithStep('/page-2', nextStep)
 
-    it('should return the path and step object of the next step', () => {
+    it('should return the path and step object of the next steps', () => {
       currentStep.next = 'page-2'
-      expect(getNextStep(currentStep, ctx)).toEqual(['/page-2', nextStep])
+      expect(getSteps(currentStep, '/page-1', ctx)).toEqual([
+        ['page-1', currentStep],
+        ['page-2', nextStep],
+      ])
     })
 
     it('should strip anchor tags from the path of the next step', () => {
       currentStep.next = 'page-2#question'
-      expect(getNextStep(currentStep, ctx)).toEqual(['/page-2', nextStep])
+      expect(getSteps(currentStep, '/page-1', ctx)).toEqual([
+        ['page-1', currentStep],
+        ['page-2', nextStep],
+      ])
     })
 
-    it('should return empty array when no next step is resolved', () => {
+    it('should return only the current step when no next step is resolved', () => {
       currentStep.next = []
-      expect(getNextStep(currentStep, ctx)).toEqual([])
+      expect(getSteps(currentStep, '/page-1', ctx)).toEqual([['page-1', currentStep]])
+    })
+
+    it('should return an empty array when the current step is undefined', () => {
+      expect(getSteps(undefined, '/page-1', ctx)).toEqual([])
     })
   })
 
   describe('getSummaryFieldAnswers', () => {
     const optionsField: FormWizard.Field = {
+      id: 'q1',
       text: 'Q1',
       code: 'q1',
       type: undefined,
@@ -204,7 +216,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         { text: 'Value 2', value: 'val2', kind: 'option' },
       ],
     }
-    const textField: FormWizard.Field = { text: 'Q2', code: 'q2', type: undefined }
+    const textField: FormWizard.Field = { id: 'q2', text: 'Q2', code: 'q2', type: undefined }
 
     it('should return radio button answer', () => {
       optionsField.type = FieldType.Radio
@@ -262,7 +274,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
     it('should find the parent field recursively and nest the summary field into the parent field answer', () => {
       const summaryFields: SummaryField[] = [
         {
-          field: { text: 'Q0', code: 'q0', type: FieldType.Text },
+          field: { id: 'q0', text: 'Q0', code: 'q0', type: FieldType.Text },
           backLink: '/back',
           answers: [
             {
@@ -273,7 +285,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
-          field: { text: 'Q1', code: 'q1', type: FieldType.Text },
+          field: { id: 'q1', text: 'Q1', code: 'q1', type: FieldType.Text },
           backLink: '/back',
           answers: [
             {
@@ -281,7 +293,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'val1',
               nestedFields: [
                 {
-                  field: { text: 'Q2', code: 'q2', type: FieldType.Text },
+                  field: { id: 'q2', text: 'Q2', code: 'q2', type: FieldType.Text },
                   backLink: '/back',
                   answers: [
                     {
@@ -289,7 +301,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
                       value: 'val2',
                       nestedFields: [
                         {
-                          field: { text: 'Q3', code: 'q3', type: FieldType.Text },
+                          field: { id: 'q3', text: 'Q3', code: 'q3', type: FieldType.Text },
                           backLink: '/back',
                           answers: [
                             {
@@ -320,7 +332,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
       expect(addNestedSummaryField(field, summaryFields, ctx, '/test-page')).toEqual(true)
       expect(summaryFields).toEqual([
         {
-          field: { text: 'Q0', code: 'q0', type: FieldType.Text },
+          field: { id: 'q0', text: 'Q0', code: 'q0', type: FieldType.Text },
           backLink: '/back',
           answers: [
             {
@@ -331,7 +343,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
           ],
         },
         {
-          field: { text: 'Q1', code: 'q1', type: FieldType.Text },
+          field: { id: 'q1', text: 'Q1', code: 'q1', type: FieldType.Text },
           backLink: '/back',
           answers: [
             {
@@ -339,7 +351,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               value: 'val1',
               nestedFields: [
                 {
-                  field: { text: 'Q2', code: 'q2', type: FieldType.Text },
+                  field: { id: 'q2', text: 'Q2', code: 'q2', type: FieldType.Text },
                   backLink: '/back',
                   answers: [
                     {
@@ -347,7 +359,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
                       value: 'val2',
                       nestedFields: [
                         {
-                          field: { text: 'Q3', code: 'q3', type: FieldType.Text },
+                          field: { id: 'q3', text: 'Q3', code: 'q3', type: FieldType.Text },
                           backLink: '/back',
                           answers: [
                             {
@@ -382,6 +394,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
 
     it('should return false when the parent cannot be found :(', () => {
       const field: FormWizard.Field = {
+        id: 'q4',
         text: 'Q4',
         code: 'q4',
         type: FieldType.Text,
@@ -400,7 +413,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
 
     it('should return relevant summary fields and remove "section complete" and "practitioner analysis" questions', () => {
       const fields: FormWizard.Fields = {
-        q1: { text: 'Q1', code: 'q1', type: FieldType.Text },
+        q1: { id: 'q1', text: 'Q1', code: 'q1', type: FieldType.Text },
         q2_id: {
           id: 'q2_id',
           text: 'Q2',
@@ -411,12 +424,32 @@ describe('server/utils/nunjucks.summaryFields', () => {
             { text: 'Bar', value: 'bar', kind: 'option' },
           ],
         },
-        q3: { text: 'Q3', code: 'q3', type: FieldType.Text, dependent: { field: 'q2_id', value: 'bar' } },
-        q4: { text: 'Q4', code: 'q4', type: FieldType.Text },
-        step1_section_complete: { text: 'A', code: 'step1_section_complete', type: FieldType.Text },
-        step2_section_complete: { text: 'B', code: 'step2_section_complete', type: FieldType.Text },
-        step1_practitioner_analysis_q1: { text: 'C', code: 'step1_practitioner_analysis_q1', type: FieldType.Text },
-        step2_practitioner_analysis_q3: { text: 'D', code: 'step2_practitioner_analysis_q3', type: FieldType.Text },
+        q3: { id: 'q3', text: 'Q3', code: 'q3', type: FieldType.Text, dependent: { field: 'q2_id', value: 'bar' } },
+        q4: { id: 'q4', text: 'Q4', code: 'q4', type: FieldType.Text },
+        step1_section_complete: {
+          id: 'step1_section_complete',
+          text: 'A',
+          code: 'step1_section_complete',
+          type: FieldType.Text,
+        },
+        step2_section_complete: {
+          id: 'step2_section_complete',
+          text: 'B',
+          code: 'step2_section_complete',
+          type: FieldType.Text,
+        },
+        step1_practitioner_analysis_q1: {
+          id: 'step1_practitioner_analysis_q1',
+          text: 'C',
+          code: 'step1_practitioner_analysis_q1',
+          type: FieldType.Text,
+        },
+        step2_practitioner_analysis_q3: {
+          id: 'step2_practitioner_analysis_q3',
+          text: 'D',
+          code: 'step2_practitioner_analysis_q3',
+          type: FieldType.Text,
+        },
       }
 
       const ctx: Context = {
