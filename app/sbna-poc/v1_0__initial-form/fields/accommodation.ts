@@ -1,8 +1,5 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
-  characterLimit,
-  createPractitionerAnalysisFieldsWith,
-  createWantToMakeChangesFields,
   validateFutureDate,
   getMediumLabelClassFor,
   orDivider,
@@ -11,6 +8,9 @@ import {
   yesNoOptions,
 } from './common'
 import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
+import { detailsCharacterLimit, detailsField } from './common/detailsField'
+import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
+import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 
 const immigrationAccommodationHint = `
     <div class="govuk-!-width-two-thirds">
@@ -229,24 +229,11 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     },
     labelClasses: visuallyHidden,
   },
-  {
-    text: 'Give details',
-    code: 'awaiting_assessment_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'type_of_no_accommodation',
-      value: 'AWAITING_ASSESSMENT',
-      displayInline: true,
-    },
-  },
+  detailsField({
+    parentFieldCode: 'type_of_no_accommodation',
+    dependentValue: 'AWAITING_ASSESSMENT',
+    required: true,
+  }),
 ]
 
 export const accommodationChangesFields = createWantToMakeChangesFields('their accommodation', 'accommodation')
@@ -273,38 +260,17 @@ export const livingWithFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Include name, date of birth or age, gender and their relationship to [subject]', kind: 'text' },
-    code: 'living_with_person_under_18_details',
-    type: FieldType.TextArea,
-    dependent: {
-      field: 'living_with',
-      value: 'PERSON_UNDER_18',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Include name, age and gender.', kind: 'text' },
-    code: 'living_with_partner_details',
-    type: FieldType.TextArea,
-    dependent: {
-      field: 'living_with',
-      value: 'PARTNER',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'living_with_other',
-    type: FieldType.TextArea,
-    dependent: {
-      field: 'living_with',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
+  ...[
+    ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject]'],
+    ['PARTNER', 'Include name, age and gender.'],
+    ['OTHER', null],
+  ].map(([option, hint]) =>
+    detailsField({
+      parentFieldCode: 'living_with',
+      dependentValue: option,
+      textHint: hint,
+    }),
+  ),
 ]
 
 export const suitableLocationFields: Array<FormWizard.Field> = [
@@ -338,24 +304,11 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
     },
     labelClasses: visuallyHidden,
   },
-  {
-    text: 'Give details',
-    code: 'suitable_housing_location_concerns_other_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'suitable_housing_location_concerns',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
+  detailsField({
+    parentFieldCode: 'suitable_housing_location_concerns',
+    dependentValue: 'OTHER',
+    required: true,
+  }),
 ]
 
 export const suitableAccommodationFields: Array<FormWizard.Field> = [
@@ -385,24 +338,11 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
     },
     labelClasses: visuallyHidden,
   },
-  {
-    text: 'Give details',
-    code: 'suitable_housing_concerns_other_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'suitable_housing_concerns',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
+  detailsField({
+    parentFieldCode: 'suitable_housing_concerns',
+    dependentValue: 'OTHER',
+    required: true,
+  }),
   {
     text: 'What are the concerns?',
     hint: { text: 'Select all that apply (optional)', kind: 'text' },
@@ -417,24 +357,11 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
     },
     labelClasses: visuallyHidden,
   },
-  {
-    text: 'Give details',
-    code: 'unsuitable_housing_concerns_other_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'unsuitable_housing_concerns',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
+  detailsField({
+    parentFieldCode: 'unsuitable_housing_concerns',
+    dependentValue: 'OTHER',
+    required: true,
+  }),
 ]
 
 export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
@@ -469,61 +396,14 @@ export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
     },
     labelClasses: visuallyHidden,
   },
-  {
-    text: 'Give details',
-    code: 'suitable_housing_planned_awaiting_assessment_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'future_accommodation_type',
-      value: 'AWAITING_ASSESSMENT',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details',
-    code: 'awaiting_accommodation_placement_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'future_accommodation_type',
-      value: 'AWAITING_PLACEMENT',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Include where and who with.', kind: 'text' },
-    code: 'suitable_housing_planned_other_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'future_accommodation_type',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
+  ...[['AWAITING_ASSESSMENT'], ['AWAITING_PLACEMENT'], ['OTHER', 'Include where and who with.']].map(([option, hint]) =>
+    detailsField({
+      parentFieldCode: 'future_accommodation_type',
+      dependentValue: option,
+      textHint: hint,
+      required: true,
+    }),
+  ),
 ]
 
 export const noAccommodationFields: Array<FormWizard.Field> = [
@@ -545,24 +425,11 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
-  {
-    text: 'Give details',
-    code: 'no_accommodation_reason_other_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'no_accommodation_reason',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
+  detailsField({
+    parentFieldCode: 'no_accommodation_reason',
+    dependentValue: 'OTHER',
+    required: true,
+  }),
   {
     text: 'What has helped [subject] stay in accommodation in the past? (optional)',
     code: 'past_accommodation_details',
@@ -570,8 +437,8 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimit],
-        message: `Details must be ${characterLimit} characters or less`,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
       },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),

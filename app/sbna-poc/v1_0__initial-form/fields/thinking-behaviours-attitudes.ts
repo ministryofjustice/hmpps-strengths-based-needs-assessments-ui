@@ -1,11 +1,7 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import {
-  createPractitionerAnalysisFieldsWith,
-  createWantToMakeChangesFields,
-  getMediumLabelClassFor,
-  toFormWizardFields,
-  yesNoOptions,
-} from './common'
+import { getMediumLabelClassFor, toFormWizardFields, yesNoOptions } from './common'
+import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
+import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 
 const sexualHarmWarningText = `
 <div class="govuk-warning-text">
