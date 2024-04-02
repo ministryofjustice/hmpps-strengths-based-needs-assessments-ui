@@ -24,7 +24,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getRadio(option)
           .hasHint(hint)
           .getConditionalQuestion()
-          .hasTitle('Give details')
+          .hasTitle('Give details (optional)')
           .hasHint(null)
           .hasLimit(400)
 
@@ -33,7 +33,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasNoValidationError()
           .getRadio(option)
           .getConditionalQuestion()
-          .hasValidationError('Enter details')
+          .hasNoValidationError()
           .enterText('details')
 
         cy.checkAccessibility()

@@ -283,6 +283,7 @@ export const educationFields: Array<FormWizard.Field> = [
   detailsField({
     parentFieldCode: 'education_professional_or_vocational_qualifications',
     dependentValue: 'YES',
+    required: true,
   }),
   {
     text: 'Does [subject] have skills that could help them in a job or at work?',
@@ -321,7 +322,6 @@ export const educationFields: Array<FormWizard.Field> = [
     detailsField({
       parentFieldCode: 'education_transferable_skills',
       dependentValue: option,
-      required: true,
     }),
   ),
   {
