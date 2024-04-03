@@ -1,4 +1,4 @@
-import { createAssessment, markAsComplete, saveAndContinue } from './commands/assessment'
+import { markAsComplete, saveAndContinue } from './commands/assessment'
 import {
   assertQuestionUrl,
   assertResumeUrlIs,
@@ -48,12 +48,18 @@ import {
   hasNoSecondaryAnalysisAnswer,
   hasSecondaryAnalysisAnswer,
 } from './commands/analysisSummary'
+import { captureAssessment, cloneCapturedAssessment, createAssessment } from './commands/api';
 
 declare global {
   namespace Cypress {
     interface Chainable {
       // accessibility
       checkAccessibility(): Chainable
+
+      // API
+      createAssessment(): Chainable
+      captureAssessment(): Chainable
+      cloneCapturedAssessment(): Chainable
 
       // analysis summary
       getAnalysisSummary(question: string): Chainable
@@ -63,7 +69,6 @@ declare global {
       hasNoSecondaryAnalysisAnswer(): Chainable
 
       // assessment
-      createAssessment(): Chainable
       saveAndContinue(): Chainable
       markAsComplete(): Chainable
 
@@ -119,6 +124,11 @@ declare global {
 // accessibility
 Cypress.Commands.add('checkAccessibility', checkAccessibility)
 
+// API
+Cypress.Commands.add('createAssessment', createAssessment)
+Cypress.Commands.add('captureAssessment', captureAssessment)
+Cypress.Commands.add('cloneCapturedAssessment', cloneCapturedAssessment)
+
 // analysis summary
 Cypress.Commands.add('getAnalysisSummary', getAnalysisSummary)
 Cypress.Commands.add('clickChangeAnalysis', { prevSubject: true }, clickChangeAnalysis)
@@ -127,7 +137,6 @@ Cypress.Commands.add('hasSecondaryAnalysisAnswer', { prevSubject: true }, hasSec
 Cypress.Commands.add('hasNoSecondaryAnalysisAnswer', { prevSubject: true }, hasNoSecondaryAnalysisAnswer)
 
 // assessment
-Cypress.Commands.add('createAssessment', createAssessment)
 Cypress.Commands.add('saveAndContinue', saveAndContinue)
 Cypress.Commands.add('markAsComplete', markAsComplete)
 
