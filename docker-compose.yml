@@ -24,6 +24,8 @@ services:
       - hmpps
     healthcheck:
       test: ["CMD", "curl", "-f", "http://hmpps-auth:9090/auth/health"]
+      interval: 5s
+      retries: 60
     environment:
       SERVER_PORT: 9090
       SPRING_PROFILES_ACTIVE: dev
@@ -39,6 +41,8 @@ services:
      - hmpps-auth
     healthcheck:
       test: ["CMD", "curl", "-f", "http://api:8080/health/ping"]
+      interval: 5s
+      retries: 60
     environment:
       SERVER_PORT: 8080
       SPRING_PROFILES_ACTIVE: postgres
@@ -61,7 +65,7 @@ services:
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://ui:3000/health" ]
       interval: 5s
-      retries: 10
+      retries: 60
     environment:
       PORT: 3000
       REDIS_HOST: redis

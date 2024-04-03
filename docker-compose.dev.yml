@@ -25,9 +25,5 @@ services:
     ports:
       - "3000:3000"
       - "9229:9229"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://ui:3000/health" ]
-      interval: 5s
-      retries: 20
     volumes:
       - ./:/app
