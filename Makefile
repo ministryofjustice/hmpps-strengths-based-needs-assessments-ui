@@ -43,14 +43,12 @@ lint-fix: ## Automatically fixes linting issues.
 
 SYSTEM_CLIENT_ID ?= hmpps-strengths-and-needs-ui-client
 SYSTEM_CLIENT_SECRET ?= clientsecret
-API_TOKEN = $(shell \
-	COMPOSE_PROJECT_NAME=${PROJECT_NAME} \
-	docker compose exec api curl \
-	   --location 'http://hmpps-auth:9090/auth/oauth/token' \
-	   --user $(SYSTEM_CLIENT_ID):$(SYSTEM_CLIENT_SECRET) \
-	   --header 'Content-Type: application/x-www-form-urlencoded' \
-	   --data-urlencode 'grant_type=client_credentials' \
-	   | jq -r '.access_token' \
+API_TOKEN = $$(docker compose exec hmpps-auth curl \
+   --location 'http://hmpps-auth:9090/auth/oauth/token' \
+   --user $(SYSTEM_CLIENT_ID):$(SYSTEM_CLIENT_SECRET) \
+   --header 'Content-Type: application/x-www-form-urlencoded' \
+   --data-urlencode 'grant_type=client_credentials' \
+   | jq -r '.access_token' \
 )
 
 BASE_URL ?= "http://localhost:3000"
