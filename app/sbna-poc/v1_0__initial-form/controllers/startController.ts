@@ -27,7 +27,7 @@ class StartController extends BaseController {
           return next(error)
         }
 
-        return res.redirect('landing-page')
+        return res.redirect('accommodation?action=resume')
       })
     } catch (error) {
       next(new Error('Unable to start assessment'))

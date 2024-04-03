@@ -1,21 +1,25 @@
-{% extends "../../partials/layout.njk" %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+<html>
+  <head></head>
+  <head>
+    <meta charset="utf-8">
+    <title>OAStub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0c0c">
 
-{% set hideBackLink = true %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-{% block header %}
-    {% include "../../partials/header.njk" %}
-{% endblock %}
+    <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
 
-{% block content %}
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-three-quarters">
-        <div>
-            <h1 class="govuk-heading-l">{{ options.pageTitle }}</h1>
-
-            <a href="create-one-time-link" class="govuk-link">Go to strengths based needs assessment</a>
-        </div>
-    </div>
-</div>
-{% endblock %}
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png">
+  </head>
+  <body class="oastub-body">
+    <a href="{{ otl }}">
+      <img class="splash-image" src="/assets/images/oasys-incomplete.png" alt="start assessment">
+    </a>
+  </body>
+</html>

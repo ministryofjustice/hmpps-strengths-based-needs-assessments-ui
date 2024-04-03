@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
 
-class OneTimeLinkController extends BaseController {
+class CreateOneTimeLinkController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
   constructor(options: unknown) {
@@ -32,4 +32,4 @@ class OneTimeLinkController extends BaseController {
   }
 }
 
-export default OneTimeLinkController
+export default CreateOneTimeLinkController
