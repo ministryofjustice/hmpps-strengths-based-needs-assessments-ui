@@ -48,7 +48,7 @@ import {
   hasNoSecondaryAnalysisAnswer,
   hasSecondaryAnalysisAnswer,
 } from './commands/analysisSummary'
-import { captureAssessment, cloneCapturedAssessment, createAssessment } from './commands/api';
+import { captureAssessment, cloneCapturedAssessment, createAssessment } from './commands/api'
 
 declare global {
   namespace Cypress {
