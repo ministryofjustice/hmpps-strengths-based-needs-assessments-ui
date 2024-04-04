@@ -156,11 +156,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     },
   },
   {
-    text: 'Does [subject] have a personal bank account?',
+    text: 'Does [subject] have their own bank account?',
     code: 'finance_bank_account',
-    hint: { text: 'This does not include solely having a joint account.', kind: 'text' },
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have a personal bank account' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have their own personal bank account' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
