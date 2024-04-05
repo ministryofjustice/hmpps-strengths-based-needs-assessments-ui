@@ -23,3 +23,7 @@ export const sectionNotMarkedAsComplete = (section: string) => {
     .find('.section-complete')
     .should('not.exist')
 }
+
+export const hasAutosaveEnabled = () => {
+  cy.get('form').should('have.length', 1).invoke('attr', 'data-autosave-enabled').should('equal', 'true')
+}
