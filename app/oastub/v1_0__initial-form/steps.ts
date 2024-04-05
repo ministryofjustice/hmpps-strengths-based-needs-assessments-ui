@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import OneTimeLinkController from './controllers/oneTimeLinkController'
-import CreateOneTimeLinkController from './controllers/createOneTimeLinkController';
+import CreateOneTimeLinkController from './controllers/createOneTimeLinkController'
 
 const steps: FormWizard.Steps = {
   '/start': {
