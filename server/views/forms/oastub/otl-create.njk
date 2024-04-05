@@ -15,6 +15,8 @@
       <div>
         <h1 class="govuk-heading-l">{{ options.pageTitle }}</h1>
 
+		{% set link = [domain, "/form/oastub/landing?otl=", otl | urlencode] | join %}
+
         {{ govukInput({
           label: {
             text: "One time link"
@@ -22,7 +24,7 @@
           id: "one-time-link",
           name: "one-time-link",
           disabled: true,
-          value: otl
+          value: link
         }) }}
 
         <div id="one-time-link-notification" class="govuk-visually-hidden">
