@@ -20,6 +20,7 @@ services:
     working_dir: /e2e
     environment:
       CYPRESS_SBNA_API_URL: http://api:8080
+      CYPRESS_HMPPS_AUTH_URL: http://hmpps-auth:9090
     entrypoint: [ "/bin/sh", "-c" ]
     command:
       - |

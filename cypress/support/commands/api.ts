@@ -11,7 +11,7 @@ const getApiToken = () => {
 
   return cy
     .request({
-      url: `${env('HMPPS_AUTH_URL')}/oauth/token?grant_type=client_credentials`,
+      url: `${env('HMPPS_AUTH_URL')}/auth/oauth/token?grant_type=client_credentials`,
       method: 'POST',
       form: true,
       auth: {
