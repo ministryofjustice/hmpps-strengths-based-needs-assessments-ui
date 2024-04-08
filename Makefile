@@ -5,6 +5,8 @@ TEST_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.test.yml
 LOCAL_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.local.yml
 export COMPOSE_PROJECT_NAME=${PROJECT_NAME}
 
+include Makefile.cypress.mk
+
 default: help
 
 help: ## The help text you're reading.
@@ -40,39 +42,6 @@ lint: ## Runs the linter.
 
 lint-fix: ## Automatically fixes linting issues.
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint:fix
-
-BASE_URL ?= "http://localhost:3000"
-e2e: ## Run the end-to-end tests in the Cypress app. Override the default base URL with BASE_URL=...
-	npm i
-	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
-
-E2E_ACCOMMODATION = "cypress/e2e/**/accommodation/**/*.cy.ts"
-E2E_ALCOHOL_USE = "cypress/e2e/**/alcohol-use/**/*.cy.ts"
-E2E_DRUG_USE = "cypress/e2e/**/drug-use/**/*.cy.ts"
-E2E_EMPLOYMENT_EDUCATION = "cypress/e2e/**/employment-and-education/**/*.cy.ts"
-E2E_FINANCE = "cypress/e2e/**/finance/**/*.cy.ts"
-E2E_HEALTH_WELLBEING = "cypress/e2e/**/health-and-wellbeing/**/*.cy.ts"
-E2E_PERSONAL_RELATIONSHIPS = "cypress/e2e/**/personal-relationships-and-community/**/*.cy.ts"
-E2E_THINKING_BEHAVIOURS = "cypress/e2e/**/thinking-behaviours-and-attitudes/**/*.cy.ts"
-E2E_JOURNEYS = "cypress/e2e/**/journeys/**/*.cy.ts"
-E2E_ALL_NAMED = ${E2E_ACCOMMODATION},${E2E_ALCOHOL_USE},${E2E_DRUG_USE},${E2E_EMPLOYMENT_EDUCATION},${E2E_FINANCE},${E2E_HEALTH_WELLBEING},${E2E_PERSONAL_RELATIONSHIPS},${E2E_THINKING_BEHAVIOURS},${E2E_JOURNEYS}
-
-BASE_URL_CI ?= "http://ui:3000"
-e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
-	make e2e-ci-run CYPRESS_OPTIONS="--group accommodation --spec ${E2E_ACCOMMODATION}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group alcohol-use --spec ${E2E_ALCOHOL_USE}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group drug-use --spec ${E2E_DRUG_USE}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group employment-and-education --spec ${E2E_EMPLOYMENT_EDUCATION}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group finance --spec ${E2E_FINANCE}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group health-and-wellbeing --spec ${E2E_HEALTH_WELLBEING}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group personal-relationships-and-community --spec ${E2E_PERSONAL_RELATIONSHIPS}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group thinking-behaviours-and-attitudes --spec ${E2E_THINKING_BEHAVIOURS}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group journeys --spec ${E2E_JOURNEYS}"
-	make e2e-ci-run CYPRESS_OPTIONS="--group misc --config '{"excludeSpecPattern":[${E2E_ALL_NAMED}]}'"
-
-CYPRESS_OPTIONS ?= ""
-e2e-ci-run:
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm -e CYPRESS_BASE_URL=${BASE_URL_CI} cypress ${CYPRESS_OPTIONS}
 
 test-up: ## Stands up a test environment.
 	docker compose --progress plain pull
