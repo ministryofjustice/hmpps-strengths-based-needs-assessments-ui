@@ -23,7 +23,7 @@ export default defineConfig({
     excludeSpecPattern: '**/!(*.cy).ts',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress/support/index.ts',
-    testIsolation: false,
+    testIsolation: true,
     setupNodeEvents(on) {
       on('before:run', clearBeforeRun)
       on('after:run', generateReport)
