@@ -1,6 +1,6 @@
 import { testPractitionerAnalysis } from './common'
 
-describe('Origin: /accommodation', () => {
+describe('Origin: /accommodation', { testIsolation: false }, () => {
   const destinations = {
     landingPage: '/accommodation',
     settled: '/settled-accommodation',
