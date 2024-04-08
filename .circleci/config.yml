@@ -81,6 +81,9 @@ jobs:
           name: Stand up a test environment
           command: make test-up
       - run:
+          name: Build Cypress
+          command: make build-cypress
+      - run:
           name: Run the end-to-end tests
           command: make e2e-ci --jobs=20
       - store_test_results:
