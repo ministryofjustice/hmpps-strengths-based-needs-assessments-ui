@@ -10,7 +10,7 @@ const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode
   code: fieldCode,
   type: FieldType.CheckBox,
   multiple: true,
-  validate: [{ type: ValidationType.Required, message: 'Error message' }],
+  validate: [{ type: ValidationType.Required, message: 'Select type of debt' }],
   options: [
     { text: 'Debt to others', value: 'DEBT_TO_OTHERS', kind: 'option' },
     { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
