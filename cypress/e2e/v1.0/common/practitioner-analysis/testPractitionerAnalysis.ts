@@ -9,6 +9,7 @@ export default (summaryPage: string, analysisCompletePage: string) => {
     beforeEach(() => {
       cy.createAssessment()
       cy.visitStep(summaryPage)
+      cy.hasAutosaveEnabled()
     })
 
     it('can navigate to the Practitioner Analysis tab', () => {
