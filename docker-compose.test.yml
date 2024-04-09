@@ -21,6 +21,9 @@ services:
     environment:
       CYPRESS_SBNA_API_URL: http://api:8080
       CYPRESS_HMPPS_AUTH_URL: http://hmpps-auth:9090
+    volumes:
+      - ./cypress:/e2e/cypress
+      - ./test_results:/e2e/test_results
 
 volumes:
   test_results:
