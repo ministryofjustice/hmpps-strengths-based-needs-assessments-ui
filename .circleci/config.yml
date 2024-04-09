@@ -66,6 +66,7 @@ jobs:
   e2e_test:
     machine:
       image: ubuntu-2004:2023.10.1
+    parallelism: 4
     steps:
       - checkout
       - attach_workspace:
@@ -84,8 +85,8 @@ jobs:
           name: Build Cypress
           command: make build-cypress
       - run:
-          name: Run the end-to-end tests
-          command: make e2e-ci --jobs=20
+          name: Run end-to-end tests
+          command: make e2e-ci
       - store_test_results:
           path: test_results
       - store_artifacts:
@@ -108,7 +109,7 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Run the end-to-end tests against the development environment
-          command: make e2e-ci BASE_URL_CI="https://strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk" --jobs=20
+          command: make e2e-ci BASE_URL_CI="https://strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk"
       - store_test_results:
           path: test_results
       - store_artifacts:
