@@ -50,7 +50,7 @@ build-cypress: ## Builds an image of Cypress/Chrome for testing in CI
 	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test build cypress
 
 e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --spec ${TESTS}
 
 test-up: ## Stands up a test environment.
 	docker compose --progress plain pull

@@ -84,15 +84,9 @@ jobs:
       - run:
           name: Build Cypress
           command: make build-cypress
-      - restore_cache:
-          key: cypress-timings
       - run:
           name: Run the end-to-end tests
-          command: make e2e-ci
-      - persist_to_workspace:
-          root: cypress
-          paths:
-            - node-timings
+          command: make e2e-ci TESTS=$(circleci tests glob "cypress/e2e/**/*.cy.ts" | circleci tests split --split-by=timings | paste -sd ',')
       - store_test_results:
           path: test_results
       - store_artifacts:
@@ -102,24 +96,6 @@ jobs:
       - store_artifacts:
           path: test_results/cypress/accessibilityReport.txt
           destination: accessibilityReport.txt
-
-  e2e_combine_timings:
-    executor:
-      name: hmpps/node
-      tag: << pipeline.parameters.node-version >>
-    steps:
-      - checkout
-      - attach_workspace:
-          at: cypress
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: Combine Cypress timing files from all parallel runs
-          command: npx cypress-split-merge --parent-folder cypress/node-timings --split-file timings.json --output cypress/timings/timings.json
-      - save_cache:
-          key: cypress-timings
-          paths:
-            - cypress/timings
 
 workflows:
   version: 2
@@ -148,10 +124,6 @@ workflows:
           context: hmpps-common-vars
           requires:
             - build_docker
-      - e2e_combine_timings:
-          context: hmpps-common-vars
-          requires:
-            - e2e_test
       - hmpps/publish_docker:
           name: publish_docker
           publish_latest_tag: true
