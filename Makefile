@@ -53,7 +53,7 @@ e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI
 	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress
 
 e2e-ci-parallel: ## Run the end-to-end tests in parallel in a headless browser. Used in CI
-	circleci tests glob "cypress/**/*.cy.js" | \
+	circleci tests glob "cypress/e2e/**/*.cy.ts" | \
 	circleci tests run --command="make e2e-ci --spec" --verbose --split-by=timings
 
 test-up: ## Stands up a test environment.
