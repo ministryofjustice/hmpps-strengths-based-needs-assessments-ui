@@ -5,8 +5,6 @@ TEST_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.test.yml
 LOCAL_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.local.yml
 export COMPOSE_PROJECT_NAME=${PROJECT_NAME}
 
-include Makefile.cypress.mk
-
 default: help
 
 help: ## The help text you're reading.
@@ -20,7 +18,7 @@ down: ## Stops and removes all containers in the project.
 	docker compose down
 	make test-down
 
-build-ui: ## Builds a production image of the API.
+build-ui: ## Builds a production image of the UI.
 	docker compose build ui
 
 dev-up: ## Starts/restarts the UI in a development container. A remote debugger can be attached on port 9229.
@@ -42,6 +40,17 @@ lint: ## Runs the linter.
 
 lint-fix: ## Automatically fixes linting issues.
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint:fix
+
+BASE_URL ?= "http://localhost:3000"
+e2e: ## Run the end-to-end tests in the Cypress app. Override the default base URL with BASE_URL=...
+	npm i
+	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
+
+build-cypress: ## Builds an image of Cypress/Chrome for testing in CI
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test build cypress
+
+e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress
 
 test-up: ## Stands up a test environment.
 	docker compose --progress plain pull
