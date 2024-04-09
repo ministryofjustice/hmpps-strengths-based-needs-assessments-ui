@@ -24,6 +24,9 @@ services:
       CYPRESS_HMPPS_AUTH_URL: http://hmpps-auth:9090
       SPLIT: ${CIRCLE_NODE_TOTAL:-1}
       SPLIT_INDEX: ${CIRCLE_NODE_INDEX:-0}
+      SPLIT_FILE: cypress/timings/timings.json
+      SPLIT_OUTPUT_FILE: cypress/node-timings/node-${CIRCLE_NODE_INDEX:-0}/timings.json
+      SPLIT_TIME_THRESHOLD: 0.2
     volumes:
       - ./cypress:/e2e/cypress
       - ./test_results:/e2e/test_results
