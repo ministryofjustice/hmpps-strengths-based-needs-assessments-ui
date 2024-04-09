@@ -28,7 +28,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       cypressSplit(on, config)
       on('before:run', clearBeforeRun)
-      on('after:run', generateReport)
+      // on('after:run', generateReport)
       on('task', {
         log(message) {
           // eslint-disable-next-line no-console

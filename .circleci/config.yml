@@ -114,7 +114,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: Combine Cypress timings files from all parallel runs
+          name: Combine Cypress timing files from all parallel runs
           command: npx cypress-split-merge --parent-folder cypress/node-timings --split-file timings.json --output cypress/timings/timings.json
       - save_cache:
           key: cypress-timings
