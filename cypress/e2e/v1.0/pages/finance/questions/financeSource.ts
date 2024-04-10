@@ -13,7 +13,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Work related benefits',
       'Other',
       null,
-     'No money'
+      'No money'
     ]
 
     const radioOptions = ['Yes', 'No']

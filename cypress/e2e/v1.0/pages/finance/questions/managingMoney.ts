@@ -15,14 +15,14 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).hasValidationError('Select how good they are at managing their money')
         cy.checkAccessibility()
       })
+
       ;[
         'Able to manage their money well and is a strength', 
         'Able to manage their money for everyday necessities',
         'Unable to manage their money well',
         'Unable to manage their money which is creating other problems',
       ].forEach(option => {
-      
-    it(`conditional field is displayed for all radio "${option}`, () => {
+      it(`conditional field is displayed for all radio "${option}`, () => {
       cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
 
       cy.getQuestion(question)
