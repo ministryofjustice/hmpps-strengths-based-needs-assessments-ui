@@ -50,8 +50,8 @@ build-cypress: ## Builds an image of Cypress/Chrome for testing in CI
 	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test build cypress
 
 e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in CI
-	circleci tests glob "cypress/e2e/**/*.cy.ts" | \
-	circleci tests run --command="docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm --interactive=false cypress --spec " --verbose --split-by=timings
+	circleci tests glob "cypress/e2e/**/*.cy.ts" | circleci tests split --split-by=timings --verbose | paste -sd ',' > tmp_specs.txt
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --spec "$$(<tmp_specs.txt)"
 
 test-up: ## Stands up a test environment.
 	docker compose --progress plain pull
