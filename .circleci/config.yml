@@ -119,8 +119,6 @@ workflows:
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
-      - pull_images:
-          context: hmpps-common-vars
       - e2e_test:
           context: hmpps-common-vars
           requires:
