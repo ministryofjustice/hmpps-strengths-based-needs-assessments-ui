@@ -23,6 +23,7 @@ describe('/no-accommodation', () => {
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)
+    cy.hasAutosaveEnabled()
   })
 
   questions.forEach((questionTest, index) => {

@@ -200,6 +200,7 @@
       removeUnusedLocalStorageEntries()
       loadForm()
       addListenersToFormElements()
+      getForm().setAttribute('data-autosave-enabled', true)
     }
   })
 

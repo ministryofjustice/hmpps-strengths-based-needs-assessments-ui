@@ -31,6 +31,7 @@ describe('/never-been-employed', () => {
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)
+    cy.hasAutosaveEnabled()
   })
 
   questions.forEach((questionTest, index) => {

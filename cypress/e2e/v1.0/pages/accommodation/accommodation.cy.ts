@@ -10,6 +10,7 @@ describe('/accommodation', () => {
     cy.visitStep(stepUrl)
     cy.assertSectionIs('Accommodation')
     cy.assertQuestionCount(1)
+    cy.hasAutosaveEnabled()
   })
 
   questions.forEach((questionTest, index) => {
