@@ -61,8 +61,4 @@ clean: ## Stops and removes all project containers. Deletes local build/cache di
 	rm -rf dist node_modules test_results
 
 update: ## Downloads the latest versions of container images.
-	docker compose ${LOCAL_COMPOSE_FILES} ${DEV_COMPOSE_FILES} ${TEST_COMPOSE_FILES} pull
-
-TAR_FILE ?= images.tar
-save-images: ## Saves images to a tarball. Override the output filename with TAR_FILE=...
-	docker save -o ${TAR_FILE} $$(docker-compose ${TEST_COMPOSE_FILES} config --images)
+	docker compose pull
