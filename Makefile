@@ -51,7 +51,6 @@ e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in C
 	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --browser chrome --headless --spec "$$(<tmp_specs.txt)"
 
 test-up: ## Stands up a test environment.
-	docker compose --progress plain pull
 	docker compose --progress plain ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait --force-recreate
 
 test-down: ## Stops and removes all of the test containers.
@@ -61,5 +60,9 @@ clean: ## Stops and removes all project containers. Deletes local build/cache di
 	docker compose down
 	rm -rf dist node_modules test_results
 
-update: ## Downloads the lastest versions of containers.
-	docker compose pull
+update: ## Downloads the latest versions of container images.
+	docker compose ${LOCAL_COMPOSE_FILES} ${DEV_COMPOSE_FILES} ${TEST_COMPOSE_FILES} pull
+
+TAR_FILE ?= images.tar
+save-images: ## Saves images to a tarball. Override the output filename with TAR_FILE=...
+	docker save -o ${TAR_FILE} $$(docker-compose ${TEST_COMPOSE_FILES} config --images)
