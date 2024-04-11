@@ -64,13 +64,12 @@ jobs:
           path: test_results/unit-test-reports.html
 
   e2e_test:
-    docker:
-      - image: cimg/base:2024.02
+    machine:
+      image: ubuntu-2004:2023.10.1
     working_directory: ~/app
     parallelism: 4
     steps:
       - checkout
-      - setup_remote_docker
       - attach_workspace:
           at: ~/app
       - run:
