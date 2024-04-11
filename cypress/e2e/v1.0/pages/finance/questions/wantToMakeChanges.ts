@@ -21,9 +21,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError(
-        'Select if they want to make changes to their finance',
-      )
+      cy.getQuestion(question).hasValidationError('Select if they want to make changes to their finance')
       cy.checkAccessibility()
     })
     ;[
