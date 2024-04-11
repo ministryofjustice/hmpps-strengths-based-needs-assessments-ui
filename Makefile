@@ -46,12 +46,9 @@ e2e: ## Run the end-to-end tests in the Cypress app. Override the default base U
 	npm i
 	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
 
-build-cypress: ## Builds an image of Cypress/Chrome for testing in CI
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test build cypress
-
 e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in CI
 	circleci tests glob "cypress/e2e/**/*.cy.ts" | circleci tests split --split-by=timings --verbose | paste -sd ',' > tmp_specs.txt
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --spec "$$(<tmp_specs.txt)"
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --browser chrome --headless --spec "$$(<tmp_specs.txt)"
 
 test-up: ## Stands up a test environment.
 	docker compose --progress plain pull
