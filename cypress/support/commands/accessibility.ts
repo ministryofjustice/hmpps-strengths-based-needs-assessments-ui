@@ -29,7 +29,7 @@ export const checkAccessibility = (injectAxe: boolean = true) => {
 
 export const clearBeforeRun = () => {
   fs.rmSync(violationsTempPath, { force: true })
-  fs.writeFileSync(violationsTempPath, '')
+  fs.writeFileSync(violationsTempPath, '', { flag: 'w+' })
 }
 
 export const generateReport = () => {

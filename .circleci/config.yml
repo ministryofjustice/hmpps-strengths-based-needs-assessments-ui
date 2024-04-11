@@ -63,6 +63,23 @@ jobs:
       - store_artifacts:
           path: test_results/unit-test-reports.html
 
+  pull_images:
+    docker:
+      - image: cimg/base:2024.02
+    working_directory: ~/app
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Pull container images
+          command: |
+            mkdir -p docker_cache
+            make update save-images TAR_FILE=docker_cache/images.tar
+      - persist_to_workspace:
+          root: ~/app
+          paths:
+            - docker_cache
+
   e2e_test:
     machine:
       image: ubuntu-2004:2023.10.1
@@ -73,8 +90,10 @@ jobs:
       - attach_workspace:
           at: ~/app
       - run:
-          name: Extract saved container image
-          command: docker load --input docker_cache/build_image.tar
+          name: Extract saved container images
+          command: |
+            docker load --input docker_cache/images.tar
+            docker load --input docker_cache/build_image.tar
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - mem/recall:
@@ -118,10 +137,13 @@ workflows:
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
+      - pull_images:
+          context: hmpps-common-vars
       - e2e_test:
           context: hmpps-common-vars
           requires:
             - build_docker
+            - pull_images
       - hmpps/publish_docker:
           name: publish_docker
           publish_latest_tag: true
