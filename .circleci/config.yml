@@ -66,6 +66,7 @@ jobs:
   e2e_test:
     machine:
       image: ubuntu-2004:2023.10.1
+    working_directory: ~/app
     parallelism: 4
     steps:
       - checkout
@@ -73,7 +74,7 @@ jobs:
           at: ~/app
       - run:
           name: Extract saved container image
-          command: docker load --input ~/app/docker_cache/build_image.tar
+          command: docker load --input docker_cache/build_image.tar
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - mem/recall:
