@@ -29,8 +29,6 @@ export const checkAccessibility = (injectAxe: boolean = true) => {
 
 export const clearBeforeRun = () => {
   fs.rmSync(violationsTempPath, { force: true })
-  fs.mkdirSync('test_results/cypress', { recursive: true })
-  fs.writeFileSync(violationsTempPath, '', { flag: 'w+' })
 }
 
 export const generateReport = () => {
