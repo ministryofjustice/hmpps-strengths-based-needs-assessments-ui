@@ -1,6 +1,8 @@
 describe('sidebar navigation', () => {
   before(() => {
-    cy.createAssessment()
+    cy.visit('/form/oastub/start')
+    cy.get('.splash-image').click()
+    cy.url().should('contain', '/form/sbna-poc/accommodation')
   })
 
   const sections = [

@@ -7,7 +7,7 @@ describe('/accommodation', () => {
 
   beforeEach(() => {
     cy.createAssessment()
-    cy.visitStep(stepUrl)
+    cy.assertStepUrlIs(stepUrl)
     cy.assertSectionIs('Accommodation')
     cy.assertQuestionCount(1)
     cy.hasAutosaveEnabled()

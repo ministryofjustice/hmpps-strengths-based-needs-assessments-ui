@@ -19,12 +19,18 @@ describe('/retired', () => {
     wantToMakeChanges,
   ]
 
-  beforeEach(() => {
+  before(() => {
     cy.createAssessment()
     cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.captureAssessment()
+  })
+
+  beforeEach(() => {
+    cy.cloneCapturedAssessment()
+    cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
   })
