@@ -1,20 +1,20 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Sam have skills that could help them in a job or at work?'
+  const question = 'Does Sam have any skills that could help them in a job or to get a job?'
   describe(question, () => {
-    const options = ['Yes', 'Yes, some skills', 'No']
+    const options = ['Yes', 'Some skills', 'No']
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they have skills that could help them in a job or at work')
+      cy.getQuestion(question).hasValidationError('Select if they have any skills that could help them in a job or to get a job')
       cy.checkAccessibility()
     })
     ;[
-      ['Yes', 'This includes vocational qualifications, academic qualifications or transferable skills.'],
+      ['Yes', 'This includes any completed training, qualifications, work experience or transferable skills.'],
       [
-        'Yes, some skills',
-        'This includes skills that are not directly transferable, partially completed training or limited on the job experience.',
+        'Some skills',
+        'This includes partially completed training or qualifications, limited on the job experience or skills that are not directly transferable.',
       ],
     ].forEach(([option, hint]) => {
       it(`conditional field is displayed for "${option}"`, () => {
@@ -52,7 +52,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .getRadio('No')
         .hasHint(
-          'This includes having no history of working in the same industry, no completed apprenticeships or no vocational qualifications.',
+          'This includes having no other qualifications, incomplete apprenticeships or no history of working in the same industry.',
         )
         .hasConditionalQuestion(false)
         .clickLabel()

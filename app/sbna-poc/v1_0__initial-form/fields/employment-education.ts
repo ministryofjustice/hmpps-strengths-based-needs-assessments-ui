@@ -286,23 +286,23 @@ export const educationFields: Array<FormWizard.Field> = [
     required: true,
   }),
   {
-    text: 'Does [subject] have skills that could help them in a job or at work?',
+    text: 'Does [subject] have any skills that could help them in a job or to get a job?',
     code: 'education_transferable_skills',
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: 'Select if they have skills that could help them in a job or at work' },
+      { type: ValidationType.Required, message: 'Select if they have any skills that could help them in a job or to get a job' },
     ],
     options: [
       {
         text: 'Yes',
-        hint: { text: 'This includes vocational qualifications, academic qualifications or transferable skills.' },
+        hint: { text: 'This includes any completed training, qualifications, work experience or transferable skills.' },
         value: 'YES',
         kind: 'option',
       },
       {
-        text: 'Yes, some skills',
+        text: 'Some skills',
         hint: {
-          text: 'This includes skills that are not directly transferable, partially completed training or limited on the job experience.',
+          text: 'This includes partially completed training or qualifications, limited on the job experience or skills that are not directly transferable.',
         },
         value: 'YES_SOME_SKILLS',
         kind: 'option',
@@ -310,7 +310,7 @@ export const educationFields: Array<FormWizard.Field> = [
       {
         text: 'No',
         hint: {
-          text: 'This includes having no history of working in the same industry, no completed apprenticeships or no vocational qualifications.',
+          text: 'This includes having no other qualifications, incomplete apprenticeships or no history of working in the same industry.',
         },
         value: 'NO',
         kind: 'option',
