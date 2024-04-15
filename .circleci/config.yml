@@ -66,13 +66,15 @@ jobs:
   e2e_test:
     machine:
       image: ubuntu-2004:2023.10.1
+    working_directory: ~/app
+    parallelism: 4
     steps:
       - checkout
       - attach_workspace:
           at: ~/app
       - run:
           name: Extract saved container image
-          command: docker load --input ~/app/docker_cache/build_image.tar
+          command: docker load --input docker_cache/build_image.tar
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - mem/recall:
@@ -83,29 +85,6 @@ jobs:
       - run:
           name: Run the end-to-end tests
           command: make e2e-ci
-      - store_test_results:
-          path: test_results
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
-      - store_artifacts:
-          path: test_results/cypress/accessibilityReport.txt
-          destination: accessibilityReport.txt
-
-  e2e_test_dev:
-    circleci_ip_ranges: true
-    machine:
-      image: ubuntu-2004:2023.10.1
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/app
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: Run the end-to-end tests against the development environment
-          command: make e2e-ci BASE_URL_CI="https://strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk"
       - store_test_results:
           path: test_results
       - store_artifacts:
@@ -170,14 +149,6 @@ workflows:
             - helm_lint
             - publish_docker
           helm_timeout: 5m
-#      - e2e_test_dev:
-#          context: hmpps-common-vars
-#          filters:
-#            branches:
-#              only:
-#                - main
-#          requires:
-#            - deploy_dev
   #      - hmpps/deploy_env:
   #          name: deploy_preprod
   #          env: "preprod"
