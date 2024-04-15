@@ -7,7 +7,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they have any skills that could help them in a job or to get a job')
+      cy.getQuestion(question).hasValidationError(
+        'Select if they have any skills that could help them in a job or to get a job',
+      )
       cy.checkAccessibility()
     })
     ;[

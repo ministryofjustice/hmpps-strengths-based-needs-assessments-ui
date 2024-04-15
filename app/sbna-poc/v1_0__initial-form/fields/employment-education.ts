@@ -290,7 +290,10 @@ export const educationFields: Array<FormWizard.Field> = [
     code: 'education_transferable_skills',
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: 'Select if they have any skills that could help them in a job or to get a job' },
+      {
+        type: ValidationType.Required,
+        message: 'Select if they have any skills that could help them in a job or to get a job',
+      },
     ],
     options: [
       {
