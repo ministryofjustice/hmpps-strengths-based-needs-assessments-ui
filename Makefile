@@ -18,7 +18,7 @@ down: ## Stops and removes all containers in the project.
 	docker compose down
 	make test-down
 
-build-ui: ## Builds a production image of the API.
+build-ui: ## Builds a production image of the UI.
 	docker compose build ui
 
 dev-up: ## Starts/restarts the UI in a development container. A remote debugger can be attached on port 9229.
@@ -42,13 +42,14 @@ lint-fix: ## Automatically fixes linting issues.
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint:fix
 
 BASE_URL ?= "http://localhost:3000"
-e2e: ## Run the end-to-end tests in the Cypress app. Override the default base URL with BASE_URL=...
+e2e: ## Run the end-to-end tests locally in the Cypress app. Override the default base URL with BASE_URL=...
 	npm i
 	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
 
 BASE_URL_CI ?= "http://ui:3000"
-e2e-ci: ## Run the end-to-end tests in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm -e CYPRESS_BASE_URL=${BASE_URL_CI} cypress
+e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
+	circleci tests glob "cypress/e2e/**/*.cy.ts" | circleci tests split --split-by=timings --verbose | paste -sd ',' > tmp_specs.txt
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --headless -b chrome -c baseUrl=${BASE_URL_CI} -s "$$(<tmp_specs.txt)"
 
 test-up: ## Stands up a test environment.
 	docker compose --progress plain pull
@@ -61,5 +62,5 @@ clean: ## Stops and removes all project containers. Deletes local build/cache di
 	docker compose down
 	rm -rf dist node_modules test_results
 
-update: ## Downloads the lastest versions of containers.
+update: ## Downloads the latest versions of container images.
 	docker compose pull

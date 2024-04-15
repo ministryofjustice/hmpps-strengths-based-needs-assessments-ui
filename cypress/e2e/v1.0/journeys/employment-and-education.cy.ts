@@ -1,6 +1,6 @@
 import { testPractitionerAnalysis } from './common'
 
-describe('Origin: /employment-education', () => {
+describe('Origin: /employment-education', { testIsolation: false }, () => {
   const destinations = {
     landingPage: '/employment-education',
     employed: '/employed',
