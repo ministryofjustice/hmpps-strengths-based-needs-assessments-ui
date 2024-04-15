@@ -1,7 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import SaveAndContinueController from '../controllers/saveAndContinueController'
 import StartController from '../controllers/startController'
-import LandingPageController from '../controllers/landingPageController'
 import accommodationSteps from './accommodation'
 import financeSteps from './finance'
 import drugsSteps from './drugs'
@@ -17,15 +16,6 @@ const stepOptions: FormWizard.Steps = {
     controller: StartController,
     reset: true,
     entryPoint: true,
-    template: `forms/sbna-poc/start`,
-    next: 'landing-page',
-    section: 'none',
-  },
-  '/landing-page': {
-    pageTitle: 'OAStub',
-    controller: LandingPageController,
-    template: `forms/sbna-poc/landing-page`,
-    next: 'accommodation?action=resume',
     section: 'none',
   },
   '/data-mapping': {

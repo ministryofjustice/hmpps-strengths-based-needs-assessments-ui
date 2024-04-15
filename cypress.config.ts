@@ -11,6 +11,12 @@ export default defineConfig({
     configFile: 'reporter-config.json',
   },
   taskTimeout: 60000,
+  env: {
+    CLIENT_ID: 'hmpps-strengths-and-needs-ui-client',
+    CLIENT_SECRET: 'clientsecret',
+    HMPPS_AUTH_URL: 'http://localhost:9091',
+    SBNA_API_URL: 'http://localhost:8080',
+  },
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.

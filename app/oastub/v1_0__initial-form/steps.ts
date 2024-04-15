@@ -1,21 +1,22 @@
 import FormWizard from 'hmpo-form-wizard'
-import StartController from './controllers/startController'
-import BaseController from '../../common/controllers/baseController'
-import OneTimeLinkController from './controllers/oneTimeLinkStartController'
+import OneTimeLinkController from './controllers/oneTimeLinkController'
 import CreateOneTimeLinkController from './controllers/createOneTimeLinkController'
 
 const steps: FormWizard.Steps = {
   '/start': {
     pageTitle: 'OAStub',
-    controller: BaseController,
+    controller: CreateOneTimeLinkController,
     reset: true,
     entryPoint: true,
     template: `forms/oastub/start`,
     section: 'oastub',
   },
-  '/create-one-time-link': {
+  '/landing': {
     pageTitle: 'OAStub',
-    controller: StartController,
+    controller: OneTimeLinkController,
+    reset: true,
+    entryPoint: true,
+    template: `forms/oastub/start`,
     section: 'oastub',
   },
   '/otl': {

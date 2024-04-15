@@ -15,6 +15,7 @@ class OneTimeLinkController extends BaseController {
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     res.locals.assessmentUuid = randomUUID()
+    res.locals.otl = req.query.otl as string
 
     super.locals(req, res, next)
   }
