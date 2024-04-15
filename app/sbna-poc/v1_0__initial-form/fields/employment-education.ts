@@ -128,7 +128,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
 
 export const employmentFields: Array<FormWizard.Field> = [
   {
-    text: 'What area does [subject] work in? (optional)',
+    text: 'What job sector does [subject] work in? (optional)',
     code: 'employment_area',
     type: FieldType.TextArea,
     validate: [],

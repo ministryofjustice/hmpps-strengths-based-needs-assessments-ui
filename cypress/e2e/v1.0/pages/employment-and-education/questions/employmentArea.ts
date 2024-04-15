@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'What area does Sam work in? (optional)'
+  const question = 'What job sector does Sam work in? (optional)'
 
   describe(question, () => {
     it(`displays and does not validate the question`, () => {
