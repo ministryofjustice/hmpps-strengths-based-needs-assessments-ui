@@ -55,7 +55,7 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
 
         cy.getQuestion("Is the location of Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
-        cy.getQuestion("Is Sam's overall accommodation suitable?").getRadio('Yes').clickLabel()
+        cy.getQuestion("Is Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
@@ -102,7 +102,7 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
 
         cy.getQuestion("Is the location of Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
-        cy.getQuestion("Is Sam's overall accommodation suitable?").getRadio('Yes').clickLabel()
+        cy.getQuestion("Is Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
         cy.getQuestion('Does Sam have future accommodation planned?').getRadio('No').clickLabel()
 
@@ -151,7 +151,7 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.temporary2)
 
-        cy.getQuestion("Is Sam's overall accommodation suitable?").getRadio('Yes').clickLabel()
+        cy.getQuestion("Is Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
         cy.getQuestion('Does Sam have future accommodation planned?').getRadio('No').clickLabel()
 

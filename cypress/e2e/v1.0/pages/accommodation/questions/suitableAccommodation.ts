@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = "Is Sam's overall accommodation suitable?"
+  const question = "Is Sam's accommodation suitable?"
 
   describe(question, () => {
     const options = ['Yes', 'Yes, with concerns', 'No']
@@ -10,7 +10,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if the overall accommodation is suitable')
+      cy.getQuestion(question).hasValidationError('Select if the accommodation is suitable')
     })
 
     options.forEach(option => {
