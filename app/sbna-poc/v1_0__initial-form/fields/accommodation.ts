@@ -284,7 +284,7 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
   },
   {
     text: 'What are the concerns with the location?',
-    hint: { text: 'Select all that apply (optional)', kind: 'text' },
+    hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'suitable_housing_location_concerns',
     type: FieldType.CheckBox,
     multiple: true,

@@ -42,7 +42,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .getRadio('No')
         .getConditionalQuestion()
-        .hasHint('Select all that apply (optional)')
+        .hasHint('Select all that apply (optional).')
         .hasCheckboxes(concerns)
     })
 
