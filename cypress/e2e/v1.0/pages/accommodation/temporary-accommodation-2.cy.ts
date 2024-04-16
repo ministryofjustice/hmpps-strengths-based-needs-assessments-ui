@@ -11,9 +11,9 @@ describe('/temporary-accommodation-2', () => {
     cy.createAssessment()
     cy.assertSectionIs('Accommodation')
 
-    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('Temporary').clickLabel()
+    cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Temporary').clickLabel()
 
-    cy.getQuestion("What type of accommodation does Sam currently have?")
+    cy.getQuestion('What type of accommodation does Sam currently have?')
       .getRadio('Temporary')
       .getConditionalQuestion()
       .getRadio('Approved premises')

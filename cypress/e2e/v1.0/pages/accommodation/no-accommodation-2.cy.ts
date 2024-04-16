@@ -8,15 +8,15 @@ describe('/no-accommodation-2', () => {
   before(() => {
     cy.createAssessment()
 
-    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('No accommodation').clickLabel()
+    cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('No accommodation').clickLabel()
 
-    cy.getQuestion("What type of accommodation does Sam currently have?")
+    cy.getQuestion('What type of accommodation does Sam currently have?')
       .getRadio('No accommodation')
       .getConditionalQuestion()
       .getRadio('Awaiting assessment')
       .clickLabel()
 
-    cy.getQuestion("What type of accommodation does Sam currently have?")
+    cy.getQuestion('What type of accommodation does Sam currently have?')
       .getRadio('No accommodation')
       .getConditionalQuestion()
       .getRadio('Awaiting assessment')

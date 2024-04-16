@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = "What type of accommodation does Sam currently have?"
+  const question = 'What type of accommodation does Sam currently have?'
 
   describe(question, () => {
     const options = {

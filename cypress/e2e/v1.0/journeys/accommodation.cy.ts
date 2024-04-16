@@ -32,9 +32,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfSettledAccommodation}" routes to "${destinations.settled}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What type of accommodation does Sam currently have?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What type of accommodation does Sam currently have?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfSettledAccommodation)
@@ -79,9 +79,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What type of accommodation does Sam currently have?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What type of accommodation does Sam currently have?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfTemporaryAccommodation)
@@ -132,9 +132,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary2}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What type of accommodation does Sam currently have?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What type of accommodation does Sam currently have?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfTemporaryAccommodation)
@@ -177,9 +177,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What type of accommodation does Sam currently have?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What type of accommodation does Sam currently have?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfNoAccommodation)
@@ -222,15 +222,15 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation2}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What type of accommodation does Sam currently have?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What type of accommodation does Sam currently have?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfNoAccommodation)
           .clickLabel()
 
-        cy.getQuestion("What type of accommodation does Sam currently have?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfNoAccommodation)
