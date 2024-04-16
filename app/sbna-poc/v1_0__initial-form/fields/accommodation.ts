@@ -313,6 +313,7 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
 export const suitableAccommodationFields: Array<FormWizard.Field> = [
   {
     text: "Is [subject]'s accommodation suitable?",
+    hint: { text: 'This includes things like safety or having appropriate amenities.', kind: 'text' },
     code: 'suitable_housing',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if the accommodation is suitable' }],
@@ -325,7 +326,7 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
   },
   {
     text: 'What are the concerns?',
-    hint: { text: 'Select all that apply (optional)', kind: 'text' },
+    hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'suitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,
@@ -344,7 +345,7 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
   }),
   {
     text: 'What are the concerns?',
-    hint: { text: 'Select all that apply (optional)', kind: 'text' },
+    hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'unsuitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,
