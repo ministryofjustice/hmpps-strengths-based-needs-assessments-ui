@@ -79,11 +79,11 @@ const endDateSummaryDisplay = (value: string) => `Expected end date:\n${formatDa
 
 export const accommodationTypeFields: Array<FormWizard.Field> = [
   {
-    text: "What is [subject]'s current accommodation?",
+    text: "What type of accommodation does [subject] currently have?",
     hint: { html: currentAccommodationHint, kind: 'html' },
     code: 'current_accommodation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select current accommodation' }],
+    validate: [{ type: ValidationType.Required, message: 'Select the type of accommodation they currently have' }],
     options: [
       { text: 'Settled', value: 'SETTLED', kind: 'option' },
       { text: 'Temporary', value: 'TEMPORARY', kind: 'option' },
