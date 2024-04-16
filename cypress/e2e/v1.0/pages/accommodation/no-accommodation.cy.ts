@@ -12,9 +12,9 @@ describe('/no-accommodation', () => {
     cy.createAssessment()
     cy.assertSectionIs('Accommodation')
 
-    cy.getQuestion("What is Sam's current accommodation?").getRadio('No accommodation').clickLabel()
+    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('No accommodation').clickLabel()
 
-    cy.getQuestion("What is Sam's current accommodation?")
+    cy.getQuestion("What type of accommodation does Sam currently have?")
       .getRadio('No accommodation')
       .getConditionalQuestion()
       .getRadio('Campsite')

@@ -9,8 +9,8 @@ describe('Auto save', () => {
 
     cy.hasAutosaveEnabled()
 
-    cy.getQuestion("What is Sam's current accommodation?").getRadio('Settled').clickLabel()
-    cy.getQuestion("What is Sam's current accommodation?")
+    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('Settled').clickLabel()
+    cy.getQuestion("What type of accommodation does Sam currently have?")
       .getRadio('Settled')
       .getConditionalQuestion()
       .getRadio('Homeowner')
@@ -22,8 +22,8 @@ describe('Auto save', () => {
     cy.visitSection('Accommodation')
     cy.assertStepUrlIs('/accommodation')
 
-    cy.getQuestion("What is Sam's current accommodation?").getRadio('Settled').isChecked()
-    cy.getQuestion("What is Sam's current accommodation?")
+    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('Settled').isChecked()
+    cy.getQuestion("What type of accommodation does Sam currently have?")
       .getRadio('Settled')
       .getConditionalQuestion()
       .getRadio('Homeowner')
@@ -38,8 +38,8 @@ describe('Auto save', () => {
 
     cy.intercept('POST', '/form/sbna-poc/accommodation?action=saveDraft&jsonResponse=true').as('post')
 
-    cy.getQuestion("What is Sam's current accommodation?").getRadio('Settled').clickLabel()
-    cy.getQuestion("What is Sam's current accommodation?")
+    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('Settled').clickLabel()
+    cy.getQuestion("What type of accommodation does Sam currently have?")
       .getRadio('Settled')
       .getConditionalQuestion()
       .getRadio('Homeowner')
@@ -56,8 +56,8 @@ describe('Auto save', () => {
 
     cy.hasAutosaveEnabled()
 
-    cy.getQuestion("What is Sam's current accommodation?").getRadio('Settled').clickLabel()
-    cy.getQuestion("What is Sam's current accommodation?")
+    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('Settled').clickLabel()
+    cy.getQuestion("What type of accommodation does Sam currently have?")
       .getRadio('Settled')
       .getConditionalQuestion()
       .getRadio('Homeowner')
@@ -68,8 +68,8 @@ describe('Auto save', () => {
     cy.visitSection('Accommodation')
     cy.assertStepUrlIs('/accommodation')
 
-    cy.getQuestion("What is Sam's current accommodation?").getRadio('Settled').isChecked()
-    cy.getQuestion("What is Sam's current accommodation?")
+    cy.getQuestion("What type of accommodation does Sam currently have?").getRadio('Settled').isChecked()
+    cy.getQuestion("What type of accommodation does Sam currently have?")
       .getRadio('Settled')
       .getConditionalQuestion()
       .getRadio('Homeowner')
