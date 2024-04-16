@@ -312,10 +312,10 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
 
 export const suitableAccommodationFields: Array<FormWizard.Field> = [
   {
-    text: "Is [subject]'s overall accommodation suitable?",
+    text: "Is [subject]'s accommodation suitable?",
     code: 'suitable_housing',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if the overall accommodation is suitable' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if the accommodation is suitable' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS', kind: 'option' },
