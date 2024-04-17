@@ -62,7 +62,9 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any skills that could help them in a job or to get a job?')
+          .getRadio('No')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
@@ -115,7 +117,9 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any skills that could help them in a job or to get a job?')
+          .getRadio('No')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
@@ -178,7 +182,9 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any skills that could help them in a job or to get a job?')
+          .getRadio('No')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
@@ -237,7 +243,9 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
 
         cy.getQuestion('Does Sam have any professional or vocational qualifications?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have skills that could help them in a job or at work?').getRadio('No').clickLabel()
+        cy.getQuestion('Does Sam have any skills that could help them in a job or to get a job?')
+          .getRadio('No')
+          .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
           .getCheckbox('No difficulties')
