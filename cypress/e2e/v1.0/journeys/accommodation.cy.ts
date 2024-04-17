@@ -32,9 +32,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfSettledAccommodation}" routes to "${destinations.settled}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What is Sam's current accommodation?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfSettledAccommodation)
@@ -55,7 +55,7 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
 
         cy.getQuestion("Is the location of Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
-        cy.getQuestion("Is Sam's overall accommodation suitable?").getRadio('Yes').clickLabel()
+        cy.getQuestion("Is Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
@@ -79,9 +79,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What is Sam's current accommodation?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfTemporaryAccommodation)
@@ -102,7 +102,7 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
 
         cy.getQuestion("Is the location of Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
-        cy.getQuestion("Is Sam's overall accommodation suitable?").getRadio('Yes').clickLabel()
+        cy.getQuestion("Is Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
         cy.getQuestion('Does Sam have future accommodation planned?').getRadio('No').clickLabel()
 
@@ -132,9 +132,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary2}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What is Sam's current accommodation?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfTemporaryAccommodation)
@@ -151,7 +151,7 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.temporary2)
 
-        cy.getQuestion("Is Sam's overall accommodation suitable?").getRadio('Yes').clickLabel()
+        cy.getQuestion("Is Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
         cy.getQuestion('Does Sam have future accommodation planned?').getRadio('No').clickLabel()
 
@@ -177,9 +177,9 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What is Sam's current accommodation?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfNoAccommodation)
@@ -222,15 +222,15 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
       it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation2}"`, () => {
         cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion("What is Sam's current accommodation?").getRadio(typeOfAccommodation).clickLabel()
+        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
 
-        cy.getQuestion("What is Sam's current accommodation?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfNoAccommodation)
           .clickLabel()
 
-        cy.getQuestion("What is Sam's current accommodation?")
+        cy.getQuestion('What type of accommodation does Sam currently have?')
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfNoAccommodation)

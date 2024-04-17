@@ -32,7 +32,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Close to someone who has victimised them',
       'Close to victim or possible victims',
       'Difficulty with neighbours',
-      'Honour-based perpetrator or victim',
       'Safety of the area',
       'Other',
     ]
@@ -43,7 +42,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .getRadio('No')
         .getConditionalQuestion()
-        .hasHint('Select all that apply (optional)')
+        .hasHint('Select all that apply (optional).')
         .hasCheckboxes(concerns)
     })
 

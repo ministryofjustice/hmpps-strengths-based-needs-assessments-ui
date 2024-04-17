@@ -1,16 +1,19 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = "Is Sam's overall accommodation suitable?"
+  const question = "Is Sam's accommodation suitable?"
 
   describe(question, () => {
     const options = ['Yes', 'Yes, with concerns', 'No']
 
     it('displays and validates the question', () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .hasHint('This includes things like safety or having appropriate amenities.')
+        .hasRadios(options)
 
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if the overall accommodation is suitable')
+      cy.getQuestion(question).hasValidationError('Select if the accommodation is suitable')
     })
 
     options.forEach(option => {
@@ -44,7 +47,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .getRadio('No')
         .getConditionalQuestion()
-        .hasHint('Select all that apply (optional)')
+        .hasHint('Select all that apply (optional).')
         .hasCheckboxes(concerns)
     })
 
@@ -107,7 +110,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .getRadio('Yes, with concerns')
         .getConditionalQuestion()
-        .hasHint('Select all that apply (optional)')
+        .hasHint('Select all that apply (optional).')
         .hasCheckboxes(concerns)
     })
 

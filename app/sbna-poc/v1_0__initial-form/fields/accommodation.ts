@@ -79,11 +79,11 @@ const endDateSummaryDisplay = (value: string) => `Expected end date:\n${formatDa
 
 export const accommodationTypeFields: Array<FormWizard.Field> = [
   {
-    text: "What is [subject]'s current accommodation?",
+    text: 'What type of accommodation does [subject] currently have?',
     hint: { html: currentAccommodationHint, kind: 'html' },
     code: 'current_accommodation',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select current accommodation' }],
+    validate: [{ type: ValidationType.Required, message: 'Select the type of accommodation they currently have' }],
     options: [
       { text: 'Settled', value: 'SETTLED', kind: 'option' },
       { text: 'Temporary', value: 'TEMPORARY', kind: 'option' },
@@ -284,7 +284,7 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
   },
   {
     text: 'What are the concerns with the location?',
-    hint: { text: 'Select all that apply (optional)', kind: 'text' },
+    hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'suitable_housing_location_concerns',
     type: FieldType.CheckBox,
     multiple: true,
@@ -293,7 +293,6 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
       { text: 'Close to someone who has victimised them', value: 'VICTIMISATION', kind: 'option' },
       { text: 'Close to victim or possible victims', value: 'VICTIM_PROXIMITY', kind: 'option' },
       { text: 'Difficulty with neighbours', value: 'NEIGHBOUR_DIFFICULTY', kind: 'option' },
-      { text: 'Honour-based perpetrator or victim', value: 'HONOUR_BASED', kind: 'option' },
       { text: 'Safety of the area', value: 'AREA_SAFETY', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
@@ -313,10 +312,11 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
 
 export const suitableAccommodationFields: Array<FormWizard.Field> = [
   {
-    text: "Is [subject]'s overall accommodation suitable?",
+    text: "Is [subject]'s accommodation suitable?",
+    hint: { text: 'This includes things like safety or having appropriate amenities.', kind: 'text' },
     code: 'suitable_housing',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if the overall accommodation is suitable' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if the accommodation is suitable' }],
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS', kind: 'option' },
@@ -326,7 +326,7 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
   },
   {
     text: 'What are the concerns?',
-    hint: { text: 'Select all that apply (optional)', kind: 'text' },
+    hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'suitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,
@@ -345,7 +345,7 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
   }),
   {
     text: 'What are the concerns?',
-    hint: { text: 'Select all that apply (optional)', kind: 'text' },
+    hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'unsuitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,

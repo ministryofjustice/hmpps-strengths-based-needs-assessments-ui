@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = "What is Sam's current accommodation?"
+  const question = 'What type of accommodation does Sam currently have?'
 
   describe(question, () => {
     const options = {
@@ -17,7 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select current accommodation')
+      cy.getQuestion(question).hasValidationError('Select the type of accommodation they currently have')
 
       cy.checkAccessibility()
     })
