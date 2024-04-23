@@ -151,7 +151,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.setSectionProgress(req, true)
-      await this.persistAnswers(req, res, ['VALIDATED', 'UNVALIDATED'])
+      await this.persistAnswers(req, res, ['UNSIGNED', 'UNVALIDATED'])
 
       if (req.query.jsonResponse === 'true') {
         return res.send('👍')

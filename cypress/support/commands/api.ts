@@ -33,32 +33,35 @@ export const createAssessment = (data = null) => {
 
   getApiToken().then(apiToken => {
     cy.request({
-      url: `${env('SBNA_API_URL')}/oasys/session/create`,
-      method: 'POST',
+      url: `${env('SBNA_API_URL')}/oasys/assessment/create`,
       auth: { bearer: apiToken },
       body: {
-        userSessionId: uuid(),
-        userAccess: 'READ_WRITE',
-        oasysAssessmentPk,
-        userDisplayName: 'Cypress User',
+        oasysAssessmentPk
       },
-    }).then(otlResponse => {
-      cy.visit(otlResponse.body.link)
+    }).then(createResponse => {
+      cy.wrap(createResponse.body.sanAssessmentId).as('assessmentId')
       return cy
         .request({
-          url: `${env('SBNA_API_URL')}/oasys/assessment/${oasysAssessmentPk}`,
+          url: `${env('SBNA_API_URL')}/oasys/session/create`,
+          method: 'POST',
           auth: { bearer: apiToken },
+          body: {
+            userSessionId: uuid(),
+            userAccess: 'READ_WRITE',
+            oasysAssessmentPk,
+            userDisplayName: 'Cypress User',
+          },
         })
-        .then(assessment => {
-          cy.wrap(assessment.body.metaData.uuid).as('assessmentId')
+        .then(otlResponse => {
+          cy.visit(otlResponse.body.link)
           if (data) {
             cy.assertSectionIs('Accommodation')
             return cy.request({
-              url: `${env('SBNA_API_URL')}/assessment/${assessment.body.metaData.uuid}/answers`,
+              url: `${env('SBNA_API_URL')}/assessment/${createResponse.body.sanAssessmentId}/answers`,
               method: 'POST',
               auth: { bearer: apiToken },
               body: {
-                tags: ['VALIDATED', 'UNVALIDATED'],
+                tags: ['UNSIGNED', 'UNVALIDATED'],
                 answersToAdd: data.assessment,
               },
             })
