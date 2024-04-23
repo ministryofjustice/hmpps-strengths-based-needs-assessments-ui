@@ -121,6 +121,7 @@ workflows:
       - e2e_test:
           context: hmpps-common-vars
           requires:
+            - lint
             - build_docker
       - hmpps/publish_docker:
           name: publish_docker
