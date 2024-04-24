@@ -36,7 +36,7 @@ export const createAssessment = (data = null) => {
       url: `${env('SBNA_API_URL')}/oasys/assessment/create`,
       auth: { bearer: apiToken },
       body: {
-        oasysAssessmentPk
+        oasysAssessmentPk,
       },
     }).then(createResponse => {
       cy.wrap(createResponse.body.sanAssessmentId).as('assessmentId')
@@ -61,7 +61,7 @@ export const createAssessment = (data = null) => {
               method: 'POST',
               auth: { bearer: apiToken },
               body: {
-                tags: ['UNSIGNED', 'UNVALIDATED'],
+                tags: ['VALIDATED', 'UNVALIDATED'],
                 answersToAdd: data.assessment,
               },
             })
