@@ -34,6 +34,7 @@ export const createAssessment = (data = null) => {
   getApiToken().then(apiToken => {
     cy.request({
       url: `${env('SBNA_API_URL')}/oasys/assessment/create`,
+      method: 'POST',
       auth: { bearer: apiToken },
       body: {
         oasysAssessmentPk,
