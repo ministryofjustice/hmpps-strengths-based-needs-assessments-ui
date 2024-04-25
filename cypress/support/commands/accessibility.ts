@@ -32,6 +32,8 @@ export const clearBeforeRun = () => {
 }
 
 export const generateReport = () => {
+  if (!fs.existsSync(violationsTempPath)) return
+
   const violations = fs
     .readFileSync(violationsTempPath)
     .toString()
