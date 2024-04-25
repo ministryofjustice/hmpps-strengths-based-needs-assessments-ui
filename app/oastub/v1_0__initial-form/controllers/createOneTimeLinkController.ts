@@ -15,10 +15,14 @@ class CreateOneTimeLinkController extends BaseController {
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
+      const oasysAssessmentPk = req.sessionModel.get('oastub-assessment-uuid')?.toString() || randomUUID()
+
+      await this.apiService.createAssessment({ oasysAssessmentPk })
+
       const { link } = await this.apiService.createSession({
         userSessionId: 'ABC1234567890',
         userAccess: 'READ_WRITE',
-        oasysAssessmentPk: req.sessionModel.get('oastub-assessment-uuid')?.toString() || randomUUID(),
+        oasysAssessmentPk,
         userDisplayName: 'Probation User',
         crn: 'X123456',
       })

@@ -4,6 +4,17 @@ import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
 
+export interface CreateAssessmentRequest extends Record<string, unknown> {
+  oasysAssessmentPk: string
+}
+
+export interface CreateAssessmentResponse {
+  sanAssessmentId: UUID
+  sanAssessmentVersion: number
+  sentencePlanId?: UUID
+  sentencePlanVersion?: number
+}
+
 export interface CreateSessionRequest extends Record<string, unknown> {
   userSessionId: string
   userAccess: string
@@ -74,6 +85,12 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
   private async getRestClient(): Promise<RestClient> {
     const token = await this.authClient.getSystemClientToken()
     return new RestClient('Strengths Based Needs Assessments API Client', config.apis.sbnaApi, token)
+  }
+
+  async createAssessment(requestBody: CreateAssessmentRequest) {
+    const client = await this.getRestClient()
+    const responseBody = await client.post({ path: '/oasys/assessment/create', data: requestBody })
+    return responseBody as CreateAssessmentResponse
   }
 
   async createSession(requestBody: CreateSessionRequest) {
