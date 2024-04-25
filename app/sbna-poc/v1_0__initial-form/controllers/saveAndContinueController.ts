@@ -22,7 +22,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionInformation
-      res.locals.user = { username: sessionData.userDisplayName }
+      res.locals.user = { username: sessionData.user.displayName }
       await this.apiService.validateSession(sessionData.uuid)
       const assessment = await this.apiService.fetchAssessment(sessionData.assessmentUUID)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
@@ -151,7 +151,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.setSectionProgress(req, true)
-      await this.persistAnswers(req, res, ['VALIDATED', 'UNVALIDATED'])
+      await this.persistAnswers(req, res, ['UNSIGNED', 'UNVALIDATED'])
 
       if (req.query.jsonResponse === 'true') {
         return res.send('👍')
