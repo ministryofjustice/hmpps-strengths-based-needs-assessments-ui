@@ -30,7 +30,7 @@ class CreateOneTimeLinkController extends BaseController {
           crn: 'X123456',
           givenName: 'Sam',
           familyName: 'Whitfield',
-          gender: 9,
+          gender: 0,
           location: 'COMMUNITY',
         },
       })
