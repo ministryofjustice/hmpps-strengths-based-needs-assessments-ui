@@ -28,8 +28,8 @@ class CreateOneTimeLinkController extends BaseController {
         },
         subjectDetails: {
           crn: 'X123456',
-          givenName: 'Probation',
-          familyName: 'User',
+          givenName: 'Sam',
+          familyName: 'Whitfield',
           gender: 9,
           location: 'COMMUNITY',
         },
