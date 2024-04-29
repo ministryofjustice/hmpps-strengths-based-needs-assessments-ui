@@ -78,21 +78,41 @@ describe('SaveAndContinueController', () => {
       expect(conditionFn).toHaveBeenLastCalledWith(true, formValues)
     })
 
-    it('includes the returned value of conditionFn of each field in submittedAnswers', () => {
+    it('marks the assessment as complete if all subsections are complete', () => {
       const req = buildRequestWith({
         sectionProgressRules: [
-          { fieldCode: 'foo_section_complete', conditionFn: () => 'FOO' },
-          { fieldCode: 'bar_section_complete', conditionFn: () => 'BAR' },
-          { fieldCode: 'baz_section_complete', conditionFn: () => 'BAZ' },
+          { fieldCode: 'foo_section_complete', conditionFn: () => true },
+          { fieldCode: 'bar_section_complete', conditionFn: () => true },
+          { fieldCode: 'baz_section_complete', conditionFn: () => true },
         ],
       })
 
       controller.setSectionProgress(req, true)
 
       expect(req.form.values).toEqual({
-        foo_section_complete: 'FOO',
-        bar_section_complete: 'BAR',
-        baz_section_complete: 'BAZ',
+        assessment_complete: 'YES',
+        foo_section_complete: 'YES',
+        bar_section_complete: 'YES',
+        baz_section_complete: 'YES',
+      })
+    })
+
+    it('marks the assessment as incomplete is a subsection is incomplete', () => {
+      const req = buildRequestWith({
+        sectionProgressRules: [
+          { fieldCode: 'foo_section_complete', conditionFn: () => true },
+          { fieldCode: 'bar_section_complete', conditionFn: () => false },
+          { fieldCode: 'baz_section_complete', conditionFn: () => true },
+        ],
+      })
+
+      controller.setSectionProgress(req, true)
+
+      expect(req.form.values).toEqual({
+        assessment_complete: 'NO',
+        foo_section_complete: 'YES',
+        bar_section_complete: 'NO',
+        baz_section_complete: 'YES',
       })
     })
   })

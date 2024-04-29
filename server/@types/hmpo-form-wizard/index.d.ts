@@ -66,7 +66,7 @@ declare module 'hmpo-form-wizard' {
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
   namespace FormWizard {
-    type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => string
+    type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => boolean
     type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }
 
     interface Request extends express.Request {

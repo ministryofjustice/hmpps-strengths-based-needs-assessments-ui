@@ -8,7 +8,7 @@ import {
   formatDateForDisplay,
   getLabelForOption,
   getSelectedAnswers,
-  removeSectionCompleteFields,
+  removeNonRenderedFields,
   toErrorSummary,
   toOptionDescription,
 } from './nunjucks.utils'
@@ -65,7 +65,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   njkEnv.addGlobal('getSelectedAnswers', getSelectedAnswers)
 
-  njkEnv.addFilter('removeSectionCompleteFields', removeSectionCompleteFields)
+  njkEnv.addFilter('removeNonRenderedFields', removeNonRenderedFields)
 
   njkEnv.addGlobal('getSummaryFields', function summaryFields() {
     return getSummaryFields(this.ctx)

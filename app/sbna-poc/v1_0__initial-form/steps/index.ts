@@ -9,6 +9,7 @@ import employmentEducationSteps from './employment-education'
 import healthAndWellbeingSteps from './health-wellbeing'
 import thinkingBehavioursAttitudeSteps from './thinking-behaviour-attitudes'
 import personalRelationshipsAndCommunitySteps from './personal-relationships-community'
+import { assessmentComplete } from '../fields'
 
 const stepOptions: FormWizard.Steps = {
   '/start': {
@@ -39,7 +40,7 @@ const addStep = (options: FormWizard.Step & { path: string }, steps: FormWizard.
     ...options,
     pageTitle: options.pageTitle,
     controller: options.controller || SaveAndContinueController,
-    fields: options.fields || [],
+    fields: [assessmentComplete.code, ...(options.fields || [])],
     template: options.template || 'forms/default',
     backLink: options.backLink || null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
   },

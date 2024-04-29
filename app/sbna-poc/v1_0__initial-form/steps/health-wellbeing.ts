@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setField, setFieldWhenValid, whenField } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid, whenField } from './common'
 import {
   analysisSectionComplete,
   baseHealthAndWellbeingQuestions,
@@ -50,8 +50,8 @@ const stepOptions: FormWizard.Steps = {
     ].flat(),
     section: sectionName,
     sectionProgressRules: [
-      setField('health_wellbeing_section_complete', 'NO'),
-      setField('health_wellbeing_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('health_wellbeing_section_complete'),
+      setFieldToIncomplete('health_wellbeing_analysis_section_complete'),
     ],
   },
   '/physical-and-mental-health-condition': {
@@ -61,8 +61,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
-      setField('health_wellbeing_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('health_wellbeing_section_complete'),
+      setFieldToIncomplete('health_wellbeing_analysis_section_complete'),
     ],
   },
   '/physical-health-condition': {
@@ -72,8 +72,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
-      setField('health_wellbeing_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('health_wellbeing_section_complete'),
+      setFieldToIncomplete('health_wellbeing_analysis_section_complete'),
     ],
   },
   '/mental-health-condition': {
@@ -83,8 +83,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
-      setField('health_wellbeing_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('health_wellbeing_section_complete'),
+      setFieldToIncomplete('health_wellbeing_analysis_section_complete'),
     ],
   },
   '/no-physical-or-mental-health-condition': {
@@ -94,8 +94,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'health-wellbeing',
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('health_wellbeing_section_complete', 'YES', 'NO'),
-      setField('health_wellbeing_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('health_wellbeing_section_complete'),
+      setFieldToIncomplete('health_wellbeing_analysis_section_complete'),
     ],
   },
   '/health-wellbeing-analysis': {
@@ -104,7 +104,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'health-wellbeing-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/health-wellbeing-summary-analysis',
     section: sectionName,
-    sectionProgressRules: [setFieldWhenValid('health_wellbeing_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete')],
   },
   '/health-wellbeing-analysis-complete': {
     pageTitle: defaultTitle,
