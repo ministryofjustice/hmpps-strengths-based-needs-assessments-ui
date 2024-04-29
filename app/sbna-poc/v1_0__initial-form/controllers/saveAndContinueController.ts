@@ -49,30 +49,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     res.locals.values = mergeAnswers(req.form.persistedAnswers, res.locals.values)
   }
 
-  updateAssessmentProgress(req: FormWizard.Request, res: Response) {
-    type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
-    type AnswerValues = Record<string, string>
-
-    const subsectionIsComplete =
-      (answers: AnswerValues = {}) =>
-      (fieldCode: string) =>
-        answers[fieldCode] === 'YES'
-    const checkProgress =
-      (answers: AnswerValues) =>
-      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-        ...sectionProgress,
-        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
-      })
-
-    const sections = res.locals.form.sectionProgressRules
-    const sectionProgress: Progress = sections.reduce(
-      checkProgress(req.form.persistedAnswers as Record<string, string>),
-      {},
-    )
-    res.locals.sectionProgress = sectionProgress
-    res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
-  }
-
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       await this.addAssessmentDataToLocals(req, res)
@@ -103,6 +79,30 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     return null
   }
 
+  updateAssessmentProgress(req: FormWizard.Request, res: Response) {
+    type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
+    type AnswerValues = Record<string, string>
+
+    const subsectionIsComplete =
+      (answers: AnswerValues = {}) =>
+      (fieldCode: string) =>
+        answers[fieldCode] === 'YES'
+    const checkProgress =
+      (answers: AnswerValues) =>
+      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
+        ...sectionProgress,
+        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
+      })
+
+    const sections = res.locals.form.sectionProgressRules
+    const sectionProgress: Progress = sections.reduce(
+      checkProgress(req.form.persistedAnswers as Record<string, string>),
+      {},
+    )
+    res.locals.sectionProgress = sectionProgress
+    res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
+  }
+
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.updateAssessmentProgress(req, res)
@@ -118,9 +118,16 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const sectionProgressRules = req.form.options.sectionProgressRules || []
 
     req.form.values = sectionProgressRules.reduce(
-      (answers, { fieldCode, conditionFn }) => ({ ...answers, [fieldCode]: conditionFn(isValidated, req.form.values) }),
+      (answers, { fieldCode, conditionFn }) => ({
+        ...answers,
+        [fieldCode]: conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
+      }),
       req.form.values || {},
     )
+
+    req.form.values.assessment_complete = sectionProgressRules.every(rule => req.form.values[rule.fieldCode] === 'YES')
+      ? 'YES'
+      : 'NO'
   }
 
   resetResumeUrl(req: FormWizard.Request) {

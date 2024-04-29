@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setField, setFieldWhenValid, contains } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid, contains } from './common'
 import {
   analysisSectionComplete,
   personalRelationshipsFields,
@@ -31,8 +31,8 @@ const stepOptions: FormWizard.Steps = {
     ],
     section: sectionName,
     sectionProgressRules: [
-      setField('personal_relationships_community_section_complete', 'NO'),
-      setField('personal_relationships_community_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('personal_relationships_community_section_complete'),
+      setFieldToIncomplete('personal_relationships_community_analysis_section_complete'),
     ],
   },
   '/personal-relationships-community': {
@@ -49,8 +49,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'personal-relationships',
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('personal_relationships_community_section_complete', 'YES', 'NO'),
-      setField('personal_relationships_community_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('personal_relationships_community_section_complete'),
+      setFieldToIncomplete('personal_relationships_community_analysis_section_complete'),
     ],
   },
   '/personal-relationships-community-2': {
@@ -66,8 +66,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'personal-relationships',
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('personal_relationships_community_section_complete', 'YES', 'NO'),
-      setField('personal_relationships_community_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('personal_relationships_community_section_complete'),
+      setFieldToIncomplete('personal_relationships_community_analysis_section_complete'),
     ],
   },
   '/personal-relationships-community-analysis': {
@@ -76,9 +76,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'personal-relationships-community-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldWhenValid('personal_relationships_community_analysis_section_complete', 'YES', 'NO'),
-    ],
+    sectionProgressRules: [setFieldToCompleteWhenValid('personal_relationships_community_analysis_section_complete')],
   },
   '/personal-relationships-community-analysis-complete': {
     pageTitle: defaultTitle,

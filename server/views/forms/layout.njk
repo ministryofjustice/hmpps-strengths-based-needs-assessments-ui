@@ -86,7 +86,7 @@
           </div>
           <div class="section-heading">
             <div class="section-heading__heading">
-              {%- if (form.fields | removeSectionCompleteFields).length  == 1 -%}
+              {%- if (form.fields | removeNonRenderedFields).length  == 1 -%}
                 <h2 class="govuk-body-l govuk-!-margin-0">{{ options.pageTitle }}</h2>
               {%- else -%}
                 <h2 class="govuk-heading-l">{{ options.pageTitle }}</h2>

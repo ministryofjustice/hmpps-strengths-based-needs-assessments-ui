@@ -7,7 +7,7 @@ import {
   practitionerAnalysisFields,
   sectionCompleteFields,
 } from '../fields/alcohol'
-import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 
 const defaultTitle = 'Alcohol use'
 const sectionName = 'alcohol-use'
@@ -27,9 +27,9 @@ const stepOptions: FormWizard.Steps = {
       {
         fieldCode: 'alcohol_use_section_complete',
         conditionFn: (isValid: boolean, answers: Record<string, string | string[]>) =>
-          isValid && answers.alcohol_use === 'NO' ? 'YES' : 'NO',
+          isValid && answers.alcohol_use === 'NO',
       },
-      setField('alcohol_use_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('alcohol_use_analysis_section_complete'),
     ],
   },
   '/alcohol-usage-last-three-months': {
@@ -39,8 +39,8 @@ const stepOptions: FormWizard.Steps = {
     next: ['alcohol-analysis'],
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('alcohol_use_section_complete', 'YES', 'NO'),
-      setField('alcohol_use_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('alcohol_use_section_complete'),
+      setFieldToIncomplete('alcohol_use_analysis_section_complete'),
     ],
   },
   '/alcohol-usage-but-not-last-three-months': {
@@ -50,8 +50,8 @@ const stepOptions: FormWizard.Steps = {
     next: ['alcohol-analysis'],
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('alcohol_use_section_complete', 'YES', 'NO'),
-      setField('alcohol_use_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('alcohol_use_section_complete'),
+      setFieldToIncomplete('alcohol_use_analysis_section_complete'),
     ],
   },
   '/alcohol-analysis': {
@@ -60,7 +60,7 @@ const stepOptions: FormWizard.Steps = {
     next: ['alcohol-analysis-complete'],
     template: 'forms/sbna-poc/alcohol-summary-analysis',
     section: sectionName,
-    sectionProgressRules: [setFieldWhenValid('alcohol_use_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete')],
   },
   '/alcohol-analysis-complete': {
     pageTitle: defaultTitle,

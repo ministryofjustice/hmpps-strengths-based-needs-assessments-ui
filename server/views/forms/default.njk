@@ -8,7 +8,7 @@
   <div class="govuk-!-width-three-quarters">
     <form id="form" method="post" action="{{ action }}">
       <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-      {% set fieldsOnThisPage = form.fields | removeSectionCompleteFields %}
+      {% set fieldsOnThisPage = form.fields | removeNonRenderedFields %}
       {% for fieldCode in fieldsOnThisPage %}
         {% set field = options.fields[fieldCode] %}
 
