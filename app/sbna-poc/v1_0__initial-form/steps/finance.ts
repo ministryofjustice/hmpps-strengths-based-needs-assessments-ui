@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import {
   analysisSectionComplete,
   baseFinanceFields,
@@ -15,8 +15,8 @@ const stepOptions: FormWizard.Steps = {
     next: 'finance-summary-analysis',
     section: 'finance',
     sectionProgressRules: [
-      setFieldWhenValid('finance_section_complete', 'YES', 'NO'),
-      setField('finance_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('finance_section_complete'),
+      setFieldToIncomplete('finance_analysis_section_complete'),
     ],
   },
   '/finance-summary-analysis': {
@@ -25,7 +25,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'finance-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/finance-summary-analysis',
     section: 'finance',
-    sectionProgressRules: [setFieldWhenValid('finance_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('finance_analysis_section_complete')],
   },
   '/finance-analysis-complete': {
     pageTitle: 'Finance',

@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import {
   analysisSectionComplete,
   thinkingBehavioursAttitudesFields,
@@ -28,8 +28,8 @@ const stepOptions: FormWizard.Steps = {
     ].flat(),
     section: sectionName,
     sectionProgressRules: [
-      setField('thinking_behaviours_attitudes_section_complete', 'NO'),
-      setField('thinking_behaviours_attitudes_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('thinking_behaviours_attitudes_section_complete'),
+      setFieldToIncomplete('thinking_behaviours_attitudes_analysis_section_complete'),
     ],
   },
   '/thinking-behaviours-attitudes-sexual-offending': {
@@ -39,8 +39,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
-      setField('thinking_behaviours_attitudes_section_complete', 'NO'),
-      setField('thinking_behaviours_attitudes_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('thinking_behaviours_attitudes_section_complete'),
+      setFieldToIncomplete('thinking_behaviours_attitudes_analysis_section_complete'),
     ],
   },
   '/thinking-behaviours': {
@@ -50,8 +50,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('thinking_behaviours_attitudes_section_complete', 'YES', 'NO'),
-      setField('thinking_behaviours_attitudes_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('thinking_behaviours_attitudes_section_complete'),
+      setFieldToIncomplete('thinking_behaviours_attitudes_analysis_section_complete'),
     ],
   },
   '/thinking-behaviours-attitudes-summary-analysis': {
@@ -60,7 +60,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/thinking-behaviours-attitudes-summary-analysis',
     section: sectionName,
-    sectionProgressRules: [setFieldWhenValid('thinking_behaviours_attitudes_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('thinking_behaviours_attitudes_analysis_section_complete')],
   },
   '/thinking-behaviours-attitudes-analysis-complete': {
     pageTitle: defaultTitle,

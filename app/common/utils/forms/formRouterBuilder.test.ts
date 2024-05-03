@@ -44,24 +44,24 @@ describe('common/utils/formRouterBuilder', () => {
         pageTitle: 'First question page',
         section: 'foo',
         sectionProgressRules: [
-          { fieldCode: fooQuestionsComplete, conditionFn: () => 'NO' },
-          { fieldCode: fooSummaryComplete, conditionFn: () => 'NO' },
+          { fieldCode: fooQuestionsComplete, conditionFn: () => false },
+          { fieldCode: fooSummaryComplete, conditionFn: () => false },
         ],
       },
       '/foo/questions/2': {
         pageTitle: 'Second question page',
         section: 'foo',
-        sectionProgressRules: [{ fieldCode: fooQuestionsComplete, conditionFn: () => 'YES' }],
+        sectionProgressRules: [{ fieldCode: fooQuestionsComplete, conditionFn: () => true }],
       },
       '/foo/summary': {
         pageTitle: 'Summary page',
         section: 'foo',
-        sectionProgressRules: [{ fieldCode: fooSummaryComplete, conditionFn: () => 'YES' }],
+        sectionProgressRules: [{ fieldCode: fooSummaryComplete, conditionFn: () => true }],
       },
       '/bar': {
         pageTitle: 'Other section',
         section: 'bar',
-        sectionProgressRules: [{ fieldCode: barSectionComplete, conditionFn: () => 'YES' }],
+        sectionProgressRules: [{ fieldCode: barSectionComplete, conditionFn: () => true }],
       },
     }
 

@@ -5,7 +5,7 @@ import {
   formatDateForDisplay,
   getLabelForOption,
   getSelectedAnswers,
-  removeSectionCompleteFields,
+  removeNonRenderedFields,
   toErrorSummary,
   toOptionDescription,
 } from './nunjucks.utils'
@@ -162,16 +162,16 @@ describe('server/utils/nunjucks.utils', () => {
     })
   })
 
-  describe('removeSectionCompleteFields', () => {
+  describe('removeNonRenderedFields', () => {
     it('removes fields with the "_section_complete" suffix', () => {
       const fields = ['foo_field', 'foo_section_complete', 'foo_analysis_section_complete', 'field_that_ends_complete']
 
-      expect(removeSectionCompleteFields(fields)).toEqual(['foo_field', 'field_that_ends_complete'])
+      expect(removeNonRenderedFields(fields)).toEqual(['foo_field', 'field_that_ends_complete'])
     })
 
     it('returns empty when the passed array is empty or missing', () => {
-      expect(removeSectionCompleteFields([] as string[])).toEqual([])
-      expect(removeSectionCompleteFields(undefined)).toEqual([])
+      expect(removeNonRenderedFields([] as string[])).toEqual([])
+      expect(removeNonRenderedFields(undefined)).toEqual([])
     })
   })
 

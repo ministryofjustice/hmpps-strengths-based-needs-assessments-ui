@@ -20,11 +20,19 @@ class CreateOneTimeLinkController extends BaseController {
       await this.apiService.createAssessment({ oasysAssessmentPk })
 
       const { link } = await this.apiService.createSession({
-        userSessionId: 'ABC1234567890',
-        userAccess: 'READ_WRITE',
         oasysAssessmentPk,
-        userDisplayName: 'Probation User',
-        crn: 'X123456',
+        user: {
+          identifier: 'ABC1234567890',
+          displayName: 'Probation User',
+          accessMode: 'READ_WRITE',
+        },
+        subjectDetails: {
+          crn: 'X123456',
+          givenName: 'Sam',
+          familyName: 'Whitfield',
+          gender: 0,
+          location: 'COMMUNITY',
+        },
       })
 
       res.locals.otl = link

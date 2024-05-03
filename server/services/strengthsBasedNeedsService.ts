@@ -16,9 +16,34 @@ export interface CreateAssessmentResponse {
 }
 
 export interface CreateSessionRequest extends Record<string, unknown> {
-  userSessionId: string
-  userAccess: string
   oasysAssessmentPk: string
+  user: {
+    identifier: string
+    displayName: string
+    accessMode: string
+    returnUrl?: string
+  }
+  subjectDetails: {
+    crn?: string
+    pnc?: string
+    nomisId?: string
+    givenName: string
+    familyName: string
+    gender: number
+    location: string
+    sexuallyMotivatedOffenceHistory?: string
+  }
+}
+
+export interface SessionInformation {
+  uuid: UUID
+  assessmentUUID: UUID
+  user: {
+    identifier: string
+    displayName: string
+    accessMode: string
+    returnUrl?: string
+  }
 }
 
 export interface CreateSessionResponse {
@@ -28,14 +53,6 @@ export interface CreateSessionResponse {
 export interface UseOneTimeLinkRequest extends Record<string, unknown> {
   form: string
   version: string
-}
-
-export interface SessionInformation {
-  uuid: UUID
-  sessionId: string
-  accessLevel: string
-  assessmentUUID: UUID
-  userDisplayName: string
 }
 
 export interface SubjectResponse {
@@ -95,13 +112,13 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
 
   async createSession(requestBody: CreateSessionRequest) {
     const client = await this.getRestClient()
-    const responseBody = await client.post({ path: '/oasys/session/create', data: requestBody })
+    const responseBody = await client.post({ path: '/oasys/session/one-time-link', data: requestBody })
     return responseBody as CreateSessionResponse
   }
 
   async useOneTimeLink(sessionId: string, requestBody: UseOneTimeLinkRequest): Promise<SessionInformation> {
     const client = await this.getRestClient()
-    const responseBody = await client.post({ path: `/oasys/session/${sessionId}`, data: requestBody })
+    const responseBody = await client.post({ path: `/oasys/session/${sessionId}/one-time-link`, data: requestBody })
     return responseBody as SessionInformation
   }
 

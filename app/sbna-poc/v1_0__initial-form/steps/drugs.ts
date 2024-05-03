@@ -9,7 +9,7 @@ import {
   analysisSectionComplete,
   sectionCompleteFields,
 } from '../fields/drugs'
-import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 
 const stepOptions: FormWizard.Steps = {
   '/drug-use': {
@@ -25,9 +25,9 @@ const stepOptions: FormWizard.Steps = {
       {
         fieldCode: 'drug_use_section_complete',
         conditionFn: (isValid: boolean, answers: Record<string, string | string[]>) =>
-          isValid && answers.drug_use === 'NO' ? 'YES' : 'NO',
+          isValid && answers.drug_use === 'NO',
       },
-      setField('drug_use_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-use-details': {
@@ -37,8 +37,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'drug-use',
     section: 'drug-use',
     sectionProgressRules: [
-      setField('drug_use_section_complete', 'NO'),
-      setField('drug_use_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('drug_use_section_complete'),
+      setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-use-type': {
@@ -48,8 +48,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'drug-use-details',
     section: 'drug-use',
     sectionProgressRules: [
-      setField('drug_use_section_complete', 'NO'),
-      setField('drug_use_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('drug_use_section_complete'),
+      setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-usage-details': {
@@ -60,8 +60,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'drug-use-type',
     section: 'drug-use',
     sectionProgressRules: [
-      setField('drug_use_section_complete', 'NO'),
-      setField('drug_use_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('drug_use_section_complete'),
+      setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-use-changes': {
@@ -71,8 +71,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'drug-usage-details',
     section: 'drug-use',
     sectionProgressRules: [
-      setFieldWhenValid('drug_use_section_complete', 'YES', 'NO'),
-      setField('drug_use_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('drug_use_section_complete'),
+      setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-use-analysis': {
@@ -81,7 +81,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'drug-use-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/drugs-summary-analysis',
     section: 'drug-use',
-    sectionProgressRules: [setFieldWhenValid('drug_use_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('drug_use_analysis_section_complete')],
   },
   '/drug-use-analysis-complete': {
     pageTitle: 'Drug use',

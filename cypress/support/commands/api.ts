@@ -43,14 +43,16 @@ export const createAssessment = (data = null) => {
       cy.wrap(createResponse.body.sanAssessmentId).as('assessmentId')
       return cy
         .request({
-          url: `${env('SBNA_API_URL')}/oasys/session/create`,
+          url: `${env('SBNA_API_URL')}/oasys/session/one-time-link`,
           method: 'POST',
           auth: { bearer: apiToken },
           body: {
-            userSessionId: uuid(),
-            userAccess: 'READ_WRITE',
             oasysAssessmentPk,
-            userDisplayName: 'Cypress User',
+            user: {
+              identifier: uuid(),
+              displayName: 'Cypress User',
+              accessMode: 'READ_WRITE',
+            },
           },
         })
         .then(otlResponse => {
@@ -62,7 +64,7 @@ export const createAssessment = (data = null) => {
               method: 'POST',
               auth: { bearer: apiToken },
               body: {
-                tags: ['VALIDATED', 'UNVALIDATED'],
+                tags: ['UNSIGNED', 'UNVALIDATED'],
                 answersToAdd: data.assessment,
               },
             })

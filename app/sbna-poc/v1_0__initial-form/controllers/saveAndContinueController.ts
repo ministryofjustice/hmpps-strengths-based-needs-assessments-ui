@@ -22,7 +22,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionInformation
-      res.locals.user = { username: sessionData.userDisplayName }
+      res.locals.user = { username: sessionData.user.displayName }
       await this.apiService.validateSession(sessionData.uuid)
       const assessment = await this.apiService.fetchAssessment(sessionData.assessmentUUID)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
@@ -47,30 +47,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     res.locals.assessmentId = sessionData.assessmentUUID
     res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName, alcohol_units: 8 } // TODO: Hardcoded alcohol units for now, will need to calculate this based on gender
     res.locals.values = mergeAnswers(req.form.persistedAnswers, res.locals.values)
-  }
-
-  updateAssessmentProgress(req: FormWizard.Request, res: Response) {
-    type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
-    type AnswerValues = Record<string, string>
-
-    const subsectionIsComplete =
-      (answers: AnswerValues = {}) =>
-      (fieldCode: string) =>
-        answers[fieldCode] === 'YES'
-    const checkProgress =
-      (answers: AnswerValues) =>
-      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-        ...sectionProgress,
-        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
-      })
-
-    const sections = res.locals.form.sectionProgressRules
-    const sectionProgress: Progress = sections.reduce(
-      checkProgress(req.form.persistedAnswers as Record<string, string>),
-      {},
-    )
-    res.locals.sectionProgress = sectionProgress
-    res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -103,6 +79,30 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     return null
   }
 
+  updateAssessmentProgress(req: FormWizard.Request, res: Response) {
+    type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
+    type AnswerValues = Record<string, string>
+
+    const subsectionIsComplete =
+      (answers: AnswerValues = {}) =>
+      (fieldCode: string) =>
+        answers[fieldCode] === 'YES'
+    const checkProgress =
+      (answers: AnswerValues) =>
+      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
+        ...sectionProgress,
+        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
+      })
+
+    const sections = res.locals.form.sectionProgressRules
+    const sectionProgress: Progress = sections.reduce(
+      checkProgress(req.form.persistedAnswers as Record<string, string>),
+      {},
+    )
+    res.locals.sectionProgress = sectionProgress
+    res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
+  }
+
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.updateAssessmentProgress(req, res)
@@ -118,9 +118,16 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     const sectionProgressRules = req.form.options.sectionProgressRules || []
 
     req.form.values = sectionProgressRules.reduce(
-      (answers, { fieldCode, conditionFn }) => ({ ...answers, [fieldCode]: conditionFn(isValidated, req.form.values) }),
+      (answers, { fieldCode, conditionFn }) => ({
+        ...answers,
+        [fieldCode]: conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
+      }),
       req.form.values || {},
     )
+
+    req.form.values.assessment_complete = sectionProgressRules.every(rule => req.form.values[rule.fieldCode] === 'YES')
+      ? 'YES'
+      : 'NO'
   }
 
   resetResumeUrl(req: FormWizard.Request) {
@@ -151,7 +158,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.setSectionProgress(req, true)
-      await this.persistAnswers(req, res, ['VALIDATED', 'UNVALIDATED'])
+      await this.persistAnswers(req, res, ['UNSIGNED', 'UNVALIDATED'])
 
       if (req.query.jsonResponse === 'true') {
         return res.send('👍')

@@ -1,6 +1,6 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import { whereSelectable } from '../../app/common/controllers/saveAndContinue.utils'
-import { formatDateForDisplay, isPractitionerAnalysisField, isSectionCompleteField } from './nunjucks.utils'
+import { formatDateForDisplay, isPractitionerAnalysisField, isNonRenderedField } from './nunjucks.utils'
 
 export interface SummaryField {
   field: FormWizard.Field
@@ -51,8 +51,7 @@ export default function getSummaryFields(ctx: Context): SummaryField[] {
       Object.keys(step.fields)
         .map(fieldId => ctx.options.allFields[fieldId])
         .filter(
-          field =>
-            !isSectionCompleteField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(ctx, field),
+          field => !isNonRenderedField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(ctx, field),
         )
         .reduce((fields, field) => {
           if (field.dependent) {

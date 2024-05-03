@@ -1,5 +1,5 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
-import { setField, setFieldWhenValid, fieldCodesFrom } from './common'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid, fieldCodesFrom } from './common'
 
 describe('sbna-poc/steps/common', () => {
   describe('fieldCodesFrom', () => {
@@ -35,9 +35,9 @@ describe('sbna-poc/steps/common', () => {
   describe('setField', () => {
     it('returns configuration for setting a fields value', () => {
       const fieldCode = 'field_code'
-      const value = 'field_value'
+      const value = false
 
-      const result = setField(fieldCode, value)
+      const result = setFieldToIncomplete(fieldCode)
 
       expect(result.fieldCode).toEqual(fieldCode)
       expect(result.conditionFn()).toEqual(value)
@@ -47,14 +47,12 @@ describe('sbna-poc/steps/common', () => {
   describe('setFieldWhenValid', () => {
     it('returns configuration for setting a fields value when valid', () => {
       const fieldCode = 'field_code'
-      const valueWhenValid = 'valid_value'
-      const valueWhenInvalid = 'invalid_value'
 
-      const result = setFieldWhenValid(fieldCode, valueWhenValid, valueWhenInvalid)
+      const result = setFieldToCompleteWhenValid(fieldCode)
 
       expect(result.fieldCode).toEqual(fieldCode)
-      expect(result.conditionFn(true)).toEqual(valueWhenValid)
-      expect(result.conditionFn(false)).toEqual(valueWhenInvalid)
+      expect(result.conditionFn(true)).toEqual(true)
+      expect(result.conditionFn(false)).toEqual(false)
     })
   })
 })

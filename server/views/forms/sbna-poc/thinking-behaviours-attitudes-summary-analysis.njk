@@ -10,7 +10,7 @@
 {% block analysisPanel %}
   <form id="form" method="post" action="{{ action }}#practitioner-analysis">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-    {% for field in (form.fields | removeSectionCompleteFields) %}
+    {% for field in (form.fields | removeNonRenderedFields) %}
       {{ renderQuestion(options.fields[field], errors) }}
     {% endfor %}
 

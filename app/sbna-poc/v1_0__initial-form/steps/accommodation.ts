@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import {
   accommodationChangesFields,
   accommodationTypeFields,
@@ -40,8 +40,8 @@ const stepOptions: FormWizard.Steps = {
     navigationOrder: 1,
     section: 'accommodation',
     sectionProgressRules: [
-      setField('accommodation_section_complete', 'NO'),
-      setField('accommodation_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('accommodation_section_complete'),
+      setFieldToIncomplete('accommodation_analysis_section_complete'),
     ],
   },
   '/settled-accommodation': {
@@ -57,8 +57,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
-      setField('accommodation_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('accommodation_section_complete'),
+      setFieldToIncomplete('accommodation_analysis_section_complete'),
     ],
   },
   '/temporary-accommodation': {
@@ -75,8 +75,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
-      setField('accommodation_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('accommodation_section_complete'),
+      setFieldToIncomplete('accommodation_analysis_section_complete'),
     ],
   },
   '/temporary-accommodation-2': {
@@ -91,8 +91,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
-      setField('accommodation_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('accommodation_section_complete'),
+      setFieldToIncomplete('accommodation_analysis_section_complete'),
     ],
   },
   '/no-accommodation': {
@@ -107,8 +107,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
-      setField('accommodation_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('accommodation_section_complete'),
+      setFieldToIncomplete('accommodation_analysis_section_complete'),
     ],
   },
   '/no-accommodation-2': {
@@ -118,8 +118,8 @@ const stepOptions: FormWizard.Steps = {
     backLink: 'accommodation',
     section: 'accommodation',
     sectionProgressRules: [
-      setFieldWhenValid('accommodation_section_complete', 'YES', 'NO'),
-      setField('accommodation_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('accommodation_section_complete'),
+      setFieldToIncomplete('accommodation_analysis_section_complete'),
     ],
   },
   '/accommodation-analysis': {
@@ -128,7 +128,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-analysis-complete#practitioner-analysis',
     template: 'forms/sbna-poc/summary-analysis-incomplete',
     section: 'accommodation',
-    sectionProgressRules: [setFieldWhenValid('accommodation_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('accommodation_analysis_section_complete')],
   },
   '/accommodation-analysis-complete': {
     pageTitle: 'Accommodation',

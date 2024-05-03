@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setField, setFieldWhenValid } from './common'
+import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import {
   analysisSectionComplete,
   educationFields,
@@ -37,8 +37,8 @@ const stepOptions: FormWizard.Steps = {
     navigationOrder: 2,
     section: sectionName,
     sectionProgressRules: [
-      setField('employment_education_section_complete', 'NO'),
-      setField('employment_education_analysis_section_complete', 'NO'),
+      setFieldToIncomplete('employment_education_section_complete'),
+      setFieldToIncomplete('employment_education_analysis_section_complete'),
     ],
   },
   '/employed': {
@@ -56,8 +56,8 @@ const stepOptions: FormWizard.Steps = {
     next: ['employment-education-analysis'],
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
-      setField('employment_education_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('employment_education_section_complete'),
+      setFieldToIncomplete('employment_education_analysis_section_complete'),
     ],
   },
   '/retired': {
@@ -67,8 +67,8 @@ const stepOptions: FormWizard.Steps = {
     next: ['employment-education-analysis'],
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
-      setField('employment_education_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('employment_education_section_complete'),
+      setFieldToIncomplete('employment_education_analysis_section_complete'),
     ],
   },
   '/has-been-employed': {
@@ -85,8 +85,8 @@ const stepOptions: FormWizard.Steps = {
     next: ['employment-education-analysis'],
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
-      setField('employment_education_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('employment_education_section_complete'),
+      setFieldToIncomplete('employment_education_analysis_section_complete'),
     ],
   },
   '/never-been-employed': {
@@ -96,8 +96,8 @@ const stepOptions: FormWizard.Steps = {
     next: ['employment-education-analysis'],
     section: sectionName,
     sectionProgressRules: [
-      setFieldWhenValid('employment_education_section_complete', 'YES', 'NO'),
-      setField('employment_education_analysis_section_complete', 'NO'),
+      setFieldToCompleteWhenValid('employment_education_section_complete'),
+      setFieldToIncomplete('employment_education_analysis_section_complete'),
     ],
   },
   '/employment-education-analysis': {
@@ -106,7 +106,7 @@ const stepOptions: FormWizard.Steps = {
     next: ['employment-education-analysis-complete'],
     template: 'forms/sbna-poc/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [setFieldWhenValid('employment_education_analysis_section_complete', 'YES', 'NO')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('employment_education_analysis_section_complete')],
   },
   '/employment-education-analysis-complete': {
     pageTitle: defaultTitle,
