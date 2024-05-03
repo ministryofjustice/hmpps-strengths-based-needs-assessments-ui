@@ -2,7 +2,7 @@ describe('navigation', () => {
   it('enter an assessment from OASys', () => {
     cy.visit('/form/oastub/start')
     cy.get('.splash-image').click()
-    cy.url().should('contain', '/form/sbna-poc/accommodation')
+    cy.url().should('contain', '/form/sbna-poc/1/0/accommodation')
   })
 
   describe('sidebar', () => {
