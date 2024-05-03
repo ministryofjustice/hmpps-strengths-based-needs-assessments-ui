@@ -43,6 +43,7 @@ lint-fix: ## Automatically fixes linting issues.
 
 BASE_URL ?= "http://localhost:3000"
 e2e: ## Run the end-to-end tests locally in the Cypress app. Override the default base URL with BASE_URL=...
+	docker compose ${DEV_COMPOSE_FILES} up hmpps-auth-proxy --no-recreate --wait
 	npm i
 	npx cypress install
 	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
