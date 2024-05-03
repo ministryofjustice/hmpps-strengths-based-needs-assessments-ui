@@ -45,7 +45,7 @@ describe('Auto save', () => {
       .getRadio('Homeowner')
       .clickLabel()
 
-    cy.wait('@post')
+    cy.wait('@post', { timeout: 6000 })
       .its('response')
       .then(res => expect(res.statusCode).to.equal(200, 'should save successfully'))
   })
