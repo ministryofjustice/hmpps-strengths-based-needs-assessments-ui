@@ -15,15 +15,15 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     options: [
       {
         text: "Partner or someone they're in an intimate relationship with",
-        value: 'PARTNER/INTIMATE RELATIONSHIP',
+        value: 'PARTNER_INTIMATE_RELATIONSHIP',
         kind: 'option',
       },
       {
         text: 'Their children or anyone they have parental responsibilities for',
-        value: 'CHILD/PARENTAL RESPONSIBILITIES',
+        value: 'CHILD_PARENTAL_RESPONSIBILITIES',
         kind: 'option',
       },
-      { text: 'Other children', value: 'OTHER CHILDREN', kind: 'option' },
+      { text: 'Other children', value: 'OTHER_CHILDREN', kind: 'option' },
       { text: 'Family members', value: 'FAMILY', kind: 'option' },
       { text: 'Friends', value: 'FRIENDS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
@@ -47,7 +47,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     ],
     dependent: {
       field: 'personal_relationships_community_important_people',
-      value: 'PARTNER/INTIMATE RELATIONSHIP',
+      value: 'PARTNER_INTIMATE_RELATIONSHIP',
       displayInline: true,
     },
   },
@@ -65,7 +65,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     ],
     dependent: {
       field: 'personal_relationships_community_important_people',
-      value: 'CHILD/PARENTAL RESPONSIBILITIES',
+      value: 'CHILD_PARENTAL_RESPONSIBILITIES',
       displayInline: true,
     },
   },
@@ -82,7 +82,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     ],
     dependent: {
       field: 'personal_relationships_community_important_people',
-      value: 'OTHER CHILDREN',
+      value: 'OTHER_CHILDREN',
       displayInline: true,
     },
   },
