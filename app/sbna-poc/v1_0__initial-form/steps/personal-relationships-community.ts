@@ -24,7 +24,7 @@ const stepOptions: FormWizard.Steps = {
       {
         field: 'personal_relationships_community_important_people',
         op: contains,
-        value: 'CHILD/PARENTAL RESPONSIBILITIES',
+        value: 'CHILD_PARENTAL_RESPONSIBILITIES',
         next: 'personal-relationships-community',
       },
       'personal-relationships-community-2',
