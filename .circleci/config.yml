@@ -127,7 +127,7 @@ jobs:
           name: Run API integration tests
           command: |
             cd api-test
-            make test-integration
+            make test
       - save_cache:
           paths:
             - api-test/.gradle
