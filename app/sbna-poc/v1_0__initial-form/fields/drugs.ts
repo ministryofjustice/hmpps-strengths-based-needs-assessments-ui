@@ -356,7 +356,7 @@ export const drugUseChangesFields = createWantToMakeChangesFields('their drug us
 
 export const drugUseTypeDetailsFields = [
   createFieldsForInjectableDrug('AMPHETAMINES'),
-  createFieldsForInjectableDrug('BENZODIAZEPINESS'),
+  createFieldsForInjectableDrug('BENZODIAZEPINES'),
   createDrugUsage('CANNABIS'),
   createFieldsForInjectableDrug('COCAINE'),
   createFieldsForInjectableDrug('CRACK'),
