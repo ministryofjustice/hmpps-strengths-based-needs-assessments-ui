@@ -95,6 +95,47 @@ jobs:
           path: test_results/cypress/accessibilityReport.txt
           destination: accessibilityReport.txt
 
+  api_integration_tests:
+    machine:
+      image: ubuntu-2004:2023.10.1
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Extract saved container image
+          command: docker load --input docker_cache/build_image.tar
+      - mem/recall:
+          env_var: APP_VERSION
+      - run:
+          name: Stand up the UI
+          command: make up
+      - run:
+          name: Clone API repository
+          command: git clone git@github.com:ministryofjustice/hmpps-strengths-based-needs-assessments-api.git api-test
+      - restore_cache:
+          keys:
+            - gradle-{{ checksum "api-test/build.gradle.kts" }}
+            - gradle-
+      - run:
+          name: Stand up the latest API in dev mode
+          command: |
+            cd api-test
+            make dev-up
+      - run:
+          name: Run API integration tests
+          command: |
+            cd api-test
+            make test
+      - save_cache:
+          paths:
+            - api-test/.gradle
+          key: gradle-{{ checksum "api-test/build.gradle.kts" }}
+      - store_test_results:
+          path: api-test/build/test-results
+      - store_artifacts:
+          path: api-test/build/reports/tests
+
 workflows:
   version: 2
   build-test-and-deploy:
@@ -118,6 +159,11 @@ workflows:
           pipeline_id: << pipeline.id >>
           pipeline_number: << pipeline.number >>
           context: hmpps-common-vars
+      - api_integration_tests:
+          context: hmpps-common-vars
+          requires:
+            - lint
+            - build_docker
       - e2e_test:
           context: hmpps-common-vars
           requires:
@@ -130,6 +176,7 @@ workflows:
           requires:
             - lint
             - unit_test
+            - api_integration_tests
             - e2e_test
           filters:
             branches:

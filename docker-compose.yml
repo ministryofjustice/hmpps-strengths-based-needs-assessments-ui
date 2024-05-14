@@ -50,7 +50,7 @@ services:
       FORM_CONFIG_BASE_URL: http://ui:3000/form
 
   ui:
-    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:latest
+    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
     build:
       context: .
       target: production
