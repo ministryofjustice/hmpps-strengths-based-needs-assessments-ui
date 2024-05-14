@@ -98,6 +98,7 @@ jobs:
   api_integration_tests:
     machine:
       image: ubuntu-2004:2023.10.1
+    working_directory: ~/app
     steps:
       - checkout
       - attach_workspace:
@@ -126,7 +127,7 @@ jobs:
           name: Run API integration tests
           command: |
             cd api-test
-            make test
+            make test-integration
       - save_cache:
           paths:
             - api-test/.gradle
