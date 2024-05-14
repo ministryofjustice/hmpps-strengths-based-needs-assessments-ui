@@ -55,7 +55,7 @@ e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in C
 	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --headless -b chrome -c baseUrl=${BASE_URL_CI} -s "$$(<tmp_specs.txt)"
 
 test-up: ## Stands up a test environment.
-	docker compose --progress plain pull
+	docker compose --progress plain pull --policy missing
 	docker compose --progress plain ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait --force-recreate
 
 test-down: ## Stops and removes all of the test containers.
