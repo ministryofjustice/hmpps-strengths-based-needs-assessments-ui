@@ -178,14 +178,14 @@ export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
 
 export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
   {
-    text: 'Has [subject] had a head injury or any illness effecting the brain?',
+    text: 'Has [subject] had a head injury or any illness affecting the brain?',
     hint: { html: headInjuryOrIllnessHint, kind: 'html' },
     code: 'health_wellbeing_head_injury_or_illness',
     type: FieldType.Radio,
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select if they have had a head injury or any illness effecting the brain',
+        message: 'Select if they have had a head injury or any illness affecting the brain',
       },
     ],
     options: [
