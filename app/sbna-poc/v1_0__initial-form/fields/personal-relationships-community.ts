@@ -7,7 +7,7 @@ import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnaly
 export const personalRelationshipsFields: Array<FormWizard.Field> = [
   {
     text: "Who are the important people in [subject]'s life?",
-    hint: { text: 'Select all that apply', kind: 'text' },
+    hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'personal_relationships_community_important_people',
     type: FieldType.CheckBox,
     multiple: true,
@@ -125,7 +125,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     code: 'personal_relationships_community_important_people_other_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Give details' },
+      { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
         arguments: [detailsCharacterLimit],
