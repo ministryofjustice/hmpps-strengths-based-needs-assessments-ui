@@ -4,8 +4,20 @@ import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
 
+export interface SubjectDetailsRequest extends Record<string, unknown> {
+  crn?: string
+  pnc?: string
+  nomisId?: string
+  givenName: string
+  familyName: string
+  gender: 0 | 1 | 2 | 9
+  location: 'PRISON' | 'COMMUNITY'
+  sexuallyMotivatedOffenceHistory?: 'YES' | 'NO'
+}
+
 export interface CreateAssessmentRequest extends Record<string, unknown> {
   oasysAssessmentPk: string
+  subjectDetails?: SubjectDetailsRequest
 }
 
 export interface CreateAssessmentResponse {
@@ -23,16 +35,7 @@ export interface CreateSessionRequest extends Record<string, unknown> {
     accessMode: string
     returnUrl?: string
   }
-  subjectDetails: {
-    crn?: string
-    pnc?: string
-    nomisId?: string
-    givenName: string
-    familyName: string
-    gender: number
-    location: string
-    sexuallyMotivatedOffenceHistory?: string
-  }
+  subjectDetails: SubjectDetailsRequest
 }
 
 export interface SessionInformation {

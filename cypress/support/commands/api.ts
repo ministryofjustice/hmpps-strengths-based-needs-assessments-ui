@@ -53,6 +53,13 @@ export const createAssessment = (data = null) => {
               displayName: 'Cypress User',
               accessMode: 'READ_WRITE',
             },
+            subjectDetails: {
+              crn: 'X123456',
+              givenName: 'Sam',
+              familyName: 'Whitfield',
+              gender: 0,
+              location: 'COMMUNITY',
+            },
           },
         })
         .then(otlResponse => {
