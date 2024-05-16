@@ -55,8 +55,10 @@ export const createAssessment = (data = null) => {
             },
             subjectDetails: {
               crn: 'X123456',
+              pnc: '01/123456789A',
               givenName: 'Sam',
               familyName: 'Whitfield',
+              dateOfBirth: '1970-01-01',
               gender: 0,
               location: 'COMMUNITY',
             },
