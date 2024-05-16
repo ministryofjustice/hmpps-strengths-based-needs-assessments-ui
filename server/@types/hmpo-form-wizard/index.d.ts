@@ -221,6 +221,7 @@ declare module 'hmpo-form-wizard' {
       backLink?: string
       section: string
       sectionProgressRules?: Array<SectionProgressRule>
+      noPost?: boolean
     }
 
     interface RenderedStep {
