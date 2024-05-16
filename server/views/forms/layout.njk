@@ -18,12 +18,18 @@
           <h3 class="govuk-heading-s">{{ subjectDetails.givenName }}
             {{ subjectDetails.familyName }}</h3>
           <dl>
-            <dt>CRN:</dt>
-            <dd>{{ subjectDetails.crn }}</dd>
-            <dt>PNC:</dt>
-            <dd>{{ subjectDetails.pnc }}</dd>
-            <dt>Date of birth:</dt>
-            <dd>{{ subjectDetails.dateOfBirth }}</dd>
+            {% if subjectDetails.crn %}
+              <dt>CRN:</dt>
+              <dd>{{ subjectDetails.crn }}</dd>
+            {% endif %}
+            {% if subjectDetails.pnc %}
+              <dt>PNC:</dt>
+              <dd>{{ subjectDetails.pnc }}</dd>
+            {% endif %}
+            {% if subjectDetails.dateOfBirth %}
+              <dt>Date of birth:</dt>
+              <dd>{{ subjectDetails.dateOfBirth }}</dd>
+            {% endif %}
           </dl>
           <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ assessmentId }}"></div>
         </div>

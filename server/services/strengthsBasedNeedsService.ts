@@ -10,6 +10,7 @@ export interface SubjectDetailsRequest extends Record<string, unknown> {
   nomisId?: string
   givenName: string
   familyName: string
+  dateOfBirth: string
   gender: 0 | 1 | 2 | 9
   location: 'PRISON' | 'COMMUNITY'
   sexuallyMotivatedOffenceHistory?: 'YES' | 'NO'
