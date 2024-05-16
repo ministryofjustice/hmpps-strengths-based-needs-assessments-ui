@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody class="govuk-table__body">
-    {% for key, value in oasysEquivalent %}
+    {% for key, value in oasysEquivalent | dictsort %}
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">{{ key }}</th>
         <td class="govuk-table__cell">{{ value | dump }}</td>
