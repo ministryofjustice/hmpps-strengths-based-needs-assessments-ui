@@ -15,7 +15,8 @@ up: ## Starts/restarts the UI in a production container.
 	docker compose ${LOCAL_COMPOSE_FILES} up ui --wait --no-recreate
 
 down: ## Stops and removes all containers in the project.
-	docker compose down
+	docker compose ${LOCAL_COMPOSE_FILES} down
+	make dev-down
 	make test-down
 
 build-ui: ## Builds a production image of the UI.
@@ -29,8 +30,8 @@ dev-build: ## Builds a development image of the UI and installs Node dependencie
 	docker compose ${DEV_COMPOSE_FILES} build ui
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm install --include=dev
 
-dev-down: ## Stops and removes the UI container.
-	docker compose down ui
+dev-down: ## Stops and removes all dev containers.
+	docker compose ${DEV_COMPOSE_FILES} down
 
 test: ## Runs the unit test suite.
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run test
