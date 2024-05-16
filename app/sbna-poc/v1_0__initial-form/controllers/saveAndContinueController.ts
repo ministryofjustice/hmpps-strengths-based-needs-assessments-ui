@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express'
-import FormWizard from 'hmpo-form-wizard'
+import FormWizard, { Gender } from 'hmpo-form-wizard'
 import BaseSaveAndContinueController from '../../../common/controllers/saveAndContinue'
 import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
@@ -40,12 +40,19 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     return super.get(req, res, next)
   }
 
+  calculateUnitsForGender(gender: Gender): number {
+    return gender === Gender.Male ? 8 : 6
+  }
+
   async addAssessmentDataToLocals(req: FormWizard.Request, res: Response) {
     const sessionData = req.session.sessionData as SessionInformation
     res.locals.sessionData = sessionData
     res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
     res.locals.assessmentId = sessionData.assessmentUUID
-    res.locals.placeholderValues = { subject: res.locals.subjectDetails.givenName, alcohol_units: 8 } // TODO: Hardcoded alcohol units for now, will need to calculate this based on gender
+    res.locals.placeholderValues = {
+      subject: res.locals.subjectDetails.givenName,
+      alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
+    }
     res.locals.values = mergeAnswers(req.form.persistedAnswers, res.locals.values)
   }
 
