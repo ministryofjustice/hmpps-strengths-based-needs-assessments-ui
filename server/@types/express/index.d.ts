@@ -1,3 +1,5 @@
+import { SubjectResponse } from '../../services/strengthsBasedNeedsService'
+
 export default {}
 
 declare module 'express-session' {
@@ -6,7 +8,7 @@ declare module 'express-session' {
     returnTo: string
     nowInMinutes: number
     sessionData: unknown
-    subjectDetails: unknown
+    subjectDetails: SubjectResponse
   }
 }
 

@@ -1,5 +1,5 @@
 import { UUID } from 'crypto'
-import { FieldType } from 'hmpo-form-wizard'
+import { FieldType, Gender } from 'hmpo-form-wizard'
 import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
@@ -11,9 +11,9 @@ export interface SubjectDetailsRequest extends Record<string, unknown> {
   givenName: string
   familyName: string
   dateOfBirth: string
-  gender: 0 | 1 | 2 | 9
+  gender: number
   location: 'PRISON' | 'COMMUNITY'
-  sexuallyMotivatedOffenceHistory?: 'YES' | 'NO'
+  sexuallyMotivatedOffenceHistory?: string
 }
 
 export interface CreateAssessmentRequest extends Record<string, unknown> {
@@ -63,6 +63,7 @@ export interface SubjectResponse {
   givenName: string
   familyName: string
   dateOfBirth: string
+  gender: Gender
   crn: string
   pnc: string
 }

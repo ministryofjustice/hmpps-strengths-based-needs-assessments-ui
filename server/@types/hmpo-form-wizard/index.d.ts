@@ -63,6 +63,14 @@ declare module 'hmpo-form-wizard' {
     Base64Decode = 'base64decode',
   }
 
+  // eslint-disable-next-line no-shadow
+  export const enum Gender {
+    NotKnown = 'NOT_KNOWN',
+    Male = 'MALE',
+    Female = 'FEMALE',
+    NotSpecified = 'NOT_SPECIFIED',
+  }
+
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
   namespace FormWizard {
