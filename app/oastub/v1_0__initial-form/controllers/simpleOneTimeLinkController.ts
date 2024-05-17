@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
 
-class CreateOneTimeLinkController extends BaseController {
+class SimpleOneTimeLinkController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
   constructor(options: unknown) {
@@ -15,20 +15,9 @@ class CreateOneTimeLinkController extends BaseController {
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
   }
 
-  parseGender(value: string): number {
-    const parsedGender = Number.parseInt(value, 10)
-
-    return Number.isInteger(parsedGender) && [0, 1, 2, 9].includes(parsedGender) ? parsedGender : 0
-  }
-
-  async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
+  async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const oasysAssessmentPk = req.sessionModel.get('oastub-assessment-uuid')?.toString() || randomUUID()
-      const gender = this.parseGender(req.sessionModel.get('oastub-subject-gender') as string) || 0
-      const givenName = (req.sessionModel.get('oastub-subject-given-name') as string) || 'Sam'
-      const familyName = (req.sessionModel.get('oastub-subject-family-name') as string) || 'Whitfield'
-      const sexuallyMotivatedOffenceHistory =
-        (req.sessionModel.get('oastub-subject-sexually-motivated-offence-history') as string) || 'NO'
+      const oasysAssessmentPk = randomUUID()
 
       await this.apiService.createAssessment({ oasysAssessmentPk })
 
@@ -45,21 +34,19 @@ class CreateOneTimeLinkController extends BaseController {
           dateOfBirth: faker.date
             .past({ years: 70, refDate: DateTime.now().minus({ years: 18 }).toISODate() })
             .toISOString(),
-          givenName,
-          familyName,
-          gender,
+          givenName: 'Sam',
+          familyName: 'Whitfield',
+          gender: 0,
           location: 'COMMUNITY',
-          sexuallyMotivatedOffenceHistory,
+          sexuallyMotivatedOffenceHistory: 'Yes',
         },
       })
 
-      res.locals.otl = link
-
-      super.locals(req, res, next)
+      res.redirect(link)
     } catch (error) {
       next(error)
     }
   }
 }
 
-export default CreateOneTimeLinkController
+export default SimpleOneTimeLinkController
