@@ -1,3 +1,3 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-testPractitionerAnalysis('/finance-summary-analysis', '/finance-analysis-complete')
+testPractitionerAnalysis('/finance-analysis', '/finance-analysis-complete')
