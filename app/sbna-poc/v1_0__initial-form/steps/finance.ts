@@ -7,32 +7,35 @@ import {
   sectionCompleteFields,
 } from '../fields/finance'
 
+const defaultTitle = 'Finance'
+const sectionName = 'finance'
+
 const stepOptions: FormWizard.Steps = {
   '/finance': {
-    pageTitle: 'Finance',
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(baseFinanceFields, sectionCompleteFields),
     navigationOrder: 3,
-    next: 'finance-summary-analysis',
-    section: 'finance',
+    next: 'finance-analysis',
+    section: sectionName,
     sectionProgressRules: [
       setFieldToCompleteWhenValid('finance_section_complete'),
       setFieldToIncomplete('finance_analysis_section_complete'),
     ],
   },
-  '/finance-summary-analysis': {
-    pageTitle: 'Finance',
+  '/finance-analysis': {
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'finance-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/finance-summary-analysis',
-    section: 'finance',
+    template: 'forms/sbna-poc/summary-analysis-incomplete',
+    section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('finance_analysis_section_complete')],
   },
   '/finance-analysis-complete': {
-    pageTitle: 'Finance',
+    pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/sbna-poc/finance-analysis-complete',
-    section: 'finance',
+    template: 'forms/sbna-poc/summary-analysis-complete',
+    section: sectionName,
   },
 }
 
