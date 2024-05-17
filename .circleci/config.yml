@@ -91,9 +91,6 @@ jobs:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
-      - store_artifacts:
-          path: test_results/cypress/accessibilityReport.txt
-          destination: accessibilityReport.txt
 
   api_integration_tests:
     machine:
