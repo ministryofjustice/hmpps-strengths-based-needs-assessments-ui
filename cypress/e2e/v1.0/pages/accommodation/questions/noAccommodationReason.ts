@@ -19,6 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select why they have no accommodation')
+      cy.checkAccessibility()
     })
 
     const optionsWithConditionals = ['Other']
@@ -43,13 +44,17 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.getQuestion(question).getCheckbox(option).hasHint(null).getConditionalQuestion().enterText('Some details')
 
+        cy.checkAccessibility()
+
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('Some details')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some details')
       })
     })
 

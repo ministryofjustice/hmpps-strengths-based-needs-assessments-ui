@@ -32,6 +32,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.saveAndContinue()
 
         cy.getQuestion(question).getCheckbox(option).getConditionalQuestion().hasValidationError('Select type of debt')
+        cy.checkAccessibility()
       })
 
       debtOptions.forEach(([debtOption, hint]) => {
@@ -67,6 +68,14 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           cy.getSummary(question).clickChange()
           cy.assertStepUrlIs(stepUrl)
           cy.assertQuestionUrl(question)
+          cy.getQuestion(question)
+            .getCheckbox(option)
+            .isChecked()
+            .getConditionalQuestion()
+            .getCheckbox(debtOption)
+            .isChecked()
+            .getConditionalQuestion()
+            .hasText('Some details')
         })
       })
     })

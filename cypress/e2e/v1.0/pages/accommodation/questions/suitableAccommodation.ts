@@ -14,6 +14,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if the accommodation is suitable')
+      cy.checkAccessibility()
     })
 
     options.forEach(option => {
@@ -25,9 +26,11 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio(option).isChecked()
       })
     })
 
@@ -49,6 +52,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasHint('Select all that apply (optional).')
         .hasCheckboxes(concerns)
+      cy.checkAccessibility()
     })
 
     concerns.forEach(concern => {
@@ -61,9 +65,11 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer('No').hasSecondaryAnswer(concern)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio('No').isChecked().getConditionalQuestion().getCheckbox(concern).isChecked()
       })
     })
 
@@ -95,13 +101,24 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasTitle('Give details')
         .enterText('Some details')
 
+      cy.checkAccessibility()
+
       cy.saveAndContinue()
 
       cy.visitStep(summaryPage)
       cy.getSummary(question).getAnswer('No').hasSecondaryAnswer('Other', 'Some details')
+      cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
+      cy.getQuestion(question)
+        .getRadio('No')
+        .isChecked()
+        .getConditionalQuestion()
+        .getCheckbox('Other')
+        .isChecked()
+        .getConditionalQuestion()
+        .hasText('Some details')
     })
 
     it('displays the conditional options for "Yes, with concerns"', () => {
@@ -112,6 +129,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasHint('Select all that apply (optional).')
         .hasCheckboxes(concerns)
+
+      cy.checkAccessibility()
     })
 
     concerns.forEach(concern => {
@@ -128,9 +147,16 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer('Yes, with concerns').hasSecondaryAnswer(concern)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question)
+          .getRadio('Yes, with concerns')
+          .isChecked()
+          .getConditionalQuestion()
+          .getCheckbox(concern)
+          .isChecked()
       })
     })
 
@@ -162,13 +188,24 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasTitle('Give details')
         .enterText('Some details')
 
+      cy.checkAccessibility()
+
       cy.saveAndContinue()
 
       cy.visitStep(summaryPage)
       cy.getSummary(question).getAnswer('Yes, with concerns').hasSecondaryAnswer('Other', 'Some details')
+      cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
+      cy.getQuestion(question)
+        .getRadio('Yes, with concerns')
+        .isChecked()
+        .getConditionalQuestion()
+        .getCheckbox('Other')
+        .isChecked()
+        .getConditionalQuestion()
+        .hasText('Some details')
     })
   })
 }

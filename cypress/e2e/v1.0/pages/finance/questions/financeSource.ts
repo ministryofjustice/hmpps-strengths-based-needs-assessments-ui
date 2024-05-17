@@ -53,6 +53,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
+      cy.getQuestion(question).getCheckbox('Other').isChecked().getConditionalQuestion().hasText('some text')
     })
 
     const familyOrFriendsOptions = ['Yes', 'No']
@@ -67,14 +68,14 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasHint(null)
         .hasRadios(familyOrFriendsOptions)
 
-      cy.checkAccessibility()
-
       cy.saveAndContinue()
       cy.getQuestion(question)
         .hasNoValidationError()
         .getCheckbox('Family or friends')
         .getConditionalQuestion()
         .hasValidationError('Select if they are over reliant on family or friends for money')
+
+      cy.checkAccessibility()
     })
 
     familyOrFriendsOptions.forEach(option => {
@@ -97,6 +98,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question)
+          .getCheckbox('Family or friends')
+          .isChecked()
+          .getConditionalQuestion()
+          .getRadio(option)
+          .isChecked()
       })
     })
     ;[
@@ -124,6 +131,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked()
       })
     })
   })
