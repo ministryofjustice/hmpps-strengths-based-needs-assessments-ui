@@ -25,11 +25,6 @@ export const clickLabel = (subject: JQuery) => {
   return cy.wrap(subject)
 }
 
-export const enterText = (subject: JQuery, value: string) => {
-  cy.wrap(subject).children('textarea, input[type="text"]').type(value)
-  return cy.wrap(subject)
-}
-
 export const hasConditionalQuestion = (subject: JQuery, expect: boolean = true) => {
   cy.wrap(subject)
     .next('.govuk-radios__conditional:visible, .govuk-checkboxes__conditional:visible')

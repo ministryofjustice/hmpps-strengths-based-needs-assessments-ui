@@ -48,6 +48,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('some text')
       })
     })
     ;['Studying', 'None'].forEach(option => {
@@ -65,6 +66,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked()
       })
     })
   })

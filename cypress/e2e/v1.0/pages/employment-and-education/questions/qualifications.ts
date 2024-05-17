@@ -38,6 +38,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
+      cy.getQuestion(question).getRadio('Yes').isChecked().getConditionalQuestion().hasText('Some text')
     })
     ;['No', 'Not sure'].forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
@@ -54,6 +55,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio(option).isChecked()
       })
     })
   })

@@ -59,6 +59,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio(option).isChecked().getConditionalQuestion().hasText('some text')
       })
     })
     ;['I do not want to answer', 'Sam is not present', 'Not applicable'].forEach(option => {
@@ -76,6 +77,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio(option).isChecked()
       })
     })
   })

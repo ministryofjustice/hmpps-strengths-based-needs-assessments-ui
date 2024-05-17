@@ -150,6 +150,11 @@ export const hasCheckboxes = (subject: JQuery, options: string[]) => {
   return cy.wrap(subject)
 }
 
+export const enterText = (subject: JQuery, value: string) => {
+  cy.wrap(subject).children('textarea, input[type="text"]').type(value)
+  return cy.wrap(subject)
+}
+
 const enterDateFieldFor = (subject: JQuery) => (label: string, value: string) =>
   cy
     .wrap(subject)
@@ -167,6 +172,45 @@ export const enterDate = (subject: JQuery, date: string) => {
   enterDateField('Day', day)
   enterDateField('Month', month)
   enterDateField('Year', year)
+
+  return cy.wrap(subject)
+}
+
+export const hasText = (subject: JQuery, value: string) => {
+  cy.wrap(subject)
+    .children('textarea, input[type="text"]')
+    .invoke('val')
+    .then(actualValue => {
+      expect(actualValue).to.equal(value)
+    })
+  return cy.wrap(subject)
+}
+
+const hasDateFieldFor = (subject: JQuery) => (label: string, value: string) =>
+  cy
+    .wrap(subject)
+    .find('.govuk-date-input')
+    .find('label')
+    .contains(label)
+    .invoke('attr', 'for')
+    .then(id =>
+      cy
+        .get(`#${id}`)
+        .should('be.visible')
+        .and('have.length', 1)
+        .invoke('val')
+        .then(actualValue => {
+          expect(actualValue).to.equal(value)
+        }),
+    )
+
+export const hasDate = (subject: JQuery, date: string) => {
+  const [day, month, year] = date.split('-')
+  const hasDateField = hasDateFieldFor(subject)
+
+  hasDateField('Day', day)
+  hasDateField('Month', month)
+  hasDateField('Year', year)
 
   return cy.wrap(subject)
 }
