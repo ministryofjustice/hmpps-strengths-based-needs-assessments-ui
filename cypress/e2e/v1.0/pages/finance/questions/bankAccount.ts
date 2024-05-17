@@ -23,6 +23,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio(option).isChecked()
       })
     })
   })

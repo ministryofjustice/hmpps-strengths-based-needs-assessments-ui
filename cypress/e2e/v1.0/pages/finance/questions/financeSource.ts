@@ -53,6 +53,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
+      cy.getQuestion(question).getCheckbox('Other').isChecked().getConditionalQuestion().hasText('some text')
     })
 
     const familyOrFriendsOptions = ['Yes', 'No']
@@ -97,6 +98,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question)
+          .getCheckbox('Family or friends')
+          .isChecked()
+          .getConditionalQuestion()
+          .getRadio(option)
+          .isChecked()
       })
     })
     ;[
@@ -124,6 +131,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked()
       })
     })
   })

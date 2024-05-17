@@ -10,13 +10,17 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasNoValidationError().enterText('Some details')
 
+      cy.checkAccessibility()
+
       cy.saveAndContinue()
 
       cy.visitStep(summaryPage)
       cy.getSummary(question).getAnswer('Some details').hasNoSecondaryAnswer()
+      cy.checkAccessibility()
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
+      cy.getQuestion(question).hasText('Some details')
     })
   })
 }

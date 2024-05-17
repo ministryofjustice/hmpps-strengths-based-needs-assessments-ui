@@ -11,6 +11,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if they have future accommodation planned')
+      cy.checkAccessibility()
     })
 
     options.forEach(option => {
@@ -21,9 +22,11 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio(option).isChecked()
       })
     })
 
@@ -43,6 +46,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).getRadio('Yes').clickLabel()
 
       cy.getQuestion(question).getRadio('Yes').getConditionalQuestion().hasRadios(conditionalOptions)
+      cy.checkAccessibility()
     })
 
     conditionalOptions.forEach(conditionalOption => {
@@ -55,9 +59,16 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer(conditionalOption)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question)
+          .getRadio('Yes')
+          .isChecked()
+          .getConditionalQuestion()
+          .getRadio(conditionalOption)
+          .isChecked()
       })
     })
 
@@ -95,13 +106,24 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasHint(hint)
           .enterText('Some details')
 
+        cy.checkAccessibility()
+
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer(conditionalOption, 'Some details')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question)
+          .getRadio('Yes')
+          .isChecked()
+          .getConditionalQuestion()
+          .getRadio(conditionalOption)
+          .isChecked()
+          .getConditionalQuestion()
+          .hasText('Some details')
       })
     })
   })

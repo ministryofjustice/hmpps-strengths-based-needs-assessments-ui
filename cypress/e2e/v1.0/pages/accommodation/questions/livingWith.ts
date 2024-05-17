@@ -11,6 +11,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError("Select who they are living with, or select 'Alone'")
+
+      cy.checkAccessibility()
     })
 
     const isNotDivider = (option: string) => option !== null
@@ -25,9 +27,11 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option)
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked()
       })
     })
 
@@ -43,6 +47,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       options.filter(isNotAloneOrDivider).forEach(option => {
         cy.getQuestion(question).getCheckbox(option).isNotChecked()
       })
+
+      cy.checkAccessibility()
     })
 
     it('selecting "Alone" then selecting other options deselects "Alone"', () => {
@@ -57,6 +63,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.getQuestion(question).getCheckbox('Alone').isNotChecked()
       })
+      cy.checkAccessibility()
     })
     ;[
       ['Partner', 'Include name, age and gender.'],
@@ -74,13 +81,17 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasLimit(400)
           .enterText('Some details')
 
+        cy.checkAccessibility()
+
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('Some details')
+        cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some details')
       })
     })
   })

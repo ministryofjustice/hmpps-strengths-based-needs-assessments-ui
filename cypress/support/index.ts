@@ -9,7 +9,6 @@ import {
   visitStep,
 } from './commands/navigation'
 import {
-  enterText,
   getConditionalQuestion,
   hasConditionalQuestion,
   isChecked,
@@ -25,15 +24,18 @@ import {
 } from './commands/page'
 import {
   enterDate,
+  enterText,
   getCheckbox,
   getNextQuestion,
   getQuestion,
   getRadio,
   hasCheckboxes,
+  hasDate,
   hasHint,
   hasLimit,
   hasNoValidationError,
   hasRadios,
+  hasText,
   hasTitle,
   hasValidationError,
   isQuestionNumber,
@@ -86,7 +88,6 @@ declare global {
       isNotChecked(): Chainable
       isOptionNumber(position: number): Chainable
       clickLabel(): Chainable
-      enterText(value: string): Chainable
       hasConditionalQuestion(expect?: boolean): Chainable
       getConditionalQuestion(): Chainable
 
@@ -109,7 +110,10 @@ declare global {
       hasNoValidationError(): Chainable
       getRadio(label: string): Chainable
       getCheckbox(label: string): Chainable
+      enterText(value: string): Chainable
       enterDate(date: string): Chainable
+      hasText(value: string): Chainable
+      hasDate(value: string): Chainable
 
       // summary
       getSummary(question: string): Chainable
@@ -154,7 +158,6 @@ Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)
 Cypress.Commands.add('isNotChecked', { prevSubject: true }, isNotChecked)
 Cypress.Commands.add('isOptionNumber', { prevSubject: true }, isOptionNumber)
 Cypress.Commands.add('clickLabel', { prevSubject: true }, clickLabel)
-Cypress.Commands.add('enterText', { prevSubject: true }, enterText)
 Cypress.Commands.add('hasConditionalQuestion', { prevSubject: true }, hasConditionalQuestion)
 Cypress.Commands.add('getConditionalQuestion', { prevSubject: true }, getConditionalQuestion)
 
@@ -177,7 +180,10 @@ Cypress.Commands.add('getRadio', { prevSubject: true }, getRadio)
 Cypress.Commands.add('getCheckbox', { prevSubject: true }, getCheckbox)
 Cypress.Commands.add('hasRadios', { prevSubject: true }, hasRadios)
 Cypress.Commands.add('hasCheckboxes', { prevSubject: true }, hasCheckboxes)
+Cypress.Commands.add('enterText', { prevSubject: true }, enterText)
 Cypress.Commands.add('enterDate', { prevSubject: true }, enterDate)
+Cypress.Commands.add('hasText', { prevSubject: true }, hasText)
+Cypress.Commands.add('hasDate', { prevSubject: true }, hasDate)
 
 // summary
 Cypress.Commands.add('getSummary', getSummary)
