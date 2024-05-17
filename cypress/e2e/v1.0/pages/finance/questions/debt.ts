@@ -32,6 +32,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.saveAndContinue()
 
         cy.getQuestion(question).getCheckbox(option).getConditionalQuestion().hasValidationError('Select type of debt')
+        cy.checkAccessibility()
       })
 
       debtOptions.forEach(([debtOption, hint]) => {

@@ -68,14 +68,14 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasHint(null)
         .hasRadios(familyOrFriendsOptions)
 
-      cy.checkAccessibility()
-
       cy.saveAndContinue()
       cy.getQuestion(question)
         .hasNoValidationError()
         .getCheckbox('Family or friends')
         .getConditionalQuestion()
         .hasValidationError('Select if they are over reliant on family or friends for money')
+
+      cy.checkAccessibility()
     })
 
     familyOrFriendsOptions.forEach(option => {
