@@ -17,7 +17,7 @@ services:
       - /var/lib/postgresql
 
   hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth::2024-05-09.23133.61d6975
+    image: quay.io/hmpps/hmpps-auth:2024-05-09.23133.61d6975
     networks:
       - hmpps
     healthcheck:
