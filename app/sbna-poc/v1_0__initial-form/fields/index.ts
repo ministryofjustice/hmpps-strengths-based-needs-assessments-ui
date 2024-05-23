@@ -7,6 +7,7 @@ import alcoholFields from './alcohol'
 import healthAndWellbeingFields from './health-wellbeing'
 import thinkingBehavioursAttitudes from './thinking-behaviours-attitudes'
 import personalRelationshipsAndCommunityFields from './personal-relationships-community'
+import offenceAnalysisFields from './offence-analysis'
 import { yesNoOptions } from './common'
 
 export const assessmentComplete: FormWizard.Field = {
@@ -26,4 +27,5 @@ export default {
   ...healthAndWellbeingFields,
   ...thinkingBehavioursAttitudes,
   ...personalRelationshipsAndCommunityFields,
+  ...offenceAnalysisFields,
 }
