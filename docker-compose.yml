@@ -31,8 +31,7 @@ services:
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
 
   arns-handover:
-    # TODO: Need to update this to use the quay repo
-    image: hmpps-assess-risks-and-needs-handover-service:latest
+    image: quay.io/hmpps/hmpps-assess-risks-and-needs-handover-service:latest
     networks:
       - hmpps
     depends_on:

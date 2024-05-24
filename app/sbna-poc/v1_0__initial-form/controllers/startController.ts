@@ -4,8 +4,6 @@ import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
 import ArnsHandoverService from '../../../../server/services/arnsHandoverService'
 
-const getFormVersionInformationFrom = (req: FormWizard.Request) => req.form.options.journeyName.split(':')
-
 class StartController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
@@ -20,7 +18,6 @@ class StartController extends BaseController {
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const [form, version] = getFormVersionInformationFrom(req)
       const accessToken = res.locals.user.token
       const contextData = await this.arnsHandoverService.getContextData(accessToken)
       const sessionData = {

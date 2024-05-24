@@ -43,17 +43,20 @@ export const createAssessment = (data = null) => {
       cy.wrap(createResponse.body.sanAssessmentId).as('assessmentId')
       return cy
         .request({
-          url: `${env('SBNA_API_URL')}/oasys/session/one-time-link`,
+          url: `${env('ARNS_HANDOVER_URL')}/handover`,
           method: 'POST',
           auth: { bearer: apiToken },
           body: {
-            oasysAssessmentPk,
-            user: {
+            assessmentContext: {
+              oasysAssessmentPk,
+              assessmentUUID: createResponse.body.sanAssessmentId
+            },
+            principal: {
               identifier: uuid(),
               displayName: 'Cypress User',
               accessMode: 'READ_WRITE',
             },
-            subjectDetails: {
+            subject: {
               crn: 'X123456',
               pnc: '01/123456789A',
               givenName: 'Sam',
@@ -61,11 +64,13 @@ export const createAssessment = (data = null) => {
               dateOfBirth: '1970-01-01',
               gender: 0,
               location: 'COMMUNITY',
+              sexuallyMotivatedOffenceHistory: 'No',
             },
           },
         })
         .then(otlResponse => {
-          cy.visit(otlResponse.body.link)
+          // TODO: move the clientid query param in to config
+          cy.visit(`${otlResponse.body.handoverLink}?clientId=strengths-and-needs-assessment`)
           if (data) {
             cy.assertSectionIs('Accommodation')
             return cy.request({
