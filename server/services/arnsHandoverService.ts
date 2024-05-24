@@ -1,0 +1,56 @@
+import config from '../config'
+import RestClient from '../data/restClient'
+import { Gender } from 'hmpo-form-wizard'
+import getHmppsAuthClient from '../data/hmppsAuthClient'
+
+export default class ArnsHandoverService {
+  authClient
+
+  constructor() {
+    this.authClient = getHmppsAuthClient()
+  }
+
+  private static restClient(token?: string): RestClient {
+    return new RestClient('HMPPS Handover Api Client', config.apis.arnsHandover, token)
+  }
+
+  getContextData(token: string): Promise<HandoverContextData> {
+    return ArnsHandoverService.restClient(token).get<HandoverContextData>({ path: `/context` })
+  }
+
+  async createHandoverLink(handoverContext: Record<string, unknown>) {
+    const token = await this.authClient.getSystemClientToken()
+    const handover: any = await ArnsHandoverService.restClient(token).post({ path: '/handover', data: handoverContext })
+    return `${handover.handoverLink}?clientId=${config.apis.arnsHandover.clientId}`
+  }
+}
+
+export type HandoverContextData = {
+  handoverSessionId: string
+  principal: HandoverPrincipal
+  subject: HandoverSubject
+  assessmentContext: HandoverAssessmentContext
+}
+
+export type HandoverPrincipal = {
+  identifier: string
+  displayName: string
+  accessMode: string
+}
+
+export type HandoverSubject = {
+  crn: string
+  pnc: string
+  nomisId?: string
+  givenName: string
+  familyName: string
+  dateOfBirth: string
+  gender: Gender
+  location: 'PRISON' | 'COMMUNITY'
+  sexuallyMotivatedOffenceHistory?: string
+}
+
+export type HandoverAssessmentContext = {
+  assessmentUUID: string
+  oasysAssessmentPk: string
+}
