@@ -30,6 +30,28 @@ services:
       APPLICATION_AUTHENTICATION_UI_ALLOWLIST: 0.0.0.0/0
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
 
+  arns-handover:
+    # TODO: Need to update this to use the quay repo
+    image: hmpps-assess-risks-and-needs-handover-service:latest
+    networks:
+      - hmpps
+    depends_on:
+      - redis
+    ports:
+      - "7070:7070"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://arns-handover:7070/health/ping"]
+    environment:
+      SERVER_PORT: 7070
+      REDIS_HOST: redis
+      SPRING_PROFILES_ACTIVE: local
+      HMPPS_HANDOVER_BASE_URL: http://arns-handover:7070
+      HMPPS_HANDOVER_EXTERNAL_URL: http://localhost:7070
+      HMPPS_AUTH_BASE_URL: http://hmpps-auth:9090
+      CLIENT_SP_OAUTH_REDIRECT_URI: http://localhost:4000/sign-in/callback
+      CLIENT_SP_HANDOVER_REDIRECT_URI: http://localhost:4000/sign-in
+      SERVER_ERROR_WHITELABEL_ENABLED: true
+
   api:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest
     networks:
@@ -60,6 +82,7 @@ services:
      - redis
      - hmpps-auth
      - api
+     - arns-handover
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://ui:3000/health" ]
       interval: 5s
@@ -69,12 +92,16 @@ services:
       REDIS_HOST: redis
       HMPPS_AUTH_EXTERNAL_URL: http://localhost:9090/auth
       HMPPS_AUTH_URL: http://hmpps-auth:9090/auth
+      HMPPS_ARNS_HANDOVER_URL: http://arns-handover:7070
+      HMPPS_ARNS_HANDOVER_EXTERNAL_URL: http://localhost:7070
       TOKEN_VERIFICATION_ENABLED: false
       TOKEN_VERIFICATION_API_URL: http://hmpps-auth:9091/verification
       API_CLIENT_SECRET: clientsecret
       SYSTEM_CLIENT_SECRET: clientsecret
       API_CLIENT_ID: hmpps-strengths-and-needs-ui
       SYSTEM_CLIENT_ID: hmpps-strengths-and-needs-ui-client
+      HANDOVER_CLIENT_ID: strengths-and-needs-assessment
+      HANDOVER_CLIENT_SECRET: san-secret
       SESSION_SECRET: sessionsecret
       SBNA_API_URL: http://api:8080
       INGRESS_URL: http://localhost:3000
