@@ -23,7 +23,6 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     try {
       const sessionData = req.session.sessionData as SessionInformation
       res.locals.user = { username: sessionData.user.displayName }
-      await this.apiService.validateSession(sessionData.uuid)
       const assessment = await this.apiService.fetchAssessment(sessionData.assessmentUUID)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent
