@@ -9,7 +9,12 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
     const authorisedAuthorities = authorisedRoles.map(role => (role.startsWith('ROLE_') ? role : `ROLE_${role}`))
 
     // TODO: Endpoints that don't need auth, turn this into a array of regex patterns to check against?
-    if (req.path.endsWith('/fields') || req.path.endsWith('/form/oastub/start') || req.path.endsWith('/form/oastub/otl') || req.path.endsWith('form/oastub/otl-copy')) {
+    if (
+      req.path.endsWith('/fields') ||
+      req.path.endsWith('/form/oastub/start') ||
+      req.path.endsWith('/form/oastub/otl') ||
+      req.path.endsWith('form/oastub/otl-copy')
+    ) {
       return next()
     }
 

@@ -51,7 +51,7 @@ class SimpleOneTimeLinkController extends BaseController {
 
       const handoverLink = await this.arnsHandoverService.createHandoverLink(handoverContext)
 
-      return res.redirect(handoverLink)
+      res.redirect(handoverLink)
     } catch (error) {
       next(error)
     }

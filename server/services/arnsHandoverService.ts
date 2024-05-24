@@ -1,6 +1,6 @@
+import { Gender } from 'hmpo-form-wizard'
 import config from '../config'
 import RestClient from '../data/restClient'
-import { Gender } from 'hmpo-form-wizard'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
 
 export default class ArnsHandoverService {
@@ -20,7 +20,10 @@ export default class ArnsHandoverService {
 
   async createHandoverLink(handoverContext: Record<string, unknown>) {
     const token = await this.authClient.getSystemClientToken()
-    const handover: any = await ArnsHandoverService.restClient(token).post({ path: '/handover', data: handoverContext })
+    const handover = await ArnsHandoverService.restClient(token).post<{ handoverLink: string }>({
+      path: '/handover',
+      data: handoverContext,
+    })
     return `${handover.handoverLink}?clientId=${config.apis.arnsHandover.clientId}`
   }
 }
