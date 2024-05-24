@@ -14,6 +14,7 @@ generic-service:
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-dev.svc.cluster.local"
+    HMPPS_ARNS_HANDOVER_URL: "https://hmpps-assess-risks-and-needs-handover-service.service.justice.gov.uk"
 
   allowlist:
     capita-dev: 51.104.16.30/31

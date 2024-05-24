@@ -74,6 +74,20 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    arnsHandover: {
+      url: get('HMPPS_ARNS_HANDOVER_URL', 'http://localhost:8080/oauth2/authorize', requiredInProduction),
+      externalUrl: get(
+        'HMPPS_ARNS_HANDOVER_EXTERNAL_URL',
+        get('HMPPS_ARNS_HANDOVER_URL', 'http://localhost:9090/auth'),
+      ),
+      timeout: {
+        response: Number(get('HMPPS_ARNS_HANDOVER_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('HMPPS_ARNS_HANDOVER_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('HMPPS_ARNS_HANDOVER_TIMEOUT_RESPONSE', 10000))),
+      clientId: get('HANDOVER_CLIENT_ID', 'clientid', requiredInProduction),
+      clientSecret: get('HANDOVER_CLIENT_SECRET', 'clientsecret', requiredInProduction),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
 }
