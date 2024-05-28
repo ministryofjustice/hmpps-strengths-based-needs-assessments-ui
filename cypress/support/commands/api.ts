@@ -69,7 +69,7 @@ export const createAssessment = (data = null) => {
           },
         })
         .then(otlResponse => {
-          // TODO: move the clientid query param in to config 
+          // TODO: move the clientid query param in to config
           cy.visit(`${otlResponse.body.handoverLink}?clientId=strengths-and-needs-assessment`)
           if (data) {
             cy.assertSectionIs('Accommodation')
