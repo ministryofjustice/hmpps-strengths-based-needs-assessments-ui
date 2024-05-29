@@ -9,7 +9,7 @@ import employmentEducationSteps from './employment-education'
 import healthAndWellbeingSteps from './health-wellbeing'
 import thinkingBehavioursAttitudeSteps from './thinking-behaviour-attitudes'
 import personalRelationshipsAndCommunitySteps from './personal-relationships-community'
-import offenceAnalysisSteps from '../fields/offence-analysis'
+import offenceAnalysisSteps from './offence-analysis'
 import { assessmentComplete } from '../fields'
 
 const stepOptions: FormWizard.Steps = {

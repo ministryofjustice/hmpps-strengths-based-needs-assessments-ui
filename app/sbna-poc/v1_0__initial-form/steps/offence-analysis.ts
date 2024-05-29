@@ -15,7 +15,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(offenceAnalysisFields, sectionCompleteFields),
     navigationOrder: 9,
-    next: [],
+    next: 'offence-analysis-summary',
     section: sectionName,
     sectionProgressRules: [
       setFieldToIncomplete(''),
@@ -24,12 +24,12 @@ const stepOptions: FormWizard.Steps = {
   },
   '/offence-analysis-summary-analysis': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
+    fields: fieldCodesFrom([analysisSectionComplete]),
     template: '',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('')],
   },
-  '/offence-analysis-analysis-complete': {
+  '/offence-analysis-summary': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],

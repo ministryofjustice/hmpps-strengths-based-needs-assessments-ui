@@ -27,6 +27,12 @@ export function validateFutureDate(value: string) {
   return !value || value === '' ? true : date.isValid && date >= now
 }
 
+export function validatePastDate(value: string) {
+  const now = DateTime.now().startOf('day')
+  const date = DateTime.fromISO(value)
+  return !value || value === '' ? true : date.isValid && date <= now
+}
+
 export function requiredWhenValidator(field: string, requiredValue: string) {
   return function validatedRequiredWhen(value: string = '') {
     const answers: Record<string, string | string[]> = this.sessionModel?.options?.req?.form?.values || {}
