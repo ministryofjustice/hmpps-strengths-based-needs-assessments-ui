@@ -12,8 +12,9 @@ describe('/finance', () => {
 
   beforeEach(() => {
     cy.createAssessment()
-    cy.visitSection('Finance')
-    cy.assertStepUrlIs(stepUrl)
+    cy.visitStep(stepUrl)
+    cy.assertSectionIs('Finance')
+
     cy.assertQuestionCount(questions.length)
   })
 

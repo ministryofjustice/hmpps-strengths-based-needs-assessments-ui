@@ -1,6 +1,11 @@
+import { uuid } from '../../../support/commands/api'
+
 describe('Auto save', () => {
+  const oasysAssessmentPk = uuid()
+
   beforeEach(() => {
-    cy.createAssessment()
+    cy.createAssessment(oasysAssessmentPk)
+    cy.visit('/form/sbna-poc/1/0/accommodation')
   })
 
   it('automatically saves form data when navigating between sections', () => {

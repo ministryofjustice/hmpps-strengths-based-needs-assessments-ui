@@ -59,7 +59,7 @@ declare global {
       checkAccessibility(): Chainable
 
       // API
-      createAssessment(): Chainable
+      createAssessment(oasysAssessmentPk?: string, data?: unknown): Chainable
       captureAssessment(): Chainable
       cloneCapturedAssessment(): Chainable
 

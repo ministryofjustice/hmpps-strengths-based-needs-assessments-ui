@@ -1,7 +1,7 @@
-describe('Origin: /accommodation',() => {
+describe('Origin: /accommodation', () => {
   it('test', () => {
     cy.createAssessment()
-    cy.visitStep("/accommodation")
+    cy.visitStep('/accommodation')
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
     cy.getQuestion('What type of accommodation does Sam currently have?')
       .getRadio('Settled')
@@ -12,7 +12,7 @@ describe('Origin: /accommodation',() => {
     cy.assertStepUrlIs('/settled-accommodation')
 
     cy.createAssessment()
-    cy.visitStep("/accommodation")
+    cy.visitStep('/accommodation')
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Temporary').clickLabel()
     cy.getQuestion('What type of accommodation does Sam currently have?')
       .getRadio('Temporary')

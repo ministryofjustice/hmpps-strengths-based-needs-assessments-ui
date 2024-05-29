@@ -1,3 +1,5 @@
+import { createAssessment, uuid } from '../../support/commands/api'
+
 describe('navigation', () => {
   it('enter an assessment from OASys', () => {
     cy.visit('/form/oastub/start')
@@ -18,7 +20,10 @@ describe('navigation', () => {
     ]
 
     beforeEach(() => {
-      cy.createAssessment()
+      const oasysAssessmentPk = uuid()
+      createAssessment(oasysAssessmentPk)
+      cy.visitStep('/accommodation')
+
       cy.get('.side-navigation li.moj-side-navigation__item').should('have.length', sections.length)
     })
 

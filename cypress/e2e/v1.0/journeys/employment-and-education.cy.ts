@@ -1,3 +1,4 @@
+import { uuid } from '../../../support/commands/api'
 import { testPractitionerAnalysis } from './common'
 
 describe('Origin: /employment-education', { testIsolation: false }, () => {
@@ -14,8 +15,10 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
   const sectionName = 'Employment and education'
 
   describe(`Destination: ${destinations.employed}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     Array.of('Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship').forEach(typeOfEmployment => {
@@ -88,8 +91,10 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
   })
 
   describe(`Destination: ${destinations.retired}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     it(`"Retired" routes to "${destinations.retired}"`, () => {
@@ -145,8 +150,10 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
   ]
 
   describe(`Destination: ${destinations.hasBeenEmployed}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     employmentStatuses.forEach(employmentStatus => {
@@ -208,8 +215,10 @@ describe('Origin: /employment-education', { testIsolation: false }, () => {
   })
 
   describe(`Destination: ${destinations.neverBeenEmployed}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     employmentStatuses.forEach(employmentStatus => {
