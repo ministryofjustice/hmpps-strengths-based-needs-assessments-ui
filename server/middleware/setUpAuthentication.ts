@@ -21,11 +21,12 @@ export default function setUpAuth(): Router {
 
   router.get('/sign-in', passport.authenticate('oauth2'))
 
-  router.get('/sign-in/callback', (req, res, next) =>
+  router.get(
+    '/sign-in/callback',
     passport.authenticate('oauth2', {
-      successReturnToOrRedirect: '/form/sbna-poc/1/0/start',
+      successReturnToOrRedirect: '/form/sbna-poc/start',
       failureRedirect: '/autherror',
-    })(req, res, next),
+    }),
   )
 
   const authUrl = config.apis.arnsHandover.url

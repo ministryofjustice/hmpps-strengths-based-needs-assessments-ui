@@ -16,6 +16,7 @@ export default defineConfig({
     HMPPS_AUTH_URL: 'http://localhost:9091',
     SBNA_API_URL: 'http://localhost:8080',
     ARNS_HANDOVER_URL: 'http://localhost:7070',
+    ARNS_HANDOVER_CLIENT_ID: 'strengths-and-needs-assessment',
   },
   e2e: {
     // We've imported your old cypress plugins here.

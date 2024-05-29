@@ -41,53 +41,50 @@ export const createAssessment = (oasysAssessmentPk = uuid(), data = null) => {
             oasysAssessmentPk,
           },
         }).then(createResponse => {
-          cy.wrap(createResponse.body.sanAssessmentId).as('assessmentId')
-          return cy
-            .request({
-              url: `${env('ARNS_HANDOVER_URL')}/handover`,
-              method: 'POST',
-              auth: { bearer: apiToken },
-              body: {
-                assessmentContext: {
-                  oasysAssessmentPk,
-                  assessmentUUID: createResponse.body.sanAssessmentId,
-                },
-                principal: {
-                  identifier: uuid(),
-                  displayName: 'Cypress User',
-                  accessMode: 'READ_WRITE',
-                },
-                subject: {
-                  crn: 'X123456',
-                  pnc: '01/123456789A',
-                  givenName: 'Sam',
-                  familyName: 'Whitfield',
-                  dateOfBirth: '1970-01-01',
-                  gender: 0,
-                  location: 'COMMUNITY',
-                  sexuallyMotivatedOffenceHistory: 'No',
-                },
+          Cypress.env('last_assessment_id', createResponse.body.sanAssessmentId)
+          cy.request({
+            url: `${env('ARNS_HANDOVER_URL')}/handover`,
+            method: 'POST',
+            auth: { bearer: apiToken },
+            body: {
+              assessmentContext: {
+                oasysAssessmentPk,
+                assessmentUUID: createResponse.body.sanAssessmentId,
               },
-            })
-            .then(otlResponse => {
-              // TODO: move the clientid query param in to config
-              cy.visit(`${otlResponse.body.handoverLink}?clientId=strengths-and-needs-assessment`)
-              if (data) {
-                cy.assertSectionIs('Accommodation')
-                return cy.request({
-                  url: `${env('SBNA_API_URL')}/assessment/${createResponse.body.sanAssessmentId}/answers`,
-                  method: 'POST',
-                  auth: { bearer: apiToken },
-                  body: {
-                    tags: ['UNSIGNED', 'UNVALIDATED'],
-                    answersToAdd: data.assessment,
-                  },
-                })
-              }
-              cy.url().then(url => {
-                cy.wrap(url).as("landingUrl")
+              principal: {
+                identifier: uuid(),
+                displayName: 'Cypress User',
+                accessMode: 'READ_WRITE',
+              },
+              subject: {
+                crn: 'X123456',
+                pnc: '01/123456789A',
+                givenName: 'Sam',
+                familyName: 'Whitfield',
+                dateOfBirth: '1970-01-01',
+                gender: 0,
+                location: 'COMMUNITY',
+                sexuallyMotivatedOffenceHistory: 'No',
+              },
+            },
+          }).then(otlResponse => {
+            cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`)
+            if (data) {
+              cy.assertSectionIs('Accommodation')
+              cy.request({
+                url: `${env('SBNA_API_URL')}/assessment/${createResponse.body.sanAssessmentId}/answers`,
+                method: 'POST',
+                auth: { bearer: apiToken },
+                body: {
+                  tags: ['UNSIGNED', 'UNVALIDATED'],
+                  answersToAdd: data.assessment,
+                },
               })
+            }
+            cy.url().then(url => {
+              cy.wrap(url).as('landingUrl')
             })
+          })
         })
       })
     },
@@ -97,19 +94,17 @@ export const createAssessment = (oasysAssessmentPk = uuid(), data = null) => {
       },
     },
   )
-  cy.get("@landingUrl").then(url => cy.visit(url.toString()))
+  cy.get('@landingUrl').then(url => cy.visit(url.toString()))
 }
 
 export const captureAssessment = () =>
-  cy.get('@assessmentId').then(id =>
-    getApiToken().then(apiToken =>
-      cy
-        .request({
-          url: `${env('SBNA_API_URL')}/assessment/${id}`,
-          auth: { bearer: apiToken },
-        })
-        .then(response => Cypress.env('captured_assessment', { id, data: response.body })),
-    ),
+  getApiToken().then(apiToken =>
+    cy
+      .request({
+        url: `${env('SBNA_API_URL')}/assessment/${env('last_assessment_id')}}`,
+        auth: { bearer: apiToken },
+      })
+      .then(response => Cypress.env('captured_assessment', { data: response.body })),
   )
 
 export const cloneCapturedAssessment = () => {

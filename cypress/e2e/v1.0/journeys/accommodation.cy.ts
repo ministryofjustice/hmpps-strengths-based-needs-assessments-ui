@@ -1,7 +1,7 @@
 import { uuid } from '../../../support/commands/api'
 import { testPractitionerAnalysis } from './common'
 
-describe('Origin: /accommodation', { testIsolation: false }, () => {
+describe('Origin: /accommodation', () => {
   const destinations = {
     landingPage: '/accommodation',
     settled: '/settled-accommodation',

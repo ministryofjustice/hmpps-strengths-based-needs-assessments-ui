@@ -1,7 +1,7 @@
 import { uuid } from '../../../support/commands/api'
 import { testPractitionerAnalysis } from './common'
 
-describe('Origin: /employment-education', { testIsolation: false }, () => {
+describe('Origin: /employment-education', () => {
   const destinations = {
     landingPage: '/employment-education',
     employed: '/employed',
