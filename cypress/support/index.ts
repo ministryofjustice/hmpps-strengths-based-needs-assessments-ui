@@ -50,7 +50,7 @@ import {
   hasNoSecondaryAnalysisAnswer,
   hasSecondaryAnalysisAnswer,
 } from './commands/analysisSummary'
-import { captureAssessment, cloneCapturedAssessment, createAssessment } from './commands/api'
+import { captureAssessment, cloneCapturedAssessment, createAssessment, enterAssessment } from './commands/api'
 
 declare global {
   namespace Cypress {
@@ -59,9 +59,10 @@ declare global {
       checkAccessibility(): Chainable
 
       // API
-      createAssessment(oasysAssessmentPk?: string, data?: unknown): Chainable
+      createAssessment(): Chainable
       captureAssessment(): Chainable
       cloneCapturedAssessment(): Chainable
+      enterAssessment(): Chainable
 
       // analysis summary
       getAnalysisSummary(question: string): Chainable
@@ -132,6 +133,7 @@ Cypress.Commands.add('checkAccessibility', checkAccessibility)
 Cypress.Commands.add('createAssessment', createAssessment)
 Cypress.Commands.add('captureAssessment', captureAssessment)
 Cypress.Commands.add('cloneCapturedAssessment', cloneCapturedAssessment)
+Cypress.Commands.add('enterAssessment', enterAssessment)
 
 // analysis summary
 Cypress.Commands.add('getAnalysisSummary', getAnalysisSummary)

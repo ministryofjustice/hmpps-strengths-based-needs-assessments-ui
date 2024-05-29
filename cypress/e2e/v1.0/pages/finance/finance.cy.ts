@@ -11,7 +11,7 @@ describe('/finance', () => {
   const questions = [financeSource, bankAccount, managingMoney, gambling, debt, wantToMakeChanges]
 
   beforeEach(() => {
-    cy.createAssessment()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Finance')
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)
