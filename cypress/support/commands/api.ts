@@ -81,7 +81,7 @@ export const createAssessment = (data = null) => {
     cy.request({
       url: `${env('SBNA_API_URL')}/oasys/assessment/create`,
       method: 'POST',
-      auth: {bearer: apiToken},
+      auth: { bearer: apiToken },
       body: {
         oasysAssessmentPk,
       },
