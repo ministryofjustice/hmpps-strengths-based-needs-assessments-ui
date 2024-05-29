@@ -1,5 +1,3 @@
-import { uuid } from '../../../support/commands/api'
-
 describe('Auto save', () => {
   before(() => {
     cy.createAssessment()

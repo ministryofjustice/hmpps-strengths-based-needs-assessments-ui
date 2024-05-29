@@ -1,5 +1,3 @@
-import { uuid } from '../../support/commands/api'
-
 describe('navigation', () => {
   it('enter an assessment from OASys', () => {
     cy.visit('/form/oastub/start')

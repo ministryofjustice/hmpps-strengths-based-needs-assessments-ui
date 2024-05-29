@@ -1,4 +1,3 @@
-import { uuid } from '../../../support/commands/api'
 import { testPractitionerAnalysis } from './common'
 
 describe('Origin: /accommodation', () => {
