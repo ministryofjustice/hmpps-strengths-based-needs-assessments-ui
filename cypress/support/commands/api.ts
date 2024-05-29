@@ -60,9 +60,6 @@ export const enterAssessment = () => {
           },
         }).then(otlResponse => {
           cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`)
-          cy.url().then(url => {
-            cy.wrap(url).as('landingUrl')
-          })
         })
       })
     },
@@ -72,7 +69,7 @@ export const enterAssessment = () => {
       },
     },
   )
-  cy.get('@landingUrl').then(url => cy.visit(url.toString()))
+  cy.visitStep('/accommodation')
 }
 
 export const createAssessment = (data = null) => {
