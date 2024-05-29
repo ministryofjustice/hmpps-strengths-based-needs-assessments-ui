@@ -101,7 +101,7 @@ export const captureAssessment = () =>
   getApiToken().then(apiToken =>
     cy
       .request({
-        url: `${env('SBNA_API_URL')}/assessment/${env('last_assessment_id')}}`,
+        url: `${env('SBNA_API_URL')}/assessment/${env('last_assessment_id')}`,
         auth: { bearer: apiToken },
       })
       .then(response => Cypress.env('captured_assessment', { data: response.body })),
