@@ -81,9 +81,6 @@ export const createAssessment = (oasysAssessmentPk = uuid(), data = null) => {
                 },
               })
             }
-            cy.url().then(url => {
-              cy.wrap(url).as('landingUrl')
-            })
           })
         })
       })
@@ -94,7 +91,7 @@ export const createAssessment = (oasysAssessmentPk = uuid(), data = null) => {
       },
     },
   )
-  cy.get('@landingUrl').then(url => cy.visit(url.toString()))
+  cy.visitStep('/accommodation')
 }
 
 export const captureAssessment = () =>
