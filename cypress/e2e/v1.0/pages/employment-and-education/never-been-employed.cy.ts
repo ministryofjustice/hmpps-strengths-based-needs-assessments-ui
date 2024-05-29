@@ -21,9 +21,7 @@ describe('/never-been-employed', () => {
 
   before(() => {
     cy.createAssessment()
-    cy.visitStep('/employment-education')
-    cy.assertSectionIs('Employment and education')
-
+    cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Currently unavailable for work').clickLabel()
     cy.getQuestion("What is Sam's current employment status?")
       .getRadio('Currently unavailable for work')

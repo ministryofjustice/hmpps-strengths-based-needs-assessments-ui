@@ -10,7 +10,6 @@ describe('/no-accommodation', () => {
 
   before(() => {
     cy.createAssessment()
-    cy.visitStep('/accommodation')
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('No accommodation').clickLabel()

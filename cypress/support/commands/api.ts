@@ -28,7 +28,7 @@ const getApiToken = () => {
     })
 }
 
-export const createAssessment = (oasysAssessmentPk = uuid(), data = null) =>
+export const createAssessment = (oasysAssessmentPk = uuid(), data = null) => {
   cy.session(
     oasysAssessmentPk,
     () => {
@@ -84,7 +84,9 @@ export const createAssessment = (oasysAssessmentPk = uuid(), data = null) =>
                   },
                 })
               }
-              return cy.get('@assessmentId')
+              cy.url().then(url => {
+                cy.wrap(url).as("landingUrl")
+              })
             })
         })
       })
@@ -95,6 +97,8 @@ export const createAssessment = (oasysAssessmentPk = uuid(), data = null) =>
       },
     },
   )
+  cy.get("@landingUrl").then(url => cy.visit(url.toString()))
+}
 
 export const captureAssessment = () =>
   cy.get('@assessmentId').then(id =>

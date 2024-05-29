@@ -5,7 +5,6 @@ describe('Auto save', () => {
 
   beforeEach(() => {
     cy.createAssessment(oasysAssessmentPk)
-    cy.visit('/form/sbna-poc/1/0/accommodation')
   })
 
   it('automatically saves form data when navigating between sections', () => {
@@ -41,7 +40,7 @@ describe('Auto save', () => {
 
     cy.hasAutosaveEnabled()
 
-    cy.intercept('POST', '/form/sbna-poc/accommodation?action=saveDraft&jsonResponse=true').as('post')
+    cy.intercept('POST', '/form/sbna-poc/1/0/accommodation?action=saveDraft&jsonResponse=true').as('post')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
     cy.getQuestion('What type of accommodation does Sam currently have?')

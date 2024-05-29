@@ -9,7 +9,6 @@ describe('/employment-education', () => {
     cy.createAssessment()
     cy.visitStep(stepUrl)
     cy.assertSectionIs('Employment and education')
-
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
   })
