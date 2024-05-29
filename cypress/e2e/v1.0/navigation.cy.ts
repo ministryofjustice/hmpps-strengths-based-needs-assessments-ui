@@ -19,10 +19,12 @@ describe('navigation', () => {
       'Thinking, behaviours and attitudes',
     ]
 
-    const oasysAssessmentPk = uuid()
+    before(() => {
+      cy.createAssessment()
+    })
 
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.enterAssessment()
       cy.get('.side-navigation li.moj-side-navigation__item').should('have.length', sections.length)
     })
 

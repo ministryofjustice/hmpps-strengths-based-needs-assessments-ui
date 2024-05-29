@@ -7,10 +7,13 @@ import { uuid } from '../../../../support/commands/api'
 
 export default (summaryPage: string, analysisCompletePage: string) => {
   describe(`${summaryPage} - Practitioner Analysis`, () => {
-    const oasysAssessmentPk = uuid()
+
+    before(() => {
+      cy.createAssessment()
+    })
 
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.enterAssessment()
       cy.visitStep(summaryPage)
       cy.hasAutosaveEnabled()
     })
