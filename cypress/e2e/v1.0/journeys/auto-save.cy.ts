@@ -1,10 +1,10 @@
-import { uuid } from '../../../support/commands/api'
-
 describe('Auto save', () => {
-  const oasysAssessmentPk = uuid()
+  before(() => {
+    cy.createAssessment()
+  })
 
   beforeEach(() => {
-    cy.createAssessment(oasysAssessmentPk)
+    cy.enterAssessment()
   })
 
   it('automatically saves form data when navigating between sections', () => {

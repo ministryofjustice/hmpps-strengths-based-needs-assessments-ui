@@ -6,7 +6,7 @@ describe('/no-accommodation-2', () => {
   const questions = [wantToMakeChanges]
 
   before(() => {
-    cy.createAssessment()
+    cy.createAssessment().enterAssessment()
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('No accommodation').clickLabel()
 
@@ -30,7 +30,7 @@ describe('/no-accommodation-2', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

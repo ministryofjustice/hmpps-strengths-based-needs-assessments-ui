@@ -26,7 +26,7 @@ describe('/employed', () => {
   ]
 
   before(() => {
-    cy.createAssessment()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Employed').clickLabel()
     cy.getQuestion("What is Sam's current employment status?")
@@ -40,7 +40,7 @@ describe('/employed', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

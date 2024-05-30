@@ -8,7 +8,7 @@ describe('/temporary-accommodation-2', () => {
   const questions = [suitableAccommodation, suitableAccommodationPlanned, wantToMakeChanges]
 
   before(() => {
-    cy.createAssessment()
+    cy.createAssessment().enterAssessment()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Temporary').clickLabel()
@@ -26,7 +26,7 @@ describe('/temporary-accommodation-2', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

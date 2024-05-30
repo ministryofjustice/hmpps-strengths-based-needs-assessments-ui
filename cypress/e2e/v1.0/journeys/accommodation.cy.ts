@@ -1,4 +1,3 @@
-import { uuid } from '../../../support/commands/api'
 import { testPractitionerAnalysis } from './common'
 
 describe('Origin: /accommodation', () => {
@@ -16,10 +15,12 @@ describe('Origin: /accommodation', () => {
   const sectionName = 'Accommodation'
 
   describe(`Destination: ${destinations.settled}`, () => {
-    const oasysAssessmentPk = uuid()
+    before(() => {
+      cy.createAssessment()
+    })
 
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.enterAssessment()
     })
 
     const typeOfAccommodation = 'Settled'
@@ -72,10 +73,12 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.temporary}`, () => {
-    const oasysAssessmentPk = uuid()
+    before(() => {
+      cy.createAssessment()
+    })
 
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.enterAssessment()
     })
 
     const typeOfAccommodation = 'Temporary'
@@ -123,10 +126,12 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.temporary2}`, () => {
-    const oasysAssessmentPk = uuid()
+    before(() => {
+      cy.createAssessment()
+    })
 
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.enterAssessment()
     })
 
     const typeOfAccommodation = 'Temporary'
@@ -174,10 +179,12 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.noAccommodation}`, () => {
-    const oasysAssessmentPk = uuid()
+    before(() => {
+      cy.createAssessment()
+    })
 
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.enterAssessment()
     })
 
     const typeOfAccommodation = 'No accommodation'
@@ -221,10 +228,12 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.noAccommodation2}`, () => {
-    const oasysAssessmentPk = uuid()
+    before(() => {
+      cy.createAssessment()
+    })
 
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.enterAssessment()
     })
 
     const typeOfAccommodation = 'No accommodation'

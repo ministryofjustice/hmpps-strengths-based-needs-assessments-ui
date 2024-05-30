@@ -16,7 +16,7 @@ describe('/temporary-accommodation', () => {
   ]
 
   before(() => {
-    cy.createAssessment()
+    cy.createAssessment().enterAssessment()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Temporary').clickLabel()
@@ -34,7 +34,7 @@ describe('/temporary-accommodation', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
