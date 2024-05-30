@@ -3,14 +3,11 @@ import linkedToRiskOfSeriousHarm from './questions/linkedToRiskOfSeriousHarm'
 import linkedToRiskOfReoffending from './questions/linkedToRiskOfReoffending'
 import areaOfNeedWhichIsNotRelatedToRisk from './questions/areaOfNeedWhichIsNotRelatedToRisk'
 import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFactors'
-import { uuid } from '../../../../support/commands/api'
 
 export default (summaryPage: string, analysisCompletePage: string) => {
   describe(`${summaryPage} - Practitioner Analysis`, () => {
-    const oasysAssessmentPk = uuid()
-
     beforeEach(() => {
-      cy.createAssessment(oasysAssessmentPk)
+      cy.createAssessment()
       cy.visitStep(summaryPage)
       cy.hasAutosaveEnabled()
     })
