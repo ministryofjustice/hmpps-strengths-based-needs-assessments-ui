@@ -6,12 +6,8 @@ import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFacto
 
 export default (summaryPage: string, analysisCompletePage: string) => {
   describe(`${summaryPage} - Practitioner Analysis`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
     beforeEach(() => {
-      cy.enterAssessment()
+      cy.createAssessment().enterAssessment()
       cy.visitStep(summaryPage)
       cy.hasAutosaveEnabled()
     })
