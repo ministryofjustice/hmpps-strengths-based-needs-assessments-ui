@@ -36,7 +36,7 @@ class StartController extends BaseController {
           return next(error)
         }
 
-        return res.redirect(`${version}accommodation`)
+        return res.redirect(`${version}accommodation?action=resume`)
       })
     } catch (error) {
       next(new Error('Unable to start assessment'))
