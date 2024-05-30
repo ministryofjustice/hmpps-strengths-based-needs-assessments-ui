@@ -5,14 +5,18 @@ import { faker } from '@faker-js/faker'
 import { DateTime } from 'luxon'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
+import ArnsHandoverService from '../../../../server/services/arnsHandoverService'
 
 class OneTimeLinkController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
+
+  arnsHandoverService: ArnsHandoverService
 
   constructor(options: unknown) {
     super(options)
 
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
+    this.arnsHandoverService = new ArnsHandoverService()
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -39,16 +43,15 @@ class OneTimeLinkController extends BaseController {
       const sexuallyMotivatedOffenceHistory =
         (req.form.values['oastub-subject-sexually-motivated-offence-history'] as string) || 'NO'
 
-      await this.apiService.createAssessment({ oasysAssessmentPk })
+      const { sanAssessmentId } = await this.apiService.createAssessment({ oasysAssessmentPk })
 
-      const { link } = await this.apiService.createSession({
-        oasysAssessmentPk,
-        user: {
+      const handoverContext = {
+        principal: {
           identifier: 'ABC1234567890',
           displayName: 'Probation User',
           accessMode: 'READ_WRITE',
         },
-        subjectDetails: {
+        subject: {
           crn: `X${Math.floor(100_000 + Math.random() * 900_000)}`,
           pnc: `01/${Math.floor(10_000_000 + Math.random() * 90_000_000)}A`,
           dateOfBirth: faker.date
@@ -60,9 +63,15 @@ class OneTimeLinkController extends BaseController {
           location: 'COMMUNITY',
           sexuallyMotivatedOffenceHistory,
         },
-      })
+        assessmentContext: {
+          oasysAssessmentPk,
+          assessmentUUID: sanAssessmentId,
+        },
+      }
 
-      req.sessionModel.set('one-time-link', link)
+      const handoverLink = await this.arnsHandoverService.createHandoverLink(handoverContext)
+
+      req.sessionModel.set('one-time-link', handoverLink)
 
       super.saveValues(req, res, next)
     } catch (error) {

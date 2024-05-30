@@ -1,6 +1,7 @@
+import { uuid } from '../../../support/commands/api'
 import { testPractitionerAnalysis } from './common'
 
-describe('Origin: /accommodation', { testIsolation: false }, () => {
+describe('Origin: /accommodation', () => {
   const destinations = {
     landingPage: '/accommodation',
     settled: '/settled-accommodation',
@@ -15,8 +16,10 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
   const sectionName = 'Accommodation'
 
   describe(`Destination: ${destinations.settled}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     const typeOfAccommodation = 'Settled'
@@ -69,8 +72,10 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
   })
 
   describe(`Destination: ${destinations.temporary}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     const typeOfAccommodation = 'Temporary'
@@ -118,8 +123,10 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
   })
 
   describe(`Destination: ${destinations.temporary2}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     const typeOfAccommodation = 'Temporary'
@@ -167,8 +174,10 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
   })
 
   describe(`Destination: ${destinations.noAccommodation}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     const typeOfAccommodation = 'No accommodation'
@@ -212,8 +221,10 @@ describe('Origin: /accommodation', { testIsolation: false }, () => {
   })
 
   describe(`Destination: ${destinations.noAccommodation2}`, () => {
-    before(() => {
-      cy.createAssessment()
+    const oasysAssessmentPk = uuid()
+
+    beforeEach(() => {
+      cy.createAssessment(oasysAssessmentPk)
     })
 
     const typeOfAccommodation = 'No accommodation'

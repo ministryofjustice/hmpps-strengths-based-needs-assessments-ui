@@ -12,7 +12,7 @@ export const assertSectionIs = (name: string) => {
 }
 
 export const visitStep = (path: string) => {
-  return cy.visit(`/form/sbna-poc${path}`)
+  return cy.visit(`/form/sbna-poc/1/0${path}`)
 }
 
 export const assertResumeUrlIs = (section: string, path: string) => {

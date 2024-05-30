@@ -8,8 +8,6 @@ import errorHandler from './errorHandler'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
-// import setUpCsrf from './middleware/setUpCsrf'
-import setUpCurrentUser from './middleware/setUpCurrentUser'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
@@ -17,6 +15,7 @@ import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
+import authorisationMiddleware from './middleware/authorisationMiddleware'
 
 export default function createApp(): express.Application {
   const app = express()
@@ -33,9 +32,10 @@ export default function createApp(): express.Application {
   app.use(setUpStaticResources())
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
+  app.use(authorisationMiddleware())
   // disabled CSRF handled by hmpo-form-wizard
   // app.use(setUpCsrf())
-  app.use(setUpCurrentUser())
+  // app.use(setUpCurrentUser())
 
   app.use(routes())
 

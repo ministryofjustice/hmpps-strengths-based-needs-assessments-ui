@@ -5,30 +5,33 @@ import { faker } from '@faker-js/faker'
 import { DateTime } from 'luxon'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
+import ArnsHandoverService from '../../../../server/services/arnsHandoverService'
 
 class SimpleOneTimeLinkController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
+
+  arnsHandoverService: ArnsHandoverService
 
   constructor(options: unknown) {
     super(options)
 
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
+    this.arnsHandoverService = new ArnsHandoverService()
   }
 
   async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const oasysAssessmentPk = randomUUID()
 
-      await this.apiService.createAssessment({ oasysAssessmentPk })
+      const { sanAssessmentId } = await this.apiService.createAssessment({ oasysAssessmentPk })
 
-      const { link } = await this.apiService.createSession({
-        oasysAssessmentPk,
-        user: {
+      const handoverContext = {
+        principal: {
           identifier: 'ABC1234567890',
           displayName: 'Probation User',
           accessMode: 'READ_WRITE',
         },
-        subjectDetails: {
+        subject: {
           crn: `X${Math.floor(100_000 + Math.random() * 900_000)}`,
           pnc: `01/${Math.floor(10_000_000 + Math.random() * 90_000_000)}A`,
           dateOfBirth: faker.date
@@ -40,9 +43,15 @@ class SimpleOneTimeLinkController extends BaseController {
           location: 'COMMUNITY',
           sexuallyMotivatedOffenceHistory: 'Yes',
         },
-      })
+        assessmentContext: {
+          oasysAssessmentPk,
+          assessmentUUID: sanAssessmentId,
+        },
+      }
 
-      res.redirect(link)
+      const handoverLink = await this.arnsHandoverService.createHandoverLink(handoverContext)
+
+      res.redirect(handoverLink)
     } catch (error) {
       next(error)
     }

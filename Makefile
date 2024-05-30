@@ -49,6 +49,13 @@ e2e: ## Run the end-to-end tests locally in the Cypress app. Override the defaul
 	npx cypress install
 	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
 
+BASE_URL ?= "http://localhost:3000"
+e2e-headless: ## Run the end-to-end tests locally in Cypress headless mode. Override the default base URL with BASE_URL=...
+	docker compose ${DEV_COMPOSE_FILES} up hmpps-auth-proxy --no-recreate --wait
+	npm i
+	npx cypress install
+	npx cypress run -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
+
 BASE_URL_CI ?= "http://ui:3000"
 e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
 	circleci tests glob "cypress/e2e/**/*.cy.ts" | circleci tests split --split-by=timings --verbose | paste -sd ',' > tmp_specs.txt

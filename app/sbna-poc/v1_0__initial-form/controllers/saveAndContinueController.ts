@@ -22,8 +22,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionInformation
-      res.locals.user = { username: sessionData.user.displayName }
-      await this.apiService.validateSession(sessionData.uuid)
+      res.locals.user = { ...res.locals.user, username: sessionData.user.displayName }
       const assessment = await this.apiService.fetchAssessment(sessionData.assessmentUUID)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent
@@ -74,9 +73,8 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       .reverse()
       .find(([, step]) => step.section === sectionName)
     const lastPageVisited = resumeState[sectionName] || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
-    const { lastSection } = resumeState
 
-    if (lastPageVisited && (sectionName !== lastSection || isResuming)) {
+    if (lastPageVisited && isResuming) {
       req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null, lastSection: sectionName })
       return lastPageVisited.replace(/^\//, '')
     }

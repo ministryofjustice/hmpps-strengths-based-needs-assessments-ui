@@ -47,6 +47,9 @@ generic-service:
       SYSTEM_CLIENT_ID: "SYSTEM_CLIENT_ID"
       SYSTEM_CLIENT_SECRET: "SYSTEM_CLIENT_SECRET"
       SESSION_SECRET: "SESSION_SECRET"
+    hmpps-assess-risks-and-needs-handover-service:
+      HANDOVER_CLIENT_ID: "CLIENT_ID"
+      HANDOVER_CLIENT_SECRET: "CLIENT_SECRET"
     hmpps-strengths-based-needs-assessments-elasticache-redis:
       REDIS_HOST: "primary_endpoint_address"
       REDIS_AUTH_TOKEN: "auth_token"

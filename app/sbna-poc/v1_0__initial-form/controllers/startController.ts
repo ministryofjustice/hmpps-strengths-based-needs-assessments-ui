@@ -2,23 +2,32 @@ import { Response, NextFunction } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
-
-const getFormVersionInformationFrom = (req: FormWizard.Request) => req.form.options.journeyName.split(':')
+import ArnsHandoverService from '../../../../server/services/arnsHandoverService'
 
 class StartController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
+
+  arnsHandoverService: ArnsHandoverService
 
   constructor(options: unknown) {
     super(options)
 
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
+    this.arnsHandoverService = new ArnsHandoverService()
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const [form, version] = getFormVersionInformationFrom(req)
-      const sessionData = await this.apiService.useOneTimeLink(req.query.sessionId as string, { form, version })
-      const subjectDetails = await this.apiService.getSubject(sessionData.assessmentUUID)
+      const accessToken = res.locals.user.token
+      const contextData = await this.arnsHandoverService.getContextData(accessToken)
+      const sessionData = {
+        ...contextData.assessmentContext,
+        user: contextData.principal,
+      }
+      const subjectDetails = contextData.subject
+
+      const assessment = await this.apiService.fetchAssessment(contextData.assessmentContext.assessmentUUID)
+      const version = assessment.metaData.formVersion?.replace('.', '/').concat('/') || ''
 
       req.session.sessionData = sessionData
       req.session.subjectDetails = subjectDetails
@@ -27,7 +36,7 @@ class StartController extends BaseController {
           return next(error)
         }
 
-        return res.redirect('accommodation?action=resume')
+        return res.redirect(`${version}accommodation`)
       })
     } catch (error) {
       next(new Error('Unable to start assessment'))
