@@ -91,7 +91,7 @@ export const createAssessment = (oasysAssessmentPk = uuid(), data = null) => {
       },
     },
   )
-  cy.visitStep('/1/0/accommodation')
+  cy.visitStep('/accommodation')
 }
 
 export const captureAssessment = () =>

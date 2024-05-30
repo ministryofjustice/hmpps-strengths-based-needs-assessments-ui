@@ -26,6 +26,9 @@ class StartController extends BaseController {
       }
       const subjectDetails = contextData.subject
 
+      const assessment = await this.apiService.fetchAssessment(contextData.assessmentContext.assessmentUUID)
+      const version = assessment.metaData.formVersion?.replace('.', '/').concat('/') || ''
+
       req.session.sessionData = sessionData
       req.session.subjectDetails = subjectDetails
       req.session.save(error => {
@@ -33,7 +36,7 @@ class StartController extends BaseController {
           return next(error)
         }
 
-        return res.redirect('accommodation?action=resume')
+        return res.redirect(`${version}accommodation`)
       })
     } catch (error) {
       next(new Error('Unable to start assessment'))

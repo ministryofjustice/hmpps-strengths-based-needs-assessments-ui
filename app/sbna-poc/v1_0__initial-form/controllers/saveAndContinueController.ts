@@ -73,9 +73,8 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       .reverse()
       .find(([, step]) => step.section === sectionName)
     const lastPageVisited = resumeState[sectionName] || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
-    const { lastSection } = resumeState
 
-    if (lastPageVisited && (sectionName !== lastSection || isResuming)) {
+    if (lastPageVisited && isResuming) {
       req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null, lastSection: sectionName })
       return lastPageVisited.replace(/^\//, '')
     }

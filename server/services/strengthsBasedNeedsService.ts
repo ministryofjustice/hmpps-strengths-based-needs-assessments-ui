@@ -86,9 +86,20 @@ export type Answers = Record<string, AnswerDto>
 
 export type OasysEquivalent = Record<string, string | string[]>
 
+interface AssessmentMetaData {
+  uuid: string
+  createdAt: string
+  oasys_pks: string[]
+  versionUuid: string
+  versionCreatedAt: string
+  versionTag: string
+  formVersion?: string
+}
+
 export interface AssessmentResponse {
   assessment: Answers
   oasysEquivalent: OasysEquivalent
+  metaData: AssessmentMetaData
 }
 
 export interface UpdateAnswersDto extends Record<string, unknown> {
