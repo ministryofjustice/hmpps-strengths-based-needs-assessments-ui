@@ -30,7 +30,7 @@ describe('/no-accommodation-2', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

@@ -27,7 +27,7 @@ describe('/settled-accommodation', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
