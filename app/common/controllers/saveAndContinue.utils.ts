@@ -46,7 +46,7 @@ const renderConditionalQuestion = (
         '{% from "components/question/macro.njk" import renderQuestion %} \n' +
         `{{ renderQuestion(${fieldString}, ${errorString}, "${locals.action}") }}`
 
-      const renderedHtml = _nunjucks.renderString(template, {}).replace(/(\r\n|\n|\r)\s+/gm, '')
+      const renderedHtml = _nunjucks.renderString(template, {})
 
       return [previouslyRenderedHtml, renderedHtml].join('')
     }, '')
