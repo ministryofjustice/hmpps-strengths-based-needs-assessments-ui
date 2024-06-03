@@ -1,4 +1,4 @@
-import { SubjectResponse } from '../../services/strengthsBasedNeedsService'
+import { HandoverSubject } from '../../services/arnsHandoverService'
 
 export default {}
 
@@ -8,7 +8,7 @@ declare module 'express-session' {
     returnTo: string
     nowInMinutes: number
     sessionData: unknown
-    subjectDetails: SubjectResponse
+    subjectDetails: HandoverSubject
   }
 }
 
