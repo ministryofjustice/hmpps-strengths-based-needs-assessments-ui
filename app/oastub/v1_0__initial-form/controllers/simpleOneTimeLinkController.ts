@@ -30,6 +30,7 @@ class SimpleOneTimeLinkController extends BaseController {
           identifier: 'ABC1234567890',
           displayName: 'Probation User',
           accessMode: 'READ_WRITE',
+          returnUrl: '?returnUrlGoesHere',
         },
         subject: {
           crn: `X${Math.floor(100_000 + Math.random() * 900_000)}`,
