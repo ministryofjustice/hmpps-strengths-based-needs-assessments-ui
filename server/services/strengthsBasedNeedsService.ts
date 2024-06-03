@@ -1,24 +1,11 @@
 import { UUID } from 'crypto'
-import { FieldType, Gender } from 'hmpo-form-wizard'
+import { FieldType } from 'hmpo-form-wizard'
 import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
 
-export interface SubjectDetailsRequest extends Record<string, unknown> {
-  crn?: string
-  pnc?: string
-  nomisId?: string
-  givenName: string
-  familyName: string
-  dateOfBirth: string
-  gender: number
-  location: 'PRISON' | 'COMMUNITY'
-  sexuallyMotivatedOffenceHistory?: string
-}
-
 export interface CreateAssessmentRequest extends Record<string, unknown> {
   oasysAssessmentPk: string
-  subjectDetails?: SubjectDetailsRequest
 }
 
 export interface CreateAssessmentResponse {
@@ -28,44 +15,15 @@ export interface CreateAssessmentResponse {
   sentencePlanVersion?: number
 }
 
-export interface CreateSessionRequest extends Record<string, unknown> {
-  oasysAssessmentPk: string
-  user: {
-    identifier: string
-    displayName: string
-    accessMode: string
-    returnUrl?: string
-  }
-  subjectDetails: SubjectDetailsRequest
-}
-
 export interface SessionInformation {
   uuid: UUID
-  assessmentUUID: UUID
+  assessmentId: UUID
   user: {
     identifier: string
     displayName: string
     accessMode: string
     returnUrl?: string
   }
-}
-
-export interface CreateSessionResponse {
-  link: string
-}
-
-export interface UseOneTimeLinkRequest extends Record<string, unknown> {
-  form: string
-  version: string
-}
-
-export interface SubjectResponse {
-  givenName: string
-  familyName: string
-  dateOfBirth: string
-  gender: Gender
-  crn: string
-  pnc: string
 }
 
 interface Option {
@@ -102,6 +60,13 @@ export interface AssessmentResponse {
   metaData: AssessmentMetaData
 }
 
+export interface OasysAssessmentResponse {
+  sanAssessmentId: string
+  sanAssessmentVersion: number
+  sanAssessmentData: AssessmentResponse
+  lastUpdatedTimestamp: string
+}
+
 export interface UpdateAnswersDto extends Record<string, unknown> {
   answersToAdd: Answers
   answersToRemove: string[]
@@ -126,38 +91,20 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as CreateAssessmentResponse
   }
 
-  async createSession(requestBody: CreateSessionRequest) {
+  async fetchOasysAssessment(oasysAssessmentPk: string): Promise<OasysAssessmentResponse> {
     const client = await this.getRestClient()
-    const responseBody = await client.post({ path: '/oasys/session/one-time-link', data: requestBody })
-    return responseBody as CreateSessionResponse
+    const responseBody = await client.get({ path: `/oasys/assessment/${oasysAssessmentPk}` })
+    return responseBody as OasysAssessmentResponse
   }
 
-  async useOneTimeLink(sessionId: string, requestBody: UseOneTimeLinkRequest): Promise<SessionInformation> {
+  async fetchAssessment(assessmentId: string, tag: string = 'UNVALIDATED'): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
-    const responseBody = await client.post({ path: `/oasys/session/${sessionId}/one-time-link`, data: requestBody })
-    return responseBody as SessionInformation
-  }
-
-  async validateSession(sessionId: string): Promise<SessionInformation> {
-    const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/oasys/session/${sessionId}/validate` })
-    return responseBody as SessionInformation
-  }
-
-  async getSubject(assessmentUuid: string): Promise<SubjectResponse> {
-    const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/subject/${assessmentUuid}` })
-    return responseBody as SubjectResponse
-  }
-
-  async fetchAssessment(assessmentUuid: string, tag: string = 'UNVALIDATED'): Promise<AssessmentResponse> {
-    const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/assessment/${assessmentUuid}?tag=${tag}` })
+    const responseBody = await client.get({ path: `/assessment/${assessmentId}?tag=${tag}` })
     return responseBody as AssessmentResponse
   }
 
-  async updateAnswers(assessmentUuid: string, requestBody: UpdateAnswersDto) {
+  async updateAnswers(assessmentId: string, requestBody: UpdateAnswersDto) {
     const client = await this.getRestClient()
-    await client.post({ path: `/assessment/${assessmentUuid}/answers`, data: requestBody })
+    await client.post({ path: `/assessment/${assessmentId}/answers`, data: requestBody })
   }
 }

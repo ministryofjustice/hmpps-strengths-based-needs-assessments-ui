@@ -20,17 +20,16 @@ class StartController extends BaseController {
     try {
       const accessToken = res.locals.user.token
       const contextData = await this.arnsHandoverService.getContextData(accessToken)
-      const sessionData = {
+
+      const assessment = await this.apiService.fetchOasysAssessment(contextData.assessmentContext.oasysAssessmentPk)
+      const version = assessment.sanAssessmentData.metaData.formVersion?.replace('.', '/').concat('/') || ''
+
+      req.session.sessionData = {
         ...contextData.assessmentContext,
+        assessmentId: assessment.sanAssessmentId,
         user: contextData.principal,
       }
-      const subjectDetails = contextData.subject
-
-      const assessment = await this.apiService.fetchAssessment(contextData.assessmentContext.assessmentUUID)
-      const version = assessment.metaData.formVersion?.replace('.', '/').concat('/') || ''
-
-      req.session.sessionData = sessionData
-      req.session.subjectDetails = subjectDetails
+      req.session.subjectDetails = contextData.subject
       req.session.save(error => {
         if (error) {
           return next(error)

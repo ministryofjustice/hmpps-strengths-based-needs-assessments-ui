@@ -40,7 +40,6 @@ export const enterAssessment = () => {
           body: {
             assessmentContext: {
               oasysAssessmentPk: env('last_assessment').oasysAssessmentPk,
-              assessmentUUID: env('last_assessment').assessmentId,
             },
             principal: {
               identifier: uuid(),

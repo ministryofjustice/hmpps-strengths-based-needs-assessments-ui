@@ -3,9 +3,9 @@ import FormWizard, { Gender } from 'hmpo-form-wizard'
 import BaseSaveAndContinueController from '../../../common/controllers/saveAndContinue'
 import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
-  SubjectResponse,
 } from '../../../../server/services/strengthsBasedNeedsService'
 import { buildRequestBody, flattenAnswers, mergeAnswers } from './saveAndContinueController.utils'
+import { HandoverSubject } from '../../../../server/services/arnsHandoverService'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
@@ -23,7 +23,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     try {
       const sessionData = req.session.sessionData as SessionInformation
       res.locals.user = { ...res.locals.user, username: sessionData.user.displayName }
-      const assessment = await this.apiService.fetchAssessment(sessionData.assessmentUUID)
+      const assessment = await this.apiService.fetchAssessment(sessionData.assessmentId)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent
 
@@ -46,8 +46,8 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async addAssessmentDataToLocals(req: FormWizard.Request, res: Response) {
     const sessionData = req.session.sessionData as SessionInformation
     res.locals.sessionData = sessionData
-    res.locals.subjectDetails = req.session.subjectDetails as SubjectResponse
-    res.locals.assessmentId = sessionData.assessmentUUID
+    res.locals.subjectDetails = req.session.subjectDetails as HandoverSubject
+    res.locals.assessmentId = sessionData.assessmentId
     res.locals.placeholderValues = {
       subject: res.locals.subjectDetails.givenName,
       alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
@@ -142,7 +142,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   }
 
   async persistAnswers(req: FormWizard.Request, res: Response, tags: string[]) {
-    const { assessmentUUID } = req.session.sessionData as SessionInformation
+    const { assessmentId } = req.session.sessionData as SessionInformation
 
     const answers = { ...req.form.persistedAnswers, ...req.form.values }
     const { answersToAdd, answersToRemove } = buildRequestBody(
@@ -157,7 +157,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
     res.locals.values = req.form.values
 
-    await this.apiService.updateAnswers(assessmentUUID, { answersToAdd, answersToRemove, tags })
+    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove, tags })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
