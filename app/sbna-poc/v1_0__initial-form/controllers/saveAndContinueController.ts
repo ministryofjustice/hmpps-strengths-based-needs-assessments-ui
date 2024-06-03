@@ -22,7 +22,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionInformation
-      res.locals.user = { ...res.locals.user, username: sessionData.user.displayName }
+      res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
       const assessment = await this.apiService.fetchAssessment(sessionData.assessmentId)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent

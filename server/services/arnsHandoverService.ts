@@ -39,6 +39,7 @@ export type HandoverPrincipal = {
   identifier: string
   displayName: string
   accessMode: string
+  returnUrl?: string
 }
 
 export type HandoverSubject = {
