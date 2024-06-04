@@ -1,10 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
-import {
-  analysisSectionComplete,
-  offenceAnalysisFields,
-  sectionCompleteFields,
-} from '../fields/offence-analysis'
+import { analysisSectionComplete, offenceAnalysisFields, sectionCompleteFields } from '../fields/offence-analysis'
 
 const defaultTitle = 'Offence analysis'
 const sectionName = 'offence-analysis'
@@ -22,14 +18,14 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/offence-analysis-summary': {
-  pageTitle: defaultTitle,
-  fields: fieldCodesFrom([analysisSectionComplete]),
-  next: [],
-  template: 'forms/sbna-poc/summary-analysis-complete',
-  section: sectionName,
-  locals: {hideAnalysis: true},
-  sectionProgressRules: [setFieldToCompleteWhenValid('offence_analysis_analysis_section_complete')],
-},
+    pageTitle: defaultTitle,
+    fields: fieldCodesFrom([analysisSectionComplete]),
+    next: [],
+    template: 'forms/sbna-poc/summary-analysis-complete',
+    section: sectionName,
+    locals: { hideAnalysis: true },
+    sectionProgressRules: [setFieldToCompleteWhenValid('offence_analysis_analysis_section_complete')],
+  },
 }
 
 export default stepOptions

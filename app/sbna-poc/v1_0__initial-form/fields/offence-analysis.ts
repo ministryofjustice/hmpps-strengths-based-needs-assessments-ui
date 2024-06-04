@@ -1,9 +1,14 @@
 import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
-import { getMediumLabelClassFor, toFormWizardFields, yesNoOptions, validatePastDate, orDivider, visuallyHidden,} from './common'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields' 
-import { detailsCharacterLimit, } from './common/detailsField'
+import {
+  getMediumLabelClassFor,
+  toFormWizardFields,
+  yesNoOptions,
+  validatePastDate,
+  orDivider,
+  visuallyHidden,
+} from './common'
+import { detailsCharacterLimit } from './common/detailsField'
 import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
-
 
 const endDateSummaryDisplay = (value: string) => `\n${formatDateForDisplay(value) || 'Not provided'}`
 const offenceAnalysisDetailsCharacterLimit4k = 4000
@@ -24,7 +29,6 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-
   },
   {
     text: 'When did the offence happen?',
@@ -32,7 +36,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     type: FieldType.Date,
     validate: [
       { type: ValidationType.Required, message: 'Enter the date of the offence' },
-      { fn: validatePastDate, message: 'The date of the offence must be in the past' }
+      { fn: validatePastDate, message: 'The date of the offence must be in the past' },
     ],
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -46,7 +50,12 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select if the offence had any of the elements, or select ‘Not applicable’' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if the offence had any of the elements, or select ‘Not applicable’',
+      },
+    ],
     options: [
       {
         text: 'Excessive violence or sadistic violence',
@@ -121,7 +130,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-  }, 
+  },
   {
     text: 'What was [subject] trying to gain from the offence?',
     code: 'offence_analysis_gain',
@@ -196,7 +205,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       displayInline: true,
     },
     labelClasses: visuallyHidden,
-  },   
+  },
   {
     text: 'Enter all victim details',
     code: 'offence_analysis_victim_details',
@@ -215,12 +224,17 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit1k,
     labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-  },  
+  },
   {
     text: 'Does [subject] recognise the impact or consequences on the victims or others and the wider community?',
     code: 'offence_analysis_impact_on_victims',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they recognise the impact on the victim or consequences for others and the wider community' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they recognise the impact on the victim or consequences for others and the wider community',
+      },
+    ],
     options: [
       {
         text: 'Yes',
@@ -277,7 +291,12 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     text: 'Is the offence linked to risk of serious harm, risks to the individual or other risks?',
     code: 'offence_analysis_risk',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if the offence is linked to risk of serious harm, risks to the individual or other risks' }],
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if the offence is linked to risk of serious harm, risks to the individual or other risks',
+      },
+    ],
     options: [
       {
         text: 'Yes',
@@ -370,9 +389,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     text: 'Who was this committed against?',
     code: 'domestic_abuse_victim_type',
     type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select an option' },
-    ],
+    validate: [{ type: ValidationType.Required, message: 'Select an option' }],
     options: [
       { text: 'Family member', value: 'FAMILY_MEMBER', kind: 'option' },
       { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
@@ -464,9 +481,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     text: 'Who was this committed by?',
     code: 'domestic_abuse_perpetrator_type',
     type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select an option' },
-    ],
+    validate: [{ type: ValidationType.Required, message: 'Select an option' }],
     options: [
       { text: 'Family member', value: 'FAMILY_MEMBER', kind: 'option' },
       { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
@@ -541,13 +556,6 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   },
 ]
 
-
-// export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  
-// )
-// export const practitionerAnalysisFields: Array<FormWizard.Field> = []
-  
-
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the offence analysis section complete?',
   code: 'offence_analysis_section_complete',
@@ -564,12 +572,6 @@ export const analysisSectionComplete: FormWizard.Field = {
 
 export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
 
-export default [
-  // practitionerAnalysisFields,
-  sectionCompleteFields,
-  analysisSectionComplete,
-  questionSectionComplete,
-  offenceAnalysisFields,
-]
+export default [sectionCompleteFields, analysisSectionComplete, questionSectionComplete, offenceAnalysisFields]
   .flat()
   .reduce(toFormWizardFields, {})
