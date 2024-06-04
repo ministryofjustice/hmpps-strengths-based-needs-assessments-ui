@@ -1,0 +1,14 @@
+{% extends "../summary-offence-analysis.njk" %}
+{% from "components/analysis/macro.njk" import renderAnalysisSummary %}
+{% from "components/summary/offence-analysis/macro.njk" import renderSummaryFor %}
+
+{% block summaryPanel %}
+  {{ renderSummaryFor(options.allFields, answers) }}
+{% endblock %}
+
+{% block analysisPanel %} 
+  {{ renderAnalysisSummary(
+    "offence-analysis",
+    options.allFields
+  ) }}
+{% endblock %}

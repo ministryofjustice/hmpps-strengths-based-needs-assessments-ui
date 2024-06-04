@@ -86,7 +86,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'VICTIM_TARGETED_DETAILS',
+    code: 'victim_targeted_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -549,7 +549,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
 // export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
   
 // )
-export const practitionerAnalysisFields: Array<FormWizard.Field> = []
+// export const practitionerAnalysisFields: Array<FormWizard.Field> = []
   
 
 export const questionSectionComplete: FormWizard.Field = {
@@ -569,7 +569,7 @@ export const analysisSectionComplete: FormWizard.Field = {
 export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
 
 export default [
-  practitionerAnalysisFields,
+  // practitionerAnalysisFields,
   sectionCompleteFields,
   analysisSectionComplete,
   questionSectionComplete,

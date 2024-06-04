@@ -3,7 +3,6 @@ import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } fro
 import {
   analysisSectionComplete,
   offenceAnalysisFields,
-  practitionerAnalysisFields,
   sectionCompleteFields,
 } from '../fields/offence-analysis'
 
@@ -18,24 +17,25 @@ const stepOptions: FormWizard.Steps = {
     next: 'offence-analysis-summary',
     section: sectionName,
     sectionProgressRules: [
-      setFieldToIncomplete(''),
-      setFieldToIncomplete(''),
+      setFieldToCompleteWhenValid('offence_analysis_section_complete'),
+      setFieldToIncomplete('offence_analysis_analysis_section_complete'),
     ],
   },
-  '/offence-analysis-summary-analysis': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom([analysisSectionComplete]),
-    template: '',
-    section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('')],
-  },
   '/offence-analysis-summary': {
-    pageTitle: defaultTitle,
-    fields: [],
-    next: [],
-    template: 'forms/sbna-poc/offence-analysis-analysis-section-complete',
-    section: sectionName,
-  },
+  pageTitle: defaultTitle,
+  fields: fieldCodesFrom([analysisSectionComplete]),
+  next: [],
+  template: 'forms/sbna-poc/summary-analysis-incomplete',
+  section: sectionName,
+  sectionProgressRules: [setFieldToCompleteWhenValid('offence_analysis_analysis_section_complete')],
+},
+  // '/offence-analysis-summary-complete': {
+  //   pageTitle: defaultTitle,
+  //   fields: [],
+  //   next: [],
+  //   template: 'forms/sbna-poc/offence-analysis-complete',
+  //   section: sectionName,
+  // },
 }
 
 export default stepOptions
