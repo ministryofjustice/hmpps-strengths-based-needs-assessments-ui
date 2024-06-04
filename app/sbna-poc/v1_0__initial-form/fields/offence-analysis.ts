@@ -220,7 +220,6 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     text: 'Does [subject] recognise the impact or consequences on the victims or others and the wider community?',
     code: 'offence_analysis_impact_on_victims',
     type: FieldType.Radio,
-    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select if they recognise the impact on the victim or consequences for others and the wider community' }],
     options: [
       {
@@ -278,7 +277,6 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     text: 'Is the offence linked to risk of serious harm, risks to the individual or other risks?',
     code: 'offence_analysis_risk',
     type: FieldType.Radio,
-    multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select if the offence is linked to risk of serious harm, risks to the individual or other risks' }],
     options: [
       {
@@ -356,7 +354,6 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     text: 'Is there evidence that [subject] has ever been a perpetrator of domestic abuse?',
     code: 'offence_analysis_perpetrator_of_domestic_abuse',
     type: FieldType.Radio,
-    multiple: true,
     validate: [
       {
         type: ValidationType.Required,
@@ -451,7 +448,6 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     text: 'Is there evidence that [subject] has ever been a victim of domestic abuse?',
     code: 'offence_analysis_victim_of_domestic_abuse',
     type: FieldType.Radio,
-    multiple: true,
     validate: [
       {
         type: ValidationType.Required,

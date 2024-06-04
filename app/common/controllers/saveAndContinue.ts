@@ -54,6 +54,7 @@ class SaveAndContinueController extends BaseController {
     })
 
     res.locals.answers = req.form.values
+    res.locals = { ...res.locals, ...req.form.options.locals }
 
     res.locals.options.fields = fieldsWithRenderedConditionals
       .filter(it => res.locals.form.fields.includes(it.code))

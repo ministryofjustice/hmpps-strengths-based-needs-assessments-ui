@@ -25,17 +25,11 @@ const stepOptions: FormWizard.Steps = {
   pageTitle: defaultTitle,
   fields: fieldCodesFrom([analysisSectionComplete]),
   next: [],
-  template: 'forms/sbna-poc/summary-analysis-incomplete',
+  template: 'forms/sbna-poc/summary-analysis-complete',
   section: sectionName,
+  locals: {hideAnalysis: true},
   sectionProgressRules: [setFieldToCompleteWhenValid('offence_analysis_analysis_section_complete')],
 },
-  // '/offence-analysis-summary-complete': {
-  //   pageTitle: defaultTitle,
-  //   fields: [],
-  //   next: [],
-  //   template: 'forms/sbna-poc/offence-analysis-complete',
-  //   section: sectionName,
-  // },
 }
 
 export default stepOptions
