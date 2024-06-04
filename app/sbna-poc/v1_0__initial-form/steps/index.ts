@@ -9,6 +9,7 @@ import employmentEducationSteps from './employment-education'
 import healthAndWellbeingSteps from './health-wellbeing'
 import thinkingBehavioursAttitudeSteps from './thinking-behaviour-attitudes'
 import personalRelationshipsAndCommunitySteps from './personal-relationships-community'
+import offenceAnalysisSteps from './offence-analysis'
 import { assessmentComplete } from '../fields'
 
 const stepOptions: FormWizard.Steps = {
@@ -32,6 +33,7 @@ const stepOptions: FormWizard.Steps = {
   ...healthAndWellbeingSteps,
   ...thinkingBehavioursAttitudeSteps,
   ...personalRelationshipsAndCommunitySteps,
+  ...offenceAnalysisSteps,
 }
 
 const addStep = (options: FormWizard.Step & { path: string }, steps: FormWizard.Steps): FormWizard.Steps => ({

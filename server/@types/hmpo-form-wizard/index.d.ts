@@ -87,6 +87,7 @@ declare module 'hmpo-form-wizard' {
           sectionProgressRules: Array<SectionProgressRule>
           fields: Fields
           steps: Steps
+          locals: Record<string, boolean | string>
         }
         persistedAnswers: Record<string, string | string[]>
       }
@@ -222,6 +223,7 @@ declare module 'hmpo-form-wizard' {
       section: string
       sectionProgressRules?: Array<SectionProgressRule>
       noPost?: boolean
+      locals?: Record<string, boolean | string>
     }
 
     interface RenderedStep {

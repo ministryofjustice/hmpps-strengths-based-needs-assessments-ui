@@ -15,6 +15,7 @@ describe('navigation', () => {
       'Health and wellbeing',
       'Personal relationships and community',
       'Thinking, behaviours and attitudes',
+      'Offence analysis',
     ]
 
     before(() => {
