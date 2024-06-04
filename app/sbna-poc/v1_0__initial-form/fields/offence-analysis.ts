@@ -5,7 +5,7 @@ import { detailsCharacterLimit, } from './common/detailsField'
 import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 
 
-const endDateSummaryDisplay = (value: string) => `Expected end date:\n${formatDateForDisplay(value) || 'Not provided'}`
+const endDateSummaryDisplay = (value: string) => `\n${formatDateForDisplay(value) || 'Not provided'}`
 const offenceAnalysisDetailsCharacterLimit4k = 4000
 const offenceAnalysisDetailsCharacterLimit1k = 1000
 
