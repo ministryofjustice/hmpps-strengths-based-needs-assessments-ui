@@ -1,4 +1,3 @@
-
 import linkedToRiskOfSeriousHarm from './questions/linkedToRiskOfSeriousHarm'
 import linkedToRiskOfReoffending from './questions/linkedToRiskOfReoffending'
 import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFactors'
@@ -30,11 +29,7 @@ export default (summaryPage: string, analysisCompletePage: string) => {
     })
 
     describe('questions are displayed and validated', () => {
-      const questions = [
-        strengthsOrProtectiveFactors,
-        linkedToRiskOfSeriousHarm,
-        linkedToRiskOfReoffending,
-      ]
+      const questions = [strengthsOrProtectiveFactors, linkedToRiskOfSeriousHarm, linkedToRiskOfReoffending]
 
       beforeEach(() => {
         cy.get('#tab_practitioner-analysis').click()

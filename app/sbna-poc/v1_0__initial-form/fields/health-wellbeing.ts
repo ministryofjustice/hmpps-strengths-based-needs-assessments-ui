@@ -421,8 +421,10 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
 
 export const makeChangesFields = createWantToMakeChangesFields('their health and wellbeing', 'health_wellbeing')
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> =
-  createPractitionerAnalysisFieldsWith('health_wellbeing', 'health and wellbeing')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'health_wellbeing',
+  'health and wellbeing',
+)
 
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the health and wellbeing section complete?',

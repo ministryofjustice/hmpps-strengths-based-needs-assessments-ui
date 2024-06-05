@@ -407,8 +407,10 @@ export const experienceOfEducation = createExperienceOfFields(
 
 export const makeChangesFields = createWantToMakeChangesFields('their employment and education', 'employment_education')
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> =
-  createPractitionerAnalysisFieldsWith('employment_education', 'employment and education')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'employment_education',
+  'employment and education',
+)
 
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the employment and education section complete?',
