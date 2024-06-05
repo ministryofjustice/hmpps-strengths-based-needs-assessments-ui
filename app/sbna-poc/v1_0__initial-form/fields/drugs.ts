@@ -372,7 +372,7 @@ export const drugUseTypeDetailsFields = [
   createFieldsForInjectableDrug('OTHER_DRUG'),
 ].flat()
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith('drugs')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith('drugs', 'drug use')
 
 export default [
   ...drugUseFields,
