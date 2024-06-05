@@ -1,7 +1,6 @@
-import patternsOfBehaviours from './questions/patternsOfBehaviours'
+
 import linkedToRiskOfSeriousHarm from './questions/linkedToRiskOfSeriousHarm'
 import linkedToRiskOfReoffending from './questions/linkedToRiskOfReoffending'
-import areaOfNeedWhichIsNotRelatedToRisk from './questions/areaOfNeedWhichIsNotRelatedToRisk'
 import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFactors'
 
 export default (summaryPage: string, analysisCompletePage: string) => {
@@ -32,11 +31,9 @@ export default (summaryPage: string, analysisCompletePage: string) => {
 
     describe('questions are displayed and validated', () => {
       const questions = [
-        patternsOfBehaviours,
         strengthsOrProtectiveFactors,
         linkedToRiskOfSeriousHarm,
         linkedToRiskOfReoffending,
-        areaOfNeedWhichIsNotRelatedToRisk,
       ]
 
       beforeEach(() => {
