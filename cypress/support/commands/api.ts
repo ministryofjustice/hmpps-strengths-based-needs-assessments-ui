@@ -4,7 +4,7 @@ export const uuid = () => `${Date.now().toString()}-${Cypress._.random(0, 1e6)}-
 
 const oasysUser = {
   id: uuid(),
-  name: "Cypress User"
+  name: 'Cypress User',
 }
 
 const getApiToken = () => {

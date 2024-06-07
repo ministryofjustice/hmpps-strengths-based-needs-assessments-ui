@@ -6,7 +6,6 @@ import { DateTime } from 'luxon'
 import BaseController from '../../../common/controllers/baseController'
 import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
 import ArnsHandoverService from '../../../../server/services/arnsHandoverService'
-import config from '../../../../server/config';
 
 class OneTimeLinkController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
@@ -45,7 +44,10 @@ class OneTimeLinkController extends BaseController {
         (req.form.values['oastub-subject-sexually-motivated-offence-history'] as string) || 'NO'
       const oasysUser = { id: 'ABC1234567890', name: 'Probation User' }
 
-      const { sanAssessmentId } = await this.apiService.createAssessment({ oasysAssessmentPk, userDetails: oasysUser })
+      const { sanAssessmentVersion } = await this.apiService.createAssessment({
+        oasysAssessmentPk,
+        userDetails: oasysUser,
+      })
 
       const handoverContext = {
         principal: {
@@ -67,7 +69,7 @@ class OneTimeLinkController extends BaseController {
         },
         assessmentContext: {
           oasysAssessmentPk,
-          assessmentVersion: sanAssessmentId,
+          assessmentVersion: sanAssessmentVersion,
         },
       }
 

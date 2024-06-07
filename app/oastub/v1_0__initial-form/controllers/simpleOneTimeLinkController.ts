@@ -25,7 +25,10 @@ class SimpleOneTimeLinkController extends BaseController {
 
       const oasysUser = { id: 'ABC1234567890', name: 'Probation User' }
 
-      const { sanAssessmentVersion } = await this.apiService.createAssessment({ oasysAssessmentPk, userDetails: oasysUser })
+      const { sanAssessmentVersion } = await this.apiService.createAssessment({
+        oasysAssessmentPk,
+        userDetails: oasysUser,
+      })
 
       const handoverContext = {
         principal: {
