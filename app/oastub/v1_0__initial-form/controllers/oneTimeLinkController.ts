@@ -42,13 +42,17 @@ class OneTimeLinkController extends BaseController {
       const familyName = (req.form.values['oastub-subject-family-name'] as string) || req.url
       const sexuallyMotivatedOffenceHistory =
         (req.form.values['oastub-subject-sexually-motivated-offence-history'] as string) || 'NO'
+      const oasysUser = { id: 'ABC1234567890', name: 'Probation User' }
 
-      const { sanAssessmentId } = await this.apiService.createAssessment({ oasysAssessmentPk })
+      const { sanAssessmentVersion } = await this.apiService.createAssessment({
+        oasysAssessmentPk,
+        userDetails: oasysUser,
+      })
 
       const handoverContext = {
         principal: {
-          identifier: 'ABC1234567890',
-          displayName: 'Probation User',
+          identifier: oasysUser.id,
+          displayName: oasysUser.name,
           accessMode: 'READ_WRITE',
         },
         subject: {
@@ -65,7 +69,7 @@ class OneTimeLinkController extends BaseController {
         },
         assessmentContext: {
           oasysAssessmentPk,
-          assessmentUUID: sanAssessmentId,
+          assessmentVersion: sanAssessmentVersion,
         },
       }
 

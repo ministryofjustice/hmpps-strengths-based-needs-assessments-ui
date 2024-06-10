@@ -23,12 +23,17 @@ class SimpleOneTimeLinkController extends BaseController {
     try {
       const oasysAssessmentPk = randomUUID()
 
-      const { sanAssessmentId } = await this.apiService.createAssessment({ oasysAssessmentPk })
+      const oasysUser = { id: 'ABC1234567890', name: 'Probation User' }
+
+      const { sanAssessmentVersion } = await this.apiService.createAssessment({
+        oasysAssessmentPk,
+        userDetails: oasysUser,
+      })
 
       const handoverContext = {
         principal: {
-          identifier: 'ABC1234567890',
-          displayName: 'Probation User',
+          identifier: oasysUser.id,
+          displayName: oasysUser.name,
           accessMode: 'READ_WRITE',
           returnUrl: '?returnUrlGoesHere',
         },
@@ -46,7 +51,7 @@ class SimpleOneTimeLinkController extends BaseController {
         },
         assessmentContext: {
           oasysAssessmentPk,
-          assessmentUUID: sanAssessmentId,
+          assessmentVersion: sanAssessmentVersion,
         },
       }
 

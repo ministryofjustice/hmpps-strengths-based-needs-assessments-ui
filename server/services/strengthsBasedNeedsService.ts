@@ -6,6 +6,10 @@ import getHmppsAuthClient from '../data/hmppsAuthClient'
 
 export interface CreateAssessmentRequest extends Record<string, unknown> {
   oasysAssessmentPk: string
+  userDetails: {
+    id: string
+    name: string
+  }
 }
 
 export interface CreateAssessmentResponse {
