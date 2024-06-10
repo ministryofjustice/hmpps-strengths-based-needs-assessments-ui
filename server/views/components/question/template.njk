@@ -19,18 +19,18 @@
       id: question.id,
       name: question.id,
       value: question.value | safe,
-      formGroup : {
-        classes: "form-group " + (question.classes | default(""))
-      },
       attributes: question.attributes,
       label: {
         text: question.text,
         isPageHeading: false,
         classes: question.id + " " + (question.labelClasses | default(""))
       },
+      formGroup: {
+        classes: "form-group " + (question.formGroupClasses | default(""))
+      },
       hint: question.hint,
       errorMessage: errorMessage,
-      classes: options.classes
+      classes: question.classes
     }) }}
 
   {% case 'TEXT_AREA' %}
@@ -45,12 +45,13 @@
         isPageHeading: false,
         classes: question.id + " " + (question.labelClasses | default(""))
       },
-      formGroup : {
-        classes: question.classes | default("")
+      formGroup: {
+        classes: "form-group " + (question.formGroupClasses | default(""))
       },
       attributes: question.attributes,
       hint: question.hint,
-      errorMessage: errorMessage
+      errorMessage: errorMessage,
+      classes: question.classes
     }) }}
 
     </div>
@@ -59,15 +60,16 @@
     {{ govukRadios({
       idPrefix: question.id,
       name: question.id,
-      formGroup : {
-        classes: "form-group " + (question.classes | default(""))
-      },
+      classes: question.classes | default(""),
       attributes: question.attributes,
       fieldset: {
         legend: {
           text: question.text,
           classes: question.id + " " + (question.labelClasses | default(""))
         }
+      },
+      formGroup: {
+        classes: "form-group " + (question.formGroupClasses | default(""))
       },
       items: question.options,
       errorMessage: errorMessage,
@@ -79,15 +81,16 @@
     {{ govukCheckboxes({
       idPrefix: question.id,
       name: question.id,
-      formGroup : {
-        classes: "form-group " + (question.classes | default(""))
-      },
+      classes: question.classes | default(""),
       attributes: question.attributes,
       fieldset: {
         legend: {
           text: question.text,
           classes: question.id + " " + (question.labelClasses | default(""))
         }
+      },
+      formGroup: {
+        classes: "form-group " + (question.formGroupClasses | default(""))
       },
       items: question.options,
       errorMessage: errorMessage,
@@ -99,12 +102,13 @@
     {{ govukSelect({
       id: question.id,
       name: question.id,
-      formGroup : {
-        classes: "form-group " + (question.classes | default(""))
-      },
+      classes: question.classes | default(""),
       label: {
         text: question.text,
         classes: question.id + " " + (question.labelClasses | default(""))
+      },
+      formGroup: {
+        classes: "form-group " + (question.formGroupClasses | default(""))
       },
       attributes: question.attributes,
       items: question.options,
@@ -128,15 +132,16 @@
     {{ govukDateInput({
       id: question.id,
       namePrefix: question.id,
-      formGroup : {
-        classes: "form-group " + (question.classes | default(""))
-      },
+      classes: question.classes | default(""),
       fieldset: {
         legend: {
           text: question.text,
           isPageHeading: false,
           classes: question.id + " " + (question.labelClasses | default(""))
         }
+      },
+      formGroup: {
+        classes: "form-group " + (question.formGroupClasses | default(""))
       },
       hint: question.hint,
       items: [

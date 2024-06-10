@@ -2,6 +2,11 @@ const env = (key: string) => Cypress.env()[key]
 
 export const uuid = () => `${Date.now().toString()}-${Cypress._.random(0, 1e6)}-${Cypress._.uniqueId()}`
 
+const oasysUser = {
+  id: uuid(),
+  name: 'Cypress User',
+}
+
 const getApiToken = () => {
   const apiToken = Cypress.env('API_TOKEN')
 
@@ -42,8 +47,8 @@ export const enterAssessment = () => {
               oasysAssessmentPk: env('last_assessment').oasysAssessmentPk,
             },
             principal: {
-              identifier: uuid(),
-              displayName: 'Cypress User',
+              identifier: oasysUser.id,
+              displayName: oasysUser.name,
               accessMode: 'READ_WRITE',
             },
             subject: {
@@ -80,6 +85,7 @@ export const createAssessment = (data = null) => {
       auth: { bearer: apiToken },
       body: {
         oasysAssessmentPk,
+        userDetails: oasysUser,
       },
     }).then(createResponse => {
       Cypress.env('last_assessment', {
