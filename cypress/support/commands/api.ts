@@ -91,8 +91,7 @@ export const createAssessment = (data = null) => {
           url: `${env('SBNA_API_URL')}/assessment/${createResponse.body.sanAssessmentId}/answers`,
           method: 'POST',
           auth: { bearer: apiToken },
-          body: {
-            tags: ['UNSIGNED', 'UNVALIDATED'],
+          body: {            
             answersToAdd: data.assessment,
           },
         })
