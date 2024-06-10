@@ -24,7 +24,7 @@ export default class ArnsHandoverService {
       path: '/handover',
       data: handoverContext,
     })
-    return `${handover.handoverLink}`
+    return `${handover.handoverLink}?clientId=${config.apis.arnsHandover.clientId}`
   }
 }
 
