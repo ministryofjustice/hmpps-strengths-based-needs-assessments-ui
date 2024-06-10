@@ -101,9 +101,9 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as OasysAssessmentResponse
   }
 
-  async fetchAssessment(assessmentId: string, tag: string = 'UNVALIDATED'): Promise<AssessmentResponse> {
+  async fetchAssessment(assessmentId: string): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/assessment/${assessmentId}?tag=${tag}` })
+    const responseBody = await client.get({ path: `/assessment/${assessmentId}` })
     return responseBody as AssessmentResponse
   }
 

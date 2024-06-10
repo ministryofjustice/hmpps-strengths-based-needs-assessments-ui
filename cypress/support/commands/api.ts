@@ -98,7 +98,6 @@ export const createAssessment = (data = null) => {
           method: 'POST',
           auth: { bearer: apiToken },
           body: {
-            tags: ['UNSIGNED', 'UNVALIDATED'],
             answersToAdd: data.assessment,
           },
         })

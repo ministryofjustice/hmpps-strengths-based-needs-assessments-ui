@@ -141,7 +141,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
   }
 
-  async persistAnswers(req: FormWizard.Request, res: Response, tags: string[]) {
+  async persistAnswers(req: FormWizard.Request, res: Response) {
     const { assessmentId } = req.session.sessionData as SessionInformation
 
     const answers = { ...req.form.persistedAnswers, ...req.form.values }
@@ -157,13 +157,13 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     }
     res.locals.values = req.form.values
 
-    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove, tags })
+    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.setSectionProgress(req, true)
-      await this.persistAnswers(req, res, ['UNSIGNED', 'UNVALIDATED'])
+      await this.persistAnswers(req, res)
 
       if (req.query.jsonResponse === 'true') {
         return res.send('👍')
@@ -187,7 +187,7 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
 
       if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
         this.setSectionProgress(req, false)
-        await this.persistAnswers(req, res, ['UNVALIDATED'])
+        await this.persistAnswers(req, res)
 
         this.setErrors(err, req, res)
       }
