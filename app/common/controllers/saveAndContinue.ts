@@ -8,7 +8,7 @@ import {
   withPlaceholdersFrom,
   withValuesFrom,
 } from './saveAndContinue.utils'
-import { mergeAnswers } from '../../sbna-poc/v1_0__initial-form/controllers/saveAndContinueController.utils'
+import { mergeAnswers } from '../../form/v1_0/controllers/saveAndContinueController.utils'
 
 class SaveAndContinueController extends BaseController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {

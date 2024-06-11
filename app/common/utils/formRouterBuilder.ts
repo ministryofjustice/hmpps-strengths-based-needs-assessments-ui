@@ -1,9 +1,19 @@
+import type { NextFunction, Request, Response } from 'express'
 import * as express from 'express'
-import type { Request, Response, NextFunction } from 'express'
 import FormWizard from 'hmpo-form-wizard'
-import FormVersionResponse from './responses/formVersionResponse'
-import FormFieldsResponse from './responses/formFieldsResponse'
-import { Form, BaseFormOptions, FormWizardRouter, getLatestVersionFrom } from './common'
+import FormFieldsResponse from '../responses/formFieldsResponse'
+import { Form, FormOptions } from '../form-types'
+
+type FormWizardRouter = {
+  metaData: FormOptions
+  router: express.Router
+}
+
+const getLatestVersionFrom = (formRouters: FormWizardRouter[] = []): FormWizardRouter | null =>
+  formRouters.reduce(
+    (latest, it) => (!latest || (it.metaData.active && it.metaData.version > latest.metaData.version) ? it : latest),
+    null,
+  )
 
 const removeQueryParamsFrom = (urlWithParams: string) => {
   const [url] = urlWithParams.split('?')
@@ -72,8 +82,13 @@ function checkFormIntegrity(form: Form) {
   })
 }
 
-const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
+const setupForm = (form: Form): FormWizardRouter => {
   const router = express.Router()
+  const options = {
+    journeyName: 'sbna',
+    journeyTitle: 'Strengths and needs',
+    entryPoint: true,
+  }
 
   if (form.options.active === true) {
     router.get('/fields', (req: Request, res: Response) => res.json(FormFieldsResponse.from(form, options)))
@@ -105,11 +120,6 @@ const setupForm = (form: Form, options: BaseFormOptions): FormWizardRouter => {
   return { metaData: form.options, router }
 }
 
-const mountRouter = (router: express.Router) => (form: FormWizardRouter) => {
-  const [majorVersion, minorVersion] = form.metaData.version.split('.')
-  router.use(`/${majorVersion}/${minorVersion}`, form.router)
-}
-
 export default class FormRouterBuilder {
   baseRouter?: express.Router = express.Router()
 
@@ -122,33 +132,23 @@ export default class FormRouterBuilder {
     this.latest = latest
   }
 
-  static configure(formConfig: Form[], options: BaseFormOptions) {
-    const formRouters: FormWizardRouter[] = formConfig.map(form => setupForm(form, options))
-
+  static configure(...formVersions: Form[]) {
+    const formRouters: FormWizardRouter[] = formVersions.map(form => setupForm(form))
     return new FormRouterBuilder(formRouters, getLatestVersionFrom(formRouters))
   }
 
   mountActive(): FormRouterBuilder {
-    this.routers.filter((form: FormWizardRouter) => form.metaData.active).forEach(mountRouter(this.baseRouter))
-
-    this.baseRouter.use('/versions', (req: Request, res: Response) => res.json(this.intoResponse()))
-
+    this.routers
+      .filter((formRouter: FormWizardRouter) => formRouter.metaData.active)
+      .forEach(formRouter => {
+        const [majorVersion, minorVersion] = formRouter.metaData.version.split('.')
+        this.baseRouter.use(`/${majorVersion}/${minorVersion}`, formRouter.router)
+      })
+    // TODO: Clean-up - remove
     if (this.latest) {
       this.baseRouter.use('/', this.latest.router)
     }
-
     return this
-  }
-
-  intoResponse(): FormVersionResponse {
-    return {
-      latest: this.latest?.metaData.version || null,
-      available: this.routers.map(it => ({
-        version: it.metaData.version,
-        active: it.metaData.active,
-        tag: it.metaData.tag,
-      })),
-    }
   }
 
   build(): express.Router {

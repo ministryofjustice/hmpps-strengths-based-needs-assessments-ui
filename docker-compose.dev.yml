@@ -15,7 +15,7 @@ services:
     ports:
       - "7070:7070"
 
-  arns-handover-ui:
+  oasys-ui:
     ports:
       - "7072:3000"
 

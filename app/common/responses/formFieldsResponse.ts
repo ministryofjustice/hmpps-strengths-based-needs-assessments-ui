@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { Form, BaseFormOptions } from '../common'
+import { BaseFormOptions, Form } from '../form-types'
 
 export default class FormFieldsResponse {
   name: string
@@ -12,7 +12,8 @@ export default class FormFieldsResponse {
 
   static from(form: Form, options: BaseFormOptions): FormFieldsResponse {
     return {
-      name: options.journeyName,
+      // TODO: clean-up - remove
+      name: 'sbna-poc',
       title: options.journeyTitle,
       version: form.options.version,
       fields: form.fields,

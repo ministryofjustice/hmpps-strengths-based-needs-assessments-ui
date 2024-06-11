@@ -24,7 +24,7 @@ export default function setUpAuth(): Router {
   router.get(
     '/sign-in/callback',
     passport.authenticate('oauth2', {
-      successReturnToOrRedirect: '/form/sbna-poc/start',
+      successReturnToOrRedirect: '/form/start',
       failureRedirect: '/autherror',
     }),
   )

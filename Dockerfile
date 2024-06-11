@@ -36,6 +36,7 @@ COPY --from=build --chown=appuser:appgroup /app/build-info.json ./dist/build-inf
 COPY --from=build --chown=appuser:appgroup /app/assets ./assets
 COPY --from=build --chown=appuser:appgroup /app/dist ./dist
 COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
+COPY --from=build --chown=appuser:appgroup /app/docker/healthcheck.js ./docker/healthcheck.js
 EXPOSE 3000 3001
 ENV NODE_ENV='production'
 USER 2000

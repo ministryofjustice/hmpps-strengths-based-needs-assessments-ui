@@ -7,9 +7,7 @@ import asyncMiddleware from './asyncMiddleware'
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return asyncMiddleware((req, res, next) => {
     // TODO: Endpoints that don't need auth, turn this into a array of regex patterns to check against?
-    if (
-      ['/fields', '/form/oastub/start', '/form/oastub/otl', 'form/oastub/otl-copy'].some(it => req.path.endsWith(it))
-    ) {
+    if (['/fields'].some(it => req.path.endsWith(it))) {
       return next()
     }
 

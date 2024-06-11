@@ -15,6 +15,10 @@ services:
       CLIENT_SAN_OAUTH_REDIRECT_URI: http://ui:3000/sign-in/callback
       CLIENT_SAN_HANDOVER_REDIRECT_URI: http://ui:3000/sign-in
 
+  oasys-ui:
+    environment:
+      INGRESS_URL: http://oastub-ui:3000
+
   cypress:
     image: cypress/included
     networks:
@@ -28,6 +32,7 @@ services:
       CYPRESS_ARNS_HANDOVER_URL: http://arns-handover:7070
       CYPRESS_ARNS_HANDOVER_CLIENT_ID: strengths-and-needs-assessment
       CYPRESS_HMPPS_AUTH_URL: http://hmpps-auth:9090
+      CYPRESS_OASYS_UI_URL: http://oasys-ui:3000
 
 volumes:
   test_results:

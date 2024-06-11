@@ -49,18 +49,15 @@ services:
       HMPPS_AUTH_BASE_URL: http://hmpps-auth:9090
       SERVER_ERROR_WHITELABEL_ENABLED: true
 
-  arns-handover-ui:
+  oasys-ui:
     image: quay.io/hmpps/hmpps-assess-risks-and-needs-oastub-ui:latest
     networks:
       - hmpps
     depends_on:
       - redis
-    ports:
-      - "7072:3000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://arns-handover-ui:3000/health"]
+      test: ["CMD", "node", "/healthcheck.js"]
     environment:
-      NODE_ENV: "production"
       REDIS_ENABLED: "true"      
       SYSTEM_CLIENT_SECRET: clientsecret
       SYSTEM_CLIENT_ID: hmpps-strengths-and-needs-ui-client
@@ -75,6 +72,8 @@ services:
       ENVIRONMENT_NAME: DEV
       AUDIT_ENABLED: "false"
       PRODUCT_ID: FOO
+    volumes:
+      - ./docker/healthcheck.js:/healthcheck.js
 
   api:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest
@@ -107,7 +106,7 @@ services:
      - hmpps-auth
      - api
      - arns-handover
-     - arns-handover-ui
+     - oasys-ui
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://ui:3000/health" ]
       interval: 5s

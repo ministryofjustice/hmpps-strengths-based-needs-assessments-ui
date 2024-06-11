@@ -17,6 +17,7 @@ export default defineConfig({
     SBNA_API_URL: 'http://localhost:8080',
     ARNS_HANDOVER_URL: 'http://localhost:7070',
     ARNS_HANDOVER_CLIENT_ID: 'strengths-and-needs-assessment',
+    OASYS_UI_URL: 'http://localhost:7072',
   },
   e2e: {
     // We've imported your old cypress plugins here.
