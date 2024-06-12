@@ -84,7 +84,7 @@ declare global {
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
       assertQuestionUrl(question: string): Chainable
-      getSectionName(): Chainable 
+      getSectionName(): Chainable
 
       // option
       isChecked(): Chainable

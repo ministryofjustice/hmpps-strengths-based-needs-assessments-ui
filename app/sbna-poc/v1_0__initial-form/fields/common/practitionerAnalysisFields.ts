@@ -10,7 +10,10 @@ import {
 const analysisRadioGroupClasses = `${inlineRadios} radio-group--analysis`
 
 // eslint-disable-next-line import/prefer-default-export
-export const createPractitionerAnalysisFieldsWith = (prefix: string, sectionDisplayName: string): Array<FormWizard.Field> => [
+export const createPractitionerAnalysisFieldsWith = (
+  prefix: string,
+  sectionDisplayName: string,
+): Array<FormWizard.Field> => [
   {
     text: `Are there any strengths or protective factors related to [subject]'s ${sectionDisplayName}?`,
     hint: {

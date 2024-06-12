@@ -37,10 +37,10 @@ export default (summaryPage: string, analysisCompletePage: string) => {
         cy.assertQuestionCount(questions.length * 2)
       })
 
-        questions.forEach((questionTest, index) => {
-          // skip the "Give details" questions, as they are tested within the main question tests
-          questionTest(summaryPage, analysisCompletePage, index * 2 + 1)
-        })
+      questions.forEach((questionTest, index) => {
+        // skip the "Give details" questions, as they are tested within the main question tests
+        questionTest(summaryPage, analysisCompletePage, index * 2 + 1)
+      })
     })
   })
 }
