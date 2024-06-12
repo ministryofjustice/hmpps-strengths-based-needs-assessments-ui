@@ -16,11 +16,12 @@ export default class App {
   constructor() {
     const formRouterBuilder = FormRouterBuilder.configure(V1_0)
 
-    this.formRouter = formRouterBuilder.formRouter
-      .use((error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) => {
+    this.formRouter = formRouterBuilder.formRouter.use(
+      (error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) => {
         if (error.redirect) return res.redirect(error.redirect)
         return next(error)
-      })
+      },
+    )
     this.formConfigRouter = formRouterBuilder.formConfigRouter
   }
 }
