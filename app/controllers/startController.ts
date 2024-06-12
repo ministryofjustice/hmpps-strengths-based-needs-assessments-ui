@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
-import StrengthsBasedNeedsAssessmentsApiService from '../services/strengthsBasedNeedsService'
-import ArnsHandoverService from '../services/arnsHandoverService'
+import StrengthsBasedNeedsAssessmentsApiService from '../../server/services/strengthsBasedNeedsService'
+import ArnsHandoverService from '../../server/services/arnsHandoverService'
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
 
-const enterAssessment = async (req: Request, res: Response, next: NextFunction) => {
+const startController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const accessToken = res.locals.user.token
     const contextData = await arnsHandoverService.getContextData(accessToken)
@@ -31,4 +31,4 @@ const enterAssessment = async (req: Request, res: Response, next: NextFunction) 
   }
 }
 
-export default enterAssessment
+export default startController
