@@ -4,5 +4,8 @@ import fields from './fields/index'
 export default {
   steps,
   fields,
-  options: { active: true },
+  options: {
+    active: true,
+    version: '1.0',
+  },
 }

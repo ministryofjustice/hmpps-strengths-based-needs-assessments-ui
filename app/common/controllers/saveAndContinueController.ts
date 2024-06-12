@@ -1,16 +1,25 @@
 import { NextFunction, Response } from 'express'
 import FormWizard, { Gender } from 'hmpo-form-wizard'
-import BaseSaveAndContinueController from '../../../common/controllers/saveAndContinue'
+import BaseController from './baseController'
+import {
+  buildRequestBody,
+  combineDateFields,
+  compileConditionalFields,
+  fieldsById,
+  flattenAnswers,
+  mergeAnswers,
+  withPlaceholdersFrom,
+  withValuesFrom,
+} from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
-} from '../../../../server/services/strengthsBasedNeedsService'
-import { buildRequestBody, flattenAnswers, mergeAnswers } from './saveAndContinueController.utils'
-import { HandoverSubject } from '../../../../server/services/arnsHandoverService'
+} from '../../../server/services/strengthsBasedNeedsService'
+import { HandoverSubject } from '../../../server/services/arnsHandoverService'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
 
-class SaveAndContinueController extends BaseSaveAndContinueController {
+class SaveAndContinueController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
   constructor(options: unknown) {
@@ -27,7 +36,15 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent
 
-      super.configure(req, res, next)
+      const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
+        ...others,
+        [key]: { ...field, id: key },
+      })
+
+      req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
+      req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
+
+      await super.configure(req, res, next)
     } catch (error) {
       next(error)
     }
@@ -37,6 +54,28 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     Object.keys(req.form.persistedAnswers).forEach(k => req.sessionModel.set(k, req.form.persistedAnswers[k]))
 
     return super.get(req, res, next)
+  }
+
+  async process(req: FormWizard.Request, res: Response, next: NextFunction) {
+    req.form.values = combineDateFields(req.body, req.form.values)
+    const mergedAnswers = mergeAnswers(req.form.persistedAnswers, req.form.values)
+    req.form.values = Object.entries(req.form.options.fields)
+      .filter(([_, field]) => {
+        const dependentValue = mergedAnswers[field.dependent?.field]
+        return (
+          !field.dependent ||
+          (Array.isArray(dependentValue)
+            ? dependentValue.includes(field.dependent.value)
+            : dependentValue === field.dependent.value)
+        )
+      })
+      .reduce((updatedAnswers, [key, field]) => {
+        return field.id
+          ? { ...updatedAnswers, [field.id]: req.form.values[key], [field.code]: req.form.values[key] }
+          : { ...updatedAnswers, [field.code]: req.form.values[key] }
+      }, {})
+
+    return super.process(req, res, next)
   }
 
   calculateUnitsForGender(gender: Gender): number {
@@ -59,7 +98,24 @@ class SaveAndContinueController extends BaseSaveAndContinueController {
     try {
       await this.addAssessmentDataToLocals(req, res)
 
-      super.locals(req, res, next)
+      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
+      const fieldsWithReplacements = fieldsWithMappedAnswers.map(
+        withPlaceholdersFrom(res.locals.placeholderValues || {}),
+      )
+      const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
+        action: res.locals.action,
+        errors: res.locals.errors,
+      })
+
+      res.locals.answers = req.form.values
+      res.locals = { ...res.locals, ...req.form.options.locals }
+
+      res.locals.options.fields = fieldsWithRenderedConditionals
+        .filter(it => res.locals.form.fields.includes(it.code))
+        .reduce(fieldsById, {})
+      res.locals.options.allFields = fieldsWithRenderedConditionals.reduce(fieldsById, {})
+
+      await super.locals(req, res, next)
     } catch (error) {
       next(error)
     }
