@@ -13,8 +13,8 @@ import {
 } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
-} from '../../../server/services/strengthsBasedNeedsService'
-import { HandoverSubject } from '../../../server/services/arnsHandoverService'
+} from '../../server/services/strengthsBasedNeedsService'
+import { HandoverSubject } from '../../server/services/arnsHandoverService'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>

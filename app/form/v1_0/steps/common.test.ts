@@ -1,7 +1,7 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, fieldCodesFrom } from './common'
 
-describe('sbna-poc/steps/common', () => {
+describe('steps/common', () => {
   describe('fieldCodesFrom', () => {
     it('returns a list of field codes', () => {
       const field: FormWizard.Field = {

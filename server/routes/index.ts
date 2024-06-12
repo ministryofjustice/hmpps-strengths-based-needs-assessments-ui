@@ -2,6 +2,7 @@ import { type RequestHandler, Router } from 'express'
 
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import App from '../../app'
+import startController from '../../app/controllers/startController'
 
 export default function routes(): Router {
   const router = Router()
@@ -10,6 +11,7 @@ export default function routes(): Router {
   const app = new App()
   router.use('/form', app.formRouter)
   router.use('/config', app.formConfigRouter)
+  router.use('/start', startController)
 
   get('/', (req, res, next) => {
     res.render('pages/index')

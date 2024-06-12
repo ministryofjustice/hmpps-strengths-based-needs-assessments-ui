@@ -1,6 +1,6 @@
 import { orNoImpactValidator } from './alcohol'
 
-describe('sbna-poc/fields/accommodation', () => {
+describe('fields/accommodation', () => {
   describe('livingWithValidator', () => {
     const contextWithAnswers = (answers: Record<string, string | string[]>) => ({
       values: answers,

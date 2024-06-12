@@ -7,7 +7,7 @@ import {
   getMediumLabelClassFor,
 } from './common'
 
-describe('sbna-poc/fields/common', () => {
+describe('fields/common', () => {
   describe('fieldCodeWith', () => {
     it('assembles the components of a field code', () => {
       expect(fieldCodeWith('prefix', 'field_code', 'suffix')).toEqual('prefix_field_code_suffix')

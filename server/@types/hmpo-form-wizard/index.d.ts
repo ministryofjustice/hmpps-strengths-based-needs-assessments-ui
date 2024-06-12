@@ -3,7 +3,7 @@ declare module 'hmpo-form-wizard' {
   import express from 'express'
 
   // These enums have to live here because of TS/Jest and Enums work..  ¯\_(ツ)_/¯
-  // Also this ESLint override because of how TS/Eslint work..
+  // Also this ESLint override because of how TS/Eslint works.
   // eslint-disable-next-line no-shadow
   export const enum FieldType {
     Text = 'TEXT',
@@ -125,13 +125,6 @@ declare module 'hmpo-form-wizard' {
 
     namespace Controller {
       export class Error {}
-    }
-
-    interface Config {
-      journeyName: string
-      journeyPageTitle: string
-      name: string
-      entryPoint: boolean
     }
 
     namespace Field {

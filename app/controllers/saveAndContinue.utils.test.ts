@@ -9,7 +9,7 @@ import {
   withPlaceholdersFrom,
   withValuesFrom,
 } from './saveAndContinue.utils'
-import { AnswerDto } from '../../../server/services/strengthsBasedNeedsService'
+import { AnswerDto } from '../../server/services/strengthsBasedNeedsService'
 
 describe('saveAndContinue.utils', () => {
   describe('withPlaceholdersFrom', () => {

@@ -58,7 +58,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: ['alcohol-analysis-complete'],
-    template: 'forms/sbna-poc/alcohol-summary-analysis',
+    template: 'forms/summary/alcohol-summary-analysis',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete')],
   },
@@ -66,7 +66,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/sbna-poc/alcohol-summary-analysis-complete',
+    template: 'forms/summary/alcohol-summary-analysis-complete',
     section: sectionName,
   },
 }

@@ -58,7 +58,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/thinking-behaviours-attitudes-summary-analysis',
+    template: 'forms/summary/thinking-behaviours-attitudes-summary-analysis',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('thinking_behaviours_attitudes_analysis_section_complete')],
   },
@@ -66,7 +66,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/sbna-poc/thinking-behaviours-attitudes-summary-analysis-complete',
+    template: 'forms/summary/thinking-behaviours-attitudes-summary-analysis-complete',
     section: sectionName,
   },
 }

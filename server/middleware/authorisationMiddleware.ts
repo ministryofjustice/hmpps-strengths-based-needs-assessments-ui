@@ -6,8 +6,7 @@ import asyncMiddleware from './asyncMiddleware'
 
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return asyncMiddleware((req, res, next) => {
-    // TODO: remove /fields
-    if (req.path.startsWith('/config/') || ['/fields'].some(it => req.path.endsWith(it))) {
+    if (req.path.startsWith('/config/')) {
       return next()
     }
 
