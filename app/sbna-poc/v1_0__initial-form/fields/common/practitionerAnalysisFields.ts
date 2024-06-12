@@ -10,9 +10,9 @@ import {
 const analysisRadioGroupClasses = `${inlineRadios} radio-group--analysis`
 
 // eslint-disable-next-line import/prefer-default-export
-export const createPractitionerAnalysisFieldsWith = (prefix: string, prefix2: string): Array<FormWizard.Field> => [
+export const createPractitionerAnalysisFieldsWith = (prefix: string, sectionDisplayName: string): Array<FormWizard.Field> => [
   {
-    text: `Are there any strengths or protective factors related to [subject]'s ${prefix2}?`,
+    text: `Are there any strengths or protective factors related to [subject]'s ${sectionDisplayName}?`,
     hint: {
       text: 'Include any strategies, people or support networks that helped.',
       kind: 'text',
@@ -43,7 +43,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string, prefix2: st
     characterCountMax: summaryCharacterLimit,
   },
   {
-    text: `Is [subject]’s ${prefix2} linked to risk of serious harm?`,
+    text: `Is [subject]’s ${sectionDisplayName} linked to risk of serious harm?`,
     code: `${prefix}_practitioner_analysis_risk_of_serious_harm`,
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
@@ -70,7 +70,7 @@ export const createPractitionerAnalysisFieldsWith = (prefix: string, prefix2: st
     characterCountMax: summaryCharacterLimit,
   },
   {
-    text: `Is [subject]’s ${prefix2} linked to risk of reoffending?`,
+    text: `Is [subject]’s ${sectionDisplayName} linked to risk of reoffending?`,
     code: `${prefix}_practitioner_analysis_risk_of_reoffending`,
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],

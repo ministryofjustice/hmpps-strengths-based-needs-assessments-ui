@@ -8,9 +8,9 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
       cy.get('#practitioner-analysis').should('be.visible')
 
       Array.of(
-        'Are there any strengths or protective factors related to this area?',
-        'Is this an area linked to risk of serious harm?',
-        'Is this an area linked to risk of reoffending?',
+        `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
+        `Is Sam’s ${sectionName.toLowerCase()} linked to risk of serious harm?`,
+        `Is Sam’s ${sectionName.toLowerCase()} linked to risk of reoffending?`,
       ).forEach(question => {
         cy.getQuestion(question).getRadio('No').clickLabel()
       })
