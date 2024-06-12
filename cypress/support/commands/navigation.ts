@@ -37,3 +37,10 @@ export const assertQuestionUrl = (question: string) => {
     getQuestion(question).find(url.hash).should('exist')
   })
 }
+
+export const getSectionName = () => {
+  return cy
+    .get(`.side-navigation li.moj-side-navigation__item--active`)
+    .invoke('text')
+    .then(sectionName => sectionName.trim().toLocaleLowerCase())
+}

@@ -413,7 +413,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
   ...createWantToMakeChangesFields('their finance', 'finance'),
 ]
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith('finance')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'finance',
+  'finance',
+)
 
 export default [...baseFinanceFields, ...sectionCompleteFields, ...practitionerAnalysisFields].reduce(
   toFormWizardFields,

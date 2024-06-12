@@ -445,7 +445,10 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith('accommodation')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'accommodation',
+  'accommodation',
+)
 
 export default [
   ...sectionCompleteFields,

@@ -644,6 +644,7 @@ export const makeChangesFields = createWantToMakeChangesFields(
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
   'personal_relationships_community',
+  'personal relationships and community',
 )
 
 export const questionSectionComplete: FormWizard.Field = {

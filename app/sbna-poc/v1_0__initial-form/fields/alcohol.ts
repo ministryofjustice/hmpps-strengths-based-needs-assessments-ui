@@ -352,7 +352,10 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith('alcohol')
+export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'alcohol',
+  'alcohol use',
+)
 
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the alcohol use section complete?',
