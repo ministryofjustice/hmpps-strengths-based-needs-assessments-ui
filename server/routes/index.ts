@@ -2,7 +2,7 @@ import { type RequestHandler, Router } from 'express'
 
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import App from '../../app'
-import enterAssessment from '../middleware/enterAssessment';
+import enterAssessment from '../middleware/enterAssessment'
 
 export default function routes(): Router {
   const router = Router()
