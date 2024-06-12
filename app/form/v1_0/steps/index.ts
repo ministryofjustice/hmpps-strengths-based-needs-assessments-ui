@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
-import SaveAndContinueController from '../../../common/controllers/saveAndContinueController'
-import StartController from '../../../common/controllers/startController'
+import SaveAndContinueController from '../../../controllers/saveAndContinueController'
+import StartController from '../../../controllers/startController'
 import accommodationSteps from './accommodation'
 import financeSteps from './finance'
 import drugsSteps from './drugs'
@@ -23,7 +23,7 @@ const stepOptions: FormWizard.Steps = {
   '/data-mapping': {
     pageTitle: 'OASys Data Mapping',
     section: 'none',
-    template: `forms/sbna-poc/data-mapping`,
+    template: `forms/summary/data-mapping`,
   },
   ...accommodationSteps,
   ...employmentEducationSteps,

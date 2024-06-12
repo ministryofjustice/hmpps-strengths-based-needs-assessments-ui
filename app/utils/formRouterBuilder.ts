@@ -1,13 +1,22 @@
 import type { NextFunction, Request, Response } from 'express'
 import * as express from 'express'
 import FormWizard from 'hmpo-form-wizard'
-import FormFieldsResponse from '../responses/formFieldsResponse'
-import { Form, FormOptions } from '../form-types'
 
 type FormWizardRouter = {
   metaData: FormOptions
   router: express.Router
   configRouter: express.Router
+}
+
+export type FormOptions = {
+  version: string
+  active: boolean
+}
+
+export type Form = {
+  fields: FormWizard.Fields
+  steps: FormWizard.Steps
+  options: FormOptions
 }
 
 const getLatestVersionFrom = (formRouters: FormWizardRouter[] = []): FormWizardRouter | null =>
@@ -86,15 +95,14 @@ function checkFormIntegrity(form: Form) {
 const setupForm = (form: Form): FormWizardRouter => {
   const router = express.Router()
   const configRouter = express.Router()
-  const options = {
-    journeyName: 'sbna',
-    journeyTitle: 'Strengths and needs',
-    entryPoint: true,
-  }
 
   if (form.options.active === true) {
-    router.get('/fields', (_req: Request, res: Response) => res.json(FormFieldsResponse.from(form, options))) // TODO: remove
-    configRouter.get('/', (_req: Request, res: Response) => res.json(FormFieldsResponse.from(form, options)))
+    configRouter.get('/', (_req: Request, res: Response) =>
+      res.json({
+        version: form.options.version,
+        fields: form.fields,
+      }),
+    )
 
     router.use((req: Request, res: Response, next: NextFunction) => {
       const { fields = [], section: currentSection } = getStepFrom(form.steps, req.url)
@@ -112,10 +120,8 @@ const setupForm = (form: Form): FormWizardRouter => {
 
     router.use(
       FormWizard(form.steps, form.fields, {
-        journeyName: `${options.journeyName}:${form.options.version}`,
-        journeyPageTitle: options.journeyTitle,
-        name: `${options.journeyName}:${form.options.version}`,
-        entryPoint: options.entryPoint || false,
+        name: `Assessment:${form.options.version}`,
+        entryPoint: true,
       }),
     )
   }
@@ -137,7 +143,6 @@ export default class FormRouterBuilder {
         this.formConfigRouter.use(`/${majorVersion}/${minorVersion}`, formRouter.configRouter)
       })
     if (latest) {
-      this.formRouter.use('/', latest.router) // TODO: Clean-up - remove
       this.formConfigRouter.use('/latest', latest.configRouter)
     }
   }

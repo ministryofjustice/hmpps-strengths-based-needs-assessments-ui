@@ -104,7 +104,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: ['employment-education-analysis-complete'],
-    template: 'forms/sbna-poc/summary-analysis-incomplete',
+    template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('employment_education_analysis_section_complete')],
   },
@@ -112,7 +112,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/sbna-poc/summary-analysis-complete',
+    template: 'forms/summary/summary-analysis-complete',
     section: sectionName,
   },
 }

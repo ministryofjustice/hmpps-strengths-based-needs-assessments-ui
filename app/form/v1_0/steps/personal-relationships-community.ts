@@ -74,7 +74,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'personal-relationships-community-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/summary-analysis-incomplete',
+    template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('personal_relationships_community_analysis_section_complete')],
   },
@@ -82,7 +82,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/sbna-poc/summary-analysis-complete',
+    template: 'forms/summary/summary-analysis-complete',
     section: sectionName,
   },
 }

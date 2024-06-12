@@ -56,7 +56,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: 'Usage details',
     fields: fieldCodesFrom(drugUseTypeDetailsFields, sectionCompleteFields),
     next: 'drug-use-changes',
-    template: 'forms/sbna-poc/drug-usage',
+    template: 'forms/summary/drug-usage',
     backLink: 'drug-use-type',
     section: 'drug-use',
     sectionProgressRules: [
@@ -79,14 +79,14 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: 'Drug use',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'drug-use-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/drugs-summary-analysis',
+    template: 'forms/summary/drugs-summary-analysis',
     section: 'drug-use',
     sectionProgressRules: [setFieldToCompleteWhenValid('drug_use_analysis_section_complete')],
   },
   '/drug-use-analysis-complete': {
     pageTitle: 'Drug use',
     fields: [],
-    template: 'forms/sbna-poc/drugs-summary-analysis-complete',
+    template: 'forms/summary/drugs-summary-analysis-complete',
     section: 'drug-use',
   },
 }

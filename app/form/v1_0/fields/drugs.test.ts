@@ -1,6 +1,6 @@
 import { requiredWhenContains } from './drugs'
 
-describe('sbna-poc/fields/drugs', () => {
+describe('fields/drugs', () => {
   describe('requiredWhenContains', () => {
     const contextWithAnswers = (answers: Record<string, unknown>) => ({
       sessionModel: {

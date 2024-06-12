@@ -20,7 +20,7 @@ To start it, run:
 
 `make up`
 
-The entry point for the service is http://localhost:3000/form/oastub/start
+The entry point for the service is http://localhost:7072
 
 To update containers
 

@@ -56,7 +56,7 @@ services:
     depends_on:
       - redis
     healthcheck:
-      test: ["CMD", "node", "/healthcheck.js"]
+      test: ["CMD", "node", "/app/docker/healthcheck.js"]
     environment:
       REDIS_ENABLED: "true"      
       SYSTEM_CLIENT_SECRET: clientsecret
@@ -73,7 +73,7 @@ services:
       AUDIT_ENABLED: "false"
       PRODUCT_ID: FOO
     volumes:
-      - ./docker/healthcheck.js:/healthcheck.js
+      - ./docker/healthcheck.js:/app/docker/healthcheck.js
 
   api:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest
@@ -91,8 +91,7 @@ services:
       SPRING_PROFILES_ACTIVE: postgres
       DATABASE_ENDPOINT: postgres:5432
       OAUTH_ENDPOINT_URL: http://hmpps-auth:9090/auth
-      LINK_BASE_URL: http://localhost:3000/form
-      FORM_CONFIG_BASE_URL: http://ui:3000/form
+      FORM_CONFIG_BASE_URL: http://ui:3000/config
 
   ui:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
@@ -108,7 +107,7 @@ services:
      - arns-handover
      - oasys-ui
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://ui:3000/health" ]
+      test: [ "CMD", "node", "./docker/healthcheck.js" ]
       interval: 5s
       retries: 60
     environment:

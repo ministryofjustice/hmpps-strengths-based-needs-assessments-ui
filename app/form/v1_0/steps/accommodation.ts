@@ -126,14 +126,14 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: 'Accommodation',
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'accommodation-analysis-complete#practitioner-analysis',
-    template: 'forms/sbna-poc/summary-analysis-incomplete',
+    template: 'forms/summary/summary-analysis-incomplete',
     section: 'accommodation',
     sectionProgressRules: [setFieldToCompleteWhenValid('accommodation_analysis_section_complete')],
   },
   '/accommodation-analysis-complete': {
     pageTitle: 'Accommodation',
     next: [],
-    template: 'forms/sbna-poc/summary-analysis-complete',
+    template: 'forms/summary/summary-analysis-complete',
     section: 'accommodation',
   },
 }
