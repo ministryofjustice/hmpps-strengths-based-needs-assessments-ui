@@ -17,9 +17,6 @@ export default class App {
     const formRouterBuilder = FormRouterBuilder.configure(V1_0)
 
     this.formRouter = formRouterBuilder.formRouter
-      .use('*', (_req, _res, next) => {
-        next()
-      })
       .use((error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) => {
         if (error.redirect) return res.redirect(error.redirect)
         return next(error)
