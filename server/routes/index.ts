@@ -1,14 +1,15 @@
 import { type RequestHandler, Router } from 'express'
 
 import asyncMiddleware from '../middleware/asyncMiddleware'
-import formRouter from '../../app'
+import App from '../../app'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(): Router {
   const router = Router()
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
-  router.use('/form', formRouter())
+  const app = new App()
+  router.use('/form', app.formRouter)
+  router.use('/config', app.formConfigRouter)
 
   get('/', (req, res, next) => {
     res.render('pages/index')

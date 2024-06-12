@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
-import SaveAndContinueController from '../controllers/saveAndContinueController'
-import StartController from '../controllers/startController'
+import SaveAndContinueController from '../../../common/controllers/saveAndContinueController'
+import StartController from '../../../common/controllers/startController'
 import accommodationSteps from './accommodation'
 import financeSteps from './finance'
 import drugsSteps from './drugs'
@@ -14,7 +14,7 @@ import { assessmentComplete } from '../fields'
 
 const stepOptions: FormWizard.Steps = {
   '/start': {
-    pageTitle: 'POC Form',
+    pageTitle: 'Start',
     controller: StartController,
     reset: true,
     entryPoint: true,

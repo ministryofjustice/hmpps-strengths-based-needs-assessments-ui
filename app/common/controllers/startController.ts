@@ -1,8 +1,8 @@
 import { Response, NextFunction } from 'express'
 import FormWizard from 'hmpo-form-wizard'
-import BaseController from '../../../common/controllers/baseController'
-import StrengthsBasedNeedsAssessmentsApiService from '../../../../server/services/strengthsBasedNeedsService'
-import ArnsHandoverService from '../../../../server/services/arnsHandoverService'
+import BaseController from './baseController'
+import StrengthsBasedNeedsAssessmentsApiService from '../../../server/services/strengthsBasedNeedsService'
+import ArnsHandoverService from '../../../server/services/arnsHandoverService'
 
 class StartController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService

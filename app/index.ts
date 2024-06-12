@@ -1,4 +1,4 @@
-import Express, { type Response, NextFunction } from 'express'
+import Express, { type Response, NextFunction, Router } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import { HTTPError } from 'superagent'
 import FormRouterBuilder from './common/utils/formRouterBuilder'
@@ -8,22 +8,25 @@ interface FormWizardError extends HTTPError {
   redirect?: string
 }
 
-export default () => {
-  const router = Express.Router()
-  const formRouter = FormRouterBuilder.configure(V1_0).mountActive().build()
+export default class App {
+  formRouter: Router
 
-  router.use('*', (req, res, next) => {
-    next()
-  })
+  formConfigRouter: Router
 
-  // TODO: Clean-up - remove
-  router.use('/sbna-poc', formRouter)
-  router.use('/', formRouter)
+  constructor() {
+    const formRouterBuilder = FormRouterBuilder.configure(V1_0)
 
-  router.use((error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) => {
-    if (error.redirect) return res.redirect(error.redirect)
-    return next(error)
-  })
+    this.formRouter = Express.Router()
+      .use('/sbna-poc', formRouterBuilder.formRouter) // TODO: remove
+      .use('/', formRouterBuilder.formRouter)
+      .use('*', (_req, _res, next) => {
+        next()
+      })
+      .use((error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) => {
+        if (error.redirect) return res.redirect(error.redirect)
+        return next(error)
+      })
 
-  return router
+    this.formConfigRouter = formRouterBuilder.formConfigRouter
+  }
 }
