@@ -13,15 +13,15 @@ describe('Origin: /employment-education', () => {
 
   const sectionName = 'Employment and education'
 
+  before(() => {
+    cy.createAssessment()
+  })
+
+  beforeEach(() => {
+    cy.enterAssessment()
+  })
+
   describe(`Destination: ${destinations.employed}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     Array.of('Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship').forEach(typeOfEmployment => {
       it(`"Employed" and "${typeOfEmployment}" routes to "${destinations.employed}"`, () => {
         cy.visitStep(destinations.landingPage)
@@ -92,14 +92,6 @@ describe('Origin: /employment-education', () => {
   })
 
   describe(`Destination: ${destinations.retired}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     it(`"Retired" routes to "${destinations.retired}"`, () => {
       cy.visitStep(destinations.landingPage)
 
@@ -117,7 +109,7 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('Studying').clickLabel()
 
         cy.getQuestion('Select the highest level of academic qualification Sam has completed')
           .getRadio('Entry level')
@@ -130,7 +122,13 @@ describe('Origin: /employment-education', () => {
           .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
-          .getCheckbox('No difficulties')
+          .getCheckbox('Yes, with reading')
+          .clickLabel()
+
+        cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
+          .getCheckbox('Yes, with reading')
+          .getConditionalQuestion()
+          .getRadio('Some difficulties')
           .clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their employment and education?')
@@ -153,14 +151,6 @@ describe('Origin: /employment-education', () => {
   ]
 
   describe(`Destination: ${destinations.hasBeenEmployed}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     employmentStatuses.forEach(employmentStatus => {
       it(`"${employmentStatus}" and "Yes, has been employed before" routes to "${destinations.hasBeenEmployed}"`, () => {
         cy.visitStep(destinations.landingPage)
@@ -186,7 +176,7 @@ describe('Origin: /employment-education', () => {
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
 
-        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('Volunteering').clickLabel()
 
         cy.getQuestion('Select the highest level of academic qualification Sam has completed')
           .getRadio('Entry level')
@@ -199,7 +189,13 @@ describe('Origin: /employment-education', () => {
           .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
-          .getCheckbox('No difficulties')
+          .getCheckbox('Yes, with writing')
+          .clickLabel()
+
+        cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
+          .getCheckbox('Yes, with writing')
+          .getConditionalQuestion()
+          .getRadio('Some difficulties')
           .clickLabel()
 
         cy.getQuestion("What is Sam's overall experience of employment?").getRadio('Positive').clickLabel()
@@ -220,14 +216,6 @@ describe('Origin: /employment-education', () => {
   })
 
   describe(`Destination: ${destinations.neverBeenEmployed}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     employmentStatuses.forEach(employmentStatus => {
       it(`"${employmentStatus}" and "No, has never been employed" routes to "${destinations.neverBeenEmployed}"`, () => {
         cy.visitStep(destinations.landingPage)
@@ -251,7 +239,7 @@ describe('Origin: /employment-education', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.neverBeenEmployed)
 
-        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('None').clickLabel()
+        cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('Other').clickLabel()
 
         cy.getQuestion('Select the highest level of academic qualification Sam has completed')
           .getRadio('Entry level')
@@ -264,7 +252,13 @@ describe('Origin: /employment-education', () => {
           .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
-          .getCheckbox('No difficulties')
+          .getCheckbox('Yes, with numeracy')
+          .clickLabel()
+
+        cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
+          .getCheckbox('Yes, with numeracy')
+          .getConditionalQuestion()
+          .getRadio('Some difficulties')
           .clickLabel()
 
         cy.getQuestion("What is Sam's experience of education?").getRadio('Positive').clickLabel()
