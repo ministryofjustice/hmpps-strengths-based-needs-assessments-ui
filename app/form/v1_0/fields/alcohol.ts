@@ -69,10 +69,10 @@ export function orNoImpactValidator() {
 
 export const alcoholUseFields: Array<FormWizard.Field> = [
   {
-    text: 'Has [subject] ever drank alcohol?',
+    text: 'Has [subject] ever drunk alcohol?',
     code: 'alcohol_use',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have ever drank alcohol' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have ever drunk alcohol' }],
     options: [
       { text: 'Yes, including the last 3 months', value: 'YES_WITHIN_LAST_THREE_MONTHS', kind: 'option' },
       { text: 'Yes, but not in the last 3 months', value: 'YES_NOT_IN_LAST_THREE_MONTHS', kind: 'option' },
@@ -288,10 +288,10 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
 
 export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
   {
-    text: 'How often has [subject] drank alcohol in the last 3 months?',
+    text: 'How often has [subject] drunk alcohol in the last 3 months?',
     code: 'alcohol_frequency',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they drank alcohol in the last 3 months' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they drunk alcohol in the last 3 months' }],
     options: [
       { text: 'Once a month or less', value: 'ONCE_A_MONTH_OR_LESS', kind: 'option' },
       { text: '2 to 4 times a month', value: 'MULTIPLE_TIMES_A_MONTH', kind: 'option' },
