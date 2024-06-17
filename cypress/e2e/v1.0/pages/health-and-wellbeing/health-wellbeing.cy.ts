@@ -11,6 +11,7 @@ describe('/health-wellbeing', () => {
     cy.visitSection('Health and wellbeing')
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)
+    cy.hasAutosaveEnabled()
   })
 
   questions.forEach((questionTest, index) => {
