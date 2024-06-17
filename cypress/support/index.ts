@@ -16,6 +16,7 @@ import {
   isNotChecked,
   isOptionNumber,
   clickLabel,
+  getNthConditionalQuestion,
 } from './commands/option'
 import {
   assertQuestionCount,
@@ -27,11 +28,13 @@ import {
   enterDate,
   enterText,
   getCheckbox,
+  getDrugQuestion,
   getNextQuestion,
   getQuestion,
   getRadio,
   hasCheckboxes,
   hasDate,
+  hasDrugQuestions,
   hasHint,
   hasLimit,
   hasNoValidationError,
@@ -41,7 +44,21 @@ import {
   hasValidationError,
   isQuestionNumber,
 } from './commands/question'
-import { clickChange, getAnswer, getSummary, hasNoSecondaryAnswer, hasSecondaryAnswer } from './commands/summary'
+import {
+  changeDrugUsage,
+  clickChange,
+  getAnswer,
+  getDrugSummary,
+  getSummary,
+  hasFrequency,
+  hasInjectedCurrently,
+  hasInjectedPreviously,
+  hasNoSecondaryAnswer,
+  hasPreviousUse,
+  hasReceivingTreatmentCurrently,
+  hasReceivingTreatmentPreviously,
+  hasSecondaryAnswer,
+} from './commands/summary'
 import 'cypress-axe'
 import { checkAccessibility } from './commands/accessibility'
 import {
@@ -93,6 +110,7 @@ declare global {
       clickLabel(): Chainable
       hasConditionalQuestion(expect?: boolean): Chainable
       getConditionalQuestion(): Chainable
+      getNthConditionalQuestion(index: number): Chainable
 
       // page
       assertQuestionCount(count: number): Chainable
@@ -102,6 +120,8 @@ declare global {
 
       // question
       getQuestion(title: string): Chainable
+      getDrugQuestion(drug: string, title: string): Chainable
+      hasDrugQuestions(drug: string, count: number): Chainable
       getNextQuestion(): Chainable
       hasTitle(title: string): Chainable
       isQuestionNumber(position: number): Chainable
@@ -120,7 +140,15 @@ declare global {
 
       // summary
       getSummary(question: string): Chainable
+      getDrugSummary(drug: string): Chainable
+      hasFrequency(answer: string): Chainable
+      hasPreviousUse(answer: string): Chainable
+      hasReceivingTreatmentCurrently(answer: string): Chainable
+      hasReceivingTreatmentPreviously(answer: string): Chainable
+      hasInjectedCurrently(answer: string): Chainable
+      hasInjectedPreviously(answer: string): Chainable
       clickChange(): Chainable
+      changeDrugUsage(): Chainable
       getAnswer(answer: string): Chainable
       hasSecondaryAnswer(...answers: string[]): Chainable
       hasNoSecondaryAnswer(): Chainable
@@ -165,6 +193,7 @@ Cypress.Commands.add('isOptionNumber', { prevSubject: true }, isOptionNumber)
 Cypress.Commands.add('clickLabel', { prevSubject: true }, clickLabel)
 Cypress.Commands.add('hasConditionalQuestion', { prevSubject: true }, hasConditionalQuestion)
 Cypress.Commands.add('getConditionalQuestion', { prevSubject: true }, getConditionalQuestion)
+Cypress.Commands.add('getNthConditionalQuestion', { prevSubject: true }, getNthConditionalQuestion)
 
 // page
 Cypress.Commands.add('assertQuestionCount', assertQuestionCount)
@@ -174,6 +203,8 @@ Cypress.Commands.add('hasAutosaveEnabled', hasAutosaveEnabled)
 
 // question
 Cypress.Commands.add('getQuestion', getQuestion)
+Cypress.Commands.add('getDrugQuestion', getDrugQuestion)
+Cypress.Commands.add('hasDrugQuestions', hasDrugQuestions)
 Cypress.Commands.add('getNextQuestion', { prevSubject: true }, getNextQuestion)
 Cypress.Commands.add('hasTitle', { prevSubject: true }, hasTitle)
 Cypress.Commands.add('isQuestionNumber', { prevSubject: true }, isQuestionNumber)
@@ -192,7 +223,15 @@ Cypress.Commands.add('hasDate', { prevSubject: true }, hasDate)
 
 // summary
 Cypress.Commands.add('getSummary', getSummary)
+Cypress.Commands.add('getDrugSummary', getDrugSummary)
+Cypress.Commands.add('hasFrequency', { prevSubject: true }, hasFrequency)
+Cypress.Commands.add('hasPreviousUse', { prevSubject: true }, hasPreviousUse)
+Cypress.Commands.add('hasReceivingTreatmentCurrently', { prevSubject: true }, hasReceivingTreatmentCurrently)
+Cypress.Commands.add('hasReceivingTreatmentPreviously', { prevSubject: true }, hasReceivingTreatmentPreviously)
+Cypress.Commands.add('hasInjectedCurrently', { prevSubject: true }, hasInjectedCurrently)
+Cypress.Commands.add('hasInjectedPreviously', { prevSubject: true }, hasInjectedPreviously)
 Cypress.Commands.add('clickChange', { prevSubject: true }, clickChange)
+Cypress.Commands.add('changeDrugUsage', { prevSubject: true }, changeDrugUsage)
 Cypress.Commands.add('getAnswer', { prevSubject: true }, getAnswer)
 Cypress.Commands.add('hasSecondaryAnswer', { prevSubject: true }, hasSecondaryAnswer)
 Cypress.Commands.add('hasNoSecondaryAnswer', { prevSubject: true }, hasNoSecondaryAnswer)

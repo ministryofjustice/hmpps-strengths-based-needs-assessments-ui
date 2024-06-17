@@ -10,6 +10,30 @@ export const getQuestion = (title: string) => {
     .closest('fieldset, .govuk-form-group')
 }
 
+export const getDrugQuestion = (drug: string, title: string) => {
+  return cy
+    .get(`form > .drug > h2`)
+    .contains(drug)
+    .should('have.length', 1)
+    .parent()
+    .find('> .form-group > fieldset > legend, > .govuk-form-group > label')
+    .contains(title)
+    .should('be.visible')
+    .and('have.length', 1)
+    .closest('fieldset, .govuk-form-group')
+}
+
+export const hasDrugQuestions = (drug: string, count: number) => {
+  cy.get(`form > .drug > h2`)
+    .contains(drug)
+    .should('have.length', 1)
+    .parent()
+    .find('> .form-group > fieldset > legend, > .govuk-form-group > label')
+    .should('be.visible')
+    .and('have.length', count)
+  return cy
+}
+
 export const getNextQuestion = (subject: JQuery) => {
   return cy
     .wrap(subject)
@@ -90,7 +114,7 @@ export const getRadio = (subject: JQuery, label: string) => {
   return cy
     .wrap(subject)
     .find('> .govuk-radios > .govuk-radios__item:visible > label')
-    .contains(label)
+    .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
     .should('be.visible')
     .and('have.length', 1)
     .parent()
@@ -100,7 +124,7 @@ export const getCheckbox = (subject: JQuery, label: string) => {
   return cy
     .wrap(subject)
     .find('> .govuk-checkboxes > .govuk-checkboxes__item:visible > label')
-    .contains(label)
+    .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
     .should('be.visible')
     .and('have.length', 1)
     .parent()
