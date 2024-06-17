@@ -139,7 +139,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Why does [subject] drink alcohol?',
-    hint: { text: 'Select all that apply', kind: 'text' },
+    hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'alcohol_reasons_for_use',
     type: FieldType.CheckBox,
     multiple: true,
@@ -181,7 +181,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   },
   {
     text: "What's the impact of [subject] drinking alcohol?",
-    hint: { text: 'Select all that apply', kind: 'text' },
+    hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'alcohol_impact_of_use',
     type: FieldType.CheckBox,
     multiple: true,
@@ -253,7 +253,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Has anything helped [subject] to stop or reduce drinking alcohol in the past?',
-    hint: { text: 'Consider strategies, people or support networks that may have helped', kind: 'text' },
+    hint: { text: 'Consider strategies, people or support networks that may have helped.', kind: 'text' },
     code: 'alcohol_stopped_or_reduced',
     type: FieldType.Radio,
     validate: [

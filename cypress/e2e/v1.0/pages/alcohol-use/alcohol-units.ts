@@ -4,7 +4,10 @@
 
 //   describe(question, () => {
 //     it(`displays and validates the question`, () => {
-//       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Help with alcohol units').hasRadios(options)
+//       cy.getQuestion(question)
+//       .isQuestionNumber(positionNumber)
+//       .hasHint('Help with alcohol units')
+//       .hasRadios(options)
 //       cy.saveAndContinue()
 //       cy.assertStepUrlIs(stepUrl)
 //       cy.getQuestion(question).hasValidationError('Select how many units of alcohol they have on a typical day of drinking')
@@ -27,3 +30,5 @@
 //     })
 //   })
 // }
+
+// NOTE: this question may change - awaiting for updates 

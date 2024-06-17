@@ -1,13 +1,13 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Has Sam ever drunk alcohol?'
-  const options = ['Yes, including the last 3 months', 'Yes, but not in the last 3 months', 'No']
+  const question = 'How often has Sam drunk alcohol in the last 3 months?'
+  const options = ['Once a month or less', '2 to 4 times a month', '2 to 3 times a week', 'More than 4 times a week']
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they have ever drunk alcohol')
+      cy.getQuestion(question).hasValidationError('Select how often they drunk alcohol in the last 3 months')
       cy.checkAccessibility()
     })
 
