@@ -34,10 +34,11 @@ import {
   getRadio,
   hasCheckboxes,
   hasDate,
-  hasDrugQuestions,
+  hasDrugQuestionGroups,
   hasHint,
   hasLimit,
   hasNoValidationError,
+  hasQuestionsForDrug,
   hasRadios,
   hasText,
   hasTitle,
@@ -121,7 +122,8 @@ declare global {
       // question
       getQuestion(title: string): Chainable
       getDrugQuestion(drug: string, title: string): Chainable
-      hasDrugQuestions(drug: string, count: number): Chainable
+      hasDrugQuestionGroups(count: number): Chainable
+      hasQuestionsForDrug(drug: string, count: number): Chainable
       getNextQuestion(): Chainable
       hasTitle(title: string): Chainable
       isQuestionNumber(position: number): Chainable
@@ -204,7 +206,8 @@ Cypress.Commands.add('hasAutosaveEnabled', hasAutosaveEnabled)
 // question
 Cypress.Commands.add('getQuestion', getQuestion)
 Cypress.Commands.add('getDrugQuestion', getDrugQuestion)
-Cypress.Commands.add('hasDrugQuestions', hasDrugQuestions)
+Cypress.Commands.add('hasDrugQuestionGroups', hasDrugQuestionGroups)
+Cypress.Commands.add('hasQuestionsForDrug', hasQuestionsForDrug)
 Cypress.Commands.add('getNextQuestion', { prevSubject: true }, getNextQuestion)
 Cypress.Commands.add('hasTitle', { prevSubject: true }, hasTitle)
 Cypress.Commands.add('isQuestionNumber', { prevSubject: true }, isQuestionNumber)

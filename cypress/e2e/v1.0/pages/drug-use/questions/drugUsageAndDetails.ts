@@ -74,7 +74,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           }
 
           cy.visitStep(detailsStep)
-          cy.hasDrugQuestions(drugName(drug), 2)
+          cy.assertQuestionCount(0)
+          cy.hasDrugQuestionGroups(1)
+          cy.hasQuestionsForDrug(drugName(drug), 2)
         })
 
         const frequencyQuestion = 'How often is Sam using this drug?'

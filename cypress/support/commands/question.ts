@@ -2,7 +2,7 @@
 
 export const getQuestion = (title: string) => {
   return cy
-    .get(`form > .form-group`)
+    .get(`form > .form-group, form > .drug > .form-group`)
     .find('> fieldset > legend, > .govuk-form-group > label')
     .contains(title)
     .should('be.visible')
@@ -23,7 +23,12 @@ export const getDrugQuestion = (drug: string, title: string) => {
     .closest('fieldset, .govuk-form-group')
 }
 
-export const hasDrugQuestions = (drug: string, count: number) => {
+export const hasDrugQuestionGroups = (count: number) => {
+  cy.get(`form > .drug`).should('be.visible').and('have.length', count)
+  return cy
+}
+
+export const hasQuestionsForDrug = (drug: string, count: number) => {
   cy.get(`form > .drug > h2`)
     .contains(drug)
     .should('have.length', 1)
