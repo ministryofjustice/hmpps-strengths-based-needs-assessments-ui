@@ -165,24 +165,28 @@ describe('Origin: /accommodation', () => {
   describe(`Destination: ${destinations.noAccommodation}`, () => {
     const typeOfAccommodation = 'No accommodation'
 
-    Array.of('Campsite', 'Emergency hostel', 'Homeless - includes squatting', 'Rough sleeping', 'Shelter').forEach(typeOfNoAccommodation => {
-      it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
-        cy.visitStep(destinations.landingPage)
+    Array.of('Campsite', 'Emergency hostel', 'Homeless - includes squatting', 'Rough sleeping', 'Shelter').forEach(
+      typeOfNoAccommodation => {
+        it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
+          cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
+          cy.getQuestion('What type of accommodation does Sam currently have?')
+            .getRadio(typeOfAccommodation)
+            .clickLabel()
 
-        cy.getQuestion('What type of accommodation does Sam currently have?')
-          .getRadio(typeOfAccommodation)
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .clickLabel()
+          cy.getQuestion('What type of accommodation does Sam currently have?')
+            .getRadio(typeOfAccommodation)
+            .getConditionalQuestion()
+            .getRadio(typeOfNoAccommodation)
+            .clickLabel()
 
-        cy.saveAndContinue()
+          cy.saveAndContinue()
 
-        cy.assertStepUrlIs(destinations.noAccommodation)
-        cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
-      })
-    })
+          cy.assertStepUrlIs(destinations.noAccommodation)
+          cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
+        })
+      },
+    )
 
     describe(`Destination: ${destinations.analysis}`, () => {
       it(`routes to ${destinations.analysis}`, () => {
