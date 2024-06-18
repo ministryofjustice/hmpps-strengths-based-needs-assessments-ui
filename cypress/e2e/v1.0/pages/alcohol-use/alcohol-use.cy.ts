@@ -8,7 +8,7 @@ describe('/alcohol-use', () => {
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
     cy.visitStep(stepUrl)
-    cy.assertSectionIs('Alcohol Use')
+    cy.assertSectionIs('Alcohol use')
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
   })

@@ -26,7 +26,7 @@ describe('/alcohol-use', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Alcohol Use')
+    cy.visitSection('Alcohol use')
     cy.getQuestion("Has Sam ever drunk alcohol?").getRadio('Yes, but not in the last 3 months').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
