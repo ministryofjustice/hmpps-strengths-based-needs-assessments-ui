@@ -1,6 +1,6 @@
 import alcoholFrequency from './questions/alcohol-frequency'
 import alcoholUnits from './questions/alcohol-units'
-// import alcohol binge drinking - add question once approved
+import alcoholBingeDrinking from './questions/alcohol-binge-drinking'
 import evidenceOfBingeDrinking from './questions/alcohol-evidence-binge-drinking'
 import impactOfAlcohol from './questions/alcohol-impact-of-use'
 import pastAlcoholIssues from './questions/alcohol-past-issues'
@@ -14,10 +14,11 @@ describe('/alcohol-usage-last-three-months', () => {
   const questions = [
     alcoholFrequency,
     alcoholUnits,
+    alcoholBingeDrinking,
     evidenceOfBingeDrinking,
-    impactOfAlcohol,
     pastAlcoholIssues,
     reasonsForUse,
+    impactOfAlcohol,
     stoppedOrReducedAlcohol,
     wantToMakeChanges,
   ]

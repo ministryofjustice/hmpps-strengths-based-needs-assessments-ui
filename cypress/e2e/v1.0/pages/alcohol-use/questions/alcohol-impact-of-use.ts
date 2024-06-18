@@ -32,9 +32,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.getQuestion(question)
           .getCheckbox(option)
-          .hasHint('Consider impact on themselves or others.')
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
+          .hasHint('Consider impact on themselves or others.')
           .hasLimit(400)
 
         cy.saveAndContinue()

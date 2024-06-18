@@ -73,8 +73,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .clickLabel()
 
         cy.saveAndContinue()
-        cy.getQuestion(question)
-          .hasNoValidationError()
+        cy.getQuestion(question).hasValidationError('Select why they drink alcohol')
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
