@@ -22,6 +22,7 @@
         {% for drug in summaryField.answers %}
 
           {% set drugName = drug.text | striptags(true) | escape | nl2br | safe %}
+          {% set changeLink = null %}
           {% set frequency = null %}
           {% set previously = null %}
           {% set currentlyInjecting = null %}
@@ -34,6 +35,7 @@
 
               {% switch true %}
                 {% case drugUsage.field.code | startsWith("drug_usage_") %}
+                  {% set changeLink = drugUsage.backLink %}
                   {% set frequency = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
                 {% case drugUsage.field.code | startsWith("past_drug_usage_") %}
                   {% set previously = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
@@ -65,7 +67,7 @@
               <td class="govuk-table__cell">{{ frequency | default("N/A", true) }}</td>
               <td class="govuk-table__cell">{{ previously | default("N/A", true) }}</td>
               <td class="govuk-table__cell with-text-right">
-                <a href="{{ drug.nestedFields[0].backLink }}" class="govuk-link">Change</a>
+                <a href="{{ changeLink }}" class="govuk-link">Change</a>
               </td>
             </tr>
             {% if currentlyInjecting or previouslyInjecting %}
