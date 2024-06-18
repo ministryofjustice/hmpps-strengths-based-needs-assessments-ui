@@ -71,6 +71,10 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     return subject.startsWith(startWith)
   })
 
+  njkEnv.addFilter('urlSafe', function urlSafe(text: string) {
+    return text.replace(/[|&;$%@"<>()+,]/g, '').replace(/\s+/g, '-')
+  })
+
   njkEnv.addGlobal('getSummaryFields', function summaryFields() {
     return getSummaryFields(this.ctx)
   })

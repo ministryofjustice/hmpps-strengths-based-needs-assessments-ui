@@ -22,7 +22,8 @@
         {% for drug in summaryField.answers %}
 
           {% set drugName = drug.text | striptags(true) | escape | nl2br | safe %}
-          {% set changeLink = null %}
+          {% set changeLink = "drug-usage-details#" + drugName | lower | urlSafe %}
+
           {% set frequency = null %}
           {% set previously = null %}
           {% set currentlyInjecting = null %}
@@ -35,7 +36,6 @@
 
               {% switch true %}
                 {% case drugUsage.field.code | startsWith("drug_usage_") %}
-                  {% set changeLink = drugUsage.backLink %}
                   {% set frequency = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
                 {% case drugUsage.field.code | startsWith("past_drug_usage_") %}
                   {% set previously = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}

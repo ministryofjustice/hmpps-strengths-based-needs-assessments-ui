@@ -37,3 +37,9 @@ export const assertQuestionUrl = (question: string) => {
     getQuestion(question).find(url.hash).should('exist')
   })
 }
+
+export const assertDrugQuestionGroupUrl = (drug: string) => {
+  return cy.location().then(url => {
+    cy.get('form').children(url.hash).should('be.visible').and('have.length', 1).children('h2').contains(drug)
+  })
+}
