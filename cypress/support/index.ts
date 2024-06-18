@@ -102,7 +102,7 @@ declare global {
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
       assertQuestionUrl(question: string): Chainable
-      assertDrugQuestionGroupUrl(question: string): Chainable
+      assertDrugQuestionGroupUrl(drug: string): Chainable
 
       // option
       isChecked(): Chainable
