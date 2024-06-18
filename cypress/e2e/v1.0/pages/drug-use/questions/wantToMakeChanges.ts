@@ -43,6 +43,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasLimit(400)
 
         cy.saveAndContinue()
+        cy.assertStepUrlIs(summaryPage)
+        cy.visitStep(stepUrl)
+
         cy.getQuestion(question)
           .hasNoValidationError()
           .getRadio(option)
@@ -53,7 +56,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.checkAccessibility()
 
         cy.saveAndContinue()
-        cy.visitStep(summaryPage)
+        cy.assertStepUrlIs(summaryPage)
+
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('some text')
         cy.checkAccessibility()
         cy.getSummary(question).clickChange()
@@ -69,9 +73,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false)
 
         cy.saveAndContinue()
-        cy.getQuestion(question).hasNoValidationError()
+        cy.assertStepUrlIs(summaryPage)
 
-        cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
         cy.checkAccessibility()
         cy.getSummary(question).clickChange()

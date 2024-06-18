@@ -165,7 +165,7 @@ describe('Origin: /accommodation', () => {
   describe(`Destination: ${destinations.noAccommodation}`, () => {
     const typeOfAccommodation = 'No accommodation'
 
-    Array.of('Campsite', 'Emergency hostel', 'Homeless', 'Rough sleeping', 'Shelter').forEach(typeOfNoAccommodation => {
+    Array.of('Campsite', 'Emergency hostel', 'Homeless - includes squatting', 'Rough sleeping', 'Shelter').forEach(typeOfNoAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
         cy.visitStep(destinations.landingPage)
 
