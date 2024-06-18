@@ -12,13 +12,13 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       )
       cy.checkAccessibility()
     })
-    ;[
+    Array.of(
       ['Yes', 'This includes any completed training, qualifications, work experience or transferable skills.'],
       [
         'Some skills',
         'This includes partially completed training or qualifications, limited on the job experience or skills that are not directly transferable.',
       ],
-    ].forEach(([option, hint]) => {
+    ).forEach(([option, hint]) => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
 

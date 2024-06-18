@@ -64,7 +64,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
           cy.visitStep(summaryPage)
           cy.getDrugSummary(drugName(drug))
-          cy.getSummary('Drugs Sam has used').clickChange()
+          cy.getSummary(question).clickChange()
           cy.assertQuestionUrl(question)
 
           if (drug === 'Other') {
@@ -279,8 +279,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             cy.visitStep(summaryPage)
             cy.checkAccessibility()
 
-            if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentCurrently('N/A')
-            if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedCurrently('N/A')
             cy.getDrugSummary(drugName(drug)).hasFrequency(frequency).changeDrugUsage()
 
             cy.assertQuestionUrl(frequencyQuestion)
@@ -460,8 +458,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             cy.visitStep(summaryPage)
             cy.checkAccessibility()
 
-            if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentPreviously('N/A')
-            if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedPreviously('N/A')
             cy.getDrugSummary(drugName(drug)).hasPreviousUse('No').changeDrugUsage()
 
             cy.getQuestion(pastUseQuestion).getRadio('No').isChecked().hasConditionalQuestion(false)

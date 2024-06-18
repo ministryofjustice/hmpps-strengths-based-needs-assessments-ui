@@ -10,7 +10,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).hasValidationError('Select their experience of education')
       cy.checkAccessibility()
     })
-    ;['Positive', 'Mostly positive', 'Positive and negative', 'Mostly negative', 'Negative'].forEach(option => {
+    Array.of('Positive', 'Mostly positive', 'Positive and negative', 'Mostly negative', 'Negative').forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 

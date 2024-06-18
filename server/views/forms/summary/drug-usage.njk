@@ -2,6 +2,8 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "components/question/macro.njk" import renderQuestion %}
 
+{% set pageTitleClass = "govuk-body-l govuk-!-margin-0" %}
+
 {%- macro renderDrugTypeOption(option, fields) -%}
   {% if option.value === "OTHER_DRUG" %}
     {% set label = fields["other_drug_details"].value | default("Other drug") %}
@@ -71,6 +73,11 @@
 {%- endmacro -%}
 
 {% block formContent %}
+  <div class="section-heading">
+    <div class="section-heading__heading">
+      <h2 class="govuk-heading-l">Usage details</h2>
+    </div>
+  </div>
   <form id="form" method="post" action="{{ action }}">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {{ renderQuestionsForDrugTypes(options.allFields, options.answers) }}
