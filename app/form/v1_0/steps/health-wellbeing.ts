@@ -102,7 +102,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'health-wellbeing-analysis-complete#practitioner-analysis',
-    template: 'forms/summary/health-wellbeing-summary-analysis',
+    template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete')],
   },
@@ -110,7 +110,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/summary/health-wellbeing-summary-analysis-complete',
+    template: 'forms/summary/summary-analysis-complete',
     section: sectionName,
   },
 }
