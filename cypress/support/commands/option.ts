@@ -40,3 +40,12 @@ export const getConditionalQuestion = (subject: JQuery) => {
     .should('be.visible')
     .and('have.length', 1)
 }
+
+export const getNthConditionalQuestion = (subject: JQuery, index: number) => {
+  return cy
+    .wrap(subject)
+    .next('.govuk-radios__conditional:visible, .govuk-checkboxes__conditional:visible')
+    .find('> .form-group > fieldset, > .form-group > .govuk-form-group')
+    .should('be.visible')
+    .eq(index)
+}

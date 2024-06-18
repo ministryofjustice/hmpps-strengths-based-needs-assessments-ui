@@ -270,32 +270,36 @@
   {% endif %}
 {% endmacro %}
 
-<table class="govuk-table drugs-summary-table">
-  <caption class="govuk-table__caption govuk-table__caption--s">
-    Drugs {{ options.subject | default("the person") }} has used
-    <span class="normal-font-weight to-the-right"><a href="drug-use-type#drug_use_type" class="govuk-link">Change</a></span>
-  </caption>
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header normal-font-weight">Drug</th>
-      <th scope="col" class="govuk-table__header normal-font-weight">Currently</th>
-      <th scope="col" class="govuk-table__header normal-font-weight">Previously</th>
-      <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
-    </tr>
-  </thead>
-  {{ renderAmphetamines(options.fields, options.answers) }}
-  {{ renderBenzodiazepines(options.fields, options.answers) }}
-  {{ renderCannabis(options.fields, options.answers) }}
-  {{ renderCocaine(options.fields, options.answers) }}
-  {{ renderCrack(options.fields, options.answers) }}
-  {{ renderEcstacy(options.fields, options.answers) }}
-  {{ renderHallucinogenics(options.fields, options.answers) }}
-  {{ renderHeroin(options.fields, options.answers) }}
-  {{ renderNonPrescribedMethadone(options.fields, options.answers) }}
-  {{ renderMisusedPrescribedDrugs(options.fields, options.answers) }}
-  {{ renderOtherOpiates(options.fields, options.answers) }}
-  {{ renderSolvents(options.fields, options.answers) }}
-  {{ renderSpice(options.fields, options.answers) }}
-  {{ renderSteroids(options.fields, options.answers) }}
-  {{ renderOtherDrug(options.fields, options.answers) }}
-</table>
+<dt class="govuk-summary-list__key to-the-left">
+  <span class="summary__label">Drugs {{ options.subject | default("the person") }} has used</span>
+</dt>
+<dd class="govuk-summary-list__actions to-the-right govuk-!-padding-right-0 govuk-!-padding-bottom-0">
+  <a class="govuk-link" href="drug-use-type#drug_use_type">Change</a>
+</dd>
+<dd class="govuk-!-margin-left-0">
+  <table class="govuk-table drugs-summary-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header normal-font-weight">Drug</th>
+        <th scope="col" class="govuk-table__header normal-font-weight">Currently</th>
+        <th scope="col" class="govuk-table__header normal-font-weight">Previously</th>
+        <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
+      </tr>
+    </thead>
+    {{ renderAmphetamines(options.fields, options.answers) }}
+    {{ renderBenzodiazepines(options.fields, options.answers) }}
+    {{ renderCannabis(options.fields, options.answers) }}
+    {{ renderCocaine(options.fields, options.answers) }}
+    {{ renderCrack(options.fields, options.answers) }}
+    {{ renderEcstacy(options.fields, options.answers) }}
+    {{ renderHallucinogenics(options.fields, options.answers) }}
+    {{ renderHeroin(options.fields, options.answers) }}
+    {{ renderNonPrescribedMethadone(options.fields, options.answers) }}
+    {{ renderMisusedPrescribedDrugs(options.fields, options.answers) }}
+    {{ renderOtherOpiates(options.fields, options.answers) }}
+    {{ renderSolvents(options.fields, options.answers) }}
+    {{ renderSpice(options.fields, options.answers) }}
+    {{ renderSteroids(options.fields, options.answers) }}
+    {{ renderOtherDrug(options.fields, options.answers) }}
+  </table>
+</dd>
