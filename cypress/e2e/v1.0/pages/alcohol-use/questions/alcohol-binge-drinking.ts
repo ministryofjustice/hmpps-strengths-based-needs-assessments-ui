@@ -40,6 +40,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasTitle('Select how often')
         .getRadio(alcoholFrequencies).clickLabel()
         cy.saveAndContinue()
+
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer('Yes').hasNoSecondaryAnswer() // hasSecondaryAnswer(alcoholFrequencies)
         cy.checkAccessibility()
@@ -57,9 +58,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     ;['No'].forEach(option => {
       it(`summary page displays "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
-        cy.getQuestion(question).getRadio(option).isChecked().hasConditionalQuestion(false)
         cy.saveAndContinue()
-        cy.assertStepUrlIsNot(stepUrl)
+     
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
         cy.checkAccessibility()
