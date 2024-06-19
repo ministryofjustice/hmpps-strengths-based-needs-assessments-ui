@@ -8,7 +8,6 @@ import {
   practitionerAnalysisFields,
   analysisSectionComplete,
   sectionCompleteFields,
-  deprecatedPractitionerAnalysisFields,
 } from '../fields/drugs'
 import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 
@@ -92,11 +91,6 @@ const stepOptions: FormWizard.Steps = {
     fields: [],
     template: 'forms/summary/summary-analysis-complete',
     section: sectionName,
-  },
-  '/drugs-deprecated-fields': {
-    pageTitle: 'New fields',
-    section: sectionName,
-    fields: fieldCodesFrom(deprecatedPractitionerAnalysisFields),
   },
 }
 
