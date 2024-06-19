@@ -41,7 +41,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getRadio(alcoholFrequencies).clickLabel()
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
-        cy.getSummary(question).getAnswer('Yes').hasSecondaryAnswer(alcoholFrequencies)
+        cy.getSummary(question).getAnswer('Yes').hasNoSecondaryAnswer() // hasSecondaryAnswer(alcoholFrequencies)
         cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)

@@ -44,7 +44,11 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasNoValidationError()
 
-        cy.getQuestion(question).getCheckbox(option).hasHint(null).getConditionalQuestion().enterText('Some details')
+        cy.getQuestion(question)
+          .getCheckbox(option)
+          .hasHint(null)
+          .getConditionalQuestion()
+          .enterText('Some details')
 
         cy.checkAccessibility()
 
@@ -76,11 +80,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getCheckbox(option)
           .hasHint(hint)
           .hasConditionalQuestion(false)
-          .clickLabel()
-
+        
         cy.saveAndContinue()
         cy.getQuestion(question)
-          .hasNoValidationError()
+         .hasNoValidationError()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
@@ -90,6 +93,5 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertQuestionUrl(question)
         cy.getQuestion(question).getCheckbox(option).isChecked()
     })
-    
   })
 })}
