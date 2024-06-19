@@ -64,16 +64,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     ['Self-medication or mood altering', 'Includes pain management or emotional regulation'],
     ].forEach(([option, hint]) => {
       it(`no details field is displayed for "${option}" containing hint text`, () => {
-        cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
-
-        cy.getQuestion(question)
-          .getCheckbox(option)
-          .hasHint(hint)
-          .hasConditionalQuestion(false)
-          .clickLabel()
-
+        cy.getQuestion(question).getCheckbox(option).hasHint(hint).hasConditionalQuestion(false).clickLabel()
         cy.saveAndContinue()
-        cy.getQuestion(question).hasValidationError('Select why they drink alcohol')
+        cy.getQuestion(question).hasNoValidationError()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
@@ -84,8 +77,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked()
     })
     
+    const optionsWithHint = ['Self-medication or mood altering']
+
     options
-      .filter(it => !optionsWithConditionals.includes(it))
+      .filter(it => !optionsWithHint.includes(it) && !optionsWithConditionals.includes(it))
       .forEach(option => {
         it(`no details field is displayed for "${option}"`, () => {
           cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
