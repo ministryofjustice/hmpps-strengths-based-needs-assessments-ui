@@ -8,19 +8,23 @@ import {
   practitionerAnalysisFields,
   analysisSectionComplete,
   sectionCompleteFields,
+  deprecatedPractitionerAnalysisFields,
 } from '../fields/drugs'
 import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 
+const defaultTitle = 'Drug use'
+const sectionName = 'drug-use'
+
 const stepOptions: FormWizard.Steps = {
   '/drug-use': {
-    pageTitle: 'Drug use',
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(drugUseFields, sectionCompleteFields),
     next: [
       { field: 'drug_use', value: 'YES', next: 'drug-use-details' },
       { field: 'drug_use', value: 'NO', next: 'drug-use-analysis' },
     ],
     navigationOrder: 4,
-    section: 'drug-use',
+    section: sectionName,
     sectionProgressRules: [
       {
         fieldCode: 'drug_use_section_complete',
@@ -31,63 +35,68 @@ const stepOptions: FormWizard.Steps = {
     ],
   },
   '/drug-use-details': {
-    pageTitle: 'Drug use',
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(drugUsageDetailsFields, sectionCompleteFields),
     next: 'drug-use-type',
     backLink: 'drug-use',
-    section: 'drug-use',
+    section: sectionName,
     sectionProgressRules: [
       setFieldToIncomplete('drug_use_section_complete'),
       setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-use-type': {
-    pageTitle: 'Drug use',
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(drugUseTypeFields, sectionCompleteFields),
     next: 'drug-usage-details',
     backLink: 'drug-use-details',
-    section: 'drug-use',
+    section: sectionName,
     sectionProgressRules: [
       setFieldToIncomplete('drug_use_section_complete'),
       setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-usage-details': {
-    pageTitle: 'Usage details',
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(drugUseTypeDetailsFields, sectionCompleteFields),
     next: 'drug-use-changes',
     template: 'forms/summary/drug-usage',
     backLink: 'drug-use-type',
-    section: 'drug-use',
+    section: sectionName,
     sectionProgressRules: [
       setFieldToIncomplete('drug_use_section_complete'),
       setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-use-changes': {
-    pageTitle: 'Drug use',
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(drugUseChangesFields, sectionCompleteFields),
     next: 'drug-use-analysis',
     backLink: 'drug-usage-details',
-    section: 'drug-use',
+    section: sectionName,
     sectionProgressRules: [
       setFieldToCompleteWhenValid('drug_use_section_complete'),
       setFieldToIncomplete('drug_use_analysis_section_complete'),
     ],
   },
   '/drug-use-analysis': {
-    pageTitle: 'Drug use',
+    pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'drug-use-analysis-complete#practitioner-analysis',
-    template: 'forms/summary/drugs-summary-analysis',
-    section: 'drug-use',
+    template: 'forms/summary/summary-analysis-incomplete',
+    section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('drug_use_analysis_section_complete')],
   },
   '/drug-use-analysis-complete': {
-    pageTitle: 'Drug use',
+    pageTitle: defaultTitle,
     fields: [],
-    template: 'forms/summary/drugs-summary-analysis-complete',
-    section: 'drug-use',
+    template: 'forms/summary/summary-analysis-complete',
+    section: sectionName,
+  },
+  '/drugs-deprecated-fields': {
+    pageTitle: 'New fields',
+    section: sectionName,
+    fields: fieldCodesFrom(deprecatedPractitionerAnalysisFields),
   },
 }
 

@@ -10,7 +10,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).hasValidationError('Select if they are affected by gambling')
       cy.checkAccessibility()
     })
-    ;['Yes, their own gambling', "Yes, someone else's gambling", 'Unknown'].forEach(option => {
+    Array.of('Yes, their own gambling', "Yes, someone else's gambling", 'Unknown').forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 

@@ -11,7 +11,7 @@ export const getSummary = (question: string) => {
 export const getDrugSummary = (drug: string) => {
   return cy
     .get('#summary > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
-    .contains('Drugs Sam has used')
+    .contains('Which drugs has Sam used?')
     .should('be.visible')
     .and('have.length', 1)
     .parent()

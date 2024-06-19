@@ -24,14 +24,14 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).hasValidationError('Select if they want to make changes to their health and wellbeing')
       cy.checkAccessibility()
     })
-    ;[
+    Array.of(
       'I have already made positive changes and want to maintain them',
       'I am actively making changes',
       'I want to make changes and know how to',
       'I want to make changes but need help',
       'I am thinking about making changes',
       'I do not want to make changes',
-    ].forEach(option => {
+    ).forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 
@@ -62,7 +62,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getRadio(option).isChecked().getConditionalQuestion().hasText('some text')
       })
     })
-    ;['I do not want to answer', 'Sam is not present', 'Not applicable'].forEach(option => {
+    Array.of('I do not want to answer', 'Sam is not present', 'Not applicable').forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 

@@ -1,3 +1,3 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-testPractitionerAnalysis('/health-wellbeing-analysis', '/health-wellbeing-analysis-complete')
+testPractitionerAnalysis('/health-wellbeing-analysis', '/health-wellbeing-analysis-complete', 'health and wellbeing')

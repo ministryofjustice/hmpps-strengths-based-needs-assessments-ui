@@ -5,8 +5,16 @@ describe('/drug-use-type', () => {
   const summaryPage = '/drug-use-analysis'
   const questions = [wantToMakeChanges]
 
-  beforeEach(() => {
+  before(() => {
     cy.createAssessment().enterAssessment()
+    cy.visitSection('Drug use')
+    cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+    cy.saveAndContinue()
+    cy.captureAssessment()
+  })
+
+  beforeEach(() => {
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertSectionIs('Drug use')
     cy.assertQuestionCount(questions.length)

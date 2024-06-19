@@ -1,11 +1,11 @@
 import { markAsComplete, saveAndContinue } from './commands/assessment'
 import {
+  assertDrugQuestionGroupUrl,
   assertQuestionUrl,
   assertResumeUrlIs,
   assertSectionIs,
   assertStepUrlIs,
   assertStepUrlIsNot,
-  getSectionName,
   visitSection,
   visitStep,
 } from './commands/navigation'
@@ -102,7 +102,7 @@ declare global {
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
       assertQuestionUrl(question: string): Chainable
-      getSectionName(): Chainable
+      assertDrugQuestionGroupUrl(drug: string): Chainable
 
       // option
       isChecked(): Chainable
@@ -186,7 +186,7 @@ Cypress.Commands.add('assertResumeUrlIs', assertResumeUrlIs)
 Cypress.Commands.add('assertStepUrlIs', assertStepUrlIs)
 Cypress.Commands.add('assertStepUrlIsNot', assertStepUrlIsNot)
 Cypress.Commands.add('assertQuestionUrl', assertQuestionUrl)
-Cypress.Commands.add('getSectionName', getSectionName)
+Cypress.Commands.add('assertDrugQuestionGroupUrl', assertDrugQuestionGroupUrl)
 
 // option
 Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)

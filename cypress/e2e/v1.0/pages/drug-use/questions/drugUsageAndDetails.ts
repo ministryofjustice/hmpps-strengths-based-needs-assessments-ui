@@ -48,6 +48,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
               .getCheckbox(drug)
               .getConditionalQuestion()
               .hasTitle('Enter drug name')
+              .hasHint(null)
               .hasLimit(400)
             cy.saveAndContinue()
             cy.assertStepUrlIs(stepUrl)
@@ -64,7 +65,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
           cy.visitStep(summaryPage)
           cy.getDrugSummary(drugName(drug))
-          cy.getSummary('Drugs Sam has used').clickChange()
+          cy.getSummary(question).clickChange()
           cy.assertQuestionUrl(question)
 
           if (drug === 'Other') {
@@ -176,7 +177,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
                 if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentCurrently('Yes')
                 if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedCurrently('Yes')
                 cy.getDrugSummary(drugName(drug)).hasFrequency(frequency).changeDrugUsage()
-                cy.assertQuestionUrl(frequencyQuestion)
+                cy.assertDrugQuestionGroupUrl(drugName(drug))
 
                 if (isInjected) {
                   cy.getQuestion(frequencyQuestion)
@@ -239,8 +240,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
                 if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentCurrently('No')
                 if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedCurrently('No')
                 cy.getDrugSummary(drugName(drug)).hasFrequency(frequency).changeDrugUsage()
-
-                cy.assertQuestionUrl(frequencyQuestion)
+                cy.assertDrugQuestionGroupUrl(drugName(drug))
 
                 if (isInjected) {
                   cy.getQuestion(frequencyQuestion)
@@ -279,11 +279,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             cy.visitStep(summaryPage)
             cy.checkAccessibility()
 
-            if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentCurrently('N/A')
-            if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedCurrently('N/A')
             cy.getDrugSummary(drugName(drug)).hasFrequency(frequency).changeDrugUsage()
-
-            cy.assertQuestionUrl(frequencyQuestion)
+            cy.assertDrugQuestionGroupUrl(drugName(drug))
 
             cy.getQuestion(frequencyQuestion).getRadio(frequency).isChecked().hasConditionalQuestion(false)
           })
@@ -370,6 +367,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentPreviously('Yes')
             if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedPreviously('Yes')
             cy.getDrugSummary(drugName(drug)).hasPreviousUse('Yes').changeDrugUsage()
+            cy.assertDrugQuestionGroupUrl(drugName(drug))
 
             if (isInjected) {
               cy.getQuestion(pastUseQuestion)
@@ -428,6 +426,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentPreviously('No')
             if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedPreviously('No')
             cy.getDrugSummary(drugName(drug)).hasPreviousUse('Yes').changeDrugUsage()
+            cy.assertDrugQuestionGroupUrl(drugName(drug))
 
             if (isInjected) {
               cy.getQuestion(pastUseQuestion)
@@ -460,9 +459,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             cy.visitStep(summaryPage)
             cy.checkAccessibility()
 
-            if (hasTreatment) cy.getDrugSummary(drugName(drug)).hasReceivingTreatmentPreviously('N/A')
-            if (isInjected) cy.getDrugSummary(drugName(drug)).hasInjectedPreviously('N/A')
             cy.getDrugSummary(drugName(drug)).hasPreviousUse('No').changeDrugUsage()
+            cy.assertDrugQuestionGroupUrl(drugName(drug))
 
             cy.getQuestion(pastUseQuestion).getRadio('No').isChecked().hasConditionalQuestion(false)
           })
