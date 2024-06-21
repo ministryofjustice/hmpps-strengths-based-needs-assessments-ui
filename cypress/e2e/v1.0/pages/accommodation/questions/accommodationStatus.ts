@@ -11,7 +11,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        // .hasHint('') TODO: Update to test for HTML hint?
         .hasRadios([options.settled, options.temporary, options.noAccommodation])
 
       cy.saveAndContinue()
@@ -195,15 +194,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     })
 
     const typesOfNoAccommodation = [
-      'Awaiting assessment',
       'Campsite',
       'Emergency hostel',
       'Homeless - includes squatting',
       'Rough sleeping',
       'Shelter',
     ]
-
-    const typesOfNoAccommodationWithDetails = ['Awaiting assessment']
 
     it(`displays and validates the conditional options for ${options.noAccommodation}`, () => {
       cy.getQuestion(question).getRadio(options.noAccommodation).hasConditionalQuestion(false).clickLabel()
@@ -246,43 +242,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .getRadio(typeOfNoAccommodation)
           .isChecked()
-      })
-    })
-
-    typesOfNoAccommodationWithDetails.forEach(typeOfNoAccommodation => {
-      it(`summary page displays "${options.noAccommodation} - ${typeOfNoAccommodation} - Give details"`, () => {
-        cy.visitStep(stepUrl)
-        cy.getQuestion(question).getRadio(options.noAccommodation).clickLabel()
-        cy.getQuestion(question)
-          .getRadio(options.noAccommodation)
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .clickLabel()
-        cy.getQuestion(question)
-          .getRadio(options.noAccommodation)
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .getConditionalQuestion()
-          .enterText('Some details')
-
-        cy.saveAndContinue()
-
-        cy.visitStep(summaryPage)
-        cy.getSummary(question)
-          .getAnswer(options.noAccommodation)
-          .hasSecondaryAnswer(typeOfNoAccommodation, 'Some details')
-        cy.checkAccessibility()
-        cy.getSummary(question).clickChange()
-        cy.assertStepUrlIs(stepUrl)
-        cy.assertQuestionUrl(question)
-        cy.getQuestion(question)
-          .getRadio(options.noAccommodation)
-          .isChecked()
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .isChecked()
-          .getConditionalQuestion()
-          .hasText('Some details')
       })
     })
   })
