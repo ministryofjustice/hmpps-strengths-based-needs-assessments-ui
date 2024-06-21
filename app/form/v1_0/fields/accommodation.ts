@@ -418,7 +418,7 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
     required: true,
   }),
   {
-    text: "What's helped [Name] stay in accommodation in the past? (optional)",
+    text: "What's helped Sam stay in accommodation in the past? (optional)",
     code: 'past_accommodation_details',
     type: FieldType.TextArea,
     validate: [
