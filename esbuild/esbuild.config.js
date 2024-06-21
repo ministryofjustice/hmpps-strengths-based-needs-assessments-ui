@@ -10,9 +10,7 @@ const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
   app: {
     outDir: path.join(cwd, 'dist'),
-    entryPoints: glob
-      .sync([path.join(cwd, '*.ts'), path.join(cwd, 'server/**/*.ts')])
-      .filter(file => !file.endsWith('.test.ts')),
+    entryPoints: glob.sync([path.join(cwd, 'server.ts')]),
     copy: [
       {
         from: path.join(cwd, 'server/views/**/*'),
@@ -48,9 +46,11 @@ function main() {
 
   if (args.includes('--dev-server')) {
     let serverProcess = null
-    chokidar.watch(['dist']).on('all', () => {
+    chokidar.watch(['dist'], { ...chokidarOptions, depth: 0 }).on('all', () => {
       if (serverProcess) serverProcess.kill()
-      serverProcess = spawn('node', ['dist/server.js'], { stdio: 'inherit' })
+      serverProcess = spawn('node', ['--inspect=0.0.0.0', '--enable-source-maps', 'dist/server.js'], {
+        stdio: 'inherit',
+      })
     })
   }
 
@@ -61,7 +61,7 @@ function main() {
 
     // App
     chokidar
-      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
+      .watch(['server/**/*', 'app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
       .on('all', () => buildApp(buildConfig))
   }
 }
