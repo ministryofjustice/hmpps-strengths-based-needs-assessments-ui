@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express'
-import FormWizard, { Gender } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import {
   buildRequestBody,
@@ -15,6 +15,7 @@ import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
 } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
+import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>

@@ -1,4 +1,4 @@
-import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import {
   fieldCodeWith,
   getMediumLabelClassFor,
@@ -10,6 +10,7 @@ import {
 import { detailsField, detailsFieldWith } from './common/detailsField'
 import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   {

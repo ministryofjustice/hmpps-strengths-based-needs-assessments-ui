@@ -1,4 +1,4 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import {
   buildRequestBody,
   combineDateFields,
@@ -10,6 +10,7 @@ import {
   withValuesFrom,
 } from './saveAndContinue.utils'
 import { AnswerDto } from '../../server/services/strengthsBasedNeedsService'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
 describe('saveAndContinue.utils', () => {
   describe('withPlaceholdersFrom', () => {

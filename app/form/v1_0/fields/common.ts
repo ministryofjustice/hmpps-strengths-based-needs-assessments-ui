@@ -1,5 +1,6 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
+import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 export const summaryCharacterLimit = 1000
 export const getMediumLabelClassFor = (type: FieldType) =>

@@ -1,4 +1,4 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import {
   fieldCodeWith,
   validateFutureDate,
@@ -6,6 +6,7 @@ import {
   requiredWhenValidator,
   getMediumLabelClassFor,
 } from './common'
+import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 describe('fields/common', () => {
   describe('fieldCodeWith', () => {
