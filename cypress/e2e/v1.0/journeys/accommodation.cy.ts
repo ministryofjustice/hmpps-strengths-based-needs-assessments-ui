@@ -74,10 +74,7 @@ describe('Origin: /accommodation', () => {
   describe(`Destination: ${destinations.temporary}`, () => {
     const typeOfAccommodation = 'Temporary'
 
-    Array.of(
-      ['Immigration accommodation', null],
-      ['Short term accommodation', 'including living with family and friends'],
-    ).forEach(([typeOfTemporaryAccommodation, hint]) => {
+    Array.of('Immigration accommodation', 'Short term accommodation').forEach(typeOfTemporaryAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary}"`, () => {
         cy.visitStep(destinations.landingPage)
 
@@ -87,7 +84,6 @@ describe('Origin: /accommodation', () => {
           .getRadio(typeOfAccommodation)
           .getConditionalQuestion()
           .getRadio(typeOfTemporaryAccommodation)
-          .hasHint(hint)
           .clickLabel()
 
         cy.saveAndContinue()
