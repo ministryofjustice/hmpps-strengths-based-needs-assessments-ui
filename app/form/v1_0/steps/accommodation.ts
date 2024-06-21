@@ -28,14 +28,7 @@ const stepOptions: FormWizard.Steps = {
           'temporary-accommodation-2',
         ],
       },
-      {
-        field: 'current_accommodation',
-        value: 'NO_ACCOMMODATION',
-        next: [
-          { field: 'type_of_no_accommodation', value: 'AWAITING_ASSESSMENT', next: 'no-accommodation-2' },
-          'no-accommodation',
-        ],
-      },
+      { field: 'current_accommodation', value: 'NO_ACCOMMODATION', next: 'no-accommodation' },
     ],
     navigationOrder: 1,
     section: 'accommodation',
@@ -103,17 +96,6 @@ const stepOptions: FormWizard.Steps = {
       accommodationChangesFields,
       sectionCompleteFields,
     ),
-    next: 'accommodation-analysis',
-    backLink: 'accommodation',
-    section: 'accommodation',
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('accommodation_section_complete'),
-      setFieldToIncomplete('accommodation_analysis_section_complete'),
-    ],
-  },
-  '/no-accommodation-2': {
-    pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(accommodationChangesFields, sectionCompleteFields),
     next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
