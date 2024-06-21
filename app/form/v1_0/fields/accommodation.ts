@@ -30,7 +30,11 @@ const noAccommodationHint = `
 `
 
 const suitableHousingConcernsOptions: FormWizard.Field.Options = [
-  { text: 'Issues with the property - for example, poor kitchen or bathroom facilities', value: 'FACILITIES', kind: 'option' },
+  {
+    text: 'Issues with the property - for example, poor kitchen or bathroom facilities',
+    value: 'FACILITIES',
+    kind: 'option',
+  },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
   { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
   { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },

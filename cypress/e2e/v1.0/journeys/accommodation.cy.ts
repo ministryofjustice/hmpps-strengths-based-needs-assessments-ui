@@ -76,7 +76,7 @@ describe('Origin: /accommodation', () => {
 
     Array.of(
       ['Immigration accommodation', null],
-      ['Short term accommodation', 'including living with family and friends']
+      ['Short term accommodation', 'including living with family and friends'],
     ).forEach(([typeOfTemporaryAccommodation, hint]) => {
       it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary}"`, () => {
         cy.visitStep(destinations.landingPage)
