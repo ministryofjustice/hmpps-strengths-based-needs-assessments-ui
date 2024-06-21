@@ -377,11 +377,6 @@ export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractit
   'drug use',
 )
 
-export const deprecatedPractitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'drugs',
-  'drug use',
-)
-
 export default [
   ...drugUseFields,
   ...drugUsageDetailsFields,
@@ -390,5 +385,4 @@ export default [
   ...drugUseTypeDetailsFields,
   ...sectionCompleteFields,
   ...practitionerAnalysisFields,
-  ...deprecatedPractitionerAnalysisFields,
 ].reduce(toFormWizardFields, {})
