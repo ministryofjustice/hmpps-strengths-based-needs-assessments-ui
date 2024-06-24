@@ -1,7 +1,3 @@
-import alcoholUse from './questions/alcohol-use'
-import alcoholFrequency from './questions/alcohol-frequency'
-import alcoholUnits from './questions/alcohol-units'
-// import alcohol binge drinking - add question once approved
 import evidenceOfBingeDrinking from './questions/alcohol-evidence-binge-drinking'
 import impactOfAlcohol from './questions/alcohol-impact-of-use'
 import pastAlcoholIssues from './questions/alcohol-past-issues'
@@ -9,17 +5,14 @@ import reasonsForUse from './questions/alcohol-reasons-for-use'
 import stoppedOrReducedAlcohol from './questions/alcohol-stopped-or-reduced'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
-describe('/alcohol-use', () => {
-  const stepUrl = '/alcohol-use'
+describe('/alcohol-usage-but-not-last-three-months', () => {
+  const stepUrl = '/alcohol-usage-but-not-last-three-months'
   const summaryPage = '/alcohol-analysis'
   const questions = [
-    alcoholUse,
-    alcoholFrequency,
-    alcoholUnits,
     evidenceOfBingeDrinking,
-    impactOfAlcohol,
     pastAlcoholIssues,
     reasonsForUse,
+    impactOfAlcohol,
     stoppedOrReducedAlcohol,
     wantToMakeChanges,
   ]
