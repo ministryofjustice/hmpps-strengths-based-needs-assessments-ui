@@ -18,8 +18,4 @@ beforeEach(() => {
   cy.hasAutosaveEnabled()
 })
 
-testPractitionerAnalysis(
-  summaryPage,
-  '/employment-education-analysis-complete',
-  'employment and education',
-)
+testPractitionerAnalysis(summaryPage, '/employment-education-analysis-complete', 'employment and education')

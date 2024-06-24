@@ -7,9 +7,7 @@ before(() => {
 
   cy.visitSection('Health and wellbeing')
   cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
-  cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?')
-    .getRadio('No')
-    .clickLabel()
+  cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?').getRadio('No').clickLabel()
   cy.saveAndContinue()
 
   cy.captureAssessment()
