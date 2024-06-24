@@ -53,7 +53,7 @@ const stepOptions: FormWizard.Steps = {
       sectionCompleteFields,
     ),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: 'employment-education-analysis',
     section: sectionName,
     sectionProgressRules: [
       setFieldToCompleteWhenValid('employment_education_section_complete'),
@@ -64,7 +64,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(employmentHistory, educationFields, makeChangesFields, sectionCompleteFields),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: 'employment-education-analysis',
     section: sectionName,
     sectionProgressRules: [
       setFieldToCompleteWhenValid('employment_education_section_complete'),
@@ -82,7 +82,7 @@ const stepOptions: FormWizard.Steps = {
       sectionCompleteFields,
     ),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: 'employment-education-analysis',
     section: sectionName,
     sectionProgressRules: [
       setFieldToCompleteWhenValid('employment_education_section_complete'),
@@ -93,7 +93,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(educationFields, experienceOfEducation, makeChangesFields, sectionCompleteFields),
     backLink: sectionName,
-    next: ['employment-education-analysis'],
+    next: 'employment-education-analysis',
     section: sectionName,
     sectionProgressRules: [
       setFieldToCompleteWhenValid('employment_education_section_complete'),
@@ -103,7 +103,7 @@ const stepOptions: FormWizard.Steps = {
   '/employment-education-analysis': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: ['employment-education-analysis-complete'],
+    next: 'employment-education-analysis-complete',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('employment_education_analysis_section_complete')],
