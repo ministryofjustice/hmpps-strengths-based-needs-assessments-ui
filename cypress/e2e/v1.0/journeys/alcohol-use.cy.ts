@@ -11,14 +11,13 @@ describe('Origin: /alcohol-use', () => {
 
   const sectionName = 'Alcohol use'
 
-    before(() => {
-      cy.createAssessment()
-    })
+  before(() => {
+    cy.createAssessment()
+  })
 
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
+  beforeEach(() => {
+    cy.enterAssessment()
+  })
 
   describe(`Destination: ${destinations.analysis}`, () => {
     it(`No alcohol use routes to "${destinations.analysis}"`, () => {

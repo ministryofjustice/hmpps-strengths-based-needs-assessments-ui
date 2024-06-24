@@ -14,10 +14,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     ]
 
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasHint('Select all that apply.')
-        .hasCheckboxes(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Select all that apply.').hasCheckboxes(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError("Select the impact of them drinking alcohol, or select 'No impact'")
@@ -44,11 +41,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasNoValidationError()
 
-        cy.getQuestion(question)
-          .getCheckbox(option)
-          .hasHint(null)
-          .getConditionalQuestion()
-          .enterText('Some details')
+        cy.getQuestion(question).getCheckbox(option).hasHint(null).getConditionalQuestion().enterText('Some details')
 
         cy.checkAccessibility()
 
@@ -63,27 +56,22 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some details')
       })
     })
-
     ;[
-    ['Behavioural', 'Includes unemployment, disruption on education or lack of productivity.'],
-    ['Community', 'Includes limited opportunities or judgement from others.'],
-    ['Finances', 'Includes having no money or difficulties.'],
-    ['Links to offending', null],
-    ['Physical or mental health', 'Includes overdose'],
-    ['Relationships', 'Includes isolation or neglecting responsibilities.'],
-    ['No impact', null],
+      ['Behavioural', 'Includes unemployment, disruption on education or lack of productivity.'],
+      ['Community', 'Includes limited opportunities or judgement from others.'],
+      ['Finances', 'Includes having no money or difficulties.'],
+      ['Links to offending', null],
+      ['Physical or mental health', 'Includes overdose'],
+      ['Relationships', 'Includes isolation or neglecting responsibilities.'],
+      ['No impact', null],
     ].forEach(([option, hint]) => {
       it(`no details field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
-        cy.getQuestion(question)
-          .getCheckbox(option)
-          .hasHint(hint)
-          .hasConditionalQuestion(false)
-        
+        cy.getQuestion(question).getCheckbox(option).hasHint(hint).hasConditionalQuestion(false)
+
         cy.saveAndContinue()
-        cy.getQuestion(question)
-         .hasNoValidationError()
+        cy.getQuestion(question).hasNoValidationError()
 
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
@@ -92,6 +80,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
         cy.getQuestion(question).getCheckbox(option).isChecked()
+      })
     })
   })
-})}
+}

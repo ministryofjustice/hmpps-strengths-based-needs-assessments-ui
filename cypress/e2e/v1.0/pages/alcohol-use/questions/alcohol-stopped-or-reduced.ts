@@ -5,13 +5,15 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   describe(question, () => {
     it(`displays and validates the question`, () => {
       cy.getQuestion(question)
-      .isQuestionNumber(positionNumber)
-      .hasRadios(options)
-      .hasHint('Consider strategies, people or support networks that may have helped.')
+        .isQuestionNumber(positionNumber)
+        .hasRadios(options)
+        .hasHint('Consider strategies, people or support networks that may have helped.')
 
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if anything has helped them to stop or reduce drinking alcohol in the past')
+      cy.getQuestion(question).hasValidationError(
+        'Select if anything has helped them to stop or reduce drinking alcohol in the past',
+      )
       cy.checkAccessibility()
     })
 
@@ -44,7 +46,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.assertQuestionUrl(question)
       cy.getQuestion(question).getRadio('Yes').isChecked().getConditionalQuestion().hasText('Some text')
     })
-    
     ;['No'].forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()

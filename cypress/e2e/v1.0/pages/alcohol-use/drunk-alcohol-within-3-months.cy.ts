@@ -26,7 +26,7 @@ describe('/alcohol-usage-last-three-months', () => {
   before(() => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Alcohol use')
-    cy.getQuestion("Has Sam ever drunk alcohol?").getRadio('Yes, including the last 3 months').clickLabel()
+    cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, including the last 3 months').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
     cy.captureAssessment()

@@ -14,10 +14,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     ]
 
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasHint('Select all that apply.')
-        .hasCheckboxes(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Select all that apply.').hasCheckboxes(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select why they drink alcohol')
@@ -59,24 +56,24 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some details')
       })
     })
+    ;[['Self-medication or mood altering', 'Includes pain management or emotional regulation']].forEach(
+      ([option, hint]) => {
+        it(`no details field is displayed for "${option}" containing hint text`, () => {
+          cy.getQuestion(question).getCheckbox(option).hasHint(hint).hasConditionalQuestion(false).clickLabel()
+          cy.saveAndContinue()
+          cy.getQuestion(question).hasNoValidationError()
 
-    ;[
-    ['Self-medication or mood altering', 'Includes pain management or emotional regulation'],
-    ].forEach(([option, hint]) => {
-      it(`no details field is displayed for "${option}" containing hint text`, () => {
-        cy.getQuestion(question).getCheckbox(option).hasHint(hint).hasConditionalQuestion(false).clickLabel()
-        cy.saveAndContinue()
-        cy.getQuestion(question).hasNoValidationError()
+          cy.visitStep(summaryPage)
+          cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
+          cy.checkAccessibility()
+          cy.getSummary(question).clickChange()
+          cy.assertStepUrlIs(stepUrl)
+          cy.assertQuestionUrl(question)
+          cy.getQuestion(question).getCheckbox(option).isChecked()
+        })
+      },
+    )
 
-        cy.visitStep(summaryPage)
-        cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
-        cy.checkAccessibility()
-        cy.getSummary(question).clickChange()
-        cy.assertStepUrlIs(stepUrl)
-        cy.assertQuestionUrl(question)
-        cy.getQuestion(question).getCheckbox(option).isChecked()
-    })
-    
     const optionsWithHint = ['Self-medication or mood altering']
 
     options
@@ -88,6 +85,5 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           cy.getQuestion(question).getCheckbox(option).hasHint(null).hasConditionalQuestion(false)
         })
       })
-    })
   })
 }
