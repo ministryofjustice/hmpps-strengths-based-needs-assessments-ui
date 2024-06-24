@@ -38,7 +38,7 @@ export class FieldDependencyTreeBuilder {
     Starting with `step` and `path`,
     applies the FormWizard step logic recursively to build the user journey as an array of steps
    */
-  private getSteps(
+  protected getSteps(
     step: FormWizard.RenderedStep,
     path: string,
     acc: [string, FormWizard.RenderedStep][] = [],
@@ -54,7 +54,7 @@ export class FieldDependencyTreeBuilder {
   /*
     Resolves the next step given a `next` FormWizard step criteria
    */
-  private resolveNextStep(next: FormWizard.Step.NextStep): FormWizard.Step.NextStep {
+  protected resolveNextStep(next: FormWizard.Step.NextStep): FormWizard.Step.NextStep {
     if (next === undefined || typeof next === 'string') {
       return next
     }
@@ -81,7 +81,7 @@ export class FieldDependencyTreeBuilder {
   /*
     Converts FormWizard fields to Field objects and adds them to the dependency tree
    */
-  private toStepFields(stepPath: string) {
+  protected toStepFields(stepPath: string) {
     return (fields: Field[], field: FormWizard.Field): Field[] => {
       if (field.dependent) {
         this.addNestedField(field, fields, stepPath)
@@ -101,7 +101,7 @@ export class FieldDependencyTreeBuilder {
   /*
     Adds a dependent field to the answer where the condition is met.
    */
-  private addNestedField(fieldToNest: FormWizard.Field, fieldsAtCurrentDepth: Field[], stepPath: string): boolean {
+  protected addNestedField(fieldToNest: FormWizard.Field, fieldsAtCurrentDepth: Field[], stepPath: string): boolean {
     const parentFieldAtCurrentDepth = fieldsAtCurrentDepth.find(f => f.field.id === fieldToNest.dependent.field)
 
     if (parentFieldAtCurrentDepth) {
@@ -124,7 +124,7 @@ export class FieldDependencyTreeBuilder {
   /*
     Gets the formatted answer(s) for a given field
    */
-  private getFieldAnswers(field: FormWizard.Field): FieldAnswer[] {
+  protected getFieldAnswers(field: FormWizard.Field): FieldAnswer[] {
     switch (field.type) {
       case FieldType.Radio:
       case FieldType.Dropdown:
@@ -174,7 +174,7 @@ export class FieldDependencyTreeBuilder {
     }
   }
 
-  private getInitialStep() {
+  protected getInitialStep() {
     return (
       Object.entries(this.options.steps).find(
         ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
