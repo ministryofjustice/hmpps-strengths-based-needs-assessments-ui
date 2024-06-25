@@ -163,6 +163,16 @@ const createFieldsForHeroin = (): Array<FormWizard.Field> => [
   createFieldForPastReceivingTreatment('HEROIN'),
 ]
 
+const drugUseTypeHint = `
+<p class="govuk-hint">Include current and previous drugs.</p>
+<p class="govuk-hint">Select all that apply.</p>
+`
+
+const drugUseReasonsHint = `
+<p class="govuk-hint">Consider their history and any triggers of drug use.</p>
+<p class="govuk-hint">Select all that apply.</p>
+`
+
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the drug use section complete?',
   code: 'drug_use_section_complete',
@@ -194,7 +204,7 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
   {
     text: 'Which drugs has [subject] used?',
     code: 'drug_use_type',
-    hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
+    hint: { html: drugUseTypeHint, kind: 'html' },
     type: FieldType.CheckBox,
     multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
@@ -233,7 +243,7 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
 export const drugUsageDetailsFields: Array<FormWizard.Field> = [
   {
     text: 'Why did [subject] start using drugs?',
-    hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
+    hint: { html: drugUseReasonsHint, kind: 'html' },
     code: 'drug_use_reasons',
     type: FieldType.CheckBox,
     multiple: true,

@@ -17,7 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('Consider their history and any triggers of drug use. Select all that apply')
+        .hasHint('Consider their history and any triggers of drug use.', 'Select all that apply.')
         .hasCheckboxes(options)
 
       cy.saveAndContinue()

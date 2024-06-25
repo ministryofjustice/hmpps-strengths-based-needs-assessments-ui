@@ -27,7 +27,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('Include current and previous drugs. Select all that apply.')
+        .hasHint('Include current and previous drugs.', 'Select all that apply.')
         .hasCheckboxes(drugs.map(({ name }) => name))
 
       cy.saveAndContinue()
