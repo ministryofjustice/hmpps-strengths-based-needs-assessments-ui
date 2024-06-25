@@ -3,4 +3,5 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 testPractitionerAnalysis(
   '/thinking-behaviours-attitudes-summary-analysis',
   '/thinking-behaviours-attitudes-analysis-complete',
+  'thinking, behaviours and attitudes',
 )

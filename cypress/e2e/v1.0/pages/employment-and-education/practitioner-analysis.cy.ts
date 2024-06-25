@@ -1,3 +1,7 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-testPractitionerAnalysis('/employment-education-analysis', '/employment-education-analysis-complete')
+testPractitionerAnalysis(
+  '/employment-education-analysis',
+  '/employment-education-analysis-complete',
+  'employment and education',
+)

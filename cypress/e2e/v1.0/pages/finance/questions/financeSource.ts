@@ -106,7 +106,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .isChecked()
       })
     })
-    ;[
+    Array.of(
       "Carer's allowance",
       'Disability benefits',
       'Employment',
@@ -116,7 +116,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Undeclared (includes cash in hand)',
       'Work related benefits',
       'No money',
-    ].forEach(option => {
+    ).forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 

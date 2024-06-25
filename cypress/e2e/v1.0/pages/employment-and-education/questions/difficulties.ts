@@ -15,7 +15,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
     const levelsOfDifficulty = ['Significant difficulties', 'Some difficulties']
 
-    ;['Yes, with reading', 'Yes, with writing', 'Yes, with numeracy'].forEach(option => {
+    Array.of('Yes, with reading', 'Yes, with writing', 'Yes, with numeracy').forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 

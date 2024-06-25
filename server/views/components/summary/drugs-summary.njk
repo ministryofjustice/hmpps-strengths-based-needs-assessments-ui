@@ -1,0 +1,94 @@
+{%- macro renderDrugsTable(summaryField) -%}
+  <div class="govuk-summary-list__row as-block clearfix">
+    <dt class="govuk-summary-list__key to-the-left">
+      <span class="summary__label">{{ summaryField.field.text }}</span>
+    </dt>
+    <dd class="govuk-summary-list__actions to-the-right govuk-!-padding-right-0 govuk-!-padding-bottom-0">
+      <a class="govuk-link" href="{{ summaryField.backLink }}">
+        Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
+      </a>
+    </dd>
+    <dd class="govuk-!-margin-left-0">
+      <table class="govuk-table drugs-summary-table">
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header normal-font-weight">Drug</th>
+          <th scope="col" class="govuk-table__header normal-font-weight">Currently</th>
+          <th scope="col" class="govuk-table__header normal-font-weight">Previously</th>
+          <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
+        </tr>
+        </thead>
+
+        {% for drug in summaryField.answers %}
+
+          {% set drugName = drug.text | striptags(true) | escape | nl2br | safe %}
+          {% set changeLink = "drug-usage-details#" + drugName | lower | urlSafe %}
+
+          {% set frequency = null %}
+          {% set previously = null %}
+          {% set currentlyInjecting = null %}
+          {% set previouslyInjecting = null %}
+          {% set currentlyTreated = null %}
+          {% set previouslyTreated = null %}
+
+          {% for drugUsage in drug.nestedFields %}
+            {% for drugUsageAnswer in drugUsage.answers %}
+
+              {% switch true %}
+                {% case drugUsage.field.code | startsWith("drug_usage_") %}
+                  {% set frequency = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
+                {% case drugUsage.field.code | startsWith("past_drug_usage_") %}
+                  {% set previously = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
+                {% case drugUsage.field.code == "other_drug_details" %}
+                  {% set drugName = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
+              {% endswitch %}
+
+              {% for drugUsageDetails in drugUsageAnswer.nestedFields %}
+                {% for drugUsageDetailsAnswer in drugUsageDetails.answers %}
+                  {% switch true %}
+                    {% case drugUsageDetails.field.code | startsWith("injecting_drug_") %}
+                      {% set currentlyInjecting = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                    {% case drugUsageDetails.field.code | startsWith("past_injecting_drug_") %}
+                      {% set previouslyInjecting = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                    {% case drugUsageDetails.field.code | startsWith("drug_usage_treatment_") %}
+                      {% set currentlyTreated = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                    {% case drugUsageDetails.field.code | startsWith("past_drug_usage_treatment_") %}
+                      {% set previouslyTreated = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                  {% endswitch %}
+                {% endfor %}
+              {% endfor %}
+
+            {% endfor %}
+          {% endfor %}
+
+          <tbody class="govuk-table__body border-bottom">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">{{ drugName }}</th>
+              <td class="govuk-table__cell">{{ frequency | default("N/A", true) }}</td>
+              <td class="govuk-table__cell">{{ previously | default("N/A", true) }}</td>
+              <td class="govuk-table__cell with-text-right">
+                <a href="{{ changeLink }}" class="govuk-link">Change</a>
+              </td>
+            </tr>
+            {% if currentlyInjecting or previouslyInjecting %}
+              <tr class="govuk-table__row govuk-!-font-size-16">
+                <th scope="row" class="govuk-table__header">Injected</th>
+                <td class="govuk-table__cell">{{ currentlyInjecting | default("N/A", true) }}</td>
+                <td class="govuk-table__cell">{{ previouslyInjecting | default("N/A", true) }}</td>
+                <td class="govuk-table__cell"></td>
+              </tr>
+            {% endif %}
+            {% if currentlyTreated or previouslyTreated %}
+              <tr class="govuk-table__row govuk-!-font-size-16">
+                <th scope="row" class="govuk-table__header">Receiving treatment</th>
+                <td class="govuk-table__cell">{{ currentlyTreated | default("N/A", true) }}</td>
+                <td class="govuk-table__cell">{{ previouslyTreated | default("N/A", true) }}</td>
+                <td class="govuk-table__cell"></td>
+              </tr>
+            {% endif %}
+          </tbody>
+        {% endfor %}
+      </table>
+    </dd>
+  </div>
+{%- endmacro -%}

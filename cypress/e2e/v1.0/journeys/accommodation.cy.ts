@@ -14,15 +14,15 @@ describe('Origin: /accommodation', () => {
 
   const sectionName = 'Accommodation'
 
+  before(() => {
+    cy.createAssessment()
+  })
+
+  beforeEach(() => {
+    cy.enterAssessment()
+  })
+
   describe(`Destination: ${destinations.settled}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     const typeOfAccommodation = 'Settled'
 
     Array.of(
@@ -73,14 +73,6 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.temporary}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     const typeOfAccommodation = 'Temporary'
 
     Array.of('Immigration accommodation', 'Short term accommodation').forEach(typeOfTemporaryAccommodation => {
@@ -106,7 +98,7 @@ describe('Origin: /accommodation', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.temporary)
 
-        cy.getQuestion('Who is Sam living with?').getCheckbox('Alone').clickLabel()
+        cy.getQuestion('Who is Sam living with?').getCheckbox('Other').clickLabel()
 
         cy.getQuestion("Is the location of Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
@@ -126,14 +118,6 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.temporary2}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     const typeOfAccommodation = 'Temporary'
 
     Array.of(
@@ -179,34 +163,30 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.noAccommodation}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     const typeOfAccommodation = 'No accommodation'
 
-    Array.of('Campsite', 'Emergency hostel', 'Homeless', 'Rough sleeping', 'Shelter').forEach(typeOfNoAccommodation => {
-      it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
-        cy.visitStep(destinations.landingPage)
+    Array.of('Campsite', 'Emergency hostel', 'Homeless - includes squatting', 'Rough sleeping', 'Shelter').forEach(
+      typeOfNoAccommodation => {
+        it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
+          cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
+          cy.getQuestion('What type of accommodation does Sam currently have?')
+            .getRadio(typeOfAccommodation)
+            .clickLabel()
 
-        cy.getQuestion('What type of accommodation does Sam currently have?')
-          .getRadio(typeOfAccommodation)
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .clickLabel()
+          cy.getQuestion('What type of accommodation does Sam currently have?')
+            .getRadio(typeOfAccommodation)
+            .getConditionalQuestion()
+            .getRadio(typeOfNoAccommodation)
+            .clickLabel()
 
-        cy.saveAndContinue()
+          cy.saveAndContinue()
 
-        cy.assertStepUrlIs(destinations.noAccommodation)
-        cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
-      })
-    })
+          cy.assertStepUrlIs(destinations.noAccommodation)
+          cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
+        })
+      },
+    )
 
     describe(`Destination: ${destinations.analysis}`, () => {
       it(`routes to ${destinations.analysis}`, () => {
@@ -228,14 +208,6 @@ describe('Origin: /accommodation', () => {
   })
 
   describe(`Destination: ${destinations.noAccommodation2}`, () => {
-    before(() => {
-      cy.createAssessment()
-    })
-
-    beforeEach(() => {
-      cy.enterAssessment()
-    })
-
     const typeOfAccommodation = 'No accommodation'
 
     Array.of('Awaiting assessment').forEach(typeOfNoAccommodation => {

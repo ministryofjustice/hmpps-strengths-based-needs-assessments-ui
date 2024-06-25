@@ -67,7 +67,7 @@ jobs:
     machine:
       image: ubuntu-2204:current
     working_directory: ~/app
-    parallelism: 4
+    parallelism: 6
     steps:
       - checkout
       - attach_workspace:

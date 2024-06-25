@@ -198,7 +198,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Awaiting assessment',
       'Campsite',
       'Emergency hostel',
-      'Homeless',
+      'Homeless - includes squatting',
       'Rough sleeping',
       'Shelter',
     ]

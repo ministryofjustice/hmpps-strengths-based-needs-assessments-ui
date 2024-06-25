@@ -12,7 +12,7 @@ const headInjuryOrIllnessHint = `
     <li>acquired brain injury</li>
     <li>having fits</li>
     <li>significant episodes of unconsciousness as a result of a head injury</li>
-  <ul>
+  </ul>
 </div>
 `
 

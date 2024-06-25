@@ -373,7 +373,7 @@ export const drugUseTypeDetailsFields = [
 ].flat()
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'drugs',
+  'drug_use',
   'drug use',
 )
 
