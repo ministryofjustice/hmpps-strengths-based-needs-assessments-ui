@@ -47,4 +47,25 @@ services:
       - "3000:3000"
       - "9229:9229"
     volumes:
-      - ./:/app
+      - code:/app
+      - node_modules_volume:/app/node_modules
+    tmpfs:
+      - /app/dist
+
+volumes:
+  code:
+  node_modules_volume:
+
+x-mutagen:
+  sync:
+    defaults:
+      mode: 'two-way-resolved'
+      ignore:
+        vcs: true
+        paths:
+          - '.idea'
+          - 'node_modules'
+          - 'dist'
+    code:
+      alpha: '.'
+      beta: 'volume://code'

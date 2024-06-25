@@ -1,4 +1,5 @@
 SHELL = '/bin/bash'
+REQUIRED_PACKAGES := mutagen mutagen-compose
 PROJECT_NAME = hmpps-strengths-based-needs-assessments
 DEV_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.dev.yml
 TEST_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.test.yml
@@ -9,6 +10,29 @@ default: help
 
 help: ## The help text you're reading.
 	@grep --no-filename -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+install-node-modules: ## Installs Node modules into the Docker volume.
+	docker run --rm \
+      -e CYPRESS_INSTALL_BINARY=0 \
+	  -v ./package.json:/app/package.json \
+	  -v ./package-lock.json:/app/package-lock.json \
+	  -v ~/.npm:/npm_cache \
+	  -v ${PROJECT_NAME}_node_modules_volume:/app/node_modules \
+	  node:20-bullseye-slim sh -c "cd /app && npm ci --cache /npm_cache --prefer-offline"
+
+install_requirements: ## Install any missing required packages outlined in REQUIRED_PACKAGES=
+	@for package in $(REQUIRED_PACKAGES); do \
+		if ! command -v brew &> /dev/null; then \
+			echo "Homebrew is not installed. Please install Homebrew first."; \
+			exit 1; \
+		fi; \
+		if brew list --formula | grep -q "^$${package}$$"; then \
+			echo "Package '$${package}' is installed."; \
+		else \
+			echo "Package '$${package}' is not installed, installing..."; \
+			brew install $${package}; \
+		fi; \
+	done
 
 up: ## Starts/restarts the UI in a production container.
 	docker compose ${LOCAL_COMPOSE_FILES} down ui
@@ -24,23 +48,23 @@ build-ui: ## Builds a production image of the UI.
 
 dev-up: ## Starts/restarts the UI in a development container. A remote debugger can be attached on port 9229.
 	docker compose ${DEV_COMPOSE_FILES} down ui
-	docker compose ${DEV_COMPOSE_FILES} up ui --wait --no-recreate
+	mutagen-compose ${DEV_COMPOSE_FILES} up ui --wait --no-recreate
 
 dev-build: ## Builds a development image of the UI and installs Node dependencies.
 	docker compose ${DEV_COMPOSE_FILES} build ui
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm install --include=dev
 
 dev-down: ## Stops and removes all dev containers.
-	docker compose ${DEV_COMPOSE_FILES} down
+	mutagen-compose ${DEV_COMPOSE_FILES} down
 
 test: ## Runs the unit test suite.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run test
+	mutagen-compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run test
 
 lint: ## Runs the linter.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint
+	mutagen-compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint
 
 lint-fix: ## Automatically fixes linting issues.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint:fix
+	mutagen-compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint:fix
 
 BASE_URL ?= "http://localhost:3000"
 e2e: ## Run the end-to-end tests locally in the Cypress app. Override the default base URL with BASE_URL=...
