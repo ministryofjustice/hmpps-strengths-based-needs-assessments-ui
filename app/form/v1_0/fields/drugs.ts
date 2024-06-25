@@ -2,6 +2,7 @@ import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
 import {
   fieldCodeWith,
   getMediumLabelClassFor,
+  getSmallLabelClassFor,
   orDivider,
   smallRadios,
   toFormWizardFields,
@@ -45,7 +46,7 @@ const createFieldForDrugUsage = (option: string): FormWizard.Field => ({
     },
   ],
   options: frequencyOptions,
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   dependent: { field: 'drug_use_type', value: option },
 })
 
@@ -66,7 +67,7 @@ const createFieldForInjectingDrug = (option: string, frequency: string): FormWiz
     value: frequency,
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -81,7 +82,7 @@ const createFieldForPastDrugUsage = (option: string): FormWizard.Field => ({
     },
   ],
   options: yesNoOptions,
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   dependent: { field: 'drug_use_type', value: option },
 })
 
@@ -101,7 +102,7 @@ const createFieldForPastInjectingDrug = (option: string): FormWizard.Field => ({
     value: 'YES',
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -122,7 +123,7 @@ const createFieldForReceivingTreatment = (option: string, frequency: string): Fo
     value: frequency,
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -142,7 +143,7 @@ const createFieldForPastReceivingTreatment = (option: string): FormWizard.Field 
     value: 'YES',
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
