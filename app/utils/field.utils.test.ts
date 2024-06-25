@@ -1,11 +1,11 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard';
+import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import {
   combineDateFields,
   formatForNunjucks,
   whereSelectable,
   withPlaceholdersFrom,
-  withValuesFrom
-} from './field.utils';
+  withValuesFrom,
+} from './field.utils'
 
 describe('field.utils', () => {
   describe('withPlaceholdersFrom', () => {
@@ -89,7 +89,7 @@ describe('field.utils', () => {
       expect(radioSecondOption.checked).toEqual(false)
 
       const [checkboxFirstOption, checkboxSecondOption, checkboxThirdOption] =
-      checkboxField.options.filter(whereSelectable) || []
+        checkboxField.options.filter(whereSelectable) || []
       expect(checkboxFirstOption.checked).toEqual(true)
       expect(checkboxSecondOption.checked).toEqual(false)
       expect(checkboxThirdOption.checked).toEqual(true)

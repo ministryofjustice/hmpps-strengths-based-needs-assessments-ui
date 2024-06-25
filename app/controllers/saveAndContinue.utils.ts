@@ -3,7 +3,7 @@ import { AnswerDto, AnswerDTOs, UpdateAnswersDto } from '../../server/services/s
 import { Field, FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { whereSelectable } from '../utils/field.utils'
 
-export const getAnswersToAdd =
+export const createAnswerDTOs =
   (answers: FormWizard.Answers) =>
   (answerDTOs: AnswerDTOs, field: Field): AnswerDTOs => {
     const formWizardField = field.field
@@ -52,7 +52,7 @@ export const buildRequestBody = (options: FormWizard.FormOptions, answers: FormW
   return {
     answersToAdd: relevantFields
       .filter(f => Object.keys(options.fields).includes(f.field.id))
-      .reduce(getAnswersToAdd(answers), {}),
+      .reduce(createAnswerDTOs(answers), {}),
     answersToRemove: Object.keys(answers).filter(
       fieldCode => sectionFields.includes(fieldCode) && !relevantFields.some(field => field.field.code === fieldCode),
     ),
