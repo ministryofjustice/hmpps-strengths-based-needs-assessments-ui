@@ -56,7 +56,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some details')
       })
     })
-    ;[
+    Array.of(
       ['Behavioural', 'Includes unemployment, disruption on education or lack of productivity.'],
       ['Community', 'Includes limited opportunities or judgement from others.'],
       ['Finances', 'Includes having no money or difficulties.'],
@@ -64,7 +64,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       ['Physical or mental health', 'Includes overdose'],
       ['Relationships', 'Includes isolation or neglecting responsibilities.'],
       ['No impact', null],
-    ].forEach(([option, hint]) => {
+    ).forEach(([option, hint]) => {
       it(`no details field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
