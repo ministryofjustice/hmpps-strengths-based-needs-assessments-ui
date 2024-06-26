@@ -62,7 +62,7 @@ describe('Origin: /alcohol-use', () => {
   })
 
   describe(`Destination: ${destinations.alcoholUsageNotLastThreeMonths}`, () => {
-    it(`"not drunk alcohol in the last three months routes to "${destinations.alcoholUsageNotLastThreeMonths}"`, () => {
+    it(`"Not drunk alcohol in the last three months routes to "${destinations.alcoholUsageNotLastThreeMonths}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, but not in the last 3 months').clickLabel()
       cy.saveAndContinue()
@@ -72,12 +72,12 @@ describe('Origin: /alcohol-use', () => {
   })
 
   describe(`Destination: ${destinations.analysis}`, () => {
-    it(`"Drunk alcohol in the last three months routes to "${destinations.analysis}"`, () => {
+    it(`"Not drunk alcohol in the last three months routes to "${destinations.analysis}"`, () => {
       cy.visitStep(destinations.alcoholUsageNotLastThreeMonths)
       cy.getQuestion('Has Sam shown evidence of binge drinking or excessive alcohol use in the last 6 months?').getRadio('No evidence of binge drinking or excessive alcohol use').clickLabel()
       cy.getQuestion('Does Sam have any past issues with alcohol?').getRadio('No').clickLabel()
-      cy.getQuestion('Why does Sam drink alcohol?').getCheckbox('Cultural or religious practice').clickLabel()
-      cy.getQuestion("What's the impact of Sam drinking alcohol?").getCheckbox('Behavioural').clickLabel()
+      cy.getQuestion('Why does Sam drink alcohol?').getCheckbox('Curiosity or experimentation').clickLabel()
+      cy.getQuestion("What's the impact of Sam drinking alcohol?").getCheckbox('Community').clickLabel()
       cy.getQuestion('Has anything helped Sam to stop or reduce drinking alcohol in the past?').getRadio('No').clickLabel()
       cy.getQuestion('Does Sam want to make changes to their alcohol use?').getRadio('I do not want to answer').clickLabel()
       cy.saveAndContinue()
