@@ -7,7 +7,6 @@ describe('Origin: /accommodation', () => {
     temporary: '/temporary-accommodation',
     temporary2: '/temporary-accommodation-2',
     noAccommodation: '/no-accommodation',
-    noAccommodation2: '/no-accommodation-2',
     analysis: '/accommodation-analysis',
     analysisComplete: '/accommodation-analysis-complete',
   }
@@ -165,24 +164,28 @@ describe('Origin: /accommodation', () => {
   describe(`Destination: ${destinations.noAccommodation}`, () => {
     const typeOfAccommodation = 'No accommodation'
 
-    Array.of('Campsite', 'Emergency hostel', 'Homeless', 'Rough sleeping', 'Shelter').forEach(typeOfNoAccommodation => {
-      it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
-        cy.visitStep(destinations.landingPage)
+    Array.of('Campsite', 'Emergency hostel', 'Homeless - includes squatting', 'Rough sleeping', 'Shelter').forEach(
+      typeOfNoAccommodation => {
+        it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation}"`, () => {
+          cy.visitStep(destinations.landingPage)
 
-        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
+          cy.getQuestion('What type of accommodation does Sam currently have?')
+            .getRadio(typeOfAccommodation)
+            .clickLabel()
 
-        cy.getQuestion('What type of accommodation does Sam currently have?')
-          .getRadio(typeOfAccommodation)
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .clickLabel()
+          cy.getQuestion('What type of accommodation does Sam currently have?')
+            .getRadio(typeOfAccommodation)
+            .getConditionalQuestion()
+            .getRadio(typeOfNoAccommodation)
+            .clickLabel()
 
-        cy.saveAndContinue()
+          cy.saveAndContinue()
 
-        cy.assertStepUrlIs(destinations.noAccommodation)
-        cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
-      })
-    })
+          cy.assertStepUrlIs(destinations.noAccommodation)
+          cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
+        })
+      },
+    )
 
     describe(`Destination: ${destinations.analysis}`, () => {
       it(`routes to ${destinations.analysis}`, () => {
@@ -191,50 +194,6 @@ describe('Origin: /accommodation', () => {
         cy.getQuestion('Why does Sam have no accommodation?').getCheckbox('Alcohol related problems').clickLabel()
 
         cy.getQuestion('Does Sam have future accommodation planned?').getRadio('No').clickLabel()
-
-        cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
-
-        cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
-      })
-
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
-    })
-  })
-
-  describe(`Destination: ${destinations.noAccommodation2}`, () => {
-    const typeOfAccommodation = 'No accommodation'
-
-    Array.of('Awaiting assessment').forEach(typeOfNoAccommodation => {
-      it(`"${typeOfAccommodation}" and "${typeOfNoAccommodation}" routes to "${destinations.noAccommodation2}"`, () => {
-        cy.visitStep(destinations.landingPage)
-
-        cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
-
-        cy.getQuestion('What type of accommodation does Sam currently have?')
-          .getRadio(typeOfAccommodation)
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .clickLabel()
-
-        cy.getQuestion('What type of accommodation does Sam currently have?')
-          .getRadio(typeOfAccommodation)
-          .getConditionalQuestion()
-          .getRadio(typeOfNoAccommodation)
-          .getConditionalQuestion()
-          .enterText('Some details')
-
-        cy.saveAndContinue()
-
-        cy.assertStepUrlIs(destinations.noAccommodation2)
-        cy.assertResumeUrlIs(sectionName, destinations.noAccommodation2)
-      })
-    })
-
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
-        cy.visitStep(destinations.noAccommodation2)
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 

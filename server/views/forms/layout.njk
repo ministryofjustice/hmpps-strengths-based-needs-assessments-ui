@@ -33,7 +33,7 @@
           <span>
             <h3 class="govuk-heading-m">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h3>
           </span>
-          <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ assessmentId }}"></div>
+          <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
         </div>
       </div>
       <div class="govuk-grid-row">
@@ -94,11 +94,8 @@
           </div>
           <div class="section-heading">
             <div class="section-heading__heading">
-              {%- if (form.fields | removeNonRenderedFields).length  == 1 -%}
-                <h2 class="govuk-body-l govuk-!-margin-0">{{ options.pageTitle }}</h2>
-              {%- else -%}
-                <h2 class="govuk-heading-l">{{ options.pageTitle }}</h2>
-              {%- endif -%}
+              {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (form.fields | removeNonRenderedFields).length == 1 else "govuk-heading-l" %}
+              <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
             </div>
             {% if sectionProgress[options.section] %}
               <div class="section-heading__status">

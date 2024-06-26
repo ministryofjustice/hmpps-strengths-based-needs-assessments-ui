@@ -44,7 +44,7 @@ export interface AnswerDto {
   collection?: Record<string, AnswerDto>[]
 }
 
-export type Answers = Record<string, AnswerDto>
+export type AnswerDTOs = Record<string, AnswerDto>
 
 export type OasysEquivalent = Record<string, string | string[]>
 
@@ -59,7 +59,7 @@ interface AssessmentMetaData {
 }
 
 export interface AssessmentResponse {
-  assessment: Answers
+  assessment: AnswerDTOs
   oasysEquivalent: OasysEquivalent
   metaData: AssessmentMetaData
 }
@@ -72,7 +72,7 @@ export interface OasysAssessmentResponse {
 }
 
 export interface UpdateAnswersDto extends Record<string, unknown> {
-  answersToAdd: Answers
+  answersToAdd: AnswerDTOs
   answersToRemove: string[]
   tags?: string[]
 }

@@ -38,9 +38,8 @@ export const assertQuestionUrl = (question: string) => {
   })
 }
 
-export const getSectionName = () => {
-  return cy
-    .get(`.side-navigation li.moj-side-navigation__item--active`)
-    .invoke('text')
-    .then(sectionName => sectionName.trim().toLocaleLowerCase())
+export const assertDrugQuestionGroupUrl = (drug: string) => {
+  return cy.location().then(url => {
+    cy.get('form').children(url.hash).should('be.visible').and('have.length', 1).children('h2').contains(drug)
+  })
 }

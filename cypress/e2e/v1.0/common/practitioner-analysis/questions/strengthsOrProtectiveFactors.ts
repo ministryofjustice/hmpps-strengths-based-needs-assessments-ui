@@ -1,12 +1,11 @@
-export default (summaryPage: string, analysisCompletePage: string, positionNumber: number) => {
-  const questionWith = sectionName => `Are there any strengths or protective factors related to Sam's ${sectionName}?`
+export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
+  const question = `Are there any strengths or protective factors related to Sam's ${sectionName}?`
   const summaryQuestion = 'Strengths or protective factors'
-  describe(questionWith('{SECTION_NAME}'), () => {
+  describe(question, () => {
     const options = ['Yes', 'No']
 
     it(`displays and validates the question`, () => {
-      cy.getSectionName()
-        .then(sectionName => cy.getQuestion(questionWith(sectionName)))
+      cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
         .hasHint('Include any strategies, people or support networks that helped.')
         .hasRadios(options)
@@ -16,41 +15,27 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .hasHint(null)
       cy.markAsComplete()
       cy.assertStepUrlIs(summaryPage)
-      cy.getSectionName()
-        .then(sectionName => cy.getQuestion(questionWith(sectionName)))
-        .hasValidationError('Select if there are any strengths or protective factors')
+      cy.getQuestion(question).hasValidationError('Select if there are any strengths or protective factors')
       cy.checkAccessibility()
     })
 
     it('"Give details" is optional when selecting "No"', () => {
-      cy.getSectionName()
-        .then(sectionName => cy.getQuestion(questionWith(sectionName)))
-        .getRadio('No')
-        .clickLabel()
+      cy.getQuestion(question).getRadio('No').clickLabel()
       cy.markAsComplete()
-      cy.getSectionName()
-        .then(sectionName => cy.getQuestion(questionWith(sectionName)))
-        .hasNoValidationError()
-        .getNextQuestion()
-        .hasTitle('Give details')
-        .hasNoValidationError()
+      cy.getQuestion(question).hasNoValidationError().getNextQuestion().hasTitle('Give details').hasNoValidationError()
       cy.visitStep(analysisCompletePage)
       cy.get('#tab_practitioner-analysis').click()
       cy.getAnalysisSummary(summaryQuestion).getAnalysisAnswer('No').hasNoSecondaryAnswer()
       cy.checkAccessibility()
       cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
       cy.assertStepUrlIs(summaryPage)
-      cy.getSectionName().then(sectionName => cy.getQuestion(questionWith(sectionName)))
+      cy.getQuestion(question)
     })
 
     it('"Give details" is required when selecting "Yes"', () => {
-      cy.getSectionName()
-        .then(sectionName => cy.getQuestion(questionWith(sectionName)))
-        .getRadio('Yes')
-        .clickLabel()
+      cy.getQuestion(question).getRadio('Yes').clickLabel()
       cy.markAsComplete()
-      cy.getSectionName()
-        .then(sectionName => cy.getQuestion(questionWith(sectionName)))
+      cy.getQuestion(question)
         .hasNoValidationError()
         .getNextQuestion()
         .hasTitle('Give details')
@@ -58,19 +43,14 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .enterText('some details')
       cy.checkAccessibility()
       cy.markAsComplete()
-      cy.getSectionName()
-        .then(sectionName => cy.getQuestion(questionWith(sectionName)))
-        .hasNoValidationError()
-        .getNextQuestion()
-        .hasTitle('Give details')
-        .hasNoValidationError()
+      cy.getQuestion(question).hasNoValidationError().getNextQuestion().hasTitle('Give details').hasNoValidationError()
       cy.visitStep(analysisCompletePage)
       cy.get('#tab_practitioner-analysis').click()
       cy.getAnalysisSummary(summaryQuestion).getAnalysisAnswer('Yes').hasSecondaryAnalysisAnswer('some details')
       cy.checkAccessibility()
       cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
       cy.assertStepUrlIs(summaryPage)
-      cy.getSectionName().then(sectionName => cy.getQuestion(questionWith(sectionName)))
+      cy.getQuestion(question)
     })
   })
 }

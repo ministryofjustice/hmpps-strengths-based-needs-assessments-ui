@@ -1,0 +1,23 @@
+import everUsedDrugs from './questions/everUsedDrugs'
+
+describe('/drug-use', () => {
+  const stepUrl = '/drug-use'
+  const summaryPage = '/drug-use-analysis'
+  const questions = [everUsedDrugs]
+
+  beforeEach(() => {
+    cy.createAssessment().enterAssessment()
+    cy.visitSection('Drug use')
+    cy.assertStepUrlIs(stepUrl)
+    cy.assertQuestionCount(questions.length)
+    cy.hasAutosaveEnabled()
+  })
+
+  questions.forEach((questionTest, index) => {
+    questionTest(stepUrl, summaryPage, index + 1)
+  })
+
+  it('Should have no accessibility violations', () => {
+    cy.checkAccessibility()
+  })
+})

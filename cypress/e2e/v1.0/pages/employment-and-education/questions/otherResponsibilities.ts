@@ -20,7 +20,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       )
       cy.checkAccessibility()
     })
-    ;['Caring responsibilities', 'Child responsibilities', 'Volunteering', 'Other'].forEach(option => {
+    Array.of('Caring responsibilities', 'Child responsibilities', 'Volunteering', 'Other').forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
@@ -51,7 +51,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('some text')
       })
     })
-    ;['Studying', 'None'].forEach(option => {
+    Array.of('Studying', 'None').forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 

@@ -51,7 +51,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .isChecked()
       })
     })
-    ;['Self-employed', 'Retired'].forEach(option => {
+    Array.of('Self-employed', 'Retired').forEach(option => {
       it(`summary page displays "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
         cy.getQuestion(question).getRadio(option).isChecked().hasConditionalQuestion(false)
@@ -66,11 +66,11 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getRadio(option).isChecked()
       })
     })
-    ;[
+    Array.of(
       'Currently unavailable for work',
       'Unemployed - actively looking for work',
       'Unemployed - not actively looking for work',
-    ].forEach(option => {
+    ).forEach(option => {
       it(`displays and validates conditional options for radio ${option}`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
         cy.getQuestion(question)
@@ -83,10 +83,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getRadio(option).getConditionalQuestion().hasValidationError('Select one option')
         cy.checkAccessibility()
       })
-      ;[
+      Array.of(
         ['Yes, has been employed before', 'Has been employed before'],
         ['No, has never been employed', 'Has never been employed'],
-      ].forEach(([hasBeenEmployedRadio, hasBeenEmployedSummary]) => {
+      ).forEach(([hasBeenEmployedRadio, hasBeenEmployedSummary]) => {
         it(`summary page displays "${option} - ${hasBeenEmployedSummary}"`, () => {
           cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
           cy.getQuestion(question).getRadio(option).getConditionalQuestion().getRadio(hasBeenEmployedRadio).clickLabel()
