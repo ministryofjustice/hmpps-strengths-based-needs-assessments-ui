@@ -1,6 +1,7 @@
-import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { getMediumLabelClassFor, orDivider } from '../common'
 import { detailsFieldWith } from './detailsField'
+import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
   { text: 'I have already made positive changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
@@ -10,7 +11,6 @@ const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
   { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
   { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
 ]
-
 // eslint-disable-next-line import/prefer-default-export
 export const createWantToMakeChangesFields = (changesTo: string, prefix: string): Array<FormWizard.Field> => [
   {

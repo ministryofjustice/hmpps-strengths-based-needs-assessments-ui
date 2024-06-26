@@ -1,7 +1,7 @@
-import { Gender } from 'hmpo-form-wizard'
 import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
+import { Gender } from '../@types/hmpo-form-wizard/enums'
 
 export default class ArnsHandoverService {
   authClient

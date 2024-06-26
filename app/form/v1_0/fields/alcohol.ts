@@ -1,8 +1,9 @@
-import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { getMediumLabelClassFor, orDivider, toFormWizardFields, yesNoOptions } from './common'
 import { detailsCharacterLimit } from './common/detailsField'
 import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const alcoholUnitsHint = `
 <details class="govuk-details" data-module="govuk-details">

@@ -1,6 +1,7 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import nunjucks from 'nunjucks'
 import { AnswerDto, Answers, UpdateAnswersDto } from '../../server/services/strengthsBasedNeedsService'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
 export const formatForNunjucks = (str = '') => str.split('}').join('} ').trim() // Prevent nunjucks mistaking the braces when rendering the template
 

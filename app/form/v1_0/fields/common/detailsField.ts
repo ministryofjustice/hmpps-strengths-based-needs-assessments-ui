@@ -1,5 +1,6 @@
-import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { fieldCodeWith } from '../common'
+import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 export const detailsCharacterLimit = 400
 

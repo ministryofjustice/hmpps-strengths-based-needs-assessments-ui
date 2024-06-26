@@ -1,6 +1,7 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
 import { AnswerDto } from '../services/strengthsBasedNeedsService'
+import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 export function toOptionDescription(answer: AnswerDto): string {
   switch (answer.type) {

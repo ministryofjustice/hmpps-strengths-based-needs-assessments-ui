@@ -33,7 +33,6 @@ RUN npm prune --no-audit --omit=dev
 FROM base AS production
 COPY --from=build --chown=appuser:appgroup /app/package.json /app/package-lock.json ./
 COPY --from=build --chown=appuser:appgroup /app/build-info.json ./dist/build-info.json
-COPY --from=build --chown=appuser:appgroup /app/assets ./assets
 COPY --from=build --chown=appuser:appgroup /app/dist ./dist
 COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
 COPY --from=build --chown=appuser:appgroup /app/docker/healthcheck.js ./docker/healthcheck.js

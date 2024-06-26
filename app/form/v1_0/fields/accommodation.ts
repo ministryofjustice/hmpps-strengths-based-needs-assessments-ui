@@ -1,4 +1,4 @@
-import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import {
   validateFutureDate,
   getMediumLabelClassFor,
@@ -11,6 +11,7 @@ import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 import { detailsCharacterLimit, detailsField } from './common/detailsField'
 import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const immigrationAccommodationHint = `
     <div class="govuk-!-width-two-thirds">

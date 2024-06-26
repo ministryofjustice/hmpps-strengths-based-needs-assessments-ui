@@ -1,4 +1,4 @@
-import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import {
   getMediumLabelClassFor,
   toFormWizardFields,
@@ -9,6 +9,7 @@ import {
 } from './common'
 import { detailsCharacterLimit } from './common/detailsField'
 import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
+import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const endDateSummaryDisplay = (value: string) => `\n${formatDateForDisplay(value) || 'Not provided'}`
 const offenceAnalysisDetailsCharacterLimit4k = 4000

@@ -1,4 +1,4 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import getSummaryFields, {
   addNestedSummaryField,
   Context,
@@ -9,6 +9,7 @@ import getSummaryFields, {
   SummaryField,
   SummaryFieldAnswer,
 } from './nunjucks.summaryFields'
+import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 describe('server/utils/nunjucks.summaryFields', () => {
   const contextWithAnswer = (field: string, value: string | string[]): Context =>

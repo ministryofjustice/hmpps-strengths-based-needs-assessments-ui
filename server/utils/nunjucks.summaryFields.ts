@@ -1,6 +1,7 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { whereSelectable } from '../../app/controllers/saveAndContinue.utils'
 import { formatDateForDisplay, isPractitionerAnalysisField, isNonRenderedField } from './nunjucks.utils'
+import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 export interface SummaryField {
   field: FormWizard.Field

@@ -1,4 +1,4 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { AnswerDto } from '../services/strengthsBasedNeedsService'
 import {
   answerIncludes,
@@ -9,6 +9,7 @@ import {
   toErrorSummary,
   toOptionDescription,
 } from './nunjucks.utils'
+import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 describe('server/utils/nunjucks.utils', () => {
   describe('toOptionDescription', () => {

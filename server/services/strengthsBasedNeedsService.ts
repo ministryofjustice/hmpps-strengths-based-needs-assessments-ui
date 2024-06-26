@@ -1,8 +1,8 @@
 import { UUID } from 'crypto'
-import { FieldType } from 'hmpo-form-wizard'
 import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
+import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 export interface CreateAssessmentRequest extends Record<string, unknown> {
   oasysAssessmentPk: string
