@@ -40,7 +40,7 @@ describe('Auto save', () => {
 
     cy.hasAutosaveEnabled()
 
-    cy.intercept('POST', '/form/1/0/accommodation?action=saveDraft&jsonResponse=true').as('post')
+    cy.intercept('POST', '/form/1/0/accommodation?jsonResponse=true').as('post')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
     cy.getQuestion('What type of accommodation does Sam currently have?')
