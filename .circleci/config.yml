@@ -160,19 +160,16 @@ workflows:
       - api_integration_tests:
           context: hmpps-common-vars
           requires:
-            - lint
             - build_docker
       - e2e_test:
           context: hmpps-common-vars
           requires:
-            - lint
             - build_docker
       - hmpps/publish_docker:
           name: publish_docker
           publish_latest_tag: true
           context: hmpps-common-vars
           requires:
-            - lint
             - unit_test
             - api_integration_tests
             - e2e_test

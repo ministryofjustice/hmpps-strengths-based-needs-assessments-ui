@@ -9,8 +9,10 @@ import {
   getLabelForOption,
   getSelectedAnswers,
   removeNonRenderedFields,
+  startsWith,
   toErrorSummary,
   toOptionDescription,
+  urlSafe,
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
 
@@ -67,17 +69,11 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   njkEnv.addFilter('removeNonRenderedFields', removeNonRenderedFields)
 
-  njkEnv.addFilter('startsWith', function startsWith(subject: string, startWith: string) {
-    return subject.startsWith(startWith)
-  })
+  njkEnv.addFilter('startsWith', startsWith)
 
-  njkEnv.addFilter('urlSafe', function urlSafe(text: string) {
-    return text.replace(/[|&;$%@"<>()+,]/g, '').replace(/\s+/g, '-')
-  })
+  njkEnv.addFilter('urlSafe', urlSafe)
 
-  njkEnv.addGlobal('getSummaryFields', function summaryFields() {
-    return getSummaryFields(this.ctx)
-  })
+  njkEnv.addGlobal('getSummaryFields', getSummaryFields)
 
   njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
 }

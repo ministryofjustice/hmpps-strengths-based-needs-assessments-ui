@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'What has helped Sam stay in accommodation in the past? (optional)'
+  const question = "What's helped Sam stay in accommodation in the past? (optional)"
 
   describe(question, () => {
     it(`displays and does not validate the question`, () => {

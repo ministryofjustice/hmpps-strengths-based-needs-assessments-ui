@@ -1,20 +1,18 @@
 import { NextFunction, Response } from 'express'
 import FormWizard, { Gender } from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import {
-  buildRequestBody,
-  combineDateFields,
-  compileConditionalFields,
-  fieldsById,
-  flattenAnswers,
-  mergeAnswers,
-  withPlaceholdersFrom,
-  withValuesFrom,
-} from './saveAndContinue.utils'
+import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, {
   SessionInformation,
 } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
+import {
+  combineDateFields,
+  compileConditionalFields,
+  fieldsById,
+  withPlaceholdersFrom,
+  withValuesFrom,
+} from '../utils/field.utils'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
@@ -58,7 +56,8 @@ class SaveAndContinueController extends BaseController {
 
   async process(req: FormWizard.Request, res: Response, next: NextFunction) {
     req.form.values = combineDateFields(req.body, req.form.values)
-    const mergedAnswers = mergeAnswers(req.form.persistedAnswers, req.form.values)
+    const mergedAnswers = { ...req.form.persistedAnswers, ...req.form.values }
+
     req.form.values = Object.entries(req.form.options.fields)
       .filter(([_, field]) => {
         const dependentValue = mergedAnswers[field.dependent?.field]
@@ -82,21 +81,22 @@ class SaveAndContinueController extends BaseController {
     return gender === Gender.Male ? 8 : 6
   }
 
-  async addAssessmentDataToLocals(req: FormWizard.Request, res: Response) {
-    const sessionData = req.session.sessionData as SessionInformation
-    res.locals.sessionData = sessionData
-    res.locals.subjectDetails = req.session.subjectDetails as HandoverSubject
-    res.locals.assessmentId = sessionData.assessmentId
-    res.locals.placeholderValues = {
-      subject: res.locals.subjectDetails.givenName,
-      alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
-    }
-    res.locals.values = mergeAnswers(req.form.persistedAnswers, res.locals.values)
-  }
-
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      await this.addAssessmentDataToLocals(req, res)
+      const subjectDetails = req.session.subjectDetails as HandoverSubject
+
+      res.locals = {
+        ...res.locals,
+        ...req.form.options.locals,
+        answers: req.form.persistedAnswers,
+        values: req.form.persistedAnswers,
+        placeholderValues: {
+          subject: subjectDetails.givenName,
+          alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
+        },
+        sessionData: req.session.sessionData as SessionInformation,
+        subjectDetails,
+      }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
@@ -106,9 +106,6 @@ class SaveAndContinueController extends BaseController {
         action: res.locals.action,
         errors: res.locals.errors,
       })
-
-      res.locals.answers = req.form.values
-      res.locals = { ...res.locals, ...req.form.options.locals }
 
       res.locals.options.fields = fieldsWithRenderedConditionals
         .filter(it => res.locals.form.fields.includes(it.code))
@@ -201,11 +198,7 @@ class SaveAndContinueController extends BaseController {
     const { assessmentId } = req.session.sessionData as SessionInformation
 
     const answers = { ...req.form.persistedAnswers, ...req.form.values }
-    const { answersToAdd, answersToRemove } = buildRequestBody(
-      req.form.options.fields,
-      req.form.options.allFields,
-      answers,
-    )
+    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answers)
 
     req.form.values = {
       ...answers,
@@ -217,39 +210,52 @@ class SaveAndContinueController extends BaseController {
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
+    let answersPersisted = false
+
     try {
       this.setSectionProgress(req, true)
       await this.persistAnswers(req, res)
-
-      if (req.query.jsonResponse === 'true') {
-        return res.send('👍')
-      }
+      answersPersisted = true
 
       this.resetResumeUrl(req)
 
+      if (req.query.jsonResponse === 'true') {
+        return res.json({ answersPersisted })
+      }
+
       return super.successHandler(req, res, next)
     } catch (error) {
+      if (req.query.jsonResponse === 'true') {
+        return res.json({ answersPersisted })
+      }
+
       return next(error)
     }
   }
 
   async errorHandler(err: Error, req: FormWizard.Request, res: Response, next: NextFunction) {
-    try {
-      if (req.query.jsonResponse === 'true') {
-        return res.send('👍')
-      }
+    let answersPersisted = false
 
+    try {
       this.resetResumeUrl(req)
 
       if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
         this.setSectionProgress(req, false)
         await this.persistAnswers(req, res)
-
+        answersPersisted = true
         this.setErrors(err, req, res)
+      }
+
+      if (req.query.jsonResponse === 'true') {
+        return res.json({ answersPersisted })
       }
 
       return super.errorHandler(err, req, res, next)
     } catch (error) {
+      if (req.query.jsonResponse === 'true') {
+        return res.json({ answersPersisted })
+      }
+
       return next(error)
     }
   }

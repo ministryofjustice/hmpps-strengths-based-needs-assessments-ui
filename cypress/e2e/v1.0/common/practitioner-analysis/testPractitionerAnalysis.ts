@@ -4,12 +4,6 @@ import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFacto
 
 export default (summaryPage: string, analysisCompletePage: string, sectionName: string) => {
   describe(`${summaryPage} - Practitioner Analysis`, () => {
-    beforeEach(() => {
-      cy.createAssessment().enterAssessment()
-      cy.visitStep(summaryPage)
-      cy.hasAutosaveEnabled()
-    })
-
     it('can navigate to the Practitioner Analysis tab', () => {
       cy.get('.govuk-tabs__list-item--selected #tab_summary').should('be.visible')
       cy.get('#summary').should('be.visible')
