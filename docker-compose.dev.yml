@@ -47,4 +47,18 @@ services:
       - "3000:3000"
       - "9229:9229"
     volumes:
-      - ./:/app
+      - ./app:/app/app
+      - ./assets:/app/assets
+      - ./esbuild:/app/esbuild
+      - ./server:/app/server
+      - ./test_results:/app/test_results
+      - ./.eslintcache:/app/.eslintcache
+      - ./.eslintignore:/app/.eslintignore
+      - ./.eslintrc.json:/app/.eslintrc.json
+      - ./.eslintrc.json:/app/.eslintrc.json
+      - ./.prettierrc:/app/.prettierrc
+      - ./logger.ts:/app/logger.ts
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - ./server.ts:/app/server.ts
+      - ./tsconfig.json:/app/tsconfig.json
