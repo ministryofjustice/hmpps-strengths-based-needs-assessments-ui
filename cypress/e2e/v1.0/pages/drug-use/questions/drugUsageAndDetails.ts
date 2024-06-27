@@ -318,7 +318,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
               cy.getDrugQuestion(drugName(drug), pastUseQuestion)
                 .getRadio('Yes')
                 .getNthConditionalQuestion(1)
-                .hasTitle('Is Sam receiving treatment?')
+                .hasTitle('Was Sam receiving treatment?')
                 .hasHint(null)
                 .hasRadios(['Yes', 'No'])
             }
@@ -346,8 +346,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
               cy.getDrugQuestion(drugName(drug), pastUseQuestion)
                 .getRadio('Yes')
                 .getNthConditionalQuestion(1)
-                .hasTitle('Is Sam receiving treatment?')
-                .hasValidationError('Select if they are receiving treatment')
+                .hasTitle('Was Sam receiving treatment?')
+                .hasValidationError('Select if they were receiving treatment')
                 .getRadio('Yes')
                 .clickLabel()
 
@@ -407,7 +407,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
               cy.getDrugQuestion(drugName(drug), pastUseQuestion)
                 .getRadio('Yes')
                 .getNthConditionalQuestion(1)
-                .hasTitle('Is Sam receiving treatment?')
+                .hasTitle('Was Sam receiving treatment?')
                 .getRadio('No')
                 .clickLabel()
 
