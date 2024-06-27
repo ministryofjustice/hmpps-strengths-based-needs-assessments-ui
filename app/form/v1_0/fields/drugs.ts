@@ -128,13 +128,13 @@ const createFieldForReceivingTreatment = (option: string, frequency: string): Fo
 })
 
 const createFieldForPastReceivingTreatment = (option: string): FormWizard.Field => ({
-  text: 'Is [subject] receiving treatment?',
+  text: 'Was [subject] receiving treatment?',
   code: fieldCodeWith('past_drug_usage_treatment', option),
   type: FieldType.Radio,
   validate: [
     {
       fn: requiredWhenContains('drug_use_type', option),
-      message: 'Select if they are receiving treatment',
+      message: 'Select if they were receiving treatment',
     },
   ],
   options: yesNoOptions,
