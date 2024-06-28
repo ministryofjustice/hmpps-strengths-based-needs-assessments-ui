@@ -563,15 +563,8 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the offence analysis section complete?',
-  code: 'offence_analysis_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
-
-export default [sectionCompleteFields, analysisSectionComplete, questionSectionComplete, offenceAnalysisFields]
+export default [sectionCompleteFields, questionSectionComplete, offenceAnalysisFields]
   .flat()
   .reduce(toFormWizardFields, {})
