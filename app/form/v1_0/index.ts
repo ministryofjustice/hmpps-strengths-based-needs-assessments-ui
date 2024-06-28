@@ -7,5 +7,6 @@ export default {
   options: {
     active: true,
     version: '1.0',
+    defaultFormatters: ['trim', 'hyphens', 'apostrophes', 'quotes'],
   },
 }

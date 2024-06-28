@@ -231,7 +231,7 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
   {
     text: 'Enter drug name',
     code: 'other_drug_details',
-    type: FieldType.TextArea,
+    type: FieldType.Text,
     validate: [{ type: ValidationType.Required, message: 'Enter drug name' }],
     dependent: {
       field: 'drug_use_type',

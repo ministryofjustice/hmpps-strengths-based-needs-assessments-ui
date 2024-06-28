@@ -1,7 +1,4 @@
 // commands related to navigation and URLs
-
-import { getQuestion } from './question'
-
 export const visitSection = (name: string) => {
   return cy.get(`.side-navigation li.moj-side-navigation__item`).contains(name).should('have.length', 1).click()
 }
@@ -33,8 +30,8 @@ export const assertStepUrlIsNot = (path: string) => {
 }
 
 export const assertQuestionUrl = (question: string) => {
-  return cy.location().then(url => {
-    getQuestion(question).find(url.hash).should('exist')
+  cy.getQuestion(question).then(q => {
+    cy.location('hash').should('satisfy', (id: string) => q.find(id).length === 1)
   })
 }
 

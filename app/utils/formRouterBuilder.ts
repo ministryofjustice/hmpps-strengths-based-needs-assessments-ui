@@ -11,6 +11,7 @@ type FormWizardRouter = {
 export type FormOptions = {
   version: string
   active: boolean
+  defaultFormatters: string[]
 }
 
 export type Form = {
@@ -122,6 +123,7 @@ const setupForm = (form: Form): FormWizardRouter => {
       FormWizard(form.steps, form.fields, {
         name: `Assessment:${form.options.version}`,
         entryPoint: true,
+        defaultFormatters: form.options.defaultFormatters,
       }),
     )
   }

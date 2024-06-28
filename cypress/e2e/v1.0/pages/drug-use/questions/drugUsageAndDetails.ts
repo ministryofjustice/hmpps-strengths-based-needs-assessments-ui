@@ -49,7 +49,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
               .getConditionalQuestion()
               .hasTitle('Enter drug name')
               .hasHint(null)
-              .hasLimit(400)
             cy.saveAndContinue()
             cy.assertStepUrlIs(stepUrl)
             cy.getQuestion(question)
