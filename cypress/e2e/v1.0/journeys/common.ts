@@ -19,7 +19,7 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
 
       cy.assertStepUrlIs(destination)
       cy.get('#practitioner-analysis').should('be.visible')
-      cy.sectionMarkedAsComplete(sectionName)
+      cy.currentSectionMarkedAsComplete(sectionName)
 
       // Check editing the practitioner analysis removes the complete status
       cy.get('#tab_summary').click()
@@ -32,7 +32,7 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
       cy.assertStepUrlIs(origin)
       cy.assertResumeUrlIs(sectionName, origin)
 
-      cy.sectionNotMarkedAsComplete(sectionName)
+      cy.currentSectionNotMarkedAsComplete(sectionName)
       cy.get('#tab_practitioner-analysis').click()
       cy.get('#practitioner-analysis').should('be.visible')
       cy.markAsComplete()
@@ -41,7 +41,7 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
       cy.assertResumeUrlIs(sectionName, destination)
       cy.get('#tab_practitioner-analysis').click()
       cy.get('#practitioner-analysis').should('be.visible')
-      cy.sectionMarkedAsComplete(sectionName)
+      cy.currentSectionMarkedAsComplete(sectionName)
 
       cy.get('#tab_summary').click()
       cy.get('#summary').should('be.visible')
@@ -51,7 +51,7 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
 
       cy.saveAndContinue()
       cy.visitStep(destination)
-      cy.sectionNotMarkedAsComplete(sectionName)
+      cy.currentSectionNotMarkedAsComplete(sectionName)
     })
   })
 }
