@@ -180,7 +180,8 @@ export const hasCheckboxes = (subject: JQuery, options: string[]) => {
 }
 
 export const enterText = (subject: JQuery, value: string) => {
-  cy.wrap(subject).children('textarea, input[type="text"]').type(value)
+  cy.wrap(subject).children('textarea, input[type="text"]').clear()
+  if (value !== '') cy.wrap(subject).children('textarea, input[type="text"]').type(value)
   return cy.wrap(subject)
 }
 
