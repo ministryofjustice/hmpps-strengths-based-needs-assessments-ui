@@ -3,6 +3,8 @@ import { AnswerDto, AnswerDTOs, UpdateAnswersDto } from '../../server/services/s
 import { Field, FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { whereSelectable } from '../utils/field.utils'
 
+export const toAnswerDtoOption = ({ value, text }: FormWizard.Field.Option) => ({ value, text })
+
 export const createAnswerDTOs =
   (answers: FormWizard.Answers) =>
   (answerDTOs: AnswerDTOs, field: Field): AnswerDTOs => {
@@ -16,7 +18,7 @@ export const createAnswerDTOs =
           [formWizardField.code]: {
             type: formWizardField.type,
             description: formWizardField.text,
-            options: formWizardField.options.filter(whereSelectable),
+            options: formWizardField.options.filter(whereSelectable).map(toAnswerDtoOption),
             values: thisAnswer as string[],
           },
         }
@@ -26,7 +28,7 @@ export const createAnswerDTOs =
           [formWizardField.code]: {
             type: formWizardField.type,
             description: formWizardField.text,
-            options: formWizardField.options.filter(whereSelectable),
+            options: formWizardField.options.filter(whereSelectable).map(toAnswerDtoOption),
             value: thisAnswer as string,
           },
         }

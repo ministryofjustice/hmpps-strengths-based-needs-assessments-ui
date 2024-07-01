@@ -1,7 +1,7 @@
 import FormWizard, { FieldType } from 'hmpo-form-wizard'
 import { AnswerDto } from '../../server/services/strengthsBasedNeedsService'
 import { Field, FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
-import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
+import { buildRequestBody, flattenAnswers, toAnswerDtoOption } from './saveAndContinue.utils'
 
 jest.mock('../utils/fieldDependencyTreeBuilder')
 
@@ -131,16 +131,42 @@ describe('saveAndContinue.utils', () => {
 
       expect(mockBuildAndFlatten).toHaveBeenCalledTimes(1)
 
+      const expectedOptions = [
+        { text: 'Foo', value: 'FOO' },
+        { text: 'Bar', value: 'BAR' },
+        { text: 'Bar', value: 'BAZ' },
+      ]
+
       expect(result.answersToAdd).toEqual({
         fooText: { description: 'Foo Text', type: FieldType.Text, value: 'bar' },
-        fooRadio: { description: 'Foo Radio', type: FieldType.Radio, options, value: 'FOO' },
-        fooCheckbox: { description: 'Foo Checkbox', type: FieldType.CheckBox, options, values: ['FOO', 'BAR'] },
+        fooRadio: { description: 'Foo Radio', type: FieldType.Radio, options: expectedOptions, value: 'FOO' },
+        fooCheckbox: {
+          description: 'Foo Checkbox',
+          type: FieldType.CheckBox,
+          options: expectedOptions,
+          values: ['FOO', 'BAR'],
+        },
       })
 
       expect(result.answersToRemove).toEqual([
         'fieldInAnotherStepInCurrentSectionWithDependencyNotMet',
         'fieldInCurrentStepWithDependencyNotMet',
       ])
+    })
+  })
+  describe('toAnswerDtoOption', () => {
+    it('converts a form wizard option to an answer DTO option', () => {
+      expect(
+        toAnswerDtoOption({
+          value: 'FOO',
+          text: 'Foo',
+          kind: 'option',
+          hint: { text: 'Some hint' },
+          summary: { displayFn: (_a: string, _b: string) => 'Foo summary' },
+          behaviour: 'exclusive',
+          checked: true,
+        }),
+      ).toEqual({ value: 'FOO', text: 'Foo' })
     })
   })
 })
