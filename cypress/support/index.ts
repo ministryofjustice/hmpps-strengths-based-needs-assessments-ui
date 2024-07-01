@@ -20,6 +20,10 @@ import {
 } from './commands/option'
 import {
   assertQuestionCount,
+  assessmentMarkedAsComplete,
+  assessmentNotMarkedAsComplete,
+  currentSectionMarkedAsComplete,
+  currentSectionNotMarkedAsComplete,
   hasAutosaveEnabled,
   sectionMarkedAsComplete,
   sectionNotMarkedAsComplete,
@@ -70,6 +74,7 @@ import {
   hasSecondaryAnalysisAnswer,
 } from './commands/analysisSummary'
 import { captureAssessment, cloneCapturedAssessment, createAssessment, enterAssessment } from './commands/api'
+import { Fixture, loadFixture, saveAsFixture } from './commands/fixture'
 
 declare global {
   namespace Cypress {
@@ -94,6 +99,10 @@ declare global {
       saveAndContinue(): Chainable
       markAsComplete(): Chainable
 
+      // fixtures
+      loadFixture(fixture: Fixture): Chainable
+      saveAsFixture(fixture: Fixture): Chainable
+
       // navigation
       visitSection(name: string): Chainable
       assertSectionIs(name: string): Chainable
@@ -117,6 +126,10 @@ declare global {
       assertQuestionCount(count: number): Chainable
       sectionMarkedAsComplete(section: string): Chainable
       sectionNotMarkedAsComplete(section: string): Chainable
+      currentSectionMarkedAsComplete(section: string): Chainable
+      currentSectionNotMarkedAsComplete(section: string): Chainable
+      assessmentMarkedAsComplete(): Chainable
+      assessmentNotMarkedAsComplete(): Chainable
       hasAutosaveEnabled(): Chainable
 
       // question
@@ -178,6 +191,10 @@ Cypress.Commands.add('hasNoSecondaryAnalysisAnswer', { prevSubject: true }, hasN
 Cypress.Commands.add('saveAndContinue', saveAndContinue)
 Cypress.Commands.add('markAsComplete', markAsComplete)
 
+// fixtures
+Cypress.Commands.add('loadFixture', loadFixture)
+Cypress.Commands.add('saveAsFixture', saveAsFixture)
+
 // navigation
 Cypress.Commands.add('visitSection', visitSection)
 Cypress.Commands.add('assertSectionIs', assertSectionIs)
@@ -201,6 +218,10 @@ Cypress.Commands.add('getNthConditionalQuestion', { prevSubject: true }, getNthC
 Cypress.Commands.add('assertQuestionCount', assertQuestionCount)
 Cypress.Commands.add('sectionMarkedAsComplete', sectionMarkedAsComplete)
 Cypress.Commands.add('sectionNotMarkedAsComplete', sectionNotMarkedAsComplete)
+Cypress.Commands.add('currentSectionMarkedAsComplete', currentSectionMarkedAsComplete)
+Cypress.Commands.add('currentSectionNotMarkedAsComplete', currentSectionNotMarkedAsComplete)
+Cypress.Commands.add('assessmentMarkedAsComplete', assessmentMarkedAsComplete)
+Cypress.Commands.add('assessmentNotMarkedAsComplete', assessmentNotMarkedAsComplete)
 Cypress.Commands.add('hasAutosaveEnabled', hasAutosaveEnabled)
 
 // question

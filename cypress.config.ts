@@ -22,8 +22,7 @@ export default defineConfig({
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
-    excludeSpecPattern: '**/!(*.cy).ts',
-    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: ['cypress/e2e/**/*.cy.ts', 'cypress/e2e/**/*.fixture.ts'],
     supportFile: 'cypress/support/index.ts',
     testIsolation: true,
     setupNodeEvents(on, config) {

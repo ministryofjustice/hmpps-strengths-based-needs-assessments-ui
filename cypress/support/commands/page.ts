@@ -5,8 +5,6 @@ export const assertQuestionCount = (count: number) => {
 }
 
 export const sectionMarkedAsComplete = (section: string) => {
-  cy.get('.section-heading__status > .govuk-tag').should('be.visible').and('contain.text', 'Complete')
-
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
     .parent()
@@ -15,13 +13,29 @@ export const sectionMarkedAsComplete = (section: string) => {
 }
 
 export const sectionNotMarkedAsComplete = (section: string) => {
-  cy.get('.section-heading__status > .govuk-tag').should('not.exist')
-
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
     .parent()
     .find('.section-complete')
     .should('not.exist')
+}
+
+export const currentSectionMarkedAsComplete = (section: string) => {
+  cy.get('.section-heading__status > .govuk-tag').should('be.visible').and('contain.text', 'Complete')
+  cy.sectionMarkedAsComplete(section)
+}
+
+export const currentSectionNotMarkedAsComplete = (section: string) => {
+  cy.get('.section-heading__status > .govuk-tag').should('not.exist')
+  cy.sectionNotMarkedAsComplete(section)
+}
+
+export const assessmentMarkedAsComplete = () => {
+  cy.get('.return-to-assessment > button').should('not.have.class', 'govuk-button--secondary')
+}
+
+export const assessmentNotMarkedAsComplete = () => {
+  cy.get('.return-to-assessment > button').should('have.class', 'govuk-button--secondary')
 }
 
 export const hasAutosaveEnabled = () => {

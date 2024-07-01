@@ -10,6 +10,7 @@ import {
 } from './common'
 import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { detailsCharacterLimit } from './common/detailsField'
 
 const usageFrequencies = [
   { text: 'Daily', value: 'DAILY' },
@@ -232,7 +233,14 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
     text: 'Enter drug name',
     code: 'other_drug_details',
     type: FieldType.Text,
-    validate: [{ type: ValidationType.Required, message: 'Enter drug name' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Enter drug name' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [detailsCharacterLimit],
+        message: `Drug name must be ${detailsCharacterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_type',
       value: 'OTHER_DRUG',
