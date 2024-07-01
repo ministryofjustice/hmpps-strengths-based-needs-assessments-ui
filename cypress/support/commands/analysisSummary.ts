@@ -26,12 +26,19 @@ export const getAnalysisAnswer = (subject: JQuery, answer: string) => {
     .parent()
 }
 
-export const hasSecondaryAnalysisAnswer = (subject: JQuery, answer: string) => {
+export const hasSecondaryAnalysisAnswer = (subject: JQuery, ...lines: string[]) => {
   cy.wrap(subject)
-    .children('.analysis__answer--secondary')
-    .should('be.visible')
-    .and('have.length', 1)
-    .and('contain.text', answer)
+    .find('> .analysis__answer--secondary > br')
+    .should('have.length', lines.length - 1)
+
+  lines.forEach(line => {
+    cy.wrap(subject)
+      .children('.analysis__answer--secondary')
+      .should('be.visible')
+      .and('have.length', 1)
+      .and('contain.text', line)
+  })
+
   return cy.wrap(subject)
 }
 

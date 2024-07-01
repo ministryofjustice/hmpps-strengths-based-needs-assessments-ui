@@ -11,7 +11,7 @@ type FormWizardRouter = {
 export type FormOptions = {
   version: string
   active: boolean
-  defaultFormatters: string[]
+  defaultFormatters: Array<string | FormWizard.Formatter>
 }
 
 export type Form = {

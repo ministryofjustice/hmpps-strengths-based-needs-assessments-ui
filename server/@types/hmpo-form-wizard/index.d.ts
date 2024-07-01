@@ -77,6 +77,8 @@ declare module 'hmpo-form-wizard' {
     type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => boolean
     type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }
 
+    type Formatter = { type: string; fn: (input: string) => string }
+
     interface FormOptions {
       allFields: { [key: string]: Field }
       journeyName: string

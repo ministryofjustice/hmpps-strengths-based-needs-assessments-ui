@@ -21,7 +21,7 @@
 
         {% for drug in summaryField.answers %}
 
-          {% set drugName = drug.text | striptags(true) | escape | nl2br | safe %}
+          {% set drugName = drug.text | safe %}
           {% set changeLink = "drug-usage-details#" + drugName | lower | urlSafe %}
 
           {% set frequency = null %}
@@ -36,24 +36,24 @@
 
               {% switch true %}
                 {% case drugUsage.field.code | startsWith("drug_usage_") %}
-                  {% set frequency = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
+                  {% set frequency = drugUsageAnswer.text %}
                 {% case drugUsage.field.code | startsWith("past_drug_usage_") %}
-                  {% set previously = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
+                  {% set previously = drugUsageAnswer.text %}
                 {% case drugUsage.field.code == "other_drug_details" %}
-                  {% set drugName = drugUsageAnswer.text | striptags(true) | escape | nl2br | safe %}
+                  {% set drugName = drugUsageAnswer.text | safe %}
               {% endswitch %}
 
               {% for drugUsageDetails in drugUsageAnswer.nestedFields %}
                 {% for drugUsageDetailsAnswer in drugUsageDetails.answers %}
                   {% switch true %}
                     {% case drugUsageDetails.field.code | startsWith("injecting_drug_") %}
-                      {% set currentlyInjecting = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                      {% set currentlyInjecting = drugUsageDetailsAnswer.text %}
                     {% case drugUsageDetails.field.code | startsWith("past_injecting_drug_") %}
-                      {% set previouslyInjecting = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                      {% set previouslyInjecting = drugUsageDetailsAnswer.text %}
                     {% case drugUsageDetails.field.code | startsWith("drug_usage_treatment_") %}
-                      {% set currentlyTreated = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                      {% set currentlyTreated = drugUsageDetailsAnswer.text %}
                     {% case drugUsageDetails.field.code | startsWith("past_drug_usage_treatment_") %}
-                      {% set previouslyTreated = drugUsageDetailsAnswer.text | striptags(true) | escape | nl2br | safe %}
+                      {% set previouslyTreated = drugUsageDetailsAnswer.text %}
                   {% endswitch %}
                 {% endfor %}
               {% endfor %}

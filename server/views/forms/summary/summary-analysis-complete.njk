@@ -19,7 +19,7 @@
             {% if option.checked %}
               <li class="summary-details-list">
                 <span class="analysis__answer">{{ option.text }}</span>
-                <p class="analysis__answer--secondary">{{ detailsField.value }}</p>
+                <p class="analysis__answer--secondary">{{ detailsField.value | nl2br | safe }}</p>
               </li>
             {% endif %}
           {% endfor %}

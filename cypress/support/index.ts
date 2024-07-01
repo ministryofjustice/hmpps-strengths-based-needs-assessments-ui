@@ -92,7 +92,7 @@ declare global {
       getAnalysisSummary(question: string): Chainable
       clickChangeAnalysis(): Chainable
       getAnalysisAnswer(answer: string): Chainable
-      hasSecondaryAnalysisAnswer(answer: string): Chainable
+      hasSecondaryAnalysisAnswer(...lines: string[]): Chainable
       hasNoSecondaryAnalysisAnswer(): Chainable
 
       // assessment
