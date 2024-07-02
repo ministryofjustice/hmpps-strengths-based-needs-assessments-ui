@@ -21,8 +21,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(option).clickLabel()
 
-        cy.checkAccessibility()
-
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)

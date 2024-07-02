@@ -1,13 +1,18 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is Sam aware of the consequences of their actions?'
-  const options = ['Yes, is aware of the consequences of their actions', 'Sometimes is aware of the consequences of their actions', 'No, is not aware of the consequences of their actions']
+  const question = 'Does Sam have a positive attitude towards any criminal justice staff they have come into contact with?'
+  const options = 
+  [
+    'Yes, has a positive attitude', 
+    'Has a negative attitude or does not fully engage but there are no safety concerns', 
+    'No, has a negative attitude and there are safety concerns'
+  ]
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('This includes towards themselves and to others.').hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they are aware of the consequences of their actions')
+      cy.getQuestion(question).hasValidationError('Select if they have a positive attitude towards any criminal justice staff they have come into contact with')
       cy.checkAccessibility()
     })
 

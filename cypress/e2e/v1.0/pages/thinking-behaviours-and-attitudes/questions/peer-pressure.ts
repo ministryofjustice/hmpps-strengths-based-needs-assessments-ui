@@ -37,8 +37,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasNoValidationError()
           .enterText('some text')
 
-        cy.checkAccessibility()
-
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('some text')

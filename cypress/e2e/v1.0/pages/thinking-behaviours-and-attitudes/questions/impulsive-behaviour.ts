@@ -1,13 +1,18 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is Sam aware of the consequences of their actions?'
-  const options = ['Yes, is aware of the consequences of their actions', 'Sometimes is aware of the consequences of their actions', 'No, is not aware of the consequences of their actions']
+  const question = 'Does Sam act on impulse?'
+  const options = 
+  [
+    'Considers all aspects of a situation before acting on or making a decision', 
+    'Sometimes acts on impulse which causes problems', 
+    'Acts on impulse which causes significant problems'
+  ]
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('This includes towards themselves and to others.').hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they are aware of the consequences of their actions')
+      cy.getQuestion(question).hasValidationError('Select if they act on impulse')
       cy.checkAccessibility()
     })
 
