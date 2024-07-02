@@ -1,13 +1,18 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is Sam aware of the consequences of their actions?'
-  const options = ['Yes, is aware of the consequences of their actions', 'Sometimes is aware of the consequences of their actions', 'No, is not aware of the consequences of their actions']
+  const question = 'Does Sam have hostile orientation to others or to general rules?'
+  const options = 
+  [
+    "They're able to have constructive conversations when they disagree with others and can forgive past wrongs", 
+    'Some evidence of suspicious, angry or vengeful thinking and behaviour', 
+    'There is evidence of suspicious, angry or vengeful thinking and behaviour',
+  ]
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('This includes towards themselves and to others.').hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they are aware of the consequences of their actions')
+      cy.getQuestion(question).hasValidationError('Select if they have hostile orientation to others or to general rules')
       cy.checkAccessibility()
     })
 
