@@ -524,7 +524,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
 ]
 
 export const makeChangesFields = createWantToMakeChangesFields(
-  'their thinking behaviours and attitudes',
+  'their thinking, behaviours and attitudes',
   'thinking_behaviours_attitudes',
 )
 
