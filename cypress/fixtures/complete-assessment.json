@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "23b79a7a-e177-448a-a26c-72a2897171bd",
-    "createdAt": "2024-07-01T16:31:08.42283",
+    "uuid": "0f7e34e8-f6ef-419f-9345-4c4c6b1cbcfa",
+    "createdAt": "2024-07-03T15:38:04.320836",
     "oasys_pks": [
-      "1719847867750-68230-4"
+      "1720017483905-990873-4"
     ],
-    "versionUuid": "7e680dab-df6a-4340-8bba-88c9bb635456",
-    "versionCreatedAt": "2024-07-01T16:31:08.422947",
+    "versionUuid": "f6817e08-aec0-4df9-8c73-159da2acf19f",
+    "versionCreatedAt": "2024-07-03T15:38:04.320856",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -502,14 +502,14 @@
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
-      "value": "¯\\_(ツ)_/¯",
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
       "values": null
     },
     "offence_analysis_reason": {
       "type": "TEXT_AREA",
       "description": "Why did the offence happen?",
       "options": null,
-      "value": "¯\\_(ツ)_/¯",
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
       "values": null
     },
     "finance_money_management": {
@@ -852,7 +852,7 @@
       "type": "TEXT_AREA",
       "description": "Enter all victim details",
       "options": null,
-      "value": "¯\\_(ツ)_/¯",
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
       "values": null
     },
     "education_highest_level_completed": {
@@ -1190,7 +1190,7 @@
       "type": "TEXT_AREA",
       "description": "What are the patterns of offending?",
       "options": null,
-      "value": "¯\\_(ツ)_/¯",
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
       "values": null
     },
     "accommodation_analysis_section_complete": {
@@ -1269,7 +1269,7 @@
       "type": "TEXT_AREA",
       "description": "Enter a brief description of the offence",
       "options": null,
-      "value": "¯\\_(ツ)_/¯",
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
       "values": null
     },
     "health_wellbeing_mental_health_condition": {
@@ -2313,7 +2313,7 @@
       "type": "TEXT_AREA",
       "description": "Is [subject] able to resolve any challenges in their intimate relationships?",
       "options": null,
-      "value": "¯\\_(ツ)_/¯",
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
       "values": null
     },
     "personal_relationships_community_important_people_friends_details": {
@@ -2588,9 +2588,9 @@
     }
   },
   "oasysEquivalent": {
-    "o2-1": "¯\\_(ツ)_/¯",
+    "o2-1": "¯&#x5C;_(ツ)_&#x2F;¯",
     "o2-6": "NO",
-    "o2-8": "¯\\_(ツ)_/¯",
+    "o2-8": "¯&#x5C;_(ツ)_&#x2F;¯",
     "o3-3": "NO",
     "o3-4": "0",
     "o3-5": null,
@@ -2642,7 +2642,7 @@
     "o12-3": "1",
     "o12-4": "1",
     "o12-9": "1",
-    "o2-12": "¯\\_(ツ)_/¯",
+    "o2-12": "¯&#x5C;_(ツ)_&#x2F;¯",
     "o2-99": "NO",
     "o3-97": "Area not linked to strengths and positive factors notes - \nArea not linked to serious harm notes - \nArea not linked to reoffending notes - ",
     "o3-98": "NO",
@@ -2681,7 +2681,9 @@
     "o12-98": "NO",
     "o12-99": "NO",
     "o2-7-2": "NO",
-    "o4-7-1": "READING",
+    "o4-7-1": [
+      "READING"
+    ],
     "o6-7da": "NO",
     "o9-1-t": null,
     "oSC2-t": null,
@@ -2764,7 +2766,7 @@
     "oEE_SAN_SECTION_COMP": "YES",
     "oFI_SAN_SECTION_COMP": "YES",
     "oHW_SAN_SECTION_COMP": "YES",
-    "oOA_SAN_SECTION_COMP": null,
+    "oOA_SAN_SECTION_COMP": "YES",
     "oTBA_SAN_LINKED_ROSH": "NO",
     "oPRC_SAN_SECTION_COMP": "YES",
     "oSMA_SAN_SECTION_COMP": "YES",
