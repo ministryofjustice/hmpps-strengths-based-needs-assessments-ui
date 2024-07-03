@@ -43,15 +43,13 @@ export const enterAssessment = () => {
           method: 'POST',
           auth: { bearer: apiToken },
           body: {
-            assessmentContext: {
-              oasysAssessmentPk: env('last_assessment').oasysAssessmentPk,
-            },
-            principal: {
+            oasysAssessmentPk: env('last_assessment').oasysAssessmentPk,
+            user: {
               identifier: oasysUser.id,
               displayName: oasysUser.name,
               accessMode: 'READ_WRITE',
             },
-            subject: {
+            subjectDetails: {
               crn: 'X123456',
               pnc: '01/123456789A',
               givenName: 'Sam',
