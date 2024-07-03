@@ -68,7 +68,7 @@ jobs:
       image: ubuntu-2204:current
       resource_class: medium
     working_directory: ~/app
-    parallelism: 7
+    parallelism: 8
     steps:
       - checkout
       - attach_workspace:
