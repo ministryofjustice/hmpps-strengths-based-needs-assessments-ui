@@ -1,11 +1,12 @@
-import consequences from './questions/consequences'
-import manipulativePredatoryBehaviour from './questions/manipulative-predatory-behaviour'
-import offendingActivities from './questions/offending-activities'
-import peerPressure from './questions/peer-pressure'
-import peoplesViews from './questions/peoples-views'
-import problemSolving from './questions/problem-solving'
-import riskOfSexualHarm from './questions/risk-of-sexual-harm'
-import stableBehaviour from './questions/stable-behaviour'
+import managingTemper from './questions/managing-temper'
+import violenceControllingBehaviour from './questions/violence-controlling-behaviour' 
+import impulsiveBehaviour from './questions/impulsive-behaviour'
+import positiveAttitude from './questions/positive-attitude'
+import hostileOrientation from './questions/hostile-orientation'
+import supervision from './questions/supervision'
+import criminalBehaviour from './questions/criminal-behaviour'
+import wantToMakeChanges from './questions/wantToMakeChanges'
+
 
 
 describe('/thinking-behaviours', () => {
@@ -13,14 +14,14 @@ describe('/thinking-behaviours', () => {
   const summaryPage = '/thinking-behaviours-attitudes-summary-analysis'
   const questions = 
   [
-    consequences,
-    stableBehaviour,
-    offendingActivities,
-    peerPressure,
-    problemSolving,
-    peoplesViews,
-    manipulativePredatoryBehaviour,
-    riskOfSexualHarm,
+    managingTemper,
+    violenceControllingBehaviour,
+    impulsiveBehaviour,
+    positiveAttitude,
+    hostileOrientation,
+    supervision,
+    criminalBehaviour,
+    wantToMakeChanges,
   ]
 
   before(() => {
