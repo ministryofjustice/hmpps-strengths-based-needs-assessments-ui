@@ -2,8 +2,6 @@ import emotionalIntimacy from './questions/emotional-intimacy'
 import offenceRelatedSexualInterest from './questions/offence-related-sexual-interest'
 import sexualPreoccupation from './questions/sexual-preoccupation'
 
-
-
 describe('/thinking-behaviours-attitudes-sexual-offending', () => {
   const stepUrl = '/thinking-behaviours-attitudes-sexual-offending'
   const summaryPage = '/thinking-behaviours-attitudes-summary-analysis'

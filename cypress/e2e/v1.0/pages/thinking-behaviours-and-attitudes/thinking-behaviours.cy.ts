@@ -8,7 +8,6 @@ import criminalBehaviour from './questions/criminal-behaviour'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
 
-
 describe('/thinking-behaviours', () => {
   const stepUrl = '/thinking-behaviours'
   const summaryPage = '/thinking-behaviours-attitudes-summary-analysis'

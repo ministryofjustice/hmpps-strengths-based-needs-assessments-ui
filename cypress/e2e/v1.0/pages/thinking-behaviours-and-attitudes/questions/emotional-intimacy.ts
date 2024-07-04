@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is there evidence [subject] finds it easier to seek emotional intimacy with children over adults?'
+  const question = 'Is there evidence Sam finds it easier to seek emotional intimacy with children over adults?'
   const options = 
   [
     'Yes, they find it easier to seek emotional intimacy with children and have significant difficulty forming intimate relationships with adults', 
