@@ -70,10 +70,10 @@ export function orNoImpactValidator() {
 
 export const alcoholUseFields: Array<FormWizard.Field> = [
   {
-    text: 'Has [subject] ever drank alcohol?',
+    text: 'Has [subject] ever drunk alcohol?',
     code: 'alcohol_use',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they have ever drank alcohol' }],
+    validate: [{ type: ValidationType.Required, message: 'Select if they have ever drunk alcohol' }],
     options: [
       { text: 'Yes, including the last 3 months', value: 'YES_WITHIN_LAST_THREE_MONTHS', kind: 'option' },
       { text: 'Yes, but not in the last 3 months', value: 'YES_NOT_IN_LAST_THREE_MONTHS', kind: 'option' },
@@ -140,7 +140,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Why does [subject] drink alcohol?',
-    hint: { text: 'Select all that apply', kind: 'text' },
+    hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'alcohol_reasons_for_use',
     type: FieldType.CheckBox,
     multiple: true,
@@ -182,7 +182,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   },
   {
     text: "What's the impact of [subject] drinking alcohol?",
-    hint: { text: 'Select all that apply', kind: 'text' },
+    hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'alcohol_impact_of_use',
     type: FieldType.CheckBox,
     multiple: true,
@@ -254,7 +254,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Has anything helped [subject] to stop or reduce drinking alcohol in the past?',
-    hint: { text: 'Consider strategies, people or support networks that may have helped', kind: 'text' },
+    hint: { text: 'Consider strategies, people or support networks that may have helped.', kind: 'text' },
     code: 'alcohol_stopped_or_reduced',
     type: FieldType.Radio,
     validate: [
@@ -289,10 +289,10 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
 
 export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
   {
-    text: 'How often has [subject] drank alcohol in the last 3 months?',
+    text: 'How often has [subject] drunk alcohol in the last 3 months?',
     code: 'alcohol_frequency',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select how often they drank alcohol in the last 3 months' }],
+    validate: [{ type: ValidationType.Required, message: 'Select how often they drunk alcohol in the last 3 months' }],
     options: [
       { text: 'Once a month or less', value: 'ONCE_A_MONTH_OR_LESS', kind: 'option' },
       { text: '2 to 4 times a month', value: 'MULTIPLE_TIMES_A_MONTH', kind: 'option' },

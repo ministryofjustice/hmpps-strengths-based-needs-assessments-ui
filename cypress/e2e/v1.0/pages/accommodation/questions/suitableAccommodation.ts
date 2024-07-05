@@ -35,7 +35,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     })
 
     const concerns = [
-      'Inappropriate amenities or facilities',
+      'Issues with the property - for example, poor kitchen or bathroom facilities',
       'Overcrowding',
       'Risk of accommodation exploited - for example, cuckooing',
       'Safety of accommodation',

@@ -11,6 +11,7 @@ type FormWizardRouter = {
 export type FormOptions = {
   version: string
   active: boolean
+  defaultFormatters: Array<string | FormWizard.Formatter>
 }
 
 export type Form = {
@@ -51,7 +52,7 @@ export const createNavigation = (steps: FormWizard.Steps, currentSection: string
 type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 export const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
-  const sectionRules: Record<string, Set<string>> = Object.values(steps)
+  const sectionRules: Record<string, string[]> = Object.values(steps)
     .map((step): [string, Array<string>] => [step.section, (step.sectionProgressRules || []).map(it => it.fieldCode)])
     .filter(([sectionName]) => sectionName !== 'none')
     .reduce(
@@ -59,7 +60,7 @@ export const createSectionProgressRules = (steps: FormWizard.Steps): Array<Secti
         ...sections,
         [sectionName]: [...(sections[sectionName] || []), ...rules],
       }),
-      {},
+      {} as Record<string, string[]>,
     )
 
   return Object.entries(sectionRules).map(([sectionName, fieldCodes]) => ({
@@ -122,6 +123,7 @@ const setupForm = (form: Form): FormWizardRouter => {
       FormWizard(form.steps, form.fields, {
         name: `Assessment:${form.options.version}`,
         entryPoint: true,
+        defaultFormatters: form.options.defaultFormatters,
       }),
     )
   }

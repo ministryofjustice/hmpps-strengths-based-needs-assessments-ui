@@ -23,21 +23,6 @@ const immigrationAccommodationHint = `
     </div>
   `
 
-const currentAccommodationHint = `
-    <details class="govuk-details" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Help if accommodation is a caravan or living vehicle
-        </span>
-      </summary>
-      <div class="govuk-details__text">
-        <p>If they're in a caravan or a living vehicle legally, select 'Settled' or 'Temporary'.</p>
-
-        <p>If they're not in a legal place, select 'No accommodation'.</p>
-      </div>
-    </details>
-  `
-
 const noAccommodationHint = `
   <div class="govuk-!-width-two-thirds">
     <p class="govuk-hint">Consider current and past homelessness issues.</p>
@@ -46,7 +31,11 @@ const noAccommodationHint = `
 `
 
 const suitableHousingConcernsOptions: FormWizard.Field.Options = [
-  { text: 'Inappropriate amenities or facilities', value: 'FACILITIES', kind: 'option' },
+  {
+    text: 'Issues with the property - for example, poor kitchen or bathroom facilities',
+    value: 'FACILITIES',
+    kind: 'option',
+  },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
   { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
   { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
@@ -81,7 +70,6 @@ const endDateSummaryDisplay = (value: string) => `Expected end date:\n${formatDa
 export const accommodationTypeFields: Array<FormWizard.Field> = [
   {
     text: 'What type of accommodation does [subject] currently have?',
-    hint: { html: currentAccommodationHint, kind: 'html' },
     code: 'current_accommodation',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select the type of accommodation they currently have' }],
@@ -126,7 +114,12 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
         hint: { html: immigrationAccommodationHint },
         kind: 'option',
       },
-      { text: 'Short term accommodation', value: 'SHORT_TERM', kind: 'option' },
+      {
+        text: 'Short term accommodation',
+        value: 'SHORT_TERM',
+        hint: { text: 'Includes living with friends or family' },
+        kind: 'option',
+      },
     ],
     dependent: {
       field: 'current_accommodation',
@@ -216,7 +209,6 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select the type of no accommodation' }],
     options: [
-      { text: 'Awaiting assessment', value: 'AWAITING_ASSESSMENT', kind: 'option' },
       { text: 'Campsite', value: 'CAMPSITE', kind: 'option' },
       { text: 'Emergency hostel', value: 'EMERGENCY_HOSTEL', kind: 'option' },
       { text: 'Homeless - includes squatting', value: 'HOMELESS', kind: 'option' },
@@ -230,11 +222,6 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
     },
     labelClasses: visuallyHidden,
   },
-  detailsField({
-    parentFieldCode: 'type_of_no_accommodation',
-    dependentValue: 'AWAITING_ASSESSMENT',
-    required: true,
-  }),
 ]
 
 export const accommodationChangesFields = createWantToMakeChangesFields('their accommodation', 'accommodation')
@@ -262,7 +249,7 @@ export const livingWithFields: Array<FormWizard.Field> = [
     labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
   },
   ...[
-    ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject]'],
+    ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject].'],
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>
@@ -432,7 +419,7 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
     required: true,
   }),
   {
-    text: 'What has helped [subject] stay in accommodation in the past? (optional)',
+    text: "What's helped Sam stay in accommodation in the past? (optional)",
     code: 'past_accommodation_details',
     type: FieldType.TextArea,
     validate: [

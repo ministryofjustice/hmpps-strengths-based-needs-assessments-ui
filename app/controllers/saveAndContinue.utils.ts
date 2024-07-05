@@ -1,339 +1,65 @@
 import FormWizard from 'hmpo-form-wizard'
-import nunjucks from 'nunjucks'
-import { AnswerDto, Answers, UpdateAnswersDto } from '../../server/services/strengthsBasedNeedsService'
+import { AnswerDto, AnswerDTOs, UpdateAnswersDto } from '../../server/services/strengthsBasedNeedsService'
+import { Field, FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
+import { whereSelectable } from '../utils/field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
-export const formatForNunjucks = (str = '') => str.split('}').join('} ').trim() // Prevent nunjucks mistaking the braces when rendering the template
+export const toAnswerDtoOption = ({ value, text }: FormWizard.Field.Option) => ({ value, text })
 
-interface Locals {
-  errors: unknown
-  action: string
-}
+export const createAnswerDTOs =
+  (answers: FormWizard.Answers) =>
+  (answerDTOs: AnswerDTOs, field: Field): AnswerDTOs => {
+    const formWizardField = field.field
+    const thisAnswer = answers[formWizardField.id || formWizardField.code]
 
-const renderConditionalQuestion = (
-  allFields: FormWizard.Field[],
-  thisField: FormWizard.Field,
-  dependentFieldNodes: Node[],
-  locals: Locals = { errors: {}, action: '/' },
-  _nunjucks = nunjucks,
-): FormWizard.Field => {
-  const conditionalFields = dependentFieldNodes.map(({ id, dependents }) => {
-    const [config] = allFields.filter(field => field.id === id)
-    return { config, dependents }
-  })
-
-  const options = thisField.options.map(thisOption => {
-    if (thisOption.kind === 'divider') {
-      return thisOption
-    }
-
-    const fieldsDependentOnThisAnswer = conditionalFields.filter(
-      field => field.config.dependent.value === thisOption.value,
-    )
-
-    if (fieldsDependentOnThisAnswer.length === 0) {
-      return thisOption
-    }
-
-    const rendered = fieldsDependentOnThisAnswer.reduce((previouslyRenderedHtml, conditionalField) => {
-      let field = conditionalField.config
-      if (Array.isArray(conditionalField.dependents) && conditionalField.dependents.length > 0) {
-        field = renderConditionalQuestion(allFields, field, conditionalField.dependents, locals)
-      }
-
-      const fieldString = formatForNunjucks(JSON.stringify(field))
-      const errorString = formatForNunjucks(JSON.stringify(locals.errors))
-
-      const template =
-        '{% from "components/question/macro.njk" import renderQuestion %} \n' +
-        `{{ renderQuestion(${fieldString}, ${errorString}, "${locals.action}") }}`
-
-      const renderedHtml = _nunjucks.renderString(template, {})
-
-      return [previouslyRenderedHtml, renderedHtml].join('')
-    }, '')
-    return { ...thisOption, conditional: { html: rendered } }
-  })
-
-  return { ...thisField, options }
-}
-
-type Node = { code: string; id: string; dependents?: Node[] }
-
-export const compileConditionalFields = (fields: FormWizard.Field[], locals: Locals) => {
-  const fieldsWithDependencies = fields.filter(field => field.dependent && field.dependent.displayInline)
-  const fieldCodes = fieldsWithDependencies.map(field => field.id)
-
-  const rootFieldsWithDependencies = fieldsWithDependencies
-    .filter(field => !fieldCodes.includes(field.dependent.field))
-    .map(field => field.dependent.field)
-    .filter((fieldCode, index, otherFields) => otherFields.indexOf(fieldCode) === index)
-
-  const buildNode = (parentFieldCode: string): Node[] =>
-    fieldsWithDependencies
-      .filter(field => field.dependent.field === parentFieldCode)
-      .map(field => {
-        const dependents = fieldsWithDependencies.filter(otherField => field.code === otherField.dependent.field)
-        if (dependents.length > 0) {
-          return { code: field.code, id: field.id, dependents: buildNode(field.code) }
-        }
-        return { code: field.code, id: field.id }
-      })
-
-  const dependencyTree = rootFieldsWithDependencies.map(questionCode => {
-    return { code: questionCode, dependents: buildNode(questionCode) }
-  })
-
-  return dependencyTree.reduce(
-    (otherFields, { code: fieldCode, dependents }) => {
-      const [thisField] = otherFields.filter(field => field.code === fieldCode)
-
-      const updatedField = renderConditionalQuestion(fields, thisField, dependents, locals)
-
-      return otherFields.map(field => (field.code === updatedField.code ? updatedField : field))
-    },
-    [...fields],
-  )
-}
-
-export const fieldsById = (otherFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
-  ...otherFields,
-  [field.id]: field,
-})
-
-const replaceWithValuesFrom = (replacementValues: { [key: string]: string }) => (token: string) => {
-  const key = token.substring(1, token.length - 1)
-  const value = replacementValues[key]
-
-  return value || token
-}
-
-export const whereSelectable = (o: FormWizard.Field.Option | FormWizard.Field.Divider): o is FormWizard.Field.Option =>
-  o.kind === 'option'
-
-export const withPlaceholdersFrom = (replacementValues: { [key: string]: string }) => {
-  const replacer = replaceWithValuesFrom(replacementValues)
-  const placeholderPattern = /(\[\w+\])/g
-
-  return (field: FormWizard.Field): FormWizard.Field => {
-    const modifiedField = { ...field }
-
-    modifiedField.text = field.text.replace(placeholderPattern, replacer)
-
-    switch (field.hint?.kind) {
-      case 'text':
-        modifiedField.hint = { text: field.hint.text.replace(placeholderPattern, replacer), kind: 'text' }
-        break
-      case 'html':
-        modifiedField.hint = { html: field.hint.html.replace(placeholderPattern, replacer), kind: 'html' }
-        break
-      default:
-        break
-    }
-
-    if (field.options) {
-      modifiedField.options = field.options.map(option => {
-        return whereSelectable(option) ? { ...option, text: option.text.replace(placeholderPattern, replacer) } : option
-      })
-    }
-
-    return modifiedField
-  }
-}
-
-export const withValuesFrom =
-  (answers: FormWizard.Answers = {}) =>
-  (field: FormWizard.Field): FormWizard.Field => {
-    switch (field.type) {
-      case FieldType.Text:
-      case FieldType.TextArea:
-        return { ...field, value: answers[field.code] }
-      case FieldType.Radio:
-      case FieldType.Dropdown:
-        return {
-          ...field,
-          options: field.options.map(option => {
-            return whereSelectable(option)
-              ? { ...option, checked: (answers[field.code] as string) === option.value }
-              : option
-          }),
-        }
+    switch (formWizardField.type) {
       case FieldType.CheckBox:
         return {
-          ...field,
-          options: field.options.map(option => {
-            return whereSelectable(option)
-              ? { ...option, checked: (answers[field.code] || []).includes(option.value) }
-              : option
-          }),
+          ...answerDTOs,
+          [formWizardField.code]: {
+            type: formWizardField.type,
+            description: formWizardField.text,
+            options: formWizardField.options.filter(whereSelectable).map(toAnswerDtoOption),
+            values: thisAnswer as string[],
+          },
         }
-      case FieldType.Date:
+      case FieldType.Radio:
         return {
-          ...field,
-          value: answers[field.code] ? (answers[field.code] as string).split('-') : [],
+          ...answerDTOs,
+          [formWizardField.code]: {
+            type: formWizardField.type,
+            description: formWizardField.text,
+            options: formWizardField.options.filter(whereSelectable).map(toAnswerDtoOption),
+            value: thisAnswer as string,
+          },
         }
       default:
-        return field
-    }
-  }
-
-export const combineDateFields = (
-  answers: FormWizard.Answers,
-  preProcessedAnswers: FormWizard.Answers,
-): FormWizard.Answers => {
-  const dateFieldPattern = /-(day|month|year)$/
-  const whereDateField = (key: string) => dateFieldPattern.test(key)
-
-  const dateFields = Object.keys(answers)
-    .filter(whereDateField)
-    .map(key => key.replace(dateFieldPattern, ''))
-    .filter((key, index, otherKeys) => otherKeys.indexOf(key) === index)
-
-  const padDateComponent = (component: string) => component.padStart(2, '0')
-
-  return dateFields.reduce((otherAnswers, key) => {
-    const year = answers[`${key}-year`]
-    const month = answers[`${key}-month`] as string
-    const day = answers[`${key}-day`] as string
-
-    if (!day || !month || !year) {
-      return { ...otherAnswers, [key]: '' }
-    }
-
-    return { ...otherAnswers, [key]: `${year}-${padDateComponent(month)}-${padDateComponent(day)}` }
-  }, preProcessedAnswers)
-}
-
-type SubmittedAnswers = Record<string, string | string[]>
-
-export const buildRequestBody = (
-  fieldsOnCurrentPage: FormWizard.Fields,
-  allFields: FormWizard.Fields,
-  submittedAnswers: SubmittedAnswers,
-): UpdateAnswersDto => {
-  const answersToAdd = getAnswersToAdd(fieldsOnCurrentPage, allFields, submittedAnswers)
-  const answersToRemove = getAnswersToRemove(
-    fieldsOnCurrentPage,
-    allFields,
-    submittedAnswers,
-    Object.keys(answersToAdd),
-  )
-
-  return {
-    answersToAdd,
-    answersToRemove,
-  }
-}
-
-export const mergeAnswers = (persistedAnswers: SubmittedAnswers, submittedAnswers: SubmittedAnswers) => {
-  return {
-    ...persistedAnswers,
-    ...submittedAnswers,
-  }
-}
-
-export const dependencyMet = (field: FormWizard.Field, fields: FormWizard.Fields, answers: SubmittedAnswers) => {
-  const dependency = field.dependent
-
-  if (!dependency) {
-    return true
-  }
-
-  const parentField = fields[dependency.field]
-  const parentFieldAnswer = answers[parentField.code]
-
-  return Array.isArray(parentFieldAnswer)
-    ? parentFieldAnswer.includes(dependency.value)
-    : parentFieldAnswer === dependency.value
-}
-
-const getDependencyChain = (field: FormWizard.Field, fields: Array<FormWizard.Field>): Array<FormWizard.Field> => {
-  return fields
-    .filter(it => it.dependent?.field === field.code)
-    .map(it => [it, ...getDependencyChain(it, fields)])
-    .flat()
-}
-
-const matchingDependencyValue = (requiredValue: string, answer: string | Array<string>) =>
-  Array.isArray(answer) ? answer.includes(requiredValue) : answer === requiredValue
-
-const whereDependencyNotMet = (field: FormWizard.Field, answers: SubmittedAnswers) => (it: FormWizard.Field) => {
-  return it.dependent?.field === field.code && !matchingDependencyValue(it.dependent?.value, answers[field.code])
-}
-
-const toFieldCodes = (fields: Array<FormWizard.Field>) => fields.map(it => it.code)
-
-export const listDependenciesNotMet =
-  (allFields: FormWizard.Fields, answers: SubmittedAnswers) =>
-  (field: FormWizard.Field): Array<string> => {
-    const fields = Object.values(allFields)
-
-    return fields
-      .filter(whereDependencyNotMet(field, answers))
-      .map(it => [it, ...getDependencyChain(it, fields)])
-      .flatMap(toFieldCodes)
-  }
-
-export const getAnswersToRemove = (
-  fields: FormWizard.Fields,
-  allFields: FormWizard.Fields,
-  answers: SubmittedAnswers,
-  exclusionList: string[] = [],
-): string[] => {
-  const toRemove = Object.values(fields)
-    .map(listDependenciesNotMet(allFields, answers))
-    .flat()
-    .filter(it => !exclusionList.includes(it))
-
-  return [...new Set(toRemove)]
-}
-
-export const getAnswersToAdd = (
-  fields: FormWizard.Fields,
-  allFields: FormWizard.Fields,
-  answers: SubmittedAnswers,
-): Answers => {
-  return Object.values(fields)
-    .filter(it => dependencyMet(it, allFields, answers))
-    .reduce((answerDtos, it) => {
-      const thisAnswer = answers[it.id || it.code]
-
-      if (it) {
-        switch (it.type) {
-          case FieldType.CheckBox:
-            return {
-              ...answerDtos,
-              [it.code]: {
-                type: it.type,
-                description: it.text,
-                options: it.options.filter(whereSelectable),
-                values: thisAnswer,
-              },
-            }
-          case FieldType.Radio:
-            return {
-              ...answerDtos,
-              [it.code]: {
-                type: it.type,
-                description: it.text,
-                options: it.options.filter(whereSelectable),
-                value: thisAnswer,
-              },
-            }
-          default:
-            return {
-              ...answerDtos,
-              [it.code]: {
-                type: it.type,
-                description: it.text,
-                value: thisAnswer,
-              },
-            }
+        return {
+          ...answerDTOs,
+          [formWizardField.code]: {
+            type: formWizardField.type,
+            description: formWizardField.text,
+            value: thisAnswer as string,
+          },
         }
-      } else {
-        return answerDtos
-      }
-    }, {})
+    }
+  }
+
+export const buildRequestBody = (options: FormWizard.FormOptions, answers: FormWizard.Answers): UpdateAnswersDto => {
+  const relevantFields = new FieldDependencyTreeBuilder(options, answers).buildAndFlatten()
+
+  const sectionFields = Object.values(options.steps)
+    .filter(step => step.section === options.section)
+    .reduce((acc: string[], step) => [...acc, ...Object.values(step.fields).map(f => f.code)], [])
+
+  return {
+    answersToAdd: relevantFields
+      .filter(f => Object.keys(options.fields).includes(f.field.id))
+      .reduce(createAnswerDTOs(answers), {}),
+    answersToRemove: Object.keys(answers).filter(
+      fieldCode => sectionFields.includes(fieldCode) && !relevantFields.some(field => field.field.code === fieldCode),
+    ),
+  }
 }
 
 export const flattenAnswers = (answers: Record<string, AnswerDto>) =>

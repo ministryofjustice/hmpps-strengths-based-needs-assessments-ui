@@ -2,6 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import {
   fieldCodeWith,
   getMediumLabelClassFor,
+  getSmallLabelClassFor,
   orDivider,
   smallRadios,
   toFormWizardFields,
@@ -9,6 +10,7 @@ import {
 } from './common'
 import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { detailsCharacterLimit } from './common/detailsField'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const usageFrequencies = [
@@ -46,7 +48,7 @@ const createFieldForDrugUsage = (option: string): FormWizard.Field => ({
     },
   ],
   options: frequencyOptions,
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   dependent: { field: 'drug_use_type', value: option },
 })
 
@@ -67,7 +69,7 @@ const createFieldForInjectingDrug = (option: string, frequency: string): FormWiz
     value: frequency,
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -82,7 +84,7 @@ const createFieldForPastDrugUsage = (option: string): FormWizard.Field => ({
     },
   ],
   options: yesNoOptions,
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   dependent: { field: 'drug_use_type', value: option },
 })
 
@@ -102,7 +104,7 @@ const createFieldForPastInjectingDrug = (option: string): FormWizard.Field => ({
     value: 'YES',
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -123,18 +125,18 @@ const createFieldForReceivingTreatment = (option: string, frequency: string): Fo
     value: frequency,
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
 const createFieldForPastReceivingTreatment = (option: string): FormWizard.Field => ({
-  text: 'Is [subject] receiving treatment?',
+  text: 'Was [subject] receiving treatment?',
   code: fieldCodeWith('past_drug_usage_treatment', option),
   type: FieldType.Radio,
   validate: [
     {
       fn: requiredWhenContains('drug_use_type', option),
-      message: 'Select if they are receiving treatment',
+      message: 'Select if they were receiving treatment',
     },
   ],
   options: yesNoOptions,
@@ -143,7 +145,7 @@ const createFieldForPastReceivingTreatment = (option: string): FormWizard.Field 
     value: 'YES',
     displayInline: true,
   },
-  labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.Radio),
   classes: smallRadios,
 })
 
@@ -163,6 +165,16 @@ const createFieldsForHeroin = (): Array<FormWizard.Field> => [
   ...usageFrequencies.map(frequency => createFieldForReceivingTreatment('HEROIN', frequency.value)),
   createFieldForPastReceivingTreatment('HEROIN'),
 ]
+
+const drugUseTypeHint = `
+<p class="govuk-hint">Include current and previous drugs.</p>
+<p class="govuk-hint">Select all that apply.</p>
+`
+
+const drugUseReasonsHint = `
+<p class="govuk-hint">Consider their history and any triggers of drug use.</p>
+<p class="govuk-hint">Select all that apply.</p>
+`
 
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the drug use section complete?',
@@ -195,7 +207,7 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
   {
     text: 'Which drugs has [subject] used?',
     code: 'drug_use_type',
-    hint: { text: 'Include current and previous drugs. Select all that apply.', kind: 'text' },
+    hint: { html: drugUseTypeHint, kind: 'html' },
     type: FieldType.CheckBox,
     multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
@@ -221,8 +233,15 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
   {
     text: 'Enter drug name',
     code: 'other_drug_details',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter drug name' }],
+    type: FieldType.Text,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter drug name' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [detailsCharacterLimit],
+        message: `Drug name must be ${detailsCharacterLimit} characters or less`,
+      },
+    ],
     dependent: {
       field: 'drug_use_type',
       value: 'OTHER_DRUG',
@@ -234,7 +253,7 @@ export const drugUseTypeFields: Array<FormWizard.Field> = [
 export const drugUsageDetailsFields: Array<FormWizard.Field> = [
   {
     text: 'Why did [subject] start using drugs?',
-    hint: { text: 'Consider their history and any triggers of drug use. Select all that apply', kind: 'text' },
+    hint: { html: drugUseReasonsHint, kind: 'html' },
     code: 'drug_use_reasons',
     type: FieldType.CheckBox,
     multiple: true,

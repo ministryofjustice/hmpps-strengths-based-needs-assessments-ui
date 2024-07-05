@@ -1,3 +1,21 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-testPractitionerAnalysis('/drug-use-analysis', '/drug-use-analysis-complete', 'drug use')
+const summaryPage = '/drug-use-analysis'
+
+before(() => {
+  cy.createAssessment().enterAssessment()
+
+  cy.visitSection('Drug use')
+  cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
+  cy.saveAndContinue()
+
+  cy.captureAssessment()
+})
+
+beforeEach(() => {
+  cy.cloneCapturedAssessment().enterAssessment()
+  cy.visitStep(summaryPage)
+  cy.hasAutosaveEnabled()
+})
+
+testPractitionerAnalysis(summaryPage, '/drug-use-analysis-complete', 'drug use')

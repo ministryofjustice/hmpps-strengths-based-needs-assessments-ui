@@ -5,6 +5,7 @@ import {
   toFormWizardFields,
   requiredWhenValidator,
   getMediumLabelClassFor,
+  getSmallLabelClassFor,
 } from './common'
 import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
@@ -145,6 +146,24 @@ describe('fields/common', () => {
       expect(getMediumLabelClassFor(FieldType.TextArea)).toEqual(expectedClass)
       expect(getMediumLabelClassFor(FieldType.Text)).toEqual(expectedClass)
       expect(getMediumLabelClassFor(FieldType.Dropdown)).toEqual(expectedClass)
+    })
+  })
+
+  describe('getSmallLabelClassFor', () => {
+    it('returns the correct class for fields that use legends', () => {
+      const expectedClass = 'govuk-fieldset__legend--s'
+
+      expect(getSmallLabelClassFor(FieldType.CheckBox)).toEqual(expectedClass)
+      expect(getSmallLabelClassFor(FieldType.Radio)).toEqual(expectedClass)
+      expect(getSmallLabelClassFor(FieldType.Date)).toEqual(expectedClass)
+    })
+
+    it('returns the correct class for fields that use labels', () => {
+      const expectedClass = 'govuk-label--s'
+
+      expect(getSmallLabelClassFor(FieldType.TextArea)).toEqual(expectedClass)
+      expect(getSmallLabelClassFor(FieldType.Text)).toEqual(expectedClass)
+      expect(getSmallLabelClassFor(FieldType.Dropdown)).toEqual(expectedClass)
     })
   })
 })

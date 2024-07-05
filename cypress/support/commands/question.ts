@@ -105,7 +105,7 @@ export const hasValidationError = (subject: JQuery, message: string) => {
         .and('have.length', 1)
         .and('contain.text', message)
         .click()
-      cy.url().then(url => expect(url.endsWith(`#${id}`), `${url} should end with ${id}`).to.be.true)
+      cy.location('hash').should('eq', `#${id}`)
     })
   return cy.wrap(subject)
 }
@@ -180,7 +180,8 @@ export const hasCheckboxes = (subject: JQuery, options: string[]) => {
 }
 
 export const enterText = (subject: JQuery, value: string) => {
-  cy.wrap(subject).children('textarea, input[type="text"]').type(value)
+  cy.wrap(subject).children('textarea, input[type="text"]').clear()
+  if (value !== '') cy.wrap(subject).children('textarea, input[type="text"]').type(value)
   return cy.wrap(subject)
 }
 

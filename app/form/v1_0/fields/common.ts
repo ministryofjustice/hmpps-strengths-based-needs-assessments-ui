@@ -3,10 +3,13 @@ import { DateTime } from 'luxon'
 import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 export const summaryCharacterLimit = 1000
-export const getMediumLabelClassFor = (type: FieldType) =>
+
+export const getLabelClassFor = (size: string) => (type: FieldType) =>
   type === FieldType.CheckBox || type === FieldType.Radio || type === FieldType.Date
-    ? 'govuk-fieldset__legend--m'
-    : 'govuk-label--m'
+    ? `govuk-fieldset__legend--${size}`
+    : `govuk-label--${size}`
+export const getMediumLabelClassFor = getLabelClassFor('m')
+export const getSmallLabelClassFor = getLabelClassFor('s')
 
 export const visuallyHidden = 'govuk-visually-hidden'
 export const inlineRadios = 'govuk-radios--inline'

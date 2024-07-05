@@ -1,4 +1,4 @@
-const env = (key: string) => Cypress.env()[key]
+export const env = (key: string) => Cypress.env()[key]
 
 export const uuid = () => `${Date.now().toString()}-${Cypress._.random(0, 1e6)}-${Cypress._.uniqueId()}`
 
@@ -7,7 +7,7 @@ const oasysUser = {
   name: 'Cypress User',
 }
 
-const getApiToken = () => {
+export const getApiToken = () => {
   const apiToken = Cypress.env('API_TOKEN')
 
   if (apiToken && apiToken.expiresAt > Date.now() + 2000) {
@@ -43,15 +43,13 @@ export const enterAssessment = () => {
           method: 'POST',
           auth: { bearer: apiToken },
           body: {
-            assessmentContext: {
-              oasysAssessmentPk: env('last_assessment').oasysAssessmentPk,
-            },
-            principal: {
+            oasysAssessmentPk: env('last_assessment').oasysAssessmentPk,
+            user: {
               identifier: oasysUser.id,
               displayName: oasysUser.name,
               accessMode: 'READ_WRITE',
             },
-            subject: {
+            subjectDetails: {
               crn: 'X123456',
               pnc: '01/123456789A',
               givenName: 'Sam',
@@ -73,7 +71,7 @@ export const enterAssessment = () => {
       },
     },
   )
-  cy.visitStep('/accommodation')
+  cy.visit('start')
 }
 
 export const createAssessment = (data = null) => {
@@ -106,15 +104,16 @@ export const createAssessment = (data = null) => {
   })
 }
 
-export const captureAssessment = () =>
+export const fetchAssessment = () =>
   getApiToken().then(apiToken =>
-    cy
-      .request({
-        url: `${env('SBNA_API_URL')}/assessment/${env('last_assessment').assessmentId}`,
-        auth: { bearer: apiToken },
-      })
-      .then(response => Cypress.env('captured_assessment', { data: response.body })),
+    cy.request({
+      url: `${env('SBNA_API_URL')}/assessment/${env('last_assessment').assessmentId}`,
+      auth: { bearer: apiToken },
+    }),
   )
+
+export const captureAssessment = () =>
+  fetchAssessment().then(response => Cypress.env('captured_assessment', { data: response.body }))
 
 export const cloneCapturedAssessment = () => {
   const assessment = Cypress.env('captured_assessment')

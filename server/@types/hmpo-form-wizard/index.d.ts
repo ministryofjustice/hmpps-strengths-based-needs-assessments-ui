@@ -8,19 +8,23 @@ declare module 'hmpo-form-wizard' {
     type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => boolean
     type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }
 
+    type Formatter = { type: string; fn: (input: string) => string }
+
+    interface FormOptions {
+      allFields: { [key: string]: Field }
+      journeyName: string
+      section: string
+      sectionProgressRules: Array<SectionProgressRule>
+      fields: Fields
+      steps: RenderedSteps
+      locals: Record<string, boolean | string>
+    }
+
     interface Request extends express.Request {
       form: {
-        values: Record<string, string | string[]>
-        options: {
-          allFields: { [key: string]: Field }
-          journeyName: string
-          section: string
-          sectionProgressRules: Array<SectionProgressRule>
-          fields: Fields
-          steps: Steps
-          locals: Record<string, boolean | string>
-        }
-        persistedAnswers: Record<string, string | string[]>
+        values: Answers
+        options: FormOptions
+        persistedAnswers: Answers
       }
       sessionModel: {
         set: (key: string, value: unknown) => void
