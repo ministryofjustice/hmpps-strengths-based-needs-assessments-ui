@@ -10,7 +10,7 @@ const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
   app: {
     outDir: path.join(cwd, 'dist'),
-    entryPoints: glob.sync([path.join(cwd, 'server.ts')]),
+    entryPoints: path.join(cwd, 'server.ts'),
     copy: [
       {
         from: path.join(cwd, 'server/views/**/*'),
@@ -40,13 +40,12 @@ function main() {
 
   const args = process.argv
   if (args.includes('--build')) {
-    buildApp(buildConfig)
-    buildAssets(buildConfig)
+    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(() => process.exit(1))
   }
 
   if (args.includes('--dev-server')) {
     let serverProcess = null
-    chokidar.watch(['dist'], { ...chokidarOptions, depth: 0 }).on('all', () => {
+    chokidar.watch(['dist']).on('all', () => {
       if (serverProcess) serverProcess.kill()
       serverProcess = spawn('node', ['--inspect=0.0.0.0', '--enable-source-maps', 'dist/server.js'], {
         stdio: 'inherit',
@@ -57,12 +56,12 @@ function main() {
   if (args.includes('--watch')) {
     console.log('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m')
     // Assets
-    chokidar.watch(['assets/**/*'], chokidarOptions).on('all', () => buildAssets(buildConfig))
+    chokidar.watch(['assets/**/*'], chokidarOptions).on('all', () => buildAssets(buildConfig).catch(console.error))
 
     // App
     chokidar
-      .watch(['server/**/*', 'app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
-      .on('all', () => buildApp(buildConfig))
+      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
+      .on('all', () => buildApp(buildConfig).catch(console.error))
   }
 }
 main()
