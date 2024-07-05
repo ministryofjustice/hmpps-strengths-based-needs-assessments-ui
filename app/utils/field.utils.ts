@@ -1,5 +1,6 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import nunjucks from 'nunjucks'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
 export const whereSelectable = (o: FormWizard.Field.Option | FormWizard.Field.Divider): o is FormWizard.Field.Option =>
   o.kind === 'option'

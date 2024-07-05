@@ -1,4 +1,5 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { Field, FieldAnswer, FieldDependencyTreeBuilder } from './fieldDependencyTreeBuilder'
 
 class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
