@@ -2,7 +2,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   const question = "Does Sam understand other people's views?"
   const options = 
   [
-    "Yes, understands other people's views and is able to distinguish between their own feelings and those of other", 
+    "Yes, understands other people's views and is able to distinguish between their own feelings and those of others", 
     "Assumes all views are the same as theirs at first but does consider other people's views to an extent", 
     "No, unable to understand other people's views and distinguish between their own feelings and those of others"
   ]

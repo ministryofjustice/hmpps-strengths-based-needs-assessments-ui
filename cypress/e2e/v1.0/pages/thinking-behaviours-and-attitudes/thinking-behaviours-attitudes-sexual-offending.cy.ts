@@ -4,7 +4,7 @@ import sexualPreoccupation from './questions/sexual-preoccupation'
 
 describe('/thinking-behaviours-attitudes-sexual-offending', () => {
   const stepUrl = '/thinking-behaviours-attitudes-sexual-offending'
-  const summaryPage = '/thinking-behaviours-attitudes-summary-analysis'
+  const summaryPage = '/thinking-behaviours-attitudes-analysis'
   const questions = 
   [
     sexualPreoccupation,

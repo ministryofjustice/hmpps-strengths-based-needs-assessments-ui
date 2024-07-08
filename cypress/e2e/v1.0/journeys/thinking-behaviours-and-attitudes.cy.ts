@@ -5,7 +5,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
     landingPage: '/thinking-behaviours-attitudes',
     sexualOffending: '/thinking-behaviours-attitudes-sexual-offending',
     thinkingBehaviours: '/thinking-behaviours',
-    analysis: '/thinking-behaviours-attitudes-summary-analysis',
+    analysis: '/thinking-behaviours-attitudes-analysis',
     analysisComplete: '/thinking-behaviours-attitudes-analysis-complete'
   }
 
@@ -89,7 +89,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
   })
 
   describe(`Destination: ${destinations.sexualOffending}`, () => {
-    it(`No, Sam is not a risk of sexual harm routes to "${destinations.sexualOffending}"`, () => {
+    it(`No, Sam is not a risk of sexual harm routes to "${destinations.thinkingBehaviours}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Is Sam aware of the consequences of their actions?').getRadio('Yes, is aware of the consequences of their actions').clickLabel()
       cy.getQuestion('Does Sam show stable behaviour?').getRadio('Yes, shows stable behaviour').clickLabel()
@@ -100,8 +100,8 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
       cy.getQuestion('Does Sam show manipulative behaviour or a predatory lifestyle?').getRadio('Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle').clickLabel()
       cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('No').clickLabel()
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.sexualOffending)
-      cy.assertResumeUrlIs(sectionName, destinations.sexualOffending)
+      cy.assertStepUrlIs(destinations.thinkingBehaviours)
+      cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
     })
 
       describe(`Destination: ${destinations.analysis}`, () => {

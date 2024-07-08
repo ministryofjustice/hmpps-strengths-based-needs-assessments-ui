@@ -1,6 +1,6 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-const summaryPage = '/thinking-behaviours-attitudes-summary-analysis'
+const summaryPage = '/thinking-behaviours-attitudes-analysis'
 
 before(() => {
   cy.createAssessment().enterAssessment()

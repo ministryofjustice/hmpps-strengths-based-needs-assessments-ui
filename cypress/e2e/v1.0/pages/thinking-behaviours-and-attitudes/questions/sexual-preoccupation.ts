@@ -2,7 +2,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   const question = 'Is there evidence Sam shows sexual preoccupation?'
   const options = 
   [
-    'Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life', 
+    'Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life', 
     'Shows some evidence of improving their day-to-day life but still spends a significant amount of time preoccupied with sex',
     'No, the amount of time they spend engaging in sexual activity or thinking about sex is healthy and is balanced alongside all other important areas of their life',
     'Unknown'
@@ -18,7 +18,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     })
 
     Array.of(
-      ['Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life', null],
+      ['Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life', null],
       ['Shows some evidence of improving their day-to-day life but still spends a significant amount of time preoccupied with sex', null],
       [
         'No, the amount of time they spend engaging in sexual activity or thinking about sex is healthy and is balanced alongside all other important areas of their life',

@@ -10,7 +10,7 @@ import stableBehaviour from './questions/stable-behaviour'
 
 describe('/thinking-behaviours-attitudes', () => {
   const stepUrl = '/thinking-behaviours-attitudes'
-  const summaryPage = '/thinking-behaviours-attitudes-summary-analysis'
+  const summaryPage = '/thinking-behaviours-attitudes-analysis'
   const questions = 
   [
     consequences,

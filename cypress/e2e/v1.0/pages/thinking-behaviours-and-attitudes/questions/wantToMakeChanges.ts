@@ -21,7 +21,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they want to make changes to their thinking, behaviours and attitudes?')
+      cy.getQuestion(question).hasValidationError('Select if they want to make changes to their thinking, behaviours and attitudes')
       cy.checkAccessibility()
     })
     ;[
