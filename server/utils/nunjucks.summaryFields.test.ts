@@ -1,6 +1,7 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { Field } from '../../app/utils/fieldDependencyTreeBuilder'
 import summaryFields from './nunjucks.summaryFields'
+import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 describe('server/utils/nunjucks.summaryFields', () => {
   it('should return relevant fields and remove "section complete" and "practitioner analysis" questions', () => {

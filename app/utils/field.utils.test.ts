@@ -1,4 +1,5 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import {
   combineDateFields,
   formatForNunjucks,

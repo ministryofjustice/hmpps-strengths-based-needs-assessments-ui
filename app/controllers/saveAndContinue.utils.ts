@@ -1,7 +1,8 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { AnswerDto, AnswerDTOs, UpdateAnswersDto } from '../../server/services/strengthsBasedNeedsService'
 import { Field, FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { whereSelectable } from '../utils/field.utils'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
 export const toAnswerDtoOption = ({ value, text }: FormWizard.Field.Option) => ({ value, text })
 
