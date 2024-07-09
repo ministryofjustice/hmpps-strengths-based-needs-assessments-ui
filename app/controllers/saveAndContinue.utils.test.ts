@@ -1,7 +1,8 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { AnswerDto } from '../../server/services/strengthsBasedNeedsService'
 import { Field, FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { buildRequestBody, flattenAnswers, toAnswerDtoOption } from './saveAndContinue.utils'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
 jest.mock('../utils/fieldDependencyTreeBuilder')
 

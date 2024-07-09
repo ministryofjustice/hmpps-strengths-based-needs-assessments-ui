@@ -28,6 +28,10 @@ To update containers
 
 ## Development
 
+To install dependencies locally, run:
+
+`make dev-update`
+
 To start the UI in development mode with live-reload enabled, run:
 
 `make dev-up`

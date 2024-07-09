@@ -28,10 +28,15 @@ dev-up: ## Starts/restarts the UI in a development container. A remote debugger 
 
 dev-build: ## Builds a development image of the UI and installs Node dependencies.
 	docker compose ${DEV_COMPOSE_FILES} build ui
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm install --include=dev
 
 dev-down: ## Stops and removes all dev containers.
 	docker compose ${DEV_COMPOSE_FILES} down
+
+dev-update: update dev-build ## Pulls latest docker images, re-builds the Dev UI and copies node_modules to local filesystem.
+	rm -rf node_modules
+	docker compose ${DEV_COMPOSE_FILES} run --no-deps --name ui-node-modules ui node -v
+	docker container cp ui-node-modules:/app/node_modules .
+	docker container rm -f ui-node-modules
 
 test: ## Runs the unit test suite.
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run test

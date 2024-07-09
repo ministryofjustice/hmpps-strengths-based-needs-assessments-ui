@@ -1,4 +1,4 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import accommodationFields from './accommodation'
 import employmentEducationFields from './employment-education'
 import financeFields from './finance'
@@ -9,6 +9,7 @@ import thinkingBehavioursAttitudes from './thinking-behaviours-attitudes'
 import personalRelationshipsAndCommunityFields from './personal-relationships-community'
 import offenceAnalysisField from './offence-analysis'
 import { yesNoOptions } from './common'
+import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 export const assessmentComplete: FormWizard.Field = {
   text: 'Is the assessment complete?',

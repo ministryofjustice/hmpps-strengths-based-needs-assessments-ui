@@ -3,6 +3,7 @@ import { createAssessment, fetchAssessment } from './api'
 // eslint-disable-next-line no-shadow
 export const enum Fixture {
   CompleteAssessment = 'complete-assessment',
+  DrugUser = 'drug-user',
 }
 
 export const saveAsFixture = (fixture: Fixture) =>

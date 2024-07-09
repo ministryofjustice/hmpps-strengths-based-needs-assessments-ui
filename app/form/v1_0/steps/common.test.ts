@@ -1,5 +1,6 @@
-import FormWizard, { FieldType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, fieldCodesFrom } from './common'
+import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 describe('steps/common', () => {
   describe('fieldCodesFrom', () => {

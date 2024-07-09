@@ -11,13 +11,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
-FROM base as development
-ARG BUILD_NUMBER=1_0_0
-ARG GIT_REF=not-available
-ENV BUILD_NUMBER ${BUILD_NUMBER}
-ENV GIT_REF ${GIT_REF}
-ENV NODE_ENV='development'
-
 FROM base as build
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available
@@ -25,18 +18,23 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 ENV GIT_REF ${GIT_REF}
 COPY . .
 RUN rm -rf dist node_modules
-RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
+RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit --include=dev
 RUN npm run build
 RUN npm run record-build-info
-RUN npm prune --no-audit --omit=dev
+
+FROM base as development
+COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
+COPY --from=build --chown=appuser:appgroup /app/docker ./docker
+COPY --from=build --chown=appuser:appgroup /app/dist ./dist
+ENV NODE_ENV='development'
 
 FROM base AS production
 COPY --from=build --chown=appuser:appgroup /app/package.json /app/package-lock.json ./
 COPY --from=build --chown=appuser:appgroup /app/build-info.json ./dist/build-info.json
-COPY --from=build --chown=appuser:appgroup /app/assets ./assets
-COPY --from=build --chown=appuser:appgroup /app/dist ./dist
 COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
-COPY --from=build --chown=appuser:appgroup /app/docker/healthcheck.js ./docker/healthcheck.js
+COPY --from=build --chown=appuser:appgroup /app/docker ./docker
+COPY --from=build --chown=appuser:appgroup /app/dist ./dist
+RUN npm prune --no-audit --omit=dev
 EXPOSE 3000 3001
 ENV NODE_ENV='production'
 USER 2000

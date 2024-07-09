@@ -1,4 +1,4 @@
-import FormWizard, { FieldType, ValidationType } from 'hmpo-form-wizard'
+import FormWizard from 'hmpo-form-wizard'
 import {
   fieldCodeWith,
   getMediumLabelClassFor,
@@ -11,6 +11,7 @@ import {
 import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 import { detailsCharacterLimit } from './common/detailsField'
+import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const usageFrequencies = [
   { text: 'Daily', value: 'DAILY' },
