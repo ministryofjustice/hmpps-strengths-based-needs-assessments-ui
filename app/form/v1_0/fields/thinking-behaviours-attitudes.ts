@@ -229,7 +229,7 @@ export const riskOfSexualHarmFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: "Select if there's evidence of sexual preoccupation" }],
     options: [
       {
-        text: 'Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life',
+        text: 'Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life',
         value: 'YES',
         kind: 'option',
       },
@@ -525,7 +525,7 @@ export const thinkingBehaviourFields: Array<FormWizard.Field> = [
 ]
 
 export const makeChangesFields = createWantToMakeChangesFields(
-  'their thinking behaviours and attitudes',
+  'their thinking, behaviours and attitudes',
   'thinking_behaviours_attitudes',
 )
 

@@ -46,7 +46,7 @@ const stepOptions: FormWizard.Steps = {
   '/thinking-behaviours': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(thinkingBehaviourFields, makeChangesFields, sectionCompleteFields),
-    next: 'thinking-behaviours-attitudes-summary-analysis',
+    next: 'thinking-behaviours-attitudes-analysis',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
     sectionProgressRules: [
@@ -54,11 +54,11 @@ const stepOptions: FormWizard.Steps = {
       setFieldToIncomplete('thinking_behaviours_attitudes_analysis_section_complete'),
     ],
   },
-  '/thinking-behaviours-attitudes-summary-analysis': {
+  '/thinking-behaviours-attitudes-analysis': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
     next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
-    template: 'forms/summary/thinking-behaviours-attitudes-summary-analysis',
+    template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('thinking_behaviours_attitudes_analysis_section_complete')],
   },
@@ -66,7 +66,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/summary/thinking-behaviours-attitudes-summary-analysis-complete',
+    template: 'forms/summary/summary-analysis-complete',
     section: sectionName,
   },
 }
