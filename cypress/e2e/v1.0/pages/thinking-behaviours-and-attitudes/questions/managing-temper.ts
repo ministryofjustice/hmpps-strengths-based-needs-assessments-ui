@@ -1,8 +1,7 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Is Sam able to manage their temper?'
-  const options = 
-  [
-    'Yes, is able to manage their temper well', 
+  const options = [
+    'Yes, is able to manage their temper well',
     'Sometimes has outbreaks of uncontrolled anger',
     'No, easily loses their temper',
   ]
@@ -19,14 +18,15 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     Array.of(
       ['Yes, is able to manage their temper well', null],
       ['Sometimes has outbreaks of uncontrolled anger', null],
-      ['No, easily loses their temper', 'This may result in a loss of control or inability to stay calm until they have expressed their anger.'],
-    ).forEach(([option, hint ])=> {
+      [
+        'No, easily loses their temper',
+        'This may result in a loss of control or inability to stay calm until they have expressed their anger.',
+      ],
+    ).forEach(([option, hint]) => {
       it(`summary page displays "${option}"`, () => {
-       cy.getQuestion(question).getRadio(option).clickLabel()
+        cy.getQuestion(question).getRadio(option).clickLabel()
 
-        cy.getQuestion(question)
-        .getRadio(option)
-        .hasHint(hint)
+        cy.getQuestion(question).getRadio(option).hasHint(hint)
 
         cy.saveAndContinue()
 

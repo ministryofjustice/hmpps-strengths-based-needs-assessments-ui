@@ -1,10 +1,9 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "Does Sam understand other people's views?"
-  const options = 
-  [
-    "Yes, understands other people's views and is able to distinguish between their own feelings and those of others", 
-    "Assumes all views are the same as theirs at first but does consider other people's views to an extent", 
-    "No, unable to understand other people's views and distinguish between their own feelings and those of others"
+  const options = [
+    "Yes, understands other people's views and is able to distinguish between their own feelings and those of others",
+    "Assumes all views are the same as theirs at first but does consider other people's views to an extent",
+    "No, unable to understand other people's views and distinguish between their own feelings and those of others",
   ]
 
   describe(question, () => {
@@ -12,7 +11,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError("Select if they understand other people’s views")
+      cy.getQuestion(question).hasValidationError('Select if they understand other people’s views')
       cy.checkAccessibility()
     })
 

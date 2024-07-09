@@ -1,9 +1,8 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam accept supervision and their licence conditions?'
-  const options = 
-  [
-    'Accepts supervision and has responded well to supervision in the past', 
-    'Unsure about supervision and has put minimum effort into supervision in the past', 
+  const options = [
+    'Accepts supervision and has responded well to supervision in the past',
+    'Unsure about supervision and has put minimum effort into supervision in the past',
     'Not prepared to accept supervision and has failed to follow supervision in the past',
   ]
 
@@ -20,7 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       it(`summary page displays "${option}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(option).clickLabel()
-        
+
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)

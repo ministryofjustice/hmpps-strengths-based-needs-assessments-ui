@@ -7,12 +7,10 @@ import problemSolving from './questions/problem-solving'
 import riskOfSexualHarm from './questions/risk-of-sexual-harm'
 import stableBehaviour from './questions/stable-behaviour'
 
-
 describe('/thinking-behaviours-attitudes', () => {
   const stepUrl = '/thinking-behaviours-attitudes'
   const summaryPage = '/thinking-behaviours-attitudes-analysis'
-  const questions = 
-  [
+  const questions = [
     consequences,
     stableBehaviour,
     offendingActivities,

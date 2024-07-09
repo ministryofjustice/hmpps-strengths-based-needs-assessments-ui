@@ -1,10 +1,9 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam act on impulse?'
-  const options = 
-  [
-    'Considers all aspects of a situation before acting on or making a decision', 
-    'Sometimes acts on impulse which causes problems', 
-    'Acts on impulse which causes significant problems'
+  const options = [
+    'Considers all aspects of a situation before acting on or making a decision',
+    'Sometimes acts on impulse which causes problems',
+    'Acts on impulse which causes significant problems',
   ]
 
   describe(question, () => {
@@ -20,7 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       it(`summary page displays "${option}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(option).clickLabel()
-        
+
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)

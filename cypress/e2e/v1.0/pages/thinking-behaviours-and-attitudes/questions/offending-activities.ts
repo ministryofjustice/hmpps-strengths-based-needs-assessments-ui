@@ -1,6 +1,10 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam engage in activities that could link to offending?'
-  const options = ['Engages in pro-social activities and understands the link to offending', 'Sometimes engages in activities linked to offending but recognises the link','Regularly engages in activities which encourage offending and is not aware or does not care about the link to offending']
+  const options = [
+    'Engages in pro-social activities and understands the link to offending',
+    'Sometimes engages in activities linked to offending but recognises the link',
+    'Regularly engages in activities which encourage offending and is not aware or does not care about the link to offending',
+  ]
 
   describe(question, () => {
     it(`displays and validates the question`, () => {

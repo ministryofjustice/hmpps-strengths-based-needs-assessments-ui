@@ -1,10 +1,9 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam show manipulative behaviour or a predatory lifestyle?'
-  const options = 
-  [
-    'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle', 
-    'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals', 
-    'Shows a pattern of manipulative behaviour or a predatory lifestyle'
+  const options = [
+    'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
+    'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
+    'Shows a pattern of manipulative behaviour or a predatory lifestyle',
   ]
 
   describe(question, () => {
@@ -20,7 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       it(`summary page displays "${option}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(option).clickLabel()
-        
+
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)

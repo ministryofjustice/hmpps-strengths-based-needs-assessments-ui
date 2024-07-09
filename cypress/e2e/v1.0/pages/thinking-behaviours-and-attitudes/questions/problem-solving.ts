@@ -1,9 +1,8 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Is Sam able to solve problems in a positive way?'
-  const options = 
-  [
-    'Yes, is able to solve problems and identify appropriate solutions', 
-    'Has limited problem solving skills', 
+  const options = [
+    'Yes, is able to solve problems and identify appropriate solutions',
+    'Has limited problem solving skills',
     'No, has poor problem solving skills and is unable to identify what steps to take to solve a problem',
   ]
 
@@ -20,7 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       it(`summary page displays "${option}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(option).clickLabel()
-        
+
         cy.saveAndContinue()
 
         cy.visitStep(summaryPage)

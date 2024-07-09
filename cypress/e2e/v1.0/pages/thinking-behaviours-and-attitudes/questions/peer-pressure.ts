@@ -8,16 +8,15 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they’re resilient towards peer pressure or influence by criminal associates')
+      cy.getQuestion(question).hasValidationError(
+        'Select if they’re resilient towards peer pressure or influence by criminal associates',
+      )
       cy.checkAccessibility()
     })
-   
-   
+
     options.forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()

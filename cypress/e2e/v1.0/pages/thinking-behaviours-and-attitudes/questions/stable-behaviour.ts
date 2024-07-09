@@ -1,6 +1,10 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam show stable behaviour?'
-  const options = ['Yes, shows stable behaviour', 'Sometimes shows stable behaviour but can show reckless or risk taking behaviours', 'No, shows reckless or risk taking behaviours']
+  const options = [
+    'Yes, shows stable behaviour',
+    'Sometimes shows stable behaviour but can show reckless or risk taking behaviours',
+    'No, shows reckless or risk taking behaviours',
+  ]
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
