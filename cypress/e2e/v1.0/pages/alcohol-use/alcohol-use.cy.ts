@@ -2,7 +2,7 @@ import alcoholUse from './questions/alcohol-use'
 
 describe('/alcohol-use', () => {
   const stepUrl = '/alcohol-use'
-  const summaryPage = '/alcohol-analysis'
+  const summaryPage = '/alcohol-use-analysis'
   const questions = [alcoholUse]
 
   beforeEach(() => {

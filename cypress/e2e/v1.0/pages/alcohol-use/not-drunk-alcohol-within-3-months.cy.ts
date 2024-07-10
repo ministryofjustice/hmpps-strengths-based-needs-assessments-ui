@@ -7,7 +7,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/alcohol-usage-but-not-last-three-months', () => {
   const stepUrl = '/alcohol-usage-but-not-last-three-months'
-  const summaryPage = '/alcohol-analysis'
+  const summaryPage = '/alcohol-use-analysis'
   const questions = [
     evidenceOfBingeDrinking,
     pastAlcoholIssues,
