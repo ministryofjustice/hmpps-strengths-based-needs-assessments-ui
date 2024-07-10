@@ -1,6 +1,6 @@
 export const env = (key: string) => Cypress.env()[key]
 
-export const uuid = () => Math.random().toString().substring(2,9)
+export const uuid = () => Math.random().toString().substring(2, 9)
 
 const oasysUser = {
   id: uuid(),
