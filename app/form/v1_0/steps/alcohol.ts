@@ -63,16 +63,16 @@ const stepOptions: FormWizard.Steps = {
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete')],
   },
+  '/alcohol-deprecated-field': {
+    pageTitle: 'This page will be removed',
+    fields: fieldCodesFrom(deprecatedPractitionerAnalysisFields),
+    section: sectionName,
+  },
   '/alcohol-use-analysis-complete': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
     template: 'forms/summary/summary-analysis-complete',
-    section: sectionName,
-  },
-  '/alcohol-deprecated-field': {
-    pageTitle: 'This page will be removed',
-    fields: fieldCodesFrom(deprecatedPractitionerAnalysisFields),
     section: sectionName,
   },
 }
