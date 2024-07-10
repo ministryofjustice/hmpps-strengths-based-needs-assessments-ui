@@ -10,7 +10,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/alcohol-usage-last-three-months', () => {
   const stepUrl = '/alcohol-usage-last-three-months'
-  const summaryPage = '/alcohol-analysis'
+  const summaryPage = '/alcohol-use-analysis'
   const questions = [
     alcoholFrequency,
     alcoholUnits,
