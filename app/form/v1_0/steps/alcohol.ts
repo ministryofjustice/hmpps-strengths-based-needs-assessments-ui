@@ -19,7 +19,7 @@ const stepOptions: FormWizard.Steps = {
     next: [
       { field: 'alcohol_use', value: 'YES_WITHIN_LAST_THREE_MONTHS', next: 'alcohol-usage-last-three-months' },
       { field: 'alcohol_use', value: 'YES_NOT_IN_LAST_THREE_MONTHS', next: 'alcohol-usage-but-not-last-three-months' },
-      { field: 'alcohol_use', value: 'NO', next: 'alcohol-analysis' },
+      { field: 'alcohol_use', value: 'NO', next: 'alcohol-use-analysis' },
     ],
     navigationOrder: 5,
     section: sectionName,
@@ -57,7 +57,7 @@ const stepOptions: FormWizard.Steps = {
   '/alcohol-use-analysis': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: ['alcohol-analysis-complete'],
+    next: ['alcohol-use-analysis-complete'],
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete')],
