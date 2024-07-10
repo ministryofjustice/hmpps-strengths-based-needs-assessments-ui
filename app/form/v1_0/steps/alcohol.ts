@@ -57,7 +57,7 @@ const stepOptions: FormWizard.Steps = {
   '/alcohol-use-analysis': {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
-    next: ['alcohol-use-analysis-complete'],
+    next: ['alcohol-use-analysis-complete#practitioner-analysis'],
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete')],
@@ -66,7 +66,7 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: [],
     next: [],
-    template: 'forms/summary/alcohol-summary-analysis-complete',
+    template: 'forms/summary/summary-analysis-complete',
     section: sectionName,
   },
 }
