@@ -4,6 +4,7 @@ import {
   alcoholUseFields,
   analysisSectionComplete,
   baseAlcoholUsageFields,
+  deprecatedPractitionerAnalysisFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
 } from '../fields/alcohol'
@@ -67,6 +68,11 @@ const stepOptions: FormWizard.Steps = {
     fields: [],
     next: [],
     template: 'forms/summary/summary-analysis-complete',
+    section: sectionName,
+  },
+  '/alcohol-deprecated-field': {
+    pageTitle: 'This page will be removed',
+    fields: fieldCodesFrom(deprecatedPractitionerAnalysisFields),
     section: sectionName,
   },
 }

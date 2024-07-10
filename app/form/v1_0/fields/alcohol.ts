@@ -354,6 +354,11 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
 ]
 
 export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
+  'alcohol_use',
+  'alcohol use',
+)
+
+export const deprecatedPractitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
   'alcohol',
   'alcohol use',
 )
@@ -380,4 +385,5 @@ export default [
   ...alcoholUsageWithinThreeMonthsFields,
   ...practitionerAnalysisFields,
   ...sectionCompleteFields,
+  ...deprecatedPractitionerAnalysisFields,
 ].reduce(toFormWizardFields, {})
