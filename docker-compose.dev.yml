@@ -55,7 +55,6 @@ services:
       - ./.eslintcache:/app/.eslintcache
       - ./.eslintignore:/app/.eslintignore
       - ./.eslintrc.json:/app/.eslintrc.json
-      - ./.eslintrc.json:/app/.eslintrc.json
       - ./.prettierrc:/app/.prettierrc
       - ./logger.ts:/app/logger.ts
       - ./package.json:/app/package.json

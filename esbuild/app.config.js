@@ -9,7 +9,7 @@ const buildApp = buildConfig =>
     entryPoints: glob.sync(buildConfig.app.entryPoints),
     outdir: buildConfig.app.outDir,
     bundle: true,
-    sourcemap: true,
+    sourcemap: 'inline',
     platform: 'node',
     format: 'cjs',
     external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
