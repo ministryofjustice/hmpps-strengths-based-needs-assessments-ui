@@ -5,8 +5,8 @@ describe('Origin: /alcohol-use', () => {
     landingPage: '/alcohol-use',
     alcoholUsageLastThreeMonths: '/alcohol-usage-last-three-months',
     alcoholUsageNotLastThreeMonths: '/alcohol-usage-but-not-last-three-months',
-    analysis: '/alcohol-analysis',
-    analysisComplete: '/alcohol-analysis-complete',
+    analysis: '/alcohol-use-analysis',
+    analysisComplete: '/alcohol-use-analysis-complete',
   }
 
   const sectionName = 'Alcohol use'

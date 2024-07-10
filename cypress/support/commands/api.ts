@@ -1,6 +1,6 @@
 export const env = (key: string) => Cypress.env()[key]
 
-export const uuid = () => `${Date.now().toString()}-${Cypress._.random(0, 1e6)}-${Cypress._.uniqueId()}`
+export const uuid = () => Math.random().toString().substring(2, 9)
 
 const oasysUser = {
   id: uuid(),
@@ -57,7 +57,7 @@ export const enterAssessment = () => {
               dateOfBirth: '1970-01-01',
               gender: 0,
               location: 'COMMUNITY',
-              sexuallyMotivatedOffenceHistory: 'No',
+              sexuallyMotivatedOffenceHistory: 'NO',
             },
           },
         }).then(otlResponse => {
