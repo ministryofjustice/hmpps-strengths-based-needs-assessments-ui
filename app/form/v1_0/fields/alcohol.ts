@@ -154,7 +154,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { text: 'Peer pressure or social influence', value: 'PEER_PRESSURE', kind: 'option' },
       {
         text: 'Self-medication or mood altering',
-        hint: { text: 'Includes pain management or emotional regulation' },
+        hint: { text: 'Includes pain management or emotional regulation.' },
         value: 'SELF_MEDICATION',
         kind: 'option',
       },
@@ -218,7 +218,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       {
         text: 'Physical or mental health',
-        hint: { text: 'Includes overdose' },
+        hint: { text: 'Includes overdose.' },
         value: 'PHYSICAL_OR_MENTAL_HEALTH',
         kind: 'option',
       },
