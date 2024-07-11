@@ -13,7 +13,7 @@ describe('/drug-use-type', () => {
       { name: 'Benzodiazepines', isInjected: true, hasTreatment: false },
       { name: 'Cannabis', isInjected: false, hasTreatment: false },
       { name: 'Cocaine hydrochloride', isInjected: true, hasTreatment: false },
-      { name: 'Crack cocaine', isInjected: true, hasTreatment: false },
+      { name: 'Crack or cocaine', isInjected: true, hasTreatment: false },
       { name: 'Ecstasy (also known as MDMA)', isInjected: false, hasTreatment: false },
       { name: 'Hallucinogenics', isInjected: false, hasTreatment: false },
       { name: 'Heroin', isInjected: true, hasTreatment: true },
@@ -21,8 +21,8 @@ describe('/drug-use-type', () => {
       { name: 'Misused prescribed drugs', isInjected: true, hasTreatment: false },
       { name: 'Other opiates', isInjected: true, hasTreatment: false },
       { name: 'Solvents (including gases and glues)', isInjected: false, hasTreatment: false },
-      { name: 'Steroids', isInjected: true, hasTreatment: false },
       { name: 'Spice', isInjected: false, hasTreatment: false },
+      { name: 'Steroids', isInjected: true, hasTreatment: false },
       { name: 'Other', isInjected: true, hasTreatment: false },
     ]
 
