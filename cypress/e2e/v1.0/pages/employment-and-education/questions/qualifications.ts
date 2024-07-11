@@ -1,7 +1,7 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam have any professional or vocational qualifications?'
   describe(question, () => {
-    const options = ['Yes', 'No', null, 'Not sure']
+    const options = ['Yes', 'No', null, 'Unknown']
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
