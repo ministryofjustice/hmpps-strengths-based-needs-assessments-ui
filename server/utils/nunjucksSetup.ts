@@ -8,6 +8,7 @@ import {
   formatDateForDisplay,
   getLabelForOption,
   getSelectedAnswers,
+  isInEditMode,
   removeNonRenderedFields,
   startsWith,
   toErrorSummary,
@@ -77,4 +78,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('getSummaryFields', getSummaryFields)
 
   njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
+
+  njkEnv.addFilter('isInEditMode', isInEditMode)
 }

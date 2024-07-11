@@ -21,7 +21,7 @@
      {% endif %}
     </ul>
     <div class="govuk-tabs__panel summary__panel" id="summary">
-      {% include "../components/summary/summary-fields.njk" %}
+    {% include "../components/summary/summary-fields.njk" %}
     {% if not hideAnalysis %}
       <div class="questiongroup-action-buttons">
         {{ govukButton({

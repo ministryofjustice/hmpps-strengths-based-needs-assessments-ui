@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
-import { AnswerDto } from '../services/strengthsBasedNeedsService'
+import { AnswerDto, SessionData, User } from '../services/strengthsBasedNeedsService'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 export const toOptionDescription = (answer: AnswerDto): string => {
@@ -58,3 +58,5 @@ export const formatDateForDisplay = (value: string): string => {
 export const urlSafe = (text: string) => text.replace(/[|&;$%@"<>()+,]/g, '').replace(/\s+/g, '-')
 
 export const startsWith = (subject: string, startWith: string) => subject.startsWith(startWith)
+
+export const isInEditMode = (user: User) => user.accessMode === 'READ_WRITE'

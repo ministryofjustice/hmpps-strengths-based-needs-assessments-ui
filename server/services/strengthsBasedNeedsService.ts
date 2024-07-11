@@ -30,6 +30,20 @@ export interface SessionInformation {
   }
 }
 
+export interface SessionData {
+  assessmentId: string,
+  assessmentVersion: string,
+  oasysAssessmentPk: string,
+  user: User,
+}
+
+export interface User {
+  accessMode: 'READ_WRITE' | 'READ_ONLY',
+  displayName: string,
+  identifier: string,
+  returnUrl: string,
+}
+
 interface Option {
   value: string
   text: string

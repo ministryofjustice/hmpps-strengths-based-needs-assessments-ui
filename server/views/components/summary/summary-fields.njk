@@ -17,11 +17,13 @@
 
       </ul>
     </dd>
+    {% if sessionData.user | isInEditMode %}
     <dd class="govuk-summary-list__actions to-the-right">
       <a class="govuk-link" href="{{ summaryField.changeLink }}">
         Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
       </a>
     </dd>
+    {% endif %}
   </div>
 {%- endmacro -%}
 
@@ -57,7 +59,7 @@
 
     {% switch summaryField.field.code %}
       {% case 'drug_use_type' %}
-        {{ renderDrugsTable(summaryField) }}
+        {{ renderDrugsTable(summaryField, sessionData.user) }}
       {% default %}
         {{ renderTopLevelField(summaryField) }}
     {% endswitch %}

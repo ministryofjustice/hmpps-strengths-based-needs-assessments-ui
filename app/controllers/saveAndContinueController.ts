@@ -3,6 +3,7 @@ import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, {
+  SessionData,
   SessionInformation,
 } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
@@ -95,7 +96,7 @@ class SaveAndContinueController extends BaseController {
           subject: subjectDetails.givenName,
           alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
         },
-        sessionData: req.session.sessionData as SessionInformation,
+        sessionData: req.session.sessionData as SessionData,
         subjectDetails,
       }
 
