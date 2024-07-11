@@ -15,7 +15,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('Select all that apply')
+        .hasHint('Select all that apply.')
         .hasCheckboxes(options.map(([label, _hint]) => label))
 
       cy.saveAndContinue()
