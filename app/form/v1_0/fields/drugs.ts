@@ -259,7 +259,7 @@ export const drugUsageDetailsFields: Array<FormWizard.Field> = [
     multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select why they started using drugs' }],
     options: [
-      { text: 'Culture or religious practices', value: 'CULTURAL_OR_RELIGIOUS', kind: 'option' },
+      { text: 'Cultural or religious practices', value: 'CULTURAL_OR_RELIGIOUS', kind: 'option' },
       { text: 'Curiosity or experimentation', value: 'CURIOSITY_OR_EXPERIMENTATION', kind: 'option' },
       { text: 'Enhance performance', value: 'ENHANCE_PERFORMANCE', kind: 'option' },
       { text: 'Escapism or avoidance', value: 'ESCAPISM_OR_AVOIDANCE', kind: 'option' },
