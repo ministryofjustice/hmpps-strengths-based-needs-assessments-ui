@@ -40,7 +40,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.assertQuestionUrl(question)
       cy.getQuestion(question).getRadio('Yes').isChecked().getConditionalQuestion().hasText('Some text')
     })
-    Array.of('No', 'Not sure').forEach(option => {
+    Array.of('No', 'Unknown').forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
 
