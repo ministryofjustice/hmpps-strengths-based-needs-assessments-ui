@@ -397,7 +397,7 @@ export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
 export const noAccommodationFields: Array<FormWizard.Field> = [
   {
     text: 'Why does [subject] have no accommodation?',
-    hint: { html: noAccommodationHint, kind: 'html' },
+    hint: { text: 'Consider current and past homelessness issues.', kind: 'text' },
     code: 'no_accommodation_reason',
     type: FieldType.CheckBox,
     multiple: true,
