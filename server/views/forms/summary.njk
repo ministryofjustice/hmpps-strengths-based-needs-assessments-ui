@@ -1,41 +1,61 @@
 {% extends "./layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "components/question/macro.njk" import renderQuestion %}
+{% from "components/summary/macro.njk" import renderSummaryFields %}
 
-{% block formContent %}
-<div class="govuk-tabs" data-module="govuk-tabs">
-  <h2 class="govuk-tabs__title">
-    Content
-  </h2>
-  <ul class="govuk-tabs__list">
-    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-      <a class="govuk-tabs__tab" href="#summary">
-        Summary
-      </a>
-    </li>
-    <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#practitioner-analysis">
-        Practitioner analysis
-      </a>
-    </li>
-  </ul>
-  <div class="govuk-tabs__panel summary__panel" id="summary">
-    {% block summaryPanel %}{% endblock %}
+{% set summaryFields = getSummaryFields(options, answers) %}
+{% set sectionStarted = summaryFields.length > 0 %}
 
-    <div class="questiongroup-action-buttons">
-      {{ govukButton({
-        text: "Go to practitioner analysis",
-        classes: "govuk-button--secondary govuk-!-margin-bottom-3",
-        href: "#practitioner-analysis"
-      }) }}
+{% block notification %}
+  {% if not sessionData.user | isInEditMode and sectionStarted %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {{ mojBanner({ type: "information", text: "This section is incomplete" }) }}
     </div>
   </div>
-  <div class="govuk-tabs__panel summary__panel govuk-tabs__panel--hidden" id="practitioner-analysis">
-    {% block analysisPanel %}{% endblock %}
+  {% endif %}
+{% endblock %}
+
+{% block formContent %}
+{% if sectionStarted %}
+  <div class="govuk-tabs" data-module="govuk-tabs">
+    <h2 class="govuk-tabs__title">
+      Content
+    </h2>
+    <ul class="govuk-tabs__list">
+      <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+        <a class="govuk-tabs__tab" href="#summary">
+          Summary
+        </a>
+      </li>
+    {% if not hideAnalysis %}
+      <li class="govuk-tabs__list-item">
+        <a class="govuk-tabs__tab" href="#practitioner-analysis">
+          Practitioner analysis
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <div class="govuk-tabs__panel summary__panel" id="summary">
+    {{ renderSummaryFields(summaryFields, sessionData) }}
+    {% if not hideAnalysis %}
+      <div class="questiongroup-action-buttons">
+        {{ govukButton({
+          text: "Go to practitioner analysis",
+          classes: "govuk-button--secondary govuk-!-margin-bottom-3",
+          href: "#practitioner-analysis"
+        }) }}
+      </div>
+    {% endif %}
+    </div>
+    {% if not hideAnalysis %}
+      <div class="govuk-tabs__panel summary__panel govuk-tabs__panel--hidden" id="practitioner-analysis">
+        {% block analysisPanel %}{% endblock %}
+      </div>
+    {% endif %}
   </div>
-</div>
+{% else %}
+  <p class="govuk-body">This section is incomplete</p>
+{% endif %}
 {% endblock %}
 
 {% block bodyEnd %}
