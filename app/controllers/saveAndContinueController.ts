@@ -104,7 +104,7 @@ class SaveAndContinueController extends BaseController {
       const sessionData = req.session.sessionData as SessionData
       const navigation = isReadOnly(sessionData.user)
         ? this.setReadOnlyNavigation(req.form.options.steps, res.locals.form.navigation)
-        : res.locals.navigation
+        : res.locals.form.navigation
 
       res.locals = {
         ...res.locals,
