@@ -1,7 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
-import { AnswerDto, SessionData, User } from '../services/strengthsBasedNeedsService'
+import { AnswerDto } from '../services/strengthsBasedNeedsService'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
+import { HandoverPrincipal } from '../services/arnsHandoverService'
 
 export const toOptionDescription = (answer: AnswerDto): string => {
   switch (answer.type) {
@@ -59,4 +60,4 @@ export const urlSafe = (text: string) => text.replace(/[|&;$%@"<>()+,]/g, '').re
 
 export const startsWith = (subject: string, startWith: string) => subject.startsWith(startWith)
 
-export const isInEditMode = (user: User) => user.accessMode === 'READ_WRITE'
+export const isInEditMode = (user: HandoverPrincipal) => user.accessMode === 'READ_WRITE'

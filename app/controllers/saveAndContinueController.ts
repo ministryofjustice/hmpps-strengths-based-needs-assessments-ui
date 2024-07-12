@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
+import { buildRequestBody, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, {
   SessionData,
   SessionInformation,
@@ -15,6 +15,7 @@ import {
   withValuesFrom,
 } from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
+import { NavigationItem } from '../utils/formRouterBuilder'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
@@ -83,9 +84,27 @@ class SaveAndContinueController extends BaseController {
     return gender === Gender.Male ? 8 : 6
   }
 
+  setReadOnlyNavigation(steps: FormWizard.RenderedSteps, navigation: Array<NavigationItem>): Array<NavigationItem> {
+    return navigation.map(navigationItem => {
+      const [summaryPageUrl] =
+        Object.entries(steps).find(([stepUrl, stepConfig]) => {
+          return stepConfig.section === navigationItem.section && stepUrl.endsWith('analysis-complete')
+        }) || []
+
+      return {
+        ...navigationItem,
+        url: summaryPageUrl?.slice(1) || navigationItem.url,
+      }
+    })
+  }
+
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const subjectDetails = req.session.subjectDetails as HandoverSubject
+      const sessionData = req.session.sessionData as SessionData
+      const navigation = isReadOnly(sessionData.user)
+        ? this.setReadOnlyNavigation(req.form.options.steps, res.locals.form.navigation)
+        : res.locals.navigation
 
       res.locals = {
         ...res.locals,
@@ -96,8 +115,9 @@ class SaveAndContinueController extends BaseController {
           subject: subjectDetails.givenName,
           alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
         },
-        sessionData: req.session.sessionData as SessionData,
+        sessionData,
         subjectDetails,
+        form: { ...res.locals.form, navigation },
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
@@ -126,7 +146,7 @@ class SaveAndContinueController extends BaseController {
     const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
     const [lastStepOfSection] = Object.entries(req.form.options.steps)
       .reverse()
-      .find(([, step]) => step.section === sectionName)
+      .find(([_path, step]) => step.section === sectionName)
     const lastPageVisited = resumeState[sectionName] || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
 
     if (lastPageVisited && isResuming) {
@@ -166,9 +186,14 @@ class SaveAndContinueController extends BaseController {
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.updateAssessmentProgress(req, res)
-      const resumeUrl = this.getResumeUrl(req, res.locals.sectionProgress)
+      if (!isReadOnly((req.session.sessionData as SessionData)?.user)) {
+        const resumeUrl = this.getResumeUrl(req, res.locals.sectionProgress)
+        if (resumeUrl) {
+          return res.redirect(resumeUrl)
+        }
+      }
 
-      return resumeUrl ? res.redirect(resumeUrl) : super.getValues(req, res, next)
+      return super.getValues(req, res, next)
     } catch (error) {
       return next(error)
     }
