@@ -61,7 +61,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       ['Community', 'Includes limited opportunities or judgement from others.'],
       ['Finances', 'Includes having no money or difficulties.'],
       ['Links to offending', null],
-      ['Physical or mental health', 'Includes overdose'],
+      ['Physical or mental health', 'Includes overdose.'],
       ['Relationships', 'Includes isolation or neglecting responsibilities.'],
       ['No impact', null],
     ).forEach(([option, hint]) => {
