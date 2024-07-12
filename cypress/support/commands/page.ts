@@ -26,7 +26,10 @@ export const currentSectionMarkedAsComplete = (section: string) => {
 }
 
 export const currentSectionNotMarkedAsComplete = (section: string) => {
-  cy.get('.section-heading__status > .govuk-tag').should('not.exist')
+  cy.get('.section-heading__status > .govuk-tag')
+    .should('be.visible')
+    .and('have.class', 'govuk-tag--grey')
+    .and('contain.text', 'Incomplete')
   cy.sectionNotMarkedAsComplete(section)
 }
 
