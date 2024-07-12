@@ -1,7 +1,7 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam have any professional or vocational qualifications?'
   describe(question, () => {
-    const options = ['Yes', 'No', null, 'Not sure']
+    const options = ['Yes', 'No', null, 'Unknown']
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
@@ -40,7 +40,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.assertQuestionUrl(question)
       cy.getQuestion(question).getRadio('Yes').isChecked().getConditionalQuestion().hasText('Some text')
     })
-    Array.of('No', 'Not sure').forEach(option => {
+    Array.of('No', 'Unknown').forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
 
