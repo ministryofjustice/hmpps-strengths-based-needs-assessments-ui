@@ -13,7 +13,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       ['Level 8', 'For example, doctorate'],
       [null, null],
       ['None of these', null],
-      ['Not sure', null],
+      ['Unknown', null],
     ]
 
     it(`displays and validates the question`, () => {
