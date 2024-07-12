@@ -56,7 +56,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some details')
       })
     })
-    ;[['Self-medication or mood altering', 'Includes pain management or emotional regulation']].forEach(
+    ;[['Self-medication or mood altering', 'Includes pain management or emotional regulation.']].forEach(
       ([option, hint]) => {
         it(`no details field is displayed for "${option}" containing hint text`, () => {
           cy.getQuestion(question).getCheckbox(option).hasHint(hint).hasConditionalQuestion(false).clickLabel()
