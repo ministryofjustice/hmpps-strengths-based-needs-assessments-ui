@@ -358,11 +358,6 @@ export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractit
   'alcohol use',
 )
 
-export const deprecatedPractitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'alcohol',
-  'alcohol use',
-)
-
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the alcohol use section complete?',
   code: 'alcohol_use_section_complete',
@@ -385,5 +380,4 @@ export default [
   ...alcoholUsageWithinThreeMonthsFields,
   ...practitionerAnalysisFields,
   ...sectionCompleteFields,
-  ...deprecatedPractitionerAnalysisFields,
 ].reduce(toFormWizardFields, {})
