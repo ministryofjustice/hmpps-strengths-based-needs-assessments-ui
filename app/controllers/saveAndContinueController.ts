@@ -117,7 +117,7 @@ class SaveAndContinueController extends BaseController {
         },
         sessionData,
         subjectDetails,
-        form: { ...res.locals.form, navigation },
+        form: { ...res.locals.form, navigation, section: req.form.options.section, steps: req.form.options.steps },
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))

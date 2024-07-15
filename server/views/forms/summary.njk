@@ -5,6 +5,7 @@
 {% set summaryFields = getSummaryFields(options, answers) %}
 {% set sectionStarted = summaryFields.length > 0 %}
 {% set sectionComplete = sectionProgress[options.section] %}
+{% set shouldShowAnalaysis = (not hideAnalysis) and practitionerAnalysisStarted(form, answers) %}
 
 {% block notification %}
   {% if not sessionData.user | isInEditMode and sectionStarted and not sectionComplete %}
@@ -28,7 +29,7 @@
           Summary
         </a>
       </li>
-    {% if not hideAnalysis %}
+    {% if shouldShowAnalaysis %}
       <li class="govuk-tabs__list-item">
         <a class="govuk-tabs__tab" href="#practitioner-analysis">
           Practitioner analysis
@@ -38,7 +39,7 @@
     </ul>
     <div class="govuk-tabs__panel summary__panel" id="summary">
     {{ renderSummaryFields(summaryFields, sessionData) }}
-    {% if not hideAnalysis %}
+    {% if shouldShowAnalaysis %}
       <div class="questiongroup-action-buttons">
         {{ govukButton({
           text: "Go to practitioner analysis",
@@ -48,7 +49,7 @@
       </div>
     {% endif %}
     </div>
-    {% if not hideAnalysis %}
+    {% if shouldShowAnalaysis %}
       <div class="govuk-tabs__panel summary__panel govuk-tabs__panel--hidden" id="practitioner-analysis">
         {% block analysisPanel %}{% endblock %}
       </div>
