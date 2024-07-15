@@ -16,6 +16,7 @@ import {
 } from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
+import { isInEditMode } from '../../server/utils/nunjucks.utils'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
@@ -32,6 +33,11 @@ class SaveAndContinueController extends BaseController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionInformation
+
+      if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
+        return res.status(401).send('Cannot edit whilst in read-only mode')
+      }
+
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
       const assessment = await this.apiService.fetchAssessment(sessionData.assessmentId)
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
@@ -45,9 +51,9 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      await super.configure(req, res, next)
+      return await super.configure(req, res, next)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
