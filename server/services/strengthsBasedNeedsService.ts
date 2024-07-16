@@ -1,4 +1,5 @@
 import { UUID } from 'crypto'
+import querystring from 'querystring'
 import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
@@ -20,15 +21,9 @@ export interface CreateAssessmentResponse {
   sentencePlanVersion?: number
 }
 
-export interface SessionInformation {
-  uuid: UUID
-  assessmentId: UUID
-  user: HandoverPrincipal
-}
-
 export interface SessionData {
   assessmentId: string
-  assessmentVersion: string
+  assessmentVersion: number
   oasysAssessmentPk: string
   user: HandoverPrincipal
 }
@@ -104,9 +99,14 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as OasysAssessmentResponse
   }
 
-  async fetchAssessment(assessmentId: string): Promise<AssessmentResponse> {
+  async fetchAssessment(assessmentId: string, versionNumber?: number): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/assessment/${assessmentId}` })
+
+    const requestOptions = versionNumber
+      ? { path: `/assessment/${assessmentId}`, query: querystring.stringify({ assessmentVersion: versionNumber }) }
+      : { path: `/assessment/${assessmentId}` }
+
+    const responseBody = await client.get(requestOptions)
     return responseBody as AssessmentResponse
   }
 

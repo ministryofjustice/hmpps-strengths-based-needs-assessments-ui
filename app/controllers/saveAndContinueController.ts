@@ -2,10 +2,7 @@ import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
-import StrengthsBasedNeedsAssessmentsApiService, {
-  SessionData,
-  SessionInformation,
-} from '../../server/services/strengthsBasedNeedsService'
+import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import {
   combineDateFields,
@@ -32,14 +29,18 @@ class SaveAndContinueController extends BaseController {
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const sessionData = req.session.sessionData as SessionInformation
+      const sessionData = req.session.sessionData as SessionData
 
       if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
         return res.status(401).send('Cannot edit whilst in read-only mode')
       }
 
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
-      const assessment = await this.apiService.fetchAssessment(sessionData.assessmentId)
+
+      const assessment = isInEditMode(sessionData.user)
+        ? await this.apiService.fetchAssessment(sessionData.assessmentId)
+        : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
+
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent
 
@@ -228,7 +229,7 @@ class SaveAndContinueController extends BaseController {
   }
 
   async persistAnswers(req: FormWizard.Request, res: Response) {
-    const { assessmentId } = req.session.sessionData as SessionInformation
+    const { assessmentId } = req.session.sessionData as SessionData
 
     const answers = { ...req.form.persistedAnswers, ...req.form.values }
     const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answers)
