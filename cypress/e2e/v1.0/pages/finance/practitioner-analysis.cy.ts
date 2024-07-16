@@ -2,8 +2,18 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 
 const summaryPage = '/finance-analysis'
 
-beforeEach(() => {
+before(() => {
   cy.createAssessment().enterAssessment()
+
+  cy.visitSection('Finance')
+  cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('No money').clickLabel()
+  cy.saveAndContinue()
+
+  cy.captureAssessment()
+})
+
+beforeEach(() => {
+  cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
 })

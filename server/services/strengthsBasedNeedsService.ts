@@ -3,6 +3,7 @@ import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
+import { HandoverPrincipal } from './arnsHandoverService'
 
 export interface CreateAssessmentRequest extends Record<string, unknown> {
   oasysAssessmentPk: string
@@ -22,12 +23,14 @@ export interface CreateAssessmentResponse {
 export interface SessionInformation {
   uuid: UUID
   assessmentId: UUID
-  user: {
-    identifier: string
-    displayName: string
-    accessMode: string
-    returnUrl?: string
-  }
+  user: HandoverPrincipal
+}
+
+export interface SessionData {
+  assessmentId: string
+  assessmentVersion: string
+  oasysAssessmentPk: string
+  user: HandoverPrincipal
 }
 
 interface Option {

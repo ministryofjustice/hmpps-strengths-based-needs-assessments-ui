@@ -38,12 +38,14 @@
         {{ renderQuestion(fieldOptions, errors, action) }}
       {% endfor %}
 
+      {% if sessionData.user | isInEditMode %}
       <div class="questiongroup-action-buttons">
         {{ govukButton({
           text: buttonText | default('Save and continue'),
           classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
         }) }}
       </div>
+      {% endif %}
     </form>
   </div>
 {% endblock %}
