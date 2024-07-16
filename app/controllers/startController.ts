@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 import StrengthsBasedNeedsAssessmentsApiService from '../../server/services/strengthsBasedNeedsService'
 import ArnsHandoverService from '../../server/services/arnsHandoverService'
+import { isReadOnly } from './saveAndContinue.utils'
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
+
+const editModeLandingPage = 'accommodation'
+const readOnlyModeLandingPage = 'accommodation-analysis-complete'
 
 const startController = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -24,7 +28,9 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
         return next(error)
       }
 
-      return res.redirect(`/form/${version}/accommodation?action=resume`)
+      return isReadOnly(contextData.principal)
+        ? res.redirect(`/form/${version}/${readOnlyModeLandingPage}`)
+        : res.redirect(`/form/${version}/${editModeLandingPage}?action=resume`)
     })
   } catch (error) {
     next(new Error('Unable to start assessment'))

@@ -9,7 +9,7 @@
 }
 
 .section-complete {
-  @include govuk-font(14);
+  font-size: 14px;
   float: right;
   border-radius: 50%;
   background-color: $govuk-brand-colour;

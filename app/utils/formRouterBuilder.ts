@@ -31,21 +31,22 @@ const removeQueryParamsFrom = (urlWithParams: string) => {
   return url
 }
 
-interface NavigationItem {
+export interface NavigationItem {
   url: string
+  section: string
   label: string
   active: boolean
 }
 
 export const createNavigation = (steps: FormWizard.Steps, currentSection: string): Array<NavigationItem> => {
   return Object.entries(steps)
-    .filter(([_, stepConfig]) => stepConfig.navigationOrder)
-    .sort(([_A, stepConfigA], [_B, stepConfigB]) => stepConfigA.navigationOrder - stepConfigB.navigationOrder)
-    .map(([path, stepConfig]) => ({
+    .filter(([_path, config]) => config.navigationOrder)
+    .sort(([_pathA, configA], [_pathB, configB]) => configA.navigationOrder - configB.navigationOrder)
+    .map(([path, config]) => ({
       url: path.slice(1),
-      section: stepConfig.section,
-      label: stepConfig.pageTitle,
-      active: stepConfig.section === currentSection,
+      section: config.section,
+      label: config.pageTitle,
+      active: config.section === currentSection,
     }))
 }
 
