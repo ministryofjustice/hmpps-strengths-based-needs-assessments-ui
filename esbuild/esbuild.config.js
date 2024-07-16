@@ -60,7 +60,7 @@ function main() {
 
     // App
     chokidar
-      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
+      .watch(['server/**/*', 'app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
       .on('all', () => buildApp(buildConfig).catch(console.error))
   }
 }

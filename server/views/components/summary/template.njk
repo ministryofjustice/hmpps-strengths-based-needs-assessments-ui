@@ -1,6 +1,6 @@
 {% from "./drugs-summary.njk" import renderDrugsTable %}
 
-{%- macro renderTopLevelField(summaryField) -%}
+{%- macro renderTopLevelField(summaryField, sessionData) -%}
   <div class="govuk-summary-list__row as-block clearfix">
     <dt class="govuk-summary-list__key to-the-left">
       <span class="summary__label">{{ summaryField.field.text }}</span>
@@ -17,11 +17,13 @@
 
       </ul>
     </dd>
+    {% if sessionData.user | isInEditMode %}
     <dd class="govuk-summary-list__actions to-the-right">
       <a class="govuk-link" href="{{ summaryField.changeLink }}">
         Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
       </a>
     </dd>
+    {% endif %}
   </div>
 {%- endmacro -%}
 
@@ -53,13 +55,13 @@
 
 <dl class="govuk-summary-list">
 
-  {% for summaryField in getSummaryFields(options, answers) %}
+  {% for summaryField in summaryFields %}
 
     {% switch summaryField.field.code %}
       {% case 'drug_use_type' %}
-        {{ renderDrugsTable(summaryField) }}
+        {{ renderDrugsTable(summaryField, sessionData.user) }}
       {% default %}
-        {{ renderTopLevelField(summaryField) }}
+        {{ renderTopLevelField(summaryField, sessionData) }}
     {% endswitch %}
 
   {% endfor %}

@@ -1,13 +1,15 @@
-{%- macro renderDrugsTable(summaryField) -%}
+{%- macro renderDrugsTable(summaryField, user) -%}
   <div class="govuk-summary-list__row as-block clearfix">
     <dt class="govuk-summary-list__key to-the-left">
       <span class="summary__label">{{ summaryField.field.text }}</span>
     </dt>
+    {% if user | isInEditMode %}
     <dd class="govuk-summary-list__actions to-the-right govuk-!-padding-right-0 govuk-!-padding-bottom-0">
       <a class="govuk-link" href="{{ summaryField.changeLink }}">
         Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
       </a>
     </dd>
+    {% endif %}
     <dd class="govuk-!-margin-left-0">
       <table class="govuk-table drugs-summary-table">
         <thead class="govuk-table__head">
@@ -67,7 +69,9 @@
               <td class="govuk-table__cell">{{ frequency | default("N/A", true) }}</td>
               <td class="govuk-table__cell">{{ previously | default("N/A", true) }}</td>
               <td class="govuk-table__cell with-text-right">
-                <a href="{{ changeLink }}" class="govuk-link">Change</a>
+                {% if user | isInEditMode %}
+                  <a href="{{ changeLink }}" class="govuk-link">Change</a>
+                {% endif %}
               </td>
             </tr>
             {% if currentlyInjecting or previouslyInjecting %}

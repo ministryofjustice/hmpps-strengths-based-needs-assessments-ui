@@ -38,7 +38,7 @@ export type HandoverContextData = {
 export type HandoverPrincipal = {
   identifier: string
   displayName: string
-  accessMode: string
+  accessMode: 'READ_WRITE' | 'READ_ONLY'
   returnUrl?: string
 }
 

@@ -2,6 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
 import { AnswerDto } from '../services/strengthsBasedNeedsService'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
+import { HandoverPrincipal } from '../services/arnsHandoverService'
 
 export const toOptionDescription = (answer: AnswerDto): string => {
   switch (answer.type) {
@@ -58,3 +59,19 @@ export const formatDateForDisplay = (value: string): string => {
 export const urlSafe = (text: string) => text.replace(/[|&;$%@"<>()+,]/g, '').replace(/\s+/g, '-')
 
 export const startsWith = (subject: string, startWith: string) => subject.startsWith(startWith)
+
+export const isInEditMode = (user: HandoverPrincipal) => user.accessMode === 'READ_WRITE'
+
+export const practitionerAnalysisStarted = (
+  options: FormWizard.FormOptions,
+  answers: Record<string, string | string[]>,
+) =>
+  Object.values(options.steps)
+    .filter(step => step.section === options.section)
+    .flatMap(step => Object.values(step.fields || {}).map(field => field.code))
+    .filter(
+      (fieldCode, index, self) =>
+        fieldCode.match(new RegExp(`^${options.section}_practitioner_analysis_.*$`, 'gi')) &&
+        self.indexOf(fieldCode) === index,
+    )
+    .some(fieldCode => answers[fieldCode])
