@@ -103,7 +103,7 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     const client = await this.getRestClient()
 
     const requestOptions = versionNumber
-      ? { path: `/assessment/${assessmentId}`, query: querystring.stringify({ assessmentVersion: versionNumber }) }
+      ? { path: `/assessment/${assessmentId}`, query: querystring.stringify({ versionNumber }) }
       : { path: `/assessment/${assessmentId}` }
 
     const responseBody = await client.get(requestOptions)
