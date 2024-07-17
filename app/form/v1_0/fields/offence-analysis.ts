@@ -388,7 +388,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   },
   {
     text: 'Who was this committed against?',
-    code: 'domestic_abuse_victim_type',
+    code: 'domestic_abuse_perpetrator_type',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select an option' }],
     options: [
@@ -401,99 +401,6 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'YES',
       displayInline: true,
     },
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'VICTIM_FAMILY_MEMBER_DOMESTIC_ABUSE_DETAILS',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'FAMILY_MEMBER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'VICTIM_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'VICTIM_FAMILY_AND_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Is there evidence that [subject] has ever been a victim of domestic abuse?',
-    code: 'offence_analysis_victim_of_domestic_abuse',
-    type: FieldType.Radio,
-    validate: [
-      {
-        type: ValidationType.Required,
-        message: 'Select if there is evidence that they have ever been victim of domestic abuse',
-      },
-    ],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Who was this committed by?',
-    code: 'domestic_abuse_perpetrator_type',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select an option' }],
-    options: [
-      { text: 'Family member', value: 'FAMILY_MEMBER', kind: 'option' },
-      { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
-      { text: 'Family member and intimate partner', value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER', kind: 'option' },
-    ],
-    dependent: {
-      field: 'offence_analysis_victim_of_domestic_abuse',
-      value: 'YES',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
   },
   {
     text: 'Give details',
@@ -550,6 +457,99 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     dependent: {
       field: 'domestic_abuse_perpetrator_type',
+      value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
+      displayInline: true,
+    },
+    labelClasses: visuallyHidden,
+  },
+  {
+    text: 'Is there evidence that [subject] has ever been a victim of domestic abuse?',
+    code: 'offence_analysis_victim_of_domestic_abuse',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if there is evidence that they have ever been victim of domestic abuse',
+      },
+    ],
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],
+    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  },
+  {
+    text: 'Who was this committed by?',
+    code: 'domestic_abuse_victim_type',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select an option' }],
+    options: [
+      { text: 'Family member', value: 'FAMILY_MEMBER', kind: 'option' },
+      { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
+      { text: 'Family member and intimate partner', value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER', kind: 'option' },
+    ],
+    dependent: {
+      field: 'offence_analysis_victim_of_domestic_abuse',
+      value: 'YES',
+      displayInline: true,
+    },
+    labelClasses: visuallyHidden,
+  },
+  {
+    text: 'Give details',
+    hint: { text: 'Give details', kind: 'text' },
+    code: 'VICTIM_FAMILY_MEMBER_DOMESTIC_ABUSE_DETAILS',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'domestic_abuse_victim_type',
+      value: 'FAMILY_MEMBER',
+      displayInline: true,
+    },
+    labelClasses: visuallyHidden,
+  },
+  {
+    text: 'Give details',
+    hint: { text: 'Give details', kind: 'text' },
+    code: 'VICTIM_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'domestic_abuse_victim_type',
+      value: 'INTIMATE_PARTNER',
+      displayInline: true,
+    },
+    labelClasses: visuallyHidden,
+  },
+  {
+    text: 'Give details',
+    hint: { text: 'Give details', kind: 'text' },
+    code: 'VICTIM_FAMILY_AND_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [detailsCharacterLimit],
+        message: `Details must be ${detailsCharacterLimit} characters or less`,
+      },
+    ],
+    dependent: {
+      field: 'domestic_abuse_victim_type',
       value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
       displayInline: true,
     },
