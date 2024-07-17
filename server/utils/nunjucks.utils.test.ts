@@ -200,7 +200,7 @@ describe('server/utils/nunjucks.utils', () => {
         steps: {
           '/foo': {
             pageTitle: 'Foo step',
-            section: 'test_section',
+            section: 'test-section',
             fields: {
               test_section_practitioner_analysis_question: {
                 text: 'Foo field 1',
@@ -210,7 +210,7 @@ describe('server/utils/nunjucks.utils', () => {
             },
           },
         } as FormWizard.RenderedSteps,
-        section: 'test_section',
+        section: 'test-section',
       } as FormWizard.FormOptions
 
       const answers: Record<string, string | string[]> = {
@@ -226,7 +226,7 @@ describe('server/utils/nunjucks.utils', () => {
         steps: {
           '/foo': {
             pageTitle: 'Foo step',
-            section: 'test_section',
+            section: 'test-section',
             fields: {
               test_section_practitioner_analysis_question: {
                 text: 'Foo field 1',
@@ -236,7 +236,7 @@ describe('server/utils/nunjucks.utils', () => {
             },
           },
         } as FormWizard.RenderedSteps,
-        section: 'test_section',
+        section: 'test-section',
       } as FormWizard.FormOptions
 
       const answers: Record<string, string | string[]> = {}
@@ -250,7 +250,7 @@ describe('server/utils/nunjucks.utils', () => {
         steps: {
           '/foo': {
             pageTitle: 'Foo step',
-            section: 'test_section',
+            section: 'test-section',
             fields: {
               test_section_practitioner_analysis_question: {
                 text: 'Foo field 1',
@@ -261,7 +261,7 @@ describe('server/utils/nunjucks.utils', () => {
           },
           '/bar': {
             pageTitle: 'Bar step',
-            section: 'other_section',
+            section: 'other-section',
             fields: {
               other_section_practitioner_analysis_question: {
                 text: 'Bar field 1',
@@ -271,7 +271,7 @@ describe('server/utils/nunjucks.utils', () => {
             },
           },
         } as FormWizard.RenderedSteps,
-        section: 'test_section',
+        section: 'test-section',
       } as FormWizard.FormOptions
 
       const answers: Record<string, string | string[]> = {
