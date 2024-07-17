@@ -22,7 +22,7 @@ const buildAssets = buildConfig =>
     outdir: buildConfig.assets.outDir,
     entryNames: '[ext]/app',
     minify: buildConfig.isProduction,
-    sourcemap: !buildConfig.isProduction,
+    sourcemap: buildConfig.sourcemap,
     platform: 'browser',
     target: 'es2018',
     external: ['/assets/*'],

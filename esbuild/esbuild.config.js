@@ -8,6 +8,7 @@ const buildApp = require('./app.config')
 const cwd = process.cwd()
 const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
+  sourcemap: false,
   app: {
     outDir: path.join(cwd, 'dist'),
     entryPoints: path.join(cwd, 'server.ts'),
@@ -39,6 +40,11 @@ function main() {
   }
 
   const args = process.argv
+
+  if (args.includes('--dev-server') && !buildConfig.isProduction) {
+    buildConfig.sourcemap = 'inline'
+  }
+
   if (args.includes('--build')) {
     Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(() => process.exit(1))
   }
