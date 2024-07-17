@@ -71,7 +71,6 @@ export const practitionerAnalysisStarted = (
     .flatMap(step => Object.values(step.fields || {}).map(field => field.code))
     .filter(
       (fieldCode, index, self) =>
-        fieldCode.match(new RegExp(`^${options.section}_practitioner_analysis_.*$`, 'gi')) &&
-        self.indexOf(fieldCode) === index,
+        fieldCode.match(/^.*_practitioner_analysis_.*$/gi) && self.indexOf(fieldCode) === index,
     )
     .some(fieldCode => answers[fieldCode])
