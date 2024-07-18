@@ -132,7 +132,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       { type: ValidationType.Required, message: 'Select if they are over reliant on family or friends for money' },
     ],
-    options: yesNoOptions,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+    ],   
     dependent: {
       field: 'finance_income',
       value: 'FAMILY_OR_FRIENDS',

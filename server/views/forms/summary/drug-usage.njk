@@ -11,6 +11,8 @@
     {% set label = option.text %}
   {% endif %}
 
+  
+
   <div class="drug" id="{{ option.text | lower | urlSafe }}">
     <h2 class="govuk-heading-m">{{ label }}</h2>
     {% switch option.value %}

@@ -29,6 +29,17 @@
   </article>
 {% endmacro %}
 
+{%- macro renderFianceFreindsFamilyDetailsOption(option, fields) -%}
+ {% for option in fields["family_or_friends_details"].options %}
+  {% if option.checked && option.value === "YES" %} // or 
+  {% if answers["family_or_friends_details"] === "YES"%}
+  // set option.answer (or value?) = 'Yes - over reliant on family or friends for money'
+  // render answer 
+  {% else %}
+  // render no answer 
+  {% endif %}
+
+
 {% block analysisPanel %}
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}
