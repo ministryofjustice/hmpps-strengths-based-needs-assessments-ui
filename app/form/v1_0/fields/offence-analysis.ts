@@ -191,7 +191,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details (optional)',
     hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'OTHER_OFFENCE_GAIN_DETAILS',
+    code: 'other_offence_gain_details',
     type: FieldType.TextArea,
     validate: [
       {
@@ -253,7 +253,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details (optional)',
     hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'YES_IMPACT_ON_VICTIMS_DETAILS',
+    code: 'yes_impact_on_victims_details',
     type: FieldType.TextArea,
     validate: [
       {
@@ -272,7 +272,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details (optional)',
     hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'NO_IMPACT_ON_VICTIMS_DETAILS',
+    code: 'no_impact_on_victims_details',
     type: FieldType.TextArea,
     validate: [
       {
@@ -315,7 +315,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'YES_OFFENCE_RISK_DETAILS',
+    code: 'yes_offence_risk_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -336,7 +336,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'NO_OFFENCE_RISK_DETAILS',
+    code: 'no_offence_risk_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -405,7 +405,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'PERPETRATOR_FAMILY_MEMBER_DOMESTIC_ABUSE_DETAILS',
+    code: 'perpetrator_family_member_domestic_abuse_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -425,7 +425,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'PERPETRATOR_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
+    code: 'perpetrator_intimate_partner_domestic_abuse_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -445,7 +445,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'PERPETRATOR_FAMILY_AND_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
+    code: 'perpetrator_family_and_intimate_partner_domestic_abuse_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -498,7 +498,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'VICTIM_FAMILY_MEMBER_DOMESTIC_ABUSE_DETAILS',
+    code: 'victim_family_member_domestic_abuse_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -518,7 +518,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'VICTIM_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
+    code: 'victim_intimate_partner_domestic_abuse_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
@@ -538,7 +538,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Give details',
     hint: { text: 'Give details', kind: 'text' },
-    code: 'VICTIM_FAMILY_AND_INTIMATE_PARTNER_DOMESTIC_ABUSE_DETAILS',
+    code: 'victim_family_and_intimate_partner_domestic_abuse_details',
     type: FieldType.TextArea,
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
