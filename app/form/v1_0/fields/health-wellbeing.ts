@@ -6,7 +6,7 @@ import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnaly
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const headInjuryOrIllnessHint = `
-<div class="govuk-!-width-two-thirds">
+<div class="govuk-grid-width-full">
   <p class="govuk-hint">This includes:</p>
   <ul class="govuk-hint govuk-list govuk-list--bullet">
     <li>traumatic brain injury</li>
