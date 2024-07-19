@@ -163,15 +163,15 @@ export class FieldDependencyTreeBuilder {
   /*
     Gets the raw value answer(s) for a given field code
    */
-  getAnswers(field: string): string[] {
+  getAnswers(field: string): string[] | null {
     const answers = this.answers[field]
     switch (typeof answers) {
       case 'string':
-        return answers === '' ? undefined : [answers]
+        return answers === '' ? null : [answers]
       case 'object':
-        return answers.length === 0 ? undefined : answers
+        return answers.length === 0 ? null : answers
       default:
-        return undefined
+        return null
     }
   }
 

@@ -60,24 +60,24 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       expect(sut.getAnswers('test')).toEqual(['val'])
     })
 
-    it('should return undefined when the field does not exist', () => {
+    it('should return null when the field does not exist', () => {
       const sut = builderWithAnswer('test', 'val')
-      expect(sut.getAnswers('foo')).toBeUndefined()
+      expect(sut.getAnswers('foo')).toBeNull()
     })
 
-    it('should return undefined when the value is undefined', () => {
+    it('should return null when the value is undefined', () => {
       const sut = builderWithAnswer('test', undefined)
-      expect(sut.getAnswers('foo')).toBeUndefined()
+      expect(sut.getAnswers('foo')).toBeNull()
     })
 
-    it('should return undefined when value is an empty array', () => {
+    it('should return null when value is an empty array', () => {
       const sut = builderWithAnswer('test', [])
-      expect(sut.getAnswers('test')).toBeUndefined()
+      expect(sut.getAnswers('test')).toBeNull()
     })
 
-    it('should return undefined when value is an empty string', () => {
+    it('should return null when value is an empty string', () => {
       const sut = builderWithAnswer('test', '')
-      expect(sut.getAnswers('test')).toBeUndefined()
+      expect(sut.getAnswers('test')).toBeNull()
     })
   })
 
