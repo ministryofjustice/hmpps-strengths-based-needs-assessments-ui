@@ -47,7 +47,7 @@ export const createAnswerDTOs =
   }
 
 export const buildRequestBody = (options: FormWizard.FormOptions, answers: FormWizard.Answers): UpdateAnswersDto => {
-  const relevantFields = new FieldDependencyTreeBuilder(options, answers).buildAndFlatten()
+  const relevantFields = new FieldDependencyTreeBuilder(options, answers, {}).buildAndFlatten().fields
 
   const sectionFields = Object.values(options.steps)
     .filter(step => step.section === options.section)

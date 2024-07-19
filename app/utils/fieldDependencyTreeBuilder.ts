@@ -1,6 +1,10 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
-import { formatDateForDisplay } from '../../server/utils/nunjucks.utils'
+import {
+  formatDateForDisplay,
+  isNonRenderedField,
+  isPractitionerAnalysisField
+} from '../../server/utils/nunjucks.utils'
 import { whereSelectable } from './field.utils'
 
 export interface Field {
@@ -15,24 +19,29 @@ export interface FieldAnswer {
   nestedFields: Field[]
 }
 
-type StepFieldsFilterFn = (field: FormWizard.Field) => boolean
+interface IncludeFields {
+  isDisplayable?: boolean,
+  hasAnswer?: boolean,
+  isRendered?: boolean,
+  isPractitionerAnalysis?: boolean,
+}
+
+interface Result {
+  fields: Field[]
+  resumeUrl: string
+}
+
 const hasProperty = (a: object, b: string) => Object.prototype.hasOwnProperty.call(a, b)
 
 export class FieldDependencyTreeBuilder {
   private readonly options: FormWizard.FormOptions
-
   private readonly answers: FormWizard.Answers
+  private readonly includeFields: IncludeFields
 
-  private stepFieldsFilterFn: StepFieldsFilterFn = () => true
-
-  constructor(options: FormWizard.FormOptions, answers: FormWizard.Answers) {
+  constructor(options: FormWizard.FormOptions, answers: FormWizard.Answers, includeFields: IncludeFields) {
     this.options = options
     this.answers = answers
-  }
-
-  setStepFieldsFilterFn(filterFn: StepFieldsFilterFn) {
-    this.stepFieldsFilterFn = filterFn
-    return this
+    this.includeFields = includeFields
   }
 
   /*
@@ -175,6 +184,15 @@ export class FieldDependencyTreeBuilder {
     }
   }
 
+  hasAnswer(field: FormWizard.Field): boolean {
+    const answer = this.getAnswers(field.code)
+    return Array.isArray(answer) && answer.length > 0 && answer.every(v => v !== '')
+  }
+
+  isDisplayable(field: FormWizard.Field): boolean {
+    return field && (this.getAnswers(field.code) !== undefined || field.summary?.displayAlways)
+  }
+
   protected getInitialStep() {
     return (
       Object.entries(this.options.steps).find(
@@ -183,25 +201,56 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  build(): Field[] {
+  build(): Result {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
-    return this.getSteps(initialStep, initialStepPath).reduce(
-      (fields: Field[], [stepPath, step]) =>
-        Object.keys(step.fields)
+    let resumeUrl: string = null
+
+    const fields = this.getSteps(initialStep, initialStepPath).reduce(
+      (fields: Field[], [stepPath, step]) => {
+        const stepFields = Object.keys(step.fields)
           .map(fieldId => this.options.allFields[fieldId])
-          .filter(this.stepFieldsFilterFn)
-          .reduce(this.toStepFields(stepPath), fields),
+          .filter((field: FormWizard.Field) =>
+            Object.entries(this.includeFields).every(([filter, include]) => {
+              switch (filter) {
+                case 'isDisplayable':
+                  return include ? this.isDisplayable(field) : !this.isDisplayable(field)
+                case 'hasAnswer':
+                  return include ? this.hasAnswer(field) : !this.hasAnswer(field)
+                case 'isRendered':
+                  return include ? !isNonRenderedField(field.id) : isNonRenderedField(field.id)
+                case 'isPractitionerAnalysis':
+                  return include ? isPractitionerAnalysisField(field.id) : !isPractitionerAnalysisField(field.id)
+                default:
+                  throw new Error(`unknown filter ${filter}`)
+              }
+            })
+          )
+
+        if (resumeUrl !== stepPath && stepFields.some((field: FormWizard.Field) => this.hasAnswer(field))) resumeUrl = stepPath
+
+        return stepFields.reduce(this.toStepFields(stepPath), fields)
+      },
       [],
     )
+
+    return {
+      fields: fields,
+      resumeUrl: resumeUrl,
+    }
   }
 
-  buildAndFlatten(): Field[] {
+  buildAndFlatten(): Result {
     const reducer = (acc: Field[], field: Field): Field[] => [
       ...acc,
       field,
       ...field.answers.flatMap(answer => answer.nestedFields.reduce(reducer, [])),
     ]
-    return this.build().reduce(reducer, [])
+    const result = this.build()
+
+    return {
+      ...result,
+      fields: result.fields.reduce(reducer, [])
+    }
   }
 }

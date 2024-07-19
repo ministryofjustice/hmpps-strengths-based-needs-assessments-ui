@@ -14,6 +14,7 @@ import {
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
+import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder';
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
@@ -154,7 +155,8 @@ class SaveAndContinueController extends BaseController {
     const [lastStepOfSection] = Object.entries(req.form.options.steps)
       .reverse()
       .find(([_path, step]) => step.section === sectionName)
-    const lastPageVisited = resumeState[sectionName] || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
+    const calculatedResumeUrl = new FieldDependencyTreeBuilder(req.form.options, req.form.persistedAnswers, { isRendered: true }).build().resumeUrl
+    const lastPageVisited = resumeState[sectionName] || calculatedResumeUrl || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
 
     if (lastPageVisited && isResuming) {
       req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null, lastSection: sectionName })
