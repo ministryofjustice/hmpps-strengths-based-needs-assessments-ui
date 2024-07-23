@@ -158,25 +158,6 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getResumeUrl(req: FormWizard.Request, sectionProgress: Progress): ResumeUrl {
-    const isResuming = req.query.action === 'resume'
-    const sectionName = req.form.options.section
-    const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    const [lastStepOfSection] = Object.entries(req.form.options.steps)
-      .reverse()
-      .find(([_path, step]) => step.section === sectionName)
-    const lastPageVisited = resumeState[sectionName] || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
-
-    if (lastPageVisited && isResuming) {
-      req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null, lastSection: sectionName })
-      return lastPageVisited.replace(/^\//, '')
-    }
-
-    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: req.url.slice(1), lastSection: sectionName })
-
-    return null
-  }
-
   updateAssessmentProgress(req: FormWizard.Request, res: Response) {
     type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
     type AnswerValues = Record<string, string>
@@ -204,12 +185,6 @@ class SaveAndContinueController extends BaseController {
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.updateAssessmentProgress(req, res)
-      if (!isReadOnly((req.session.sessionData as SessionData)?.user)) {
-        const resumeUrl = this.getResumeUrl(req, res.locals.sectionProgress)
-        if (resumeUrl) {
-          return res.redirect(resumeUrl)
-        }
-      }
 
       return super.getValues(req, res, next)
     } catch (error) {
@@ -231,12 +206,6 @@ class SaveAndContinueController extends BaseController {
     req.form.values.assessment_complete = sectionProgressRules.every(rule => req.form.values[rule.fieldCode] === 'YES')
       ? 'YES'
       : 'NO'
-  }
-
-  resetResumeUrl(req: FormWizard.Request) {
-    const sectionName = req.form.options.section
-    const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
   }
 
   async persistAnswers(req: FormWizard.Request, res: Response) {
@@ -262,8 +231,6 @@ class SaveAndContinueController extends BaseController {
       await this.persistAnswers(req, res)
       answersPersisted = true
 
-      this.resetResumeUrl(req)
-
       if (req.query.jsonResponse === 'true') {
         return res.json({ answersPersisted })
       }
@@ -282,8 +249,6 @@ class SaveAndContinueController extends BaseController {
     let answersPersisted = false
 
     try {
-      this.resetResumeUrl(req)
-
       if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
         this.setSectionProgress(req, false)
         await this.persistAnswers(req, res)
