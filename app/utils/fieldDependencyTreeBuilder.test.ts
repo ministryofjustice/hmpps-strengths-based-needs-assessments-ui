@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
+import { FieldType, ValidationType } from '../../server/@types/hmpo-form-wizard/enums'
 import { Field, FieldAnswer, FieldDependencyTreeBuilder } from './fieldDependencyTreeBuilder'
 
 class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
@@ -568,6 +568,75 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       expect(filterFn.mock.calls[0][0]).toEqual(fields.q1)
       expect(filterFn.mock.calls[1][0]).toEqual(fields.q2)
       expect(filterFn.mock.calls[2][0]).toEqual(fields.q3)
+    })
+  })
+
+  describe('getNextPageToComplete', () => {
+    it('returns the next page to complete', () => {
+      const fields: FormWizard.Fields = {
+        q1: {
+          id: 'q1',
+          text: 'Q1',
+          code: 'q1',
+          type: FieldType.Text,
+          validate: [{ type: ValidationType.Required, message: 'Answer Q1' }],
+        },
+        q2: {
+          id: 'q2',
+          text: 'Q2',
+          code: 'q2',
+          type: FieldType.Text,
+          dependent: { field: 'q1', value: 'foo' },
+          validate: [{ type: ValidationType.Required, message: 'Answer Q2' }],
+        },
+        q3: {
+          id: 'q3',
+          text: 'Q3',
+          code: 'q3',
+          type: FieldType.Text,
+          validate: [{ type: ValidationType.Required, message: 'Answer Q3' }],
+        },
+      }
+
+      const options: FormWizard.FormOptions = {
+        section: 'test',
+        steps: {
+          '/step-1': {
+            pageTitle: 'Step 1',
+            section: 'test',
+            navigationOrder: 1,
+            fields: {
+              q1: fields.q1,
+              q2: fields.q2,
+            },
+            next: [{ field: 'q2', value: 'baz', next: 'step-3' }, 'step-2'],
+          },
+          '/step-2': {
+            pageTitle: 'Step 2',
+            section: 'test',
+            fields: {
+              q3: fields.q3,
+            },
+            next: ['step-3'],
+          },
+          '/step-3': {
+            pageTitle: 'Step 3',
+            section: 'test',
+            fields: {},
+            next: [],
+          },
+        },
+        allFields: fields,
+      } as unknown as FormWizard.FormOptions
+
+      const answers: FormWizard.Answers = {
+        q1: 'foo',
+        q2: 'bar',
+      }
+
+      const result = new TestableFieldDependencyTreeBuilder(options, answers).getNextPageToComplete()
+
+      expect(result).toEqual('step-2')
     })
   })
 })
