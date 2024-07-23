@@ -3,15 +3,7 @@ import { requiredWhenContains } from './drugs'
 describe('fields/drugs', () => {
   describe('requiredWhenContains', () => {
     const contextWithAnswers = (answers: Record<string, unknown>) => ({
-      sessionModel: {
-        options: {
-          req: {
-            form: {
-              persistedAnswers: answers,
-            },
-          },
-        },
-      },
+      values: answers,
     })
 
     it('is valid when a value is present and the condition is met', () => {

@@ -14,6 +14,7 @@ import {
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
+import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 
 type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
@@ -51,6 +52,16 @@ class SaveAndContinueController extends BaseController {
 
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
+
+      if (req.query.action === 'resume') {
+        const currentPageToComplete = new FieldDependencyTreeBuilder(
+          req.form.options,
+          req.form.persistedAnswers,
+        ).getNextPageToComplete()
+        if (req.url !== `/${currentPageToComplete}`) {
+          return res.redirect(currentPageToComplete)
+        }
+      }
 
       return await super.configure(req, res, next)
     } catch (error) {
