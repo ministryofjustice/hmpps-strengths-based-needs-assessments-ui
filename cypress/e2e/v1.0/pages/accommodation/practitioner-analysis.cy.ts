@@ -13,6 +13,7 @@ before(() => {
     .getRadio('Homeowner')
     .clickLabel()
   cy.saveAndContinue()
+  cy.assertResumeUrlIs('Accommodation', summaryPage)
 
   cy.captureAssessment()
 })

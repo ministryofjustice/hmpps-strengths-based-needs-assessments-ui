@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { Response } from 'express'
-import Controller, { Progress } from './saveAndContinueController'
+import Controller from './saveAndContinueController'
 
 describe('SaveAndContinueController', () => {
   const controller = new Controller({ route: '/' })

@@ -16,7 +16,6 @@ import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 
-type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
 
 class SaveAndContinueController extends BaseController {
@@ -53,11 +52,11 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      if (req.query.action === 'resume') {
+      if (req.method === 'GET' && req.query.action === 'resume') {
         const currentPageToComplete = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getNextPageToComplete()
+        ).getNextPageToComplete().url
         if (req.url !== `/${currentPageToComplete}`) {
           return res.redirect(currentPageToComplete)
         }
@@ -225,9 +224,13 @@ class SaveAndContinueController extends BaseController {
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     let answersPersisted = false
+    const isValidated = new FieldDependencyTreeBuilder(
+      req.form.options,
+      req.form.persistedAnswers,
+    ).getNextPageToComplete().sectionHasErrors
 
     try {
-      this.setSectionProgress(req, true)
+      this.setSectionProgress(req, isValidated)
       await this.persistAnswers(req, res)
       answersPersisted = true
 

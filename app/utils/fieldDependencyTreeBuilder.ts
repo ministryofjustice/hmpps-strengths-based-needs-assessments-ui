@@ -184,7 +184,7 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getNextPageToComplete(): string {
+  getNextPageToComplete(): { url: string; sectionHasErrors: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
@@ -199,17 +199,30 @@ export class FieldDependencyTreeBuilder {
       return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
     }
 
+    let sectionHasErrors = false
+
     for (const [stepUrl, step] of this.getSteps(initialStep, initialStepPath)) {
       nextStep = stepUrl
       const errors = Object.values(step.fields)
         .filter(dependencyMet)
         .filter(field => validate(step.fields, field.code, this.answers[field.code], { values: this.answers }))
       if (errors.length > 0) {
+        sectionHasErrors = true
         break
       }
     }
 
-    return nextStep
+    if (!sectionHasErrors && this.answers[`${this.options.section}_section_complete`] === 'NO') {
+      return {
+        url: `${this.options.section.replace('_', '-')}-analysis`,
+        sectionHasErrors,
+      }
+    }
+
+    return {
+      url: nextStep,
+      sectionHasErrors,
+    }
   }
 
   build(): Field[] {

@@ -46,7 +46,6 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.settled)
-        cy.assertResumeUrlIs(sectionName, destinations.settled)
       })
     })
 
@@ -64,7 +63,6 @@ describe('Origin: /accommodation', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -89,7 +87,6 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.temporary)
-        cy.assertResumeUrlIs(sectionName, destinations.temporary)
       })
     })
 
@@ -109,7 +106,6 @@ describe('Origin: /accommodation', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -138,7 +134,6 @@ describe('Origin: /accommodation', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.temporary2)
-        cy.assertResumeUrlIs(sectionName, destinations.temporary2)
       })
     })
 
@@ -154,7 +149,6 @@ describe('Origin: /accommodation', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -182,7 +176,6 @@ describe('Origin: /accommodation', () => {
           cy.saveAndContinue()
 
           cy.assertStepUrlIs(destinations.noAccommodation)
-          cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
         })
       },
     )
@@ -199,7 +192,6 @@ describe('Origin: /accommodation', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
