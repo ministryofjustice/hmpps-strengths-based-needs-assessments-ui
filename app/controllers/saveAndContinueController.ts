@@ -191,30 +191,32 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  setSectionProgress(req: FormWizard.Request, isValidated: boolean) {
-    const sectionProgressRules = req.form.options.sectionProgressRules || []
-
-    req.form.values = sectionProgressRules.reduce(
-      (answers, { fieldCode, conditionFn }) => ({
-        ...answers,
-        [fieldCode]: conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
-      }),
-      req.form.values || {},
-    )
-
-    req.form.values.assessment_complete = sectionProgressRules.every(rule => req.form.values[rule.fieldCode] === 'YES')
-      ? 'YES'
-      : 'NO'
-  }
-
   async persistAnswers(req: FormWizard.Request, res: Response) {
     const { assessmentId } = req.session.sessionData as SessionData
 
-    const answers = { ...req.form.persistedAnswers, ...req.form.values }
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answers)
+    const { sectionHasErrors } = new FieldDependencyTreeBuilder(req.form.options, {
+      ...req.form.persistedAnswers,
+      ...req.form.values,
+    }).getNextPageToComplete()
+
+    const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
+      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
+        fieldCode,
+        conditionFn(!sectionHasErrors, req.form.values) ? 'YES' : 'NO',
+      ]),
+    )
+
+    const allAnswers: FormWizard.Answers = {
+      ...req.form.persistedAnswers,
+      ...(req.form.values || {}),
+      ...sectionProgressFields,
+      assessment_complete: Object.values(sectionProgressFields).every(answer => answer === 'YES') ? 'YES' : 'NO',
+    }
+
+    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers)
 
     req.form.values = {
-      ...answers,
+      ...allAnswers,
       ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
     }
     res.locals.values = req.form.values
@@ -224,13 +226,8 @@ class SaveAndContinueController extends BaseController {
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     let answersPersisted = false
-    const isValidated = new FieldDependencyTreeBuilder(
-      req.form.options,
-      req.form.persistedAnswers,
-    ).getNextPageToComplete().sectionHasErrors
 
     try {
-      this.setSectionProgress(req, isValidated)
       await this.persistAnswers(req, res)
       answersPersisted = true
 
@@ -253,7 +250,6 @@ class SaveAndContinueController extends BaseController {
 
     try {
       if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
-        this.setSectionProgress(req, false)
         await this.persistAnswers(req, res)
         answersPersisted = true
         this.setErrors(err, req, res)
