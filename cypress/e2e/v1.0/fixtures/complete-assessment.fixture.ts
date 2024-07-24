@@ -231,7 +231,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.getQuestion('Does Sam support or excuse criminal behaviour?')
       .getRadio('Sometimes supports or excuses criminal behaviour')
       .clickLabel()
-    cy.getQuestion('Does Sam want to make changes to their thinking behaviours and attitudes?')
+    cy.getQuestion('Does Sam want to make changes to their thinking, behaviours and attitudes?')
       .getRadio('Not applicable')
       .clickLabel()
     cy.saveAndContinue()

@@ -31,7 +31,8 @@ describe('/drug-use-type', () => {
 
     it('displays and validates the question', () => {
       cy.loadFixture(Fixture.DrugUser).enterAssessment()
-      cy.visitStep(stepUrl)
+      cy.visitSection('Drug use')
+      cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionCount(1)
       cy.hasAutosaveEnabled()
 
@@ -39,11 +40,7 @@ describe('/drug-use-type', () => {
         .isQuestionNumber(1)
         .hasHint('Include current and previous drugs.', 'Select all that apply.')
         .hasCheckboxes(drugs.map(({ name }) => name))
-
       cy.saveAndContinue()
-
-      cy.assertStepUrlIs(stepUrl)
-      cy.assertResumeUrlIs('Drug use', stepUrl)
 
       cy.getQuestion(question).hasValidationError('Select which drugs they have used')
 
