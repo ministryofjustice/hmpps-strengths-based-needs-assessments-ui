@@ -10,6 +10,8 @@ describe('/drug-use-type', () => {
     cy.visitSection('Drug use')
     cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
     cy.saveAndContinue()
+    cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Drug use', stepUrl)
     cy.captureAssessment()
   })
 

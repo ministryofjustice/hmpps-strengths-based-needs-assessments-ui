@@ -23,6 +23,7 @@ describe('/alcohol-usage-but-not-last-three-months', () => {
     cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, but not in the last 3 months').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Alcohol use', stepUrl)
     cy.captureAssessment()
   })
 

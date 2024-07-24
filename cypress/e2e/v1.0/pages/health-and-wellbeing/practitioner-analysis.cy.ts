@@ -10,6 +10,9 @@ before(() => {
   cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?').getRadio('No').clickLabel()
   cy.saveAndContinue()
 
+  cy.assertStepUrlIs(summaryPage)
+  cy.assertResumeUrlIs('Health and wellbeing', summaryPage)
+
   cy.captureAssessment()
 })
 

@@ -31,6 +31,7 @@ describe('/personal-relationships-community', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Personal relationships and community', stepUrl)
     cy.captureAssessment()
   })
 

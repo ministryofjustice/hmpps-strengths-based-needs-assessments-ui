@@ -27,7 +27,6 @@ describe(`Origin: /personal-relationships`, () => {
         .clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.parentalResponsibilities)
-      cy.assertResumeUrlIs(sectionName, destinations.parentalResponsibilities)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -49,7 +48,6 @@ describe(`Origin: /personal-relationships`, () => {
           .clickLabel()
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -66,7 +64,6 @@ describe(`Origin: /personal-relationships`, () => {
       cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.noParentalResponsibilities)
-      cy.assertResumeUrlIs(sectionName, destinations.noParentalResponsibilities)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -87,7 +84,6 @@ describe(`Origin: /personal-relationships`, () => {
           .clickLabel()
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

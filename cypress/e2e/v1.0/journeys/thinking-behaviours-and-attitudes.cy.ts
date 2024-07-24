@@ -48,7 +48,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
       cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('Yes').clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.sexualOffending)
-      cy.assertResumeUrlIs(sectionName, destinations.sexualOffending)
     })
 
     describe(`Destination: ${destinations.thinkingBehaviours}`, () => {
@@ -61,7 +60,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
           .clickLabel()
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.thinkingBehaviours)
-        cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
       })
 
       describe(`Destination: ${destinations.analysis}`, () => {
@@ -95,7 +93,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
             .clickLabel()
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.analysis)
-          cy.assertResumeUrlIs(sectionName, destinations.analysis)
         })
 
         testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -131,7 +128,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
         cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('No').clickLabel()
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.thinkingBehaviours)
-        cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
       })
 
       describe(`Destination: ${destinations.analysis}`, () => {
@@ -165,7 +161,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
             .clickLabel()
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.analysis)
-          cy.assertResumeUrlIs(sectionName, destinations.analysis)
         })
 
         testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

@@ -8,6 +8,8 @@ before(() => {
   cy.visitSection('Finance')
   cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('No money').clickLabel()
   cy.saveAndContinue()
+  cy.assertStepUrlIs(summaryPage)
+  cy.assertResumeUrlIs('Finance', summaryPage)
 
   cy.captureAssessment()
 })

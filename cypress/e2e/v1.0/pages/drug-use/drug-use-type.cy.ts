@@ -43,6 +43,8 @@ describe('/drug-use-type', () => {
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
+      cy.assertResumeUrlIs('Drug use', stepUrl)
+
       cy.getQuestion(question).hasValidationError('Select which drugs they have used')
 
       cy.checkAccessibility()
@@ -72,6 +74,7 @@ describe('/drug-use-type', () => {
           }
           cy.saveAndContinue()
           cy.assertStepUrlIs(detailsStep)
+          cy.assertResumeUrlIs('Drug use', detailsStep)
 
           cy.visitStep(summaryPage)
           cy.getDrugSummary(drugName(drug))

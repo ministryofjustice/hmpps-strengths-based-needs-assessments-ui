@@ -9,6 +9,9 @@ before(() => {
   cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
   cy.saveAndContinue()
 
+  cy.assertStepUrlIs(summaryPage)
+  cy.assertResumeUrlIs('Personal relationships and community', summaryPage)
+
   cy.captureAssessment()
 })
 

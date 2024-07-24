@@ -25,7 +25,6 @@ describe('Origin: /alcohol-use', () => {
       cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('No').clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.analysis)
-      cy.assertResumeUrlIs(sectionName, destinations.analysis)
     })
 
     testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -37,7 +36,6 @@ describe('Origin: /alcohol-use', () => {
       cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, including the last 3 months').clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.alcoholUsageLastThreeMonths)
-      cy.assertResumeUrlIs(sectionName, destinations.alcoholUsageLastThreeMonths)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -66,7 +64,6 @@ describe('Origin: /alcohol-use', () => {
           .clickLabel()
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
     })
@@ -78,7 +75,6 @@ describe('Origin: /alcohol-use', () => {
       cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, but not in the last 3 months').clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.alcoholUsageNotLastThreeMonths)
-      cy.assertResumeUrlIs(sectionName, destinations.alcoholUsageNotLastThreeMonths)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -98,7 +94,6 @@ describe('Origin: /alcohol-use', () => {
           .clickLabel()
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
