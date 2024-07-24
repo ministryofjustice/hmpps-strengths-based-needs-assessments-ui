@@ -636,7 +636,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
 
       const result = new TestableFieldDependencyTreeBuilder(options, answers).getNextPageToComplete()
 
-      expect(result).toEqual('step-2')
+      expect(result).toEqual({ url:'step-2', sectionHasErrors: true })
     })
   })
 })
