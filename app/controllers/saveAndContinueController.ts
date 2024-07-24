@@ -71,6 +71,11 @@ class SaveAndContinueController extends BaseController {
   async get(req: FormWizard.Request, res: Response, next: NextFunction) {
     Object.keys(req.form.persistedAnswers).forEach(k => req.sessionModel.set(k, req.form.persistedAnswers[k]))
 
+    if (!Object.keys(req.sessionModel.get('errors') || {}).some(field => req.form.options.fields[field])) {
+      req.sessionModel.set('errors', null)
+      req.sessionModel.set('errorValues', null)
+    }
+
     return super.get(req, res, next)
   }
 

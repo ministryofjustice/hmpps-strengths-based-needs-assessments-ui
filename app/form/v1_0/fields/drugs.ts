@@ -20,16 +20,6 @@ const usageFrequencies = [
   { text: 'Occasionally', value: 'OCCASIONALLY' },
 ]
 
-export function requiredWhenContains(field: string, requiredValue: string) {
-  return function validateRequiredWhenContains(value: string) {
-    const values = this.values[field]
-
-    return (
-      Array.isArray(values) && (!values.includes(requiredValue) || (values.includes(requiredValue) && value !== ''))
-    )
-  }
-}
-
 const frequencyOptions: FormWizard.Field.Options = [
   ...usageFrequencies.map(({ text, value }): FormWizard.Field.Option => ({ text, value, kind: 'option' })),
   orDivider,
@@ -42,7 +32,7 @@ const createFieldForDrugUsage = (option: string): FormWizard.Field => ({
   type: FieldType.Radio,
   validate: [
     {
-      fn: requiredWhenContains('drug_use_type', option),
+      type: ValidationType.Required,
       message: 'Select how often they are using this drug',
     },
   ],
@@ -58,7 +48,7 @@ const createFieldForInjectingDrug = (option: string, frequency: string): FormWiz
   type: FieldType.Radio,
   validate: [
     {
-      fn: requiredWhenContains('drug_use_type', option),
+      type: ValidationType.Required,
       message: 'Select if they are injecting this drug',
     },
   ],
@@ -78,7 +68,7 @@ const createFieldForPastDrugUsage = (option: string): FormWizard.Field => ({
   type: FieldType.Radio,
   validate: [
     {
-      fn: requiredWhenContains('drug_use_type', option),
+      type: ValidationType.Required,
       message: 'Select if they have used this drug in the past',
     },
   ],
@@ -93,7 +83,7 @@ const createFieldForPastInjectingDrug = (option: string): FormWizard.Field => ({
   type: FieldType.Radio,
   validate: [
     {
-      fn: requiredWhenContains('drug_use_type', option),
+      type: ValidationType.Required,
       message: 'Select if they were injecting this drug',
     },
   ],
@@ -114,7 +104,7 @@ const createFieldForReceivingTreatment = (option: string, frequency: string): Fo
   type: FieldType.Radio,
   validate: [
     {
-      fn: requiredWhenContains('drug_use_type', option),
+      type: ValidationType.Required,
       message: 'Select if they are receiving treatment',
     },
   ],
@@ -134,7 +124,7 @@ const createFieldForPastReceivingTreatment = (option: string): FormWizard.Field 
   type: FieldType.Radio,
   validate: [
     {
-      fn: requiredWhenContains('drug_use_type', option),
+      type: ValidationType.Required,
       message: 'Select if they were receiving treatment',
     },
   ],
