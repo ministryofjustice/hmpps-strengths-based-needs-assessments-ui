@@ -27,7 +27,6 @@ describe('Origin: /drug-use', () => {
       cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.analysis)
-      cy.assertResumeUrlIs(sectionName, destinations.analysis)
     })
 
     testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -39,7 +38,6 @@ describe('Origin: /drug-use', () => {
       cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.drugUseDetails)
-      cy.assertResumeUrlIs(sectionName, destinations.drugUseDetails)
     })
 
     describe(`Destination: ${destinations.drugTypes}`, () => {
@@ -60,7 +58,6 @@ describe('Origin: /drug-use', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.drugTypes)
-        cy.assertResumeUrlIs(sectionName, destinations.drugTypes)
       })
 
       describe(`Destination: ${destinations.drugTypesDetails}`, () => {
@@ -71,7 +68,6 @@ describe('Origin: /drug-use', () => {
 
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugTypesDetails)
-          cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
         })
 
         describe(`Destination: ${destinations.changes}`, () => {
@@ -84,7 +80,6 @@ describe('Origin: /drug-use', () => {
 
             cy.saveAndContinue()
             cy.assertStepUrlIs(destinations.changes)
-            cy.assertResumeUrlIs(sectionName, destinations.changes)
           })
 
           describe(`Destination: ${destinations.analysis}`, () => {
@@ -97,7 +92,6 @@ describe('Origin: /drug-use', () => {
 
               cy.saveAndContinue()
               cy.assertStepUrlIs(destinations.analysis)
-              cy.assertResumeUrlIs(sectionName, destinations.analysis)
             })
 
             testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

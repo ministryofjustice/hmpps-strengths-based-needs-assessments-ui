@@ -1,11 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
-import {
-  analysisSectionComplete,
-  baseFinanceFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-} from '../fields/finance'
+import { baseFinanceFields, practitionerAnalysisFields, sectionCompleteFields } from '../fields/finance'
 
 const defaultTitle = 'Finance'
 const sectionName = 'finance'
@@ -18,17 +13,20 @@ const stepOptions: FormWizard.Steps = {
     next: 'finance-analysis',
     section: sectionName,
     sectionProgressRules: [
-      setFieldToCompleteWhenValid('finance_section_complete'),
-      setFieldToIncomplete('finance_analysis_section_complete'),
+      setFieldToIncomplete('finance_section_complete'),
+      setFieldToCompleteWhenValid('finance_analysis_section_complete'),
     ],
   },
   '/finance-analysis': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
+    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
     next: 'finance-analysis-complete#practitioner-analysis',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('finance_analysis_section_complete')],
+    sectionProgressRules: [
+      setFieldToCompleteWhenValid('finance_section_complete'),
+      setFieldToCompleteWhenValid('finance_analysis_section_complete'),
+    ],
   },
   '/finance-analysis-complete': {
     pageTitle: defaultTitle,

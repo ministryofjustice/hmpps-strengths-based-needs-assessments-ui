@@ -39,8 +39,7 @@ export function validatePastDate(value: string) {
 
 export function requiredWhenValidator(field: string, requiredValue: string) {
   return function validatedRequiredWhen(value: string = '') {
-    const answers: Record<string, string | string[]> = this.sessionModel?.options?.req?.form?.values || {}
-    const dependentFieldAnswer = answers[field]
+    const dependentFieldAnswer = this.values[field]
 
     const answeredWithRequiredValue = Array.isArray(dependentFieldAnswer)
       ? dependentFieldAnswer.includes(requiredValue)

@@ -14,11 +14,6 @@ describe('Auto save', () => {
     cy.hasAutosaveEnabled()
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
-    cy.getQuestion('What type of accommodation does Sam currently have?')
-      .getRadio('Settled')
-      .getConditionalQuestion()
-      .getRadio('Homeowner')
-      .clickLabel()
 
     cy.visitSection('Employment and education')
     cy.assertStepUrlIs('/employment-education')
@@ -27,11 +22,6 @@ describe('Auto save', () => {
     cy.assertStepUrlIs('/accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').isChecked()
-    cy.getQuestion('What type of accommodation does Sam currently have?')
-      .getRadio('Settled')
-      .getConditionalQuestion()
-      .getRadio('Homeowner')
-      .isChecked()
   })
 
   it('automatically saves form data after a period of inactivity', () => {
@@ -43,11 +33,6 @@ describe('Auto save', () => {
     cy.intercept('POST', '/form/1/0/accommodation?jsonResponse=true').as('post')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
-    cy.getQuestion('What type of accommodation does Sam currently have?')
-      .getRadio('Settled')
-      .getConditionalQuestion()
-      .getRadio('Homeowner')
-      .clickLabel()
 
     cy.wait('@post', { timeout: 6000 })
       .its('response')
@@ -61,22 +46,11 @@ describe('Auto save', () => {
     cy.hasAutosaveEnabled()
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
-    cy.getQuestion('What type of accommodation does Sam currently have?')
-      .getRadio('Settled')
-      .getConditionalQuestion()
-      .getRadio('Homeowner')
-      .clickLabel()
-
     cy.reload()
 
     cy.visitSection('Accommodation')
     cy.assertStepUrlIs('/accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').isChecked()
-    cy.getQuestion('What type of accommodation does Sam currently have?')
-      .getRadio('Settled')
-      .getConditionalQuestion()
-      .getRadio('Homeowner')
-      .isChecked()
   })
 })

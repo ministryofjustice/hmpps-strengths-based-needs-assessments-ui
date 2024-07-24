@@ -40,7 +40,6 @@ describe('Origin: /health-wellbeing', () => {
           cy.saveAndContinue()
 
           cy.assertStepUrlIs(destinations.physicalAndMentalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.physicalAndMentalHealthCondition)
         })
       })
     })
@@ -75,7 +74,6 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -97,7 +95,6 @@ describe('Origin: /health-wellbeing', () => {
           cy.saveAndContinue()
 
           cy.assertStepUrlIs(destinations.physicalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.physicalHealthCondition)
         })
       })
     })
@@ -130,7 +127,6 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -156,7 +152,6 @@ describe('Origin: /health-wellbeing', () => {
           cy.saveAndContinue()
 
           cy.assertStepUrlIs(destinations.mentalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.mentalHealthCondition)
         })
       })
     })
@@ -191,7 +186,6 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -213,7 +207,6 @@ describe('Origin: /health-wellbeing', () => {
           cy.saveAndContinue()
 
           cy.assertStepUrlIs(destinations.noPhysicalAndMentalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.noPhysicalAndMentalHealthCondition)
         })
       })
     })
@@ -246,7 +239,6 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

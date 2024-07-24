@@ -8,6 +8,8 @@ before(() => {
   cy.visitSection('Drug use')
   cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
   cy.saveAndContinue()
+  cy.assertStepUrlIs(summaryPage)
+  cy.assertResumeUrlIs('Drug use', summaryPage)
 
   cy.captureAssessment()
 })

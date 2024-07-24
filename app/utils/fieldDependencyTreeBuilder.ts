@@ -1,4 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
+import { validate } from 'hmpo-form-wizard/lib/validation'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { formatDateForDisplay } from '../../server/utils/nunjucks.utils'
 import { whereSelectable } from './field.utils'
@@ -181,6 +182,47 @@ export class FieldDependencyTreeBuilder {
         ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
       ) || []
     )
+  }
+
+  getNextPageToComplete(): { url: string; sectionHasErrors: boolean } {
+    const [initialStepPath, initialStep] = this.getInitialStep()
+
+    let nextStep = initialStepPath
+
+    const dependencyMet = (field: FormWizard.Field) => {
+      if (!field.dependent) {
+        return true
+      }
+
+      const answer = this.answers[field.dependent.field]
+
+      return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
+    }
+
+    let sectionHasErrors = false
+
+    for (const [stepUrl, step] of this.getSteps(initialStep, initialStepPath)) {
+      nextStep = stepUrl
+      const errors = Object.values(step.fields)
+        .filter(dependencyMet)
+        .filter(field => validate(step.fields, field.code, this.answers[field.code], { values: this.answers }))
+      if (errors.length > 0) {
+        sectionHasErrors = true
+        break
+      }
+    }
+
+    if (!sectionHasErrors && this.answers[`${this.options.section}_section_complete`] === 'NO') {
+      return {
+        url: `${this.options.section.replace('_', '-')}-analysis`,
+        sectionHasErrors,
+      }
+    }
+
+    return {
+      url: nextStep,
+      sectionHasErrors,
+    }
   }
 
   build(): Field[] {

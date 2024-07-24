@@ -50,6 +50,7 @@ describe('/thinking-behaviours', () => {
     cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('No').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Thinking, behaviours and attitudes', stepUrl)
     cy.captureAssessment()
   })
 

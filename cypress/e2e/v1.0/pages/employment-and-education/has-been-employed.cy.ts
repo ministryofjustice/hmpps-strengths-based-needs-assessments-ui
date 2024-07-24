@@ -34,6 +34,7 @@ describe('/has-been-employed', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Employment and education', stepUrl)
     cy.captureAssessment()
   })
 

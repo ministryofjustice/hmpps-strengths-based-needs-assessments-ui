@@ -14,6 +14,7 @@ describe('/finance', () => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Finance')
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Finance', stepUrl)
     cy.assertQuestionCount(questions.length)
   })
 
