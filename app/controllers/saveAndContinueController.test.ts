@@ -5,117 +5,117 @@ import Controller from './saveAndContinueController'
 describe('SaveAndContinueController', () => {
   const controller = new Controller({ route: '/' })
 
-  // describe('setSectionProgress', () => {
-  //   const conditionFn = jest.fn()
-  //
-  //   const buildRequestWith = ({
-  //     sectionProgressRules = [],
-  //     queryParams = {},
-  //     formValues = {},
-  //   }: {
-  //     sectionProgressRules?: FormWizard.SectionProgressRule[]
-  //     queryParams?: Record<string, string>
-  //     formValues?: Record<string, string | string[]>
-  //   }) =>
-  //     ({
-  //       form: {
-  //         options: {
-  //           sectionProgressRules,
-  //         },
-  //         values: formValues,
-  //         submittedAnswers: {},
-  //       },
-  //       query: queryParams,
-  //     }) as unknown as FormWizard.Request
-  //
-  //   beforeEach(() => {
-  //     conditionFn.mockReset()
-  //   })
-  //
-  //   it('calls conditionFn', () => {
-  //     const req = buildRequestWith({
-  //       sectionProgressRules: [
-  //         { fieldCode: 'foo_section_complete', conditionFn },
-  //         { fieldCode: 'bar_section_complete', conditionFn },
-  //         { fieldCode: 'baz_section_complete', conditionFn },
-  //       ],
-  //     })
-  //
-  //     controller.setSectionProgress(req, true)
-  //
-  //     expect(conditionFn).toHaveBeenCalledTimes(3)
-  //   })
-  //
-  //   it('calls conditionFn with "isValidated" set to "true" when saving', () => {
-  //     const req = buildRequestWith({
-  //       sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
-  //     })
-  //
-  //     controller.setSectionProgress(req, true)
-  //
-  //     expect(conditionFn).toHaveBeenLastCalledWith(true, {})
-  //   })
-  //
-  //   it('calls conditionFn with "isValidated" set to "false" when form failed validation', () => {
-  //     const req = buildRequestWith({
-  //       sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
-  //     })
-  //
-  //     controller.setSectionProgress(req, false)
-  //
-  //     expect(conditionFn).toHaveBeenLastCalledWith(false, {})
-  //   })
-  //
-  //   it('calls conditionFn with form values', () => {
-  //     const formValues = { foo: 'bar' }
-  //     const req = buildRequestWith({
-  //       sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
-  //       formValues,
-  //     })
-  //
-  //     controller.setSectionProgress(req, true)
-  //
-  //     expect(conditionFn).toHaveBeenLastCalledWith(true, formValues)
-  //   })
-  //
-  //   it('marks the assessment as complete if all subsections are complete', () => {
-  //     const req = buildRequestWith({
-  //       sectionProgressRules: [
-  //         { fieldCode: 'foo_section_complete', conditionFn: () => true },
-  //         { fieldCode: 'bar_section_complete', conditionFn: () => true },
-  //         { fieldCode: 'baz_section_complete', conditionFn: () => true },
-  //       ],
-  //     })
-  //
-  //     controller.setSectionProgress(req, true)
-  //
-  //     expect(req.form.values).toEqual({
-  //       assessment_complete: 'YES',
-  //       foo_section_complete: 'YES',
-  //       bar_section_complete: 'YES',
-  //       baz_section_complete: 'YES',
-  //     })
-  //   })
-  //
-  //   it('marks the assessment as incomplete is a subsection is incomplete', () => {
-  //     const req = buildRequestWith({
-  //       sectionProgressRules: [
-  //         { fieldCode: 'foo_section_complete', conditionFn: () => true },
-  //         { fieldCode: 'bar_section_complete', conditionFn: () => false },
-  //         { fieldCode: 'baz_section_complete', conditionFn: () => true },
-  //       ],
-  //     })
-  //
-  //     controller.setSectionProgress(req, true)
-  //
-  //     expect(req.form.values).toEqual({
-  //       assessment_complete: 'NO',
-  //       foo_section_complete: 'YES',
-  //       bar_section_complete: 'NO',
-  //       baz_section_complete: 'YES',
-  //     })
-  //   })
-  // })
+  describe('getSectionProgress', () => {
+    const conditionFn = jest.fn()
+
+    const buildRequestWith = ({
+      sectionProgressRules = [],
+      queryParams = {},
+      formValues = {},
+    }: {
+      sectionProgressRules?: FormWizard.SectionProgressRule[]
+      queryParams?: Record<string, string>
+      formValues?: Record<string, string | string[]>
+    }) =>
+      ({
+        form: {
+          options: {
+            sectionProgressRules,
+          },
+          values: formValues,
+          submittedAnswers: {},
+        },
+        query: queryParams,
+      }) as unknown as FormWizard.Request
+
+    beforeEach(() => {
+      conditionFn.mockReset()
+    })
+
+    it('calls conditionFn', () => {
+      const req = buildRequestWith({
+        sectionProgressRules: [
+          { fieldCode: 'foo_section_complete', conditionFn },
+          { fieldCode: 'bar_section_complete', conditionFn },
+          { fieldCode: 'baz_section_complete', conditionFn },
+        ],
+      })
+
+      controller.getSectionProgress(req, true)
+
+      expect(conditionFn).toHaveBeenCalledTimes(3)
+    })
+
+    it('calls conditionFn with "isValidated" set to "true" when saving', () => {
+      const req = buildRequestWith({
+        sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
+      })
+
+      controller.getSectionProgress(req, true)
+
+      expect(conditionFn).toHaveBeenLastCalledWith(true, {})
+    })
+
+    it('calls conditionFn with "isValidated" set to "false" when form failed validation', () => {
+      const req = buildRequestWith({
+        sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
+      })
+
+      controller.getSectionProgress(req, false)
+
+      expect(conditionFn).toHaveBeenLastCalledWith(false, {})
+    })
+
+    it('calls conditionFn with form values', () => {
+      const formValues = { foo: 'bar' }
+      const req = buildRequestWith({
+        sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
+        formValues,
+      })
+
+      controller.getSectionProgress(req, true)
+
+      expect(conditionFn).toHaveBeenLastCalledWith(true, formValues)
+    })
+
+    it('marks the assessment as complete if all subsections are complete', () => {
+      const req = buildRequestWith({
+        sectionProgressRules: [
+          { fieldCode: 'foo_section_complete', conditionFn: () => true },
+          { fieldCode: 'bar_section_complete', conditionFn: () => true },
+          { fieldCode: 'baz_section_complete', conditionFn: () => true },
+        ],
+      })
+
+      const result = controller.getSectionProgress(req, true)
+
+      expect(result).toEqual({
+        assessment_complete: 'YES',
+        foo_section_complete: 'YES',
+        bar_section_complete: 'YES',
+        baz_section_complete: 'YES',
+      })
+    })
+
+    it('marks the assessment as incomplete is a subsection is incomplete', () => {
+      const req = buildRequestWith({
+        sectionProgressRules: [
+          { fieldCode: 'foo_section_complete', conditionFn: () => true },
+          { fieldCode: 'bar_section_complete', conditionFn: () => false },
+          { fieldCode: 'baz_section_complete', conditionFn: () => true },
+        ],
+      })
+
+      const result = controller.getSectionProgress(req, true)
+
+      expect(result).toEqual({
+        assessment_complete: 'NO',
+        foo_section_complete: 'YES',
+        bar_section_complete: 'NO',
+        baz_section_complete: 'YES',
+      })
+    })
+  })
 
   describe('updateAssessmentProgress', () => {
     const buildRequestWith = ({ persistedAnswers = {} }: { persistedAnswers?: Record<string, string | string[]> }) =>

@@ -196,6 +196,20 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
+  getSectionProgress(req: FormWizard.Request, isValidated: boolean): FormWizard.Answers {
+    const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
+      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
+        fieldCode,
+        conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
+      ]),
+    )
+
+    return {
+      ...sectionProgressFields,
+      assessment_complete: Object.values(sectionProgressFields).every(answer => answer === 'YES') ? 'YES' : 'NO',
+    }
+  }
+
   async persistAnswers(req: FormWizard.Request, res: Response) {
     const { assessmentId } = req.session.sessionData as SessionData
 
@@ -204,18 +218,10 @@ class SaveAndContinueController extends BaseController {
       ...req.form.values,
     }).getNextPageToComplete()
 
-    const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
-      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
-        fieldCode,
-        conditionFn(!sectionHasErrors, req.form.values) ? 'YES' : 'NO',
-      ]),
-    )
-
     const allAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,
       ...(req.form.values || {}),
-      ...sectionProgressFields,
-      assessment_complete: Object.values(sectionProgressFields).every(answer => answer === 'YES') ? 'YES' : 'NO',
+      ...this.getSectionProgress(req, !sectionHasErrors),
     }
 
     const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers)
