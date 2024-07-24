@@ -49,6 +49,7 @@ services:
     volumes:
       - ./app:/app/app
       - ./assets:/app/assets
+      - ./cypress:/app/cypress
       - ./esbuild:/app/esbuild
       - ./server:/app/server
       - ./test_results:/app/test_results

@@ -1,5 +1,4 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
-import steps from '../../../../../app/form/v1_0/steps';
 
 const summaryPage = '/thinking-behaviours-attitudes-analysis'
 
