@@ -40,6 +40,8 @@ services:
       - "7070:7070"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://arns-handover:7070/health/ping"]
+      interval: 5s
+      retries: 60
     environment:
       SERVER_PORT: 7070
       REDIS_HOST: redis
