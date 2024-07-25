@@ -541,14 +541,7 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the thinking behaviours and attitude section complete?',
-  code: 'thinking_behaviours_attitudes_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
 export default [
   thinkingBehavioursAttitudesFields,
@@ -556,7 +549,6 @@ export default [
   thinkingBehaviourFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
-  analysisSectionComplete,
   questionSectionComplete,
   makeChangesFields,
 ]
