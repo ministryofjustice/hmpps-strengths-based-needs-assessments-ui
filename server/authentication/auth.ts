@@ -1,10 +1,10 @@
 import passport from 'passport'
-import { Strategy } from 'passport-oauth2'
 import type { RequestHandler } from 'express'
 
 import config from '../config'
 import generateOauthClientToken from './clientCredentials'
 import type { TokenVerifier } from '../data/tokenVerification'
+import OAuth2LoggingStrategy from './oauth2LoggingStrategy'
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
@@ -29,7 +29,7 @@ const authenticationMiddleware: AuthenticationMiddleware = verifyToken => {
 }
 
 function init(): void {
-  const strategy = new Strategy(
+  const strategy = new OAuth2LoggingStrategy(
     {
       authorizationURL: `${config.apis.arnsHandover.externalUrl}/oauth2/authorize`,
       tokenURL: `${config.apis.arnsHandover.url}/oauth2/token`,
