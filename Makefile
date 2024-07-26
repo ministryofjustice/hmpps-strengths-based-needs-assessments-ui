@@ -64,7 +64,7 @@ BASE_URL_CI ?= "http://ui:3000"
 e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
 	circleci tests glob "cypress/e2e/**/*.cy.ts" | circleci tests split --split-by=timings --verbose | paste -sd ',' > tmp_specs.txt
 	cat tmp_specs.txt
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --headless -b firefox -c baseUrl=${BASE_URL_CI} -s "$$(<tmp_specs.txt)"
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --headless -b edge -c baseUrl=${BASE_URL_CI} -s "$$(<tmp_specs.txt)"
 
 test-up: ## Stands up a test environment.
 	docker compose pull --policy missing
