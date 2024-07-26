@@ -655,17 +655,9 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the personal relationships and community analysis section complete?',
-  code: 'personal_relationships_community_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
 export default [
-  analysisSectionComplete,
   personalRelationshipsFields,
   personalRelationshipsCommunityFields,
   parentalResponsibilitiesFields,

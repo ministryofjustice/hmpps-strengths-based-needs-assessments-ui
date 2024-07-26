@@ -172,14 +172,7 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the drug use analysis section complete?',
-  code: 'drug_use_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
 export const drugUseFields: Array<FormWizard.Field> = [
   {

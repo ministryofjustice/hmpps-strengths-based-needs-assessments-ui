@@ -48,10 +48,7 @@ const stepOptions: FormWizard.Steps = {
         ),
     ].flat(),
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('health_wellbeing_section_complete'),
-      setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('health_wellbeing_section_complete')],
   },
   '/physical-and-mental-health-condition': {
     pageTitle: defaultTitle,
@@ -59,10 +56,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('health_wellbeing_section_complete'),
-      setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('health_wellbeing_section_complete')],
   },
   '/physical-health-condition': {
     pageTitle: defaultTitle,
@@ -70,10 +64,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('health_wellbeing_section_complete'),
-      setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('health_wellbeing_section_complete')],
   },
   '/mental-health-condition': {
     pageTitle: defaultTitle,
@@ -81,10 +72,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('health_wellbeing_section_complete'),
-      setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('health_wellbeing_section_complete')],
   },
   '/no-physical-or-mental-health-condition': {
     pageTitle: defaultTitle,
@@ -92,10 +80,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'health-wellbeing-analysis',
     backLink: 'health-wellbeing',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('health_wellbeing_section_complete'),
-      setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('health_wellbeing_section_complete')],
   },
   '/health-wellbeing-analysis': {
     pageTitle: defaultTitle,
@@ -103,10 +88,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'health-wellbeing-analysis-complete#practitioner-analysis',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('health_wellbeing_section_complete'),
-      setFieldToCompleteWhenValid('health_wellbeing_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToCompleteWhenValid('health_wellbeing_section_complete')],
   },
   '/health-wellbeing-analysis-complete': {
     pageTitle: defaultTitle,

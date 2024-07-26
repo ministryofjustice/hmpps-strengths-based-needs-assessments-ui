@@ -31,10 +31,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     navigationOrder: 1,
     section: 'accommodation',
-    sectionProgressRules: [
-      setFieldToIncomplete('accommodation_section_complete'),
-      setFieldToCompleteWhenValid('accommodation_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
   },
   '/settled-accommodation': {
     pageTitle: 'Accommodation',
@@ -48,10 +45,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
-    sectionProgressRules: [
-      setFieldToIncomplete('accommodation_section_complete'),
-      setFieldToCompleteWhenValid('accommodation_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
   },
   '/temporary-accommodation': {
     pageTitle: 'Accommodation',
@@ -66,10 +60,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
-    sectionProgressRules: [
-      setFieldToIncomplete('accommodation_section_complete'),
-      setFieldToCompleteWhenValid('accommodation_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
   },
   '/temporary-accommodation-2': {
     pageTitle: 'Accommodation',
@@ -82,10 +73,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
-    sectionProgressRules: [
-      setFieldToIncomplete('accommodation_section_complete'),
-      setFieldToCompleteWhenValid('accommodation_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
   },
   '/no-accommodation': {
     pageTitle: 'Accommodation',
@@ -98,10 +86,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-analysis',
     backLink: 'accommodation',
     section: 'accommodation',
-    sectionProgressRules: [
-      setFieldToIncomplete('accommodation_section_complete'),
-      setFieldToCompleteWhenValid('accommodation_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
   },
   '/accommodation-analysis': {
     pageTitle: 'Accommodation',
@@ -109,10 +94,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'accommodation-analysis-complete#practitioner-analysis',
     template: 'forms/summary/summary-analysis-incomplete',
     section: 'accommodation',
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('accommodation_section_complete'),
-      setFieldToCompleteWhenValid('accommodation_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToCompleteWhenValid('accommodation_section_complete')],
   },
   '/accommodation-analysis-complete': {
     pageTitle: 'Accommodation',
