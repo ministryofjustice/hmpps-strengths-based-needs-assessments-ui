@@ -22,10 +22,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     navigationOrder: 5,
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('alcohol_use_section_complete'),
-      setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
   },
   '/alcohol-usage-last-three-months': {
     pageTitle: defaultTitle,
@@ -33,10 +30,7 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: ['alcohol-use-analysis'],
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('alcohol_use_section_complete'),
-      setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
   },
   '/alcohol-usage-but-not-last-three-months': {
     pageTitle: defaultTitle,
@@ -44,10 +38,7 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: ['alcohol-use-analysis'],
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('alcohol_use_section_complete'),
-      setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
   },
   '/alcohol-use-analysis': {
     pageTitle: defaultTitle,
@@ -55,10 +46,7 @@ const stepOptions: FormWizard.Steps = {
     next: ['alcohol-use-analysis-complete#practitioner-analysis'],
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('alcohol_use_section_complete'),
-      setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_section_complete')],
   },
   '/alcohol-use-analysis-complete': {
     pageTitle: defaultTitle,

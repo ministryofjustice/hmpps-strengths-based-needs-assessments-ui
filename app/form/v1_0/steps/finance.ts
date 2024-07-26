@@ -12,10 +12,7 @@ const stepOptions: FormWizard.Steps = {
     navigationOrder: 3,
     next: 'finance-analysis',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('finance_section_complete'),
-      setFieldToCompleteWhenValid('finance_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('finance_section_complete')],
   },
   '/finance-analysis': {
     pageTitle: defaultTitle,
@@ -23,10 +20,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'finance-analysis-complete#practitioner-analysis',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('finance_section_complete'),
-      setFieldToCompleteWhenValid('finance_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToCompleteWhenValid('finance_section_complete')],
   },
   '/finance-analysis-complete': {
     pageTitle: defaultTitle,

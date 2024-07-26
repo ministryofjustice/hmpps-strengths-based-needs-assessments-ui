@@ -35,10 +35,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     navigationOrder: 2,
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('employment_education_section_complete'),
-      setFieldToCompleteWhenValid('employment_education_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('employment_education_section_complete')],
   },
   '/employed': {
     pageTitle: defaultTitle,
@@ -54,10 +51,7 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: 'employment-education-analysis',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('employment_education_section_complete'),
-      setFieldToCompleteWhenValid('employment_education_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('employment_education_section_complete')],
   },
   '/retired': {
     pageTitle: defaultTitle,
@@ -65,10 +59,7 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: 'employment-education-analysis',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('employment_education_section_complete'),
-      setFieldToCompleteWhenValid('employment_education_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('employment_education_section_complete')],
   },
   '/has-been-employed': {
     pageTitle: defaultTitle,
@@ -83,10 +74,7 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: 'employment-education-analysis',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('employment_education_section_complete'),
-      setFieldToCompleteWhenValid('employment_education_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('employment_education_section_complete')],
   },
   '/never-been-employed': {
     pageTitle: defaultTitle,
@@ -94,10 +82,7 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: 'employment-education-analysis',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('employment_education_section_complete'),
-      setFieldToCompleteWhenValid('employment_education_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('employment_education_section_complete')],
   },
   '/employment-education-analysis': {
     pageTitle: defaultTitle,
@@ -105,10 +90,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'employment-education-analysis-complete',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('employment_education_section_complete'),
-      setFieldToCompleteWhenValid('employment_education_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToCompleteWhenValid('employment_education_section_complete')],
   },
   '/employment-education-analysis-complete': {
     pageTitle: defaultTitle,
