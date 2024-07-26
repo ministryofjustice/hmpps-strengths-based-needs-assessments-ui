@@ -62,7 +62,9 @@ export const enterAssessment = () => {
           },
           retryOnNetworkFailure: false,
         }).then(otlResponse => {
-          cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`, { retryOnNetworkFailure: false })
+          cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`, {
+            retryOnNetworkFailure: false,
+          })
         })
       })
     },
