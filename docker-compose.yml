@@ -36,8 +36,6 @@ services:
       - hmpps
     depends_on:
       - redis
-    ports:
-      - "7070:7070"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://arns-handover:7070/health/ping"]
     environment:

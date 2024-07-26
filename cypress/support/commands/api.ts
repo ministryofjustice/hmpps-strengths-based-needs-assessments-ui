@@ -61,8 +61,7 @@ export const enterAssessment = () => {
             },
           },
         }).then(otlResponse => {
-          cy.task('table', 'calling handover URL')
-          cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`)
+          cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`, { retryOnNetworkFailure: false })
         })
       })
     },
