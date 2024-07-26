@@ -60,18 +60,21 @@ export const enterAssessment = () => {
               sexuallyMotivatedOffenceHistory: 'NO',
             },
           },
+          retryOnNetworkFailure: false,
         }).then(otlResponse => {
-          cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`)
+          cy.visit(`${otlResponse.body.handoverLink}?clientId=${env('ARNS_HANDOVER_CLIENT_ID')}`, {
+            retryOnNetworkFailure: false,
+          })
         })
       })
     },
     {
       validate: () => {
-        cy.request('/').its('status').should('eq', 200)
+        cy.request({ url: '/', retryOnNetworkFailure: false }).its('status').should('eq', 200)
       },
     },
   )
-  cy.visit('start')
+  cy.visit('start', { retryOnNetworkFailure: false })
 }
 
 export const createAssessment = (data = null) => {
@@ -85,6 +88,7 @@ export const createAssessment = (data = null) => {
         oasysAssessmentPk,
         userDetails: oasysUser,
       },
+      retryOnNetworkFailure: false,
     }).then(createResponse => {
       Cypress.env('last_assessment', {
         assessmentId: createResponse.body.sanAssessmentId,
@@ -98,6 +102,7 @@ export const createAssessment = (data = null) => {
           body: {
             answersToAdd: data.assessment,
           },
+          retryOnNetworkFailure: false,
         })
       }
     })
@@ -109,6 +114,7 @@ export const fetchAssessment = () =>
     cy.request({
       url: `${env('SBNA_API_URL')}/assessment/${env('last_assessment').assessmentId}`,
       auth: { bearer: apiToken },
+      retryOnNetworkFailure: false,
     }),
   )
 

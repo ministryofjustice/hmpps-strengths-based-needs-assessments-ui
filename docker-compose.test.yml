@@ -23,6 +23,7 @@ services:
       - ./:/e2e
     working_dir: /e2e
     environment:
+      DEBUG: cypress:*
       CYPRESS_BASE_URL: http://ui:3000
       CYPRESS_SBNA_API_URL: http://api:8080
       CYPRESS_ARNS_HANDOVER_URL: http://arns-handover:7070
