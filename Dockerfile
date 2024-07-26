@@ -1,14 +1,10 @@
-FROM node:20-bullseye-slim as base
+FROM node:22-alpine as base
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
+RUN apk add --no-cache tzdata curl
 ENV TZ=Europe/London
-RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
+RUN cp "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
 RUN addgroup --gid 2000 --system appgroup && \
-    adduser --uid 2000 --system appuser --gid 2000
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get autoremove -y && \
-    apt-get install -y make python g++ curl && \
-    rm -rf /var/lib/apt/lists/*
+    adduser --uid 2000 --system appuser --ingroup appgroup
 WORKDIR /app
 
 FROM base as build
