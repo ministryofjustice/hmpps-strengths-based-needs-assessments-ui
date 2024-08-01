@@ -5,6 +5,23 @@ import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
+
+const displayReliantFriendsOrFamily: FormWizard.Field.Options = [
+  {
+    text: 'Yes',
+    summary: { displayFn: () => 'Yes, over reliant on friends and family for money' },
+    value: 'YES',
+    kind: 'option',
+  },
+  {
+    text: 'No',
+    summary: { displayFn: () => 'No, not over reliant on friends and family for money' },
+    value: 'NO',
+    kind: 'option',
+  },
+]
+
+
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
   text: ' ',
   hint: { text: 'Select all that apply.', kind: 'text' },
@@ -101,7 +118,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
-      { text: 'Family or friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
+      { text: 'Family or friends', value: 'FAMILY_OR_FRIENDS', kind: 'option'},
       { text: 'Offending', value: 'OFFENDING', kind: 'option' },
       { text: 'Pension', value: 'PENSION', kind: 'option' },
       { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
@@ -125,12 +142,13 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       { type: ValidationType.Required, message: 'Select if they are over reliant on family or friends for money' },
     ],
-    options: yesNoOptions,
+    options: displayReliantFriendsOrFamily,
     dependent: {
       field: 'finance_income',
       value: 'FAMILY_OR_FRIENDS',
       displayInline: true,
     },
+
   },
   {
     text: 'Give details (optional)',
