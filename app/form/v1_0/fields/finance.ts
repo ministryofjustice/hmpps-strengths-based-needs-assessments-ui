@@ -5,7 +5,6 @@ import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
 import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
-
 const displayReliantFriendsOrFamily: FormWizard.Field.Options = [
   {
     text: 'Yes',
@@ -20,7 +19,6 @@ const displayReliantFriendsOrFamily: FormWizard.Field.Options = [
     kind: 'option',
   },
 ]
-
 
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
   text: ' ',
@@ -118,7 +116,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
-      { text: 'Family or friends', value: 'FAMILY_OR_FRIENDS', kind: 'option'},
+      { text: 'Family or friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
       { text: 'Offending', value: 'OFFENDING', kind: 'option' },
       { text: 'Pension', value: 'PENSION', kind: 'option' },
       { text: 'Student loan', value: 'STUDENT_LOAN', kind: 'option' },
@@ -148,7 +146,6 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       value: 'FAMILY_OR_FRIENDS',
       displayInline: true,
     },
-
   },
   {
     text: 'Give details (optional)',

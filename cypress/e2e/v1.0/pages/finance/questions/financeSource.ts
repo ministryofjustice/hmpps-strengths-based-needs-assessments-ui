@@ -78,9 +78,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.checkAccessibility()
     })
 
-
-      const yesReliantFriendsOrFamilySummary = 'Yes, over reliant on friends and family for money'
-      const notReliantFriendsOrFamilySummary = 'No, not over reliant on friends and family for money'
+    const yesReliantFriendsOrFamilySummary = 'Yes, over reliant on friends and family for money'
+    const notReliantFriendsOrFamilySummary = 'No, not over reliant on friends and family for money'
     it(`summary page displays "Family or friends - ${'Yes'}"`, () => {
       cy.getQuestion(question).getCheckbox('Family or friends').clickLabel()
 
@@ -134,7 +133,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getRadio('No')
         .isChecked()
     })
-    
+
     Array.of(
       "Carer's allowance",
       'Disability benefits',
