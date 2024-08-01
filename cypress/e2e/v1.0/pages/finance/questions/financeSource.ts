@@ -56,7 +56,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).getCheckbox('Other').isChecked().getConditionalQuestion().hasText('some text')
     })
 
-    const familyOrFriendsOptions = ['Yes', 'No']
+    const familyOrFriendsOptions = [
+      ['Yes', 'Yes, over reliant on friends and family for money'], 
+      ['No', 'No, not over reliant on friends and family for money']
+    ]
 
     it(`displays and validates conditional question for "Family or friends"`, () => {
       cy.getQuestion(question).getCheckbox('Family or friends').hasConditionalQuestion(false).clickLabel()
@@ -66,7 +69,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Is Sam over reliant on family or friends for money?')
         .hasHint(null)
-        .hasRadios(familyOrFriendsOptions)
+        .hasRadios(familyOrFriendsOptions.map(([option, _]) => option))
 
       cy.saveAndContinue()
       cy.getQuestion(question)
@@ -77,61 +80,34 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.checkAccessibility()
     })
+    
+    familyOrFriendsOptions.forEach(([option, displaySummaryValue]) => {
+      it(`summary page displays "Family or friends - ${option}"`, () => {
+        cy.getQuestion(question).getCheckbox('Family or friends').clickLabel()
 
-    const yesReliantFriendsOrFamilySummary = 'Yes, over reliant on friends and family for money'
-    const notReliantFriendsOrFamilySummary = 'No, not over reliant on friends and family for money'
-    it(`summary page displays "Family or friends - ${'Yes'}"`, () => {
-      cy.getQuestion(question).getCheckbox('Family or friends').clickLabel()
+        cy.saveAndContinue()
+        cy.getQuestion(question)
+          .hasNoValidationError()
+          .getCheckbox('Family or friends')
+          .getConditionalQuestion()
+          .hasValidationError('Select if they are over reliant on family or friends for money')
+          .getRadio(option)
+          .clickLabel()
 
-      cy.saveAndContinue()
-      cy.getQuestion(question)
-        .hasNoValidationError()
-        .getCheckbox('Family or friends')
-        .getConditionalQuestion()
-        .hasValidationError('Select if they are over reliant on family or friends for money')
-        .getRadio('Yes')
-        .clickLabel()
-
-      cy.saveAndContinue()
-      cy.visitStep(summaryPage)
-      cy.getSummary(question).getAnswer('Family or friends').hasSecondaryAnswer(yesReliantFriendsOrFamilySummary)
-      cy.checkAccessibility()
-      cy.getSummary(question).clickChange()
-      cy.assertStepUrlIs(stepUrl)
-      cy.assertQuestionUrl(question)
-      cy.getQuestion(question)
-        .getCheckbox('Family or friends')
-        .isChecked()
-        .getConditionalQuestion()
-        .getRadio('Yes')
-        .isChecked()
-    })
-
-    it(`summary page displays "Family or friends - ${'No'}"`, () => {
-      cy.getQuestion(question).getCheckbox('Family or friends').clickLabel()
-
-      cy.saveAndContinue()
-      cy.getQuestion(question)
-        .hasNoValidationError()
-        .getCheckbox('Family or friends')
-        .getConditionalQuestion()
-        .hasValidationError('Select if they are over reliant on family or friends for money')
-        .getRadio('No')
-        .clickLabel()
-
-      cy.saveAndContinue()
-      cy.visitStep(summaryPage)
-      cy.getSummary(question).getAnswer('Family or friends').hasSecondaryAnswer(notReliantFriendsOrFamilySummary)
-      cy.checkAccessibility()
-      cy.getSummary(question).clickChange()
-      cy.assertStepUrlIs(stepUrl)
-      cy.assertQuestionUrl(question)
-      cy.getQuestion(question)
-        .getCheckbox('Family or friends')
-        .isChecked()
-        .getConditionalQuestion()
-        .getRadio('No')
-        .isChecked()
+        cy.saveAndContinue()
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer('Family or friends').hasSecondaryAnswer(displaySummaryValue)
+        cy.checkAccessibility()
+        cy.getSummary(question).clickChange()
+        cy.assertStepUrlIs(stepUrl)
+        cy.assertQuestionUrl(question)
+        cy.getQuestion(question)
+          .getCheckbox('Family or friends')
+          .isChecked()
+          .getConditionalQuestion()
+          .getRadio(option)
+          .isChecked()
+      })
     })
 
     Array.of(
