@@ -7,6 +7,18 @@ const oasysUser = {
   name: 'Cypress User',
 }
 
+// eslint-disable-next-line no-shadow
+export const enum AccessMode {
+  READ_WRITE = 'READ_WRITE',
+  READ_ONLY = 'READ_ONLY',
+}
+
+export interface AssessmentContext {
+  assessmentId?: string
+  assessmentVersion?: number
+  oasysAssessmentPk?: string
+}
+
 export const getApiToken = () => {
   const apiToken = Cypress.env('API_TOKEN')
 
@@ -33,9 +45,17 @@ export const getApiToken = () => {
     })
 }
 
-export const enterAssessment = () => {
+export const enterAssessment = (
+  accessMode: AccessMode = AccessMode.READ_WRITE,
+  assessmentContextOverride: AssessmentContext = {},
+) => {
+  const assessment: AssessmentContext = {
+    ...env('last_assessment'),
+    ...assessmentContextOverride,
+  }
+
   cy.session(
-    env('last_assessment').assessmentId,
+    `${assessment.assessmentId}_${assessment.assessmentVersion}_${accessMode.valueOf()}`,
     () => {
       getApiToken().then(apiToken => {
         cy.request({
@@ -43,11 +63,12 @@ export const enterAssessment = () => {
           method: 'POST',
           auth: { bearer: apiToken },
           body: {
-            oasysAssessmentPk: env('last_assessment').oasysAssessmentPk,
+            oasysAssessmentPk: assessment.oasysAssessmentPk,
+            assessmentVersion: Number.isInteger(assessment.assessmentVersion) ? assessment.assessmentVersion : null,
             user: {
               identifier: oasysUser.id,
               displayName: oasysUser.name,
-              accessMode: 'READ_WRITE',
+              accessMode: accessMode.valueOf(),
             },
             subjectDetails: {
               crn: 'X123456',
@@ -93,7 +114,7 @@ export const createAssessment = (data = null) => {
       Cypress.env('last_assessment', {
         assessmentId: createResponse.body.sanAssessmentId,
         oasysAssessmentPk,
-      })
+      } as AssessmentContext)
       if (data) {
         cy.request({
           url: `${env('SBNA_API_URL')}/assessment/${createResponse.body.sanAssessmentId}/answers`,
@@ -110,13 +131,16 @@ export const createAssessment = (data = null) => {
 }
 
 export const fetchAssessment = () =>
-  getApiToken().then(apiToken =>
-    cy.request({
-      url: `${env('SBNA_API_URL')}/assessment/${env('last_assessment').assessmentId}`,
+  getApiToken().then(apiToken => {
+    const assessment: AssessmentContext = env('last_assessment')
+
+    return cy.request({
+      url: `${env('SBNA_API_URL')}/assessment/${assessment.assessmentId}`,
+      qs: Number.isInteger(assessment.assessmentVersion) ? { versionNumber: assessment.assessmentVersion } : null,
       auth: { bearer: apiToken },
       retryOnNetworkFailure: false,
-    }),
-  )
+    })
+  })
 
 export const captureAssessment = () =>
   fetchAssessment().then(response => Cypress.env('captured_assessment', { data: response.body }))
@@ -125,3 +149,23 @@ export const cloneCapturedAssessment = () => {
   const assessment = Cypress.env('captured_assessment')
   createAssessment(assessment.data)
 }
+
+export const lockAssessment = () =>
+  getApiToken().then(apiToken => {
+    const assessment: AssessmentContext = env('last_assessment')
+
+    cy.request({
+      url: `${env('SBNA_API_URL')}/oasys/assessment/${assessment.oasysAssessmentPk}/lock`,
+      method: 'POST',
+      auth: { bearer: apiToken },
+      body: {
+        userDetails: {
+          id: '111111',
+          name: 'John Doe',
+        },
+      },
+      retryOnNetworkFailure: false,
+    }).then(lockResponse => {
+      expect(lockResponse.isOkStatusCode).to.eq(true)
+    })
+  })
