@@ -173,6 +173,51 @@ workflows:
           context: hmpps-common-vars
           requires:
             - build_docker
+      - e2e_test:
+          name: e2e_test_2
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_3
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_4
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_5
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_6
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_7
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_8
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_9
+          context: hmpps-common-vars
+          requires:
+            - build_docker
+      - e2e_test:
+          name: e2e_test_10
+          context: hmpps-common-vars
+          requires:
+            - build_docker
       - hmpps/publish_docker:
           name: publish_docker
           publish_latest_tag: true
