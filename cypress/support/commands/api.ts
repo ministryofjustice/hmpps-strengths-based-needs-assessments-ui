@@ -1,6 +1,15 @@
 export const env = (key: string) => Cypress.env()[key]
 
-export const uuid = () => Math.random().toString().substring(2, 9)
+const previous = []
+export const uuid = () => {
+  let v: string
+  do {
+    v = Math.random().toString().substring(2, 9)
+  } while (previous.includes(v))
+
+  previous.push(v)
+  return v
+}
 
 const oasysUser = {
   id: uuid(),
