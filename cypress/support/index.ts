@@ -73,7 +73,15 @@ import {
   hasNoSecondaryAnalysisAnswer,
   hasSecondaryAnalysisAnswer,
 } from './commands/analysisSummary'
-import { captureAssessment, cloneCapturedAssessment, createAssessment, enterAssessment } from './commands/api'
+import {
+  AccessMode,
+  AssessmentContext,
+  captureAssessment,
+  cloneCapturedAssessment,
+  createAssessment,
+  enterAssessment,
+  lockAssessment,
+} from './commands/api'
 import { Fixture, loadFixture, saveAsFixture } from './commands/fixture'
 
 declare global {
@@ -86,7 +94,8 @@ declare global {
       createAssessment(): Chainable
       captureAssessment(): Chainable
       cloneCapturedAssessment(): Chainable
-      enterAssessment(): Chainable
+      enterAssessment(accessMode?: AccessMode, assessmentContextOverride?: AssessmentContext): Chainable
+      lockAssessment(): Chainable
 
       // analysis summary
       getAnalysisSummary(question: string): Chainable
@@ -179,6 +188,7 @@ Cypress.Commands.add('createAssessment', createAssessment)
 Cypress.Commands.add('captureAssessment', captureAssessment)
 Cypress.Commands.add('cloneCapturedAssessment', cloneCapturedAssessment)
 Cypress.Commands.add('enterAssessment', enterAssessment)
+Cypress.Commands.add('lockAssessment', lockAssessment)
 
 // analysis summary
 Cypress.Commands.add('getAnalysisSummary', getAnalysisSummary)

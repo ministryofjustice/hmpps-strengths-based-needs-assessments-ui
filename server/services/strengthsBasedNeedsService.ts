@@ -102,7 +102,7 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
   async fetchAssessment(assessmentId: string, versionNumber?: number): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
 
-    const requestOptions = versionNumber
+    const requestOptions = Number.isInteger(versionNumber)
       ? { path: `/assessment/${assessmentId}`, query: querystring.stringify({ versionNumber }) }
       : { path: `/assessment/${assessmentId}` }
 

@@ -75,14 +75,7 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the finance analysis section complete?',
-  code: 'finance_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
 export const baseFinanceFields: Array<FormWizard.Field> = [
   {
@@ -132,7 +125,20 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       { type: ValidationType.Required, message: 'Select if they are over reliant on family or friends for money' },
     ],
-    options: yesNoOptions,
+    options: [
+      {
+        text: 'Yes',
+        summary: { displayFn: () => 'Yes, over reliant on friends and family for money' },
+        value: 'YES',
+        kind: 'option',
+      },
+      {
+        text: 'No',
+        summary: { displayFn: () => 'No, not over reliant on friends and family for money' },
+        value: 'NO',
+        kind: 'option',
+      },
+    ],
     dependent: {
       field: 'finance_income',
       value: 'FAMILY_OR_FRIENDS',

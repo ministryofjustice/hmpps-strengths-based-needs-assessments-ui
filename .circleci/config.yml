@@ -16,7 +16,7 @@ parameters:
 
   node-version:
     type: string
-    default: 20.8-browsers
+    default: "22.5"
 
   deploy:
     description: Trigger a manual deployment
@@ -86,12 +86,18 @@ jobs:
       - run:
           name: Run the end-to-end tests
           command: make e2e-ci
+      - run:
+          name: Store container logs
+          command: make save-logs OUTPUT_LOGS_DIR=~/docker-logs PROJECT_NAME="hmpps-strengths-based-needs-assessments-test"
+          when: on_fail
       - store_test_results:
           path: test_results
       - store_artifacts:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
+      - store_artifacts:
+          path: ~/docker-logs
 
   api_integration_tests:
     machine:
