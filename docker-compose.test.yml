@@ -4,6 +4,7 @@ services:
       INGRESS_URL: http://ui:3000
       HMPPS_AUTH_EXTERNAL_URL: http://hmpps-auth:9090/auth
       HMPPS_ARNS_HANDOVER_EXTERNAL_URL: http://arns-handover:7070
+      KEEP_ALIVE: 30000
 
   arns-handover:
     environment:
@@ -23,7 +24,6 @@ services:
       - ./:/e2e
     working_dir: /e2e
     environment:
-      DEBUG: cypress:*
       CYPRESS_BASE_URL: http://ui:3000
       CYPRESS_SBNA_API_URL: http://api:8080
       CYPRESS_ARNS_HANDOVER_URL: http://arns-handover:7070

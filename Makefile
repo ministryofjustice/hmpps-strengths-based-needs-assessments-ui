@@ -81,6 +81,7 @@ update: ## Downloads the latest versions of container images.
 	docker compose pull
 
 save-logs: ## Saves docker container logs in a directory defined by OUTPUT_LOGS_DIR=
+	docker system info
 	mkdir -p ${OUTPUT_LOGS_DIR}
 	docker logs ${PROJECT_NAME}-api-1 > ${OUTPUT_LOGS_DIR}/api.log
 	docker logs ${PROJECT_NAME}-ui-1 > ${OUTPUT_LOGS_DIR}/ui.log
