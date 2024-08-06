@@ -28,7 +28,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         table(message) {
-          // eslint-disable-next-line no-console
           console.table(message)
           return null
         },

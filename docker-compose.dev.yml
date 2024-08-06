@@ -55,6 +55,7 @@ services:
       - ./test_results:/app/test_results
       - ./.eslintcache:/app/.eslintcache
       - ./.prettierrc:/app/.prettierrc
+      - ./cypress.config.ts:/app/cypress.config.ts
       - ./eslint.config.mjs:/app/eslint.config.mjs
       - ./logger.ts:/app/logger.ts
       - ./package.json:/app/package.json
