@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 declare module 'hmpo-form-wizard' {
   import express from 'express'
 
@@ -184,5 +183,3 @@ declare module 'hmpo-form-wizard' {
 
   export default FormWizard
 }
-
-/* eslint-enable max-classes-per-file */

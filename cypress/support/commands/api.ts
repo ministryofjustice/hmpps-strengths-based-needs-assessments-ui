@@ -16,7 +16,6 @@ const oasysUser = {
   name: 'Cypress User',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum AccessMode {
   READ_WRITE = 'READ_WRITE',
   READ_ONLY = 'READ_ONLY',

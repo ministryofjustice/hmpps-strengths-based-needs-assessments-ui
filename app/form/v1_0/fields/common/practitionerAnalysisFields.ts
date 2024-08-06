@@ -10,7 +10,6 @@ import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-for
 
 const analysisRadioGroupClasses = `${inlineRadios} radio-group--analysis`
 
-// eslint-disable-next-line import/prefer-default-export
 export const createPractitionerAnalysisFieldsWith = (
   prefix: string,
   sectionDisplayName: string,

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const testPractitionerAnalysis = (sectionName: string, origin: string, destination: string) => {
   describe(`Destination: ${destination}`, () => {
     it(`routes to ${destination}`, () => {

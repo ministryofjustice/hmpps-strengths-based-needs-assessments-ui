@@ -1,6 +1,5 @@
 import { Result } from 'axe-core'
 
-// eslint-disable-next-line import/prefer-default-export
 export const checkAccessibility = (injectAxe: boolean = true) => {
   if (injectAxe) {
     cy.injectAxe()

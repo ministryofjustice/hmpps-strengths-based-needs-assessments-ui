@@ -1,6 +1,6 @@
 // These enums have to live here because of TS/Jest and Enums work..  ¯\_(ツ)_/¯
 // Also this ESLint override because of how TS/Eslint works.
-// eslint-disable-next-line no-shadow
+
 export const enum FieldType {
   Text = 'TEXT',
   Radio = 'RADIO',
@@ -10,7 +10,6 @@ export const enum FieldType {
   Dropdown = 'DROPDOWN',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum ValidationType {
   String = 'string',
   Regex = 'regex',
@@ -41,7 +40,6 @@ export const enum ValidationType {
   AfterDateField = 'afterField',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum FormatterType {
   Trim = 'trim',
   Boolean = 'boolean',
@@ -59,7 +57,6 @@ export const enum FormatterType {
   Base64Decode = 'base64decode',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum Gender {
   NotKnown = 0,
   Male = 1,

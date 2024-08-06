@@ -11,7 +11,7 @@ const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
   { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
   { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
 ]
-// eslint-disable-next-line import/prefer-default-export
+
 export const createWantToMakeChangesFields = (changesTo: string, prefix: string): Array<FormWizard.Field> => [
   {
     text: `Does [subject] want to make changes to ${changesTo}?`,

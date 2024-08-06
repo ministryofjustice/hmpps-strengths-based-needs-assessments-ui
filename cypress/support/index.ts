@@ -85,6 +85,7 @@ import {
 import { Fixture, loadFixture, saveAsFixture } from './commands/fixture'
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       // accessibility
