@@ -32,7 +32,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
         ? res.redirect(`/form/${version}/${readOnlyModeLandingPage}`)
         : res.redirect(`/form/${version}/${editModeLandingPage}?action=resume`)
     })
-  } catch (_) {
+  } catch {
     next(new Error('Unable to start assessment'))
   }
 }
