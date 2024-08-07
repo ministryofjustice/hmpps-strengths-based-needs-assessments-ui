@@ -46,20 +46,28 @@ export const createAnswerDTOs =
     }
   }
 
-export const buildRequestBody = (options: FormWizard.FormOptions, answers: FormWizard.Answers): UpdateAnswersDto => {
-  const relevantFields = new FieldDependencyTreeBuilder(options, answers).buildAndFlatten()
+export const buildRequestBody = (
+  formOptions: FormWizard.FormOptions,
+  answers: FormWizard.Answers,
+  options: { removeOrphanAnswers?: boolean } = {},
+): UpdateAnswersDto => {
+  const relevantFields = new FieldDependencyTreeBuilder(formOptions, answers).buildAndFlatten()
+  const { removeOrphanAnswers = true } = options
 
-  const sectionFields = Object.values(options.steps)
-    .filter(step => step.section === options.section)
+  const sectionFields = Object.values(formOptions.steps)
+    .filter(step => step.section === formOptions.section)
     .reduce((acc: string[], step) => [...acc, ...Object.values(step.fields).map(f => f.code)], [])
 
   return {
     answersToAdd: relevantFields
-      .filter(f => Object.keys(options.fields).includes(f.field.id))
+      .filter(f => Object.keys(formOptions.fields).includes(f.field.id))
       .reduce(createAnswerDTOs(answers), {}),
-    answersToRemove: Object.keys(answers).filter(
-      fieldCode => sectionFields.includes(fieldCode) && !relevantFields.some(field => field.field.code === fieldCode),
-    ),
+    answersToRemove: removeOrphanAnswers
+      ? Object.keys(answers).filter(
+          fieldCode =>
+            sectionFields.includes(fieldCode) && !relevantFields.some(field => field.field.code === fieldCode),
+        )
+      : [],
   }
 }
 
