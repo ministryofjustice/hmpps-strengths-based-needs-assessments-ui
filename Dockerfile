@@ -13,6 +13,7 @@ ARG GIT_REF=not-available
 ENV BUILD_NUMBER ${BUILD_NUMBER}
 ENV GIT_REF ${GIT_REF}
 COPY . .
+RUN apk add --no-cache python3 make gcc g++ linux-headers
 RUN rm -rf dist node_modules
 RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit --include=dev
 RUN npm run build
