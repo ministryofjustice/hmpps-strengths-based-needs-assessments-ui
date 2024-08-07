@@ -17,5 +17,9 @@ export default function routes(): Router {
     res.render('pages/index')
   })
 
+  get('/accessibility-statement', (req, res, next) => {
+    res.render('pages/accessibility-statement')
+  })
+
   return router
 }
