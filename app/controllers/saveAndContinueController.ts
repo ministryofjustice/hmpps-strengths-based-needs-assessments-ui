@@ -211,7 +211,7 @@ class SaveAndContinueController extends BaseController {
   }
 
   async persistAnswers(req: FormWizard.Request, res: Response, options: { removeOrphanAnswers?: boolean } = {}) {
-    const { assessmentId } = req.session.sessionData as SessionData    
+    const { assessmentId } = req.session.sessionData as SessionData
 
     const { sectionHasErrors } = new FieldDependencyTreeBuilder(req.form.options, {
       ...req.form.persistedAnswers,
