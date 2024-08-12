@@ -41,6 +41,7 @@ describe('/health-wellbeing', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Health and wellbeing', stepUrl)
 
     cy.captureAssessment()
   })

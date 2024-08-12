@@ -6,7 +6,7 @@ import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnaly
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 
 const headInjuryOrIllnessHint = `
-<div class="govuk-!-width-two-thirds">
+<div class="govuk-grid-width-full">
   <p class="govuk-hint">This includes:</p>
   <ul class="govuk-hint govuk-list govuk-list--bullet">
     <li>traumatic brain injury</li>
@@ -434,14 +434,7 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the health and wellbeing analysis section complete?',
-  code: 'health_wellbeing_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
 export default [
   physicalOrMentalHealthProblemsFields,

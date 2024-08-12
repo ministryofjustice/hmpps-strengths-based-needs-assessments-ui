@@ -154,7 +154,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { text: 'Peer pressure or social influence', value: 'PEER_PRESSURE', kind: 'option' },
       {
         text: 'Self-medication or mood altering',
-        hint: { text: 'Includes pain management or emotional regulation' },
+        hint: { text: 'Includes pain management or emotional regulation.' },
         value: 'SELF_MEDICATION',
         kind: 'option',
       },
@@ -218,7 +218,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { text: 'Links to offending', value: 'LINKS_TO_REOFFENDING', kind: 'option' },
       {
         text: 'Physical or mental health',
-        hint: { text: 'Includes overdose' },
+        hint: { text: 'Includes overdose.' },
         value: 'PHYSICAL_OR_MENTAL_HEALTH',
         kind: 'option',
       },
@@ -358,11 +358,6 @@ export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractit
   'alcohol use',
 )
 
-export const deprecatedPractitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'alcohol',
-  'alcohol use',
-)
-
 export const questionSectionComplete: FormWizard.Field = {
   text: 'Is the alcohol use section complete?',
   code: 'alcohol_use_section_complete',
@@ -370,14 +365,7 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the alcohol use analysis section complete?',
-  code: 'alcohol_use_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
 export default [
   ...alcoholUseFields,
@@ -385,5 +373,4 @@ export default [
   ...alcoholUsageWithinThreeMonthsFields,
   ...practitionerAnalysisFields,
   ...sectionCompleteFields,
-  ...deprecatedPractitionerAnalysisFields,
 ].reduce(toFormWizardFields, {})

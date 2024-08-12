@@ -1,13 +1,10 @@
 services:
-  api:
-    environment:
-      LINK_BASE_URL: http://ui:3000/form
-
   ui:
     environment:
       INGRESS_URL: http://ui:3000
       HMPPS_AUTH_EXTERNAL_URL: http://hmpps-auth:9090/auth
       HMPPS_ARNS_HANDOVER_EXTERNAL_URL: http://arns-handover:7070
+      KEEP_ALIVE: 30000
 
   arns-handover:
     environment:

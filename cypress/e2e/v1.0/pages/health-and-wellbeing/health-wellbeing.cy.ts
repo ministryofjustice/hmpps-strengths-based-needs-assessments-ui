@@ -10,6 +10,7 @@ describe('/health-wellbeing', () => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Health and wellbeing')
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Health and wellbeing', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
   })

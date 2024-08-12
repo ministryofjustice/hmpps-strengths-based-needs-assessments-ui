@@ -2,9 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import {
   alcoholUsageWithinThreeMonthsFields,
   alcoholUseFields,
-  analysisSectionComplete,
   baseAlcoholUsageFields,
-  deprecatedPractitionerAnalysisFields,
   practitionerAnalysisFields,
   sectionCompleteFields,
 } from '../fields/alcohol'
@@ -24,14 +22,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     navigationOrder: 5,
     section: sectionName,
-    sectionProgressRules: [
-      {
-        fieldCode: 'alcohol_use_section_complete',
-        conditionFn: (isValid: boolean, answers: Record<string, string | string[]>) =>
-          isValid && answers.alcohol_use === 'NO',
-      },
-      setFieldToIncomplete('alcohol_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
   },
   '/alcohol-usage-last-three-months': {
     pageTitle: defaultTitle,
@@ -39,10 +30,7 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: ['alcohol-use-analysis'],
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('alcohol_use_section_complete'),
-      setFieldToIncomplete('alcohol_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
   },
   '/alcohol-usage-but-not-last-three-months': {
     pageTitle: defaultTitle,
@@ -50,23 +38,15 @@ const stepOptions: FormWizard.Steps = {
     backLink: sectionName,
     next: ['alcohol-use-analysis'],
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('alcohol_use_section_complete'),
-      setFieldToIncomplete('alcohol_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
   },
   '/alcohol-use-analysis': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
+    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
     next: ['alcohol-use-analysis-complete#practitioner-analysis'],
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_analysis_section_complete')],
-  },
-  '/alcohol-deprecated-field': {
-    pageTitle: 'This page will be removed',
-    fields: fieldCodesFrom(deprecatedPractitionerAnalysisFields),
-    section: sectionName,
+    sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_section_complete')],
   },
   '/alcohol-use-analysis-complete': {
     pageTitle: defaultTitle,

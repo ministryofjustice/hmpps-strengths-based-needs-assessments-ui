@@ -8,6 +8,7 @@ const buildApp = require('./app.config')
 const cwd = process.cwd()
 const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
+  sourcemap: process.env.NODE_ENV === 'development' ? 'inline' : false,
   app: {
     outDir: path.join(cwd, 'dist'),
     entryPoints: path.join(cwd, 'server.ts'),
@@ -39,6 +40,7 @@ function main() {
   }
 
   const args = process.argv
+
   if (args.includes('--build')) {
     Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(() => process.exit(1))
   }
@@ -60,7 +62,7 @@ function main() {
 
     // App
     chokidar
-      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
+      .watch(['server/**/*', 'app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
       .on('all', () => buildApp(buildConfig).catch(console.error))
   }
 }

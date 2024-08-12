@@ -1,14 +1,10 @@
-FROM node:20-bullseye-slim as base
+FROM node:22-alpine as base
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
+RUN apk add --no-cache tzdata curl
 ENV TZ=Europe/London
-RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
+RUN cp "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
 RUN addgroup --gid 2000 --system appgroup && \
-    adduser --uid 2000 --system appuser --gid 2000
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get autoremove -y && \
-    apt-get install -y make python g++ curl && \
-    rm -rf /var/lib/apt/lists/*
+    adduser --uid 2000 --system appuser --ingroup appgroup
 WORKDIR /app
 
 FROM base as build
@@ -17,6 +13,7 @@ ARG GIT_REF=not-available
 ENV BUILD_NUMBER ${BUILD_NUMBER}
 ENV GIT_REF ${GIT_REF}
 COPY . .
+RUN apk add --no-cache python3 make gcc g++ linux-headers
 RUN rm -rf dist node_modules
 RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit --include=dev
 RUN npm run build

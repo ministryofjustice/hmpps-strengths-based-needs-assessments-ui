@@ -1,10 +1,8 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
-import StrengthsBasedNeedsAssessmentsApiService, {
-  SessionInformation,
-} from '../../server/services/strengthsBasedNeedsService'
+import { buildRequestBody, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
+import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import {
   combineDateFields,
@@ -14,8 +12,10 @@ import {
   withValuesFrom,
 } from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
+import { NavigationItem } from '../utils/formRouterBuilder'
+import { isInEditMode } from '../../server/utils/nunjucks.utils'
+import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 
-type ResumeUrl = string | null
 export type Progress = Record<string, boolean>
 
 class SaveAndContinueController extends BaseController {
@@ -29,9 +29,18 @@ class SaveAndContinueController extends BaseController {
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      const sessionData = req.session.sessionData as SessionInformation
+      const sessionData = req.session.sessionData as SessionData
+
+      if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
+        return res.status(401).send('Cannot edit whilst in read-only mode')
+      }
+
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
-      const assessment = await this.apiService.fetchAssessment(sessionData.assessmentId)
+
+      const assessment = isInEditMode(sessionData.user)
+        ? await this.apiService.fetchAssessment(sessionData.assessmentId)
+        : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
+
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent
 
@@ -43,14 +52,29 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      await super.configure(req, res, next)
+      if (req.method === 'GET' && req.query.action === 'resume') {
+        const currentPageToComplete = new FieldDependencyTreeBuilder(
+          req.form.options,
+          req.form.persistedAnswers,
+        ).getNextPageToComplete().url
+        if (req.url !== `/${currentPageToComplete}`) {
+          return res.redirect(currentPageToComplete)
+        }
+      }
+
+      return await super.configure(req, res, next)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
   async get(req: FormWizard.Request, res: Response, next: NextFunction) {
     Object.keys(req.form.persistedAnswers).forEach(k => req.sessionModel.set(k, req.form.persistedAnswers[k]))
+
+    if (!Object.keys(req.sessionModel.get('errors') || {}).some(field => req.form.options.fields[field])) {
+      req.sessionModel.set('errors', null)
+      req.sessionModel.set('errorValues', null)
+    }
 
     return super.get(req, res, next)
   }
@@ -82,9 +106,27 @@ class SaveAndContinueController extends BaseController {
     return gender === Gender.Male ? 8 : 6
   }
 
+  setReadOnlyNavigation(steps: FormWizard.RenderedSteps, navigation: Array<NavigationItem>): Array<NavigationItem> {
+    return navigation.map(navigationItem => {
+      const [summaryPageUrl] =
+        Object.entries(steps).find(([stepUrl, stepConfig]) => {
+          return stepConfig.section === navigationItem.section && stepUrl.endsWith('analysis-complete')
+        }) || []
+
+      return {
+        ...navigationItem,
+        url: summaryPageUrl?.slice(1) || navigationItem.url,
+      }
+    })
+  }
+
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const subjectDetails = req.session.subjectDetails as HandoverSubject
+      const sessionData = req.session.sessionData as SessionData
+      const navigation = isReadOnly(sessionData.user)
+        ? this.setReadOnlyNavigation(req.form.options.steps, res.locals.form.navigation)
+        : res.locals.form.navigation
 
       res.locals = {
         ...res.locals,
@@ -95,8 +137,9 @@ class SaveAndContinueController extends BaseController {
           subject: subjectDetails.givenName,
           alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
         },
-        sessionData: req.session.sessionData as SessionInformation,
+        sessionData,
         subjectDetails,
+        form: { ...res.locals.form, navigation, section: req.form.options.section, steps: req.form.options.steps },
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
@@ -117,25 +160,6 @@ class SaveAndContinueController extends BaseController {
     } catch (error) {
       next(error)
     }
-  }
-
-  getResumeUrl(req: FormWizard.Request, sectionProgress: Progress): ResumeUrl {
-    const isResuming = req.query.action === 'resume'
-    const sectionName = req.form.options.section
-    const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    const [lastStepOfSection] = Object.entries(req.form.options.steps)
-      .reverse()
-      .find(([, step]) => step.section === sectionName)
-    const lastPageVisited = resumeState[sectionName] || (sectionProgress[sectionName] ? lastStepOfSection : undefined)
-
-    if (lastPageVisited && isResuming) {
-      req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null, lastSection: sectionName })
-      return lastPageVisited.replace(/^\//, '')
-    }
-
-    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: req.url.slice(1), lastSection: sectionName })
-
-    return null
   }
 
   updateAssessmentProgress(req: FormWizard.Request, res: Response) {
@@ -165,44 +189,45 @@ class SaveAndContinueController extends BaseController {
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       this.updateAssessmentProgress(req, res)
-      const resumeUrl = this.getResumeUrl(req, res.locals.sectionProgress)
 
-      return resumeUrl ? res.redirect(resumeUrl) : super.getValues(req, res, next)
+      return super.getValues(req, res, next)
     } catch (error) {
       return next(error)
     }
   }
 
-  setSectionProgress(req: FormWizard.Request, isValidated: boolean) {
-    const sectionProgressRules = req.form.options.sectionProgressRules || []
-
-    req.form.values = sectionProgressRules.reduce(
-      (answers, { fieldCode, conditionFn }) => ({
-        ...answers,
-        [fieldCode]: conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
-      }),
-      req.form.values || {},
+  getSectionProgress(req: FormWizard.Request, isValidated: boolean): FormWizard.Answers {
+    const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
+      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
+        fieldCode,
+        conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
+      ]),
     )
 
-    req.form.values.assessment_complete = sectionProgressRules.every(rule => req.form.values[rule.fieldCode] === 'YES')
-      ? 'YES'
-      : 'NO'
-  }
-
-  resetResumeUrl(req: FormWizard.Request) {
-    const sectionName = req.form.options.section
-    const resumeState = (req.sessionModel.get('resumeState') as Record<string, ResumeUrl>) || {}
-    req.sessionModel.set('resumeState', { ...resumeState, [sectionName]: null })
+    return {
+      ...sectionProgressFields,
+      assessment_complete: Object.values(sectionProgressFields).every(answer => answer === 'YES') ? 'YES' : 'NO',
+    }
   }
 
   async persistAnswers(req: FormWizard.Request, res: Response) {
-    const { assessmentId } = req.session.sessionData as SessionInformation
+    const { assessmentId } = req.session.sessionData as SessionData
 
-    const answers = { ...req.form.persistedAnswers, ...req.form.values }
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answers)
+    const { sectionHasErrors } = new FieldDependencyTreeBuilder(req.form.options, {
+      ...req.form.persistedAnswers,
+      ...req.form.values,
+    }).getNextPageToComplete()
+
+    const allAnswers: FormWizard.Answers = {
+      ...req.form.persistedAnswers,
+      ...(req.form.values || {}),
+      ...this.getSectionProgress(req, !sectionHasErrors),
+    }
+
+    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers)
 
     req.form.values = {
-      ...answers,
+      ...allAnswers,
       ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
     }
     res.locals.values = req.form.values
@@ -214,11 +239,8 @@ class SaveAndContinueController extends BaseController {
     let answersPersisted = false
 
     try {
-      this.setSectionProgress(req, true)
       await this.persistAnswers(req, res)
       answersPersisted = true
-
-      this.resetResumeUrl(req)
 
       if (req.query.jsonResponse === 'true') {
         return res.json({ answersPersisted })
@@ -238,10 +260,7 @@ class SaveAndContinueController extends BaseController {
     let answersPersisted = false
 
     try {
-      this.resetResumeUrl(req)
-
       if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
-        this.setSectionProgress(req, false)
         await this.persistAnswers(req, res)
         answersPersisted = true
         this.setErrors(err, req, res)

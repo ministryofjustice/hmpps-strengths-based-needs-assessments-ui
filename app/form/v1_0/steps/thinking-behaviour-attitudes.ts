@@ -1,7 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import {
-  analysisSectionComplete,
   thinkingBehavioursAttitudesFields,
   riskOfSexualHarmFields,
   thinkingBehaviourFields,
@@ -27,10 +26,7 @@ const stepOptions: FormWizard.Steps = {
       { field: 'thinking_behaviours_attitudes_risk_sexual_harm', value: 'NO', next: 'thinking-behaviours' },
     ].flat(),
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('thinking_behaviours_attitudes_section_complete'),
-      setFieldToIncomplete('thinking_behaviours_attitudes_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('thinking_behaviours_attitudes_section_complete')],
   },
   '/thinking-behaviours-attitudes-sexual-offending': {
     pageTitle: defaultTitle,
@@ -38,10 +34,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'thinking-behaviours',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('thinking_behaviours_attitudes_section_complete'),
-      setFieldToIncomplete('thinking_behaviours_attitudes_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('thinking_behaviours_attitudes_section_complete')],
   },
   '/thinking-behaviours': {
     pageTitle: defaultTitle,
@@ -49,18 +42,15 @@ const stepOptions: FormWizard.Steps = {
     next: 'thinking-behaviours-attitudes-analysis',
     backLink: 'thinking-behaviours-attitudes',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('thinking_behaviours_attitudes_section_complete'),
-      setFieldToIncomplete('thinking_behaviours_attitudes_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('thinking_behaviours_attitudes_section_complete')],
   },
   '/thinking-behaviours-attitudes-analysis': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
+    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
     next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('thinking_behaviours_attitudes_analysis_section_complete')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('thinking_behaviours_attitudes_section_complete')],
   },
   '/thinking-behaviours-attitudes-analysis-complete': {
     pageTitle: defaultTitle,

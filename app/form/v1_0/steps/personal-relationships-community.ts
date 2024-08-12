@@ -1,7 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid, contains } from './common'
 import {
-  analysisSectionComplete,
   personalRelationshipsFields,
   personalRelationshipsCommunityFields,
   parentalResponsibilitiesFields,
@@ -30,10 +29,7 @@ const stepOptions: FormWizard.Steps = {
       'personal-relationships-community-2',
     ],
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('personal_relationships_community_section_complete'),
-      setFieldToIncomplete('personal_relationships_community_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('personal_relationships_community_section_complete')],
   },
   '/personal-relationships-community': {
     pageTitle: defaultTitle,
@@ -48,10 +44,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'personal-relationships-community-analysis',
     backLink: 'personal-relationships',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('personal_relationships_community_section_complete'),
-      setFieldToIncomplete('personal_relationships_community_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('personal_relationships_community_section_complete')],
   },
   '/personal-relationships-community-2': {
     pageTitle: defaultTitle,
@@ -65,18 +58,15 @@ const stepOptions: FormWizard.Steps = {
     next: 'personal-relationships-community-analysis',
     backLink: 'personal-relationships',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('personal_relationships_community_section_complete'),
-      setFieldToIncomplete('personal_relationships_community_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('personal_relationships_community_section_complete')],
   },
   '/personal-relationships-community-analysis': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
+    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
     next: 'personal-relationships-community-analysis-complete#practitioner-analysis',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('personal_relationships_community_analysis_section_complete')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('personal_relationships_community_section_complete')],
   },
   '/personal-relationships-community-analysis-complete': {
     pageTitle: defaultTitle,

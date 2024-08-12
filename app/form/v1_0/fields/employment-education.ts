@@ -262,7 +262,7 @@ export const educationFields: Array<FormWizard.Field> = [
       },
       orDivider,
       { text: 'None of these', value: 'NONE_OF_THESE', kind: 'option' },
-      { text: 'Not sure', value: 'NOT_SURE', kind: 'option' },
+      { text: 'Unknown', value: 'NOT_SURE', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
@@ -277,7 +277,7 @@ export const educationFields: Array<FormWizard.Field> = [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
       orDivider,
-      { text: 'Not sure', value: 'NOT_SURE', kind: 'option' },
+      { text: 'Unknown', value: 'NOT_SURE', kind: 'option' },
     ],
     labelClasses: getMediumLabelClassFor(FieldType.Radio),
   },
@@ -420,14 +420,7 @@ export const questionSectionComplete: FormWizard.Field = {
   options: yesNoOptions,
 }
 
-export const analysisSectionComplete: FormWizard.Field = {
-  text: 'Is the employment and education analysis section complete?',
-  code: 'employment_education_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete, analysisSectionComplete]
+export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
 
 export default [
   ...employmentStatusFields,

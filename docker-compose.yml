@@ -1,6 +1,6 @@
 services:
   redis:
-    image: redis:7.2
+    image: redis:7.4
     networks:
       - hmpps
     environment:
@@ -17,7 +17,7 @@ services:
       - /var/lib/postgresql
 
   hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:2024-05-09.23133.61d6975
+    image: quay.io/hmpps/hmpps-auth:latest
     networks:
       - hmpps
     healthcheck:
@@ -36,8 +36,6 @@ services:
       - hmpps
     depends_on:
       - redis
-    ports:
-      - "7070:7070"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://arns-handover:7070/health/ping"]
     environment:
@@ -48,6 +46,7 @@ services:
       HMPPS_HANDOVER_EXTERNAL_URL: http://localhost:7070
       HMPPS_AUTH_BASE_URL: http://hmpps-auth:9090
       SERVER_ERROR_WHITELABEL_ENABLED: true
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
 
   oasys-ui:
     image: quay.io/hmpps/hmpps-assess-risks-and-needs-oastub-ui:latest
@@ -58,7 +57,7 @@ services:
     healthcheck:
       test: ["CMD", "node", "/app/docker/healthcheck.js"]
     environment:
-      REDIS_ENABLED: "true"      
+      REDIS_ENABLED: "true"
       SYSTEM_CLIENT_SECRET: clientsecret
       SYSTEM_CLIENT_ID: hmpps-strengths-and-needs-ui-client
       SESSION_SECRET: sessionsecret

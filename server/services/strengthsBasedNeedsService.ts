@@ -1,8 +1,10 @@
 import { UUID } from 'crypto'
+import querystring from 'querystring'
 import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/hmppsAuthClient'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
+import { HandoverPrincipal } from './arnsHandoverService'
 
 export interface CreateAssessmentRequest extends Record<string, unknown> {
   oasysAssessmentPk: string
@@ -19,15 +21,11 @@ export interface CreateAssessmentResponse {
   sentencePlanVersion?: number
 }
 
-export interface SessionInformation {
-  uuid: UUID
-  assessmentId: UUID
-  user: {
-    identifier: string
-    displayName: string
-    accessMode: string
-    returnUrl?: string
-  }
+export interface SessionData {
+  assessmentId: string
+  assessmentVersion: number
+  oasysAssessmentPk: string
+  user: HandoverPrincipal
 }
 
 interface Option {
@@ -101,9 +99,14 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as OasysAssessmentResponse
   }
 
-  async fetchAssessment(assessmentId: string): Promise<AssessmentResponse> {
+  async fetchAssessment(assessmentId: string, versionNumber?: number): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/assessment/${assessmentId}` })
+
+    const requestOptions = Number.isInteger(versionNumber)
+      ? { path: `/assessment/${assessmentId}`, query: querystring.stringify({ versionNumber }) }
+      : { path: `/assessment/${assessmentId}` }
+
+    const responseBody = await client.get(requestOptions)
     return responseBody as AssessmentResponse
   }
 

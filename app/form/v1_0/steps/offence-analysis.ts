@@ -10,11 +10,11 @@ const stepOptions: FormWizard.Steps = {
     pageTitle: defaultTitle,
     fields: fieldCodesFrom(offenceAnalysisFields, sectionCompleteFields),
     navigationOrder: 9,
-    next: 'offence-analysis-summary',
+    next: 'offence-analysis-complete',
     section: sectionName,
     sectionProgressRules: [setFieldToCompleteWhenValid('offence_analysis_section_complete')],
   },
-  '/offence-analysis-summary': {
+  '/offence-analysis-complete': {
     pageTitle: defaultTitle,
     fields: [],
     next: [],

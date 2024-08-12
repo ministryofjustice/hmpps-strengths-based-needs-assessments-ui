@@ -56,7 +56,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).getCheckbox('Other').isChecked().getConditionalQuestion().hasText('some text')
     })
 
-    const familyOrFriendsOptions = ['Yes', 'No']
+    const familyOrFriendsOptions = [
+      ['Yes', 'Yes, over reliant on friends and family for money'],
+      ['No', 'No, not over reliant on friends and family for money'],
+    ]
 
     it(`displays and validates conditional question for "Family or friends"`, () => {
       cy.getQuestion(question).getCheckbox('Family or friends').hasConditionalQuestion(false).clickLabel()
@@ -66,7 +69,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Is Sam over reliant on family or friends for money?')
         .hasHint(null)
-        .hasRadios(familyOrFriendsOptions)
+        .hasRadios(familyOrFriendsOptions.map(([option, _]) => option))
 
       cy.saveAndContinue()
       cy.getQuestion(question)
@@ -78,7 +81,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.checkAccessibility()
     })
 
-    familyOrFriendsOptions.forEach(option => {
+    familyOrFriendsOptions.forEach(([option, displaySummaryValue]) => {
       it(`summary page displays "Family or friends - ${option}"`, () => {
         cy.getQuestion(question).getCheckbox('Family or friends').clickLabel()
 
@@ -93,7 +96,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
         cy.saveAndContinue()
         cy.visitStep(summaryPage)
-        cy.getSummary(question).getAnswer('Family or friends').hasSecondaryAnswer(option)
+        cy.getSummary(question).getAnswer('Family or friends').hasSecondaryAnswer(displaySummaryValue)
         cy.checkAccessibility()
         cy.getSummary(question).clickChange()
         cy.assertStepUrlIs(stepUrl)
@@ -106,6 +109,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .isChecked()
       })
     })
+
     Array.of(
       "Carer's allowance",
       'Disability benefits',

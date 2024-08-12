@@ -7,6 +7,7 @@ describe('/employment-education', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
+    cy.assertResumeUrlIs('Employment and education', stepUrl)
     cy.visitStep(stepUrl)
     cy.assertSectionIs('Employment and education')
     cy.assertQuestionCount(questions.length)

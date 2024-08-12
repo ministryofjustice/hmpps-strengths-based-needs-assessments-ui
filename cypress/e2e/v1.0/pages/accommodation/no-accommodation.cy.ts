@@ -22,6 +22,7 @@ describe('/no-accommodation', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Accommodation', stepUrl)
 
     cy.captureAssessment()
   })

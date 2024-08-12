@@ -67,15 +67,7 @@ describe('fields/common', () => {
 
   describe('requiredWhenValidator', () => {
     const contextWithAnswers = (answers: Record<string, string | string[]>) => ({
-      sessionModel: {
-        options: {
-          req: {
-            form: {
-              values: answers,
-            },
-          },
-        },
-      },
+      values: answers,
     })
 
     describe('when the the dependent field has a single value answer', () => {

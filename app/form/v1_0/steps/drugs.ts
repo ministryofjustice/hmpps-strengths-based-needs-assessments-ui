@@ -6,7 +6,6 @@ import {
   drugUseFields,
   drugUseTypeFields,
   practitionerAnalysisFields,
-  analysisSectionComplete,
   sectionCompleteFields,
 } from '../fields/drugs'
 import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
@@ -24,14 +23,7 @@ const stepOptions: FormWizard.Steps = {
     ],
     navigationOrder: 4,
     section: sectionName,
-    sectionProgressRules: [
-      {
-        fieldCode: 'drug_use_section_complete',
-        conditionFn: (isValid: boolean, answers: Record<string, string | string[]>) =>
-          isValid && answers.drug_use === 'NO',
-      },
-      setFieldToIncomplete('drug_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
   },
   '/drug-use-details': {
     pageTitle: defaultTitle,
@@ -39,10 +31,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'drug-use-type',
     backLink: 'drug-use',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('drug_use_section_complete'),
-      setFieldToIncomplete('drug_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
   },
   '/drug-use-type': {
     pageTitle: defaultTitle,
@@ -50,10 +39,7 @@ const stepOptions: FormWizard.Steps = {
     next: 'drug-usage-details',
     backLink: 'drug-use-details',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('drug_use_section_complete'),
-      setFieldToIncomplete('drug_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
   },
   '/drug-usage-details': {
     pageTitle: defaultTitle,
@@ -62,10 +48,7 @@ const stepOptions: FormWizard.Steps = {
     template: 'forms/summary/drug-usage',
     backLink: 'drug-use-type',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToIncomplete('drug_use_section_complete'),
-      setFieldToIncomplete('drug_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
   },
   '/drug-use-changes': {
     pageTitle: defaultTitle,
@@ -73,18 +56,15 @@ const stepOptions: FormWizard.Steps = {
     next: 'drug-use-analysis',
     backLink: 'drug-usage-details',
     section: sectionName,
-    sectionProgressRules: [
-      setFieldToCompleteWhenValid('drug_use_section_complete'),
-      setFieldToIncomplete('drug_use_analysis_section_complete'),
-    ],
+    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
   },
   '/drug-use-analysis': {
     pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, [analysisSectionComplete]),
+    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
     next: 'drug-use-analysis-complete#practitioner-analysis',
     template: 'forms/summary/summary-analysis-incomplete',
     section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('drug_use_analysis_section_complete')],
+    sectionProgressRules: [setFieldToCompleteWhenValid('drug_use_section_complete')],
   },
   '/drug-use-analysis-complete': {
     pageTitle: defaultTitle,
