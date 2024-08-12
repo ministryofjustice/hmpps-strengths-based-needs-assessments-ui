@@ -96,7 +96,7 @@
           </div>
           <div class="section-heading">
             <div class="section-heading__heading">
-              {% if options.pageSubHeading %}<h3 class="page-sub-heading">{{ options.pageSubHeading }}</h3>{% endif %}
+              {% if options.pageSubHeading %}<p class="page-sub-heading">{{ options.pageSubHeading }}</p>{% endif %}
               {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (form.fields | removeNonRenderedFields).length == 1 else "govuk-heading-l" %}
               <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
             </div>
