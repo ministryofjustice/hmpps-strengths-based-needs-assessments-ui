@@ -20,3 +20,8 @@
 .no-margin-bottom {
   margin-bottom: 0;
 }
+
+.page-sub-heading {
+  @extend .govuk-body-l;
+  margin-bottom: govuk-spacing(-1);
+}

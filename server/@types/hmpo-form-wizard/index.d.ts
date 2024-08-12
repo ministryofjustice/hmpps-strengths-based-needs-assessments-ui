@@ -141,6 +141,7 @@ declare module 'hmpo-form-wizard' {
 
     interface Step {
       pageTitle: string
+      pageSubHeading?: string
       reset?: boolean
       entryPoint?: boolean
       template?: string
