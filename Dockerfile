@@ -21,6 +21,7 @@ RUN npm run record-build-info
 
 FROM base as development
 COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
+COPY --from=build --chown=appuser:appgroup /app/build-info.json ./dist/build-info.json
 COPY --from=build --chown=appuser:appgroup /app/docker ./docker
 COPY --from=build --chown=appuser:appgroup /app/dist ./dist
 ENV NODE_ENV='development'
