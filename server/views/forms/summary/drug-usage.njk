@@ -60,8 +60,8 @@
         {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
         {{ renderQuestion(options.fields["past_drug_usage_other_drug"], errors) }}
     {% endswitch %}
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   </div>
-  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 {%- endmacro -%}
 
 {%- macro renderQuestionsForDrugTypes(fields, answers) -%}

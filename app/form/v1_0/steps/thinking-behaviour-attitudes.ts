@@ -29,7 +29,8 @@ const stepOptions: FormWizard.Steps = {
     sectionProgressRules: [setFieldToIncomplete('thinking_behaviours_attitudes_section_complete')],
   },
   '/thinking-behaviours-attitudes-sexual-offending': {
-    pageTitle: defaultTitle,
+    pageTitle: 'Risk of sexual harm',
+    pageSubHeading: defaultTitle,
     fields: fieldCodesFrom(riskOfSexualHarmFields, sectionCompleteFields),
     next: 'thinking-behaviours',
     backLink: 'thinking-behaviours-attitudes',
