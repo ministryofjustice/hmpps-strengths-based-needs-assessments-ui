@@ -28,9 +28,11 @@ export default abstract class FieldsFactory {
   static readonly detailsCharacterLimit = 400
 
   section: Section
+  fieldPrefix: string
 
   constructor(section: Section) {
     this.section = section
+    this.fieldPrefix = section.code.replace(/-/g, '_')
   }
 
   static getUserSubmittedField(fields: string[]) {
@@ -76,11 +78,11 @@ export default abstract class FieldsFactory {
   }
 
   isUserSubmitted(step: string): Array<FormWizard.Field> {
-    const stepCode = step.replace('-', '_').replace('/', '')
+    const stepCode = step.replace(/-/g, '_').replace(/\//g, '')
     return [
       {
         text: 'Has the user submitted the page?',
-        code: `${this.section.code}_is_${stepCode}_user_submitted`,
+        code: `${this.fieldPrefix}_is_${stepCode}_user_submitted`,
         type: FieldType.Radio,
         hidden: true,
         options: yesNoOptions,
@@ -92,7 +94,7 @@ export default abstract class FieldsFactory {
     return [
       {
         text: `Is the ${this.section.title} section complete?`,
-        code: `${this.section.code}_section_complete`,
+        code: `${this.fieldPrefix}_section_complete`,
         type: FieldType.Radio,
         hidden: true,
         options: yesNoOptions,
@@ -102,7 +104,6 @@ export default abstract class FieldsFactory {
 
   wantToMakeChanges(): Array<FormWizard.Field> {
     const changesTo = `their ${this.section.title.toLowerCase()}`
-    const prefix = this.section.code
 
     const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
       { text: 'I have already made positive changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
@@ -117,7 +118,7 @@ export default abstract class FieldsFactory {
       {
         text: `Does [subject] want to make changes to ${changesTo}?`,
         hint: { text: 'This question must be directly answered by [subject].', kind: 'text' },
-        code: `${prefix}_changes`,
+        code: `${this.fieldPrefix}_changes`,
         type: FieldType.Radio,
         validate: [{ type: ValidationType.Required, message: `Select if they want to make changes to ${changesTo}` }],
         options: [
@@ -129,13 +130,12 @@ export default abstract class FieldsFactory {
         ],
         labelClasses: getMediumLabelClassFor(FieldType.Radio),
       },
-      ...makeChangesOptionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentFieldCode: `${prefix}_changes` })),
+      ...makeChangesOptionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentFieldCode: `${this.fieldPrefix}_changes` })),
     ]
   }
 
   practitionerAnalysis(): Array<FormWizard.Field> {
-    const prefix = this.section.code.replace('-', '_')
-    const sectionDisplayName = this.section.title
+    const sectionDisplayName = this.section.title.toLowerCase()
     const analysisRadioGroupClasses = `${inlineRadios} radio-group--analysis`
 
     return [
@@ -145,7 +145,7 @@ export default abstract class FieldsFactory {
           text: 'Include any strategies, people or support networks that helped.',
           kind: 'text',
         },
-        code: `${prefix}_practitioner_analysis_strengths_or_protective_factors`,
+        code: `${this.fieldPrefix}_practitioner_analysis_strengths_or_protective_factors`,
         type: FieldType.Radio,
         validate: [
           { type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' },
@@ -157,11 +157,11 @@ export default abstract class FieldsFactory {
       },
       {
         text: 'Give details',
-        code: `${prefix}_practitioner_analysis_strengths_or_protective_factors_details`,
+        code: `${this.fieldPrefix}_practitioner_analysis_strengths_or_protective_factors_details`,
         type: FieldType.TextArea,
         validate: [
           {
-            fn: requiredWhenValidator(`${prefix}_practitioner_analysis_strengths_or_protective_factors`, 'YES'),
+            fn: requiredWhenValidator(`${this.fieldPrefix}_practitioner_analysis_strengths_or_protective_factors`, 'YES'),
             message: 'Enter details',
           },
           {
@@ -174,7 +174,7 @@ export default abstract class FieldsFactory {
       },
       {
         text: `Is [subject]’s ${sectionDisplayName} linked to risk of serious harm?`,
-        code: `${prefix}_practitioner_analysis_risk_of_serious_harm`,
+        code: `${this.fieldPrefix}_practitioner_analysis_risk_of_serious_harm`,
         type: FieldType.Radio,
         validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
         options: yesNoOptions,
@@ -184,11 +184,11 @@ export default abstract class FieldsFactory {
       },
       {
         text: 'Give details',
-        code: `${prefix}_practitioner_analysis_risk_of_serious_harm_details`,
+        code: `${this.fieldPrefix}_practitioner_analysis_risk_of_serious_harm_details`,
         type: FieldType.TextArea,
         validate: [
           {
-            fn: requiredWhenValidator(`${prefix}_practitioner_analysis_risk_of_serious_harm`, 'YES'),
+            fn: requiredWhenValidator(`${this.fieldPrefix}_practitioner_analysis_risk_of_serious_harm`, 'YES'),
             message: 'Enter details',
           },
           {
@@ -201,7 +201,7 @@ export default abstract class FieldsFactory {
       },
       {
         text: `Is [subject]’s ${sectionDisplayName} linked to risk of reoffending?`,
-        code: `${prefix}_practitioner_analysis_risk_of_reoffending`,
+        code: `${this.fieldPrefix}_practitioner_analysis_risk_of_reoffending`,
         type: FieldType.Radio,
         validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
         options: yesNoOptions,
@@ -211,11 +211,11 @@ export default abstract class FieldsFactory {
       },
       {
         text: 'Give details',
-        code: `${prefix}_practitioner_analysis_risk_of_reoffending_details`,
+        code: `${this.fieldPrefix}_practitioner_analysis_risk_of_reoffending_details`,
         type: FieldType.TextArea,
         validate: [
           {
-            fn: requiredWhenValidator(`${prefix}_practitioner_analysis_risk_of_reoffending`, 'YES'),
+            fn: requiredWhenValidator(`${this.fieldPrefix}_practitioner_analysis_risk_of_reoffending`, 'YES'),
             message: 'Enter details',
           },
           {
