@@ -1,48 +1,60 @@
 import FormWizard from 'hmpo-form-wizard'
 import SaveAndContinueController from '../../../controllers/saveAndContinueController'
-import accommodationSteps from './accommodation'
-import financeSteps from './finance'
-import drugsSteps from './drugs'
-import alcoholSteps from './alcohol'
-import employmentEducationSteps from './employment-education'
-import healthAndWellbeingSteps from './health-wellbeing'
-import thinkingBehavioursAttitudeSteps from './thinking-behaviour-attitudes'
-import personalRelationshipsAndCommunitySteps from './personal-relationships-community'
-import offenceAnalysisSteps from './offence-analysis'
+import accommodationSection from './accommodation'
+import financeSection from './finance'
+import drugsSection from './drugs'
+import alcoholSection from './alcohol'
+import employmentEducationSection from './employment-education'
+import healthAndWellbeingSection from './health-wellbeing'
+import thinkingBehavioursAttitudeSection from './thinking-behaviour-attitudes'
+import personalRelationshipsAndCommunitySection from './personal-relationships-community'
+import offenceAnalysisSection from './offence-analysis'
 import { assessmentComplete } from '../fields'
+import { fieldCodesFrom, SanStep } from './common'
+import { Section, SectionConfig } from '../config/sections'
+import templates from '../config/templates'
 
-const stepOptions: FormWizard.Steps = {
-  '/data-mapping': {
-    pageTitle: 'OASys Data Mapping',
-    section: 'none',
-    template: `forms/summary/data-mapping`,
+export const sectionConfigs: SectionConfig[] = [
+  {
+    section: {
+      title: 'Data mapping',
+      code: 'data-mapping',
+    },
+    steps: [
+      {
+        url: 'data-mapping',
+        template: templates.dataMapping,
+      },
+    ],
   },
-  ...accommodationSteps,
-  ...employmentEducationSteps,
-  ...financeSteps,
-  ...drugsSteps,
-  ...alcoholSteps,
-  ...healthAndWellbeingSteps,
-  ...thinkingBehavioursAttitudeSteps,
-  ...personalRelationshipsAndCommunitySteps,
-  ...offenceAnalysisSteps,
-}
+  accommodationSection,
+  employmentEducationSection,
+  financeSection,
+  drugsSection,
+  alcoholSection,
+  healthAndWellbeingSection,
+  thinkingBehavioursAttitudeSection,
+  personalRelationshipsAndCommunitySection,
+  offenceAnalysisSection,
+]
 
-const addStep = (options: FormWizard.Step & { path: string }, steps: FormWizard.Steps): FormWizard.Steps => ({
+const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): FormWizard.Steps => ({
   ...steps,
-  [options.path]: {
-    ...options,
-    pageTitle: options.pageTitle,
-    controller: options.controller || SaveAndContinueController,
-    fields: [assessmentComplete.code, ...(options.fields || [])],
-    template: options.template || 'forms/default',
-    backLink: options.backLink || null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
+  [`/${step.url}`]: {
+    ...step,
+    pageTitle: step.pageTitle || section.title,
+    section: section.code,
+    controller: step.controller || SaveAndContinueController,
+    fields: [assessmentComplete.code, ...fieldCodesFrom(step.fields || [])],
+    template: step.template || 'forms/default',
+    backLink: step.backLink || null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
   },
 })
 
-const steps: FormWizard.Steps = Object.entries(stepOptions).reduce(
-  (allSteps: FormWizard.Steps, [path, step]: [string, FormWizard.Step]) => addStep({ path, ...step }, allSteps),
-  {},
-)
-
-export default steps
+export default function buildSteps(): FormWizard.Steps {
+  const stepsReducer = (sectionConfig: SectionConfig) => (allSectionSteps: FormWizard.Steps, step: SanStep) =>
+    toSteps(step, sectionConfig.section, allSectionSteps)
+  const toSectionSteps = (allSteps: FormWizard.Steps, sectionConfig: SectionConfig) =>
+    sectionConfig.steps.reduce(stepsReducer(sectionConfig), allSteps)
+  return sectionConfigs.reduce(toSectionSteps, {})
+}

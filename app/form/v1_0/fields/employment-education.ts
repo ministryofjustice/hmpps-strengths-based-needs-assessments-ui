@@ -1,16 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
-import {
-  fieldCodeWith,
-  getMediumLabelClassFor,
-  orDivider,
-  toFormWizardFields,
-  visuallyHidden,
-  yesNoOptions,
-} from './common'
-import { detailsField, detailsFieldWith } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   {
@@ -31,7 +22,7 @@ const createErrorForExperienceOfFields = (subject: string, prefix?: string) =>
   ['Select their', prefix, 'experience of', subject].filter(it => it !== undefined && it !== null).join(' ')
 
 const createExperienceOfFields = (label: string, subject: string, prefix?: string): Array<FormWizard.Field> => {
-  const parentFieldCode = fieldCodeWith(subject, 'experience')
+  const parentFieldCode = utils.fieldCodeWith(subject, 'experience')
   const optionsWithDetails: Array<FormWizard.Field.Option> = [
     { text: 'Positive', value: 'POSITIVE', kind: 'option' },
     { text: 'Mostly positive', value: 'MOSTLY_POSITIVE', kind: 'option' },
@@ -47,13 +38,13 @@ const createExperienceOfFields = (label: string, subject: string, prefix?: strin
       type: FieldType.Radio,
       validate: [{ type: ValidationType.Required, message: createErrorForExperienceOfFields(subject, prefix) }],
       options: [...optionsWithDetails, { text: 'Unknown', value: 'UNKNOWN', kind: 'option' }],
-      labelClasses: getMediumLabelClassFor(FieldType.Radio),
+      labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
     },
-    ...optionsWithDetails.map(detailsFieldWith({ parentFieldCode })),
+    ...optionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentFieldCode })),
   ]
 }
 
-export const employmentStatusFields: Array<FormWizard.Field> = [
+const employmentStatusFields: Array<FormWizard.Field> = [
   {
     text: "What is [subject]'s current employment status?",
     code: 'employment_status',
@@ -84,7 +75,7 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
       value: 'EMPLOYED',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Have they been employed before?',
@@ -127,13 +118,13 @@ export const employmentStatusFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const employmentFields: Array<FormWizard.Field> = [
+const employmentFields: Array<FormWizard.Field> = [
   {
     text: 'What job sector does [subject] work in? (optional)',
     code: 'employment_area',
     type: FieldType.TextArea,
     validate: [],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 
@@ -150,7 +141,7 @@ const employmentHistoryOptions: FormWizard.Field.Options = [
   { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
 ]
 
-export const employmentHistory: Array<FormWizard.Field> = [
+const employmentHistoryFields: Array<FormWizard.Field> = [
   {
     text: "What is [subject]'s employment history?",
     hint: { text: 'Include their current employment.', kind: 'text' },
@@ -158,17 +149,17 @@ export const employmentHistory: Array<FormWizard.Field> = [
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their employment history' }],
     options: employmentHistoryOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   ...employmentHistoryOptions.map(
-    detailsFieldWith({
+    FieldsFactory.detailsFieldWith({
       parentFieldCode: 'employment_history',
       textHint: "Include what type of work they've done before.",
     }),
   ),
 ]
 
-export const educationFields: Array<FormWizard.Field> = [
+const educationFields: Array<FormWizard.Field> = [
   {
     text: 'Does [subject] have any additional day-to-day commitments?',
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -187,13 +178,13 @@ export const educationFields: Array<FormWizard.Field> = [
       { text: 'Studying', value: 'STUDYING', kind: 'option' },
       { text: 'Volunteering', value: 'VOLUNTEER', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
-      orDivider,
+      utils.orDivider,
       { text: 'None', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   ...['CARER', 'CHILD', 'VOLUNTEER', 'OTHER'].map(option =>
-    detailsField({
+    FieldsFactory.detailsField({
       parentFieldCode: 'employment_other_responsibilities',
       dependentValue: option,
     }),
@@ -260,11 +251,11 @@ export const educationFields: Array<FormWizard.Field> = [
         value: 'LEVEL_8',
         kind: 'option',
       },
-      orDivider,
+      utils.orDivider,
       { text: 'None of these', value: 'NONE_OF_THESE', kind: 'option' },
       { text: 'Unknown', value: 'NOT_SURE', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Does [subject] have any professional or vocational qualifications?',
@@ -276,12 +267,12 @@ export const educationFields: Array<FormWizard.Field> = [
     options: [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
-      orDivider,
+      utils.orDivider,
       { text: 'Unknown', value: 'NOT_SURE', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
-  detailsField({
+  FieldsFactory.detailsField({
     parentFieldCode: 'education_professional_or_vocational_qualifications',
     dependentValue: 'YES',
     required: true,
@@ -320,10 +311,10 @@ export const educationFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   ...['YES', 'YES_SOME_SKILLS'].map(option =>
-    detailsField({
+    FieldsFactory.detailsField({
       parentFieldCode: 'education_transferable_skills',
       dependentValue: option,
     }),
@@ -344,10 +335,10 @@ export const educationFields: Array<FormWizard.Field> = [
       { text: 'Yes, with reading', value: 'READING', kind: 'option' },
       { text: 'Yes, with writing', value: 'WRITING', kind: 'option' },
       { text: 'Yes, with numeracy', value: 'NUMERACY', kind: 'option' },
-      orDivider,
+      utils.orDivider,
       { text: 'No difficulties', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Select level of difficulty',
@@ -396,41 +387,29 @@ export const educationFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const experienceOfEmployment = createExperienceOfFields(
+const experienceOfEmploymentFields = createExperienceOfFields(
   "What is [subject]'s overall experience of employment?",
   'employment',
   'overall',
 )
-export const experienceOfEducation = createExperienceOfFields(
+
+const experienceOfEducationFields = createExperienceOfFields(
   "What is [subject]'s experience of education?",
   'education',
 )
 
-export const makeChangesFields = createWantToMakeChangesFields('their employment and education', 'employment_education')
+class EmploymentEducationFieldsFactory extends FieldsFactory {
+  employmentStatus = employmentStatusFields
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'employment_education',
-  'employment and education',
-)
+  employmentHistory = employmentHistoryFields
 
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the employment and education section complete?',
-  code: 'employment_education_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
+  employment = employmentFields
+
+  education = educationFields
+
+  experienceOfEmployment = experienceOfEmploymentFields
+
+  experienceOfEducation = experienceOfEducationFields
 }
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export default [
-  ...employmentStatusFields,
-  ...employmentFields,
-  ...employmentHistory,
-  ...employmentFields,
-  ...educationFields,
-  ...experienceOfEmployment,
-  ...experienceOfEducation,
-  ...makeChangesFields,
-  ...practitionerAnalysisFields,
-  ...sectionCompleteFields,
-].reduce(toFormWizardFields, {})
+export default new EmploymentEducationFieldsFactory(sections.employmentEducation)

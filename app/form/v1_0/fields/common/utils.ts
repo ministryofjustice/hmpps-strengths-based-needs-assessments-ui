@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
-import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 export const summaryCharacterLimit = 1000
 
@@ -51,8 +51,3 @@ export function requiredWhenValidator(field: string, requiredValue: string) {
 }
 
 export const fieldCodeWith = (...parts: string[]) => parts.map(it => it.trim().toLowerCase()).join('_')
-
-export const toFormWizardFields = (allFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
-  ...allFields,
-  [field.id || field.code]: field,
-})

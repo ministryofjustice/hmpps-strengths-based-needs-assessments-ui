@@ -1,5 +1,11 @@
 import FormWizard from 'hmpo-form-wizard'
 
+export interface SanStep extends FormWizard.BaseStep {
+  url: string
+  pageTitle?: string
+  fields?: FormWizard.Field[]
+}
+
 export const setFieldToCompleteWhenValid = (fieldCode: string) => ({
   fieldCode,
   conditionFn: (passedValidation: boolean) => passedValidation,

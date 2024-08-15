@@ -7,16 +7,17 @@ import {
   answerIncludes,
   formatDateForDisplay,
   getLabelForOption,
+  getRenderedFields,
   getSelectedAnswers,
   isInEditMode,
   practitionerAnalysisStarted,
-  removeNonRenderedFields,
   startsWith,
   toErrorSummary,
   toOptionDescription,
   urlSafe,
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
+import FieldsFactory from '../../app/form/v1_0/fields/common/fieldsFactory'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -70,7 +71,9 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   njkEnv.addGlobal('getSelectedAnswers', getSelectedAnswers)
 
-  njkEnv.addFilter('removeNonRenderedFields', removeNonRenderedFields)
+  njkEnv.addGlobal('getRenderedFields', getRenderedFields)
+
+  njkEnv.addGlobal('getUserSubmittedField', FieldsFactory.getUserSubmittedField)
 
   njkEnv.addFilter('startsWith', startsWith)
 

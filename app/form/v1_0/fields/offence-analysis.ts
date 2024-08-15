@@ -1,21 +1,14 @@
 import FormWizard from 'hmpo-form-wizard'
-import {
-  getMediumLabelClassFor,
-  toFormWizardFields,
-  yesNoOptions,
-  validatePastDate,
-  orDivider,
-  visuallyHidden,
-} from './common'
-import { detailsCharacterLimit } from './common/detailsField'
+import { FieldsFactory, utils } from './common'
 import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
 
 const endDateSummaryDisplay = (value: string) => `\n${formatDateForDisplay(value) || 'Not provided'}`
 const offenceAnalysisDetailsCharacterLimit4k = 4000
 const offenceAnalysisDetailsCharacterLimit1k = 1000
 
-export const offenceAnalysisFields: Array<FormWizard.Field> = [
+const offenceAnalysisFields: Array<FormWizard.Field> = [
   {
     text: 'Enter a brief description of the offence',
     code: 'offence_analysis_description_of_offence',
@@ -29,7 +22,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
   {
     text: 'When did the offence happen?',
@@ -37,13 +30,13 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     type: FieldType.Date,
     validate: [
       { type: ValidationType.Required, message: 'Enter the date of the offence' },
-      { fn: validatePastDate, message: 'The date of the offence must be in the past' },
+      { fn: utils.validatePastDate, message: 'The date of the offence must be in the past' },
     ],
     summary: {
       displayFn: endDateSummaryDisplay,
       displayAlways: true,
     },
-    labelClasses: getMediumLabelClassFor(FieldType.Date),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Date),
   },
   {
     text: 'Did the offence have any of the following elements?',
@@ -83,7 +76,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         value: 'VIOLENCE_OR_COERCION',
         kind: 'option',
       },
-      orDivider,
+      utils.orDivider,
       {
         text: 'None',
         value: 'NONE',
@@ -91,7 +84,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
@@ -102,8 +95,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -111,7 +104,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'VICTIM_TARGETED',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Why did the offence happen?',
@@ -129,7 +122,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
   },
   {
@@ -186,7 +179,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -196,8 +189,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -205,7 +198,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'OTHER',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Enter all victim details',
@@ -224,7 +217,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit1k,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
   {
     text: 'Does [subject] recognise the impact or consequences on the victims or others and the wider community?',
@@ -248,7 +241,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -258,8 +251,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -267,7 +260,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'YES',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Give details (optional)',
@@ -277,8 +270,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -286,7 +279,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'NO',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Is the offence linked to risk of serious harm, risks to the individual or other risks?',
@@ -310,7 +303,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -331,7 +324,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'YES',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Give details',
@@ -352,7 +345,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'NO',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'What are the patterns of offending?',
@@ -368,7 +361,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit1k,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
   {
     text: 'Is there evidence that [subject] has ever been a perpetrator of domestic abuse?',
@@ -384,7 +377,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Who was this committed against?',
@@ -411,8 +404,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -420,7 +413,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'FAMILY_MEMBER',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Give details',
@@ -431,8 +424,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -440,7 +433,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'INTIMATE_PARTNER',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Give details',
@@ -451,8 +444,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -460,7 +453,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Is there evidence that [subject] has ever been a victim of domestic abuse?',
@@ -476,7 +469,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Who was this committed by?',
@@ -493,7 +486,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'YES',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Give details',
@@ -504,8 +497,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -513,7 +506,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'FAMILY_MEMBER',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Give details',
@@ -524,8 +517,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -533,7 +526,7 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'INTIMATE_PARTNER',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
   {
     text: 'Give details',
@@ -544,8 +537,8 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -553,19 +546,12 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
+    labelClasses: utils.visuallyHidden,
   },
 ]
 
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the offence analysis section complete?',
-  code: 'offence_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
+class OffenceAnalysisFieldsFactory extends FieldsFactory {
+  offenceAnalysis = offenceAnalysisFields
 }
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export default [sectionCompleteFields, questionSectionComplete, offenceAnalysisFields]
-  .flat()
-  .reduce(toFormWizardFields, {})
+export default new OffenceAnalysisFieldsFactory(sections.offenceAnalysis)

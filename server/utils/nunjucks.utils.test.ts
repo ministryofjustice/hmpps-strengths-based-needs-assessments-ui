@@ -6,7 +6,6 @@ import {
   getLabelForOption,
   getSelectedAnswers,
   practitionerAnalysisStarted,
-  removeNonRenderedFields,
   toErrorSummary,
   toOptionDescription,
 } from './nunjucks.utils'
@@ -164,18 +163,18 @@ describe('server/utils/nunjucks.utils', () => {
     })
   })
 
-  describe('removeNonRenderedFields', () => {
-    it('removes fields with the "_section_complete" suffix', () => {
-      const fields = ['foo_field', 'foo_section_complete', 'foo_analysis_section_complete', 'field_that_ends_complete']
-
-      expect(removeNonRenderedFields(fields)).toEqual(['foo_field', 'field_that_ends_complete'])
-    })
-
-    it('returns empty when the passed array is empty or missing', () => {
-      expect(removeNonRenderedFields([] as string[])).toEqual([])
-      expect(removeNonRenderedFields(undefined)).toEqual([])
-    })
-  })
+  // describe('removeNonRenderedFields', () => {
+  //   it('removes fields with the "_section_complete" suffix', () => {
+  //     const fields = ['foo_field', 'foo_section_complete', 'foo_analysis_section_complete', 'field_that_ends_complete']
+  //
+  //     expect(removeNonRenderedFields(fields)).toEqual(['foo_field', 'field_that_ends_complete'])
+  //   })
+  //
+  //   it('returns empty when the passed array is empty or missing', () => {
+  //     expect(removeNonRenderedFields([] as string[])).toEqual([])
+  //     expect(removeNonRenderedFields(undefined)).toEqual([])
+  //   })
+  // })
 
   describe('formatDateForDisplay', () => {
     it('returns the data in the format', () => {

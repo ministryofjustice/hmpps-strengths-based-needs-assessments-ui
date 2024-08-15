@@ -15,6 +15,7 @@ import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
+import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 
 export type Progress = Record<string, boolean>
 
@@ -81,6 +82,15 @@ class SaveAndContinueController extends BaseController {
 
   async process(req: FormWizard.Request, res: Response, next: NextFunction) {
     req.form.values = combineDateFields(req.body, req.form.values)
+
+    const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(req.form.options.fields))
+    if (!req.form.values[userSubmittedField]) {
+      req.form.values = {
+        ...req.form.values,
+        [userSubmittedField]: 'NO',
+      }
+    }
+
     const mergedAnswers = { ...req.form.persistedAnswers, ...req.form.values }
 
     req.form.values = Object.entries(req.form.options.fields)
@@ -196,11 +206,11 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getSectionProgress(req: FormWizard.Request, isValidated: boolean): FormWizard.Answers {
+  getSectionProgress(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
       req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
         fieldCode,
-        conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
+        conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO',
       ]),
     )
 
@@ -213,7 +223,7 @@ class SaveAndContinueController extends BaseController {
   async persistAnswers(req: FormWizard.Request, res: Response) {
     const { assessmentId } = req.session.sessionData as SessionData
 
-    const { sectionHasErrors } = new FieldDependencyTreeBuilder(req.form.options, {
+    const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
       ...req.form.persistedAnswers,
       ...req.form.values,
     }).getNextPageToComplete()
@@ -221,7 +231,7 @@ class SaveAndContinueController extends BaseController {
     const allAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,
       ...(req.form.values || {}),
-      ...this.getSectionProgress(req, !sectionHasErrors),
+      ...this.getSectionProgress(req, isSectionComplete),
     }
 
     const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers)

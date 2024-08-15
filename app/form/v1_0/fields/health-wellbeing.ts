@@ -1,9 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
-import { getMediumLabelClassFor, orDivider, toFormWizardFields, yesNoOptions } from './common'
-import { detailsCharacterLimit } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
 
 const headInjuryOrIllnessHint = `
 <div class="govuk-grid-width-full">
@@ -22,7 +20,7 @@ const positiveFactorsHint = `
 <p class="govuk-hint">Select all that apply.</p>
 `
 
-export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
+const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
   {
     text: 'Does [subject] have any physical health conditions?',
     code: 'health_wellbeing_physical_health_condition',
@@ -33,7 +31,7 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -42,8 +40,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -77,7 +75,7 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -86,8 +84,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -103,8 +101,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -120,8 +118,8 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -132,7 +130,7 @@ export const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const physicalHealthConditionsFields: Array<FormWizard.Field> = [
+const physicalHealthConditionsFields: Array<FormWizard.Field> = [
   {
     text: 'Give details if [subject] is on prescribed medication or treatment for physical health conditions (optional)',
     code: 'health_wellbeing_prescribed_medication_physical_conditions',
@@ -140,15 +138,15 @@ export const physicalHealthConditionsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 
-export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
+const mentalHealthConditionsFields: Array<FormWizard.Field> = [
   {
     text: 'Give details if [subject] is on prescribed medication or treatment for mental health problems (optional)',
     code: 'health_wellbeing_prescribed_medication_mental_conditions',
@@ -156,11 +154,11 @@ export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
   {
     text: 'Is [subject] currently having psychiatric treatment?',
@@ -173,11 +171,11 @@ export const mentalHealthConditionsFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
 ]
 
-export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
+const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
   {
     text: 'Has [subject] had a head injury or any illness affecting the brain?',
     hint: { html: headInjuryOrIllnessHint, kind: 'html' },
@@ -194,7 +192,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Does [subject] have any neurodiverse conditions?',
@@ -207,7 +205,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -216,8 +214,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -236,7 +234,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'Yes, some learning difficulties', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
       { text: 'No difficulties', value: 'NO', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -245,8 +243,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -262,8 +260,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -282,7 +280,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'Has some difficulties coping', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
       { text: 'Not able to cope', value: 'NO', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: "What is [subject]'s attitude towards themselves?",
@@ -305,7 +303,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Has [subject] ever self-harmed?',
@@ -313,8 +311,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     code: 'health_wellbeing_self_harmed',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever self-harmed' }],
-    options: yesNoOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    options: utils.yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -324,8 +322,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -342,8 +340,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
     validate: [
       { type: ValidationType.Required, message: 'Select if they have ever attempted suicide or had suicidal thoughts' },
     ],
-    options: yesNoOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    options: utils.yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -353,8 +351,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -376,11 +374,11 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
         value: 'NOT_OPTIMISTIC',
         kind: 'option',
       },
-      orDivider,
+      utils.orDivider,
       { text: '[subject] does not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: "What's helped [subject] during periods of good health and wellbeing? (optional)",
@@ -398,7 +396,7 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { text: 'Relationships', value: 'RELATIONSHIPS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details',
@@ -408,8 +406,8 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -420,30 +418,14 @@ export const baseHealthAndWellbeingQuestions: Array<FormWizard.Field> = [
   },
 ]
 
-export const makeChangesFields = createWantToMakeChangesFields('their health and wellbeing', 'health_wellbeing')
+class HealthWellbeingFieldsFactory extends FieldsFactory {
+  physicalOrMentalHealthProblems = physicalOrMentalHealthProblemsFields
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'health_wellbeing',
-  'health and wellbeing',
-)
+  physicalHealthConditions = physicalHealthConditionsFields
 
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the health and wellbeing section complete?',
-  code: 'health_wellbeing_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
+  mentalHealthConditions = mentalHealthConditionsFields
+
+  baseHealthAndWellbeing = baseHealthAndWellbeingFields
 }
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export default [
-  physicalOrMentalHealthProblemsFields,
-  physicalHealthConditionsFields,
-  mentalHealthConditionsFields,
-  baseHealthAndWellbeingQuestions,
-  makeChangesFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-]
-  .flat()
-  .reduce(toFormWizardFields, {})
+export default new HealthWellbeingFieldsFactory(sections.healthWellbeing)

@@ -1,11 +1,9 @@
 import FormWizard from 'hmpo-form-wizard'
-import { getMediumLabelClassFor, toFormWizardFields, yesNoOptions } from './common'
-import { detailsCharacterLimit } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import { FieldsFactory, utils } from './common'
+import sections from '../config/sections'
 
-export const personalRelationshipsFields: Array<FormWizard.Field> = [
+const personalRelationshipsFields: Array<FormWizard.Field> = [
   {
     text: "Who are the important people in [subject]'s life?",
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -29,7 +27,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
       { text: 'Friends', value: 'FRIENDS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -42,8 +40,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -60,8 +58,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -77,8 +75,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -94,8 +92,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -111,8 +109,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -129,8 +127,8 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -141,7 +139,7 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
+const currentRelationshipStatusFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] happy with their current relationship status?',
     code: 'personal_relationships_community_current_relationship',
@@ -166,7 +164,7 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -175,8 +173,8 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -192,8 +190,8 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -209,8 +207,8 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -221,7 +219,7 @@ export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const intimateRelationshipFields: Array<FormWizard.Field> = [
+const intimateRelationshipFields: Array<FormWizard.Field> = [
   {
     text: "What is [subject]'s history of intimate relationships?",
     code: 'personal_relationships_community_intimate_relationship',
@@ -248,7 +246,7 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -261,8 +259,8 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -282,8 +280,8 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -303,8 +301,8 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -324,16 +322,16 @@ export const intimateRelationshipFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
       { type: ValidationType.Required, message: 'Enter details' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 
-export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
+const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
   {
     text: "What is [subject]'s current relationship like with their family?",
     code: 'personal_relationships_community_family_relationship',
@@ -364,7 +362,7 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
       },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -373,8 +371,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -390,8 +388,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -407,8 +405,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -442,7 +440,7 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -451,8 +449,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -468,8 +466,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -485,8 +483,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -512,7 +510,7 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -521,8 +519,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -538,8 +536,8 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -553,11 +551,11 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
     code: 'personal_relationships_community_belonging',
     hint: { text: 'For example, online social media or community groups.', kind: 'text' },
     type: FieldType.TextArea,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   },
 ]
 
-export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
+const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
   {
     text: 'Is [subject] able to manage their parental responsibilities? ',
     code: 'personal_relationships_community_parental_responsibilities',
@@ -583,7 +581,7 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
       { text: 'No, is not able to manage parenting responsibilities', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -592,8 +590,8 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -609,8 +607,8 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -626,8 +624,8 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -638,34 +636,16 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const makeChangesFields = createWantToMakeChangesFields(
-  'their personal relationships and community',
-  'personal_relationships_community',
-)
+class PersonalRelationshipsFieldsFactory extends FieldsFactory {
+  personalRelationships = personalRelationshipsFields
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'personal_relationships_community',
-  'personal relationships and community',
-)
+  personalRelationshipsCommunity = personalRelationshipsCommunityFields
 
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the personal relationships and community section complete?',
-  code: 'personal_relationships_community_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
+  parentalResponsibilities = parentalResponsibilitiesFields
+
+  currentRelationshipStatus = currentRelationshipStatusFields
+
+  intimateRelationship = intimateRelationshipFields
 }
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export default [
-  personalRelationshipsFields,
-  personalRelationshipsCommunityFields,
-  parentalResponsibilitiesFields,
-  makeChangesFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-  currentRelationshipStatusFields,
-  intimateRelationshipFields,
-]
-  .flat()
-  .reduce(toFormWizardFields, {})
+export default new PersonalRelationshipsFieldsFactory(sections.personalRelationships)

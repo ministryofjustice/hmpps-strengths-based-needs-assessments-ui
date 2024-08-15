@@ -146,6 +146,7 @@ export const withValuesFrom =
     switch (field.type) {
       case FieldType.Text:
       case FieldType.TextArea:
+      case FieldType.Hidden:
         return { ...field, value: answers[field.code] }
       case FieldType.Radio:
       case FieldType.Dropdown:

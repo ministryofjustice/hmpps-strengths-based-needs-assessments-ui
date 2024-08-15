@@ -1,65 +1,83 @@
-import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
-import {
-  thinkingBehavioursAttitudesFields,
-  riskOfSexualHarmFields,
-  thinkingBehaviourFields,
-  makeChangesFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-} from '../fields/thinking-behaviours-attitudes'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import thinkingBehavioursFields from '../fields/thinking-behaviours-attitudes'
+import sections, { SectionConfig } from '../config/sections'
+import templates from '../config/templates'
 
-const defaultTitle = 'Thinking, behaviours and attitudes'
-const sectionName = 'thinking-behaviours-attitudes'
-
-const stepOptions: FormWizard.Steps = {
-  '/thinking-behaviours-attitudes': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(thinkingBehavioursAttitudesFields, sectionCompleteFields),
-    navigationOrder: 8,
-    next: [
-      {
-        field: 'thinking_behaviours_attitudes_risk_sexual_harm',
-        value: 'YES',
-        next: 'thinking-behaviours-attitudes-sexual-offending',
-      },
-      { field: 'thinking_behaviours_attitudes_risk_sexual_harm', value: 'NO', next: 'thinking-behaviours' },
-    ].flat(),
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('thinking_behaviours_attitudes_section_complete')],
-  },
-  '/thinking-behaviours-attitudes-sexual-offending': {
-    pageTitle: 'Risk of sexual harm',
-    pageSubHeading: defaultTitle,
-    fields: fieldCodesFrom(riskOfSexualHarmFields, sectionCompleteFields),
-    next: 'thinking-behaviours',
-    backLink: 'thinking-behaviours-attitudes',
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('thinking_behaviours_attitudes_section_complete')],
-  },
-  '/thinking-behaviours': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(thinkingBehaviourFields, makeChangesFields, sectionCompleteFields),
-    next: 'thinking-behaviours-attitudes-analysis',
-    backLink: 'thinking-behaviours-attitudes',
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('thinking_behaviours_attitudes_section_complete')],
-  },
-  '/thinking-behaviours-attitudes-analysis': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
-    next: 'thinking-behaviours-attitudes-analysis-complete#practitioner-analysis',
-    template: 'forms/summary/summary-analysis-incomplete',
-    section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('thinking_behaviours_attitudes_section_complete')],
-  },
-  '/thinking-behaviours-attitudes-analysis-complete': {
-    pageTitle: defaultTitle,
-    fields: [],
-    next: [],
-    template: 'forms/summary/summary-analysis-complete',
-    section: sectionName,
-  },
+const section = sections.thinkingBehaviours
+const stepUrls = {
+  thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
+  sexualOffending: 'thinking-behaviours-attitudes-sexual-offending',
+  thinkingBehaviours: 'thinking-behaviours',
+  analysis: 'thinking-behaviours-attitudes-analysis',
+  analysisComplete: 'thinking-behaviours-attitudes-analysis-complete',
 }
 
-export default stepOptions
+const sectionConfig: SectionConfig = {
+  section,
+  steps: [
+    {
+      url: stepUrls.thinkingBehavioursAttitudes,
+      fields: [
+        ...thinkingBehavioursFields.thinkingBehavioursAttitudes,
+        ...thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
+        ...thinkingBehavioursFields.sectionComplete(),
+      ],
+      navigationOrder: 8,
+      next: [
+        {
+          field: 'thinking_behaviours_attitudes_risk_sexual_harm',
+          value: 'YES',
+          next: stepUrls.sexualOffending,
+        },
+        {
+          field: 'thinking_behaviours_attitudes_risk_sexual_harm',
+          value: 'NO',
+          next: stepUrls.thinkingBehaviours,
+        },
+      ],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.sexualOffending,
+      pageTitle: 'Risk of sexual harm',
+      pageSubHeading: section.title,
+      fields: [
+        ...thinkingBehavioursFields.riskOfSexualHarm,
+        ...thinkingBehavioursFields.isUserSubmitted(stepUrls.sexualOffending),
+        ...thinkingBehavioursFields.sectionComplete(),
+      ],
+      next: stepUrls.thinkingBehaviours,
+      backLink: stepUrls.thinkingBehavioursAttitudes,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.thinkingBehaviours,
+      fields: [
+        ...thinkingBehavioursFields.thinkingBehaviour,
+        ...thinkingBehavioursFields.wantToMakeChanges(),
+        ...thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehaviours),
+        ...thinkingBehavioursFields.sectionComplete(),
+      ],
+      next: stepUrls.analysis,
+      backLink: stepUrls.thinkingBehavioursAttitudes,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      fields: [
+        ...thinkingBehavioursFields.practitionerAnalysis(),
+        ...thinkingBehavioursFields.isUserSubmitted(stepUrls.analysis),
+        ...thinkingBehavioursFields.sectionComplete(),
+      ],
+      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
+      template: templates.analysisComplete,
+    },
+  ],
+}
+
+export default sectionConfig

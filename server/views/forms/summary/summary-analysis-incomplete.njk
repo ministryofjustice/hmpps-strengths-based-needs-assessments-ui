@@ -5,14 +5,16 @@
 {% block analysisPanel %}
   <form id="form" method="post" action="{{ action }}#practitioner-analysis">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-    {% for field in (form.fields | removeNonRenderedFields) %}
+    {% for field in getRenderedFields(form.fields, options) %}
       {{ renderQuestion(options.fields[field], errors) }}
     {% endfor %}
 
     <div class="questiongroup-action-buttons">
       {{ govukButton({
         text: buttonText | default("Mark as complete"),
-        classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1"
+        classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1",
+        name: getUserSubmittedField(form.fields),
+        value: 'YES'
       }) }}
     </div>
   </form>

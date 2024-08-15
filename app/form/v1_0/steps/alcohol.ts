@@ -1,60 +1,76 @@
-import FormWizard from 'hmpo-form-wizard'
-import {
-  alcoholUsageWithinThreeMonthsFields,
-  alcoholUseFields,
-  baseAlcoholUsageFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-} from '../fields/alcohol'
-import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import alcoholFields from '../fields/alcohol'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import sections, { SectionConfig } from '../config/sections'
+import templates from '../config/templates'
 
-const defaultTitle = 'Alcohol use'
-const sectionName = 'alcohol-use'
-
-const stepOptions: FormWizard.Steps = {
-  '/alcohol-use': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(alcoholUseFields, sectionCompleteFields),
-    next: [
-      { field: 'alcohol_use', value: 'YES_WITHIN_LAST_THREE_MONTHS', next: 'alcohol-usage-last-three-months' },
-      { field: 'alcohol_use', value: 'YES_NOT_IN_LAST_THREE_MONTHS', next: 'alcohol-usage-but-not-last-three-months' },
-      { field: 'alcohol_use', value: 'NO', next: 'alcohol-use-analysis' },
-    ],
-    navigationOrder: 5,
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
-  },
-  '/alcohol-usage-last-three-months': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(alcoholUsageWithinThreeMonthsFields, baseAlcoholUsageFields, sectionCompleteFields),
-    backLink: sectionName,
-    next: ['alcohol-use-analysis'],
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
-  },
-  '/alcohol-usage-but-not-last-three-months': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(baseAlcoholUsageFields, sectionCompleteFields),
-    backLink: sectionName,
-    next: ['alcohol-use-analysis'],
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('alcohol_use_section_complete')],
-  },
-  '/alcohol-use-analysis': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
-    next: ['alcohol-use-analysis-complete#practitioner-analysis'],
-    template: 'forms/summary/summary-analysis-incomplete',
-    section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('alcohol_use_section_complete')],
-  },
-  '/alcohol-use-analysis-complete': {
-    pageTitle: defaultTitle,
-    fields: [],
-    next: [],
-    template: 'forms/summary/summary-analysis-complete',
-    section: sectionName,
-  },
+const section = sections.alcohol
+const stepUrls = {
+  alcoholUse: 'alcohol-use',
+  last3Months: 'alcohol-usage-last-three-months',
+  notLast3Months: 'alcohol-usage-but-not-last-three-months',
+  analysis: 'alcohol-use-analysis',
+  analysisComplete: 'alcohol-use-analysis-complete',
 }
 
-export default stepOptions
+const sectionConfig: SectionConfig = {
+  section,
+  steps: [
+    {
+      url: stepUrls.alcoholUse,
+      fields: [
+        ...alcoholFields.alcoholUse,
+        ...alcoholFields.isUserSubmitted(stepUrls.alcoholUse),
+        ...alcoholFields.sectionComplete(),
+      ],
+      next: [
+        { field: 'alcohol_use', value: 'YES_WITHIN_LAST_THREE_MONTHS', next: stepUrls.last3Months },
+        { field: 'alcohol_use', value: 'YES_NOT_IN_LAST_THREE_MONTHS', next: stepUrls.notLast3Months },
+        { field: 'alcohol_use', value: 'NO', next: stepUrls.analysis },
+      ],
+      navigationOrder: 5,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.last3Months,
+      fields: [
+        ...alcoholFields.alcoholUsageWithinThreeMonths,
+        ...alcoholFields.baseAlcoholUsage,
+        ...alcoholFields.wantToMakeChanges(),
+        ...alcoholFields.isUserSubmitted(stepUrls.last3Months),
+        ...alcoholFields.sectionComplete(),
+      ],
+      backLink: stepUrls.alcoholUse,
+      next: stepUrls.analysis,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.notLast3Months,
+      fields: [
+        ...alcoholFields.baseAlcoholUsage,
+        ...alcoholFields.wantToMakeChanges(),
+        ...alcoholFields.isUserSubmitted(stepUrls.notLast3Months),
+        ...alcoholFields.sectionComplete(),
+      ],
+      backLink: sections.alcohol.code,
+      next: stepUrls.analysis,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      fields: [
+        ...alcoholFields.practitionerAnalysis(),
+        ...alcoholFields.isUserSubmitted(stepUrls.analysis),
+        ...alcoholFields.sectionComplete(),
+      ],
+      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
+      template: templates.analysisComplete,
+    },
+  ],
+}
+
+export default sectionConfig

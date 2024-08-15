@@ -1,77 +1,97 @@
-import FormWizard from 'hmpo-form-wizard'
-import {
-  drugUsageDetailsFields,
-  drugUseTypeDetailsFields,
-  drugUseChangesFields,
-  drugUseFields,
-  drugUseTypeFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-} from '../fields/drugs'
-import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import drugsFields from '../fields/drugs'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import sections, { SectionConfig } from '../config/sections'
+import templates from '../config/templates'
 
-const defaultTitle = 'Drug use'
-const sectionName = 'drug-use'
-
-const stepOptions: FormWizard.Steps = {
-  '/drug-use': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(drugUseFields, sectionCompleteFields),
-    next: [
-      { field: 'drug_use', value: 'YES', next: 'drug-use-details' },
-      { field: 'drug_use', value: 'NO', next: 'drug-use-analysis' },
-    ],
-    navigationOrder: 4,
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
-  },
-  '/drug-use-details': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(drugUsageDetailsFields, sectionCompleteFields),
-    next: 'drug-use-type',
-    backLink: 'drug-use',
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
-  },
-  '/drug-use-type': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(drugUseTypeFields, sectionCompleteFields),
-    next: 'drug-usage-details',
-    backLink: 'drug-use-details',
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
-  },
-  '/drug-usage-details': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(drugUseTypeDetailsFields, sectionCompleteFields),
-    next: 'drug-use-changes',
-    template: 'forms/summary/drug-usage',
-    backLink: 'drug-use-type',
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
-  },
-  '/drug-use-changes': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(drugUseChangesFields, sectionCompleteFields),
-    next: 'drug-use-analysis',
-    backLink: 'drug-usage-details',
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('drug_use_section_complete')],
-  },
-  '/drug-use-analysis': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
-    next: 'drug-use-analysis-complete#practitioner-analysis',
-    template: 'forms/summary/summary-analysis-incomplete',
-    section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('drug_use_section_complete')],
-  },
-  '/drug-use-analysis-complete': {
-    pageTitle: defaultTitle,
-    fields: [],
-    template: 'forms/summary/summary-analysis-complete',
-    section: sectionName,
-  },
+const section = sections.drugs
+const stepUrls = {
+  drugUse: 'drug-use',
+  drugUseDetails: 'drug-use-details',
+  drugUseType: 'drug-use-type',
+  drugUsageDetails: 'drug-usage-details',
+  drugUseChanges: 'drug-use-changes',
+  analysis: 'drug-use-analysis',
+  analysisComplete: 'drug-use-analysis-complete',
 }
 
-export default stepOptions
+const sectionConfig: SectionConfig = {
+  section,
+  steps: [
+    {
+      url: stepUrls.drugUse,
+      fields: [
+        ...drugsFields.drugUse,
+        ...drugsFields.isUserSubmitted(stepUrls.drugUse),
+        ...drugsFields.sectionComplete(),
+      ],
+      next: [
+        { field: 'drug_use', value: 'YES', next: stepUrls.drugUseDetails },
+        { field: 'drug_use', value: 'NO', next: stepUrls.analysis },
+      ],
+      navigationOrder: 4,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugUseDetails,
+      fields: [
+        ...drugsFields.drugUsageDetails,
+        ...drugsFields.isUserSubmitted(stepUrls.drugUseDetails),
+        ...drugsFields.sectionComplete(),
+      ],
+      next: stepUrls.drugUseType,
+      backLink: stepUrls.drugUse,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugUseType,
+      fields: [
+        ...drugsFields.drugUseType,
+        ...drugsFields.isUserSubmitted(stepUrls.drugUseType),
+        ...drugsFields.sectionComplete(),
+      ],
+      next: stepUrls.drugUsageDetails,
+      backLink: stepUrls.drugUseDetails,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugUsageDetails,
+      fields: [
+        ...drugsFields.drugUseTypeDetails,
+        ...drugsFields.isUserSubmitted(stepUrls.drugUsageDetails),
+        ...drugsFields.sectionComplete(),
+      ],
+      next: stepUrls.drugUseChanges,
+      template: templates.drugUsage,
+      backLink: stepUrls.drugUseType,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugUseChanges,
+      fields: [
+        ...drugsFields.wantToMakeChanges(),
+        ...drugsFields.isUserSubmitted(stepUrls.drugUseChanges),
+        ...drugsFields.sectionComplete(),
+      ],
+      next: stepUrls.analysis,
+      backLink: stepUrls.drugUsageDetails,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      fields: [
+        ...drugsFields.practitionerAnalysis(),
+        ...drugsFields.isUserSubmitted(stepUrls.analysis),
+        ...drugsFields.sectionComplete(),
+      ],
+      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
+      template: templates.analysisComplete,
+    },
+  ],
+}
+
+export default sectionConfig

@@ -3,6 +3,7 @@ import { validate } from 'hmpo-form-wizard/lib/validation'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { formatDateForDisplay } from '../../server/utils/nunjucks.utils'
 import { whereSelectable } from './field.utils'
+import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 
 export interface Field {
   field: FormWizard.Field
@@ -184,7 +185,7 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getNextPageToComplete(): { url: string; sectionHasErrors: boolean } {
+  getNextPageToComplete(): { url: string; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
@@ -199,29 +200,23 @@ export class FieldDependencyTreeBuilder {
       return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
     }
 
-    let sectionHasErrors = false
+    let isSectionComplete = true
 
     for (const [stepUrl, step] of this.getSteps(initialStep, initialStepPath)) {
       nextStep = stepUrl
       const errors = Object.values(step.fields)
         .filter(dependencyMet)
         .filter(field => validate(step.fields, field.code, this.answers[field.code], { values: this.answers }))
-      if (errors.length > 0) {
-        sectionHasErrors = true
+      const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
+      if (errors.length > 0 || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
+        isSectionComplete = false
         break
-      }
-    }
-
-    if (!sectionHasErrors && this.answers[`${this.options.section}_section_complete`] === 'NO') {
-      return {
-        url: `${this.options.section.replace('_', '-')}-analysis`,
-        sectionHasErrors,
       }
     }
 
     return {
       url: nextStep,
-      sectionHasErrors,
+      isSectionComplete,
     }
   }
 

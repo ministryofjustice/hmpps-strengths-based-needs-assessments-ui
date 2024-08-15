@@ -1,9 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
-import { getMediumLabelClassFor, orDivider, toFormWizardFields, yesNoOptions } from './common'
-import { detailsCharacterLimit } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
 
 const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
   text: ' ',
@@ -35,8 +33,8 @@ const createFormalDebtDetails = (
   validate: [
     {
       type: ValidationType.MaxLength,
-      arguments: [detailsCharacterLimit],
-      message: `Details must be ${detailsCharacterLimit} characters or less`,
+      arguments: [FieldsFactory.detailsCharacterLimit],
+      message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
     },
   ],
   dependent: {
@@ -58,8 +56,8 @@ const createDebtToOthersDetails = (
   validate: [
     {
       type: ValidationType.MaxLength,
-      arguments: [detailsCharacterLimit],
-      message: `Details must be ${detailsCharacterLimit} characters or less`,
+      arguments: [FieldsFactory.detailsCharacterLimit],
+      message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
     },
   ],
   dependent: {
@@ -68,16 +66,8 @@ const createDebtToOthersDetails = (
     displayInline: true,
   },
 })
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the finance section complete?',
-  code: 'finance_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export const baseFinanceFields: Array<FormWizard.Field> = [
+const baseFinanceFields: Array<FormWizard.Field> = [
   {
     text: 'Where does [subject] currently get their money from? ',
     code: 'finance_income',
@@ -113,10 +103,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       { text: 'Other', value: 'OTHER', kind: 'option' },
-      orDivider,
+      utils.orDivider,
       { text: 'No money', value: 'NO_MONEY', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Is [subject] over reliant on family or friends for money?',
@@ -152,8 +142,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -172,7 +162,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'How good is [subject] at managing their money?',
@@ -202,7 +192,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details (optional)',
@@ -211,8 +201,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -228,8 +218,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -245,8 +235,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -262,8 +252,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -290,7 +280,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_GAMBLING',
         kind: 'option',
       },
-      orDivider,
+      utils.orDivider,
       {
         text: 'No',
         value: 'NO',
@@ -304,7 +294,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -313,8 +303,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -330,8 +320,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -347,8 +337,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -374,7 +364,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_DEBT',
         kind: 'option',
       },
-      orDivider,
+      utils.orDivider,
       {
         text: 'No',
         value: 'NO',
@@ -388,7 +378,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   createDebtType('yes_type_of_debt', 'finance_debt', 'YES_THEIR_DEBT'),
   createFormalDebtDetails('yes_formal_debt_details', 'yes_type_of_debt', 'FORMAL_DEBT'),
@@ -407,8 +397,8 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -417,15 +407,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       displayInline: true,
     },
   },
-  ...createWantToMakeChangesFields('their finance', 'finance'),
 ]
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'finance',
-  'finance',
-)
+class FinanceFieldsFactory extends FieldsFactory {
+  baseFinance = baseFinanceFields
+}
 
-export default [...baseFinanceFields, ...sectionCompleteFields, ...practitionerAnalysisFields].reduce(
-  toFormWizardFields,
-  {},
-)
+export default new FinanceFieldsFactory(sections.finance)

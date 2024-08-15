@@ -1,9 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
-import { getMediumLabelClassFor, orDivider, toFormWizardFields, yesNoOptions } from './common'
-import { detailsCharacterLimit } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
 
 const alcoholUnitsHint = `
 <details class="govuk-details" data-module="govuk-details">
@@ -68,7 +66,7 @@ export function orNoImpactValidator() {
   return !(answers.includes('NO_NEGATIVE_IMPACT') && answers.length > 1)
 }
 
-export const alcoholUseFields: Array<FormWizard.Field> = [
+const alcoholUseFields: Array<FormWizard.Field> = [
   {
     text: 'Has [subject] ever drunk alcohol?',
     code: 'alcohol_use',
@@ -82,7 +80,7 @@ export const alcoholUseFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
+const baseAlcoholUsageFields: Array<FormWizard.Field> = [
   {
     text: 'Has [subject] shown evidence of binge drinking or excessive alcohol use in the last 6 months?',
     code: 'alcohol_evidence_of_excess_drinking',
@@ -110,15 +108,15 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Does [subject] have any past issues with alcohol?',
     code: 'alcohol_past_issues',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have any past issues with alcohol' }],
-    options: yesNoOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    options: utils.yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -128,8 +126,8 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -161,7 +159,7 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { text: 'Socially', value: 'SOCIAL', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -170,8 +168,8 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -229,10 +227,10 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       { text: 'Other', value: 'OTHER', kind: 'option' },
-      orDivider,
+      utils.orDivider,
       { text: 'No impact', value: 'NO_NEGATIVE_IMPACT', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   },
   {
     text: 'Give details (optional)',
@@ -242,8 +240,8 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -263,8 +261,8 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
         message: 'Select if anything has helped them to stop or reduce drinking alcohol in the past',
       },
     ],
-    options: yesNoOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    options: utils.yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Give details',
@@ -274,8 +272,8 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
     dependent: {
@@ -284,10 +282,9 @@ export const baseAlcoholUsageFields: Array<FormWizard.Field> = [
       displayInline: true,
     },
   },
-  ...createWantToMakeChangesFields('their alcohol use', 'alcohol'),
 ]
 
-export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
+const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
   {
     text: 'How often has [subject] drunk alcohol in the last 3 months?',
     code: 'alcohol_frequency',
@@ -299,7 +296,7 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       { text: '2 to 3 times a week', value: 'LESS_THAN_4_TIMES_A_WEEK', kind: 'option' },
       { text: 'More than 4 times a week', value: 'MORE_THAN_4_TIMES_A_WEEK', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'How many units of alcohol does [subject] have on a typical day of drinking?',
@@ -319,7 +316,7 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
       { text: '7 to 9 units', value: 'UNITS_7_TO_9', kind: 'option' },
       { text: '10 or more units', value: 'UNITS_10_OR_MORE', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Has [subject] had [alcohol_units] or more units within a single day of drinking in the last 3 months?',
@@ -331,8 +328,8 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
         message: 'Select if they had 6 or more units within a single day of drinking in the last 3 months',
       },
     ],
-    options: yesNoOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    options: utils.yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   },
   {
     text: 'Select how often',
@@ -353,24 +350,12 @@ export const alcoholUsageWithinThreeMonthsFields: Array<FormWizard.Field> = [
   },
 ]
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'alcohol_use',
-  'alcohol use',
-)
+class AlcoholFieldsFactory extends FieldsFactory {
+  alcoholUse = alcoholUseFields
 
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the alcohol use section complete?',
-  code: 'alcohol_use_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
+  baseAlcoholUsage = baseAlcoholUsageFields
+
+  alcoholUsageWithinThreeMonths = alcoholUsageWithinThreeMonthsFields
 }
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export default [
-  ...alcoholUseFields,
-  ...baseAlcoholUsageFields,
-  ...alcoholUsageWithinThreeMonthsFields,
-  ...practitionerAnalysisFields,
-  ...sectionCompleteFields,
-].reduce(toFormWizardFields, {})
+export default new AlcoholFieldsFactory(sections.alcohol)
