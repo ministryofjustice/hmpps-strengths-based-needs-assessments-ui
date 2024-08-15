@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "4196ca54-58ba-4514-bbd9-69df54c4a1c9",
-    "createdAt": "2024-07-24T16:06:48.953888",
+    "uuid": "92b6bf70-cb7c-4210-b82b-f35b77a3ac08",
+    "createdAt": "2024-08-15T16:39:09.474566",
     "oasys_pks": [
-      "3295481"
+      "7081982"
     ],
-    "versionUuid": "1b023024-5863-410b-8edf-4b5973720fb9",
-    "versionCreatedAt": "2024-07-24T16:06:48.953969",
+    "versionUuid": "79ae00b9-80e1-4baa-b7b3-fe0c17d900fd",
+    "versionCreatedAt": "2024-08-15T16:39:09.47466",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -129,7 +129,7 @@
     },
     "drug_use_section_complete": {
       "type": "RADIO",
-      "description": "Is the drug use section complete?",
+      "description": "Is the Drug use section complete?",
       "options": [
         {
           "value": "YES",
@@ -183,9 +183,9 @@
       "value": "NO",
       "values": null
     },
-    "drug_use_analysis_section_complete": {
+    "drug_use_is_drug_use_user_submitted": {
       "type": "RADIO",
-      "description": "Is the drug use analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -196,7 +196,23 @@
           "text": "No"
         }
       ],
-      "value": "NO",
+      "value": "YES",
+      "values": null
+    },
+    "drug_use_is_drug_use_details_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
       "values": null
     }
   },
