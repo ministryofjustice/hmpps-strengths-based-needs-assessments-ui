@@ -28,6 +28,7 @@ export default abstract class FieldsFactory {
   static readonly detailsCharacterLimit = 400
 
   section: Section
+
   fieldPrefix: string
 
   constructor(section: Section) {
@@ -130,7 +131,9 @@ export default abstract class FieldsFactory {
         ],
         labelClasses: getMediumLabelClassFor(FieldType.Radio),
       },
-      ...makeChangesOptionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentFieldCode: `${this.fieldPrefix}_changes` })),
+      ...makeChangesOptionsWithDetails.map(
+        FieldsFactory.detailsFieldWith({ parentFieldCode: `${this.fieldPrefix}_changes` }),
+      ),
     ]
   }
 
@@ -161,7 +164,10 @@ export default abstract class FieldsFactory {
         type: FieldType.TextArea,
         validate: [
           {
-            fn: requiredWhenValidator(`${this.fieldPrefix}_practitioner_analysis_strengths_or_protective_factors`, 'YES'),
+            fn: requiredWhenValidator(
+              `${this.fieldPrefix}_practitioner_analysis_strengths_or_protective_factors`,
+              'YES',
+            ),
             message: 'Enter details',
           },
           {
