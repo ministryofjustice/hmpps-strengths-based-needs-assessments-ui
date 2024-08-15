@@ -134,7 +134,7 @@ export default abstract class FieldsFactory {
   }
 
   practitionerAnalysis(): Array<FormWizard.Field> {
-    const prefix = this.section.code
+    const prefix = this.section.code.replace('-', '_')
     const sectionDisplayName = this.section.title
     const analysisRadioGroupClasses = `${inlineRadios} radio-group--analysis`
 
