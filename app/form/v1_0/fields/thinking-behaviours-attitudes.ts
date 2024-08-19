@@ -13,8 +13,8 @@ const sexualHarmWarningText = `
 </div>
 `
 
-const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
-  {
+class ThinkingBehavioursFieldsFactory extends FieldsFactory {
+  thinkingBehavioursAttitudesConsequences: FormWizard.Field = {
     text: 'Is [subject] aware of the consequences of their actions?',
     hint: { text: 'This includes towards themselves and to others.', kind: 'text' },
     code: 'thinking_behaviours_attitudes_consequences',
@@ -28,8 +28,9 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       { text: 'No, is not aware of the consequences of their actions', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesStableBehaviour: FormWizard.Field = {
     text: 'Does [subject] show stable behaviour?',
     code: 'thinking_behaviours_attitudes_stable_behaviour',
     type: FieldType.Radio,
@@ -44,8 +45,9 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       { text: 'No, shows reckless or risk taking behaviours', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesOffendingActivities: FormWizard.Field = {
     text: 'Does [subject] engage in activities that could link to offending?',
     code: 'thinking_behaviours_attitudes_offending_activities',
     type: FieldType.Radio,
@@ -70,8 +72,9 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesPeerPressure: FormWizard.Field = {
     text: 'Is [subject] resilient towards peer pressure or influence by criminal associates?',
     code: 'thinking_behaviours_attitudes_peer_pressure',
     type: FieldType.Radio,
@@ -99,38 +102,24 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'thinking_behaviours_attitudes_peer_pressure_yes_details',
-    type: FieldType.TextArea,
-    dependent: {
-      field: 'thinking_behaviours_attitudes_peer_pressure',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'thinking_behaviours_attitudes_peer_pressure_some_details',
-    type: FieldType.TextArea,
-    dependent: {
-      field: 'thinking_behaviours_attitudes_peer_pressure',
-      value: 'SOME',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'thinking_behaviours_attitudes_peer_pressure_no_details',
-    type: FieldType.TextArea,
-    dependent: {
-      field: 'thinking_behaviours_attitudes_peer_pressure',
-      value: 'NO',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesPeerPressureYesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.thinkingBehavioursAttitudesPeerPressure,
+    dependentValue: 'YES',
+  })
+
+  thinkingBehavioursAttitudesPeerPressureSomeDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.thinkingBehavioursAttitudesPeerPressure,
+    dependentValue: 'SOME',
+  })
+
+  thinkingBehavioursAttitudesPeerPressureNoDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.thinkingBehavioursAttitudesPeerPressure,
+    dependentValue: 'NO',
+  })
+
+  thinkingBehavioursAttitudesProblemSolving: FormWizard.Field = {
     text: 'Is [subject] able to solve problems in a positive way?',
     code: 'thinking_behaviours_attitudes_problem_solving',
     type: FieldType.Radio,
@@ -147,8 +136,9 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesPeoplesViews: FormWizard.Field = {
     text: "Does [subject] understand other people's views?",
     code: 'thinking_behaviours_attitudes_peoples_views',
     type: FieldType.Radio,
@@ -171,8 +161,9 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesManipulativePredatoryBehaviour: FormWizard.Field = {
     text: 'Does [subject] show manipulative behaviour or a predatory lifestyle?',
     code: 'thinking_behaviours_attitudes_manipulative_predatory_behaviour',
     type: FieldType.Radio,
@@ -197,8 +188,9 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesRiskSexualHarm: FormWizard.Field = {
     text: 'Are there any concerns that [subject] is a risk of sexual harm?',
     hint: { html: sexualHarmWarningText, kind: 'html' },
     code: 'thinking_behaviours_attitudes_risk_sexual_harm',
@@ -218,11 +210,9 @@ const thinkingBehavioursAttitudesFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-]
+  }
 
-const riskOfSexualHarmFields: Array<FormWizard.Field> = [
-  {
+  thinkingBehavioursAttitudesSexualPreoccupation: FormWizard.Field = {
     text: 'Is there evidence [subject] shows sexual preoccupation?',
     code: 'thinking_behaviours_attitudes_sexual_preoccupation',
     type: FieldType.Radio,
@@ -253,8 +243,9 @@ const riskOfSexualHarmFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesOffenceRelatedSexualInterest: FormWizard.Field = {
     text: 'Is there evidence [subject] has offence-related sexual interests?',
     code: 'thinking_behaviours_attitudes_offence_related_sexual_interest',
     type: FieldType.Radio,
@@ -293,9 +284,9 @@ const riskOfSexualHarmFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
+  }
 
-  {
+  thinkingBehavioursAttitudesEmotionalIntimacy: FormWizard.Field = {
     text: 'Is there evidence [subject] finds it easier to seek emotional intimacy with children over adults?',
     code: 'thinking_behaviours_attitudes_emotional_intimacy',
     type: FieldType.Radio,
@@ -329,11 +320,9 @@ const riskOfSexualHarmFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-]
+  }
 
-const thinkingBehaviourFields: Array<FormWizard.Field> = [
-  {
+  thinkingBehavioursAttitudesTemperManagement: FormWizard.Field = {
     text: 'Is [subject] able to manage their temper?',
     code: 'thinking_behaviours_attitudes_temper_management',
     type: FieldType.Radio,
@@ -359,8 +348,9 @@ const thinkingBehaviourFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesViolenceControllingBehaviour: FormWizard.Field = {
     text: 'Does [subject] use violence, aggressive or controlling behaviour to get their own way?',
     code: 'thinking_behaviours_attitudes_violence_controlling_behaviour',
     type: FieldType.Radio,
@@ -388,8 +378,9 @@ const thinkingBehaviourFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesImpulsiveBehaviour: FormWizard.Field = {
     text: 'Does [subject] act on impulse?',
     code: 'thinking_behaviours_attitudes_impulsive_behaviour',
     type: FieldType.Radio,
@@ -412,8 +403,9 @@ const thinkingBehaviourFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesPositiveAttitude: FormWizard.Field = {
     text: 'Does [subject] have a positive attitude towards any criminal justice staff they have come into contact with?',
     code: 'thinking_behaviours_attitudes_positive_attitude',
     type: FieldType.Radio,
@@ -442,8 +434,9 @@ const thinkingBehaviourFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesHostileOrientation: FormWizard.Field = {
     text: 'Does [subject] have hostile orientation to others or to general rules?',
     code: 'thinking_behaviours_attitudes_hostile_orientation',
     type: FieldType.Radio,
@@ -471,8 +464,9 @@ const thinkingBehaviourFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesSupervision: FormWizard.Field = {
     text: 'Does [subject] accept supervision and their licence conditions?',
     code: 'thinking_behaviours_attitudes_supervision',
     type: FieldType.Radio,
@@ -497,8 +491,9 @@ const thinkingBehaviourFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  thinkingBehavioursAttitudesCriminalBehaviour: FormWizard.Field = {
     text: 'Does [subject] support or excuse criminal behaviour?',
     code: 'thinking_behaviours_attitudes_criminal_behaviour',
     type: FieldType.Radio,
@@ -521,15 +516,7 @@ const thinkingBehaviourFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-]
-
-class ThinkingBehavioursFieldsFactory extends FieldsFactory {
-  thinkingBehavioursAttitudes = thinkingBehavioursAttitudesFields
-
-  riskOfSexualHarm = riskOfSexualHarmFields
-
-  thinkingBehaviour = thinkingBehaviourFields
+  }
 }
 
 export default new ThinkingBehavioursFieldsFactory(sections.thinkingBehaviours)

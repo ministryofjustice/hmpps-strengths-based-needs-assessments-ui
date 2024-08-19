@@ -3,13 +3,14 @@ import { FieldsFactory, utils } from './common'
 import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
+import { dependentOn } from './common/utils'
 
 const endDateSummaryDisplay = (value: string) => `\n${formatDateForDisplay(value) || 'Not provided'}`
 const offenceAnalysisDetailsCharacterLimit4k = 4000
 const offenceAnalysisDetailsCharacterLimit1k = 1000
 
-const offenceAnalysisFields: Array<FormWizard.Field> = [
-  {
+class OffenceAnalysisFieldsFactory extends FieldsFactory {
+  offenceAnalysisDescriptionOfOffence: FormWizard.Field = {
     text: 'Enter a brief description of the offence',
     code: 'offence_analysis_description_of_offence',
     type: FieldType.TextArea,
@@ -23,8 +24,9 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  },
-  {
+  }
+
+  offenceAnalysisDate: FormWizard.Field = {
     text: 'When did the offence happen?',
     code: 'offence_analysis_date',
     type: FieldType.Date,
@@ -37,8 +39,9 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       displayAlways: true,
     },
     labelClasses: utils.getMediumLabelClassFor(FieldType.Date),
-  },
-  {
+  }
+
+  offenceAnalysisElements: FormWizard.Field = {
     text: 'Did the offence have any of the following elements?',
     code: 'offence_analysis_elements',
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -85,28 +88,15 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_targeted_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'offence_analysis_elements',
-      value: 'VICTIM_TARGETED',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
+  }
+
+  victimTargetedDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.offenceAnalysisElements,
+    dependentValue: 'VICTIM_TARGETED',
+    required: true,
+  })
+
+  offenceAnalysisReason: FormWizard.Field = {
     text: 'Why did the offence happen?',
     code: 'offence_analysis_reason',
     hint: { text: 'Consider any motivation and triggers.', kind: 'text' },
@@ -124,8 +114,9 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-  },
-  {
+  }
+
+  offenceAnalysisGain: FormWizard.Field = {
     text: 'What was [subject] trying to gain from the offence?',
     code: 'offence_analysis_gain',
     type: FieldType.CheckBox,
@@ -180,27 +171,14 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'other_offence_gain_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'offence_analysis_gain',
-      value: 'OTHER',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
+  }
+
+  otherOffenceGainDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.offenceAnalysisGain,
+    dependentValue: 'OTHER',
+  })
+
+  offenceAnalysisVictimDetails: FormWizard.Field = {
     text: 'Enter all victim details',
     code: 'offence_analysis_victim_details',
     hint: { text: 'Include things like age, sex, relationship to [subject] and impact.', kind: 'text' },
@@ -218,8 +196,9 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit1k,
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  },
-  {
+  }
+
+  offenceAnalysisImpactOnVictims: FormWizard.Field = {
     text: 'Does [subject] recognise the impact or consequences on the victims or others and the wider community?',
     code: 'offence_analysis_impact_on_victims',
     type: FieldType.Radio,
@@ -242,46 +221,19 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'yes_impact_on_victims_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'offence_analysis_impact_on_victims',
-      value: 'YES',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'no_impact_on_victims_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'offence_analysis_impact_on_victims',
-      value: 'NO',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
+  }
+
+  yesImpactOnVictimsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.offenceAnalysisImpactOnVictims,
+    dependentValue: 'YES',
+  })
+
+  noImpactOnVictimsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.offenceAnalysisImpactOnVictims,
+    dependentValue: 'NO',
+  })
+
+  offenceAnalysisRisk: FormWizard.Field = {
     text: 'Is the offence linked to risk of serious harm, risks to the individual or other risks?',
     code: 'offence_analysis_risk',
     type: FieldType.Radio,
@@ -304,50 +256,21 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'yes_offence_risk_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
-      },
-    ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-    dependent: {
-      field: 'offence_analysis_risk',
-      value: 'YES',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'no_offence_risk_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
-      },
-    ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-    dependent: {
-      field: 'offence_analysis_risk',
-      value: 'NO',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
+  }
+
+  yesOffenceRiskDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.offenceAnalysisRisk,
+    dependentValue: 'YES',
+    required: true,
+  })
+
+  noOffenceRiskDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.offenceAnalysisRisk,
+    dependentValue: 'NO',
+    required: true,
+  })
+
+  offenceAnalysisPatternsOfOffending: FormWizard.Field = {
     text: 'What are the patterns of offending?',
     code: 'offence_analysis_patterns_of_offending',
     hint: { text: 'Analyse previous convictions and offending behaviour.', kind: 'text' },
@@ -362,8 +285,9 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit1k,
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  },
-  {
+  }
+
+  offenceAnalysisPerpetratorOfDomesticAbuse: FormWizard.Field = {
     text: 'Is there evidence that [subject] has ever been a perpetrator of domestic abuse?',
     code: 'offence_analysis_perpetrator_of_domestic_abuse',
     type: FieldType.Radio,
@@ -378,8 +302,9 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  domesticAbusePerpetratorType: FormWizard.Field = {
     text: 'Who was this committed against?',
     code: 'domestic_abuse_perpetrator_type',
     type: FieldType.Radio,
@@ -389,73 +314,28 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
       { text: 'Family member and intimate partner', value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER', kind: 'option' },
     ],
-    dependent: {
-      field: 'offence_analysis_perpetrator_of_domestic_abuse',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'perpetrator_family_member_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_perpetrator_type',
-      value: 'FAMILY_MEMBER',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'perpetrator_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_perpetrator_type',
-      value: 'INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'perpetrator_family_and_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_perpetrator_type',
-      value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
+    dependent: dependentOn(this.offenceAnalysisPerpetratorOfDomesticAbuse, 'YES'),
+  }
+
+  perpetratorFamilyMemberDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.domesticAbusePerpetratorType,
+    dependentValue: 'FAMILY_MEMBER',
+    required: true,
+  })
+
+  perpetratorIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.domesticAbusePerpetratorType,
+    dependentValue: 'INTIMATE_PARTNER',
+    required: true,
+  })
+
+  perpetratorFamilyAndIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.domesticAbusePerpetratorType,
+    dependentValue: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
+    required: true,
+  })
+
+  offenceAnalysisVictimOfDomesticAbuse: FormWizard.Field = {
     text: 'Is there evidence that [subject] has ever been a victim of domestic abuse?',
     code: 'offence_analysis_victim_of_domestic_abuse',
     type: FieldType.Radio,
@@ -470,8 +350,9 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  domesticAbuseVictimType: FormWizard.Field = {
     text: 'Who was this committed by?',
     code: 'domestic_abuse_victim_type',
     type: FieldType.Radio,
@@ -481,77 +362,27 @@ const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
       { text: 'Family member and intimate partner', value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER', kind: 'option' },
     ],
-    dependent: {
-      field: 'offence_analysis_victim_of_domestic_abuse',
-      value: 'YES',
-      displayInline: true,
-    },
+    dependent: dependentOn(this.offenceAnalysisVictimOfDomesticAbuse, 'YES'),
     labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_family_member_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'FAMILY_MEMBER',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_family_and_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: utils.visuallyHidden,
-  },
-]
+  }
 
-class OffenceAnalysisFieldsFactory extends FieldsFactory {
-  offenceAnalysis = offenceAnalysisFields
+  victimFamilyMemberDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.domesticAbuseVictimType,
+    dependentValue: 'FAMILY_MEMBER',
+    required: true,
+  })
+
+  victimIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.domesticAbuseVictimType,
+    dependentValue: 'INTIMATE_PARTNER',
+    required: true,
+  })
+
+  victimFamilyAndIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.domesticAbuseVictimType,
+    dependentValue: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
+    required: true,
+  })
 }
 
 export default new OffenceAnalysisFieldsFactory(sections.offenceAnalysis)

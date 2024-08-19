@@ -202,7 +202,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>
-    AccommodationFieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsFieldNew({
       parentField: this.livingWith,
       dependentValue: option,
       textHint: hint,
