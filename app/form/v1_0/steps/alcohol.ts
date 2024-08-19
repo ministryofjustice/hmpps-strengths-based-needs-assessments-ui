@@ -2,6 +2,7 @@ import alcoholFields from '../fields/alcohol'
 import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
+import { nextWhen } from './accommodation'
 
 const section = sections.alcohol
 const stepUrls = {
@@ -12,20 +13,41 @@ const stepUrls = {
   analysisComplete: 'alcohol-use-analysis-complete',
 }
 
+const alcoholUseGroup = [alcoholFields.alcoholUse]
+
+const baseAlcoholUsageGroup = [
+  alcoholFields.alcoholEvidenceOfExcessDrinking,
+  alcoholFields.alcoholPastIssues,
+  alcoholFields.alcoholPastIssuesDetails,
+  alcoholFields.alcoholReasonsForUse,
+  alcoholFields.alcoholReasonsForUseOtherDetails,
+  alcoholFields.alcoholImpactOfUse,
+  alcoholFields.alcoholPastIssuesDetails,
+  alcoholFields.alcoholStoppedOrReduced,
+  alcoholFields.alcoholStoppedOrReducedDetails,
+]
+
+const alcoholUsageWithinThreeMonthsGroup = [
+  alcoholFields.alcoholFrequency,
+  alcoholFields.alcoholUnits,
+  alcoholFields.alcoholBingeDrinking,
+  alcoholFields.alcoholBingeDrinkingFrequency,
+]
+
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
       url: stepUrls.alcoholUse,
       fields: [
-        ...alcoholFields.alcoholUse,
-        ...alcoholFields.isUserSubmitted(stepUrls.alcoholUse),
-        ...alcoholFields.sectionComplete(),
-      ],
+        alcoholUseGroup,
+        alcoholFields.isUserSubmitted(stepUrls.alcoholUse),
+        alcoholFields.sectionComplete(),
+      ].flat(),
       next: [
-        { field: 'alcohol_use', value: 'YES_WITHIN_LAST_THREE_MONTHS', next: stepUrls.last3Months },
-        { field: 'alcohol_use', value: 'YES_NOT_IN_LAST_THREE_MONTHS', next: stepUrls.notLast3Months },
-        { field: 'alcohol_use', value: 'NO', next: stepUrls.analysis },
+        nextWhen(alcoholFields.alcoholUse, 'YES_WITHIN_LAST_THREE_MONTHS', stepUrls.last3Months),
+        nextWhen(alcoholFields.alcoholUse, 'YES_NOT_IN_LAST_THREE_MONTHS', stepUrls.notLast3Months),
+        nextWhen(alcoholFields.alcoholUse, 'NO', stepUrls.analysis),
       ],
       navigationOrder: 5,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -33,12 +55,12 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.last3Months,
       fields: [
-        ...alcoholFields.alcoholUsageWithinThreeMonths,
-        ...alcoholFields.baseAlcoholUsage,
-        ...alcoholFields.wantToMakeChanges(),
-        ...alcoholFields.isUserSubmitted(stepUrls.last3Months),
-        ...alcoholFields.sectionComplete(),
-      ],
+        alcoholUsageWithinThreeMonthsGroup,
+        baseAlcoholUsageGroup,
+        alcoholFields.wantToMakeChanges(),
+        alcoholFields.isUserSubmitted(stepUrls.last3Months),
+        alcoholFields.sectionComplete(),
+      ].flat(),
       backLink: stepUrls.alcoholUse,
       next: stepUrls.analysis,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -46,11 +68,11 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.notLast3Months,
       fields: [
-        ...alcoholFields.baseAlcoholUsage,
-        ...alcoholFields.wantToMakeChanges(),
-        ...alcoholFields.isUserSubmitted(stepUrls.notLast3Months),
-        ...alcoholFields.sectionComplete(),
-      ],
+        baseAlcoholUsageGroup,
+        alcoholFields.wantToMakeChanges(),
+        alcoholFields.isUserSubmitted(stepUrls.notLast3Months),
+        alcoholFields.sectionComplete(),
+      ].flat(),
       backLink: sections.alcohol.code,
       next: stepUrls.analysis,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -58,10 +80,10 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.analysis,
       fields: [
-        ...alcoholFields.practitionerAnalysis(),
-        ...alcoholFields.isUserSubmitted(stepUrls.analysis),
-        ...alcoholFields.sectionComplete(),
-      ],
+        alcoholFields.practitionerAnalysis(),
+        alcoholFields.isUserSubmitted(stepUrls.analysis),
+        alcoholFields.sectionComplete(),
+      ].flat(),
       next: `${stepUrls.analysisComplete}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],

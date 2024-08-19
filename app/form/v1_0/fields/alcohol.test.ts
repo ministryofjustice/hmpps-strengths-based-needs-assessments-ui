@@ -1,7 +1,7 @@
 import { orNoImpactValidator } from './alcohol'
 
-describe('fields/accommodation', () => {
-  describe('livingWithValidator', () => {
+describe('fields/alcohol', () => {
+  describe('orNoImpactValidator', () => {
     const contextWithAnswers = (answers: Record<string, string | string[]>) => ({
       values: answers,
     })
