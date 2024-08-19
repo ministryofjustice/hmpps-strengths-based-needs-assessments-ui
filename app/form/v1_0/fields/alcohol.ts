@@ -119,7 +119,7 @@ class AlcoholFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  alcoholPastIssuesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  alcoholPastIssuesDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.alcoholPastIssues,
     dependentValue: 'YES',
     required: true,
@@ -151,7 +151,7 @@ class AlcoholFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  alcoholReasonsForUseOtherDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  alcoholReasonsForUseOtherDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.alcoholReasonsForUse,
     dependentValue: 'OTHER',
   })
@@ -211,7 +211,7 @@ class AlcoholFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  alcoholImpactOfUseOtherDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  alcoholImpactOfUseOtherDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.alcoholImpactOfUse,
     dependentValue: 'OTHER',
     textHint: 'Consider impact on themselves or others.',
@@ -232,7 +232,7 @@ class AlcoholFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  alcoholStoppedOrReducedDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  alcoholStoppedOrReducedDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.alcoholStoppedOrReduced,
     dependentValue: 'YES',
     required: true,

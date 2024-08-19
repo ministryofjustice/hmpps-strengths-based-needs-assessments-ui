@@ -1,9 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
-import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import healthWellbeingFields from '../fields/health-wellbeing'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
-import { nextWhen } from './accommodation'
 
 const section = sections.healthWellbeing
 const stepUrls = {

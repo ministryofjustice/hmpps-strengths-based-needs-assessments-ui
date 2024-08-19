@@ -90,7 +90,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  victimTargetedDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  victimTargetedDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisElements,
     dependentValue: 'VICTIM_TARGETED',
     required: true,
@@ -173,7 +173,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  otherOffenceGainDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  otherOffenceGainDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisGain,
     dependentValue: 'OTHER',
   })
@@ -223,12 +223,12 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  yesImpactOnVictimsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  yesImpactOnVictimsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisImpactOnVictims,
     dependentValue: 'YES',
   })
 
-  noImpactOnVictimsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  noImpactOnVictimsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisImpactOnVictims,
     dependentValue: 'NO',
   })
@@ -258,13 +258,13 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  yesOffenceRiskDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  yesOffenceRiskDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisRisk,
     dependentValue: 'YES',
     required: true,
   })
 
-  noOffenceRiskDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  noOffenceRiskDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisRisk,
     dependentValue: 'NO',
     required: true,
@@ -317,19 +317,19 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     dependent: dependentOn(this.offenceAnalysisPerpetratorOfDomesticAbuse, 'YES'),
   }
 
-  perpetratorFamilyMemberDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  perpetratorFamilyMemberDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.domesticAbusePerpetratorType,
     dependentValue: 'FAMILY_MEMBER',
     required: true,
   })
 
-  perpetratorIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  perpetratorIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.domesticAbusePerpetratorType,
     dependentValue: 'INTIMATE_PARTNER',
     required: true,
   })
 
-  perpetratorFamilyAndIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  perpetratorFamilyAndIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.domesticAbusePerpetratorType,
     dependentValue: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
     required: true,
@@ -366,19 +366,19 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     labelClasses: utils.visuallyHidden,
   }
 
-  victimFamilyMemberDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  victimFamilyMemberDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.domesticAbuseVictimType,
     dependentValue: 'FAMILY_MEMBER',
     required: true,
   })
 
-  victimIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  victimIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.domesticAbuseVictimType,
     dependentValue: 'INTIMATE_PARTNER',
     required: true,
   })
 
-  victimFamilyAndIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  victimFamilyAndIntimatePartnerDomesticAbuseDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.domesticAbuseVictimType,
     dependentValue: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
     required: true,

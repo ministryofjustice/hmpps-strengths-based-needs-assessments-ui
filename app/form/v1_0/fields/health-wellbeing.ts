@@ -34,7 +34,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  healthWellbeingPhysicalHealthConditionDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingPhysicalHealthConditionDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingPhysicalHealthCondition,
     dependentValue: 'YES',
   })
@@ -67,17 +67,17 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  healthWellbeingMentalHealthConditionYesOngoingSevereDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingMentalHealthConditionYesOngoingSevereDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingMentalHealthCondition,
     dependentValue: 'YES_ONGOING_SEVERE',
   })
 
-  healthWellbeingMentalHealthConditionYesOngoingDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingMentalHealthConditionYesOngoingDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingMentalHealthCondition,
     dependentValue: 'YES_ONGOING',
   })
 
-  healthWellbeingMentalHealthConditionYesInThePastDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingMentalHealthConditionYesInThePastDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingMentalHealthCondition,
     dependentValue: 'YES_IN_THE_PAST',
   })
@@ -157,7 +157,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  healthWellbeingNeurodiverseConditionsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingNeurodiverseConditionsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingNeurodiverseConditions,
     dependentValue: 'YES',
   })
@@ -175,16 +175,15 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  healthWellbeingLearningDifficultiesYesSomeDifficultiesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingLearningDifficultiesYesSomeDifficultiesDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingLearningDifficulties,
     dependentValue: 'YES_SOME_DIFFICULTIES',
   })
 
-  healthWellbeingLearningDifficultiesYesSignificantDifficultiesDetails: FormWizard.Field =
-    FieldsFactory.detailsFieldNew({
-      parentField: this.healthWellbeingLearningDifficulties,
-      dependentValue: 'YES_SIGNIFICANT_DIFFICULTIES',
-    })
+  healthWellbeingLearningDifficultiesYesSignificantDifficultiesDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.healthWellbeingLearningDifficulties,
+    dependentValue: 'YES_SIGNIFICANT_DIFFICULTIES',
+  })
 
   healthWellbeingCopingDayToDayLife: FormWizard.Field = {
     text: 'Is [subject] able to cope with day-to-day life?',
@@ -233,7 +232,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  healthWellbeingSelfHarmedDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingSelfHarmedDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingSelfHarmed,
     dependentValue: 'YES',
     required: true,
@@ -251,7 +250,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  healthWellbeingAttemptedSuicideOrSuicidalThoughtsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingAttemptedSuicideOrSuicidalThoughtsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingAttemptedSuicideOrSuicidalThoughts,
     dependentValue: 'YES',
     required: true,
@@ -296,7 +295,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  healthWellbeingPositiveFactorsOtherDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  healthWellbeingPositiveFactorsOtherDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.healthWellbeingPositiveFactors,
     dependentValue: 'OTHER',
     required: true,

@@ -1,8 +1,7 @@
-import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import employmentEducationFields from '../fields/employment-education'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
-import { nextWhen } from './accommodation'
 
 const section = sections.employmentEducation
 const stepUrls = {

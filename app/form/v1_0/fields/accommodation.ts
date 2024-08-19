@@ -202,7 +202,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>
-    FieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsField({
       parentField: this.livingWith,
       dependentValue: option,
       textHint: hint,
@@ -236,7 +236,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     labelClasses: utils.visuallyHidden,
   }
 
-  suitableHousingLocationConcernsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  suitableHousingLocationConcernsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.suitableHousingLocationConcerns,
     dependentValue: 'OTHER',
     required: true,
@@ -267,7 +267,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     labelClasses: utils.visuallyHidden,
   }
 
-  suitableHousingConcernsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  suitableHousingConcernsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.suitableHousingConcerns,
     dependentValue: 'OTHER',
     required: true,
@@ -288,7 +288,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     labelClasses: utils.visuallyHidden,
   }
 
-  unsuitableHousingConcernsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  unsuitableHousingConcernsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.unsuitableHousingConcerns,
     dependentValue: 'OTHER',
     required: true,
@@ -332,7 +332,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     ['AWAITING_PLACEMENT'],
     ['OTHER', 'Include where and who with.'],
   ].map(([option, hint]) =>
-    FieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsField({
       parentField: this.futureAccommodationType,
       dependentValue: option,
       textHint: hint,
@@ -359,7 +359,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  noAccommodationReasonDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  noAccommodationReasonDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.noAccommodationReason,
     dependentValue: 'OTHER',
     required: true,

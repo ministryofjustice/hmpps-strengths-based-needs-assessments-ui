@@ -17,15 +17,6 @@ type Section = {
 }
 
 type DetailsFieldOptions = {
-  parentFieldCode: string
-  dependentValue?: string
-  required?: boolean
-  maxChars?: number
-  textHint?: string
-  htmlHint?: string
-}
-
-type DetailsFieldOptionsNew = {
   text?: string
   parentField: FormWizard.Field
   dependentValue?: string
@@ -51,17 +42,12 @@ export default abstract class FieldsFactory {
     return fields.filter(field => field.endsWith('_user_submitted'))[0]
   }
 
-  static detailsFieldWithNew(options: DetailsFieldOptionsNew) {
-    return (option: FormWizard.Field.Option): FormWizard.Field =>
-      this.detailsFieldNew({ ...options, dependentValue: option.value })
-  }
-
   static detailsFieldWith(options: DetailsFieldOptions) {
     return (option: FormWizard.Field.Option): FormWizard.Field =>
       this.detailsField({ ...options, dependentValue: option.value })
   }
 
-  static detailsFieldNew(options: DetailsFieldOptionsNew): FormWizard.Field {
+  static detailsField(options: DetailsFieldOptions): FormWizard.Field {
     const maxChars = options.maxChars ? options.maxChars : this.detailsCharacterLimit
     const field: FormWizard.Field = {
       text: (options.text ? options.text : 'Give details') + (options.required ? '' : ' (optional)'),
@@ -80,39 +66,6 @@ export default abstract class FieldsFactory {
     }
     if (options.dependentValue) {
       field.dependent = dependentOn(options.parentField, options.dependentValue)
-    }
-    if (options.textHint) {
-      field.hint = { text: options.textHint, kind: 'text' }
-    }
-    if (options.htmlHint) {
-      field.hint = { html: options.htmlHint, kind: 'html' }
-    }
-    return field
-  }
-
-  static detailsField(options: DetailsFieldOptions): FormWizard.Field {
-    const maxChars = options.maxChars ? options.maxChars : this.detailsCharacterLimit
-    const field: FormWizard.Field = {
-      text: `Give details${options.required ? '' : ' (optional)'}`,
-      code: fieldCodeWith(
-        ...[options.parentFieldCode, options.dependentValue?.toLowerCase(), 'details'].filter(it => it),
-      ),
-      type: FieldType.TextArea,
-      validate: [
-        options.required ? { type: ValidationType.Required, message: 'Enter details' } : null,
-        {
-          type: ValidationType.MaxLength,
-          arguments: [maxChars],
-          message: `Details must be ${maxChars} characters or less`,
-        },
-      ].filter(it => it),
-    }
-    if (options.dependentValue) {
-      field.dependent = {
-        field: options.parentFieldCode,
-        value: options.dependentValue,
-        displayInline: true,
-      }
     }
     if (options.textHint) {
       field.hint = { text: options.textHint, kind: 'text' }
@@ -160,26 +113,23 @@ export default abstract class FieldsFactory {
       { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
     ]
 
-    return [
-      {
-        text: `Does [subject] want to make changes to ${changesTo}?`,
-        hint: { text: 'This question must be directly answered by [subject].', kind: 'text' },
-        code: `${this.fieldPrefix}_changes`,
-        type: FieldType.Radio,
-        validate: [{ type: ValidationType.Required, message: `Select if they want to make changes to ${changesTo}` }],
-        options: [
-          ...makeChangesOptionsWithDetails,
-          { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
-          orDivider,
-          { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-          { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-        ],
-        labelClasses: getMediumLabelClassFor(FieldType.Radio),
-      },
-      ...makeChangesOptionsWithDetails.map(
-        FieldsFactory.detailsFieldWith({ parentFieldCode: `${this.fieldPrefix}_changes` }),
-      ),
-    ]
+    const parentField: FormWizard.Field = {
+      text: `Does [subject] want to make changes to ${changesTo}?`,
+      hint: { text: 'This question must be directly answered by [subject].', kind: 'text' },
+      code: `${this.fieldPrefix}_changes`,
+      type: FieldType.Radio,
+      validate: [{ type: ValidationType.Required, message: `Select if they want to make changes to ${changesTo}` }],
+      options: [
+        ...makeChangesOptionsWithDetails,
+        { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
+        orDivider,
+        { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
+        { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
+      ],
+      labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    }
+
+    return [parentField, ...makeChangesOptionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentField }))]
   }
 
   practitionerAnalysis(): Array<FormWizard.Field> {

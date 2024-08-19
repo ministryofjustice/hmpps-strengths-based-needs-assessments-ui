@@ -89,7 +89,7 @@ class FinanceFieldsFactory extends FieldsFactory {
     dependent: dependentOn(this.financeIncome, 'FAMILY_OR_FRIENDS'),
   }
 
-  otherIncomeDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  otherIncomeDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.financeIncome,
     dependentValue: 'OTHER',
   })
@@ -139,7 +139,7 @@ class FinanceFieldsFactory extends FieldsFactory {
   }
 
   financeMoneyManagementDetailsGroup: FormWizard.Field[] = ['GOOD', 'FAIRLY_GOOD', 'FAIRLY_BAD', 'BAD'].map(option =>
-    FieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsField({
       parentField: this.financeMoneyManagement,
       dependentValue: option,
     }),
@@ -182,7 +182,7 @@ class FinanceFieldsFactory extends FieldsFactory {
 
   financeGamblingDetailsGroup: FormWizard.Field[] = ['YES_THEIR_GAMBLING', 'YES_SOMEONE_ELSES_GAMBLING', 'UNKNOWN'].map(
     option =>
-      FieldsFactory.detailsFieldNew({
+      FieldsFactory.detailsField({
         parentField: this.financeGambling,
         dependentValue: option,
       }),
@@ -225,7 +225,7 @@ class FinanceFieldsFactory extends FieldsFactory {
   yesTypeOfDebt: FormWizard.Field = createDebtType('yes_type_of_debt', this.financeDebt, 'YES_THEIR_DEBT')
 
   yesTypeOfDebtDetailsGroup: FormWizard.Field[] = typeOfDebtDetailsOptions.map(([option, hint]) =>
-    FieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsField({
       parentField: this.yesTypeOfDebt,
       dependentValue: option,
       textHint: hint,
@@ -239,14 +239,14 @@ class FinanceFieldsFactory extends FieldsFactory {
   )
 
   yesSomeoneElsesTypeOfDebtDetailsGroup: FormWizard.Field[] = typeOfDebtDetailsOptions.map(([option, hint]) =>
-    FieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsField({
       parentField: this.yesSomeoneElsesTypeOfDebt,
       dependentValue: option,
       textHint: hint,
     }),
   )
 
-  unknownDebtDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  unknownDebtDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.financeDebt,
     dependentValue: 'UNKNOWN',
   })

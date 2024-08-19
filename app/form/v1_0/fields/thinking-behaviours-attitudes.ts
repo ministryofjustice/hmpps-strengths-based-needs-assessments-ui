@@ -104,17 +104,17 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  thinkingBehavioursAttitudesPeerPressureYesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  thinkingBehavioursAttitudesPeerPressureYesDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.thinkingBehavioursAttitudesPeerPressure,
     dependentValue: 'YES',
   })
 
-  thinkingBehavioursAttitudesPeerPressureSomeDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  thinkingBehavioursAttitudesPeerPressureSomeDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.thinkingBehavioursAttitudesPeerPressure,
     dependentValue: 'SOME',
   })
 
-  thinkingBehavioursAttitudesPeerPressureNoDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  thinkingBehavioursAttitudesPeerPressureNoDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.thinkingBehavioursAttitudesPeerPressure,
     dependentValue: 'NO',
   })

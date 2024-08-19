@@ -30,38 +30,38 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  personalRelationshipsCommunityImportantPeoplePartnerDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityImportantPeoplePartnerDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'PARTNER_INTIMATE_RELATIONSHIP',
     textHint:
       "Include their name, age, gender and the nature of their relationship. For example, if they're in a casual or committed relationship.",
   })
 
-  personalRelationshipsCommunityImportantPeopleChildDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityImportantPeopleChildDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'CHILD_PARENTAL_RESPONSIBILITIES',
     textHint: 'Include their name, age, gender and the nature of their relationship.',
   })
 
-  personalRelationshipsCommunityImportantPeopleOtherChildrenDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityImportantPeopleOtherChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
     text: 'Give details about their relationship',
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'OTHER_CHILDREN',
   })
 
-  personalRelationshipsCommunityImportantPeopleFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityImportantPeopleFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
     text: 'Give details about their relationship',
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'FAMILY',
   })
 
-  personalRelationshipsCommunityImportantPeopleFriendsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityImportantPeopleFriendsDetails: FormWizard.Field = FieldsFactory.detailsField({
     text: 'Give details about their friendship',
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'FRIENDS',
   })
 
-  personalRelationshipsCommunityImportantPeopleOtherDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityImportantPeopleOtherDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'OTHER',
     required: true,
@@ -100,17 +100,17 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityStableFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityStableFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityFamilyRelationship,
     dependentValue: 'STABLE_RELATIONSHIP',
   })
 
-  personalRelationshipsCommunityMixedFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityMixedFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityFamilyRelationship,
     dependentValue: 'MIXED_RELATIONSHIP',
   })
 
-  personalRelationshipsCommunityUnstableFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityUnstableFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityFamilyRelationship,
     dependentValue: 'UNSTABLE_RELATIONSHIP',
   })
@@ -143,17 +143,17 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityPositiveChildhoodDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityPositiveChildhoodDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityChildhood,
     dependentValue: 'POSITIVE_CHILDHOOD',
   })
 
-  personalRelationshipsCommunityMixedChildhoodDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityMixedChildhoodDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityChildhood,
     dependentValue: 'MIXED_CHILDHOOD',
   })
 
-  personalRelationshipsCommunityNegativeChildhoodDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityNegativeChildhoodDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityChildhood,
     dependentValue: 'NEGATIVE_CHILDHOOD',
   })
@@ -178,12 +178,12 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityYesChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityYesChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityChildhoodBehaviour,
     dependentValue: 'YES',
   })
 
-  personalRelationshipsCommunityNoChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityNoChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityChildhoodBehaviour,
     dependentValue: 'NO',
   })
@@ -224,17 +224,17 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityGoodParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityGoodParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityParentalResponsibilities,
     dependentValue: 'YES',
   })
 
-  personalRelationshipsCommunityMixedParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityMixedParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityParentalResponsibilities,
     dependentValue: 'SOMETIMES',
   })
 
-  personalRelationshipsCommunityBadParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityBadParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityParentalResponsibilities,
     dependentValue: 'NO',
   })
@@ -266,17 +266,17 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityHappyRelationshipDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityHappyRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityCurrentRelationship,
     dependentValue: 'HAPPY_RELATIONSHIP',
   })
 
-  personalRelationshipsCommunityConcernedRelationshipDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityConcernedRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityCurrentRelationship,
     dependentValue: 'CONCERNS_HAPPY_RELATIONSHIP',
   })
 
-  personalRelationshipsCommunityUnhappyRelationshipDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityUnhappyRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityCurrentRelationship,
     dependentValue: 'UNHAPPY_RELATIONSHIP',
   })
@@ -310,19 +310,19 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityStableIntimateRelationship: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityStableIntimateRelationship: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityIntimateRelationship,
     dependentValue: 'STABLE_RELATIONSHIPS',
     textHint: 'Consider patterns and quality of any significant relationships.',
   })
 
-  personalRelationshipsCommunityMixedIntimateRelationshipDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityMixedIntimateRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityIntimateRelationship,
     dependentValue: 'POSITIVE_AND_NEGATIVE_RELATIONSHIPS',
     textHint: 'Consider patterns and quality of any significant relationships.',
   })
 
-  personalRelationshipsCommunityUnstableIntimateRelationshipDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  personalRelationshipsCommunityUnstableIntimateRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityIntimateRelationship,
     dependentValue: 'UNSTABLE_RELATIONSHIPS',
     textHint: 'Consider patterns and quality of any significant relationships.',

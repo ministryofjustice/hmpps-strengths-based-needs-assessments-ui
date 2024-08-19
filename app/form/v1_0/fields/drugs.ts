@@ -231,7 +231,7 @@ class DrugsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  drugUseReasonDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  drugUseReasonDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.drugUseReasons,
     dependentValue: 'OTHER',
     required: true,
@@ -276,7 +276,7 @@ class DrugsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  drugUseImpactDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  drugUseImpactDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.drugUseImpact,
     textHint: 'Consider impact on themselves or others.',
     dependentValue: 'OTHER',
@@ -297,7 +297,7 @@ class DrugsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  reducingOrStoppingDrugUseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+  reducingOrStoppingDrugUseDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.reducingOrStoppingDrugUse,
     dependentValue: 'YES',
   })

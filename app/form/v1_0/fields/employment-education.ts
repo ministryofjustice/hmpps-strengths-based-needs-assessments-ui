@@ -41,7 +41,7 @@ const createExperienceOfFields = (label: string, subject: string, prefix?: strin
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  return [parentField, ...optionsWithDetails.map(FieldsFactory.detailsFieldWithNew({ parentField }))]
+  return [parentField, ...optionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentField }))]
 }
 
 class EmploymentEducationFieldsFactory extends FieldsFactory {
@@ -133,7 +133,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
   }
 
   employmentHistoryDetailsGroup: FormWizard.Field[] = EmploymentEducationFieldsFactory.employmentHistoryOptions.map(
-    FieldsFactory.detailsFieldWithNew({
+    FieldsFactory.detailsFieldWith({
       parentField: this.employmentHistory,
       textHint: "Include what type of work they've done before.",
     }),
@@ -164,7 +164,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
   }
 
   employmentOtherResponsibilitiesGroup = ['CARER', 'CHILD', 'VOLUNTEER', 'OTHER'].map(option =>
-    FieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsField({
       parentField: this.employmentOtherResponsibilities,
       dependentValue: option,
     }),
@@ -256,7 +256,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
   }
 
   educationProfessionalOrVocationalQualificationsDetails: FormWizard.Field = FieldsFactory.detailsField({
-    parentFieldCode: 'education_professional_or_vocational_qualifications',
+    parentField: this.educationProfessionalOrVocationalQualifications,
     dependentValue: 'YES',
     required: true,
   })
@@ -299,7 +299,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
   }
 
   educationTransferableSkillsDetailsGroup: FormWizard.Field[] = ['YES', 'YES_SOME_SKILLS'].map(option =>
-    FieldsFactory.detailsFieldNew({
+    FieldsFactory.detailsField({
       parentField: this.educationTransferableSkills,
       dependentValue: option,
     }),
