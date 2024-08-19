@@ -2,6 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
+import { dependentOn } from './common/utils'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   {
@@ -31,21 +32,20 @@ const createExperienceOfFields = (label: string, subject: string, prefix?: strin
     { text: 'Negative', value: 'NEGATIVE', kind: 'option' },
   ]
 
-  return [
-    {
-      text: label,
-      code: parentFieldCode,
-      type: FieldType.Radio,
-      validate: [{ type: ValidationType.Required, message: createErrorForExperienceOfFields(subject, prefix) }],
-      options: [...optionsWithDetails, { text: 'Unknown', value: 'UNKNOWN', kind: 'option' }],
-      labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-    },
-    ...optionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentFieldCode })),
-  ]
+  const parentField: FormWizard.Field = {
+    text: label,
+    code: parentFieldCode,
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: createErrorForExperienceOfFields(subject, prefix) }],
+    options: [...optionsWithDetails, { text: 'Unknown', value: 'UNKNOWN', kind: 'option' }],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  return [parentField, ...optionsWithDetails.map(FieldsFactory.detailsFieldWithNew({ parentField }))]
 }
 
-const employmentStatusFields: Array<FormWizard.Field> = [
-  {
+class EmploymentEducationFieldsFactory extends FieldsFactory {
+  employmentStatus: FormWizard.Field = {
     text: "What is [subject]'s current employment status?",
     code: 'employment_status',
     type: FieldType.Radio,
@@ -58,8 +58,9 @@ const employmentStatusFields: Array<FormWizard.Field> = [
       { text: 'Unemployed - actively looking for work', value: 'UNEMPLOYED_LOOKING_FOR_WORK', kind: 'option' },
       { text: 'Unemployed - not actively looking for work', value: 'UNEMPLOYED_NOT_LOOKING_FOR_WORK', kind: 'option' },
     ],
-  },
-  {
+  }
+
+  employmentType: FormWizard.Field = {
     text: 'What is the type of employment?',
     code: 'employment_type',
     type: FieldType.Radio,
@@ -70,97 +71,75 @@ const employmentStatusFields: Array<FormWizard.Field> = [
       { text: 'Temporary or casual', value: 'TEMPORARY_OR_CASUAL', kind: 'option' },
       { text: 'Apprenticeship', value: 'APPRENTICESHIP', kind: 'option' },
     ],
-    dependent: {
-      field: 'employment_status',
-      value: 'EMPLOYED',
-      displayInline: true,
-    },
+    dependent: dependentOn(this.employmentStatus, 'EMPLOYED'),
     labelClasses: utils.visuallyHidden,
-  },
-  {
-    text: 'Have they been employed before?',
-    id: 'has_been_employed_unavailable_for_work',
-    code: 'has_been_employed',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select one option' }],
-    options: hasBeenEmployedBeforeOptions,
-    dependent: {
-      field: 'employment_status',
-      value: 'CURRENTLY_UNAVAILABLE_FOR_WORK',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Have they been employed before?',
-    id: 'has_been_employed_actively_seeking',
-    code: 'has_been_employed',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select one option' }],
-    options: hasBeenEmployedBeforeOptions,
-    dependent: {
-      field: 'employment_status',
-      value: 'UNEMPLOYED_LOOKING_FOR_WORK',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Have they been employed before?',
-    id: 'has_been_employed_not_actively_seeking',
-    code: 'has_been_employed',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select one option' }],
-    options: hasBeenEmployedBeforeOptions,
-    dependent: {
-      field: 'employment_status',
-      value: 'UNEMPLOYED_NOT_LOOKING_FOR_WORK',
-      displayInline: true,
-    },
-  },
-]
+  }
 
-const employmentFields: Array<FormWizard.Field> = [
-  {
+  hasBeenEmployedPrototype: FormWizard.Field = {
+    text: 'Have they been employed before?',
+    code: 'has_been_employed',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select one option' }],
+    options: hasBeenEmployedBeforeOptions,
+  }
+
+  hasBeenEmployedUnavailableForWork: FormWizard.Field = {
+    ...this.hasBeenEmployedPrototype,
+    id: 'has_been_employed_unavailable_for_work',
+    dependent: dependentOn(this.employmentStatus, 'CURRENTLY_UNAVAILABLE_FOR_WORK'),
+  }
+
+  hasBeenEmployedActivelySeeking: FormWizard.Field = {
+    ...this.hasBeenEmployedPrototype,
+    id: 'has_been_employed_actively_seeking',
+    dependent: dependentOn(this.employmentStatus, 'UNEMPLOYED_LOOKING_FOR_WORK'),
+  }
+
+  hasBeenEmployedNotActivelySeeking: FormWizard.Field = {
+    ...this.hasBeenEmployedPrototype,
+    id: 'has_been_employed_not_actively_seeking',
+    dependent: dependentOn(this.employmentStatus, 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'),
+  }
+
+  employmentArea: FormWizard.Field = {
     text: 'What job sector does [subject] work in? (optional)',
     code: 'employment_area',
     type: FieldType.TextArea,
     validate: [],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  },
-]
+  }
 
-const employmentHistoryOptions: FormWizard.Field.Options = [
-  {
-    text: 'Continuous employment history',
-    hint: {
-      text: 'They may have had a break in employment due to things like redundancy, illness or caring for a family member.',
+  static employmentHistoryOptions: FormWizard.Field.Options = [
+    {
+      text: 'Continuous employment history',
+      hint: {
+        text: 'They may have had a break in employment due to things like redundancy, illness or caring for a family member.',
+      },
+      value: 'STABLE',
+      kind: 'option',
     },
-    value: 'STABLE',
-    kind: 'option',
-  },
-  { text: 'Generally in employment but changes jobs often', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
-  { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
-]
+    { text: 'Generally in employment but changes jobs often', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
+    { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
+  ]
 
-const employmentHistoryFields: Array<FormWizard.Field> = [
-  {
+  employmentHistory: FormWizard.Field = {
     text: "What is [subject]'s employment history?",
     hint: { text: 'Include their current employment.', kind: 'text' },
     code: 'employment_history',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their employment history' }],
-    options: employmentHistoryOptions,
+    options: EmploymentEducationFieldsFactory.employmentHistoryOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  ...employmentHistoryOptions.map(
-    FieldsFactory.detailsFieldWith({
-      parentFieldCode: 'employment_history',
+  }
+
+  employmentHistoryDetailsGroup: FormWizard.Field[] = EmploymentEducationFieldsFactory.employmentHistoryOptions.map(
+    FieldsFactory.detailsFieldWithNew({
+      parentField: this.employmentHistory,
       textHint: "Include what type of work they've done before.",
     }),
-  ),
-]
+  )
 
-const educationFields: Array<FormWizard.Field> = [
-  {
+  employmentOtherResponsibilities: FormWizard.Field = {
     text: 'Does [subject] have any additional day-to-day commitments?',
     hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'employment_other_responsibilities',
@@ -182,14 +161,16 @@ const educationFields: Array<FormWizard.Field> = [
       { text: 'None', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  ...['CARER', 'CHILD', 'VOLUNTEER', 'OTHER'].map(option =>
-    FieldsFactory.detailsField({
-      parentFieldCode: 'employment_other_responsibilities',
+  }
+
+  employmentOtherResponsibilitiesGroup = ['CARER', 'CHILD', 'VOLUNTEER', 'OTHER'].map(option =>
+    FieldsFactory.detailsFieldNew({
+      parentField: this.employmentOtherResponsibilities,
       dependentValue: option,
     }),
-  ),
-  {
+  )
+
+  educationHighestLevelCompleted: FormWizard.Field = {
     text: 'Select the highest level of academic qualification [subject] has completed',
     code: 'education_highest_level_completed',
     type: FieldType.Radio,
@@ -256,8 +237,9 @@ const educationFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'NOT_SURE', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  educationProfessionalOrVocationalQualifications: FormWizard.Field = {
     text: 'Does [subject] have any professional or vocational qualifications?',
     code: 'education_professional_or_vocational_qualifications',
     type: FieldType.Radio,
@@ -271,13 +253,15 @@ const educationFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'NOT_SURE', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  FieldsFactory.detailsField({
+  }
+
+  educationProfessionalOrVocationalQualificationsDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentFieldCode: 'education_professional_or_vocational_qualifications',
     dependentValue: 'YES',
     required: true,
-  }),
-  {
+  })
+
+  educationTransferableSkills: FormWizard.Field = {
     text: 'Does [subject] have any skills that could help them in a job or to get a job?',
     code: 'education_transferable_skills',
     type: FieldType.Radio,
@@ -312,14 +296,16 @@ const educationFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  ...['YES', 'YES_SOME_SKILLS'].map(option =>
-    FieldsFactory.detailsField({
-      parentFieldCode: 'education_transferable_skills',
+  }
+
+  educationTransferableSkillsDetailsGroup: FormWizard.Field[] = ['YES', 'YES_SOME_SKILLS'].map(option =>
+    FieldsFactory.detailsFieldNew({
+      parentField: this.educationTransferableSkills,
       dependentValue: option,
     }),
-  ),
-  {
+  )
+
+  educationDifficulties: FormWizard.Field = {
     text: 'Does [subject] have difficulties with reading, writing or numeracy?',
     hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'education_difficulties',
@@ -339,8 +325,9 @@ const educationFields: Array<FormWizard.Field> = [
       { text: 'No difficulties', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  educationDifficultiesReadingSeverity: FormWizard.Field = {
     text: 'Select level of difficulty',
     code: 'education_difficulties_reading_severity',
     type: FieldType.Radio,
@@ -349,13 +336,10 @@ const educationFields: Array<FormWizard.Field> = [
       { text: 'Significant difficulties', value: 'SIGNIFICANT_DIFFICULTIES', kind: 'option' },
       { text: 'Some difficulties', value: 'SOME_DIFFICULTIES', kind: 'option' },
     ],
-    dependent: {
-      field: 'education_difficulties',
-      value: 'READING',
-      displayInline: true,
-    },
-  },
-  {
+    dependent: dependentOn(this.educationDifficulties, 'READING'),
+  }
+
+  educationDifficultiesWritingSeverity: FormWizard.Field = {
     text: 'Select level of difficulty',
     code: 'education_difficulties_writing_severity',
     type: FieldType.Radio,
@@ -364,13 +348,10 @@ const educationFields: Array<FormWizard.Field> = [
       { text: 'Significant difficulties', value: 'SIGNIFICANT_DIFFICULTIES', kind: 'option' },
       { text: 'Some difficulties', value: 'SOME_DIFFICULTIES', kind: 'option' },
     ],
-    dependent: {
-      field: 'education_difficulties',
-      value: 'WRITING',
-      displayInline: true,
-    },
-  },
-  {
+    dependent: dependentOn(this.educationDifficulties, 'WRITING'),
+  }
+
+  educationDifficultiesNumeracySeverity: FormWizard.Field = {
     text: 'Select level of difficulty',
     code: 'education_difficulties_numeracy_severity',
     type: FieldType.Radio,
@@ -379,37 +360,19 @@ const educationFields: Array<FormWizard.Field> = [
       { text: 'Significant difficulties', value: 'SIGNIFICANT_DIFFICULTIES', kind: 'option' },
       { text: 'Some difficulties', value: 'SOME_DIFFICULTIES', kind: 'option' },
     ],
-    dependent: {
-      field: 'education_difficulties',
-      value: 'NUMERACY',
-      displayInline: true,
-    },
-  },
-]
+    dependent: dependentOn(this.educationDifficulties, 'NUMERACY'),
+  }
 
-const experienceOfEmploymentFields = createExperienceOfFields(
-  "What is [subject]'s overall experience of employment?",
-  'employment',
-  'overall',
-)
+  experienceOfEmploymentGroup: FormWizard.Field[] = createExperienceOfFields(
+    "What is [subject]'s overall experience of employment?",
+    'employment',
+    'overall',
+  )
 
-const experienceOfEducationFields = createExperienceOfFields(
-  "What is [subject]'s experience of education?",
-  'education',
-)
-
-class EmploymentEducationFieldsFactory extends FieldsFactory {
-  employmentStatus = employmentStatusFields
-
-  employmentHistory = employmentHistoryFields
-
-  employment = employmentFields
-
-  education = educationFields
-
-  experienceOfEmployment = experienceOfEmploymentFields
-
-  experienceOfEducation = experienceOfEducationFields
+  experienceOfEducationGroup: FormWizard.Field[] = createExperienceOfFields(
+    "What is [subject]'s experience of education?",
+    'education',
+  )
 }
 
 export default new EmploymentEducationFieldsFactory(sections.employmentEducation)

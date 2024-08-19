@@ -2,6 +2,7 @@ import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import employmentEducationFields from '../fields/employment-education'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
+import { nextWhen } from './accommodation'
 
 const section = sections.employmentEducation
 const stepUrls = {
@@ -14,29 +15,57 @@ const stepUrls = {
   analysisComplete: 'employment-education-analysis-complete',
 }
 
+const employmentStatusGroup = [
+  employmentEducationFields.employmentStatus,
+  employmentEducationFields.employmentType,
+  employmentEducationFields.hasBeenEmployedUnavailableForWork,
+  employmentEducationFields.hasBeenEmployedActivelySeeking,
+  employmentEducationFields.hasBeenEmployedNotActivelySeeking,
+]
+
+const employmentHistoryGroup = [
+  employmentEducationFields.employmentHistory,
+  employmentEducationFields.employmentHistoryDetailsGroup,
+].flat()
+
+const employmentGroup = [employmentEducationFields.employmentArea]
+
+const educationGroup = [
+  employmentEducationFields.employmentOtherResponsibilities,
+  employmentEducationFields.employmentOtherResponsibilitiesGroup,
+  employmentEducationFields.educationHighestLevelCompleted,
+  employmentEducationFields.educationProfessionalOrVocationalQualifications,
+  employmentEducationFields.educationProfessionalOrVocationalQualificationsDetails,
+  employmentEducationFields.educationTransferableSkills,
+  employmentEducationFields.educationTransferableSkillsDetailsGroup,
+  employmentEducationFields.educationDifficulties,
+  employmentEducationFields.educationDifficultiesReadingSeverity,
+  employmentEducationFields.educationDifficultiesWritingSeverity,
+  employmentEducationFields.educationDifficultiesNumeracySeverity,
+].flat()
+
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
       url: stepUrls.employmentEducation,
       fields: [
-        ...employmentEducationFields.employmentStatus,
-        ...employmentEducationFields.isUserSubmitted(stepUrls.employmentEducation),
-        ...employmentEducationFields.sectionComplete(),
-      ],
+        employmentStatusGroup,
+        employmentEducationFields.isUserSubmitted(stepUrls.employmentEducation),
+        employmentEducationFields.sectionComplete(),
+      ].flat(),
       next: [
-        { field: 'employment_status', value: 'EMPLOYED', next: stepUrls.employed },
-        { field: 'employment_status', value: 'SELF_EMPLOYED', next: stepUrls.employed },
-        { field: 'employment_status', value: 'RETIRED', next: stepUrls.retired },
-        {
-          field: 'employment_status',
-          op: 'in',
-          value: ['CURRENTLY_UNAVAILABLE_FOR_WORK', 'UNEMPLOYED_LOOKING_FOR_WORK', 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'],
-          next: [
-            { field: 'has_been_employed', value: 'YES', next: stepUrls.hasBeenEmployed },
-            { field: 'has_been_employed', value: 'NO', next: stepUrls.neverBeenEmployed },
+        nextWhen(employmentEducationFields.employmentStatus, 'EMPLOYED', stepUrls.employed),
+        nextWhen(employmentEducationFields.employmentStatus, 'SELF_EMPLOYED', stepUrls.employed),
+        nextWhen(employmentEducationFields.employmentStatus, 'RETIRED', stepUrls.retired),
+        nextWhen(
+          employmentEducationFields.employmentStatus,
+          ['CURRENTLY_UNAVAILABLE_FOR_WORK', 'UNEMPLOYED_LOOKING_FOR_WORK', 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'],
+          [
+            nextWhen(employmentEducationFields.hasBeenEmployedPrototype, 'YES', stepUrls.hasBeenEmployed),
+            nextWhen(employmentEducationFields.hasBeenEmployedPrototype, 'NO', stepUrls.neverBeenEmployed),
           ],
-        },
+        ),
       ],
       navigationOrder: 2,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -44,15 +73,15 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.employed,
       fields: [
-        ...employmentEducationFields.employment,
-        ...employmentEducationFields.employmentHistory,
-        ...employmentEducationFields.education,
-        ...employmentEducationFields.experienceOfEmployment,
-        ...employmentEducationFields.experienceOfEducation,
-        ...employmentEducationFields.wantToMakeChanges(),
-        ...employmentEducationFields.isUserSubmitted(stepUrls.employed),
-        ...employmentEducationFields.sectionComplete(),
-      ],
+        employmentGroup,
+        employmentHistoryGroup,
+        educationGroup,
+        employmentEducationFields.experienceOfEmploymentGroup,
+        employmentEducationFields.experienceOfEducationGroup,
+        employmentEducationFields.wantToMakeChanges(),
+        employmentEducationFields.isUserSubmitted(stepUrls.employed),
+        employmentEducationFields.sectionComplete(),
+      ].flat(),
       backLink: stepUrls.employmentEducation,
       next: stepUrls.analysis,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -60,12 +89,12 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.retired,
       fields: [
-        ...employmentEducationFields.employmentHistory,
-        ...employmentEducationFields.education,
-        ...employmentEducationFields.wantToMakeChanges(),
-        ...employmentEducationFields.isUserSubmitted(stepUrls.retired),
-        ...employmentEducationFields.sectionComplete(),
-      ],
+        employmentHistoryGroup,
+        educationGroup,
+        employmentEducationFields.wantToMakeChanges(),
+        employmentEducationFields.isUserSubmitted(stepUrls.retired),
+        employmentEducationFields.sectionComplete(),
+      ].flat(),
       backLink: stepUrls.employmentEducation,
       next: stepUrls.analysis,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -73,14 +102,14 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.hasBeenEmployed,
       fields: [
-        ...employmentEducationFields.employmentHistory,
-        ...employmentEducationFields.education,
-        ...employmentEducationFields.experienceOfEmployment,
-        ...employmentEducationFields.experienceOfEducation,
-        ...employmentEducationFields.wantToMakeChanges(),
-        ...employmentEducationFields.isUserSubmitted(stepUrls.hasBeenEmployed),
-        ...employmentEducationFields.sectionComplete(),
-      ],
+        employmentHistoryGroup,
+        educationGroup,
+        employmentEducationFields.experienceOfEmploymentGroup,
+        employmentEducationFields.experienceOfEducationGroup,
+        employmentEducationFields.wantToMakeChanges(),
+        employmentEducationFields.isUserSubmitted(stepUrls.hasBeenEmployed),
+        employmentEducationFields.sectionComplete(),
+      ].flat(),
       backLink: stepUrls.employmentEducation,
       next: stepUrls.analysis,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -88,12 +117,12 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.neverBeenEmployed,
       fields: [
-        ...employmentEducationFields.education,
-        ...employmentEducationFields.experienceOfEducation,
-        ...employmentEducationFields.wantToMakeChanges(),
-        ...employmentEducationFields.isUserSubmitted(stepUrls.neverBeenEmployed),
-        ...employmentEducationFields.sectionComplete(),
-      ],
+        educationGroup,
+        employmentEducationFields.experienceOfEducationGroup,
+        employmentEducationFields.wantToMakeChanges(),
+        employmentEducationFields.isUserSubmitted(stepUrls.neverBeenEmployed),
+        employmentEducationFields.sectionComplete(),
+      ].flat(),
       backLink: stepUrls.employmentEducation,
       next: stepUrls.analysis,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -101,10 +130,10 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.analysis,
       fields: [
-        ...employmentEducationFields.practitionerAnalysis(),
-        ...employmentEducationFields.isUserSubmitted(stepUrls.analysis),
-        ...employmentEducationFields.sectionComplete(),
-      ],
+        employmentEducationFields.practitionerAnalysis(),
+        employmentEducationFields.isUserSubmitted(stepUrls.analysis),
+        employmentEducationFields.sectionComplete(),
+      ].flat(),
       next: stepUrls.analysisComplete,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],

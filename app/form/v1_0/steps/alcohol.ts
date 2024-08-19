@@ -20,6 +20,7 @@ const baseAlcoholUsageGroup = [
   alcoholFields.alcoholReasonsForUse,
   alcoholFields.alcoholReasonsForUseOtherDetails,
   alcoholFields.alcoholImpactOfUse,
+  alcoholFields.alcoholImpactOfUseOtherDetails,
   alcoholFields.alcoholPastIssuesDetails,
   alcoholFields.alcoholStoppedOrReduced,
   alcoholFields.alcoholStoppedOrReducedDetails,

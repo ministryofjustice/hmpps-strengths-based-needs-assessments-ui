@@ -50,6 +50,11 @@ export default abstract class FieldsFactory {
     return fields.filter(field => field.endsWith('_user_submitted'))[0]
   }
 
+  static detailsFieldWithNew(options: DetailsFieldOptionsNew) {
+    return (option: FormWizard.Field.Option): FormWizard.Field =>
+      this.detailsFieldNew({ ...options, dependentValue: option.value })
+  }
+
   static detailsFieldWith(options: DetailsFieldOptions) {
     return (option: FormWizard.Field.Option): FormWizard.Field =>
       this.detailsField({ ...options, dependentValue: option.value })
