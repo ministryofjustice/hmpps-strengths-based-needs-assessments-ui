@@ -13,8 +13,6 @@ const stepUrls = {
   analysisComplete: 'alcohol-use-analysis-complete',
 }
 
-const alcoholUseGroup = [alcoholFields.alcoholUse]
-
 const baseAlcoholUsageGroup = [
   alcoholFields.alcoholEvidenceOfExcessDrinking,
   alcoholFields.alcoholPastIssues,
@@ -40,7 +38,7 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.alcoholUse,
       fields: [
-        alcoholUseGroup,
+        alcoholFields.alcoholUse,
         alcoholFields.isUserSubmitted(stepUrls.alcoholUse),
         alcoholFields.sectionComplete(),
       ].flat(),

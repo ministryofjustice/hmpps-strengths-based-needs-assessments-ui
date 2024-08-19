@@ -2,6 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
+import { dependentOn } from './common/utils'
 
 const usageFrequencies = [
   { text: 'Daily', value: 'DAILY' },
@@ -133,17 +134,19 @@ const createDrugUsage = (option: string): Array<FormWizard.Field> => [
   createFieldForPastDrugUsage(option),
 ]
 
-const createFieldsForInjectableDrug = (option: string): Array<FormWizard.Field> => [
-  ...createDrugUsage(option),
-  ...usageFrequencies.map(frequency => createFieldForInjectingDrug(option, frequency.value)),
-  createFieldForPastInjectingDrug(option),
-]
+const createFieldsForInjectableDrug = (option: string): Array<FormWizard.Field> =>
+  [
+    createDrugUsage(option),
+    usageFrequencies.map(frequency => createFieldForInjectingDrug(option, frequency.value)),
+    createFieldForPastInjectingDrug(option),
+  ].flat()
 
-const createFieldsForHeroin = (): Array<FormWizard.Field> => [
-  ...createFieldsForInjectableDrug('HEROIN'),
-  ...usageFrequencies.map(frequency => createFieldForReceivingTreatment('HEROIN', frequency.value)),
-  createFieldForPastReceivingTreatment('HEROIN'),
-]
+const createFieldsForHeroin = (): Array<FormWizard.Field> =>
+  [
+    createFieldsForInjectableDrug('HEROIN'),
+    usageFrequencies.map(frequency => createFieldForReceivingTreatment('HEROIN', frequency.value)),
+    createFieldForPastReceivingTreatment('HEROIN'),
+  ].flat()
 
 const drugUseTypeHint = `
 <p class="govuk-hint">Include current and previous drugs.</p>
@@ -155,19 +158,17 @@ const drugUseReasonsHint = `
 <p class="govuk-hint">Select all that apply.</p>
 `
 
-const drugUseFields: Array<FormWizard.Field> = [
-  {
+class DrugsFieldsFactory extends FieldsFactory {
+  drugUse: FormWizard.Field = {
     text: 'Has [subject] ever used drugs?',
     code: 'drug_use',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever used drugs' }],
     options: utils.yesNoOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-]
+  }
 
-const drugUseTypeFields: Array<FormWizard.Field> = [
-  {
+  drugUseType: FormWizard.Field = {
     text: 'Which drugs has [subject] used?',
     code: 'drug_use_type',
     hint: { html: drugUseTypeHint, kind: 'html' },
@@ -192,8 +193,9 @@ const drugUseTypeFields: Array<FormWizard.Field> = [
       { text: 'Other', value: 'OTHER_DRUG', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
+  }
+
+  otherDrugDetails: FormWizard.Field = {
     text: 'Enter drug name',
     code: 'other_drug_details',
     type: FieldType.Text,
@@ -205,16 +207,10 @@ const drugUseTypeFields: Array<FormWizard.Field> = [
         message: `Drug name must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
-    dependent: {
-      field: 'drug_use_type',
-      value: 'OTHER_DRUG',
-      displayInline: true,
-    },
-  },
-]
+    dependent: dependentOn(this.drugUseType, 'OTHER_DRUG'),
+  }
 
-const drugUsageDetailsFields: Array<FormWizard.Field> = [
-  {
+  drugUseReasons: FormWizard.Field = {
     text: 'Why did [subject] start using drugs?',
     hint: { html: drugUseReasonsHint, kind: 'html' },
     code: 'drug_use_reasons',
@@ -233,19 +229,15 @@ const drugUsageDetailsFields: Array<FormWizard.Field> = [
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details',
-    code: 'drug_use_reason_details',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_reasons',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  drugUseReasonDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.drugUseReasons,
+    dependentValue: 'OTHER',
+    required: true,
+  })
+
+  drugUseImpact: FormWizard.Field = {
     text: "What's the impact of [subject] using drugs?",
     hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'drug_use_impact',
@@ -282,20 +274,16 @@ const drugUsageDetailsFields: Array<FormWizard.Field> = [
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Consider impact on themselves or others.', kind: 'text' },
-    code: 'drug_use_impact_details',
-    type: FieldType.TextArea,
-    validate: [{ type: ValidationType.Required, message: 'Enter details' }],
-    dependent: {
-      field: 'drug_use_impact',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  drugUseImpactDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.drugUseImpact,
+    textHint: 'Consider impact on themselves or others.',
+    dependentValue: 'OTHER',
+    required: true,
+  })
+
+  reducingOrStoppingDrugUse: FormWizard.Field = {
     text: 'Has anything helped [subject] to stop or reduce using drugs in the past?',
     code: 'reducing_or_stopping_drug_use',
     type: FieldType.Radio,
@@ -307,18 +295,14 @@ const drugUsageDetailsFields: Array<FormWizard.Field> = [
     ],
     options: utils.yesNoOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'reducing_or_stopping_drug_use_details',
-    type: FieldType.TextArea,
-    dependent: {
-      field: 'reducing_or_stopping_drug_use',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  reducingOrStoppingDrugUseDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.reducingOrStoppingDrugUse,
+    dependentValue: 'YES',
+  })
+
+  motivatedStoppingDrugUse: FormWizard.Field = {
     text: 'Is [subject] motivated to stop or reduce their drug use?',
     code: 'motivated_stopping_drug_use',
     type: FieldType.Radio,
@@ -332,35 +316,39 @@ const drugUsageDetailsFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-]
+  }
 
-const drugUseTypeDetailsFields = [
-  createFieldsForInjectableDrug('AMPHETAMINES'),
-  createFieldsForInjectableDrug('BENZODIAZEPINES'),
-  createDrugUsage('CANNABIS'),
-  createFieldsForInjectableDrug('COCAINE'),
-  createFieldsForInjectableDrug('CRACK'),
-  createDrugUsage('ECSTASY'),
-  createDrugUsage('HALLUCINOGENICS'),
-  createFieldsForHeroin(),
-  createFieldsForInjectableDrug('METHADONE_NOT_PRESCRIBED'),
-  createFieldsForInjectableDrug('MISUSED_PRESCRIBED_DRUGS'),
-  createFieldsForInjectableDrug('OTHER_OPIATES'),
-  createDrugUsage('SOLVENTS'),
-  createFieldsForInjectableDrug('STEROIDS'),
-  createDrugUsage('SPICE'),
-  createFieldsForInjectableDrug('OTHER_DRUG'),
-].flat()
+  drugUseGroup = [this.drugUse]
 
-class DrugsFieldsFactory extends FieldsFactory {
-  drugUse = drugUseFields
+  drugUsageDetailsGroup = [
+    this.drugUseReasons,
+    this.drugUseReasonDetails,
+    this.drugUseImpact,
+    this.drugUseImpactDetails,
+    this.reducingOrStoppingDrugUse,
+    this.reducingOrStoppingDrugUseDetails,
+    this.motivatedStoppingDrugUse,
+  ]
 
-  drugUsageDetails = drugUsageDetailsFields
+  drugUseTypeGroup = [this.drugUseType, this.otherDrugDetails]
 
-  drugUseType = drugUseTypeFields
-
-  drugUseTypeDetails = drugUseTypeDetailsFields
+  drugUseTypeDetailsGroup = [
+    createFieldsForInjectableDrug('AMPHETAMINES'),
+    createFieldsForInjectableDrug('BENZODIAZEPINES'),
+    createDrugUsage('CANNABIS'),
+    createFieldsForInjectableDrug('COCAINE'),
+    createFieldsForInjectableDrug('CRACK'),
+    createDrugUsage('ECSTASY'),
+    createDrugUsage('HALLUCINOGENICS'),
+    createFieldsForHeroin(),
+    createFieldsForInjectableDrug('METHADONE_NOT_PRESCRIBED'),
+    createFieldsForInjectableDrug('MISUSED_PRESCRIBED_DRUGS'),
+    createFieldsForInjectableDrug('OTHER_OPIATES'),
+    createDrugUsage('SOLVENTS'),
+    createFieldsForInjectableDrug('STEROIDS'),
+    createDrugUsage('SPICE'),
+    createFieldsForInjectableDrug('OTHER_DRUG'),
+  ].flat()
 }
 
 export default new DrugsFieldsFactory(sections.drugs)

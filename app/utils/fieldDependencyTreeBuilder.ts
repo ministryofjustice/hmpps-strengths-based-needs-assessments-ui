@@ -4,7 +4,7 @@ import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { formatDateForDisplay } from '../../server/utils/nunjucks.utils'
 import { whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
-import sections from '../form/v1_0/config/sections';
+import sections from '../form/v1_0/config/sections'
 
 export interface Field {
   field: FormWizard.Field
@@ -215,7 +215,7 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    const sectionCompleteField = Object.values(sections).find(it => it.code === this.options.section).sectionCompleteField
+    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section)
     if (nextStep.endsWith('-analysis-complete') && this.answers[sectionCompleteField] === 'NO') {
       nextStep = nextStep.replace('-analysis-complete', '-analysis')
     }

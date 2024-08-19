@@ -298,7 +298,7 @@ class AlcoholFieldsFactory extends FieldsFactory {
       { text: 'Weekly', value: 'WEEKLY', kind: 'option' },
       { text: 'Daily or almost daily', value: 'DAILY', kind: 'option' },
     ],
-    dependent: dependentOn(this.alcoholBingeDrinking, 'OTHER'),
+    dependent: dependentOn(this.alcoholBingeDrinking, 'YES'),
   }
 }
 
