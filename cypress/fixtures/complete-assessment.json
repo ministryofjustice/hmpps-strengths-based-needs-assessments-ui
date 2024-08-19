@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "8cee3c64-fc8f-4e52-8869-04e3ffc8a541",
-    "createdAt": "2024-08-15T16:38:37.353593",
+    "uuid": "0b1b31b7-b9c7-466a-b922-4e302f21ab95",
+    "createdAt": "2024-08-19T17:28:10.722637",
     "oasys_pks": [
-      "3014211"
+      "1384867"
     ],
-    "versionUuid": "57e84836-eec1-439d-a4e4-66d62ea7dab4",
-    "versionCreatedAt": "2024-08-15T16:38:37.353751",
+    "versionUuid": "c44069dc-da77-4ed2-92c8-48a21a17aacf",
+    "versionCreatedAt": "2024-08-19T17:28:10.722678",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -498,13 +498,6 @@
         "READING"
       ]
     },
-    "no_offence_risk_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details",
-      "options": null,
-      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null
-    },
     "offence_analysis_reason": {
       "type": "TEXT_AREA",
       "description": "Why did the offence happen?",
@@ -706,13 +699,6 @@
       "value": "YES",
       "values": null
     },
-    "bad_money_management_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
-    },
     "employment_education_changes": {
       "type": "RADIO",
       "description": "Does [subject] want to make changes to their employment and education?",
@@ -771,13 +757,6 @@
         }
       ],
       "value": "NO",
-      "values": null
-    },
-    "no_impact_on_victims_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
       "values": null
     },
     "education_transferable_skills": {
@@ -851,6 +830,13 @@
     "offence_analysis_victim_details": {
       "type": "TEXT_AREA",
       "description": "Enter all victim details",
+      "options": null,
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
+      "values": null
+    },
+    "offence_analysis_risk_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details",
       "options": null,
       "value": "¯&#x5C;_(ツ)_&#x2F;¯",
       "values": null
@@ -1068,6 +1054,13 @@
         }
       ],
       "value": "YES",
+      "values": null
+    },
+    "finance_money_management_bad_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
       "values": null
     },
     "employment_education_section_complete": {
@@ -1539,6 +1532,13 @@
       "value": "YES",
       "values": null
     },
+    "offence_analysis_impact_on_victims_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null
+    },
     "thinking_behaviours_attitudes_problem_solving": {
       "type": "RADIO",
       "description": "Is [subject] able to solve problems in a positive way?",
@@ -1945,13 +1945,6 @@
       "value": "YES",
       "values": null
     },
-    "personal_relationships_community_happy_relationship": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
-    },
     "personal_relationships_community_childhood_behaviour": {
       "type": "RADIO",
       "description": "Did [subject] have any childhood behavioural problems?",
@@ -2227,13 +2220,6 @@
       "value": "NO",
       "values": null
     },
-    "personal_relationships_community_positive_childhood_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
-    },
     "health_wellbeing_is_health_wellbeing_analysis_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
@@ -2291,13 +2277,6 @@
         }
       ],
       "value": "NO",
-      "values": null
-    },
-    "personal_relationships_community_stable_intimate_relationship": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
       "values": null
     },
     "alcohol_use_practitioner_analysis_risk_of_serious_harm_details": {
@@ -2380,6 +2359,13 @@
         }
       ],
       "value": "NO",
+      "values": null
+    },
+    "personal_relationships_community_childhood_behaviour_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
       "values": null
     },
     "accommodation_practitioner_analysis_risk_of_serious_harm_details": {
@@ -2488,6 +2474,13 @@
       "value": "",
       "values": null
     },
+    "personal_relationships_community_childhood_positive_childhood_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null
+    },
     "drug_use_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
@@ -2539,13 +2532,6 @@
         }
       ],
       "value": "NO",
-      "values": null
-    },
-    "personal_relationships_community_no_childhood_behaviour_problems_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
       "values": null
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_serious_harm": {
@@ -2688,6 +2674,13 @@
       "value": "",
       "values": null
     },
+    "personal_relationships_community_current_relationship_happy_relationship_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null
+    },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
@@ -2705,6 +2698,13 @@
     "personal_relationships_community_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
+      "options": null,
+      "value": "",
+      "values": null
+    },
+    "personal_relationships_community_intimate_relationship_stable_relationships_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
       "options": null,
       "value": "",
       "values": null
@@ -2812,9 +2812,6 @@
     }
   },
   "oasysEquivalent": {
-    "o2-1": "¯&#x5C;_(ツ)_&#x2F;¯",
-    "o2-6": "NO",
-    "o2-8": "¯&#x5C;_(ツ)_&#x2F;¯",
     "o3-3": "NO",
     "o3-4": "0",
     "o3-5": "0",
@@ -2867,9 +2864,6 @@
     "o12-4": "1",
     "o12-9": "1",
     "o13-1": "NO",
-    "o2-12": "¯&#x5C;_(ツ)_&#x2F;¯",
-    "o2-98": "¯&#x5C;_(ツ)_&#x2F;¯",
-    "o2-99": "NO",
     "o3-97": "Area not linked to strengths and positive factors notes - \nArea not linked to serious harm notes - \nArea not linked to reoffending notes - ",
     "o3-98": "NO",
     "o3-99": "NO",
@@ -2906,7 +2900,6 @@
     "o12-97": "Area not linked to strengths and positive factors notes - \nArea not linked to serious harm notes - \nArea not linked to reoffending notes - ",
     "o12-98": "NO",
     "o12-99": "NO",
-    "o2-7-2": "NO",
     "o4-7-1": [
       "READING"
     ],
@@ -2968,9 +2961,6 @@
     "o6-7-1-2da": null,
     "o6-7-2-1da": null,
     "o6-7-2-2da": null,
-    "o2-2_V2_SEXUAL": "NO",
-    "o2-9_V2_SEXUAL": "NO",
-    "o2-2_V2_ANYVIOL": "NO",
     "o3_SAN_STRENGTH": "NO",
     "o4_SAN_STRENGTH": "NO",
     "o5_SAN_STRENGTH": "NO",
@@ -2978,11 +2968,6 @@
     "o8_SAN_STRENGTH": "NO",
     "o9_SAN_STRENGTH": "NO",
     "o10_SAN_STRENGTH": "NO",
-    "o2-2_V2_DOM_ABUSE": "NO",
-    "o2-2_V2_EXCESSIVE": "NO",
-    "o2-9_V2_ADDICTION": "NO",
-    "o2-9_V2_EMOTIONAL": "NO",
-    "o2-9_V2_FINANCIAL": "NO",
     "oTBA_SAN_STRENGTH": "NO",
     "o10-7_V2_CHILDHOOD": "NO",
     "o10-7_V2_HISTPSYCH": "NO",

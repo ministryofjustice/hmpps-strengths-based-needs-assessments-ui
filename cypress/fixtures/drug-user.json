@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "92b6bf70-cb7c-4210-b82b-f35b77a3ac08",
-    "createdAt": "2024-08-15T16:39:09.474566",
+    "uuid": "07185ee6-dabd-4277-8089-a1a79416b1c0",
+    "createdAt": "2024-08-19T17:28:39.876792",
     "oasys_pks": [
-      "7081982"
+      "8766098"
     ],
-    "versionUuid": "79ae00b9-80e1-4baa-b7b3-fe0c17d900fd",
-    "versionCreatedAt": "2024-08-15T16:39:09.47466",
+    "versionUuid": "5ad3f352-258f-4259-9190-4d666c834540",
+    "versionCreatedAt": "2024-08-19T17:28:39.8768",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -217,9 +217,6 @@
     }
   },
   "oasysEquivalent": {
-    "o2-1": null,
-    "o2-6": null,
-    "o2-8": null,
     "o3-3": null,
     "o3-4": null,
     "o3-5": null,
@@ -272,9 +269,6 @@
     "o12-4": null,
     "o12-9": null,
     "o13-1": null,
-    "o2-12": null,
-    "o2-98": null,
-    "o2-99": null,
     "o3-97": null,
     "o3-98": null,
     "o3-99": null,
@@ -311,7 +305,6 @@
     "o12-97": null,
     "o12-98": null,
     "o12-99": null,
-    "o2-7-2": null,
     "o4-7-1": null,
     "o6-7da": null,
     "o9-1-t": null,
@@ -371,9 +364,6 @@
     "o6-7-1-2da": null,
     "o6-7-2-1da": null,
     "o6-7-2-2da": null,
-    "o2-2_V2_SEXUAL": null,
-    "o2-9_V2_SEXUAL": null,
-    "o2-2_V2_ANYVIOL": null,
     "o3_SAN_STRENGTH": null,
     "o4_SAN_STRENGTH": null,
     "o5_SAN_STRENGTH": null,
@@ -381,11 +371,6 @@
     "o8_SAN_STRENGTH": null,
     "o9_SAN_STRENGTH": null,
     "o10_SAN_STRENGTH": null,
-    "o2-2_V2_DOM_ABUSE": null,
-    "o2-2_V2_EXCESSIVE": null,
-    "o2-9_V2_ADDICTION": null,
-    "o2-9_V2_EMOTIONAL": null,
-    "o2-9_V2_FINANCIAL": null,
     "oTBA_SAN_STRENGTH": null,
     "o10-7_V2_CHILDHOOD": null,
     "o10-7_V2_HISTPSYCH": null,
