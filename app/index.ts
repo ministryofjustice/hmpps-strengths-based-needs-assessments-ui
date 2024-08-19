@@ -13,15 +13,15 @@ export default class App {
 
   formConfigRouter: Router
 
+  static errorHandler(error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) {
+    if (error.redirect) return res.redirect(error.redirect)
+    return next(error)
+  }
+
   constructor() {
     const formRouterBuilder = FormRouterBuilder.configure(V1_0)
 
-    this.formRouter = formRouterBuilder.formRouter.use(
-      (error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) => {
-        if (error.redirect) return res.redirect(error.redirect)
-        return next(error)
-      },
-    )
+    this.formRouter = formRouterBuilder.formRouter.use(App.errorHandler)
     this.formConfigRouter = formRouterBuilder.formConfigRouter
   }
 }

@@ -1,6 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 import {
+  dependentOn,
   fieldCodeWith,
   getMediumLabelClassFor,
   inlineRadios,
@@ -17,6 +18,15 @@ type Section = {
 
 type DetailsFieldOptions = {
   parentFieldCode: string
+  dependentValue?: string
+  required?: boolean
+  maxChars?: number
+  textHint?: string
+  htmlHint?: string
+}
+
+type DetailsFieldOptionsNew = {
+  parentField: FormWizard.Field
   dependentValue?: string
   required?: boolean
   maxChars?: number
@@ -43,6 +53,35 @@ export default abstract class FieldsFactory {
   static detailsFieldWith(options: DetailsFieldOptions) {
     return (option: FormWizard.Field.Option): FormWizard.Field =>
       this.detailsField({ ...options, dependentValue: option.value })
+  }
+
+  static detailsFieldNew(options: DetailsFieldOptionsNew): FormWizard.Field {
+    const maxChars = options.maxChars ? options.maxChars : this.detailsCharacterLimit
+    const field: FormWizard.Field = {
+      text: `Give details${options.required ? '' : ' (optional)'}`,
+      code: fieldCodeWith(
+        ...[options.parentField.code, options.dependentValue?.toLowerCase(), 'details'].filter(it => it),
+      ),
+      type: FieldType.TextArea,
+      validate: [
+        options.required ? { type: ValidationType.Required, message: 'Enter details' } : null,
+        {
+          type: ValidationType.MaxLength,
+          arguments: [maxChars],
+          message: `Details must be ${maxChars} characters or less`,
+        },
+      ].filter(it => it),
+    }
+    if (options.dependentValue) {
+      field.dependent = dependentOn(options.parentField, options.dependentValue)
+    }
+    if (options.textHint) {
+      field.hint = { text: options.textHint, kind: 'text' }
+    }
+    if (options.htmlHint) {
+      field.hint = { html: options.htmlHint, kind: 'html' }
+    }
+    return field
   }
 
   static detailsField(options: DetailsFieldOptions): FormWizard.Field {
