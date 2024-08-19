@@ -20,8 +20,8 @@ const positiveFactorsHint = `
 <p class="govuk-hint">Select all that apply.</p>
 `
 
-const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
-  {
+class HealthWellbeingFieldsFactory extends FieldsFactory {
+  healthWellbeingPhysicalHealthCondition: FormWizard.Field = {
     text: 'Does [subject] have any physical health conditions?',
     code: 'health_wellbeing_physical_health_condition',
     type: FieldType.Radio,
@@ -32,25 +32,14 @@ const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'health_wellbeing_physical_health_condition_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_physical_health_condition',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  healthWellbeingPhysicalHealthConditionDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingPhysicalHealthCondition,
+    dependentValue: 'YES',
+  })
+
+  healthWellbeingMentalHealthCondition: FormWizard.Field = {
     text: 'Does [subject] have any diagnosed or documented mental health problems?',
     code: 'health_wellbeing_mental_health_condition',
     type: FieldType.Radio,
@@ -76,62 +65,24 @@ const physicalOrMentalHealthProblemsFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'health_wellbeing_mental_health_condition_yes_ongoing_severe_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_mental_health_condition',
-      value: 'YES_ONGOING_SEVERE',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'health_wellbeing_mental_health_condition_yes_ongoing_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_mental_health_condition',
-      value: 'YES_ONGOING',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'health_wellbeing_mental_health_condition_yes_in_the_past_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_mental_health_condition',
-      value: 'YES_IN_THE_PAST',
-      displayInline: true,
-    },
-  },
-]
+  }
 
-const physicalHealthConditionsFields: Array<FormWizard.Field> = [
-  {
+  healthWellbeingMentalHealthConditionYesOngoingSevereDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingMentalHealthCondition,
+    dependentValue: 'YES_ONGOING_SEVERE',
+  })
+
+  healthWellbeingMentalHealthConditionYesOngoingDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingMentalHealthCondition,
+    dependentValue: 'YES_ONGOING',
+  })
+
+  healthWellbeingMentalHealthConditionYesInThePastDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingMentalHealthCondition,
+    dependentValue: 'YES_IN_THE_PAST',
+  })
+
+  healthWellbeingPrescribedMedicationPhysicalConditions: FormWizard.Field = {
     text: 'Give details if [subject] is on prescribed medication or treatment for physical health conditions (optional)',
     code: 'health_wellbeing_prescribed_medication_physical_conditions',
     type: FieldType.TextArea,
@@ -143,11 +94,9 @@ const physicalHealthConditionsFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  },
-]
+  }
 
-const mentalHealthConditionsFields: Array<FormWizard.Field> = [
-  {
+  healthWellbeingPrescribedMedicationMentalConditions: FormWizard.Field = {
     text: 'Give details if [subject] is on prescribed medication or treatment for mental health problems (optional)',
     code: 'health_wellbeing_prescribed_medication_mental_conditions',
     type: FieldType.TextArea,
@@ -159,8 +108,9 @@ const mentalHealthConditionsFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  },
-  {
+  }
+
+  healthWellbeingPsychiatricTreatment: FormWizard.Field = {
     text: 'Is [subject] currently having psychiatric treatment?',
     code: 'health_wellbeing_psychiatric_treatment',
     type: FieldType.Radio,
@@ -172,11 +122,9 @@ const mentalHealthConditionsFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-]
+  }
 
-const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
-  {
+  healthWellbeingHeadInjuryOrIllness: FormWizard.Field = {
     text: 'Has [subject] had a head injury or any illness affecting the brain?',
     hint: { html: headInjuryOrIllnessHint, kind: 'html' },
     code: 'health_wellbeing_head_injury_or_illness',
@@ -193,8 +141,9 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  healthWellbeingNeurodiverseConditions: FormWizard.Field = {
     text: 'Does [subject] have any neurodiverse conditions?',
     hint: { text: 'Include diagnosis and neurodiverse characteristics.', kind: 'text' },
     code: 'health_wellbeing_neurodiverse_conditions',
@@ -206,25 +155,14 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'health_wellbeing_neurodiverse_conditions_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_neurodiverse_conditions',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  healthWellbeingNeurodiverseConditionsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingNeurodiverseConditions,
+    dependentValue: 'YES',
+  })
+
+  healthWellbeingLearningDifficulties: FormWizard.Field = {
     text: 'Does [subject] have any learning difficulties?',
     code: 'health_wellbeing_learning_difficulties',
     type: FieldType.Radio,
@@ -235,42 +173,20 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
       { text: 'No difficulties', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'health_wellbeing_learning_difficulties_yes_some_difficulties_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_learning_difficulties',
-      value: 'YES_SOME_DIFFICULTIES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'health_wellbeing_learning_difficulties_yes_significant_difficulties_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_learning_difficulties',
-      value: 'YES_SIGNIFICANT_DIFFICULTIES',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  healthWellbeingLearningDifficultiesYesSomeDifficultiesDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingLearningDifficulties,
+    dependentValue: 'YES_SOME_DIFFICULTIES',
+  })
+
+  healthWellbeingLearningDifficultiesYesSignificantDifficultiesDetails: FormWizard.Field =
+    FieldsFactory.detailsFieldNew({
+      parentField: this.healthWellbeingLearningDifficulties,
+      dependentValue: 'YES_SIGNIFICANT_DIFFICULTIES',
+    })
+
+  healthWellbeingCopingDayToDayLife: FormWizard.Field = {
     text: 'Is [subject] able to cope with day-to-day life?',
     code: 'health_wellbeing_coping_day_to_day_life',
     type: FieldType.Radio,
@@ -281,8 +197,9 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
       { text: 'Not able to cope', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  healthWellbeingAttitudeTowardsSelf: FormWizard.Field = {
     text: "What is [subject]'s attitude towards themselves?",
     code: 'health_wellbeing_attitude_towards_self',
     type: FieldType.Radio,
@@ -304,8 +221,9 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  healthWellbeingSelfHarmed: FormWizard.Field = {
     text: 'Has [subject] ever self-harmed?',
     hint: { text: "Consider what factors or circumstances are associated and if it's recurring.", kind: 'text' },
     code: 'health_wellbeing_self_harmed',
@@ -313,26 +231,15 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever self-harmed' }],
     options: utils.yesNoOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details',
-    code: 'health_wellbeing_self_harmed_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_self_harmed',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  healthWellbeingSelfHarmedDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingSelfHarmed,
+    dependentValue: 'YES',
+    required: true,
+  })
+
+  healthWellbeingAttemptedSuicideOrSuicidalThoughts: FormWizard.Field = {
     text: 'Has [subject] ever attempted suicide or had suicidal thoughts?',
     hint: { text: "Consider what factors or circumstances are associated and if it's recurring.", kind: 'text' },
     code: 'health_wellbeing_attempted_suicide_or_suicidal_thoughts',
@@ -342,26 +249,15 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
     ],
     options: utils.yesNoOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details',
-    code: 'health_wellbeing_attempted_suicide_or_suicidal_thoughts_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_attempted_suicide_or_suicidal_thoughts',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
+  }
+
+  healthWellbeingAttemptedSuicideOrSuicidalThoughtsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingAttemptedSuicideOrSuicidalThoughts,
+    dependentValue: 'YES',
+    required: true,
+  })
+
+  healthWellbeingOutlook: FormWizard.Field = {
     text: 'How optimistic is [subject] about their future?',
     code: 'health_wellbeing_outlook',
     type: FieldType.Radio,
@@ -379,8 +275,9 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
       { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+  }
+
+  healthWellbeingPositiveFactors: FormWizard.Field = {
     text: "What's helped [subject] during periods of good health and wellbeing? (optional)",
     hint: { html: positiveFactorsHint, kind: 'html' },
     code: 'health_wellbeing_positive_factors',
@@ -397,35 +294,13 @@ const baseHealthAndWellbeingFields: Array<FormWizard.Field> = [
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details',
-    code: 'health_wellbeing_positive_factors_other_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'health_wellbeing_positive_factors',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
-]
+  }
 
-class HealthWellbeingFieldsFactory extends FieldsFactory {
-  physicalOrMentalHealthProblems = physicalOrMentalHealthProblemsFields
-
-  physicalHealthConditions = physicalHealthConditionsFields
-
-  mentalHealthConditions = mentalHealthConditionsFields
-
-  baseHealthAndWellbeing = baseHealthAndWellbeingFields
+  healthWellbeingPositiveFactorsOtherDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.healthWellbeingPositiveFactors,
+    dependentValue: 'OTHER',
+    required: true,
+  })
 }
 
 export default new HealthWellbeingFieldsFactory(sections.healthWellbeing)
