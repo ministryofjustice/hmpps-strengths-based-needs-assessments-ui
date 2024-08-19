@@ -10,17 +10,34 @@ const stepUrls = {
   analysisComplete: 'finance-analysis-complete',
 }
 
+const baseFinanceGroup = [
+  financeFields.financeIncome,
+  financeFields.familyOrFriendsDetails,
+  financeFields.otherIncomeDetails,
+  financeFields.financeBankAccount,
+  financeFields.financeMoneyManagement,
+  financeFields.financeMoneyManagementDetailsGroup,
+  financeFields.financeGambling,
+  financeFields.financeGamblingDetailsGroup,
+  financeFields.financeDebt,
+  financeFields.yesTypeOfDebt,
+  financeFields.yesTypeOfDebtDetailsGroup,
+  financeFields.yesSomeoneElsesTypeOfDebt,
+  financeFields.yesSomeoneElsesTypeOfDebtDetailsGroup,
+  financeFields.unknownDebtDetails,
+].flat()
+
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
       url: stepUrls.finance,
       fields: [
-        ...financeFields.baseFinance,
-        ...financeFields.wantToMakeChanges(),
-        ...financeFields.isUserSubmitted(stepUrls.finance),
-        ...financeFields.sectionComplete(),
-      ],
+        baseFinanceGroup,
+        financeFields.wantToMakeChanges(),
+        financeFields.isUserSubmitted(stepUrls.finance),
+        financeFields.sectionComplete(),
+      ].flat(),
       navigationOrder: 3,
       next: stepUrls.analysis,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -28,10 +45,10 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.analysis,
       fields: [
-        ...financeFields.practitionerAnalysis(),
-        ...financeFields.isUserSubmitted(stepUrls.analysis),
-        ...financeFields.sectionComplete(),
-      ],
+        financeFields.practitionerAnalysis(),
+        financeFields.isUserSubmitted(stepUrls.analysis),
+        financeFields.sectionComplete(),
+      ].flat(),
       next: `${stepUrls.analysisComplete}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
