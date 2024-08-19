@@ -26,6 +26,7 @@ type DetailsFieldOptions = {
 }
 
 type DetailsFieldOptionsNew = {
+  text?: string
   parentField: FormWizard.Field
   dependentValue?: string
   required?: boolean
@@ -63,7 +64,7 @@ export default abstract class FieldsFactory {
   static detailsFieldNew(options: DetailsFieldOptionsNew): FormWizard.Field {
     const maxChars = options.maxChars ? options.maxChars : this.detailsCharacterLimit
     const field: FormWizard.Field = {
-      text: `Give details${options.required ? '' : ' (optional)'}`,
+      text: (options.text ? options.text : 'Give details') + (options.required ? '' : ' (optional)'),
       code: fieldCodeWith(
         ...[options.parentField.code, options.dependentValue?.toLowerCase(), 'details'].filter(it => it),
       ),

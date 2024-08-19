@@ -2,7 +2,6 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import { FieldsFactory, utils } from './common'
 import sections from '../config/sections'
-import { dependentOn } from './common/utils'
 
 class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityImportantPeople: FormWizard.Field = {
@@ -45,28 +44,22 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   })
 
   personalRelationshipsCommunityImportantPeopleOtherChildrenDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    text: 'Give details about their relationship',
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'OTHER_CHILDREN',
   })
 
   personalRelationshipsCommunityImportantPeopleFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    text: 'Give details about their relationship',
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'FAMILY',
   })
 
-  personalRelationshipsCommunityImportantPeopleFriendsDetails: FormWizard.Field = {
-    text: 'Give details about their friendship (optional)',
-    code: 'personal_relationships_community_important_people_friends_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: dependentOn(this.personalRelationshipsCommunityImportantPeople, 'FRIENDS'),
-  }
+  personalRelationshipsCommunityImportantPeopleFriendsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    text: 'Give details about their friendship',
+    parentField: this.personalRelationshipsCommunityImportantPeople,
+    dependentValue: 'FRIENDS',
+  })
 
   personalRelationshipsCommunityImportantPeopleOtherDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
     parentField: this.personalRelationshipsCommunityImportantPeople,
@@ -107,59 +100,20 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityStableFamilyDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_stable_family_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_family_relationship',
-      value: 'STABLE_RELATIONSHIP',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityStableFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityFamilyRelationship,
+    dependentValue: 'STABLE_RELATIONSHIP',
+  })
 
-  personalRelationshipsCommunityMixedFamilyDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_family_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_family_relationship',
-      value: 'MIXED_RELATIONSHIP',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityMixedFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityFamilyRelationship,
+    dependentValue: 'MIXED_RELATIONSHIP',
+  })
 
-  personalRelationshipsCommunityUnstableFamilyDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_unstable_family_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_family_relationship',
-      value: 'UNSTABLE_RELATIONSHIP',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityUnstableFamilyDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityFamilyRelationship,
+    dependentValue: 'UNSTABLE_RELATIONSHIP',
+  })
 
   personalRelationshipsCommunityChildhood: FormWizard.Field = {
     text: 'What was [subject]’s experience of their childhood?',
@@ -189,59 +143,20 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityPositiveChildhoodDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_positive_childhood_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood',
-      value: 'POSITIVE_CHILDHOOD',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityPositiveChildhoodDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityChildhood,
+    dependentValue: 'POSITIVE_CHILDHOOD',
+  })
 
-  personalRelationshipsCommunityMixedChildhoodDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_childhood_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood',
-      value: 'MIXED_CHILDHOOD',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityMixedChildhoodDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityChildhood,
+    dependentValue: 'MIXED_CHILDHOOD',
+  })
 
-  personalRelationshipsCommunityNegativeChildhoodDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_negative_childhood_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood',
-      value: 'NEGATIVE_CHILDHOOD',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityNegativeChildhoodDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityChildhood,
+    dependentValue: 'NEGATIVE_CHILDHOOD',
+  })
 
   personalRelationshipsCommunityChildhoodBehaviour: FormWizard.Field = {
     text: 'Did [subject] have any childhood behavioural problems?',
@@ -263,41 +178,15 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  personalRelationshipsCommunityYesChildhoodBehaviourProblemsDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_yes_childhood_behaviour_problems_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood_behaviour',
-      value: 'YES',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityYesChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityChildhoodBehaviour,
+    dependentValue: 'YES',
+  })
 
-  personalRelationshipsCommunityNoChildhoodBehaviourProblemsDetails: FormWizard.Field = {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_no_childhood_behaviour_problems_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood_behaviour',
-      value: 'NO',
-      displayInline: true,
-    },
-  }
+  personalRelationshipsCommunityNoChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsFieldNew({
+    parentField: this.personalRelationshipsCommunityChildhoodBehaviour,
+    dependentValue: 'NO',
+  })
 
   personalRelationshipsCommunityBelonging: FormWizard.Field = {
     text: 'Is [subject] part of any groups or communities that gives them a sense of belonging? (optional)',
