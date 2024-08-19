@@ -34,9 +34,10 @@ describe('Origin: /employment-education', () => {
           .getRadio(typeOfEmployment)
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-
         cy.assertStepUrlIs(destinations.employed)
+        cy.assertResumeUrlIs(sectionName, destinations.employed)
       })
     })
 
@@ -45,9 +46,10 @@ describe('Origin: /employment-education', () => {
 
       cy.getQuestion("What is Sam's current employment status?").getRadio('Self-employed').clickLabel()
 
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
-
       cy.assertStepUrlIs(destinations.employed)
+      cy.assertResumeUrlIs(sectionName, destinations.employed)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -80,8 +82,10 @@ describe('Origin: /employment-education', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.employed)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -94,9 +98,10 @@ describe('Origin: /employment-education', () => {
 
       cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
 
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
-
       cy.assertStepUrlIs(destinations.retired)
+      cy.assertResumeUrlIs(sectionName, destinations.retired)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -131,8 +136,10 @@ describe('Origin: /employment-education', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.retired)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -158,9 +165,10 @@ describe('Origin: /employment-education', () => {
           .getRadio('Yes, has been employed before')
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-
         cy.assertStepUrlIs(destinations.hasBeenEmployed)
+        cy.assertResumeUrlIs(sectionName, destinations.hasBeenEmployed)
       })
     })
 
@@ -200,8 +208,10 @@ describe('Origin: /employment-education', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.hasBeenEmployed)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -221,9 +231,10 @@ describe('Origin: /employment-education', () => {
           .getRadio('No, has never been employed')
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-
         cy.assertStepUrlIs(destinations.neverBeenEmployed)
+        cy.assertResumeUrlIs(sectionName, destinations.neverBeenEmployed)
       })
     })
 
@@ -259,8 +270,10 @@ describe('Origin: /employment-education', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.neverBeenEmployed)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

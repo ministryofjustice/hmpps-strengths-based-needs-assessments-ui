@@ -25,8 +25,10 @@ describe('Origin: /drug-use', () => {
     it(`No drug use routes to "${destinations.analysis}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.analysis)
+      cy.assertResumeUrlIs(sectionName, destinations.analysis)
     })
 
     testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -36,8 +38,10 @@ describe('Origin: /drug-use', () => {
     it(`"Drug use routes to "${destinations.drugUseDetails}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.drugUseDetails)
+      cy.assertResumeUrlIs(sectionName, destinations.drugUseDetails)
     })
 
     describe(`Destination: ${destinations.drugTypes}`, () => {
@@ -56,8 +60,10 @@ describe('Origin: /drug-use', () => {
           .getRadio('Motivated to stop or reduce')
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.drugUseDetails)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.drugTypes)
+        cy.assertResumeUrlIs(sectionName, destinations.drugTypes)
       })
 
       describe(`Destination: ${destinations.drugTypesDetails}`, () => {
@@ -66,8 +72,10 @@ describe('Origin: /drug-use', () => {
 
           cy.getQuestion('Which drugs has Sam used?').getCheckbox('Cannabis').clickLabel()
 
+          cy.assertResumeUrlIs(sectionName, destinations.drugTypes)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugTypesDetails)
+          cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
         })
 
         describe(`Destination: ${destinations.changes}`, () => {
@@ -78,8 +86,10 @@ describe('Origin: /drug-use', () => {
 
             cy.getQuestion('Has Sam used this drug in the past?').getRadio('Yes').clickLabel()
 
+            cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
             cy.saveAndContinue()
             cy.assertStepUrlIs(destinations.changes)
+            cy.assertResumeUrlIs(sectionName, destinations.changes)
           })
 
           describe(`Destination: ${destinations.analysis}`, () => {
@@ -90,8 +100,10 @@ describe('Origin: /drug-use', () => {
                 .getRadio('I do not want to make changes')
                 .clickLabel()
 
+              cy.assertResumeUrlIs(sectionName, destinations.changes)
               cy.saveAndContinue()
               cy.assertStepUrlIs(destinations.analysis)
+              cy.assertResumeUrlIs(sectionName, destinations.analysis)
             })
 
             testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

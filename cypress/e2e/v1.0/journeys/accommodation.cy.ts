@@ -43,9 +43,10 @@ describe('Origin: /accommodation', () => {
           .getRadio(typeOfSettledAccommodation)
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-
         cy.assertStepUrlIs(destinations.settled)
+        cy.assertResumeUrlIs(sectionName, destinations.settled)
       })
     })
 
@@ -61,8 +62,10 @@ describe('Origin: /accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.settled)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -84,9 +87,10 @@ describe('Origin: /accommodation', () => {
           .getRadio(typeOfTemporaryAccommodation)
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-
         cy.assertStepUrlIs(destinations.temporary)
+        cy.assertResumeUrlIs(sectionName, destinations.temporary)
       })
     })
 
@@ -104,8 +108,10 @@ describe('Origin: /accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.temporary)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -131,9 +137,10 @@ describe('Origin: /accommodation', () => {
           .getRadio(typeOfTemporaryAccommodation)
           .clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-
         cy.assertStepUrlIs(destinations.temporary2)
+        cy.assertResumeUrlIs(sectionName, destinations.temporary2)
       })
     })
 
@@ -147,8 +154,10 @@ describe('Origin: /accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.temporary2)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -173,9 +182,10 @@ describe('Origin: /accommodation', () => {
             .getRadio(typeOfNoAccommodation)
             .clickLabel()
 
+          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
-
           cy.assertStepUrlIs(destinations.noAccommodation)
+          cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
         })
       },
     )
@@ -190,8 +200,10 @@ describe('Origin: /accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
+        cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

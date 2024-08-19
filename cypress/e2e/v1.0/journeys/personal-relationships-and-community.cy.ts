@@ -25,8 +25,10 @@ describe(`Origin: /personal-relationships`, () => {
       cy.getQuestion("Who are the important people in Sam's life?")
         .getCheckbox('Their children or anyone they have parental responsibilities for')
         .clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.parentalResponsibilities)
+      cy.assertResumeUrlIs(sectionName, destinations.parentalResponsibilities)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -46,8 +48,10 @@ describe(`Origin: /personal-relationships`, () => {
         cy.getQuestion('Does Sam want to make changes to their personal relationships and community?')
           .getRadio('Not applicable')
           .clickLabel()
+        cy.assertResumeUrlIs(sectionName, destinations.parentalResponsibilities)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
@@ -62,8 +66,10 @@ describe(`Origin: /personal-relationships`, () => {
         .isChecked()
         .clickLabel()
       cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.noParentalResponsibilities)
+      cy.assertResumeUrlIs(sectionName, destinations.noParentalResponsibilities)
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
@@ -82,8 +88,10 @@ describe(`Origin: /personal-relationships`, () => {
         cy.getQuestion('Does Sam want to make changes to their personal relationships and community?')
           .getRadio('Not applicable')
           .clickLabel()
+        cy.assertResumeUrlIs(sectionName, destinations.noParentalResponsibilities)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.analysis)
+        cy.assertResumeUrlIs(sectionName, destinations.analysis)
       })
 
       testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)

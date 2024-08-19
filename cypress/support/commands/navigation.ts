@@ -13,8 +13,9 @@ export const visitStep = (path: string) => {
 }
 
 export const assertResumeUrlIs = (section: string, path: string) => {
+  cy.intercept({ query: { action: 'resume' } }).as('resumeRequest')
   cy.visitSection(section)
-  return cy.assertStepUrlIs(path)
+  cy.wait('@resumeRequest').its('response').then(() => cy.assertStepUrlIs(path))
 }
 
 export const assertStepUrlIs = (path: string) => {
