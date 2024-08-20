@@ -136,7 +136,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.thinkingBehaviours)
-      cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
+      cy.assertResumeUrlIs(sectionName, destinations.analysis) // no answers changed on the thinkingBehaviours page, therefore resumeUrl should be the summary page
     })
 
     describe(`Destination: ${destinations.analysis}`, () => {
