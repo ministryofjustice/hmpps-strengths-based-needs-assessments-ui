@@ -8,7 +8,7 @@
   <div class="govuk-!-width-three-quarters">
     <form id="form" method="post" action="{{ action }}">
       <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-      {% set fieldsOnThisPage = form.fields | removeNonRenderedFields %}
+      {% set fieldsOnThisPage = getRenderedFields(form.fields, options) %}
       {% for fieldCode in fieldsOnThisPage %}
         {% set field = options.fields[fieldCode] %}
 
@@ -39,12 +39,14 @@
       {% endfor %}
 
       {% if sessionData.user | isInEditMode %}
-      <div class="questiongroup-action-buttons">
-        {{ govukButton({
-          text: buttonText | default('Save and continue'),
-          classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
-        }) }}
-      </div>
+        <div class="questiongroup-action-buttons">
+          {{ govukButton({
+            text: buttonText | default('Save and continue'),
+            classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1',
+            name: getUserSubmittedField(form.fields),
+            value: 'YES'
+          }) }}
+        </div>
       {% endif %}
     </form>
   </div>

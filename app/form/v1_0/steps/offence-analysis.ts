@@ -1,27 +1,58 @@
-import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setFieldToCompleteWhenValid } from './common'
-import { offenceAnalysisFields, sectionCompleteFields } from '../fields/offence-analysis'
+import { setFieldToCompleteWhenValid } from './common'
+import offenceAnalysisFields from '../fields/offence-analysis'
+import sections, { SectionConfig } from '../config/sections'
+import templates from '../config/templates'
 
-const defaultTitle = 'Offence analysis'
-const sectionName = 'offence-analysis'
-
-const stepOptions: FormWizard.Steps = {
-  '/offence-analysis': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(offenceAnalysisFields, sectionCompleteFields),
-    navigationOrder: 9,
-    next: 'offence-analysis-complete',
-    section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('offence_analysis_section_complete')],
-  },
-  '/offence-analysis-complete': {
-    pageTitle: defaultTitle,
-    fields: [],
-    next: [],
-    template: 'forms/summary/summary-analysis-complete',
-    section: sectionName,
-    locals: { hideAnalysis: true },
-  },
+const section = sections.offenceAnalysis
+const stepUrls = {
+  offenceAnalysis: 'offence-analysis',
+  analysisComplete: 'offence-analysis-complete',
 }
 
-export default stepOptions
+const sectionConfig: SectionConfig = {
+  section,
+  steps: [
+    {
+      url: stepUrls.offenceAnalysis,
+      fields: [
+        offenceAnalysisFields.offenceAnalysisDescriptionOfOffence,
+        offenceAnalysisFields.offenceAnalysisDate,
+        offenceAnalysisFields.offenceAnalysisElements,
+        offenceAnalysisFields.victimTargetedDetails,
+        offenceAnalysisFields.offenceAnalysisReason,
+        offenceAnalysisFields.offenceAnalysisGain,
+        offenceAnalysisFields.otherOffenceGainDetails,
+        offenceAnalysisFields.offenceAnalysisVictimDetails,
+        offenceAnalysisFields.offenceAnalysisImpactOnVictims,
+        offenceAnalysisFields.yesImpactOnVictimsDetails,
+        offenceAnalysisFields.noImpactOnVictimsDetails,
+        offenceAnalysisFields.offenceAnalysisRisk,
+        offenceAnalysisFields.yesOffenceRiskDetails,
+        offenceAnalysisFields.noOffenceRiskDetails,
+        offenceAnalysisFields.offenceAnalysisPatternsOfOffending,
+        offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuse,
+        offenceAnalysisFields.domesticAbusePerpetratorType,
+        offenceAnalysisFields.perpetratorFamilyMemberDomesticAbuseDetails,
+        offenceAnalysisFields.perpetratorIntimatePartnerDomesticAbuseDetails,
+        offenceAnalysisFields.perpetratorFamilyAndIntimatePartnerDomesticAbuseDetails,
+        offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuse,
+        offenceAnalysisFields.domesticAbuseVictimType,
+        offenceAnalysisFields.victimFamilyMemberDomesticAbuseDetails,
+        offenceAnalysisFields.victimIntimatePartnerDomesticAbuseDetails,
+        offenceAnalysisFields.victimFamilyAndIntimatePartnerDomesticAbuseDetails,
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
+        offenceAnalysisFields.sectionComplete(),
+      ].flat(),
+      navigationOrder: 9,
+      next: stepUrls.analysisComplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
+      template: templates.analysisComplete,
+      locals: { hideAnalysis: true },
+    },
+  ],
+}
+
+export default sectionConfig

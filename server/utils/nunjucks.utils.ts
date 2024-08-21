@@ -44,8 +44,8 @@ export const isNonRenderedField = (field: string) =>
 
 export const isPractitionerAnalysisField = (field: string) => field.includes('_practitioner_analysis_')
 
-export const removeNonRenderedFields = (fields: string[] = []): string[] =>
-  fields.filter(field => !isNonRenderedField(field))
+export const getRenderedFields = (fields: string[], step: FormWizard.RenderedStep) =>
+  fields.filter(field => step.fields[field].hidden !== true)
 
 export const formatDateForDisplay = (value: string): string => {
   if (!value) {

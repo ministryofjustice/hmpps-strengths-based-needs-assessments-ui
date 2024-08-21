@@ -85,7 +85,9 @@
     <div class="questiongroup-action-buttons">
       {{ govukButton({
         text: buttonText | default('Save and continue'),
-        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1',
+        name: getUserSubmittedField(form.fields),
+        value: 'YES'
       }) }}
     </div>
   </form>

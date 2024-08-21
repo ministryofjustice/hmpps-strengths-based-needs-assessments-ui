@@ -1,34 +1,63 @@
-import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
-import { baseFinanceFields, practitionerAnalysisFields, sectionCompleteFields } from '../fields/finance'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import financeFields from '../fields/finance'
+import sections, { SectionConfig } from '../config/sections'
+import templates from '../config/templates'
 
-const defaultTitle = 'Finance'
-const sectionName = 'finance'
-
-const stepOptions: FormWizard.Steps = {
-  '/finance': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(baseFinanceFields, sectionCompleteFields),
-    navigationOrder: 3,
-    next: 'finance-analysis',
-    section: sectionName,
-    sectionProgressRules: [setFieldToIncomplete('finance_section_complete')],
-  },
-  '/finance-analysis': {
-    pageTitle: defaultTitle,
-    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
-    next: 'finance-analysis-complete#practitioner-analysis',
-    template: 'forms/summary/summary-analysis-incomplete',
-    section: sectionName,
-    sectionProgressRules: [setFieldToCompleteWhenValid('finance_section_complete')],
-  },
-  '/finance-analysis-complete': {
-    pageTitle: defaultTitle,
-    fields: [],
-    next: [],
-    template: 'forms/summary/summary-analysis-complete',
-    section: sectionName,
-  },
+const section = sections.finance
+const stepUrls = {
+  finance: 'finance',
+  analysis: 'finance-analysis',
+  analysisComplete: 'finance-analysis-complete',
 }
 
-export default stepOptions
+const baseFinanceGroup = [
+  financeFields.financeIncome,
+  financeFields.familyOrFriendsDetails,
+  financeFields.otherIncomeDetails,
+  financeFields.financeBankAccount,
+  financeFields.financeMoneyManagement,
+  financeFields.financeMoneyManagementDetailsGroup,
+  financeFields.financeGambling,
+  financeFields.financeGamblingDetailsGroup,
+  financeFields.financeDebt,
+  financeFields.yesTypeOfDebt,
+  financeFields.yesTypeOfDebtDetailsGroup,
+  financeFields.yesSomeoneElsesTypeOfDebt,
+  financeFields.yesSomeoneElsesTypeOfDebtDetailsGroup,
+  financeFields.unknownDebtDetails,
+].flat()
+
+const sectionConfig: SectionConfig = {
+  section,
+  steps: [
+    {
+      url: stepUrls.finance,
+      fields: [
+        baseFinanceGroup,
+        financeFields.wantToMakeChanges(),
+        financeFields.isUserSubmitted(stepUrls.finance),
+        financeFields.sectionComplete(),
+      ].flat(),
+      navigationOrder: 3,
+      next: stepUrls.analysis,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      fields: [
+        financeFields.practitionerAnalysis(),
+        financeFields.isUserSubmitted(stepUrls.analysis),
+        financeFields.sectionComplete(),
+      ].flat(),
+      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
+      template: templates.analysisComplete,
+    },
+  ],
+}
+
+export default sectionConfig

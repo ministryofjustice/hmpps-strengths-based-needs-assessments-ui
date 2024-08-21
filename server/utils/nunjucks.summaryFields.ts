@@ -10,7 +10,8 @@ export default (options: FormWizard.FormOptions, answers: FormWizard.Answers) =>
     return Array.isArray(answer) && answer.length > 0 && answer.every(v => v !== '')
   }
 
-  const isDisplayable = (field: FormWizard.Field) => field && (hasAnswer(field) || field.summary?.displayAlways)
+  const isDisplayable = (field: FormWizard.Field) =>
+    field && field.hidden !== true && (hasAnswer(field) || field.summary?.displayAlways)
 
   const stepFieldsFilterFn = (field: FormWizard.Field) =>
     !isNonRenderedField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(field)

@@ -109,6 +109,7 @@ declare module 'hmpo-form-wizard' {
       id?: string
       hint?: Hint
       type: FieldType
+      hidden?: boolean
       multiple?: boolean
       options?: FormWizard.Field.Options
       formatter?: Formatter[]
@@ -139,35 +140,30 @@ declare module 'hmpo-form-wizard' {
       type NextStep = FieldValueCondition | CallbackCondition | string | NextStep[]
     }
 
-    interface Step {
-      pageTitle: string
+    interface BaseStep {
       pageSubHeading?: string
       reset?: boolean
       entryPoint?: boolean
       template?: string
       next?: FormWizard.Step.NextStep
-      fields?: string[]
       controller?: typeof FormWizard.Controller
       navigationOrder?: number
       backLink?: string
-      section: string
       sectionProgressRules?: Array<SectionProgressRule>
       noPost?: boolean
       locals?: Record<string, boolean | string>
     }
 
-    interface RenderedStep {
+    interface Step extends BaseStep {
       pageTitle: string
-      reset?: boolean
-      entryPoint?: boolean
-      template?: string
-      next?: FormWizard.Step.NextStep
-      fields?: Fields
-      controller?: typeof FormWizard.Controller
-      navigationOrder?: number
-      backLink?: string
       section: string
-      sectionProgressRules?: Array<SectionProgressRule>
+      fields?: string[]
+    }
+
+    interface RenderedStep extends BaseStep {
+      pageTitle: string
+      section: string
+      fields?: Fields
     }
 
     interface Steps {

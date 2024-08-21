@@ -1,12 +1,10 @@
 import FormWizard from 'hmpo-form-wizard'
-import { getMediumLabelClassFor, toFormWizardFields, yesNoOptions } from './common'
-import { detailsCharacterLimit } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import { FieldsFactory, utils } from './common'
+import sections from '../config/sections'
 
-export const personalRelationshipsFields: Array<FormWizard.Field> = [
-  {
+class PersonalRelationshipsFieldsFactory extends FieldsFactory {
+  personalRelationshipsCommunityImportantPeople: FormWizard.Field = {
     text: "Who are the important people in [subject]'s life?",
     hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'personal_relationships_community_important_people',
@@ -29,312 +27,47 @@ export const personalRelationshipsFields: Array<FormWizard.Field> = [
       { text: 'Friends', value: 'FRIENDS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_important_people_partner_details',
-    hint: {
-      text: "Include their name, age, gender and the nature of their relationship. For example, if they're in a casual or committed relationship.",
-      kind: 'text',
-    },
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_important_people',
-      value: 'PARTNER_INTIMATE_RELATIONSHIP',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_important_people_child_details',
-    hint: { text: 'Include their name, age, gender and the nature of their relationship.', kind: 'text' },
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_important_people',
-      value: 'CHILD_PARENTAL_RESPONSIBILITIES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details about their relationship (optional)',
-    code: 'personal_relationships_community_important_people_other_children_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_important_people',
-      value: 'OTHER_CHILDREN',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details about their relationship (optional)',
-    code: 'personal_relationships_community_important_people_family_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_important_people',
-      value: 'FAMILY',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details about their friendship (optional)',
-    code: 'personal_relationships_community_important_people_friends_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_important_people',
-      value: 'FRIENDS',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details',
-    code: 'personal_relationships_community_important_people_other_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_important_people',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
-]
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
 
-export const currentRelationshipStatusFields: Array<FormWizard.Field> = [
-  {
-    text: 'Is [subject] happy with their current relationship status?',
-    code: 'personal_relationships_community_current_relationship',
-    type: FieldType.Radio,
-    validate: [
-      { type: ValidationType.Required, message: 'Select if they are happy with their current relationship status' },
-    ],
-    options: [
-      {
-        text: 'Happy and positive about their relationship status or their relationship is likely to act as a protective factor',
-        value: 'HAPPY_RELATIONSHIP',
-        kind: 'option',
-      },
-      {
-        text: 'Has some concerns about their relationship status but is overall happy',
-        value: 'CONCERNS_HAPPY_RELATIONSHIP',
-        kind: 'option',
-      },
-      {
-        text: 'Unhappy about their relationship status or their relationship is unhealthy and directly linked to offending',
-        value: 'UNHAPPY_RELATIONSHIP',
-        kind: 'option',
-      },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_happy_relationship',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_current_relationship',
-      value: 'HAPPY_RELATIONSHIP',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_concerned_relationship',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_current_relationship',
-      value: 'CONCERNS_HAPPY_RELATIONSHIP',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_unhappy_relationship',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_current_relationship',
-      value: 'UNHAPPY_RELATIONSHIP',
-      displayInline: true,
-    },
-  },
-]
+  personalRelationshipsCommunityImportantPeoplePartnerDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityImportantPeople,
+    dependentValue: 'PARTNER_INTIMATE_RELATIONSHIP',
+    textHint:
+      "Include their name, age, gender and the nature of their relationship. For example, if they're in a casual or committed relationship.",
+  })
 
-export const intimateRelationshipFields: Array<FormWizard.Field> = [
-  {
-    text: "What is [subject]'s history of intimate relationships?",
-    code: 'personal_relationships_community_intimate_relationship',
-    type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select their history of intimate relationships' }],
-    options: [
-      {
-        text: 'History of stable, supportive, positive and rewarding relationships',
-        hint: {
-          text: 'This includes if they do not have a history of relationships but appear capable of starting and maintaining one.',
-        },
-        value: 'STABLE_RELATIONSHIPS',
-        kind: 'option',
-      },
-      {
-        text: 'History of both positive and negative relationships',
-        value: 'POSITIVE_AND_NEGATIVE_RELATIONSHIPS',
-        kind: 'option',
-      },
-      {
-        text: 'History of unstable, unsupportive and destructive relationships',
-        hint: { text: 'This includes if they are single and have never had a relationship but would like one.' },
-        value: 'UNSTABLE_RELATIONSHIPS',
-        kind: 'option',
-      },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_stable_intimate_relationship',
-    hint: {
-      text: 'Consider patterns and quality of any significant relationships.',
-      kind: 'text',
-    },
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_intimate_relationship',
-      value: 'STABLE_RELATIONSHIPS',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_intimate_relationship',
-    hint: {
-      text: 'Consider patterns and quality of any significant relationships.',
-      kind: 'text',
-    },
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_intimate_relationship',
-      value: 'POSITIVE_AND_NEGATIVE_RELATIONSHIPS',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_unstable_intimate_relationship',
-    hint: {
-      text: 'Consider patterns and quality of any significant relationships.',
-      kind: 'text',
-    },
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_intimate_relationship',
-      value: 'UNSTABLE_RELATIONSHIPS',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Is [subject] able to resolve any challenges in their intimate relationships?',
-    code: 'personal_relationships_community_challenges_intimate_relationship',
-    hint: {
-      text: 'Consider any healthy and appropriate skills or strengths they may have.',
-      kind: 'text',
-    },
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-      { type: ValidationType.Required, message: 'Enter details' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-  },
-]
+  personalRelationshipsCommunityImportantPeopleChildDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityImportantPeople,
+    dependentValue: 'CHILD_PARENTAL_RESPONSIBILITIES',
+    textHint: 'Include their name, age, gender and the nature of their relationship.',
+  })
 
-export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
-  {
+  personalRelationshipsCommunityImportantPeopleOtherChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
+    text: 'Give details about their relationship',
+    parentField: this.personalRelationshipsCommunityImportantPeople,
+    dependentValue: 'OTHER_CHILDREN',
+  })
+
+  personalRelationshipsCommunityImportantPeopleFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
+    text: 'Give details about their relationship',
+    parentField: this.personalRelationshipsCommunityImportantPeople,
+    dependentValue: 'FAMILY',
+  })
+
+  personalRelationshipsCommunityImportantPeopleFriendsDetails: FormWizard.Field = FieldsFactory.detailsField({
+    text: 'Give details about their friendship',
+    parentField: this.personalRelationshipsCommunityImportantPeople,
+    dependentValue: 'FRIENDS',
+  })
+
+  personalRelationshipsCommunityImportantPeopleOtherDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityImportantPeople,
+    dependentValue: 'OTHER',
+    required: true,
+  })
+
+  personalRelationshipsCommunityFamilyRelationship: FormWizard.Field = {
     text: "What is [subject]'s current relationship like with their family?",
     code: 'personal_relationships_community_family_relationship',
     hint: {
@@ -364,60 +97,25 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
       },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_stable_family_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_family_relationship',
-      value: 'STABLE_RELATIONSHIP',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_family_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_family_relationship',
-      value: 'MIXED_RELATIONSHIP',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_unstable_family_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_family_relationship',
-      value: 'UNSTABLE_RELATIONSHIP',
-      displayInline: true,
-    },
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  personalRelationshipsCommunityStableFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityFamilyRelationship,
+    dependentValue: 'STABLE_RELATIONSHIP',
+  })
+
+  personalRelationshipsCommunityMixedFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityFamilyRelationship,
+    dependentValue: 'MIXED_RELATIONSHIP',
+  })
+
+  personalRelationshipsCommunityUnstableFamilyDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityFamilyRelationship,
+    dependentValue: 'UNSTABLE_RELATIONSHIP',
+  })
+
+  personalRelationshipsCommunityChildhood: FormWizard.Field = {
     text: 'What was [subject]’s experience of their childhood?',
     code: 'personal_relationships_community_childhood',
     type: FieldType.Radio,
@@ -442,60 +140,25 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_positive_childhood_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood',
-      value: 'POSITIVE_CHILDHOOD',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_childhood_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood',
-      value: 'MIXED_CHILDHOOD',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_negative_childhood_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood',
-      value: 'NEGATIVE_CHILDHOOD',
-      displayInline: true,
-    },
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  personalRelationshipsCommunityPositiveChildhoodDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildhood,
+    dependentValue: 'POSITIVE_CHILDHOOD',
+  })
+
+  personalRelationshipsCommunityMixedChildhoodDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildhood,
+    dependentValue: 'MIXED_CHILDHOOD',
+  })
+
+  personalRelationshipsCommunityNegativeChildhoodDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildhood,
+    dependentValue: 'NEGATIVE_CHILDHOOD',
+  })
+
+  personalRelationshipsCommunityChildhoodBehaviour: FormWizard.Field = {
     text: 'Did [subject] have any childhood behavioural problems?',
     code: 'personal_relationships_community_childhood_behaviour',
     type: FieldType.Radio,
@@ -512,53 +175,28 @@ export const personalRelationshipsCommunityFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_yes_childhood_behaviour_problems_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood_behaviour',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_no_childhood_behaviour_problems_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_childhood_behaviour',
-      value: 'NO',
-      displayInline: true,
-    },
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  personalRelationshipsCommunityYesChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildhoodBehaviour,
+    dependentValue: 'YES',
+  })
+
+  personalRelationshipsCommunityNoChildhoodBehaviourProblemsDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildhoodBehaviour,
+    dependentValue: 'NO',
+  })
+
+  personalRelationshipsCommunityBelonging: FormWizard.Field = {
     text: 'Is [subject] part of any groups or communities that gives them a sense of belonging? (optional)',
     code: 'personal_relationships_community_belonging',
     hint: { text: 'For example, online social media or community groups.', kind: 'text' },
     type: FieldType.TextArea,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-  },
-]
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  }
 
-export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
-  {
+  personalRelationshipsCommunityParentalResponsibilities: FormWizard.Field = {
     text: 'Is [subject] able to manage their parental responsibilities? ',
     code: 'personal_relationships_community_parental_responsibilities',
     hint: {
@@ -583,89 +221,131 @@ export const parentalResponsibilitiesFields: Array<FormWizard.Field> = [
       { text: 'No, is not able to manage parenting responsibilities', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_good_parental_responsibilities_details',
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  personalRelationshipsCommunityGoodParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityParentalResponsibilities,
+    dependentValue: 'YES',
+  })
+
+  personalRelationshipsCommunityMixedParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityParentalResponsibilities,
+    dependentValue: 'SOMETIMES',
+  })
+
+  personalRelationshipsCommunityBadParentalResponsibilitiesDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityParentalResponsibilities,
+    dependentValue: 'NO',
+  })
+
+  personalRelationshipsCommunityCurrentRelationship: FormWizard.Field = {
+    text: 'Is [subject] happy with their current relationship status?',
+    code: 'personal_relationships_community_current_relationship',
+    type: FieldType.Radio,
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they are happy with their current relationship status' },
+    ],
+    options: [
+      {
+        text: 'Happy and positive about their relationship status or their relationship is likely to act as a protective factor',
+        value: 'HAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Has some concerns about their relationship status but is overall happy',
+        value: 'CONCERNS_HAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+      {
+        text: 'Unhappy about their relationship status or their relationship is unhealthy and directly linked to offending',
+        value: 'UNHAPPY_RELATIONSHIP',
+        kind: 'option',
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  personalRelationshipsCommunityHappyRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityCurrentRelationship,
+    dependentValue: 'HAPPY_RELATIONSHIP',
+  })
+
+  personalRelationshipsCommunityConcernedRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityCurrentRelationship,
+    dependentValue: 'CONCERNS_HAPPY_RELATIONSHIP',
+  })
+
+  personalRelationshipsCommunityUnhappyRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityCurrentRelationship,
+    dependentValue: 'UNHAPPY_RELATIONSHIP',
+  })
+
+  personalRelationshipsCommunityIntimateRelationship: FormWizard.Field = {
+    text: "What is [subject]'s history of intimate relationships?",
+    code: 'personal_relationships_community_intimate_relationship',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select their history of intimate relationships' }],
+    options: [
+      {
+        text: 'History of stable, supportive, positive and rewarding relationships',
+        hint: {
+          text: 'This includes if they do not have a history of relationships but appear capable of starting and maintaining one.',
+        },
+        value: 'STABLE_RELATIONSHIPS',
+        kind: 'option',
+      },
+      {
+        text: 'History of both positive and negative relationships',
+        value: 'POSITIVE_AND_NEGATIVE_RELATIONSHIPS',
+        kind: 'option',
+      },
+      {
+        text: 'History of unstable, unsupportive and destructive relationships',
+        hint: { text: 'This includes if they are single and have never had a relationship but would like one.' },
+        value: 'UNSTABLE_RELATIONSHIPS',
+        kind: 'option',
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  personalRelationshipsCommunityStableIntimateRelationship: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityIntimateRelationship,
+    dependentValue: 'STABLE_RELATIONSHIPS',
+    textHint: 'Consider patterns and quality of any significant relationships.',
+  })
+
+  personalRelationshipsCommunityMixedIntimateRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityIntimateRelationship,
+    dependentValue: 'POSITIVE_AND_NEGATIVE_RELATIONSHIPS',
+    textHint: 'Consider patterns and quality of any significant relationships.',
+  })
+
+  personalRelationshipsCommunityUnstableIntimateRelationshipDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityIntimateRelationship,
+    dependentValue: 'UNSTABLE_RELATIONSHIPS',
+    textHint: 'Consider patterns and quality of any significant relationships.',
+  })
+
+  personalRelationshipsCommunityChallengesIntimateRelationship: FormWizard.Field = {
+    text: 'Is [subject] able to resolve any challenges in their intimate relationships?',
+    code: 'personal_relationships_community_challenges_intimate_relationship',
+    hint: {
+      text: 'Consider any healthy and appropriate skills or strengths they may have.',
+      kind: 'text',
+    },
     type: FieldType.TextArea,
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
+      { type: ValidationType.Required, message: 'Enter details' },
     ],
-    dependent: {
-      field: 'personal_relationships_community_parental_responsibilities',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_mixed_parental_responsibilities_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_parental_responsibilities',
-      value: 'SOMETIMES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'personal_relationships_community_bad_parental_responsibilities_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'personal_relationships_community_parental_responsibilities',
-      value: 'NO',
-      displayInline: true,
-    },
-  },
-]
-
-export const makeChangesFields = createWantToMakeChangesFields(
-  'their personal relationships and community',
-  'personal_relationships_community',
-)
-
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'personal_relationships_community',
-  'personal relationships and community',
-)
-
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the personal relationships and community section complete?',
-  code: 'personal_relationships_community_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  }
 }
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export default [
-  personalRelationshipsFields,
-  personalRelationshipsCommunityFields,
-  parentalResponsibilitiesFields,
-  makeChangesFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-  currentRelationshipStatusFields,
-  intimateRelationshipFields,
-]
-  .flat()
-  .reduce(toFormWizardFields, {})
+export default new PersonalRelationshipsFieldsFactory(sections.personalRelationships)

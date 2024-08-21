@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
-import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 export const summaryCharacterLimit = 1000
 
@@ -52,7 +52,17 @@ export function requiredWhenValidator(field: string, requiredValue: string) {
 
 export const fieldCodeWith = (...parts: string[]) => parts.map(it => it.trim().toLowerCase()).join('_')
 
-export const toFormWizardFields = (allFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
-  ...allFields,
-  [field.id || field.code]: field,
-})
+export const dependentOn = (
+  field: FormWizard.Field,
+  option: string,
+  displayInline: boolean = true,
+): FormWizard.Dependent => {
+  if (Array.isArray(field.options) && field.options.findIndex(o => o.kind === 'option' && o.value === option) !== -1) {
+    return {
+      field: field.code,
+      value: option,
+      displayInline,
+    }
+  }
+  throw Error(`Failed to create dependency, target field "${field.code}" does not contain the option "${option}"`)
+}

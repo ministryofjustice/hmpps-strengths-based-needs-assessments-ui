@@ -15,10 +15,15 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
         cy.getQuestion(question).getRadio('No').clickLabel()
       })
 
+      cy.assertResumeUrlIs(sectionName, origin)
+      cy.get('#tab_practitioner-analysis').click()
+      cy.get('#practitioner-analysis').should('be.visible')
+
       cy.markAsComplete()
 
       cy.assertStepUrlIs(destination)
       cy.get('#practitioner-analysis').should('be.visible')
+      cy.assertResumeUrlIs(sectionName, destination)
       cy.currentSectionMarkedAsComplete(sectionName)
 
       // Check editing the practitioner analysis removes the complete status

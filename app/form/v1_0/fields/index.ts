@@ -1,32 +1,28 @@
 import FormWizard from 'hmpo-form-wizard'
-import accommodationFields from './accommodation'
-import employmentEducationFields from './employment-education'
-import financeFields from './finance'
-import drugFields from './drugs'
-import alcoholFields from './alcohol'
-import healthAndWellbeingFields from './health-wellbeing'
-import thinkingBehavioursAttitudes from './thinking-behaviours-attitudes'
-import personalRelationshipsAndCommunityFields from './personal-relationships-community'
-import offenceAnalysisField from './offence-analysis'
-import { yesNoOptions } from './common'
+import { utils } from './common'
 import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import { SectionConfig } from '../config/sections'
 
 export const assessmentComplete: FormWizard.Field = {
   text: 'Is the assessment complete?',
   code: 'assessment_complete',
   type: FieldType.Radio,
-  options: yesNoOptions,
+  hidden: true,
+  options: utils.yesNoOptions,
 }
 
-export default {
-  [assessmentComplete.code]: assessmentComplete,
-  ...accommodationFields,
-  ...employmentEducationFields,
-  ...financeFields,
-  ...drugFields,
-  ...alcoholFields,
-  ...healthAndWellbeingFields,
-  ...thinkingBehavioursAttitudes,
-  ...personalRelationshipsAndCommunityFields,
-  ...offenceAnalysisField,
+const toFormWizardFields = (allFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
+  ...allFields,
+  [field.id || field.code]: field,
+})
+
+export default function buildFields(sectionConfigs: SectionConfig[]): FormWizard.Fields {
+  return {
+    [assessmentComplete.code]: assessmentComplete,
+    ...sectionConfigs
+      .flatMap(section => section.steps)
+      .flatMap(step => step.fields)
+      .filter(it => it)
+      .reduce(toFormWizardFields, {}),
+  }
 }
