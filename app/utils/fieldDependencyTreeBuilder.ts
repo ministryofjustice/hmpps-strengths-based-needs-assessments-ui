@@ -133,6 +133,7 @@ export class FieldDependencyTreeBuilder {
       case FieldType.Radio:
       case FieldType.Dropdown:
       case FieldType.CheckBox:
+      case FieldType.AutoComplete:
         return field.options
           .filter(o => whereSelectable(o) && this.getAnswers(field.code)?.includes(o.value))
           .map(o => {

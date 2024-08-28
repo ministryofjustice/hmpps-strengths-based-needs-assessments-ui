@@ -109,30 +109,28 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   }
 
-  static employmentHistoryOptions: FormWizard.Field.Options = [
-    {
-      text: 'Continuous employment history',
-      hint: {
-        text: 'They may have had a break in employment due to things like redundancy, illness or caring for a family member.',
-      },
-      value: 'STABLE',
-      kind: 'option',
-    },
-    { text: 'Generally in employment but changes jobs often', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
-    { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
-  ]
-
   employmentHistory: FormWizard.Field = {
     text: "What is [subject]'s employment history?",
     hint: { text: 'Include their current employment.', kind: 'text' },
     code: 'employment_history',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their employment history' }],
-    options: EmploymentEducationFieldsFactory.employmentHistoryOptions,
+    options: [
+      {
+        text: 'Continuous employment history',
+        hint: {
+          text: 'They may have had a break in employment due to things like redundancy, illness or caring for a family member.',
+        },
+        value: 'STABLE',
+        kind: 'option',
+      },
+      { text: 'Generally in employment but changes jobs often', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
+      { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
+    ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
-  employmentHistoryDetailsGroup: FormWizard.Field[] = EmploymentEducationFieldsFactory.employmentHistoryOptions.map(
+  employmentHistoryDetailsGroup: FormWizard.Field[] = this.employmentHistory.options.map(
     FieldsFactory.detailsFieldWith({
       parentField: this.employmentHistory,
       textHint: "Include what type of work they've done before.",

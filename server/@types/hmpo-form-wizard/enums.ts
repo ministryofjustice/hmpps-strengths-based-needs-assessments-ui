@@ -9,6 +9,8 @@ export const enum FieldType {
   Date = 'DATE',
   Dropdown = 'DROPDOWN',
   Hidden = 'HIDDEN',
+  AutoComplete = 'AUTOCOMPLETE',
+  Collection = 'COLLECTION',
 }
 
 // eslint-disable-next-line no-shadow

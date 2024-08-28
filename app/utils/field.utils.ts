@@ -141,8 +141,10 @@ export const withPlaceholdersFrom = (replacementValues: { [key: string]: string 
 }
 
 export const withValuesFrom =
-  (answers: FormWizard.Answers = {}) =>
+  (answers: FormWizard.Answers = {}, collectionEntryId: number = null) =>
   (field: FormWizard.Field): FormWizard.Field => {
+    const answer = answers[field.code]
+
     switch (field.type) {
       case FieldType.Text:
       case FieldType.TextArea:
@@ -150,11 +152,13 @@ export const withValuesFrom =
         return { ...field, value: answers[field.code] }
       case FieldType.Radio:
       case FieldType.Dropdown:
+      case FieldType.AutoComplete:
         return {
           ...field,
           options: field.options.map(option => {
+            const isSelected = (opt: FormWizard.Field.Option) => (answer as string) === opt.value
             return whereSelectable(option)
-              ? { ...option, checked: (answers[field.code] as string) === option.value }
+              ? { ...option, checked: isSelected(option), selected: isSelected(option) }
               : option
           }),
         }
@@ -163,14 +167,22 @@ export const withValuesFrom =
           ...field,
           options: field.options.map(option => {
             return whereSelectable(option)
-              ? { ...option, checked: (answers[field.code] || []).includes(option.value) }
+              ? { ...option, checked: ((answer || []) as string[]).includes(option.value) }
               : option
           }),
         }
       case FieldType.Date:
         return {
           ...field,
-          value: answers[field.code] ? (answers[field.code] as string).split('-') : [],
+          value: answers[field.code] ? (answer as string).split('-') : [],
+        }
+      case FieldType.Collection:
+        return {
+          ...field,
+          collection: field.collection.map(it =>
+            withValuesFrom(answer[collectionEntryId] as FormWizard.CollectionAnswer)(it),
+          ),
+          value: (answer as FormWizard.CollectionAnswer[]).length,
         }
       default:
         return field

@@ -99,7 +99,7 @@ class SaveAndContinueController extends BaseController {
         return (
           !field.dependent ||
           (Array.isArray(dependentValue)
-            ? dependentValue.includes(field.dependent.value)
+            ? (dependentValue as string[]).includes(field.dependent.value)
             : dependentValue === field.dependent.value)
         )
       })
@@ -152,7 +152,10 @@ class SaveAndContinueController extends BaseController {
         form: { ...res.locals.form, navigation, section: req.form.options.section, steps: req.form.options.steps },
       }
 
-      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
+      const collectionEntryId = 1
+      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(
+        withValuesFrom(res.locals.values, collectionEntryId),
+      )
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )

@@ -8,6 +8,7 @@ export const toOptionDescription = (answer: AnswerDto): string => {
   switch (answer.type) {
     case FieldType.Radio:
     case FieldType.Dropdown:
+    case FieldType.AutoComplete:
       return answer.options.find(option => option.value === answer.value)?.text || answer.value
     case FieldType.CheckBox:
       return (answer.values || [])

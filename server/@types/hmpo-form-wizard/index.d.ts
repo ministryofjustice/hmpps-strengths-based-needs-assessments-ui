@@ -5,7 +5,7 @@ declare module 'hmpo-form-wizard' {
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
   namespace FormWizard {
-    type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => boolean
+    type ConditionFn = (isValidated: boolean, values: Record<string, Answer>) => boolean
     type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }
 
     type Formatter = { type: string; fn: (input: string) => string }
@@ -67,6 +67,7 @@ declare module 'hmpo-form-wizard' {
         text: string
         value: string
         checked?: boolean
+        selected?: boolean
         conditional?: { html: string }
         hint?: { text: string } | { html: string }
         behaviour?: string
@@ -116,7 +117,8 @@ declare module 'hmpo-form-wizard' {
       validate?: Validate[]
       dependent?: Dependent
       invalidates?: string[]
-      value?: string | string[]
+      value?: FormWizard.An
+      collection?: FormWizard.Field[]
       labelClasses?: string
       formGroupClasses?: string
       characterCountMax?: number
@@ -174,9 +176,11 @@ declare module 'hmpo-form-wizard' {
       [key: string]: RenderedStep
     }
 
-    interface Answers {
-      [key: string]: string | string[]
-    }
+    type CollectionAnswer = Record<string, string | string[]>
+
+    type Answer = string | string[] | CollectionAnswer[]
+
+    type Answers = Record<string, Answer>
   }
 
   export default FormWizard

@@ -25,6 +25,8 @@ export const createAnswerDTOs =
           },
         }
       case FieldType.Radio:
+      case FieldType.Dropdown:
+      case FieldType.AutoComplete:
         return {
           ...answerDTOs,
           [formWizardField.code]: {
@@ -63,13 +65,25 @@ export const buildRequestBody = (options: FormWizard.FormOptions, answers: FormW
   }
 }
 
-export const flattenAnswers = (answers: Record<string, AnswerDto>) =>
-  Object.entries(answers).reduce(
-    (allAnswers, [key, answer]) => ({
+export const flattenAnswers = (answers: Record<string, AnswerDto>): FormWizard.Answers =>
+  Object.entries(answers).reduce((allAnswers, [key, answer]) => {
+    let data
+
+    switch (answer.type) {
+      case FieldType.Collection:
+        data = answer.collection.map(it => flattenAnswers(it))
+        break
+      case FieldType.CheckBox:
+        data = answer.values
+        break
+      default:
+        data = answer.value
+    }
+
+    return {
       ...allAnswers,
-      [key]: answer.type === FieldType.CheckBox ? answer.values : answer.value,
-    }),
-    {},
-  )
+      [key]: data,
+    }
+  }, {})
 
 export const isReadOnly = (user: HandoverPrincipal) => user.accessMode === 'READ_ONLY'
