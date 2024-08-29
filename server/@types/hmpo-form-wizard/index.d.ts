@@ -134,7 +134,7 @@ declare module 'hmpo-form-wizard' {
     }
 
     namespace Step {
-      type NextStepCondition = (req: Request, res: Response) => boolean
+      type NextStepCondition = (req: Request, res: express.Response, next: express.NextFunction) => boolean
       type Op = (fieldValue, req, res, con) => boolean
       type FieldValueCondition = { field: string; op?: string | Op; value: string | string[]; next: NextStep }
       type CallbackCondition = { fn: NextStepCondition; next: string }
@@ -178,7 +178,9 @@ declare module 'hmpo-form-wizard' {
 
     type CollectionAnswer = Record<string, string | string[]>
 
-    type Answer = string | string[] | CollectionAnswer[]
+    type SimpleAnswer = string | string[]
+
+    type Answer = SimpleAnswer | CollectionAnswer[]
 
     type Answers = Record<string, Answer>
   }

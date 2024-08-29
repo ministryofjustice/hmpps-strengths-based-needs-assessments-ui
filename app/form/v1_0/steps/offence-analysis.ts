@@ -2,7 +2,8 @@ import { contains, setFieldToCompleteWhenValid, setFieldToIncomplete } from './c
 import offenceAnalysisFields from '../fields/offence-analysis'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
-import CollectionController from '../../../controllers/CollectionController'
+import VictimsCollectionController from '../controllers/victimsCollectionController'
+import BaseCollectionController from '../../../controllers/baseCollectionController';
 
 const section = sections.offenceAnalysis
 const stepUrls = {
@@ -28,7 +29,6 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.otherOffenceMotivationDetails,
         offenceAnalysisFields.offenceAnalysisWhoWasTheVictim,
         offenceAnalysisFields.offenceAnalysisOtherVictimDetails,
-        offenceAnalysisFields.offenceAnalysisVictimsCollection,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
         offenceAnalysisFields.sectionComplete(),
       ],
@@ -40,10 +40,10 @@ const sectionConfig: SectionConfig = {
           value: 'ONE_OR_MORE_PERSON',
           next: [
             {
-              field: offenceAnalysisFields.offenceAnalysisVictimsCollection.code,
-              op: '==',
-              value: '0',
-              next: stepUrls.offenceAnalysisVictim,
+              fn: BaseCollectionController.noCollectionAnswers(
+                offenceAnalysisFields.offenceAnalysisVictimsCollection,
+              ),
+              next: `${stepUrls.offenceAnalysisVictim}`,
             },
             stepUrls.offenceAnalysisVictimsSummary,
           ],
@@ -54,20 +54,20 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.offenceAnalysisVictim,
-      controller: CollectionController,
+      controller: VictimsCollectionController,
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimRelationship,
         offenceAnalysisFields.offenceAnalysisVictimRelationshipOtherDetails,
         offenceAnalysisFields.offenceAnalysisVictimAge,
         offenceAnalysisFields.offenceAnalysisVictimSex,
         offenceAnalysisFields.offenceAnalysisVictimRace,
-        offenceAnalysisFields.offenceAnalysisVictimsCollection,
       ],
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.offenceAnalysisVictimsSummary,
+      template: templates.collectionSummary,
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimsCollection,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),

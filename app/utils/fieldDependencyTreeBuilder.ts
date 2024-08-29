@@ -71,8 +71,9 @@ export class FieldDependencyTreeBuilder {
     }
 
     if (hasProperty(next, 'fn')) {
-      const con = next as FormWizard.Step.CallbackCondition
-      throw new Error(`unable to resolve ${con.next} - callbacks are not supported yet`)
+      // const con = next as FormWizard.Step.CallbackCondition
+      // throw new Error(`unable to resolve ${con.next} - callbacks are not supported yet`)
+      return undefined
     }
 
     if (Array.isArray(next)) {
@@ -90,6 +91,16 @@ export class FieldDependencyTreeBuilder {
       if (field.dependent) {
         this.addNestedField(field, fields, stepPath)
         return fields
+      }
+      if (field.collection) {
+        return [
+          ...fields,
+          {
+            field,
+            changeLink: `${stepPath}#${field.id}`,
+            answers: this.getFieldAnswers(field),
+          },
+        ]
       }
       return [
         ...fields,
@@ -128,14 +139,16 @@ export class FieldDependencyTreeBuilder {
   /*
     Gets the formatted answer(s) for a given field
    */
-  protected getFieldAnswers(field: FormWizard.Field): FieldAnswer[] {
+  protected getFieldAnswers(field: FormWizard.Field, answersOverride: FormWizard.Answers = null): FieldAnswer[] {
+    const answers = answersOverride || this.answers
+
     switch (field.type) {
       case FieldType.Radio:
       case FieldType.Dropdown:
       case FieldType.CheckBox:
       case FieldType.AutoComplete:
         return field.options
-          .filter(o => whereSelectable(o) && this.getAnswers(field.code)?.includes(o.value))
+          .filter(o => whereSelectable(o) && this.getAnswers(field.code, answers)?.includes(o.value))
           .map(o => {
             return {
               text: whereSelectable(o) ? o.summary?.displayFn(o.text, o.value) || o.text : '',
@@ -147,17 +160,27 @@ export class FieldDependencyTreeBuilder {
         return [
           {
             text: field.summary?.displayFn
-              ? field.summary?.displayFn(this.answers[field.code] as string)
-              : formatDateForDisplay(this.answers[field.code] as string) || '',
-            value: formatDateForDisplay(this.answers[field.code] as string) || '',
+              ? field.summary?.displayFn(answers[field.code] as string)
+              : formatDateForDisplay(answers[field.code] as string) || '',
+            value: formatDateForDisplay(answers[field.code] as string) || '',
             nestedFields: [],
           },
         ]
+      case FieldType.Collection:
+        return ((answers[field.code] || []) as FormWizard.CollectionAnswer[]).map((collectionAnswer, i) => ({
+          text: `Victim ${i}`,
+          value: '',
+          nestedFields: field.collection.map(f => ({
+            field: f,
+            changeLink: `????`,
+            answers: this.getFieldAnswers(f, collectionAnswer),
+          })),
+        }))
       default:
         return [
           {
-            text: (this.answers[field.code] as string) || '',
-            value: (this.answers[field.code] as string) || '',
+            text: (answers[field.code] as string) || '',
+            value: (answers[field.code] as string) || '',
             nestedFields: [],
           },
         ]
@@ -167,16 +190,19 @@ export class FieldDependencyTreeBuilder {
   /*
     Gets the raw value answer(s) for a given field code
    */
-  getAnswers(field: string): string[] | null {
-    const answers = this.answers[field]
-    switch (typeof answers) {
-      case 'string':
-        return answers === '' ? null : [answers]
-      case 'object':
-        return answers.length === 0 ? null : answers
-      default:
-        return null
+  getAnswers(field: string, answersOverride: FormWizard.Answers = null): string[] | null {
+    const answers = answersOverride || this.answers
+    const fieldAnswer = answers[field]
+
+    if (typeof fieldAnswer === 'string') {
+      return fieldAnswer === '' ? null : [fieldAnswer]
     }
+
+    if (!Array.isArray(fieldAnswer) || fieldAnswer.length === 0) {
+      return null
+    }
+
+    return typeof fieldAnswer[0] === 'string' ? (fieldAnswer as string[]) : null
   }
 
   protected getInitialStep() {
@@ -197,7 +223,7 @@ export class FieldDependencyTreeBuilder {
         return true
       }
 
-      const answer = this.answers[field.dependent.field]
+      const answer = this.answers[field.dependent.field] as FormWizard.SimpleAnswer
 
       return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
     }
@@ -208,7 +234,11 @@ export class FieldDependencyTreeBuilder {
       nextStep = stepUrl
       const errors = Object.values(step.fields)
         .filter(dependencyMet)
-        .filter(field => validate(step.fields, field.code, this.answers[field.code], { values: this.answers }))
+        .filter(field =>
+          validate(step.fields, field.code, this.answers[field.code] as FormWizard.SimpleAnswer, {
+            values: this.answers,
+          }),
+        )
       const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
       if (errors.length > 0 || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
         isSectionComplete = false

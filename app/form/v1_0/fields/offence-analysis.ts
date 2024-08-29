@@ -480,7 +480,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
 
   offenceAnalysisLeader: FormWizard.Field = {
     text: 'Was [subject] the leader in regard to committing the current index offence(s)?',
-    code: 'offence_analysis_impact_on_victims',
+    code: 'offence_analysis_leader',
     type: FieldType.Radio,
     validate: [
       {

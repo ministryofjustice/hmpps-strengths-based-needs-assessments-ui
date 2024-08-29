@@ -143,6 +143,8 @@ export const withPlaceholdersFrom = (replacementValues: { [key: string]: string 
 export const withValuesFrom =
   (answers: FormWizard.Answers = {}, collectionEntryId: number = null) =>
   (field: FormWizard.Field): FormWizard.Field => {
+    if (!answers) return field
+
     const answer = answers[field.code]
 
     switch (field.type) {
@@ -180,9 +182,9 @@ export const withValuesFrom =
         return {
           ...field,
           collection: field.collection.map(it =>
-            withValuesFrom(answer[collectionEntryId] as FormWizard.CollectionAnswer)(it),
+            withValuesFrom(answer ? ((answer[collectionEntryId] || []) as FormWizard.CollectionAnswer) : null)(it),
           ),
-          value: (answer as FormWizard.CollectionAnswer[]).length,
+          value: ((answer || []) as FormWizard.CollectionAnswer[]).length,
         }
       default:
         return field
