@@ -1,5 +1,35 @@
 {% from "./drugs-summary.njk" import renderDrugsTable %}
 
+{%- macro renderCollection(summaryField, sessionData) -%}
+  {% for entry in summaryField.answers %}
+    <div class="clearfix">
+      <h3 class="govuk-heading--s">{{ summaryField.field.text }} - {{ loop.index }}</h3>
+      {% if sessionData.user | isInEditMode %}
+        <a class="govuk-link to-the-right" href="{{ summaryField.changeLink }}">
+            Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
+        </a>
+      {% endif %}
+    </div>
+    {% for field in entry.nestedFields %}
+      <div class="govuk-summary-list__row as-block clearfix">
+        <dt class="govuk-summary-list__key to-the-left">
+          <span class="summary__label">{{ field.field.text }}</span>
+        </dt>
+        <dd class="govuk-summary-list__value to-the-left summary-value">
+          <ul class="govuk-list">
+            {% for answer in field.answers %}
+              <li class="summary-details-list">
+                <span class="summary__answer">{{ answer.text | nl2br | safe }}</span>
+                {{ renderNestedFields(answer.nestedFields) }}
+              </li>
+            {% endfor %}
+          </ul>
+        </dd>
+      </div>
+    {% endfor %}
+  {% endfor %}
+{%- endmacro -%}
+
 {%- macro renderTopLevelField(summaryField, sessionData) -%}
   <div class="govuk-summary-list__row as-block clearfix">
     <dt class="govuk-summary-list__key to-the-left">
@@ -18,11 +48,11 @@
       </ul>
     </dd>
     {% if sessionData.user | isInEditMode %}
-    <dd class="govuk-summary-list__actions to-the-right">
-      <a class="govuk-link" href="{{ summaryField.changeLink }}">
+      <dd class="govuk-summary-list__actions to-the-right">
+        <a class="govuk-link" href="{{ summaryField.changeLink }}">
         Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
-      </a>
-    </dd>
+        </a>
+      </dd>
     {% endif %}
   </div>
 {%- endmacro -%}
@@ -30,7 +60,7 @@
 {%- macro renderNestedFields(summaryFields) -%}
   {% for summaryField in summaryFields %}
 
-    {% if summaryField.field.type in ["RADIO", "CHECKBOX"] %}
+    {% if summaryField.field.type in["RADIO", "CHECKBOX"] %}
 
       <ul class="govuk-list">
         {% for answer in summaryField.answers %}
@@ -57,13 +87,17 @@
 
   {% for summaryField in summaryFields %}
 
-    {% switch summaryField.field.code %}
+    {% if summaryField.field.type === "COLLECTION" %}
+      {{ renderCollection(summaryField, sessionData) }}
+    {% else %}
+      {% switch summaryField.field.code %}
       {% case 'drug_use_type' %}
         {{ renderDrugsTable(summaryField, sessionData.user) }}
-      {% default %}
+        {% default %}
         {{ renderTopLevelField(summaryField, sessionData) }}
-    {% endswitch %}
+        {% endswitch %}
+      {% endif %}
 
-  {% endfor %}
+    {% endfor %}
 
-</dl>
+  </dl>

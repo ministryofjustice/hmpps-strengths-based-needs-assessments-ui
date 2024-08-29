@@ -65,7 +65,6 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.offenceAnalysisVictimsSummary,
-      template: templates.collectionSummary,
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimsCollection,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),

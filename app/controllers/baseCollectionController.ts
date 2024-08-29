@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import { buildRequestBody, createAnswerDTOs, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
+import { createAnswerDTOs, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import {
@@ -11,7 +11,7 @@ import {
   withPlaceholdersFrom,
   withValuesFrom,
 } from '../utils/field.utils'
-import { FieldType, Gender } from '../../server/@types/hmpo-form-wizard/enums'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
@@ -36,7 +36,7 @@ abstract class BaseCollectionController extends BaseController {
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
   }
 
-  buildRequestBody(req: FormWizard.Request, res: Response, next: NextFunction) {
+  buildRequestBody(req: FormWizard.Request, res: Response) {
     const fields = this.field.collection || []
     const answerPairs = fields.map(it => [it.code, req.form.values[it.code]])
     const collectionEntry: FormWizard.CollectionEntry = Object.fromEntries(answerPairs)
@@ -138,10 +138,6 @@ abstract class BaseCollectionController extends BaseController {
     return super.process(req, res, next)
   }
 
-  calculateUnitsForGender(gender: Gender): number {
-    return gender === Gender.Male ? 8 : 6
-  }
-
   setReadOnlyNavigation(steps: FormWizard.RenderedSteps, navigation: Array<NavigationItem>): Array<NavigationItem> {
     return navigation.map(navigationItem => {
       const [summaryPageUrl] =
@@ -171,16 +167,14 @@ abstract class BaseCollectionController extends BaseController {
         values: req.form.persistedAnswers,
         placeholderValues: {
           subject: subjectDetails.givenName,
-          alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
         },
         sessionData,
         subjectDetails,
         form: { ...res.locals.form, navigation, section: req.form.options.section, steps: req.form.options.steps },
       }
-
-      const collectionEntryId = 1
+      
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(
-        withValuesFrom(res.locals.values, collectionEntryId),
+        withValuesFrom(res.locals.values),
       )
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
@@ -251,33 +245,13 @@ abstract class BaseCollectionController extends BaseController {
 
   async persistAnswers(req: FormWizard.Request, res: Response) {
     const { assessmentId } = req.session.sessionData as SessionData
+    const answersToAdd = this.buildRequestBody(req, res)
 
-    const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
-      ...req.form.persistedAnswers,
-      ...req.form.values,
-    }).getNextPageToComplete()
-
-    const allAnswers: FormWizard.Answers = {
-      ...req.form.persistedAnswers,
-      ...(req.form.values || {}),
-      ...this.getSectionProgress(req, isSectionComplete),
-    }
-
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers)
-
-    req.form.values = {
-      ...allAnswers,
-      ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
-    }
-    res.locals.values = req.form.values
-
-    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove })
+    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove: [] })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     let answersPersisted = false
-
-    this.buildRequestBody(req, res, next)
 
     try {
       await this.persistAnswers(req, res)

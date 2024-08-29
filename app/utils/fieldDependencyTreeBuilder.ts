@@ -92,16 +92,6 @@ export class FieldDependencyTreeBuilder {
         this.addNestedField(field, fields, stepPath)
         return fields
       }
-      if (field.collection) {
-        return [
-          ...fields,
-          {
-            field,
-            changeLink: `${stepPath}#${field.id}`,
-            answers: this.getFieldAnswers(field),
-          },
-        ]
-      }
       return [
         ...fields,
         {
@@ -168,7 +158,7 @@ export class FieldDependencyTreeBuilder {
         ]
       case FieldType.Collection:
         return ((answers[field.code] || []) as FormWizard.CollectionEntry[]).map((collectionAnswer, i) => ({
-          text: `Victim ${i}`,
+          text: `Victim ${i + 1}`,
           value: '',
           nestedFields: field.collection.map(f => ({
             field: f,
