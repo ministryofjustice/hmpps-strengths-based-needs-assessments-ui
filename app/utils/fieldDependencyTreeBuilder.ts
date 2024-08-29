@@ -167,7 +167,7 @@ export class FieldDependencyTreeBuilder {
           },
         ]
       case FieldType.Collection:
-        return ((answers[field.code] || []) as FormWizard.CollectionAnswer[]).map((collectionAnswer, i) => ({
+        return ((answers[field.code] || []) as FormWizard.CollectionEntry[]).map((collectionAnswer, i) => ({
           text: `Victim ${i}`,
           value: '',
           nestedFields: field.collection.map(f => ({

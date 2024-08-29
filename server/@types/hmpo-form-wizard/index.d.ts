@@ -176,11 +176,11 @@ declare module 'hmpo-form-wizard' {
       [key: string]: RenderedStep
     }
 
-    type CollectionAnswer = Record<string, string | string[]>
+    type CollectionEntry = Record<string, string | string[]>
 
     type SimpleAnswer = string | string[]
 
-    type Answer = SimpleAnswer | CollectionAnswer[]
+    type Answer = SimpleAnswer | CollectionEntry[]
 
     type Answers = Record<string, Answer>
   }

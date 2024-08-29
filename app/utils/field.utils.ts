@@ -182,9 +182,9 @@ export const withValuesFrom =
         return {
           ...field,
           collection: field.collection.map(it =>
-            withValuesFrom(answer ? ((answer[collectionEntryId] || []) as FormWizard.CollectionAnswer) : null)(it),
+            withValuesFrom(answer ? ((answer[collectionEntryId] || []) as FormWizard.CollectionEntry) : null)(it),
           ),
-          value: ((answer || []) as FormWizard.CollectionAnswer[]).length,
+          value: ((answer || []) as FormWizard.CollectionEntry[]).length,
         }
       default:
         return field
