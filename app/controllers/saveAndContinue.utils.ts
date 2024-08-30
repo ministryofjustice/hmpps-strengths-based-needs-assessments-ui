@@ -86,7 +86,7 @@ export const buildRequestBody = (options: FormWizard.FormOptions, answers: FormW
 
   return {
     answersToAdd: relevantFields
-      .filter(it => Object.keys(options.fields).includes(it.field.id))
+      .filter(it => Object.keys(options.fields).includes(it.field.id) && it.field.type !== FieldType.Collection)
       .map(it => it.field)
       .reduce(createAnswerDTOs(answers), {}),
     answersToRemove: Object.keys(answers).filter(

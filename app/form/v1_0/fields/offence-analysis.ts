@@ -420,6 +420,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       editUrl: 'offence-analysis-victim-edit',
     },
     labelClasses: utils.getMediumLabelClassFor(FieldType.Collection),
+    summary: { displayAlways: true },
   }
 
   offenceAnalysisHowManyInvolved: FormWizard.Field = {

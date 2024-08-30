@@ -3,10 +3,12 @@
 {%- macro renderCollection(summary, sessionData) -%}
   {% for entry in summary.answers %}
     <div class="clearfix govuk-!-padding-top-5">
-      <h3 class="govuk-heading--s govuk-!-margin-top-0 to-the-left">{{ loop.index | ordinalWordFromNumber | capitalize }} {{ summary.field.collection.subject }}</h3>
+      <h3 class="govuk-heading--s govuk-!-margin-top-0 to-the-left">{{ loop.index | ordinalWordFromNumber | capitalize }}
+        {{ summary.field.collection.subject }}</h3>
       {% if sessionData.user | isInEditMode %}
         <a class="govuk-link to-the-right" href="{{ entry.nestedFields[0].changeLink }}">
-            Change<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }} {{ summary.field.collection.subject }}</span>
+            Change<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
+            {{ summary.field.collection.subject }}</span>
         </a>
       {% endif %}
     </div>
@@ -101,3 +103,4 @@
     {% endfor %}
 
   </dl>
+  
