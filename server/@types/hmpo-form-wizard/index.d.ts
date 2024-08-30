@@ -145,6 +145,8 @@ declare module 'hmpo-form-wizard' {
       type NextStep = FieldValueCondition | CallbackCondition | string | NextStep[]
     }
 
+    type SecondaryAction = { text: string; url: string }
+
     interface BaseStep {
       pageSubHeading?: string
       reset?: boolean
@@ -157,6 +159,7 @@ declare module 'hmpo-form-wizard' {
       sectionProgressRules?: Array<SectionProgressRule>
       noPost?: boolean
       locals?: Record<string, boolean | string>
+      secondaryActions?: SecondaryAction[]
     }
 
     interface Step extends BaseStep {

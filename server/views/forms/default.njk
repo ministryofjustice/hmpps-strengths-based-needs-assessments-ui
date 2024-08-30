@@ -65,6 +65,14 @@
             name: getUserSubmittedField(form.fields),
             value: 'YES'
           }) }}
+
+          {% for secondaryAction in options.secondaryActions %}
+            {{ govukButton({
+            text: secondaryAction.text,
+            href: secondaryAction.url,
+            classes: "govuk-button--secondary"
+          }) }}
+          {% endfor %}
         </div>
       {% endif %}
     </form>

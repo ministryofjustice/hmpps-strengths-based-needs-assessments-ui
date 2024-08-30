@@ -72,6 +72,7 @@ const sectionConfig: SectionConfig = {
       ],
       next: stepUrls.offenceAnalysisOthersInvolved,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      secondaryActions: [{ text: 'Add another victim', url: stepUrls.offenceAnalysisVictim }],
     },
     {
       url: stepUrls.offenceAnalysisOthersInvolved,
