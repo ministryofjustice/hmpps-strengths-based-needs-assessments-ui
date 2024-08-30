@@ -15,8 +15,19 @@
         {% if field.type === "COLLECTION" %}
           {% from "components/summary/macro.njk" import renderSummaryFields %}
 
-          {% set summaryFields = getSummaryFields(options, answers, true) %}
-          {{ renderSummaryFields(summaryFields, sessionData) }}
+          {% if fieldsOnThisPage.length == 1 %}
+            {% set labelClasses = "govuk-fieldset__legend--l" %}
+          {% else %}
+            {% set labelClasses = "govuk-fieldset__legend--m" %}
+          {% endif %}
+
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend {{ labelClasses }}">
+              {{ field.text }}
+            </legend>
+            {% set summaryFields = getSummaryFields(options, answers, true) %}
+            {{ renderSummaryFields(summaryFields, sessionData) }}
+          </fieldset>
         {% else %}
           {% if fieldsOnThisPage.length == 1 %}
             {% if field.type === "RADIO" or field.type === "CHECKBOX" %}

@@ -10,6 +10,7 @@ import {
   getRenderedFields,
   getSelectedAnswers,
   isInEditMode,
+  ordinalWordFromNumber,
   practitionerAnalysisStarted,
   startsWith,
   toErrorSummary,
@@ -86,4 +87,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('isInEditMode', isInEditMode)
 
   njkEnv.addGlobal('practitionerAnalysisStarted', practitionerAnalysisStarted)
+
+  njkEnv.addFilter('ordinalWordFromNumber', ordinalWordFromNumber)
 }

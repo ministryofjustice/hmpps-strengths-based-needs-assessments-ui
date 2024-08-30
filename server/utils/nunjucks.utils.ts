@@ -75,3 +75,31 @@ export const practitionerAnalysisStarted = (
         fieldCode.match(/^.*_practitioner_analysis_.*$/gi) && self.indexOf(fieldCode) === index,
     )
     .some(fieldCode => answers[fieldCode])
+
+export const ordinalWordFromNumber = (n: number): string => {
+  const ordinals = [
+    'zeroth',
+    'first',
+    'second',
+    'third',
+    'fourth',
+    'fifth',
+    'sixth',
+    'seventh',
+    'eighth',
+    'ninth',
+    'tenth',
+    'eleventh',
+    'twelfth',
+    'thirteenth',
+    'fourteenth',
+    'fifteenth',
+    'sixteenth',
+    'seventeenth',
+    'eighteenth',
+    'nineteenth',
+    'twentieth',
+  ]
+
+  return n <= 20 ? ordinals[n] : n.toString()
+}

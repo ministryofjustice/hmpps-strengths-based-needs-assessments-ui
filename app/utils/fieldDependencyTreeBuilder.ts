@@ -26,6 +26,8 @@ export class FieldDependencyTreeBuilder {
 
   private readonly answers: FormWizard.Answers
 
+  private answersOverride: FormWizard.Answers = null
+
   private stepFieldsFilterFn: StepFieldsFilterFn = () => true
 
   constructor(options: FormWizard.FormOptions, answers: FormWizard.Answers) {
@@ -92,11 +94,39 @@ export class FieldDependencyTreeBuilder {
         this.addNestedField(field, fields, stepPath)
         return fields
       }
+
+      if (field.collection) {
+        const entries = ((this.answers[field.code] || []) as FormWizard.CollectionEntry[]).map((e, i) => {
+          this.answersOverride = e
+
+          const entryFields = Object.keys(e)
+            .map(it => this.options.allFields[it])
+            .reduce(this.toStepFields(`${field.collection.subject}/${i}`), [])
+
+          delete this.answersOverride
+
+          return {
+            text: field.text,
+            value: '',
+            nestedFields: entryFields,
+          } as FieldAnswer
+        })
+
+        return [
+          ...fields,
+          {
+            field,
+            changeLink: `${stepPath}#${field.id || field.code}`,
+            answers: entries,
+          },
+        ]
+      }
+
       return [
         ...fields,
         {
           field,
-          changeLink: `${stepPath}#${field.id}`,
+          changeLink: `${stepPath}#${field.id || field.code}`,
           answers: this.getFieldAnswers(field),
         },
       ]
@@ -129,8 +159,8 @@ export class FieldDependencyTreeBuilder {
   /*
     Gets the formatted answer(s) for a given field
    */
-  protected getFieldAnswers(field: FormWizard.Field, answersOverride: FormWizard.Answers = null): FieldAnswer[] {
-    const answers = answersOverride || this.answers
+  protected getFieldAnswers(field: FormWizard.Field): FieldAnswer[] {
+    const answers = this.answersOverride || this.answers
 
     switch (field.type) {
       case FieldType.Radio:
@@ -156,16 +186,6 @@ export class FieldDependencyTreeBuilder {
             nestedFields: [],
           },
         ]
-      case FieldType.Collection:
-        return ((answers[field.code] || []) as FormWizard.CollectionEntry[]).map((collectionAnswer, i) => ({
-          text: `Victim ${i + 1}`,
-          value: '',
-          nestedFields: field.collection.map(f => ({
-            field: f,
-            changeLink: `????`,
-            answers: this.getFieldAnswers(f, collectionAnswer),
-          })),
-        }))
       default:
         return [
           {

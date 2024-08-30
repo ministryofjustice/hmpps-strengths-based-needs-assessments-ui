@@ -118,7 +118,10 @@ declare module 'hmpo-form-wizard' {
       dependent?: Dependent
       invalidates?: string[]
       value?: FormWizard.An
-      collection?: FormWizard.Field[]
+      collection?: {
+        fields: FormWizard.Field[]
+        subject: string
+      }
       labelClasses?: string
       formGroupClasses?: string
       characterCountMax?: number

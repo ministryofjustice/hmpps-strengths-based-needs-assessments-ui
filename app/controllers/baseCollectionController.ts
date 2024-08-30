@@ -37,7 +37,7 @@ abstract class BaseCollectionController extends BaseController {
   }
 
   buildRequestBody(req: FormWizard.Request, res: Response) {
-    const fields = this.field.collection || []
+    const fields = this.field.collection.fields || []
     const answerPairs = fields.map(it => [it.code, req.form.values[it.code]])
     const collectionEntry: FormWizard.CollectionEntry = Object.fromEntries(answerPairs)
 
@@ -172,10 +172,8 @@ abstract class BaseCollectionController extends BaseController {
         subjectDetails,
         form: { ...res.locals.form, navigation, section: req.form.options.section, steps: req.form.options.steps },
       }
-      
-      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(
-        withValuesFrom(res.locals.values),
-      )
+
+      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )

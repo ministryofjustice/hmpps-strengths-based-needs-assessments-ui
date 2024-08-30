@@ -21,7 +21,7 @@ const createAnswerDtoFromEntry = (
   field: FormWizard.Field,
   entry: FormWizard.CollectionEntry,
 ): Record<string, AnswerDto> => {
-  const entryFields = field.collection
+  const entryFields = field.collection.fields
     .filter(f => dependencyMet(f, entry))
     .map(f => [f.code, createAnswerDto(f, entry[f.code])])
 

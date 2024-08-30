@@ -405,16 +405,19 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisVictimsCollection: FormWizard.Field = {
-    text: 'Victims',
+    text: 'Victim details',
     code: 'offence_analysis_victims_collection',
     type: FieldType.Collection,
-    collection: [
-      this.offenceAnalysisVictimRelationship,
-      this.offenceAnalysisVictimRelationshipOtherDetails,
-      this.offenceAnalysisVictimAge,
-      this.offenceAnalysisVictimSex,
-      this.offenceAnalysisVictimRace,
-    ],
+    collection: {
+      fields: [
+        this.offenceAnalysisVictimRelationship,
+        this.offenceAnalysisVictimRelationshipOtherDetails,
+        this.offenceAnalysisVictimAge,
+        this.offenceAnalysisVictimSex,
+        this.offenceAnalysisVictimRace,
+      ],
+      subject: 'victim',
+    },
     labelClasses: utils.getMediumLabelClassFor(FieldType.Collection),
   }
 
