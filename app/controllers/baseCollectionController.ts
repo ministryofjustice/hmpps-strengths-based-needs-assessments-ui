@@ -43,7 +43,17 @@ abstract class BaseCollectionController extends BaseController {
 
     const persistedCollection = (req.form.persistedAnswers[this.field.code] || []) as FormWizard.CollectionEntry[]
 
-    persistedCollection.push(collectionEntry)
+    if (req.params.entryId) {
+      const existingEntry = persistedCollection[req.params.entryId]
+
+      if (existingEntry) {
+        persistedCollection[req.params.entryId] = collectionEntry
+      } else {
+        throw new Error('Collection entry out of bounds')
+      }
+    } else {
+      persistedCollection.push(collectionEntry)
+    }
 
     const otherFields = Object.values(req.form.options.fields)
       .filter(it => fields.find(f => f.code === it.code) === undefined)
@@ -69,6 +79,21 @@ abstract class BaseCollectionController extends BaseController {
         : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
 
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
+
+      if (req.params.entryId) {
+        const entries = req.form.persistedAnswers[this.field.code] || []
+        const entry = entries[req.params.entryId]
+
+        if (entry) {
+          req.form.persistedAnswers = {
+            ...req.form.persistedAnswers,
+            ...entry,
+          }
+        } else {
+          return next(new Error('Collection entry out of bounds'))
+        }
+      }
+
       res.locals.oasysEquivalent = assessment.oasysEquivalent
 
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({

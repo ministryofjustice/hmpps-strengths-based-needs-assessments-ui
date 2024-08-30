@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import * as express from 'express'
 import FormWizard from 'hmpo-form-wizard'
 
@@ -105,18 +105,6 @@ const setupForm = (form: Form): FormWizardRouter => {
         fields: form.fields,
       }),
     )
-
-    router.use((req: Request, res: Response, next: NextFunction) => {
-      const { fields = [], section: currentSection } = getStepFrom(form.steps, req.url)
-
-      res.locals.form = {
-        fields: fields.filter(fieldCode => !form.fields[fieldCode]?.dependent?.displayInline),
-        navigation: createNavigation(form.steps, currentSection),
-        sectionProgressRules: createSectionProgressRules(form.steps),
-      }
-
-      next()
-    })
 
     checkFormIntegrity(form)
 

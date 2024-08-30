@@ -9,6 +9,7 @@ const section = sections.offenceAnalysis
 const stepUrls = {
   offenceAnalysis: 'offence-analysis',
   offenceAnalysisVictim: 'offence-analysis-victim',
+  offenceAnalysisVictimEdit: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.editUrl,
   offenceAnalysisVictimsSummary: 'offence-analysis-victims-summary',
   offenceAnalysisOthersInvolved: 'offence-analysis-others-involved',
   offenceAnalysisDetails: 'offence-analysis-details',
@@ -62,6 +63,20 @@ const sectionConfig: SectionConfig = {
       ],
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.offenceAnalysisVictimEdit,
+      controller: VictimsCollectionController,
+      fields: [
+        offenceAnalysisFields.offenceAnalysisVictimRelationship,
+        offenceAnalysisFields.offenceAnalysisVictimRelationshipOtherDetails,
+        offenceAnalysisFields.offenceAnalysisVictimAge,
+        offenceAnalysisFields.offenceAnalysisVictimSex,
+        offenceAnalysisFields.offenceAnalysisVictimRace,
+      ],
+      next: stepUrls.offenceAnalysisVictimsSummary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      params: '/:entryId',
     },
     {
       url: stepUrls.offenceAnalysisVictimsSummary,

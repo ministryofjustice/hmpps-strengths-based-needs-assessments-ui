@@ -101,7 +101,7 @@ export class FieldDependencyTreeBuilder {
 
           const entryFields = Object.keys(e)
             .map(it => this.options.allFields[it])
-            .reduce(this.toStepFields(`${field.collection.subject}/${i}`), [])
+            .reduce(this.toStepFields(`${field.collection.editUrl}/${i}`), [])
 
           delete this.answersOverride
 

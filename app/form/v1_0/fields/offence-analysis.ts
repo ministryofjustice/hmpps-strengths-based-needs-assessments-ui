@@ -417,6 +417,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         this.offenceAnalysisVictimRace,
       ],
       subject: 'victim',
+      editUrl: 'offence-analysis-victim-edit',
     },
     labelClasses: utils.getMediumLabelClassFor(FieldType.Collection),
   }
