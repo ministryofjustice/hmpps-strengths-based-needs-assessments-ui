@@ -121,7 +121,10 @@ declare module 'hmpo-form-wizard' {
       collection?: {
         fields: FormWizard.Field[]
         subject: string
-        editUrl: string
+        createUrl: string
+        updateUrl: string
+        deleteUrl: string
+        summaryUrl: string
       }
       labelClasses?: string
       formGroupClasses?: string

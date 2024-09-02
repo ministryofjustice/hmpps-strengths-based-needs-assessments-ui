@@ -2,19 +2,21 @@ import { contains, setFieldToCompleteWhenValid, setFieldToIncomplete } from './c
 import offenceAnalysisFields from '../fields/offence-analysis'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
-import VictimsCollectionController from '../controllers/victimsCollectionController'
-import BaseCollectionController from '../../../controllers/baseCollectionController'
+import { createCollectionController } from '../../../controllers/baseCollectionController'
 
 const section = sections.offenceAnalysis
 const stepUrls = {
   offenceAnalysis: 'offence-analysis',
-  offenceAnalysisVictim: 'offence-analysis-victim',
-  offenceAnalysisVictimEdit: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.editUrl,
-  offenceAnalysisVictimsSummary: 'offence-analysis-victims-summary',
+  offenceAnalysisVictimCreate: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.createUrl,
+  offenceAnalysisVictimDelete: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.deleteUrl,
+  offenceAnalysisVictimUpdate: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.updateUrl,
+  offenceAnalysisVictimsSummary: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.summaryUrl,
   offenceAnalysisOthersInvolved: 'offence-analysis-others-involved',
   offenceAnalysisDetails: 'offence-analysis-details',
   analysisComplete: 'offence-analysis-complete',
 }
+
+const VictimsCollectionController = createCollectionController(offenceAnalysisFields.offenceAnalysisVictimsCollection)
 
 const sectionConfig: SectionConfig = {
   section,
@@ -41,8 +43,10 @@ const sectionConfig: SectionConfig = {
           value: 'ONE_OR_MORE_PERSON',
           next: [
             {
-              fn: BaseCollectionController.noCollectionAnswers(offenceAnalysisFields.offenceAnalysisVictimsCollection),
-              next: `${stepUrls.offenceAnalysisVictim}`,
+              fn: VictimsCollectionController.noCollectionAnswers(
+                offenceAnalysisFields.offenceAnalysisVictimsCollection,
+              ),
+              next: `${stepUrls.offenceAnalysisVictimCreate}`,
             },
             stepUrls.offenceAnalysisVictimsSummary,
           ],
@@ -52,28 +56,23 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.offenceAnalysisVictim,
+      url: stepUrls.offenceAnalysisVictimCreate,
       controller: VictimsCollectionController,
-      fields: [
-        offenceAnalysisFields.offenceAnalysisVictimRelationship,
-        offenceAnalysisFields.offenceAnalysisVictimRelationshipOtherDetails,
-        offenceAnalysisFields.offenceAnalysisVictimAge,
-        offenceAnalysisFields.offenceAnalysisVictimSex,
-        offenceAnalysisFields.offenceAnalysisVictimRace,
-      ],
+      fields: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.offenceAnalysisVictimEdit,
+      url: stepUrls.offenceAnalysisVictimUpdate,
       controller: VictimsCollectionController,
-      fields: [
-        offenceAnalysisFields.offenceAnalysisVictimRelationship,
-        offenceAnalysisFields.offenceAnalysisVictimRelationshipOtherDetails,
-        offenceAnalysisFields.offenceAnalysisVictimAge,
-        offenceAnalysisFields.offenceAnalysisVictimSex,
-        offenceAnalysisFields.offenceAnalysisVictimRace,
-      ],
+      fields: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
+      next: stepUrls.offenceAnalysisVictimsSummary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      params: '/:entryId',
+    },
+    {
+      url: stepUrls.offenceAnalysisVictimDelete,
+      controller: VictimsCollectionController,
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       params: '/:entryId',
@@ -87,7 +86,12 @@ const sectionConfig: SectionConfig = {
       ],
       next: stepUrls.offenceAnalysisOthersInvolved,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
-      secondaryActions: [{ text: 'Add another victim', url: stepUrls.offenceAnalysisVictim }],
+      secondaryActions: [
+        {
+          text: `Add another ${offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.subject}`,
+          url: stepUrls.offenceAnalysisVictimCreate,
+        },
+      ],
     },
     {
       url: stepUrls.offenceAnalysisOthersInvolved,

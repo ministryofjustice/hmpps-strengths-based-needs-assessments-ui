@@ -1,3 +1,4 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "./drugs-summary.njk" import renderDrugsTable %}
 
 {%- macro renderCollection(summary, sessionData) -%}
@@ -6,10 +7,25 @@
       <h3 class="govuk-heading--s govuk-!-margin-top-0 to-the-left">{{ loop.index | ordinalWordFromNumber | capitalize }}
         {{ summary.field.collection.subject }}</h3>
       {% if sessionData.user | isInEditMode %}
-        <a class="govuk-link to-the-right" href="{{ entry.nestedFields[0].changeLink }}">
+        <div class="to-the-right">
+          <div>
+            <a class="govuk-link" href="{{ summary.field.collection.updateUrl }}/{{ loop.index - 1 }}">
             Change<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
-            {{ summary.field.collection.subject }}</span>
-        </a>
+                {{ summary.field.collection.subject }}</span>
+            </a>
+          </div>
+          <div>
+            {%- set deleteAction = [summary.field.collection.deleteUrl, "/", loop.index - 1] | join -%}
+            {{ govukButton({
+              text: 'Delete',
+              attributes: {
+                formaction: deleteAction
+              },
+              classes: 'govuk-button--warning',
+              name: "delete_entry"
+            }) }}
+          </div>
+        </div>
       {% endif %}
     </div>
     {% for nested in entry.nestedFields %}
@@ -103,4 +119,3 @@
     {% endfor %}
 
   </dl>
-  

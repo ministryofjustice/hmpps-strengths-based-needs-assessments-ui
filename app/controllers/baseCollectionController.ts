@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
@@ -18,6 +20,11 @@ import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import { Progress } from './saveAndContinueController'
 
+enum CollectionAction {
+  Edit,
+  Delete,
+}
+
 abstract class BaseCollectionController extends BaseController {
   static noCollectionAnswers = (field: FormWizard.Field) => {
     if (field.type !== FieldType.Collection) {
@@ -36,6 +43,18 @@ abstract class BaseCollectionController extends BaseController {
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
   }
 
+  private getFormAction(path: string): CollectionAction {
+    if (path.startsWith(`/${this.field.collection.updateUrl}`)) {
+      return CollectionAction.Edit
+    }
+
+    if (path.startsWith(`/${this.field.collection.deleteUrl}`)) {
+      return CollectionAction.Delete
+    }
+
+    throw new Error('Unsupported action')
+  }
+
   buildRequestBody(req: FormWizard.Request, res: Response) {
     const fields = this.field.collection.fields || []
     const answerPairs = fields.map(it => [it.code, req.form.values[it.code]])
@@ -43,13 +62,20 @@ abstract class BaseCollectionController extends BaseController {
 
     const persistedCollection = (req.form.persistedAnswers[this.field.code] || []) as FormWizard.CollectionEntry[]
 
-    if (req.params.entryId) {
+    const entryId = Number.parseInt(req.params.entryId, 10)
+
+    if (Number.isInteger(entryId)) {
       const existingEntry = persistedCollection[req.params.entryId]
 
-      if (existingEntry) {
-        persistedCollection[req.params.entryId] = collectionEntry
-      } else {
+      if (!existingEntry) {
         throw new Error('Collection entry out of bounds')
+      }
+
+      const action = this.getFormAction(req.url)
+      if (action === CollectionAction.Edit) {
+        persistedCollection[entryId] = collectionEntry
+      } else if (action === CollectionAction.Delete) {
+        persistedCollection.splice(entryId, 1)
       }
     } else {
       persistedCollection.push(collectionEntry)
@@ -319,4 +345,11 @@ abstract class BaseCollectionController extends BaseController {
   }
 }
 
+export const createCollectionController = (collectionField: FormWizard.Field) =>
+  class CollectionController extends BaseCollectionController {
+    readonly field = collectionField
+  }
+
 export default BaseCollectionController
+
+/* eslint-enable max-classes-per-file */
