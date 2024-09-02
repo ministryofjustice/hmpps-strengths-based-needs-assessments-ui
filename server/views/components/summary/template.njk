@@ -49,6 +49,8 @@
         </dd>
       </div>
     {% endfor %}
+  {% else %}
+    <p>There are no {{ summary.field.collection.subject }}s.</p>
   {% endfor %}
 {%- endmacro -%}
 
@@ -106,20 +108,18 @@
 {%- endmacro -%}
 
 <dl class="govuk-summary-list">
-
   {% for summaryField in summaryFields %}
 
     {% if summaryField.field.type === "COLLECTION" %}
       {{ renderCollection(summaryField, sessionData) }}
     {% else %}
       {% switch summaryField.field.code %}
-      {% case 'drug_use_type' %}
-        {{ renderDrugsTable(summaryField, sessionData.user) }}
+        {% case 'drug_use_type' %}
+          {{ renderDrugsTable(summaryField, sessionData.user) }}
         {% default %}
         {{ renderTopLevelField(summaryField, sessionData) }}
-        {% endswitch %}
-      {% endif %}
+      {% endswitch %}
+    {% endif %}
 
-    {% endfor %}
-
-  </dl>
+  {% endfor %}
+</dl>

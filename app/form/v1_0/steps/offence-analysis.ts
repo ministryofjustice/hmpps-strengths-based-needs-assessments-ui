@@ -61,6 +61,7 @@ const sectionConfig: SectionConfig = {
       fields: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      backLink: stepUrls.offenceAnalysis,
       autosave: false,
     },
     {
@@ -70,6 +71,7 @@ const sectionConfig: SectionConfig = {
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       params: '/:entryId',
+      backLink: stepUrls.offenceAnalysisVictimsSummary,
     },
     {
       url: stepUrls.offenceAnalysisVictimDelete,
@@ -93,6 +95,7 @@ const sectionConfig: SectionConfig = {
           url: stepUrls.offenceAnalysisVictimCreate,
         },
       ],
+      backLink: stepUrls.offenceAnalysis,
     },
     {
       url: stepUrls.offenceAnalysisOthersInvolved,
@@ -103,6 +106,7 @@ const sectionConfig: SectionConfig = {
       ],
       next: stepUrls.offenceAnalysisDetails,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      backLink: stepUrls.offenceAnalysis,
     },
     {
       url: stepUrls.offenceAnalysisDetails,
@@ -129,6 +133,7 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: stepUrls.analysisComplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      backLink: stepUrls.offenceAnalysisOthersInvolved,
     },
     {
       url: stepUrls.analysisComplete,

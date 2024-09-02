@@ -21,5 +21,8 @@ export default (options: FormWizard.FormOptions, answers: FormWizard.Answers, co
       ? isCollection(field)
       : !isNonRenderedField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(field)
 
-  return builder.setStepFieldsFilterFn(stepFieldsFilterFn).build()
+  const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).build()
+
+  // append collection fields at the end of the array
+  return [allFields.filter(f => !f.field.collection), allFields.filter(f => f.field.collection)].flat()
 }
