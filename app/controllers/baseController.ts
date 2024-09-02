@@ -9,7 +9,7 @@ class BaseController extends FormWizard.Controller {
 
     res.locals.form = {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
-      navigation: createNavigation(steps as unknown as FormWizard.Steps, section),
+      navigation: createNavigation(req.baseUrl, steps as unknown as FormWizard.Steps, section),
       sectionProgressRules: createSectionProgressRules(steps as unknown as FormWizard.Steps),
     }
 

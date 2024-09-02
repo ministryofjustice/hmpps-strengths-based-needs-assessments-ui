@@ -61,6 +61,7 @@ const sectionConfig: SectionConfig = {
       fields: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      autosave: false,
     },
     {
       url: stepUrls.offenceAnalysisVictimUpdate,

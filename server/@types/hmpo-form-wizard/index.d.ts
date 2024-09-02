@@ -164,6 +164,7 @@ declare module 'hmpo-form-wizard' {
       noPost?: boolean
       locals?: Record<string, boolean | string>
       secondaryActions?: SecondaryAction[]
+      autosave?: boolean
     }
 
     interface Step extends BaseStep {

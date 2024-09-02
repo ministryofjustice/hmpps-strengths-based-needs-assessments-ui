@@ -6,7 +6,7 @@
 
 {% block formContent %}
   <div class="govuk-!-width-three-quarters">
-    <form id="form" method="post" action="{{ action }}">
+    <form id="form" method="post" action="{{ action }}" data-autosave="{{ "true" if options.autosave !== false else "false" }}">
       <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
       {% set fieldsOnThisPage = getRenderedFields(form.fields, options) %}
       {% for fieldCode in fieldsOnThisPage %}

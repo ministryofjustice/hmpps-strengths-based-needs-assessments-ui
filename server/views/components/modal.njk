@@ -1,0 +1,47 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro renderModal(id, title, buttonText, formAction) %}
+  <div class="gem-c-modal-dialogue" data-module="modal-dialogue" id="{{ id }}">
+    <div class="gem-c-modal-dialogue__overlay"></div>
+    <dialog class="gem-c-modal-dialogue__box" aria-modal="true" role="dialog" tabindex="0">
+      <div class="gem-c-modal-dialogue__content">
+        <p class="govuk-heading-m">{{ title }}</p>
+        <div class="gem-c-modal-dialogue__actions">
+          {{ govukButton({
+            text: buttonText,
+            attributes: {
+              formaction: formAction
+            },
+            classes: 'govuk-button--warning'
+          }) }}
+          <div role="button" class="govuk-link gem-c-modal-dialogue__custom-close-button">Cancel</div>
+        </div>
+      </div>
+    </dialog>
+  </div>
+{% endmacro %}
+
+
+<%
+add_gem_component_stylesheet("modal-dialogue")
+
+id ||= "modal-dialogue-#{SecureRandom.hex(4)}"
+wide ||= false
+data_attributes = {}
+aria_label ||= nil
+dialog_classes = ["gem-c-modal-dialogue__box"]
+dialog_classes << "gem-c-modal-dialogue__box--wide" if wide
+%>
+
+<%= tag.div class: "gem-c-modal-dialogue", data: { module: "modal-dialogue" }, id: id do %>
+<%= tag.div class: "gem-c-modal-dialogue__overlay" %>
+<%= tag.dialog class: dialog_classes, data: data_attributes, aria: { modal: true, label: aria_label }, role: "dialog", tabindex: 0 do %>
+<%= tag.div class: "gem-c-modal-dialogue__header" do %>
+<%= render "govuk_publishing_components/components/govuk_logo/govuk_logo_crown_only", {
+classes: %w[gem-c-modal-dialogue__logotype-crown],
+} %>
+<% end %>
+<%= tag.div yield, class: "gem-c-modal-dialogue__content" %>
+<%= tag.button "×", class: "gem-c-modal-dialogue__close-button", aria: { label: t("components.modal_dialogue.close_modal") } %>
+<% end %>
+<% end %>

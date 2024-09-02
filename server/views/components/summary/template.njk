@@ -1,5 +1,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "./drugs-summary.njk" import renderDrugsTable %}
+{% from "../modal.njk" import renderModal %}
 
 {%- macro renderCollection(summary, sessionData) -%}
   {% for entry in summary.answers %}
@@ -15,15 +16,18 @@
             </a>
           </div>
           <div>
-            {%- set deleteAction = [summary.field.collection.deleteUrl, "/", loop.index - 1] | join -%}
-            {{ govukButton({
-              text: 'Delete',
-              attributes: {
-                formaction: deleteAction
-              },
-              classes: 'govuk-button--warning',
-              name: "delete_entry"
-            }) }}
+            <div role="button" class="govuk-link" data-toggle="modal" data-target="delete-{{ loop.index }}">
+              Delete<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
+                {{ summary.field.collection.subject }}</span>
+            </div>
+            {% set modalId = ["delete-", loop.index] | join %}
+            {% set formAction = [summary.field.collection.deleteUrl, "/", loop.index - 1] | join %}
+            {{ renderModal(
+              modalId,
+              ["Are you sure you want to delete the ", summary.field.collection.subject, " details?"] | join,
+              "Delete",
+              formAction
+            ) }}
           </div>
         </div>
       {% endif %}

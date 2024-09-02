@@ -38,12 +38,16 @@ export interface NavigationItem {
   active: boolean
 }
 
-export const createNavigation = (steps: FormWizard.Steps, currentSection: string): Array<NavigationItem> => {
+export const createNavigation = (
+  baseUrl: string,
+  steps: FormWizard.Steps,
+  currentSection: string,
+): Array<NavigationItem> => {
   return Object.entries(steps)
     .filter(([_path, config]) => config.navigationOrder)
     .sort(([_pathA, configA], [_pathB, configB]) => configA.navigationOrder - configB.navigationOrder)
     .map(([path, config]) => ({
-      url: path.slice(1),
+      url: `${baseUrl}/${path.slice(1)}`,
       section: config.section,
       label: config.pageTitle,
       active: config.section === currentSection,

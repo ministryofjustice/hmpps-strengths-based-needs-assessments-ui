@@ -3,7 +3,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block analysisPanel %}
-  <form id="form" method="post" action="{{ action }}#practitioner-analysis">
+  <form id="form" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in getRenderedFields(form.fields, options) %}
       {{ renderQuestion(options.fields[field], errors) }}
