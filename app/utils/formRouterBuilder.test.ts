@@ -99,12 +99,12 @@ describe('common/utils/formRouterBuilder', () => {
     }
 
     it('returns an array of navigation items from step config', () => {
-      const result = createNavigation(steps, 'bar')
+      const result = createNavigation('/form/1/0', steps, 'bar')
 
       expect(result).toEqual([
-        { active: false, label: steps['/foo']?.pageTitle, section: steps['/foo']?.section, url: 'foo' },
-        { active: true, label: steps['/bar']?.pageTitle, section: steps['/bar']?.section, url: 'bar' },
-        { active: false, label: steps['/baz']?.pageTitle, section: steps['/baz']?.section, url: 'baz' },
+        { active: false, label: steps['/foo']?.pageTitle, section: steps['/foo']?.section, url: '/form/1/0/foo' },
+        { active: true, label: steps['/bar']?.pageTitle, section: steps['/bar']?.section, url: '/form/1/0/bar' },
+        { active: false, label: steps['/baz']?.pageTitle, section: steps['/baz']?.section, url: '/form/1/0/baz' },
       ])
     })
   })

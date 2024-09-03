@@ -65,7 +65,7 @@ abstract class BaseCollectionController extends BaseController {
     const entryId = Number.parseInt(req.params.entryId, 10)
 
     if (Number.isInteger(entryId)) {
-      const existingEntry = persistedCollection[req.params.entryId]
+      const existingEntry: FormWizard.CollectionEntry = persistedCollection[entryId]
 
       if (!existingEntry) {
         throw new Error('Collection entry out of bounds')
@@ -106,9 +106,11 @@ abstract class BaseCollectionController extends BaseController {
 
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
 
-      if (req.params.entryId) {
+      const entryId = Number.parseInt(req.params.entryId, 10)
+
+      if (entryId) {
         const entries = req.form.persistedAnswers[this.field.code] || []
-        const entry = entries[req.params.entryId]
+        const entry = entries[entryId] as FormWizard.CollectionEntry
 
         if (entry) {
           req.form.persistedAnswers = {
