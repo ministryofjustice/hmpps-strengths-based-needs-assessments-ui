@@ -1,6 +1,6 @@
 export const getSummary = (question: string) => {
   return cy
-    .get('#summary > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
+    .get('#summary > form > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
     .contains(question)
     .should('be.visible')
     .and('have.length', 1)
@@ -10,7 +10,7 @@ export const getSummary = (question: string) => {
 
 export const getDrugSummary = (drug: string) => {
   return cy
-    .get('#summary > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
+    .get('#summary > form > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
     .contains('Which drugs has Sam used?')
     .should('be.visible')
     .and('have.length', 1)
