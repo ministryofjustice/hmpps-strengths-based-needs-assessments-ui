@@ -64,7 +64,7 @@
             <ul class="moj-side-navigation__list">
               {% for link in form.navigation %}
                 <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
-                  <a href="{{ link.url }}?action=resume"{% if link.active %} aria-current="location"{% endif %}>
+                  <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
                     <span class="section-label">{{ link.label }}</span>
                     {% if sectionProgress[link.section] %}
                       <span class="section-complete">✓</span>
