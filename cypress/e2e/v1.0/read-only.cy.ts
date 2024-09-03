@@ -49,6 +49,7 @@ describe('read-only mode', () => {
 
     cy.enterAssessment(AccessMode.READ_ONLY)
     cy.sectionNotMarkedAsComplete('Drug use')
-    cy.assertResumeUrlIs('Drug use', '/drug-use-analysis-complete')
+    cy.visitSection('Drug use')
+    cy.assertStepUrlIs('/drug-use-analysis-complete')
   })
 })
