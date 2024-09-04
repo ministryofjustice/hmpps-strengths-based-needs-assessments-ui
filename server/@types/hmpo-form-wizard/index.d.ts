@@ -65,6 +65,18 @@ declare module 'hmpo-form-wizard' {
     }
 
     namespace Controller {
+      export interface ErrorOptions {
+        key?: string
+        errorGroup?: unknown
+        field?: unknown
+        type?: string
+        redirect?: unknown
+        message?: string
+        messageGroup?: Errors
+        headerMessage?: string
+        arguments?: string | string[]
+      }
+
       export class Error {
         key: string
 
@@ -85,6 +97,8 @@ declare module 'hmpo-form-wizard' {
         headerMessage: string
 
         args: Record<string, unknown>
+
+        constructor(key: string, options: ErrorOptions, req: Request)
       }
 
       export type Errors = Record<string, Error>

@@ -73,8 +73,6 @@ export class FieldDependencyTreeBuilder {
     }
 
     if (hasProperty(next, 'fn')) {
-      // const con = next as FormWizard.Step.CallbackCondition
-      // throw new Error(`unable to resolve ${con.next} - callbacks are not supported yet`)
       return undefined
     }
 

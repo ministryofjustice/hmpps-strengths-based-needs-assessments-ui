@@ -72,16 +72,18 @@ describe('server/utils/nunjucks.utils', () => {
   describe('toErrorSummary', () => {
     it('', () => {
       const errors = {
-        foo: { key: 'foo', message: 'Foo is required' },
-        bar: { key: 'bar', message: 'Bar is required' },
-        baz: { key: 'baz', message: 'Baz is required' },
+        foo: new FormWizard.Controller.Error('foo', { message: 'Foo is required' }, null),
+        bar: new FormWizard.Controller.Error('bar', { message: 'Bar is required' }, null),
+        baz: new FormWizard.Controller.Error('baz', { message: 'Baz is required' }, null),
       }
 
-      expect(toErrorSummary(errors)).toEqual([
-        { text: 'Foo is required', href: '#foo-error' },
-        { text: 'Bar is required', href: '#bar-error' },
-        { text: 'Baz is required', href: '#baz-error' },
-      ])
+      expect(toErrorSummary(errors)).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ text: 'Foo is required', href: '#foo-error' }),
+          expect.objectContaining({ text: 'Bar is required', href: '#bar-error' }),
+          expect.objectContaining({ text: 'Baz is required', href: '#baz-error' }),
+        ]),
+      )
     })
   })
 

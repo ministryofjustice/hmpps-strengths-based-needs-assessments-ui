@@ -4,14 +4,12 @@ import { ordinalWordFromNumber } from '../../server/utils/nunjucks.utils'
 import { dependencyMet } from './field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
-const errorFrom = (from: ValidationError): FormWizard.Controller.Error => {
-  const error = new FormWizard.Controller.Error()
-  error.key = from.key
-  error.errorGroup = from.errorGroup
-  error.type = from.type
-  error.message = from.message
-  return error
-}
+const errorFrom = (from: ValidationError): FormWizard.Controller.Error =>
+  new FormWizard.Controller.Error(
+    from.key,
+    { errorGroup: from.errorGroup, type: from.type, message: from.message },
+    null,
+  )
 
 export const validateField = (
   fields: FormWizard.Fields,
@@ -28,10 +26,11 @@ export const validateField = (
 
 export const validateCollectionField = (collectionField: FormWizard.Field, entries: FormWizard.CollectionEntry[]) => {
   if (entries.length === 0) {
-    const collectionError = new FormWizard.Controller.Error()
-    collectionError.key = collectionField.code
-    collectionError.message = `Add one or more ${collectionField.collection.subject}s`
-    return collectionError
+    return new FormWizard.Controller.Error(
+      collectionField.code,
+      { message: `Add one or more ${collectionField.collection.subject}s` },
+      null,
+    )
   }
 
   const fieldsInCollection = Object.fromEntries(collectionField.collection.fields.map(it => [it.code, it]))
@@ -47,10 +46,14 @@ export const validateCollectionField = (collectionField: FormWizard.Field, entri
         .filter(it => it !== null)
 
       if (entryErrors.length) {
-        const error = new FormWizard.Controller.Error()
-        error.key = `${collectionField.code}-entry-${i}`
-        error.message = `The ${ordinalWordFromNumber(i + 1)} ${collectionField.collection.subject} details are invalid`
-        error.messageGroup = Object.fromEntries(entryErrors.map(it => [it.key, it]))
+        const error = new FormWizard.Controller.Error(
+          `${collectionField.code}-entry-${i}`,
+          {
+            message: `The ${ordinalWordFromNumber(i + 1)} ${collectionField.collection.subject} details are invalid`,
+            messageGroup: Object.fromEntries(entryErrors.map(it => [it.key, it])),
+          },
+          null,
+        )
         return {
           ...errors,
           [`entry-${i}`]: error,
@@ -61,9 +64,7 @@ export const validateCollectionField = (collectionField: FormWizard.Field, entri
     {} as FormWizard.Controller.Errors,
   )
 
-  const collectionError = new FormWizard.Controller.Error()
-  collectionError.key = collectionField.code
-  collectionError.message = ''
-  collectionError.messageGroup = allEntryErrors
-  return Object.keys(allEntryErrors).length ? collectionError : null
+  return Object.keys(allEntryErrors).length
+    ? new FormWizard.Controller.Error(collectionField.code, { messageGroup: allEntryErrors }, null)
+    : null
 }
