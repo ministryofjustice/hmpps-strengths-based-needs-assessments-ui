@@ -58,7 +58,11 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.offenceAnalysisVictimCreate,
       controller: VictimsCollectionController,
-      fields: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
+      fields: [
+        offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
+        offenceAnalysisFields.sectionComplete(),
+      ].flat(),
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       backLink: stepUrls.offenceAnalysis,
@@ -67,7 +71,11 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.offenceAnalysisVictimUpdate,
       controller: VictimsCollectionController,
-      fields: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
+      fields: [
+        offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
+        offenceAnalysisFields.sectionComplete(),
+      ].flat(),
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       params: '/:entryId',
@@ -76,6 +84,10 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.offenceAnalysisVictimDelete,
       controller: VictimsCollectionController,
+      fields: [
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
+        offenceAnalysisFields.sectionComplete(),
+      ],
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       params: '/:entryId',

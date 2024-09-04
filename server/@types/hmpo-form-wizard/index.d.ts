@@ -32,6 +32,8 @@ declare module 'hmpo-form-wizard' {
       }
     }
 
+    type ValidateFieldsCallback = (errors: FormWizard.Controller.Errors) => Promise
+
     class Controller {
       constructor(options: unknown)
 
@@ -43,7 +45,11 @@ declare module 'hmpo-form-wizard' {
 
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
 
+      validateFields(req: Request, res: express.Response, callback: ValidateFieldsCallback): Promise
+
       validate(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      getErrors(req: Request, res: express.Response): Controller.Errors
 
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
 
@@ -59,7 +65,29 @@ declare module 'hmpo-form-wizard' {
     }
 
     namespace Controller {
-      export class Error {}
+      export class Error {
+        key: string
+
+        errorGroup: unknown
+
+        field: unknown
+
+        type: string
+
+        redirect: unknown
+
+        url: string
+
+        message: string
+
+        messageGroup: Errors
+
+        headerMessage: string
+
+        args: Record<string, unknown>
+      }
+
+      export type Errors = Record<string, Error>
     }
 
     namespace Field {

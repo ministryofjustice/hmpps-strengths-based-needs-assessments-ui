@@ -1,10 +1,10 @@
 import FormWizard from 'hmpo-form-wizard'
-import { validate } from 'hmpo-form-wizard/lib/validation'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { formatDateForDisplay } from '../../server/utils/nunjucks.utils'
-import { whereSelectable } from './field.utils'
+import { dependencyMet, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import sections from '../form/v1_0/config/sections'
+import { validateField } from './validation'
 
 export interface Field {
   field: FormWizard.Field
@@ -228,41 +228,32 @@ export class FieldDependencyTreeBuilder {
 
     let nextStep = initialStepPath
 
-    const dependencyMet = (field: FormWizard.Field) => {
-      if (!field.dependent) {
-        return true
-      }
-
-      const answer = this.answers[field.dependent.field] as FormWizard.SimpleAnswer
-
-      return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
-    }
-
     let isSectionComplete = true
 
-    for (const [stepUrl, step] of this.getSteps(initialStep, initialStepPath)) {
+    const steps = this.getSteps(initialStep, initialStepPath)
+
+    for (const [stepUrl, step] of steps) {
       nextStep = stepUrl
-      const errors = Object.values(step.fields)
-        .filter(dependencyMet)
-        .filter(field =>
-          validate(step.fields, field.code, this.answers[field.code] as FormWizard.SimpleAnswer, {
+      const hasErrors = Object.values(step.fields)
+        .filter(it => dependencyMet(it, this.answers))
+        .some(field => {
+          const err = validateField(step.fields, field.code, this.answers[field.code], {
             values: this.answers,
-          }),
-        )
+          })
+          return err !== null
+        })
       const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
-      if (errors.length > 0 || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
+      if (hasErrors || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
         isSectionComplete = false
         break
       }
     }
 
     const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
-    if (nextStep.endsWith('-analysis-complete') && this.answers[sectionCompleteField] === 'NO') {
-      nextStep = nextStep.replace('-analysis-complete', '-analysis')
-    }
+    const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
     return {
-      url: nextStep,
+      url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
       isSectionComplete,
     }
   }

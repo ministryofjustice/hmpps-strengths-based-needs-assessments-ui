@@ -1,21 +1,11 @@
 import FormWizard from 'hmpo-form-wizard'
 import { AnswerDto, AnswerDTOs, UpdateAnswersDto } from '../../server/services/strengthsBasedNeedsService'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
-import { whereSelectable } from '../utils/field.utils'
+import { dependencyMet, whereSelectable } from '../utils/field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
 export const toAnswerDtoOption = ({ value, text }: FormWizard.Field.Option) => ({ value, text })
-
-const dependencyMet = (field: FormWizard.Field, answers: FormWizard.CollectionEntry) => {
-  if (!field.dependent) {
-    return true
-  }
-
-  const answer = answers[field.dependent.field] as FormWizard.SimpleAnswer
-
-  return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
-}
 
 const createAnswerDtoFromEntry = (
   field: FormWizard.Field,

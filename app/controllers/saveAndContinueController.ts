@@ -4,18 +4,11 @@ import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
-import {
-  combineDateFields,
-  compileConditionalFields,
-  fieldsById,
-  withPlaceholdersFrom,
-  withValuesFrom,
-} from '../utils/field.utils'
+import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
-import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 
 export type Progress = Record<string, boolean>
 
@@ -78,38 +71,6 @@ class SaveAndContinueController extends BaseController {
     }
 
     return super.get(req, res, next)
-  }
-
-  async process(req: FormWizard.Request, res: Response, next: NextFunction) {
-    req.form.values = combineDateFields(req.body, req.form.values)
-
-    const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(req.form.options.fields))
-    if (!req.form.values[userSubmittedField]) {
-      req.form.values = {
-        ...req.form.values,
-        [userSubmittedField]: 'NO',
-      }
-    }
-
-    const mergedAnswers = { ...req.form.persistedAnswers, ...req.form.values }
-
-    req.form.values = Object.entries(req.form.options.fields)
-      .filter(([_, field]) => {
-        const dependentValue = mergedAnswers[field.dependent?.field]
-        return (
-          !field.dependent ||
-          (Array.isArray(dependentValue)
-            ? (dependentValue as string[]).includes(field.dependent.value)
-            : dependentValue === field.dependent.value)
-        )
-      })
-      .reduce((updatedAnswers, [key, field]) => {
-        return field.id
-          ? { ...updatedAnswers, [field.id]: req.form.values[key], [field.code]: req.form.values[key] }
-          : { ...updatedAnswers, [field.code]: req.form.values[key] }
-      }, {})
-
-    return super.process(req, res, next)
   }
 
   calculateUnitsForGender(gender: Gender): number {

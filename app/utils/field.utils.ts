@@ -214,3 +214,13 @@ export const combineDateFields = (
     return { ...otherAnswers, [key]: `${year}-${padDateComponent(month)}-${padDateComponent(day)}` }
   }, preProcessedAnswers)
 }
+
+export const dependencyMet = (field: FormWizard.Field, answers: FormWizard.Answers) => {
+  if (!field.dependent) {
+    return true
+  }
+
+  const answer = answers[field.dependent.field] as FormWizard.SimpleAnswer
+
+  return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
+}

@@ -19,11 +19,12 @@ export const toOptionDescription = (answer: AnswerDto): string => {
   }
 }
 
-type ValidationError = { message: string; key: string }
-type ErrorSummaryItem = { text: string; href: string }
+type ValidationError = { text: string; href: string } & FormWizard.Controller.Error
 
-export const toErrorSummary = (errors: Record<string, ValidationError>): ErrorSummaryItem[] =>
-  Object.entries(errors).map(([_, e]) => ({ text: e.message, href: `#${e.key}-error` }))
+export const toErrorSummary = (errors: FormWizard.Controller.Errors): ValidationError[] =>
+  Object.values(errors)
+    .flatMap(it => (it.messageGroup ? Object.values(it.messageGroup) : it))
+    .map(it => ({ ...it, text: it.message, href: `#${it.key}-error` }))
 
 export const answerIncludes = (value: string, answer: Array<string> = []) => answer.includes(value)
 
