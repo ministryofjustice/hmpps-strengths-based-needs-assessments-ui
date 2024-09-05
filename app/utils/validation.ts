@@ -39,7 +39,7 @@ export const validateCollectionField = (collectionField: FormWizard.Field, entri
       const entryErrors = collectionField.collection.fields
         .filter(it => dependencyMet(it, entry))
         .map(field =>
-          validateField(fieldsInCollection, field.code, entry[field.code], {
+          validateField(fieldsInCollection, field.id || field.code, entry[field.code], {
             values: entry,
           }),
         )

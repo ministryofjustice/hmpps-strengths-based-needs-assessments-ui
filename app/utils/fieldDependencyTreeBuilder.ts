@@ -235,7 +235,7 @@ export class FieldDependencyTreeBuilder {
       const hasErrors = Object.values(step.fields)
         .filter(it => dependencyMet(it, this.answers))
         .some(field => {
-          const err = validateField(step.fields, field.code, this.answers[field.code], {
+          const err = validateField(step.fields, field.id || field.code, this.answers[field.code], {
             values: this.answers,
           })
           return err !== null
