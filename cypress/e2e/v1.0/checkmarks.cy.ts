@@ -42,8 +42,8 @@ describe('assessment complete checkmarks', () => {
     it(`Offence analysis checkmark is removed`, () => {
       const section = 'Offence analysis'
       cy.visitSection(section)
-      cy.getSummary('Why did the offence happen?').clickChange()
-      cy.getQuestion('Why did the offence happen?').enterText('')
+      cy.getSummary('Why did the current index offence(s) happen?').clickChange()
+      cy.getQuestion('Why did the current index offence(s) happen?').enterText('')
       cy.saveAndContinue()
       cy.sectionNotMarkedAsComplete(section)
       sections.filter(s => s !== section).forEach(s => cy.sectionMarkedAsComplete(s))
