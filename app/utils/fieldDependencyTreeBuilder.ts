@@ -247,6 +247,13 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
+    if (steps.length === 1) {
+      return {
+        url: nextStep,
+        isSectionComplete,
+      }
+    }
+
     const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
     const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
