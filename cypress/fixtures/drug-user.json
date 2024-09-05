@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "07185ee6-dabd-4277-8089-a1a79416b1c0",
-    "createdAt": "2024-08-19T17:28:39.876792",
+    "uuid": "2e177b61-03c5-4b91-8b88-24d31f78b5cc",
+    "createdAt": "2024-09-05T11:24:39.883159",
     "oasys_pks": [
-      "8766098"
+      "7250380"
     ],
-    "versionUuid": "5ad3f352-258f-4259-9190-4d666c834540",
-    "versionCreatedAt": "2024-08-19T17:28:39.8768",
+    "versionUuid": "4e5b8dbc-6440-4fb8-9182-ee333b1f46f3",
+    "versionCreatedAt": "2024-09-05T11:24:39.883173",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -25,7 +25,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_impact": {
       "type": "CHECKBOX",
@@ -63,7 +64,8 @@
       "value": null,
       "values": [
         "BEHAVIOURAL"
-      ]
+      ],
+      "collection": null
     },
     "drug_use_reasons": {
       "type": "CHECKBOX",
@@ -109,7 +111,8 @@
       "value": null,
       "values": [
         "ENHANCE_PERFORMANCE"
-      ]
+      ],
+      "collection": null
     },
     "assessment_complete": {
       "type": "RADIO",
@@ -125,7 +128,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_section_complete": {
       "type": "RADIO",
@@ -141,7 +145,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "motivated_stopping_drug_use": {
       "type": "RADIO",
@@ -165,7 +170,8 @@
         }
       ],
       "value": "UNKNOWN",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "reducing_or_stopping_drug_use": {
       "type": "RADIO",
@@ -181,7 +187,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_is_drug_use_user_submitted": {
       "type": "RADIO",
@@ -197,7 +204,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_is_drug_use_details_user_submitted": {
       "type": "RADIO",
@@ -213,7 +221,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     }
   },
   "oasysEquivalent": {
@@ -252,7 +261,6 @@
     "oSC4": null,
     "oSC5": null,
     "oSC8": null,
-    "o1-30": null,
     "o10-1": null,
     "o10-2": null,
     "o10-4": null,
@@ -306,7 +314,6 @@
     "o12-98": null,
     "o12-99": null,
     "o4-7-1": null,
-    "o6-7da": null,
     "o9-1-t": null,
     "oSC2-t": null,
     "o8-2-1-1": null,

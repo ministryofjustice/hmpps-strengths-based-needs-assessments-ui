@@ -6,36 +6,55 @@
 
 {% block formContent %}
   <div class="govuk-!-width-three-quarters">
-    <form id="form" method="post" action="{{ action }}">
+    <form id="form" method="post" action="{{ action }}" data-autosave="{{ "true" if options.autosave !== false else "false" }}">
       <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
       {% set fieldsOnThisPage = getRenderedFields(form.fields, options) %}
       {% for fieldCode in fieldsOnThisPage %}
         {% set field = options.fields[fieldCode] %}
 
-        {% if fieldsOnThisPage.length == 1 %}
-          {% if field.type === "RADIO" or field.type === "CHECKBOX" %}
+        {% if field.type === "COLLECTION" %}
+          {% from "components/summary/macro.njk" import renderSummaryFields %}
+
+          {% if fieldsOnThisPage.length == 1 %}
             {% set labelClasses = "govuk-fieldset__legend--l" %}
           {% else %}
-            {% set labelClasses = "govuk-label--l" %}
+            {% set labelClasses = "govuk-fieldset__legend--m" %}
           {% endif %}
+
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend {{ labelClasses }}">
+              {{ field.text }}
+            </legend>
+            {% set summaryFields = getSummaryFields(options, answers, true) %}
+            {{ renderSummaryFields(summaryFields, sessionData, errors) }}
+          </fieldset>
         {% else %}
-          {% set labelClasses = field.labelClasses %}
+          {% if fieldsOnThisPage.length == 1 %}
+            {% if field.type === "RADIO" or field.type === "CHECKBOX" %}
+              {% set labelClasses = "govuk-fieldset__legend--l" %}
+            {% else %}
+              {% set labelClasses = "govuk-label--l" %}
+            {% endif %}
+          {% else %}
+            {% set labelClasses = field.labelClasses %}
+          {% endif %}
+
+          {% set fieldOptions = {
+            text: field.text,
+            code: field.code,
+            id: field.id,
+            hint: field.hint,
+            type: field.type,
+            options: field.options,
+            value: field.value,
+            labelClasses: labelClasses,
+            characterCountMax: field.characterCountMax,
+            classes: field.classes
+          } %}
+
+          {{ renderQuestion(fieldOptions, errors, action) }}
         {% endif %}
 
-        {% set fieldOptions = {
-          text: field.text,
-          code: field.code,
-          id: field.id,
-          hint: field.hint,
-          type: field.type,
-          options: field.options,
-          value: field.value,
-          labelClasses: labelClasses,
-          characterCountMax: field.characterCountMax,
-          classes: field.classes
-        } %}
-
-        {{ renderQuestion(fieldOptions, errors, action) }}
       {% endfor %}
 
       {% if sessionData.user | isInEditMode %}
@@ -46,6 +65,14 @@
             name: getUserSubmittedField(form.fields),
             value: 'YES'
           }) }}
+
+          {% for secondaryAction in options.secondaryActions %}
+            {{ govukButton({
+            text: secondaryAction.text,
+            href: secondaryAction.url,
+            classes: "govuk-button--secondary"
+          }) }}
+          {% endfor %}
         </div>
       {% endif %}
     </form>

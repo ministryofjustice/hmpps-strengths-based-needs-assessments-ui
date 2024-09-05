@@ -38,7 +38,7 @@ export default abstract class FieldsFactory {
     this.fieldPrefix = section.code.replace(/-/g, '_')
   }
 
-  static getUserSubmittedField(fields: string[]) {
+  static getUserSubmittedField(fields: string[]): string {
     return fields.filter(field => field.endsWith('_user_submitted'))[0]
   }
 
@@ -76,29 +76,25 @@ export default abstract class FieldsFactory {
     return field
   }
 
-  isUserSubmitted(step: string): Array<FormWizard.Field> {
+  isUserSubmitted(step: string): FormWizard.Field {
     const stepCode = step.replace(/-/g, '_').replace(/\//g, '')
-    return [
-      {
-        text: 'Has the user submitted the page?',
-        code: `${this.fieldPrefix}_is_${stepCode}_user_submitted`,
-        type: FieldType.Radio,
-        hidden: true,
-        options: yesNoOptions,
-      },
-    ]
+    return {
+      text: 'Has the user submitted the page?',
+      code: `${this.fieldPrefix}_is_${stepCode}_user_submitted`,
+      type: FieldType.Radio,
+      hidden: true,
+      options: yesNoOptions,
+    }
   }
 
-  sectionComplete(): Array<FormWizard.Field> {
-    return [
-      {
-        text: `Is the ${this.section.title} section complete?`,
-        code: `${this.fieldPrefix}_section_complete`,
-        type: FieldType.Radio,
-        hidden: true,
-        options: yesNoOptions,
-      },
-    ]
+  sectionComplete(): FormWizard.Field {
+    return {
+      text: `Is the ${this.section.title} section complete?`,
+      code: `${this.fieldPrefix}_section_complete`,
+      type: FieldType.Radio,
+      hidden: true,
+      options: yesNoOptions,
+    }
   }
 
   wantToMakeChanges(): Array<FormWizard.Field> {

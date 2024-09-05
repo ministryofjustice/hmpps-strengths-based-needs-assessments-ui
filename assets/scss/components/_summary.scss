@@ -82,3 +82,10 @@
 .analysis__answer--secondary {
   @include govuk-font(19);
 }
+
+.govuk-summary-list {
+  .govuk-error-message {
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+}

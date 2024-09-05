@@ -1,14 +1,93 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "./drugs-summary.njk" import renderDrugsTable %}
+{% from "../modal.njk" import renderModal %}
 
-{%- macro renderTopLevelField(summaryField, sessionData) -%}
+{%- macro renderCollection(summary, sessionData, errors) -%}
+  {% set collectionErrors = errors[summary.field.code].messageGroup | default({}) %}
+
+  {% for entry in summary.answers %}
+    {% set entryErrorKey = ["entry-", loop.index0] | join %}
+    {% set entryError = collectionErrors[entryErrorKey] %}
+
+    <div class="form-group govuk-form-group{% if entryError %} govuk-form-group--error{% endif %}">
+      <div class="clearfix">
+        <h3
+            {% if entryError %}id="{{ summary.field.code }}-entry-{{ loop.index0 }}-error"{% endif %}
+            class="govuk-heading--s govuk-!-margin-top-0 to-the-left">
+          {{ loop.index | ordinalWordFromNumber | capitalize }} {{ summary.field.collection.subject }}
+        </h3>
+
+        {% if sessionData.user | isInEditMode %}
+          <div class="to-the-right">
+            <div>
+              <a class="govuk-link" href="{{ summary.field.collection.updateUrl }}/{{ loop.index - 1 }}">
+              Change<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
+                  {{ summary.field.collection.subject }}</span>
+              </a>
+            </div>
+            <div>
+              <div role="button" class="govuk-link" data-toggle="modal" data-target="delete-{{ loop.index }}">
+                Delete<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
+                  {{ summary.field.collection.subject }}</span>
+              </div>
+              {% set modalId = ["delete-", loop.index] | join %}
+              {% set formAction = [summary.field.collection.deleteUrl, "/", loop.index - 1] | join %}
+              {{ renderModal(
+                modalId,
+                ["Are you sure you want to delete the ", summary.field.collection.subject, " details?"] | join,
+                "Delete",
+                formAction
+              ) }}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      {% for nested in entry.nestedFields %}
+        <div class="govuk-summary-list__row as-block clearfix">
+          <dt class="govuk-summary-list__key to-the-left">
+            <span class="summary__label">{{ nested.field.text }}</span>
+            {{ renderCollectionValidationErrors(nested, entryError.messageGroup) }}
+          </dt>
+          <dd class="govuk-summary-list__value to-the-left summary-value">
+            <ul class="govuk-list">
+              {% for answer in nested.answers %}
+                <li class="summary-details-list">
+                  <span class="summary__answer">{{ answer.text | nl2br | safe }}</span>
+                  {{ renderNestedFields(answer.nestedFields) }}
+                </li>
+              {% endfor %}
+            </ul>
+          </dd>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>There are no {{ summary.field.collection.subject }}s.</p>
+  {% endfor %}
+{%- endmacro -%}
+
+{%- macro renderCollectionValidationErrors(summaryField, errors) -%}
+  {% if errors[summaryField.field.code] %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> {{ errors[summaryField.field.code].message }}
+    </p>
+  {% endif %}
+  {% for answer in summaryField.answers %}
+    {% for nestedField in answer.nestedFields %}
+      {{ renderCollectionValidationErrors(nestedField, errors) }}
+    {% endfor %}
+  {% endfor %}
+{%- endmacro -%}
+
+{%- macro renderTopLevelField(summary, sessionData) -%}
   <div class="govuk-summary-list__row as-block clearfix">
     <dt class="govuk-summary-list__key to-the-left">
-      <span class="summary__label">{{ summaryField.field.text }}</span>
+      <span class="summary__label">{{ summary.field.text }}</span>
     </dt>
     <dd class="govuk-summary-list__value to-the-left summary-value">
       <ul class="govuk-list">
 
-        {% for answer in summaryField.answers %}
+        {% for answer in summary.answers %}
           <li class="summary-details-list">
             <span class="summary__answer">{{ answer.text | nl2br | safe }}</span>
             {{ renderNestedFields(answer.nestedFields) }}
@@ -18,11 +97,11 @@
       </ul>
     </dd>
     {% if sessionData.user | isInEditMode %}
-    <dd class="govuk-summary-list__actions to-the-right">
-      <a class="govuk-link" href="{{ summaryField.changeLink }}">
-        Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
-      </a>
-    </dd>
+      <dd class="govuk-summary-list__actions to-the-right">
+        <a class="govuk-link" href="{{ summary.changeLink }}">
+        Change<span class="govuk-visually-hidden">value for {{ summary.field.text }}</span>
+        </a>
+      </dd>
     {% endif %}
   </div>
 {%- endmacro -%}
@@ -30,13 +109,13 @@
 {%- macro renderNestedFields(summaryFields) -%}
   {% for summaryField in summaryFields %}
 
-    {% if summaryField.field.type in ["RADIO", "CHECKBOX"] %}
+    {% if summaryField.field.type in["RADIO", "CHECKBOX"] %}
 
       <ul class="govuk-list">
         {% for answer in summaryField.answers %}
           <li class="summary-details-list">
             <span class="summary__answer--secondary">{{ answer.text | nl2br | safe }}</span>
-            {{ renderNestedFields(answer.nestedFields) }}
+            {{ renderNestedFields(answer.nestedFields, fieldError.messageGroup) }}
           </li>
         {% endfor %}
       </ul>
@@ -54,16 +133,19 @@
 {%- endmacro -%}
 
 <dl class="govuk-summary-list">
-
   {% for summaryField in summaryFields %}
 
-    {% switch summaryField.field.code %}
-      {% case 'drug_use_type' %}
-        {{ renderDrugsTable(summaryField, sessionData.user) }}
-      {% default %}
+    {% if summaryField.field.type === "COLLECTION" %}
+      <br>
+      {{ renderCollection(summaryField, sessionData, errors) }}
+    {% else %}
+      {% switch summaryField.field.code %}
+        {% case 'drug_use_type' %}
+          {{ renderDrugsTable(summaryField, sessionData.user) }}
+        {% default %}
         {{ renderTopLevelField(summaryField, sessionData) }}
-    {% endswitch %}
+      {% endswitch %}
+    {% endif %}
 
   {% endfor %}
-
 </dl>

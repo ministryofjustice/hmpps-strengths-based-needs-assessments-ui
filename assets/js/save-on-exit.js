@@ -8,7 +8,7 @@
   const isSelect = element => isTypeOf('select-one')(element) || isTypeOf('select-multiple')(element)
 
   function getForm() {
-    return document.getElementById('form')
+    return document.querySelector('form[data-autosave="true"]')
   }
 
   function getFormElements() {

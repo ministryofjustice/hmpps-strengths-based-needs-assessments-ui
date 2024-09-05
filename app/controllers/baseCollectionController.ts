@@ -1,24 +1,100 @@
+/* eslint-disable max-classes-per-file */
+
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import { buildRequestBody, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
+import { createAnswerDTOs, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
-import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
+import { Progress } from './saveAndContinueController'
 
-export type Progress = Record<string, boolean>
+enum CollectionAction {
+  Create,
+  Edit,
+  Delete,
+}
 
-class SaveAndContinueController extends BaseController {
-  apiService: StrengthsBasedNeedsAssessmentsApiService
+abstract class BaseCollectionController extends BaseController {
+  static noCollectionAnswers = (field: FormWizard.Field) => {
+    if (field.type !== FieldType.Collection) {
+      throw new Error(`Field ${field.code} is not of type Collection`)
+    }
+    return (req: FormWizard.Request) => (req.form.persistedAnswers[field.code] || []).length === 0
+  }
+
+  private apiService: StrengthsBasedNeedsAssessmentsApiService
+
+  abstract readonly field: FormWizard.Field
 
   constructor(options: unknown) {
     super(options)
 
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
+  }
+
+  private getFormAction(path: string): CollectionAction {
+    if (path.startsWith(`/${this.field.collection.createUrl}`)) {
+      return CollectionAction.Create
+    }
+
+    if (path.startsWith(`/${this.field.collection.updateUrl}`)) {
+      return CollectionAction.Edit
+    }
+
+    if (path.startsWith(`/${this.field.collection.deleteUrl}`)) {
+      return CollectionAction.Delete
+    }
+
+    throw new Error('Unsupported action')
+  }
+
+  getUserSubmittedFieldValue(_req: FormWizard.Request, _fieldCode: string): string {
+    return 'NO'
+  }
+
+  buildRequestBody(req: FormWizard.Request, res: Response) {
+    const fields = this.field.collection.fields || []
+    const answerPairs = fields.map(it => [it.code, req.form.values[it.code]])
+    const collectionEntry: FormWizard.CollectionEntry = Object.fromEntries(answerPairs)
+
+    const persistedCollection = (req.form.persistedAnswers[this.field.code] || []) as FormWizard.CollectionEntry[]
+
+    const entryId = Number.parseInt(req.params.entryId, 10)
+
+    if (Number.isInteger(entryId)) {
+      const existingEntry: FormWizard.CollectionEntry = persistedCollection[entryId]
+
+      if (!existingEntry) {
+        throw new Error('Collection entry out of bounds')
+      }
+
+      const action = this.getFormAction(req.url)
+      if (action === CollectionAction.Edit) {
+        persistedCollection[entryId] = collectionEntry
+      } else if (action === CollectionAction.Delete) {
+        persistedCollection.splice(entryId, 1)
+      }
+    } else {
+      persistedCollection.push(collectionEntry)
+    }
+
+    req.form.values = {
+      ...req.form.values,
+      ...this.getSectionProgress(req, false),
+    }
+
+    const otherFields = Object.values(req.form.options.fields)
+      .filter(it => fields.find(f => f.code === it.code) === undefined)
+      .reduce(createAnswerDTOs(req.form.values), {})
+
+    const collection = [this.field].reduce(createAnswerDTOs({ [this.field.code]: persistedCollection }), {})
+
+    return { ...otherFields, ...collection }
   }
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -36,6 +112,23 @@ class SaveAndContinueController extends BaseController {
         : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
 
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
+
+      const entryId = Number.parseInt(req.params.entryId, 10)
+
+      if (Number.isInteger(entryId)) {
+        const entries = req.form.persistedAnswers[this.field.code] || []
+        const entry = entries[entryId] as FormWizard.CollectionEntry
+
+        if (entry) {
+          req.form.persistedAnswers = {
+            ...req.form.persistedAnswers,
+            ...entry,
+          }
+        } else {
+          return next(new Error('Collection entry out of bounds'))
+        }
+      }
+
       res.locals.oasysEquivalent = assessment.oasysEquivalent
 
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
@@ -46,7 +139,7 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      if (req.method === 'GET' && isInEditMode(sessionData.user) && req.query.action === 'resume') {
+      if (req.method === 'GET' && req.query.action === 'resume') {
         const currentPageToComplete = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
@@ -71,10 +164,6 @@ class SaveAndContinueController extends BaseController {
     }
 
     return super.get(req, res, next)
-  }
-
-  calculateUnitsForGender(gender: Gender): number {
-    return gender === Gender.Male ? 8 : 6
   }
 
   setReadOnlyNavigation(steps: FormWizard.RenderedSteps, navigation: Array<NavigationItem>): Array<NavigationItem> {
@@ -106,7 +195,6 @@ class SaveAndContinueController extends BaseController {
         values: req.form.persistedAnswers,
         placeholderValues: {
           subject: subjectDetails.givenName,
-          alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
         },
         sessionData,
         subjectDetails,
@@ -183,27 +271,9 @@ class SaveAndContinueController extends BaseController {
 
   async persistAnswers(req: FormWizard.Request, res: Response) {
     const { assessmentId } = req.session.sessionData as SessionData
+    const answersToAdd = this.buildRequestBody(req, res)
 
-    const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
-      ...req.form.persistedAnswers,
-      ...req.form.values,
-    }).getNextPageToComplete()
-
-    const allAnswers: FormWizard.Answers = {
-      ...req.form.persistedAnswers,
-      ...(req.form.values || {}),
-      ...this.getSectionProgress(req, isSectionComplete),
-    }
-
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers)
-
-    req.form.values = {
-      ...allAnswers,
-      ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
-    }
-    res.locals.values = req.form.values
-
-    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove })
+    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove: [] })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -241,6 +311,19 @@ class SaveAndContinueController extends BaseController {
         return res.json({ answersPersisted })
       }
 
+      if (this.getFormAction(req.url) === CollectionAction.Create) {
+        const newEntryIndex = (req.form.persistedAnswers[this.field.code] || []).length - 1
+        const updateUrl = `${this.field.collection.updateUrl}/${newEntryIndex}`
+        const updatedErrors = Object.fromEntries(
+          Object.entries(req.sessionModel.get('errors')).map(([key, error]) => [
+            key,
+            { ...error, url: error.url.replace(this.field.collection.createUrl, updateUrl) },
+          ]),
+        )
+        req.sessionModel.set('errors', updatedErrors)
+        return res.redirect(req.originalUrl.replace(this.field.collection.createUrl, updateUrl))
+      }
+
       return super.errorHandler(err, req, res, next)
     } catch (error) {
       if (req.query.jsonResponse === 'true') {
@@ -252,4 +335,11 @@ class SaveAndContinueController extends BaseController {
   }
 }
 
-export default SaveAndContinueController
+export const createCollectionController = (collectionField: FormWizard.Field) =>
+  class CollectionController extends BaseCollectionController {
+    readonly field = collectionField
+  }
+
+export default BaseCollectionController
+
+/* eslint-enable max-classes-per-file */

@@ -8,6 +8,7 @@ export const toOptionDescription = (answer: AnswerDto): string => {
   switch (answer.type) {
     case FieldType.Radio:
     case FieldType.Dropdown:
+    case FieldType.AutoComplete:
       return answer.options.find(option => option.value === answer.value)?.text || answer.value
     case FieldType.CheckBox:
       return (answer.values || [])
@@ -18,11 +19,12 @@ export const toOptionDescription = (answer: AnswerDto): string => {
   }
 }
 
-type ValidationError = { message: string; key: string }
-type ErrorSummaryItem = { text: string; href: string }
+type ValidationError = { text: string; href: string } & FormWizard.Controller.Error
 
-export const toErrorSummary = (errors: Record<string, ValidationError>): ErrorSummaryItem[] =>
-  Object.entries(errors).map(([_, e]) => ({ text: e.message, href: `#${e.key}-error` }))
+export const toErrorSummary = (errors: FormWizard.Controller.Errors): ValidationError[] =>
+  Object.values(errors)
+    .flatMap(it => (it.messageGroup ? Object.values(it.messageGroup) : it))
+    .map(it => ({ ...it, text: it.message, href: `#${it.key}-error` }))
 
 export const answerIncludes = (value: string, answer: Array<string> = []) => answer.includes(value)
 
@@ -74,3 +76,31 @@ export const practitionerAnalysisStarted = (
         fieldCode.match(/^.*_practitioner_analysis_.*$/gi) && self.indexOf(fieldCode) === index,
     )
     .some(fieldCode => answers[fieldCode])
+
+export const ordinalWordFromNumber = (n: number): string => {
+  const ordinals = [
+    'zeroth',
+    'first',
+    'second',
+    'third',
+    'fourth',
+    'fifth',
+    'sixth',
+    'seventh',
+    'eighth',
+    'ninth',
+    'tenth',
+    'eleventh',
+    'twelfth',
+    'thirteenth',
+    'fourteenth',
+    'fifteenth',
+    'sixteenth',
+    'seventeenth',
+    'eighteenth',
+    'nineteenth',
+    'twentieth',
+  ]
+
+  return n <= 20 ? ordinals[n] : n.toString()
+}
