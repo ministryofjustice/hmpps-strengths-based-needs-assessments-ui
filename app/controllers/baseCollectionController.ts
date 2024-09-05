@@ -14,6 +14,7 @@ import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { Progress } from './saveAndContinueController'
 
 enum CollectionAction {
+  Create,
   Edit,
   Delete,
 }
@@ -37,6 +38,10 @@ abstract class BaseCollectionController extends BaseController {
   }
 
   private getFormAction(path: string): CollectionAction {
+    if (path.startsWith(`/${this.field.collection.createUrl}`)) {
+      return CollectionAction.Create
+    }
+
     if (path.startsWith(`/${this.field.collection.updateUrl}`)) {
       return CollectionAction.Edit
     }
@@ -304,6 +309,19 @@ abstract class BaseCollectionController extends BaseController {
 
       if (req.query.jsonResponse === 'true') {
         return res.json({ answersPersisted })
+      }
+
+      if (this.getFormAction(req.url) === CollectionAction.Create) {
+        const newEntryIndex = (req.form.persistedAnswers[this.field.code] || []).length - 1
+        const updateUrl = `${this.field.collection.updateUrl}/${newEntryIndex}`
+        const updatedErrors = Object.fromEntries(
+          Object.entries(req.sessionModel.get('errors')).map(([key, error]) => [
+            key,
+            { ...error, url: error.url.replace(this.field.collection.createUrl, updateUrl) },
+          ]),
+        )
+        req.sessionModel.set('errors', updatedErrors)
+        return res.redirect(req.originalUrl.replace(this.field.collection.createUrl, updateUrl))
       }
 
       return super.errorHandler(err, req, res, next)

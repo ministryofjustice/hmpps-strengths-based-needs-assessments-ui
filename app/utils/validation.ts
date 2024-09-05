@@ -25,7 +25,7 @@ export const validateField = (
 }
 
 export const validateCollectionField = (collectionField: FormWizard.Field, entries: FormWizard.CollectionEntry[]) => {
-  if (entries.length === 0) {
+  if (!entries || entries.length === 0) {
     return new FormWizard.Controller.Error(
       collectionField.code,
       { message: `Add one or more ${collectionField.collection.subject}s` },
@@ -50,10 +50,10 @@ export const validateCollectionField = (collectionField: FormWizard.Field, entri
           `${collectionField.code}-entry-${i}`,
           {
             message: `The ${ordinalWordFromNumber(i + 1)} ${collectionField.collection.subject} details are invalid`,
-            messageGroup: Object.fromEntries(entryErrors.map(it => [it.key, it])),
           },
           null,
         )
+        error.messageGroup = Object.fromEntries(entryErrors.map(it => [it.key, it]))
         return {
           ...errors,
           [`entry-${i}`]: error,
@@ -64,7 +64,13 @@ export const validateCollectionField = (collectionField: FormWizard.Field, entri
     {} as FormWizard.Controller.Errors,
   )
 
-  return Object.keys(allEntryErrors).length
-    ? new FormWizard.Controller.Error(collectionField.code, { messageGroup: allEntryErrors }, null)
+  const collectionError = Object.keys(allEntryErrors).length
+    ? new FormWizard.Controller.Error(collectionField.code, {}, null)
     : null
+
+  if (collectionError) {
+    collectionError.messageGroup = allEntryErrors
+  }
+
+  return collectionError
 }
