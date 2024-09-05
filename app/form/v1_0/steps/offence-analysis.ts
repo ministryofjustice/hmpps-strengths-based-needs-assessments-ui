@@ -147,8 +147,8 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
       backLink: stepUrls.offenceAnalysisOthersInvolved,
       locals: {
-        buttonText: 'Mark as complete'
-      }
+        buttonText: 'Mark as complete',
+      },
     },
     {
       url: stepUrls.analysisComplete,
