@@ -62,7 +62,9 @@ abstract class BaseCollectionController extends BaseController {
     const answerPairs = fields.map(it => [it.code, req.form.values[it.code]])
     const collectionEntry: FormWizard.CollectionEntry = Object.fromEntries(answerPairs)
 
-    const persistedCollection = (req.form.persistedAnswers[this.field.code] || []) as FormWizard.CollectionEntry[]
+    const persistedCollection = [
+      ...((req.form.persistedAnswers[this.field.code] || []) as FormWizard.CollectionEntry[]),
+    ]
 
     const entryId = Number.parseInt(req.params.entryId, 10)
 
@@ -312,7 +314,7 @@ abstract class BaseCollectionController extends BaseController {
       }
 
       if (this.getFormAction(req.url) === CollectionAction.Create) {
-        const newEntryIndex = (req.form.persistedAnswers[this.field.code] || []).length - 1
+        const newEntryIndex = (req.form.persistedAnswers[this.field.code] || []).length
         const updateUrl = `${this.field.collection.updateUrl}/${newEntryIndex}`
         const updatedErrors = Object.fromEntries(
           Object.entries(req.sessionModel.get('errors')).map(([key, error]) => [

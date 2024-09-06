@@ -53,9 +53,10 @@ import {
   changeDrugUsage,
   clickChange,
   getAnswer,
+  getCollectionEntry,
   getDrugSummary,
   getSummary,
-  hasFrequency,
+  hasCollectionEntries,
   hasInjectedCurrently,
   hasInjectedPreviously,
   hasNoSecondaryAnswer,
@@ -165,6 +166,8 @@ declare global {
       // summary
       getSummary(question: string): Chainable
       getDrugSummary(drug: string): Chainable
+      getCollectionEntry(subject: string, id: number): Chainable
+      hasCollectionEntries(subject: string, count: number): Chainable
       hasFrequency(answer: string): Chainable
       hasPreviousUse(answer: string): Chainable
       hasReceivingTreatmentCurrently(answer: string): Chainable
@@ -258,7 +261,8 @@ Cypress.Commands.add('hasDate', { prevSubject: true }, hasDate)
 // summary
 Cypress.Commands.add('getSummary', getSummary)
 Cypress.Commands.add('getDrugSummary', getDrugSummary)
-Cypress.Commands.add('hasFrequency', { prevSubject: true }, hasFrequency)
+Cypress.Commands.add('getCollectionEntry', getCollectionEntry)
+Cypress.Commands.add('hasCollectionEntries', hasCollectionEntries)
 Cypress.Commands.add('hasPreviousUse', { prevSubject: true }, hasPreviousUse)
 Cypress.Commands.add('hasReceivingTreatmentCurrently', { prevSubject: true }, hasReceivingTreatmentCurrently)
 Cypress.Commands.add('hasReceivingTreatmentPreviously', { prevSubject: true }, hasReceivingTreatmentPreviously)

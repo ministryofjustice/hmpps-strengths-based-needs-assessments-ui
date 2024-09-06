@@ -55,6 +55,12 @@
             "printWidth": 120,
             "semi": false
           }
+        ],
+        "no-plusplus": [
+          "error",
+          {
+            "allowForLoopAfterthoughts": true
+          }
         ]
       }
     },

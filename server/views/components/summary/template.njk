@@ -5,65 +5,68 @@
 {%- macro renderCollection(summary, sessionData, errors) -%}
   {% set collectionErrors = errors[summary.field.code].messageGroup | default({}) %}
 
-  {% for entry in summary.answers %}
-    {% set entryErrorKey = ["entry-", loop.index0] | join %}
-    {% set entryError = collectionErrors[entryErrorKey] %}
+  <div class="govuk-!-padding-top-6">
+    {% for entry in summary.answers %}
+      {% set entryErrorKey = ["entry-", loop.index0] | join %}
+      {% set entryError = collectionErrors[entryErrorKey] %}
 
-    <div class="form-group govuk-form-group{% if entryError %} govuk-form-group--error{% endif %}">
-      <div class="clearfix">
-        <h3
-            {% if entryError %}id="{{ summary.field.code }}-entry-{{ loop.index0 }}-error"{% endif %}
-            class="govuk-heading--s govuk-!-margin-top-0 to-the-left">
-          {{ loop.index | ordinalWordFromNumber | capitalize }} {{ summary.field.collection.subject }}
-        </h3>
+      <div class="form-group govuk-form-group{% if entryError %} govuk-form-group--error{% endif %}">
+        <div class="clearfix">
+          <h3
+              {% if entryError %}id="{{ summary.field.code }}-entry-{{ loop.index0 }}-error"{% endif %}
+              class="govuk-heading--s govuk-!-margin-top-0 to-the-left">
+            {{ loop.index | ordinalWordFromNumber | capitalize }} {{ summary.field.collection.subject }}
+          </h3>
 
-        {% if sessionData.user | isInEditMode %}
-          <div class="to-the-right">
-            <div>
-              <a class="govuk-link" href="{{ summary.field.collection.updateUrl }}/{{ loop.index - 1 }}">
-              Change<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
-                  {{ summary.field.collection.subject }}</span>
-              </a>
-            </div>
-            <div>
-              <div role="button" class="govuk-link" data-toggle="modal" data-target="delete-{{ loop.index }}">
-                Delete<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
-                  {{ summary.field.collection.subject }}</span>
+          {% if sessionData.user | isInEditMode %}
+            <div class="to-the-right">
+              <div>
+                <a class="govuk-link change-entry" href="{{ summary.field.collection.updateUrl }}/{{ loop.index - 1 }}">
+                Change<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
+                    {{ summary.field.collection.subject }}</span>
+                </a>
               </div>
-              {% set modalId = ["delete-", loop.index] | join %}
-              {% set formAction = [summary.field.collection.deleteUrl, "/", loop.index - 1] | join %}
-              {{ renderModal(
-                modalId,
-                ["Are you sure you want to delete the ", summary.field.collection.subject, " details?"] | join,
-                "Delete",
-                formAction
-              ) }}
+              <div>
+                <div role="button" class="govuk-link" data-toggle="modal" data-target="delete-{{ loop.index }}">
+                  Delete<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
+                    {{ summary.field.collection.subject }}</span>
+                </div>
+                {% set modalId = ["delete-", loop.index] | join %}
+                {% set formAction = [summary.field.collection.deleteUrl, "/", loop.index - 1] | join %}
+                {{ renderModal(
+                  modalId,
+                  ["Are you sure you want to delete the ", summary.field.collection.subject, " details?"] | join,
+                  "Delete",
+                  formAction
+                ) }}
+              </div>
             </div>
-          </div>
-        {% endif %}
-      </div>
-      {% for nested in entry.nestedFields %}
-        <div class="govuk-summary-list__row as-block clearfix">
-          <dt class="govuk-summary-list__key to-the-left">
-            <span class="summary__label">{{ nested.field.text }}</span>
-            {{ renderCollectionValidationErrors(nested, entryError.messageGroup) }}
-          </dt>
-          <dd class="govuk-summary-list__value to-the-left summary-value">
-            <ul class="govuk-list">
-              {% for answer in nested.answers %}
-                <li class="summary-details-list">
-                  <span class="summary__answer">{{ answer.text | nl2br | safe }}</span>
-                  {{ renderNestedFields(answer.nestedFields) }}
-                </li>
-              {% endfor %}
-            </ul>
-          </dd>
+          {% endif %}
         </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>There are no {{ summary.field.collection.subject }}s.</p>
-  {% endfor %}
+        {% for nested in entry.nestedFields %}
+          <div class="govuk-summary-list__row as-block clearfix">
+            <dt class="govuk-summary-list__key to-the-left">
+              <span class="summary__label">{{ nested.field.text }}</span>
+              {{ renderCollectionValidationErrors(nested, entryError.messageGroup) }}
+            </dt>
+            <dd class="govuk-summary-list__value to-the-left summary-value">
+              <ul class="govuk-list">
+                {% for answer in nested.answers %}
+                  <li class="summary-details-list">
+                    <span class="summary__answer">{{ answer.text | nl2br | safe }}</span>
+                    {{ renderNestedFields(answer.nestedFields) }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </dd>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <dt class="govuk-visually-hidden">{{ summary.field.text }}</dt>
+      <dd class="govuk-!-margin-left-0">There are no {{ summary.field.collection.subject }}s.</dd>
+    {% endfor %}
+  </div>
 {%- endmacro -%}
 
 {%- macro renderCollectionValidationErrors(summaryField, errors) -%}
@@ -136,7 +139,6 @@
   {% for summaryField in summaryFields %}
 
     {% if summaryField.field.type === "COLLECTION" %}
-      <br>
       {{ renderCollection(summaryField, sessionData, errors) }}
     {% else %}
       {% switch summaryField.field.code %}

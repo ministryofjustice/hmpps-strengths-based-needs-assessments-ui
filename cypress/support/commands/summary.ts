@@ -25,6 +25,23 @@ export const getDrugSummary = (drug: string) => {
     .parents('tbody')
 }
 
+export const getCollectionEntry = (subject: string, id: number) => {
+  const ord = ['Zeroth', 'First', 'Second', 'Third']
+  return cy
+    .get(`form > fieldset > .govuk-summary-list > .form-group > div > h3`)
+    .contains(`${ord[id]} ${subject}`)
+    .should('be.visible')
+    .and('have.length', 1)
+    .closest('.form-group')
+}
+
+export const hasCollectionEntries = (subject: string, count: number) => {
+  for (let i = 1; i <= count; i++) {
+    getCollectionEntry(subject, i)
+  }
+  return getCollectionEntry(subject, 1).parent().children('.form-group').should('have.length', count)
+}
+
 export const hasFrequency = (subject: JQuery, answer: string) => {
   cy.wrap(subject)
     .find('> tr:nth-child(1) > td:nth-child(2)')
@@ -82,7 +99,7 @@ export const hasInjectedPreviously = (subject: JQuery, answer: string) => {
 
 export const clickChange = (subject: JQuery) => {
   cy.wrap(subject)
-    .find('> .govuk-summary-list__actions > a')
+    .find('> .govuk-summary-list__actions > a, a.change-entry')
     .should('be.visible')
     .and('have.length', 1)
     .and('contain.text', 'Change')
