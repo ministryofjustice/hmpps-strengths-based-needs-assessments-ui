@@ -1,8 +1,6 @@
 export const getSummary = (question: string) => {
   return cy
-    .get(
-      '#summary > form > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label',
-    )
+    .get('.govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
     .contains(question)
     .should('be.visible')
     .and('have.length', 1)
@@ -27,19 +25,16 @@ export const getDrugSummary = (drug: string) => {
 
 export const getCollectionEntry = (subject: string, id: number) => {
   const ord = ['Zeroth', 'First', 'Second', 'Third']
-  return cy
-    .get(`form > fieldset > .govuk-summary-list > .form-group > div > h3`)
-    .contains(`${ord[id]} ${subject}`)
-    .should('be.visible')
-    .and('have.length', 1)
-    .closest('.form-group')
+  return cy.get(`form`).contains('.form-group', `${ord[id]} ${subject}`).should('be.visible').and('have.length', 1)
 }
 
 export const hasCollectionEntries = (subject: string, count: number) => {
-  for (let i = 1; i <= count; i++) {
-    getCollectionEntry(subject, i)
-  }
-  return getCollectionEntry(subject, 1).parent().children('.form-group').should('have.length', count)
+  cy.get('form')
+    .contains(subject)
+    .closest('fieldset')
+    .within(() => {
+      cy.get('.form-group').should('have.length', count)
+    })
 }
 
 export const hasFrequency = (subject: JQuery, answer: string) => {

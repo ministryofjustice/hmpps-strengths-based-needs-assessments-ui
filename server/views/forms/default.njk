@@ -21,13 +21,16 @@
             {% set labelClasses = "govuk-fieldset__legend--m" %}
           {% endif %}
 
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend {{ labelClasses }}">
-              {{ field.text }}
-            </legend>
-            {% set summaryFields = getSummaryFields(options, answers, true) %}
-            {{ renderSummaryFields(summaryFields, sessionData, errors) }}
-          </fieldset>
+          <div class="form-group govuk-form-group">
+            <fieldset class="govuk-fieldset">
+              <legend class="govuk-fieldset__legend {{ labelClasses }}">
+                {{ field.text }}
+              </legend>
+              {% set summaryFields = getSummaryFields(options, answers, true) %}
+              {{ renderSummaryFields(summaryFields, sessionData, errors) }}
+            </fieldset>
+          </div>
+          
         {% else %}
           {% if fieldsOnThisPage.length == 1 %}
             {% if field.type === "RADIO" or field.type === "CHECKBOX" %}
