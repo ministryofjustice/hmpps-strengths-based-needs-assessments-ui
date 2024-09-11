@@ -88,47 +88,50 @@ describe('server/utils/nunjucks.summaryFields', () => {
       q4: 'qux',
     }
 
-    const expected: Field[] = [
-      {
-        field: options.allFields.q1,
-        changeLink: 'step1#q1',
-        answers: [
-          {
-            text: 'foo',
-            value: 'foo',
-            nestedFields: [],
-          },
-        ],
-      },
-      {
-        field: options.allFields.q2_id,
-        changeLink: 'step1#q2_id',
-        answers: [
-          {
-            text: 'Foo',
-            value: 'foo',
-            nestedFields: [],
-          },
-          {
-            text: 'Bar',
-            value: 'bar',
-            nestedFields: [
-              {
-                field: options.allFields.q3,
-                changeLink: 'step2#q3',
-                answers: [
-                  {
-                    text: 'baz',
-                    value: 'baz',
-                    nestedFields: [],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ]
+    const expected = {
+      singleFields: [
+        {
+          field: options.allFields.q1,
+          changeLink: 'step1#q1',
+          answers: [
+            {
+              text: 'foo',
+              value: 'foo',
+              nestedFields: [],
+            },
+          ],
+        },
+        {
+          field: options.allFields.q2_id,
+          changeLink: 'step1#q2_id',
+          answers: [
+            {
+              text: 'Foo',
+              value: 'foo',
+              nestedFields: [],
+            },
+            {
+              text: 'Bar',
+              value: 'bar',
+              nestedFields: [
+                {
+                  field: options.allFields.q3,
+                  changeLink: 'step2#q3',
+                  answers: [
+                    {
+                      text: 'baz',
+                      value: 'baz',
+                      nestedFields: [] as Field[],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ] as Field[],
+      collectionFields: [] as Field[],
+    }
 
     expect(summaryFields(options, answers)).toEqual(expected)
   })

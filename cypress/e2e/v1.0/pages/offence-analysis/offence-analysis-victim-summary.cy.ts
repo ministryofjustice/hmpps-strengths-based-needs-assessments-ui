@@ -82,6 +82,6 @@ describe('/offence-analysis-victims-summary', () => {
   })
 
   it('Should have no accessibility violations', () => {
-    // cy.checkAccessibility()
+    cy.checkAccessibility()
   })
 })

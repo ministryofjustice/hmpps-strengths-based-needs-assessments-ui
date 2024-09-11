@@ -68,7 +68,7 @@ describe('/offence-analysis-victim/delete/:entryId', () => {
     cy.get('#delete-1')
       .should('be.visible')
       .within(() => {
-        // cy.checkAccessibility()
+        cy.checkAccessibility()
         cy.contains('p', 'Are you sure you want to delete the victim details?')
         cy.contains('.govuk-link', 'Cancel').click()
       })

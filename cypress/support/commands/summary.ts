@@ -31,7 +31,7 @@ export const getCollectionEntry = (subject: string, id: number) => {
 export const hasCollectionEntries = (subject: string, count: number) => {
   cy.get('form')
     .contains(subject)
-    .closest('fieldset')
+    .closest('.form-group')
     .within(() => {
       cy.get('.form-group').should('have.length', count)
     })

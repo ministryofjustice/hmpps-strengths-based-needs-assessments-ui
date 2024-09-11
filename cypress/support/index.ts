@@ -57,6 +57,7 @@ import {
   getDrugSummary,
   getSummary,
   hasCollectionEntries,
+  hasFrequency,
   hasInjectedCurrently,
   hasInjectedPreviously,
   hasNoSecondaryAnswer,
@@ -263,6 +264,7 @@ Cypress.Commands.add('getSummary', getSummary)
 Cypress.Commands.add('getDrugSummary', getDrugSummary)
 Cypress.Commands.add('getCollectionEntry', getCollectionEntry)
 Cypress.Commands.add('hasCollectionEntries', hasCollectionEntries)
+Cypress.Commands.add('hasFrequency', { prevSubject: true }, hasFrequency)
 Cypress.Commands.add('hasPreviousUse', { prevSubject: true }, hasPreviousUse)
 Cypress.Commands.add('hasReceivingTreatmentCurrently', { prevSubject: true }, hasReceivingTreatmentCurrently)
 Cypress.Commands.add('hasReceivingTreatmentPreviously', { prevSubject: true }, hasReceivingTreatmentPreviously)
