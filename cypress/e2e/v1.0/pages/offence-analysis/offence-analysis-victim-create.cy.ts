@@ -9,6 +9,8 @@ describe('/offence-analysis-victim/create', () => {
   const createUrl = '/offence-analysis-victim/create'
   const editUrl = '/offence-analysis-victim/edit/0'
   const collectionSummaryUrl = '/offence-analysis-victims-summary'
+  const summaryUrl = '/offence-analysis-complete'
+
   const questions = [
     victimRelationship.testCreate,
     victimAge.testCreate,
@@ -61,6 +63,9 @@ describe('/offence-analysis-victim/create', () => {
 
     cy.assertStepUrlIs(collectionSummaryUrl)
 
+    assertVictimEntry(1, initial)
+
+    cy.visitStep(summaryUrl)
     assertVictimEntry(1, initial)
   })
 
