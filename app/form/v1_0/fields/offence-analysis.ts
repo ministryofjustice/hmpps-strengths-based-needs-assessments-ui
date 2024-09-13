@@ -405,7 +405,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisVictimsCollection: FormWizard.Field = {
-    text: 'Victim details',
+    text: 'Victims',
     code: 'offence_analysis_victims_collection',
     type: FieldType.Collection,
     collection: {
