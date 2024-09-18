@@ -53,4 +53,26 @@ describe('Auto save', () => {
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').isChecked()
   })
+
+  it('does not remove orphaned answers', () => {
+    cy.visitStep('/drug-use')
+    cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+    cy.saveAndContinue()
+    cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').clickLabel()
+    cy.saveAndContinue()
+    cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').isChecked()
+
+    cy.visitStep('/drug-use')
+    cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
+
+    cy.visitSection('Accommodation')
+    cy.assertStepUrlIs('/accommodation')
+
+    cy.visitSection('Drug use')
+    cy.getQuestion('Has Sam ever used drugs?').getRadio('No').isChecked()
+    cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+    cy.saveAndContinue()
+
+    cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').isChecked()
+  })
 })
