@@ -275,47 +275,47 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     options: [
       {
         text: '0 to 4 years',
-        value: '0_TO_4_YEARS',
+        value: 'AGE_0_TO_4_YEARS',
         kind: 'option',
       },
       {
         text: '5 to 11 years',
-        value: '5_TO_11_YEARS',
+        value: 'AGE_5_TO_11_YEARS',
         kind: 'option',
       },
       {
         text: '12 to 15 years',
-        value: '12_TO_15_YEARS',
+        value: 'AGE_12_TO_15_YEARS',
         kind: 'option',
       },
       {
         text: '16 to 17 years',
-        value: '16_TO_17_YEARS',
+        value: 'AGE_16_TO_17_YEARS',
         kind: 'option',
       },
       {
         text: '18 to 20 years',
-        value: '18_TO_20_YEARS',
+        value: 'AGE_18_TO_20_YEARS',
         kind: 'option',
       },
       {
         text: '21 to 25 years',
-        value: '21_TO_25_YEARS',
+        value: 'AGE_21_TO_25_YEARS',
         kind: 'option',
       },
       {
         text: '26 to 49 years',
-        value: '26_TO_49_YEARS',
+        value: 'AGE_26_TO_49_YEARS',
         kind: 'option',
       },
       {
         text: '50 to 64 years',
-        value: '50_TO_64_YEARS',
+        value: 'AGE_50_TO_64_YEARS',
         kind: 'option',
       },
       {
         text: '65 years and over',
-        value: '65_AND_OVER',
+        value: 'AGE_65_AND_OVER',
         kind: 'option',
       },
     ],
