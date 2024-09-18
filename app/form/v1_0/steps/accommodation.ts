@@ -1,107 +1,156 @@
 import FormWizard from 'hmpo-form-wizard'
-import { fieldCodesFrom, setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
-import {
-  accommodationChangesFields,
-  accommodationTypeFields,
-  livingWithFields,
-  noAccommodationFields,
-  practitionerAnalysisFields,
-  sectionCompleteFields,
-  suitableLocationFields,
-  suitableAccommodationFields,
-  suitableHousingPlannedFields,
-} from '../fields/accommodation'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
+import accommodationFields from '../fields/accommodation'
+import sections, { SectionConfig } from '../config/sections'
+import templates from '../config/templates'
 
-const stepOptions: FormWizard.Steps = {
-  '/accommodation': {
-    pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(accommodationTypeFields, sectionCompleteFields),
-    next: [
-      { field: 'current_accommodation', value: 'SETTLED', next: 'settled-accommodation' },
-      {
-        field: 'current_accommodation',
-        value: 'TEMPORARY',
-        next: [
-          { field: 'type_of_temporary_accommodation', value: 'SHORT_TERM', next: 'temporary-accommodation' },
-          { field: 'type_of_temporary_accommodation', value: 'IMMIGRATION', next: 'temporary-accommodation' },
-          'temporary-accommodation-2',
-        ],
-      },
-      { field: 'current_accommodation', value: 'NO_ACCOMMODATION', next: 'no-accommodation' },
-    ],
-    navigationOrder: 1,
-    section: 'accommodation',
-    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
-  },
-  '/settled-accommodation': {
-    pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(
-      livingWithFields,
-      suitableLocationFields,
-      suitableAccommodationFields,
-      accommodationChangesFields,
-      sectionCompleteFields,
-    ),
-    next: 'accommodation-analysis',
-    backLink: 'accommodation',
-    section: 'accommodation',
-    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
-  },
-  '/temporary-accommodation': {
-    pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(
-      livingWithFields,
-      suitableLocationFields,
-      suitableAccommodationFields,
-      suitableHousingPlannedFields,
-      accommodationChangesFields,
-      sectionCompleteFields,
-    ),
-    next: 'accommodation-analysis',
-    backLink: 'accommodation',
-    section: 'accommodation',
-    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
-  },
-  '/temporary-accommodation-2': {
-    pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(
-      suitableAccommodationFields,
-      suitableHousingPlannedFields,
-      accommodationChangesFields,
-      sectionCompleteFields,
-    ),
-    next: 'accommodation-analysis',
-    backLink: 'accommodation',
-    section: 'accommodation',
-    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
-  },
-  '/no-accommodation': {
-    pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(
-      noAccommodationFields,
-      suitableHousingPlannedFields,
-      accommodationChangesFields,
-      sectionCompleteFields,
-    ),
-    next: 'accommodation-analysis',
-    backLink: 'accommodation',
-    section: 'accommodation',
-    sectionProgressRules: [setFieldToIncomplete('accommodation_section_complete')],
-  },
-  '/accommodation-analysis': {
-    pageTitle: 'Accommodation',
-    fields: fieldCodesFrom(practitionerAnalysisFields, sectionCompleteFields),
-    next: 'accommodation-analysis-complete#practitioner-analysis',
-    template: 'forms/summary/summary-analysis-incomplete',
-    section: 'accommodation',
-    sectionProgressRules: [setFieldToCompleteWhenValid('accommodation_section_complete')],
-  },
-  '/accommodation-analysis-complete': {
-    pageTitle: 'Accommodation',
-    next: [],
-    template: 'forms/summary/summary-analysis-complete',
-    section: 'accommodation',
-  },
+const section = sections.accommodation
+const stepUrls = {
+  accommodation: 'accommodation',
+  settledAccommodation: 'settled-accommodation',
+  temporaryAccommodation: 'temporary-accommodation',
+  temporaryAccommodation2: 'temporary-accommodation-2',
+  noAccommodation: 'no-accommodation',
+  analysis: 'accommodation-analysis',
+  analysisComplete: 'accommodation-analysis-complete',
 }
 
-export default stepOptions
+const accommodationTypeGroup: FormWizard.Field[] = [
+  accommodationFields.currentAccommodation,
+  accommodationFields.typeOfSettledAccommodation,
+  accommodationFields.typeOfTemporaryAccommodation,
+  accommodationFields.shortTermAccommodationEndDate,
+  accommodationFields.approvedPremisesEndDate,
+  accommodationFields.cas2EndDate,
+  accommodationFields.cas3EndDate,
+  accommodationFields.immigrationAccommodationEndDate,
+  accommodationFields.typeOfNoAccommodation,
+]
+
+const livingWithGroup: FormWizard.Field[] = [
+  accommodationFields.livingWith,
+  accommodationFields.livingWithDetailsGroup,
+].flat()
+
+const suitableLocationGroup: FormWizard.Field[] = [
+  accommodationFields.suitableHousingLocation,
+  accommodationFields.suitableHousingLocationConcerns,
+  accommodationFields.suitableHousingLocationConcernsDetails,
+]
+
+const suitableAccommodationGroup: FormWizard.Field[] = [
+  accommodationFields.suitableHousing,
+  accommodationFields.suitableHousingConcerns,
+  accommodationFields.suitableHousingConcernsDetails,
+  accommodationFields.unsuitableHousingConcerns,
+  accommodationFields.unsuitableHousingConcernsDetails,
+]
+
+const suitableHousingPlannedGroup: FormWizard.Field[] = [
+  accommodationFields.suitableHousingPlanned,
+  accommodationFields.futureAccommodationType,
+  accommodationFields.futureAccommodationTypeDetailsGroup,
+].flat()
+
+const noAccommodationGroup: FormWizard.Field[] = [
+  accommodationFields.noAccommodationReason,
+  accommodationFields.noAccommodationReasonDetails,
+  accommodationFields.pastAccommodationDetails,
+]
+
+const sectionConfig: SectionConfig = {
+  section,
+  steps: [
+    {
+      url: stepUrls.accommodation,
+      fields: [
+        accommodationTypeGroup,
+        accommodationFields.isUserSubmitted(stepUrls.accommodation),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: [
+        nextWhen(accommodationFields.currentAccommodation, 'SETTLED', stepUrls.settledAccommodation),
+        nextWhen(accommodationFields.currentAccommodation, 'TEMPORARY', [
+          nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'SHORT_TERM', stepUrls.temporaryAccommodation),
+          nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'IMMIGRATION', stepUrls.temporaryAccommodation),
+          stepUrls.temporaryAccommodation2,
+        ]),
+        nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
+      ],
+      navigationOrder: 1,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.settledAccommodation,
+      fields: [
+        livingWithGroup,
+        suitableLocationGroup,
+        suitableAccommodationGroup,
+        accommodationFields.wantToMakeChanges(),
+        accommodationFields.isUserSubmitted(stepUrls.settledAccommodation),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: stepUrls.analysis,
+      backLink: stepUrls.accommodation,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.temporaryAccommodation,
+      fields: [
+        livingWithGroup,
+        suitableLocationGroup,
+        suitableAccommodationGroup,
+        suitableHousingPlannedGroup,
+        accommodationFields.wantToMakeChanges(),
+        accommodationFields.isUserSubmitted(stepUrls.temporaryAccommodation),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: stepUrls.analysis,
+      backLink: stepUrls.accommodation,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.temporaryAccommodation2,
+      fields: [
+        suitableAccommodationGroup,
+        suitableHousingPlannedGroup,
+        accommodationFields.wantToMakeChanges(),
+        accommodationFields.isUserSubmitted(stepUrls.temporaryAccommodation2),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: stepUrls.analysis,
+      backLink: stepUrls.accommodation,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.noAccommodation,
+      fields: [
+        noAccommodationGroup,
+        suitableHousingPlannedGroup,
+        accommodationFields.wantToMakeChanges(),
+        accommodationFields.isUserSubmitted(stepUrls.noAccommodation),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: stepUrls.analysis,
+      backLink: stepUrls.accommodation,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      fields: [
+        accommodationFields.practitionerAnalysis(),
+        accommodationFields.isUserSubmitted(stepUrls.analysis),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
+      template: templates.analysisComplete,
+    },
+  ],
+}
+
+export default sectionConfig

@@ -5,7 +5,7 @@ declare module 'hmpo-form-wizard' {
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
   namespace FormWizard {
-    type ConditionFn = (isValidated: boolean, values: Record<string, string | Array<string>>) => boolean
+    type ConditionFn = (isValidated: boolean, values: Record<string, Answer>) => boolean
     type SectionProgressRule = { fieldCode: string; conditionFn: ConditionFn }
 
     type Formatter = { type: string; fn: (input: string) => string }
@@ -32,6 +32,8 @@ declare module 'hmpo-form-wizard' {
       }
     }
 
+    type ValidateFieldsCallback = (errors: FormWizard.Controller.Errors) => Promise
+
     class Controller {
       constructor(options: unknown)
 
@@ -43,7 +45,11 @@ declare module 'hmpo-form-wizard' {
 
       process(req: Request, res: express.Response, next: express.NextFunction): Promise
 
+      validateFields(req: Request, res: express.Response, callback: ValidateFieldsCallback): Promise
+
       validate(req: Request, res: express.Response, next: express.NextFunction): Promise
+
+      getErrors(req: Request, res: express.Response): Controller.Errors
 
       locals(req: Request, res: express.Response, next: express.NextFunction): Promise
 
@@ -59,7 +65,43 @@ declare module 'hmpo-form-wizard' {
     }
 
     namespace Controller {
-      export class Error {}
+      export interface ErrorOptions {
+        key?: string
+        errorGroup?: unknown
+        field?: unknown
+        type?: string
+        redirect?: unknown
+        message?: string
+        messageGroup?: Errors
+        headerMessage?: string
+        arguments?: string | string[]
+      }
+
+      export class Error {
+        key: string
+
+        errorGroup: unknown
+
+        field: unknown
+
+        type: string
+
+        redirect: unknown
+
+        url: string
+
+        message: string
+
+        messageGroup: Errors
+
+        headerMessage: string
+
+        args: Record<string, unknown>
+
+        constructor(key: string, options: ErrorOptions, req: Request)
+      }
+
+      export type Errors = Record<string, Error>
     }
 
     namespace Field {
@@ -67,6 +109,7 @@ declare module 'hmpo-form-wizard' {
         text: string
         value: string
         checked?: boolean
+        selected?: boolean
         conditional?: { html: string }
         hint?: { text: string } | { html: string }
         behaviour?: string
@@ -109,13 +152,22 @@ declare module 'hmpo-form-wizard' {
       id?: string
       hint?: Hint
       type: FieldType
+      hidden?: boolean
       multiple?: boolean
       options?: FormWizard.Field.Options
       formatter?: Formatter[]
       validate?: Validate[]
       dependent?: Dependent
       invalidates?: string[]
-      value?: string | string[]
+      value?: FormWizard.An
+      collection?: {
+        fields: FormWizard.Field[]
+        subject: string
+        createUrl: string
+        updateUrl: string
+        deleteUrl: string
+        summaryUrl: string
+      }
       labelClasses?: string
       formGroupClasses?: string
       characterCountMax?: number
@@ -131,7 +183,7 @@ declare module 'hmpo-form-wizard' {
     }
 
     namespace Step {
-      type NextStepCondition = (req: Request, res: Response) => boolean
+      type NextStepCondition = (req: Request, res: express.Response, next: express.NextFunction) => boolean
       type Op = (fieldValue, req, res, con) => boolean
       type FieldValueCondition = { field: string; op?: string | Op; value: string | string[]; next: NextStep }
       type CallbackCondition = { fn: NextStepCondition; next: string }
@@ -139,35 +191,34 @@ declare module 'hmpo-form-wizard' {
       type NextStep = FieldValueCondition | CallbackCondition | string | NextStep[]
     }
 
-    interface Step {
-      pageTitle: string
+    type SecondaryAction = { text: string; url: string }
+
+    interface BaseStep {
       pageSubHeading?: string
       reset?: boolean
       entryPoint?: boolean
       template?: string
       next?: FormWizard.Step.NextStep
-      fields?: string[]
       controller?: typeof FormWizard.Controller
       navigationOrder?: number
       backLink?: string
-      section: string
       sectionProgressRules?: Array<SectionProgressRule>
       noPost?: boolean
       locals?: Record<string, boolean | string>
+      secondaryActions?: SecondaryAction[]
+      autosave?: boolean
     }
 
-    interface RenderedStep {
+    interface Step extends BaseStep {
       pageTitle: string
-      reset?: boolean
-      entryPoint?: boolean
-      template?: string
-      next?: FormWizard.Step.NextStep
-      fields?: Fields
-      controller?: typeof FormWizard.Controller
-      navigationOrder?: number
-      backLink?: string
       section: string
-      sectionProgressRules?: Array<SectionProgressRule>
+      fields?: string[]
+    }
+
+    interface RenderedStep extends BaseStep {
+      pageTitle: string
+      section: string
+      fields?: Fields
     }
 
     interface Steps {
@@ -178,9 +229,13 @@ declare module 'hmpo-form-wizard' {
       [key: string]: RenderedStep
     }
 
-    interface Answers {
-      [key: string]: string | string[]
-    }
+    type CollectionEntry = Record<string, string | string[]>
+
+    type SimpleAnswer = string | string[]
+
+    type Answer = SimpleAnswer | CollectionEntry[]
+
+    type Answers = Record<string, Answer>
   }
 
   export default FormWizard

@@ -1,23 +1,14 @@
 import FormWizard from 'hmpo-form-wizard'
-import {
-  getMediumLabelClassFor,
-  toFormWizardFields,
-  yesNoOptions,
-  validatePastDate,
-  orDivider,
-  visuallyHidden,
-} from './common'
-import { detailsCharacterLimit } from './common/detailsField'
-import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
+import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
+import { dependentOn, yesNoOptions } from './common/utils'
 
-const endDateSummaryDisplay = (value: string) => `\n${formatDateForDisplay(value) || 'Not provided'}`
 const offenceAnalysisDetailsCharacterLimit4k = 4000
-const offenceAnalysisDetailsCharacterLimit1k = 1000
 
-export const offenceAnalysisFields: Array<FormWizard.Field> = [
-  {
-    text: 'Enter a brief description of the offence',
+class OffenceAnalysisFieldsFactory extends FieldsFactory {
+  offenceAnalysisDescriptionOfOffence: FormWizard.Field = {
+    text: 'Enter a brief description of the current index offence(s)',
     code: 'offence_analysis_description_of_offence',
     type: FieldType.TextArea,
     validate: [
@@ -29,24 +20,11 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       },
     ],
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-  },
-  {
-    text: 'When did the offence happen?',
-    code: 'offence_analysis_date',
-    type: FieldType.Date,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter the date of the offence' },
-      { fn: validatePastDate, message: 'The date of the offence must be in the past' },
-    ],
-    summary: {
-      displayFn: endDateSummaryDisplay,
-      displayAlways: true,
-    },
-    labelClasses: getMediumLabelClassFor(FieldType.Date),
-  },
-  {
-    text: 'Did the offence have any of the following elements?',
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  }
+
+  offenceAnalysisElements: FormWizard.Field = {
+    text: 'Did the current index offence(s) have any of the following elements?',
     code: 'offence_analysis_elements',
     hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
@@ -54,18 +32,33 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select if the offence had any of the elements, or select ‘Not applicable’',
+        message: 'Select if the offence(s) had any of the elements',
       },
     ],
     options: [
+      {
+        text: 'Arson',
+        value: 'ARSON',
+        kind: 'option',
+      },
+      {
+        text: 'Domestic abuse',
+        value: 'DOMESTIC_ABUSE',
+        kind: 'option',
+      },
       {
         text: 'Excessive violence or sadistic violence',
         value: 'EXCESSIVE_OR_SADISTIC_VIOLENCE',
         kind: 'option',
       },
       {
-        text: 'Domestic abuse',
-        value: 'DOMESTIC_ABUSE',
+        text: 'Hatred of identifiable groups',
+        value: 'HATRED_OF_IDENTIFIABLE_GROUPS',
+        kind: 'option',
+      },
+      {
+        text: 'Physical damage to property',
+        value: 'PHYSICAL_DAMAGE_TO_PROPERTY',
         kind: 'option',
       },
       {
@@ -79,11 +72,15 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       {
-        text: 'Violence or threat of violence or coercion',
+        text: 'Violence, or threat of violence or coercion',
         value: 'VIOLENCE_OR_COERCION',
         kind: 'option',
       },
-      orDivider,
+      {
+        text: 'Weapon',
+        value: 'WEAPON',
+        kind: 'option',
+      },
       {
         text: 'None',
         value: 'NONE',
@@ -91,93 +88,74 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_targeted_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'offence_analysis_elements',
-      value: 'VICTIM_TARGETED',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Why did the offence happen?',
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  victimTargetedDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.offenceAnalysisElements,
+    dependentValue: 'VICTIM_TARGETED',
+    required: true,
+  })
+
+  offenceAnalysisReason: FormWizard.Field = {
+    text: 'Why did the current index offence(s) happen?',
     code: 'offence_analysis_reason',
-    hint: { text: 'Consider any motivation and triggers.', kind: 'text' },
     type: FieldType.TextArea,
     validate: [
-      {
-        type: ValidationType.Required,
-        message: `Enter details`,
-      },
+      { type: ValidationType.Required, message: `Enter details` },
       {
         type: ValidationType.MaxLength,
         arguments: [offenceAnalysisDetailsCharacterLimit4k],
         message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
     characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-  },
-  {
-    text: 'What was [subject] trying to gain from the offence?',
-    code: 'offence_analysis_gain',
+  }
+
+  offenceAnalysisMotivation: FormWizard.Field = {
+    text: 'Did the current index offence(s) involve any of the following motivations?',
+    code: 'offence_analysis_motivations',
     type: FieldType.CheckBox,
     hint: { text: 'Select all that apply.', kind: 'text' },
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select what they were trying to gain from the offence' }],
+    validate: [
+      { type: ValidationType.Required, message: 'Select if the offence(s) involved any of the following motivations' },
+    ],
     options: [
       {
-        text: 'Exerting power',
-        value: 'EXERTING_POWER',
+        text: 'Addictions or perceived needs',
+        value: 'ADDICTIONS_OR_PERCEIVED_NEEDS',
         kind: 'option',
       },
       {
-        text: 'Fulfilling specific sexual desires',
-        value: 'SEXUAL_DESIRES',
+        text: 'Being pressurised or led into offending by others',
+        value: 'PRESSURISED_BY_OTHERS',
         kind: 'option',
       },
       {
-        text: 'Impressing friends/associates',
-        value: 'IMPRESSING_PEOPLE',
+        text: 'Financial motivation',
+        value: 'FINANCIAL_MOTIVATION',
         kind: 'option',
       },
       {
-        text: 'Individual was in a highly emotional state that clouded judgement',
-        value: 'EMOTIONS_CLOUDED_JUDGEMENT',
+        text: 'Hatred of identifiable groups',
+        value: 'HATRED_OF_IDENTIFIABLE_GROUPS',
         kind: 'option',
       },
       {
-        text: 'Meeting basic financial needs',
-        value: 'BASIC_FINANCIAL_NEEDS',
+        text: 'Seeking or exerting power',
+        value: 'SEEKING_OR_EXERTING_POWER',
         kind: 'option',
       },
       {
-        text: 'Supporting drug use',
-        value: 'SUPPORTING_DRUG_USE',
+        text: 'Sexual motivation',
+        value: 'SEXUAL_MOTIVATION',
         kind: 'option',
       },
       {
-        text: 'Supporting lifestyle beyond basic needs',
-        value: 'SUPPORTING_LIFESTYLE',
-        kind: 'option',
-      },
-      {
-        text: 'The individual was pressurised or led into offending by others',
-        value: 'PRESSURISED',
+        text: 'Thrill seeking',
+        value: 'THRILL_SEEKING',
         kind: 'option',
       },
       {
@@ -186,47 +164,354 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'other_offence_gain_details',
-    type: FieldType.TextArea,
-    validate: [
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  otherOffenceMotivationDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.offenceAnalysisMotivation,
+    dependentValue: 'OTHER',
+    required: true,
+  })
+
+  offenceAnalysisWhoWasTheVictim: FormWizard.Field = {
+    text: 'Who was the victim?',
+    code: 'offence_analysis_who_was_the_victim',
+    hint: { text: 'Select all that apply.', kind: 'text' },
+    type: FieldType.CheckBox,
+    multiple: true,
+    validate: [{ type: ValidationType.Required, message: 'Select who the victim was' }],
+    options: [
       {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        text: 'One or more person',
+        value: 'ONE_OR_MORE_PERSON',
+        kind: 'option',
+      },
+      {
+        text: 'Other',
+        value: 'OTHER',
+        kind: 'option',
+        hint: { text: 'For example, the wider community.' },
       },
     ],
-    dependent: {
-      field: 'offence_analysis_gain',
-      value: 'OTHER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Enter all victim details',
-    code: 'offence_analysis_victim_details',
-    hint: { text: 'Include things like age, sex, relationship to [subject] and impact.', kind: 'text' },
-    type: FieldType.TextArea,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  offenceAnalysisOtherVictimDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.offenceAnalysisWhoWasTheVictim,
+    dependentValue: 'OTHER',
+    required: true,
+  })
+
+  offenceAnalysisVictimRelationship: FormWizard.Field = {
+    text: `What is [subject]'s relationship to the victim?`,
+    code: `offence_analysis_victim_relationship`,
+    type: FieldType.Radio,
     validate: [
       {
         type: ValidationType.Required,
-        message: `Enter details`,
-      },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit1k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit1k} characters or less`,
+        message: 'Select relationship to the victim',
       },
     ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit1k,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-  },
-  {
+    options: [
+      {
+        text: 'A stranger',
+        value: 'STRANGER',
+        kind: 'option',
+      },
+      {
+        text: 'Criminal justice staff',
+        value: 'CRIMINAL_JUSTICE_STAFF',
+        kind: 'option',
+      },
+      {
+        text: `Victim's child`,
+        value: 'CHILD',
+        kind: 'option',
+      },
+      {
+        text: `Victim's partner`,
+        value: 'PARTNER',
+        kind: 'option',
+      },
+      {
+        text: `Victim's ex-partner`,
+        value: 'EX_PARTNER',
+        kind: 'option',
+      },
+      {
+        text: `Victim's parent or step-parent`,
+        value: 'PARENT_OR_STEP_PARENT',
+        kind: 'option',
+      },
+      {
+        text: 'Other family member',
+        value: 'OTHER_FAMILY_MEMBER',
+        kind: 'option',
+      },
+      {
+        text: 'Other',
+        value: 'OTHER',
+        kind: 'option',
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisVictimRelationshipOtherDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.offenceAnalysisVictimRelationship,
+    dependentValue: 'OTHER',
+  })
+
+  offenceAnalysisVictimAge: FormWizard.Field = {
+    text: `What is the victim's approximate age?`,
+    code: `offence_analysis_victim_age`,
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select approximate age',
+      },
+    ],
+    options: [
+      {
+        text: '0 to 4 years',
+        value: 'AGE_0_TO_4_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '5 to 11 years',
+        value: 'AGE_5_TO_11_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '12 to 15 years',
+        value: 'AGE_12_TO_15_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '16 to 17 years',
+        value: 'AGE_16_TO_17_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '18 to 20 years',
+        value: 'AGE_18_TO_20_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '21 to 25 years',
+        value: 'AGE_21_TO_25_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '26 to 49 years',
+        value: 'AGE_26_TO_49_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '50 to 64 years',
+        value: 'AGE_50_TO_64_YEARS',
+        kind: 'option',
+      },
+      {
+        text: '65 years and over',
+        value: 'AGE_65_AND_OVER',
+        kind: 'option',
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisVictimSex: FormWizard.Field = {
+    text: `What is the victim's sex?`,
+    code: `offence_analysis_victim_sex`,
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select sex',
+      },
+    ],
+    options: [
+      {
+        text: 'Male',
+        value: 'MALE',
+        kind: 'option',
+      },
+      {
+        text: 'Female',
+        value: 'FEMALE',
+        kind: 'option',
+      },
+      {
+        text: 'Intersex',
+        value: 'INTERSEX',
+        kind: 'option',
+      },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
+        kind: 'option',
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisVictimRace: FormWizard.Field = {
+    text: `What is the victim's race or ethnicity?`,
+    code: `offence_analysis_victim_race`,
+    type: FieldType.AutoComplete,
+    hint: { text: 'Type in a race or ethnicity and a list of options will appear.', kind: 'text' },
+    validate: [{ type: ValidationType.Required, message: 'Select race or ethnicity' }],
+    options: [
+      { text: '', value: '', kind: 'option' },
+      {
+        text: 'White - English, Welsh, Scottish, Northern Irish or British',
+        value: 'WHITE_ENGLISH_WELSH_SCOTTISH_NORTHERN_IRISH_OR_BRITISH',
+        kind: 'option',
+      },
+      { text: 'White - Irish', value: 'WHITE_IRISH', kind: 'option' },
+      { text: 'White - Gypsy or Irish Traveller', value: 'WHITE_GYPSY_OR_IRISH_TRAVELLER', kind: 'option' },
+      { text: 'White - Any other White background', value: 'WHITE_ANY_OTHER_WHITE_BACKGROUND', kind: 'option' },
+      { text: 'Mixed - White and Black Caribbean', value: 'MIXED_WHITE_AND_BLACK_CARIBBEAN', kind: 'option' },
+      { text: 'Mixed - White and Black African', value: 'MIXED_WHITE_AND_BLACK_AFRICAN', kind: 'option' },
+      { text: 'Mixed - White and Asian', value: 'MIXED_WHITE_AND_ASIAN', kind: 'option' },
+      {
+        text: 'Mixed - Any other mixed or multiple ethnic background background',
+        value: 'MIXED_ANY_OTHER_MIXED_OR_MULTIPLE_ETHNIC_BACKGROUND_BACKGROUND',
+        kind: 'option',
+      },
+      { text: 'Asian or Asian British - Indian', value: 'ASIAN_OR_ASIAN_BRITISH_INDIAN', kind: 'option' },
+      { text: 'Asian or Asian British - Pakistani', value: 'ASIAN_OR_ASIAN_BRITISH_PAKISTANI', kind: 'option' },
+      { text: 'Asian or Asian British - Bangladeshi', value: 'ASIAN_OR_ASIAN_BRITISH_BANGLADESHI', kind: 'option' },
+      { text: 'Asian or Asian British - Chinese', value: 'ASIAN_OR_ASIAN_BRITISH_CHINESE', kind: 'option' },
+      {
+        text: 'Asian or Asian British - Any other Asian background',
+        value: 'ASIAN_OR_ASIAN_BRITISH_ANY_OTHER_ASIAN_BACKGROUND',
+        kind: 'option',
+      },
+      { text: 'Black or Black British - Caribbean', value: 'BLACK_OR_BLACK_BRITISH_CARIBBEAN', kind: 'option' },
+      { text: 'Black or Black British - African', value: 'BLACK_OR_BLACK_BRITISH_AFRICAN', kind: 'option' },
+      {
+        text: 'Black or Black British - Any other Black background',
+        value: 'BLACK_OR_BLACK_BRITISH_ANY_OTHER_BLACK_BACKGROUND',
+        kind: 'option',
+      },
+      { text: 'Arab', value: 'ARAB', kind: 'option' },
+      { text: 'Any other ethnic group', value: 'ANY_OTHER_ETHNIC_GROUP', kind: 'option' },
+      { text: 'Not stated', value: 'NOT_STATED', kind: 'option' },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.AutoComplete),
+  }
+
+  offenceAnalysisVictimsCollection: FormWizard.Field = {
+    text: 'Victims',
+    code: 'offence_analysis_victims_collection',
+    type: FieldType.Collection,
+    collection: {
+      fields: [
+        this.offenceAnalysisVictimRelationship,
+        this.offenceAnalysisVictimRelationshipOtherDetails,
+        this.offenceAnalysisVictimAge,
+        this.offenceAnalysisVictimSex,
+        this.offenceAnalysisVictimRace,
+      ],
+      subject: 'victim',
+      createUrl: 'offence-analysis-victim/create',
+      updateUrl: 'offence-analysis-victim/edit',
+      deleteUrl: 'offence-analysis-victim/delete',
+      summaryUrl: 'offence-analysis-victims-summary',
+    },
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Collection),
+    summary: { displayAlways: true },
+  }
+
+  offenceAnalysisHowManyInvolved: FormWizard.Field = {
+    text: `How many other people were involved with committing the current index offence(s)?`,
+    code: `offence_analysis_how_many_involved`,
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select how many other people were involved in the offence',
+      },
+    ],
+    options: [
+      {
+        text: 'There was no one else involved',
+        value: 'NONE',
+        kind: 'option',
+      },
+      {
+        text: '1',
+        value: 'ONE',
+        kind: 'option',
+      },
+      {
+        text: '2',
+        value: 'TWO',
+        kind: 'option',
+      },
+      {
+        text: '3',
+        value: 'THREE',
+        kind: 'option',
+      },
+      {
+        text: '4',
+        value: 'FOUR',
+        kind: 'option',
+      },
+      {
+        text: '5',
+        value: 'FIVE',
+        kind: 'option',
+      },
+      {
+        text: '6 to 10',
+        value: 'SIX_TO_10',
+        kind: 'option',
+      },
+      {
+        text: '11 to 15',
+        value: 'ELEVEN_TO_15',
+        kind: 'option',
+      },
+      {
+        text: 'More than 15',
+        value: 'MORE_THAN_15',
+        kind: 'option',
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisLeader: FormWizard.Field = {
+    text: 'Was [subject] the leader in regard to committing the current index offence(s)?',
+    code: 'offence_analysis_leader',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they were the leader',
+      },
+    ],
+    options: yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisLeaderYesDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.offenceAnalysisLeader,
+    dependentValue: 'YES',
+    required: true,
+  })
+
+  offenceAnalysisLeaderNoDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.offenceAnalysisLeader,
+    dependentValue: 'NO',
+  })
+
+  offenceAnalysisImpactOnVictims: FormWizard.Field = {
     text: 'Does [subject] recognise the impact or consequences on the victims or others and the wider community?',
     code: 'offence_analysis_impact_on_victims',
     type: FieldType.Radio,
@@ -236,60 +521,76 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         message: 'Select if they recognise the impact on the victim or consequences for others and the wider community',
       },
     ],
+    options: yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisImpactOnVictimsDetails: FormWizard.Field[] = this.offenceAnalysisImpactOnVictims.options.map(
+    FieldsFactory.detailsFieldWith({
+      parentField: this.offenceAnalysisImpactOnVictims,
+    }),
+  )
+
+  offenceAnalysisAcceptResponsibility: FormWizard.Field = {
+    text: 'Does [subject] accept responsibility for the current index offence(s)?',
+    code: 'offence_analysis_accept_responsibility',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: 'Select if they accept responsibility for the current offence(s)',
+      },
+    ],
+    options: yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisAcceptResponsibilityDetails: FormWizard.Field[] = this.offenceAnalysisAcceptResponsibility.options.map(
+    FieldsFactory.detailsFieldWith({
+      parentField: this.offenceAnalysisAcceptResponsibility,
+    }),
+  )
+
+  offenceAnalysisPatternsOfOffending: FormWizard.Field = {
+    text: 'What are the patterns of offending?',
+    code: 'offence_analysis_patterns_of_offending',
+    hint: {
+      text: 'Analyse whether the current index offence(s) are part of a wider pattern of offending and identify any established or emerging themes. It is not necessary to list all previous convictions here.',
+      kind: 'text',
+    },
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+      },
+    ],
+    characterCountMax: FieldsFactory.detailsCharacterLimit,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  }
+
+  offenceAnalysisEscalation: FormWizard.Field = {
+    text: 'Is the current offence(s) an escalation in seriousness from previous offending?',
+    code: 'offence_analysis_escalation',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: `Select if the current offence(s) are an escalation in seriousness from previous offending`,
+      },
+    ],
     options: [
-      {
-        text: 'Yes',
-        value: 'YES',
-        kind: 'option',
-      },
-      {
-        text: 'No',
-        value: 'NO',
-        kind: 'option',
-      },
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'yes_impact_on_victims_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'offence_analysis_impact_on_victims',
-      value: 'YES',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details (optional)',
-    hint: { text: 'Give details (optional)', kind: 'text' },
-    code: 'no_impact_on_victims_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'offence_analysis_impact_on_victims',
-      value: 'NO',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Is the offence linked to risk of serious harm, risks to the individual or other risks?',
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisRisk: FormWizard.Field = {
+    text: 'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
     code: 'offence_analysis_risk',
     type: FieldType.Radio,
     validate: [
@@ -298,79 +599,19 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         message: 'Select if the offence is linked to risk of serious harm, risks to the individual or other risks',
       },
     ],
-    options: [
-      {
-        text: 'Yes',
-        value: 'YES',
-        kind: 'option',
-      },
-      {
-        text: 'No',
-        value: 'NO',
-        kind: 'option',
-      },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'yes_offence_risk_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
-      },
-    ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-    dependent: {
-      field: 'offence_analysis_risk',
-      value: 'YES',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'no_offence_risk_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
-      },
-    ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
-    dependent: {
-      field: 'offence_analysis_risk',
-      value: 'NO',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'What are the patterns of offending?',
-    code: 'offence_analysis_patterns_of_offending',
-    hint: { text: 'Analyse previous convictions and offending behaviour.', kind: 'text' },
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit1k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit1k} characters or less`,
-      },
-    ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit1k,
-    labelClasses: getMediumLabelClassFor(FieldType.TextArea),
-  },
-  {
+    options: yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisRiskDetails: FormWizard.Field[] = this.offenceAnalysisRisk.options.map(
+    FieldsFactory.detailsFieldWith({
+      parentField: this.offenceAnalysisRisk,
+      maxChars: offenceAnalysisDetailsCharacterLimit4k,
+      required: true,
+    }),
+  )
+
+  offenceAnalysisPerpetratorOfDomesticAbuse: FormWizard.Field = {
     text: 'Is there evidence that [subject] has ever been a perpetrator of domestic abuse?',
     code: 'offence_analysis_perpetrator_of_domestic_abuse',
     type: FieldType.Radio,
@@ -380,15 +621,13 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         message: 'Select if there is any evidence that they have ever been perpetrator of domestic abuse',
       },
     ],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+    options: yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisPerpetratorOfDomesticAbuseType: FormWizard.Field = {
     text: 'Who was this committed against?',
-    code: 'domestic_abuse_perpetrator_type',
+    code: 'offence_analysis_perpetrator_of_domestic_abuse_type',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select an option' }],
     options: [
@@ -396,73 +635,18 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
       { text: 'Family member and intimate partner', value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER', kind: 'option' },
     ],
-    dependent: {
-      field: 'offence_analysis_perpetrator_of_domestic_abuse',
-      value: 'YES',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'perpetrator_family_member_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_perpetrator_type',
-      value: 'FAMILY_MEMBER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'perpetrator_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_perpetrator_type',
-      value: 'INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'perpetrator_family_and_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_perpetrator_type',
-      value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
+    dependent: dependentOn(this.offenceAnalysisPerpetratorOfDomesticAbuse, 'YES'),
+  }
+
+  offenceAnalysisPerpetratorOfDomesticAbuseTypeDetails: FormWizard.Field[] =
+    this.offenceAnalysisPerpetratorOfDomesticAbuseType.options.map(
+      FieldsFactory.detailsFieldWith({
+        parentField: this.offenceAnalysisPerpetratorOfDomesticAbuseType,
+        required: true,
+      }),
+    )
+
+  offenceAnalysisVictimOfDomesticAbuse: FormWizard.Field = {
     text: 'Is there evidence that [subject] has ever been a victim of domestic abuse?',
     code: 'offence_analysis_victim_of_domestic_abuse',
     type: FieldType.Radio,
@@ -472,15 +656,13 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
         message: 'Select if there is evidence that they have ever been victim of domestic abuse',
       },
     ],
-    options: [
-      { text: 'Yes', value: 'YES', kind: 'option' },
-      { text: 'No', value: 'NO', kind: 'option' },
-    ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+    options: yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  offenceAnalysisVictimOfDomesticAbuseType: FormWizard.Field = {
     text: 'Who was this committed by?',
-    code: 'domestic_abuse_victim_type',
+    code: 'offence_analysis_victim_of_domestic_abuse_type',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select an option' }],
     options: [
@@ -488,84 +670,16 @@ export const offenceAnalysisFields: Array<FormWizard.Field> = [
       { text: 'Intimate partner', value: 'INTIMATE_PARTNER', kind: 'option' },
       { text: 'Family member and intimate partner', value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER', kind: 'option' },
     ],
-    dependent: {
-      field: 'offence_analysis_victim_of_domestic_abuse',
-      value: 'YES',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_family_member_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'FAMILY_MEMBER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
-    text: 'Give details',
-    hint: { text: 'Give details', kind: 'text' },
-    code: 'victim_family_and_intimate_partner_domestic_abuse_details',
-    type: FieldType.TextArea,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter details' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'domestic_abuse_victim_type',
-      value: 'FAMILY_MEMBER_AND_INTIMATE_PARTNER',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-]
+    dependent: dependentOn(this.offenceAnalysisVictimOfDomesticAbuse, 'YES'),
+  }
 
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the offence analysis section complete?',
-  code: 'offence_analysis_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
+  offenceAnalysisVictimOfDomesticAbuseTypeDetails: FormWizard.Field[] =
+    this.offenceAnalysisVictimOfDomesticAbuseType.options.map(
+      FieldsFactory.detailsFieldWith({
+        parentField: this.offenceAnalysisVictimOfDomesticAbuseType,
+        required: true,
+      }),
+    )
 }
 
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export default [sectionCompleteFields, questionSectionComplete, offenceAnalysisFields]
-  .flat()
-  .reduce(toFormWizardFields, {})
+export default new OffenceAnalysisFieldsFactory(sections.offenceAnalysis)

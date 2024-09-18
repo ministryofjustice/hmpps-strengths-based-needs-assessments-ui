@@ -118,6 +118,28 @@
       hint: question.hint
     }) }}
 
+  {% case 'AUTOCOMPLETE' %}
+    <div class="form-group">
+      {{ govukSelect({
+        id: question.id,
+        name: question.id,
+        classes: question.classes | default(""),
+        label: {
+          text: question.text,
+          classes: question.id + " " + (question.labelClasses | default(""))
+        },
+        formGroup: {
+          classes: "form-group " + (question.formGroupClasses | default(""))
+        },
+        attributes: { 'data-accessible-autocomplete': 'true' },
+        items: question.options,
+        value: question.value,
+        errorMessage: errorMessage,
+        isConditional: question.isConditional,
+        hint: question.hint
+      }) }}
+    </div>
+
   {% case 'DATE' %}
     {% set dateAnswer = question.value %}
     {% if dateAnswer.length > 0 %}

@@ -180,8 +180,8 @@ export const hasCheckboxes = (subject: JQuery, options: string[]) => {
 }
 
 export const enterText = (subject: JQuery, value: string) => {
-  cy.wrap(subject).children('textarea, input[type="text"]').clear()
-  if (value !== '') cy.wrap(subject).children('textarea, input[type="text"]').type(value)
+  cy.wrap(subject).find('textarea, input[type="text"]').first().clear()
+  if (value !== '') cy.wrap(subject).find('textarea, input[type="text"]').first().type(value)
   return cy.wrap(subject)
 }
 
@@ -208,7 +208,8 @@ export const enterDate = (subject: JQuery, date: string) => {
 
 export const hasText = (subject: JQuery, value: string) => {
   cy.wrap(subject)
-    .children('textarea, input[type="text"]')
+    .find('textarea, input[type="text"]')
+    .first()
     .invoke('val')
     .then(actualValue => {
       expect(actualValue).to.equal(value)

@@ -1,8 +1,10 @@
 import FormWizard from 'hmpo-form-wizard'
-import { validate } from 'hmpo-form-wizard/lib/validation'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { formatDateForDisplay } from '../../server/utils/nunjucks.utils'
-import { whereSelectable } from './field.utils'
+import { dependencyMet, whereSelectable } from './field.utils'
+import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
+import sections from '../form/v1_0/config/sections'
+import { validateField } from './validation'
 
 export interface Field {
   field: FormWizard.Field
@@ -23,6 +25,8 @@ export class FieldDependencyTreeBuilder {
   private readonly options: FormWizard.FormOptions
 
   private readonly answers: FormWizard.Answers
+
+  private answersOverride: FormWizard.Answers = null
 
   private stepFieldsFilterFn: StepFieldsFilterFn = () => true
 
@@ -69,8 +73,7 @@ export class FieldDependencyTreeBuilder {
     }
 
     if (hasProperty(next, 'fn')) {
-      const con = next as FormWizard.Step.CallbackCondition
-      throw new Error(`unable to resolve ${con.next} - callbacks are not supported yet`)
+      return undefined
     }
 
     if (Array.isArray(next)) {
@@ -89,11 +92,39 @@ export class FieldDependencyTreeBuilder {
         this.addNestedField(field, fields, stepPath)
         return fields
       }
+
+      if (field.collection) {
+        const entries = ((this.answers[field.code] || []) as FormWizard.CollectionEntry[]).map((e, i) => {
+          this.answersOverride = e
+
+          const entryFields = Object.keys(e)
+            .map(it => this.options.allFields[it])
+            .reduce(this.toStepFields(`${field.collection.updateUrl}/${i}`), [])
+
+          delete this.answersOverride
+
+          return {
+            text: field.text,
+            value: '',
+            nestedFields: entryFields,
+          } as FieldAnswer
+        })
+
+        return [
+          ...fields,
+          {
+            field,
+            changeLink: `${stepPath}#${field.id || field.code}`,
+            answers: entries,
+          },
+        ]
+      }
+
       return [
         ...fields,
         {
           field,
-          changeLink: `${stepPath}#${field.id}`,
+          changeLink: `${stepPath}#${field.id || field.code}`,
           answers: this.getFieldAnswers(field),
         },
       ]
@@ -127,12 +158,15 @@ export class FieldDependencyTreeBuilder {
     Gets the formatted answer(s) for a given field
    */
   protected getFieldAnswers(field: FormWizard.Field): FieldAnswer[] {
+    const answers = this.answersOverride || this.answers
+
     switch (field.type) {
       case FieldType.Radio:
       case FieldType.Dropdown:
       case FieldType.CheckBox:
+      case FieldType.AutoComplete:
         return field.options
-          .filter(o => whereSelectable(o) && this.getAnswers(field.code)?.includes(o.value))
+          .filter(o => whereSelectable(o) && this.getAnswers(field.code, answers)?.includes(o.value))
           .map(o => {
             return {
               text: whereSelectable(o) ? o.summary?.displayFn(o.text, o.value) || o.text : '',
@@ -144,17 +178,17 @@ export class FieldDependencyTreeBuilder {
         return [
           {
             text: field.summary?.displayFn
-              ? field.summary?.displayFn(this.answers[field.code] as string)
-              : formatDateForDisplay(this.answers[field.code] as string) || '',
-            value: formatDateForDisplay(this.answers[field.code] as string) || '',
+              ? field.summary?.displayFn(answers[field.code] as string)
+              : formatDateForDisplay(answers[field.code] as string) || '',
+            value: formatDateForDisplay(answers[field.code] as string) || '',
             nestedFields: [],
           },
         ]
       default:
         return [
           {
-            text: (this.answers[field.code] as string) || '',
-            value: (this.answers[field.code] as string) || '',
+            text: (answers[field.code] as string) || '',
+            value: (answers[field.code] as string) || '',
             nestedFields: [],
           },
         ]
@@ -164,16 +198,19 @@ export class FieldDependencyTreeBuilder {
   /*
     Gets the raw value answer(s) for a given field code
    */
-  getAnswers(field: string): string[] | null {
-    const answers = this.answers[field]
-    switch (typeof answers) {
-      case 'string':
-        return answers === '' ? null : [answers]
-      case 'object':
-        return answers.length === 0 ? null : answers
-      default:
-        return null
+  getAnswers(field: string, answersOverride: FormWizard.Answers = null): string[] | null {
+    const answers = answersOverride || this.answers
+    const fieldAnswer = answers[field]
+
+    if (typeof fieldAnswer === 'string') {
+      return fieldAnswer === '' ? null : [fieldAnswer]
     }
+
+    if (!Array.isArray(fieldAnswer) || fieldAnswer.length === 0) {
+      return null
+    }
+
+    return typeof fieldAnswer[0] === 'string' ? (fieldAnswer as string[]) : null
   }
 
   protected getInitialStep() {
@@ -184,44 +221,45 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getNextPageToComplete(): { url: string; sectionHasErrors: boolean } {
+  getNextPageToComplete(): { url: string; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
 
-    const dependencyMet = (field: FormWizard.Field) => {
-      if (!field.dependent) {
-        return true
-      }
+    let isSectionComplete = true
 
-      const answer = this.answers[field.dependent.field]
+    const steps = this.getSteps(initialStep, initialStepPath)
 
-      return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
-    }
-
-    let sectionHasErrors = false
-
-    for (const [stepUrl, step] of this.getSteps(initialStep, initialStepPath)) {
+    for (const [stepUrl, step] of steps) {
       nextStep = stepUrl
-      const errors = Object.values(step.fields)
-        .filter(dependencyMet)
-        .filter(field => validate(step.fields, field.code, this.answers[field.code], { values: this.answers }))
-      if (errors.length > 0) {
-        sectionHasErrors = true
+      const hasErrors = Object.values(step.fields)
+        .filter(it => dependencyMet(it, this.answers))
+        .some(field => {
+          const err = validateField(step.fields, field.id || field.code, this.answers[field.code], {
+            values: this.answers,
+          })
+          return err !== null
+        })
+      const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
+      if (hasErrors || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
+        isSectionComplete = false
         break
       }
     }
 
-    if (!sectionHasErrors && this.answers[`${this.options.section}_section_complete`] === 'NO') {
+    if (steps.length === 1) {
       return {
-        url: `${this.options.section.replace('_', '-')}-analysis`,
-        sectionHasErrors,
+        url: nextStep,
+        isSectionComplete,
       }
     }
 
+    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
+    const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
+
     return {
-      url: nextStep,
-      sectionHasErrors,
+      url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
+      isSectionComplete,
     }
   }
 

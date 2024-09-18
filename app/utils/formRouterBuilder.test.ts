@@ -93,18 +93,41 @@ describe('common/utils/formRouterBuilder', () => {
         navigationOrder: 2,
       },
       '/bar/2': {
-        pageTitle: 'Bar sub-step',
+        pageTitle: 'Bar summary',
         section: 'bar',
       },
     }
 
     it('returns an array of navigation items from step config', () => {
-      const result = createNavigation(steps, 'bar')
+      const userInEditMode = createNavigation('/form/1/0', steps, 'bar', true)
 
-      expect(result).toEqual([
-        { active: false, label: steps['/foo']?.pageTitle, section: steps['/foo']?.section, url: 'foo' },
-        { active: true, label: steps['/bar']?.pageTitle, section: steps['/bar']?.section, url: 'bar' },
-        { active: false, label: steps['/baz']?.pageTitle, section: steps['/baz']?.section, url: 'baz' },
+      expect(userInEditMode).toEqual([
+        {
+          active: false,
+          label: steps['/foo']?.pageTitle,
+          section: steps['/foo']?.section,
+          url: '/form/1/0/foo?action=resume',
+        },
+        {
+          active: true,
+          label: steps['/bar']?.pageTitle,
+          section: steps['/bar']?.section,
+          url: '/form/1/0/bar?action=resume',
+        },
+        {
+          active: false,
+          label: steps['/baz']?.pageTitle,
+          section: steps['/baz']?.section,
+          url: '/form/1/0/baz?action=resume',
+        },
+      ])
+
+      const userInReadOnlyMode = createNavigation('/form/1/0', steps, 'bar', false)
+
+      expect(userInReadOnlyMode).toEqual([
+        { active: false, label: steps['/foo']?.pageTitle, section: steps['/foo']?.section, url: '/form/1/0/foo' },
+        { active: true, label: steps['/bar']?.pageTitle, section: steps['/bar']?.section, url: '/form/1/0/bar/2' },
+        { active: false, label: steps['/baz']?.pageTitle, section: steps['/baz']?.section, url: '/form/1/0/baz' },
       ])
     })
   })

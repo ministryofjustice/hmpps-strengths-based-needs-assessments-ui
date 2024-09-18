@@ -1,13 +1,11 @@
-import FormWizard from 'hmpo-form-wizard'
 import {
   fieldCodeWith,
   validateFutureDate,
-  toFormWizardFields,
   requiredWhenValidator,
   getMediumLabelClassFor,
   getSmallLabelClassFor,
-} from './common'
-import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
+} from './utils'
+import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 describe('fields/common', () => {
   describe('fieldCodeWith', () => {
@@ -17,36 +15,6 @@ describe('fields/common', () => {
 
     it('tidies up the input', () => {
       expect(fieldCodeWith('FOO', ' bar', 'baz ')).toEqual('foo_bar_baz')
-    })
-  })
-
-  describe('toFormWizardFields', () => {
-    it('transforms an array of fields to Form Wizard field configuration', () => {
-      const field: FormWizard.Field = {
-        code: 'field_code',
-        text: 'Test Field',
-        type: FieldType.Text,
-      }
-      const fields = [field]
-
-      const result = fields.reduce(toFormWizardFields, {})
-
-      expect(result[field.code]).toEqual(field)
-    })
-
-    it('uses the ID when present', () => {
-      const field: FormWizard.Field = {
-        code: 'field_code',
-        id: 'field_id',
-        text: 'Test Field',
-        type: FieldType.Text,
-      }
-      const fields = [field]
-
-      const result = fields.reduce(toFormWizardFields, {})
-
-      expect(result[field.id]).toEqual(field)
-      expect(result[field.code]).toBeUndefined()
     })
   })
 

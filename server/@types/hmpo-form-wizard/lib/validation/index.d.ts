@@ -10,13 +10,13 @@ declare module 'hmpo-form-wizard/lib/validation' {
   }
 
   type Context = {
-    values: Record<string, string | string[]>
+    values: FormWizard.Answers
   }
 
   function validate(
     fields: FormWizard.Fields,
     key: string,
     value: string | string[],
-    context: unknown,
+    context: Context,
   ): ValidationError | undefined
 }

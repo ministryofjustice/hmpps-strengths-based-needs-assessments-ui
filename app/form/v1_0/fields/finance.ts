@@ -1,11 +1,10 @@
 import FormWizard from 'hmpo-form-wizard'
-import { getMediumLabelClassFor, orDivider, toFormWizardFields, yesNoOptions } from './common'
-import { detailsCharacterLimit } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
+import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
+import { dependentOn } from './common/utils'
 
-const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode: string): FormWizard.Field => ({
+const createDebtType = (fieldCode: string, dependentField: FormWizard.Field, option: string): FormWizard.Field => ({
   text: ' ',
   hint: { text: 'Select all that apply.', kind: 'text' },
   code: fieldCode,
@@ -16,69 +15,16 @@ const createDebtType = (fieldCode: string, dependentFieldCode: string, valueCode
     { text: 'Debt to others', value: 'DEBT_TO_OTHERS', kind: 'option' },
     { text: 'Formal debt', value: 'FORMAL_DEBT', kind: 'option' },
   ],
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
-  },
+  dependent: dependentOn(dependentField, option),
 })
 
-const createFormalDebtDetails = (
-  fieldCode: string,
-  dependentFieldCode: string,
-  valueCode: string,
-): FormWizard.Field => ({
-  text: 'Give details (optional)',
-  hint: { text: 'Includes things like credit cards, phone bills or rent arrears.', kind: 'text' },
-  code: fieldCode,
-  type: FieldType.TextArea,
-  validate: [
-    {
-      type: ValidationType.MaxLength,
-      arguments: [detailsCharacterLimit],
-      message: `Details must be ${detailsCharacterLimit} characters or less`,
-    },
-  ],
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
-  },
-})
+const typeOfDebtDetailsOptions = [
+  ['FORMAL_DEBT', 'Includes things like credit cards, phone bills or rent arrears.'],
+  ['DEBT_TO_OTHERS', 'Includes things like owing money to family, friends, other prisoners or loan sharks.'],
+]
 
-const createDebtToOthersDetails = (
-  fieldCode: string,
-  dependentFieldCode: string,
-  valueCode: string,
-): FormWizard.Field => ({
-  text: 'Give details (optional)',
-  hint: { text: 'Includes things like owing money to family, friends, other prisoners or loan sharks.', kind: 'text' },
-  code: fieldCode,
-  type: FieldType.TextArea,
-  validate: [
-    {
-      type: ValidationType.MaxLength,
-      arguments: [detailsCharacterLimit],
-      message: `Details must be ${detailsCharacterLimit} characters or less`,
-    },
-  ],
-  dependent: {
-    field: dependentFieldCode,
-    value: valueCode,
-    displayInline: true,
-  },
-})
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the finance section complete?',
-  code: 'finance_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
-export const baseFinanceFields: Array<FormWizard.Field> = [
-  {
+class FinanceFieldsFactory extends FieldsFactory {
+  financeIncome: FormWizard.Field = {
     text: 'Where does [subject] currently get their money from? ',
     code: 'finance_income',
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -113,12 +59,13 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
       { text: 'Other', value: 'OTHER', kind: 'option' },
-      orDivider,
+      utils.orDivider,
       { text: 'No money', value: 'NO_MONEY', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  familyOrFriendsDetails: FormWizard.Field = {
     text: 'Is [subject] over reliant on family or friends for money?',
     code: 'family_or_friends_details',
     type: FieldType.Radio,
@@ -139,30 +86,15 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    dependent: {
-      field: 'finance_income',
-      value: 'FAMILY_OR_FRIENDS',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'other_income_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_income',
-      value: 'OTHER',
-      displayInline: true,
-    },
-  },
-  {
+    dependent: dependentOn(this.financeIncome, 'FAMILY_OR_FRIENDS'),
+  }
+
+  otherIncomeDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.financeIncome,
+    dependentValue: 'OTHER',
+  })
+
+  financeBankAccount: FormWizard.Field = {
     text: 'Does [subject] have their own bank account?',
     code: 'finance_bank_account',
     type: FieldType.Radio,
@@ -172,9 +104,10 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  financeMoneyManagement: FormWizard.Field = {
     text: 'How good is [subject] at managing their money?',
     code: 'finance_money_management',
     hint: { text: 'This includes things like budgeting, prioritising bills and paying rent.', kind: 'text' },
@@ -202,77 +135,17 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'good_money_management_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_money_management',
-      value: 'GOOD',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'fairly_good_money_management_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_money_management',
-      value: 'FAIRLY_GOOD',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'fairly_bad_money_management_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_money_management',
-      value: 'FAIRLY_BAD',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'bad_money_management_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_money_management',
-      value: 'BAD',
-      displayInline: true,
-    },
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  financeMoneyManagementDetailsGroup: FormWizard.Field[] = ['GOOD', 'FAIRLY_GOOD', 'FAIRLY_BAD', 'BAD'].map(option =>
+    FieldsFactory.detailsField({
+      parentField: this.financeMoneyManagement,
+      dependentValue: option,
+    }),
+  )
+
+  financeGambling: FormWizard.Field = {
     text: 'Is [subject] affected by gambling?',
     code: 'finance_gambling',
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -290,7 +163,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_GAMBLING',
         kind: 'option',
       },
-      orDivider,
+      utils.orDivider,
       {
         text: 'No',
         value: 'NO',
@@ -304,60 +177,18 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'yes_their_gambling_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_gambling',
-      value: 'YES_THEIR_GAMBLING',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'yes_someone_elses_gambling_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_gambling',
-      value: 'YES_SOMEONE_ELSES_GAMBLING',
-      displayInline: true,
-    },
-  },
-  {
-    text: 'Give details (optional)',
-    code: 'unknown_gambling_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_gambling',
-      value: 'UNKNOWN',
-      displayInline: true,
-    },
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  financeGamblingDetailsGroup: FormWizard.Field[] = ['YES_THEIR_GAMBLING', 'YES_SOMEONE_ELSES_GAMBLING', 'UNKNOWN'].map(
+    option =>
+      FieldsFactory.detailsField({
+        parentField: this.financeGambling,
+        dependentValue: option,
+      }),
+  )
+
+  financeDebt: FormWizard.Field = {
     text: 'Is [subject] affected by debt?',
     code: 'finance_debt',
     type: FieldType.CheckBox,
@@ -374,7 +205,7 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         value: 'YES_SOMEONE_ELSES_DEBT',
         kind: 'option',
       },
-      orDivider,
+      utils.orDivider,
       {
         text: 'No',
         value: 'NO',
@@ -388,44 +219,37 @@ export const baseFinanceFields: Array<FormWizard.Field> = [
         behaviour: 'exclusive',
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  createDebtType('yes_type_of_debt', 'finance_debt', 'YES_THEIR_DEBT'),
-  createFormalDebtDetails('yes_formal_debt_details', 'yes_type_of_debt', 'FORMAL_DEBT'),
-  createDebtToOthersDetails('yes_debt_to_others_details', 'yes_type_of_debt', 'DEBT_TO_OTHERS'),
-  createDebtType('yes_someone_elses_type_of_debt', 'finance_debt', 'YES_SOMEONE_ELSES_DEBT'),
-  createFormalDebtDetails('yes_someone_elses_formal_debt_details', 'yes_someone_elses_type_of_debt', 'FORMAL_DEBT'),
-  createDebtToOthersDetails(
-    'yes_someone_elses_debt_to_others_details',
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  yesTypeOfDebt: FormWizard.Field = createDebtType('yes_type_of_debt', this.financeDebt, 'YES_THEIR_DEBT')
+
+  yesTypeOfDebtDetailsGroup: FormWizard.Field[] = typeOfDebtDetailsOptions.map(([option, hint]) =>
+    FieldsFactory.detailsField({
+      parentField: this.yesTypeOfDebt,
+      dependentValue: option,
+      textHint: hint,
+    }),
+  )
+
+  yesSomeoneElsesTypeOfDebt: FormWizard.Field = createDebtType(
     'yes_someone_elses_type_of_debt',
-    'DEBT_TO_OTHERS',
-  ),
-  {
-    text: 'Give details (optional)',
-    code: 'unknown_debt_details',
-    type: FieldType.TextArea,
-    validate: [
-      {
-        type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: {
-      field: 'finance_debt',
-      value: 'UNKNOWN',
-      displayInline: true,
-    },
-  },
-  ...createWantToMakeChangesFields('their finance', 'finance'),
-]
+    this.financeDebt,
+    'YES_SOMEONE_ELSES_DEBT',
+  )
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'finance',
-  'finance',
-)
+  yesSomeoneElsesTypeOfDebtDetailsGroup: FormWizard.Field[] = typeOfDebtDetailsOptions.map(([option, hint]) =>
+    FieldsFactory.detailsField({
+      parentField: this.yesSomeoneElsesTypeOfDebt,
+      dependentValue: option,
+      textHint: hint,
+    }),
+  )
 
-export default [...baseFinanceFields, ...sectionCompleteFields, ...practitionerAnalysisFields].reduce(
-  toFormWizardFields,
-  {},
-)
+  unknownDebtDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.financeDebt,
+    dependentValue: 'UNKNOWN',
+  })
+}
+
+export default new FinanceFieldsFactory(sections.finance)

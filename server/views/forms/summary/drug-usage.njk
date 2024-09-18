@@ -78,14 +78,16 @@
       <h2 class="govuk-heading-l">Usage details</h2>
     </div>
   </div>
-  <form id="form" method="post" action="{{ action }}">
+  <form id="form" method="post" action="{{ action }}" data-autosave="true">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {{ renderQuestionsForDrugTypes(options.allFields, options.answers) }}
 
     <div class="questiongroup-action-buttons">
       {{ govukButton({
         text: buttonText | default('Save and continue'),
-        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1'
+        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1',
+        name: getUserSubmittedField(form.fields),
+        value: 'YES'
       }) }}
     </div>
   </form>

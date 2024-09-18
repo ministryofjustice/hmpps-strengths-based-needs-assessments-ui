@@ -42,5 +42,5 @@ export const assessmentNotMarkedAsComplete = () => {
 }
 
 export const hasAutosaveEnabled = () => {
-  cy.get('form').should('have.length', 1).invoke('attr', 'data-autosave-enabled').should('equal', 'true')
+  cy.get('form[data-autosave-enabled]').should('have.length', 1)
 }

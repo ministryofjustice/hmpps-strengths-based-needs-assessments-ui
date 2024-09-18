@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "4196ca54-58ba-4514-bbd9-69df54c4a1c9",
-    "createdAt": "2024-07-24T16:06:48.953888",
+    "uuid": "2e177b61-03c5-4b91-8b88-24d31f78b5cc",
+    "createdAt": "2024-09-05T11:24:39.883159",
     "oasys_pks": [
-      "3295481"
+      "7250380"
     ],
-    "versionUuid": "1b023024-5863-410b-8edf-4b5973720fb9",
-    "versionCreatedAt": "2024-07-24T16:06:48.953969",
+    "versionUuid": "4e5b8dbc-6440-4fb8-9182-ee333b1f46f3",
+    "versionCreatedAt": "2024-09-05T11:24:39.883173",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -25,7 +25,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_impact": {
       "type": "CHECKBOX",
@@ -63,7 +64,8 @@
       "value": null,
       "values": [
         "BEHAVIOURAL"
-      ]
+      ],
+      "collection": null
     },
     "drug_use_reasons": {
       "type": "CHECKBOX",
@@ -109,7 +111,8 @@
       "value": null,
       "values": [
         "ENHANCE_PERFORMANCE"
-      ]
+      ],
+      "collection": null
     },
     "assessment_complete": {
       "type": "RADIO",
@@ -125,11 +128,12 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_section_complete": {
       "type": "RADIO",
-      "description": "Is the drug use section complete?",
+      "description": "Is the Drug use section complete?",
       "options": [
         {
           "value": "YES",
@@ -141,7 +145,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "motivated_stopping_drug_use": {
       "type": "RADIO",
@@ -165,7 +170,8 @@
         }
       ],
       "value": "UNKNOWN",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "reducing_or_stopping_drug_use": {
       "type": "RADIO",
@@ -181,11 +187,12 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "drug_use_analysis_section_complete": {
+    "drug_use_is_drug_use_user_submitted": {
       "type": "RADIO",
-      "description": "Is the drug use analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -196,14 +203,29 @@
           "text": "No"
         }
       ],
-      "value": "NO",
-      "values": null
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "drug_use_is_drug_use_details_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     }
   },
   "oasysEquivalent": {
-    "o2-1": null,
-    "o2-6": null,
-    "o2-8": null,
     "o3-3": null,
     "o3-4": null,
     "o3-5": null,
@@ -239,7 +261,6 @@
     "oSC4": null,
     "oSC5": null,
     "oSC8": null,
-    "o1-30": null,
     "o10-1": null,
     "o10-2": null,
     "o10-4": null,
@@ -256,9 +277,6 @@
     "o12-4": null,
     "o12-9": null,
     "o13-1": null,
-    "o2-12": null,
-    "o2-98": null,
-    "o2-99": null,
     "o3-97": null,
     "o3-98": null,
     "o3-99": null,
@@ -295,9 +313,7 @@
     "o12-97": null,
     "o12-98": null,
     "o12-99": null,
-    "o2-7-2": null,
     "o4-7-1": null,
-    "o6-7da": null,
     "o9-1-t": null,
     "oSC2-t": null,
     "o8-2-1-1": null,
@@ -355,9 +371,6 @@
     "o6-7-1-2da": null,
     "o6-7-2-1da": null,
     "o6-7-2-2da": null,
-    "o2-2_V2_SEXUAL": null,
-    "o2-9_V2_SEXUAL": null,
-    "o2-2_V2_ANYVIOL": null,
     "o3_SAN_STRENGTH": null,
     "o4_SAN_STRENGTH": null,
     "o5_SAN_STRENGTH": null,
@@ -365,11 +378,6 @@
     "o8_SAN_STRENGTH": null,
     "o9_SAN_STRENGTH": null,
     "o10_SAN_STRENGTH": null,
-    "o2-2_V2_DOM_ABUSE": null,
-    "o2-2_V2_EXCESSIVE": null,
-    "o2-9_V2_ADDICTION": null,
-    "o2-9_V2_EMOTIONAL": null,
-    "o2-9_V2_FINANCIAL": null,
     "oTBA_SAN_STRENGTH": null,
     "o10-7_V2_CHILDHOOD": null,
     "o10-7_V2_HISTPSYCH": null,

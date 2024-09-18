@@ -1,10 +1,10 @@
-import steps from './steps/index'
-import fields from './fields/index'
+import steps, { sectionConfigs } from './steps/index'
 import { escape } from '../../utils/formatters'
+import fields from './fields'
 
 export default {
-  steps,
-  fields,
+  steps: steps(),
+  fields: fields(sectionConfigs),
   options: {
     active: true,
     version: '1.0',

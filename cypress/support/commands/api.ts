@@ -63,6 +63,8 @@ export const enterAssessment = (
     ...assessmentContextOverride,
   }
 
+  cy.log(`Entering assessment with OASys PK: ${assessment.oasysAssessmentPk}`)
+
   cy.session(
     `${assessment.assessmentId}_${assessment.assessmentVersion}_${accessMode.valueOf()}`,
     () => {
@@ -109,6 +111,7 @@ export const enterAssessment = (
 
 export const createAssessment = (data = null) => {
   const oasysAssessmentPk = uuid()
+  cy.log(`Creating assessment with OASys PK: ${oasysAssessmentPk}`)
   getApiToken().then(apiToken => {
     cy.request({
       url: `${env('SBNA_API_URL')}/oasys/assessment/create`,

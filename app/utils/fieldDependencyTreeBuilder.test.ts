@@ -140,11 +140,14 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
     })
 
     describe('next step is a CallbackCondition', () => {
-      it('should throw an exception', () => {
+      it('should return undefined', () => {
         const next = { fn: () => true, next: 'testStep' }
-        expect(() => {
-          sut.resolveNextStep(next)
-        }).toThrow('unable to resolve testStep - callbacks are not supported yet')
+        expect(sut.resolveNextStep(next)).toBeUndefined()
+      })
+
+      it('should skip the callback condition', () => {
+        const next = [{ fn: () => true, next: 'testStep' }, 'defaultStep']
+        expect(sut.resolveNextStep(next)).toEqual('defaultStep')
       })
     })
 
@@ -636,7 +639,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
 
       const result = new TestableFieldDependencyTreeBuilder(options, answers).getNextPageToComplete()
 
-      expect(result).toEqual({ url: 'step-2', sectionHasErrors: true })
+      expect(result).toEqual({ url: 'step-2', isSectionComplete: false })
     })
   })
 })

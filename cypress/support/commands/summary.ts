@@ -1,6 +1,6 @@
 export const getSummary = (question: string) => {
   return cy
-    .get('#summary > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
+    .get('.govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
     .contains(question)
     .should('be.visible')
     .and('have.length', 1)
@@ -10,7 +10,9 @@ export const getSummary = (question: string) => {
 
 export const getDrugSummary = (drug: string) => {
   return cy
-    .get('#summary > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label')
+    .get(
+      '#summary > form > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label',
+    )
     .contains('Which drugs has Sam used?')
     .should('be.visible')
     .and('have.length', 1)
@@ -19,6 +21,20 @@ export const getDrugSummary = (drug: string) => {
     .last()
     .find(`tbody th:contains(${drug})`)
     .parents('tbody')
+}
+
+export const getCollectionEntry = (subject: string, id: number) => {
+  const ord = ['Zeroth', 'First', 'Second', 'Third']
+  return cy.get(`form`).contains('.form-group', `${ord[id]} ${subject}`).should('be.visible').and('have.length', 1)
+}
+
+export const hasCollectionEntries = (subject: string, count: number) => {
+  cy.get('form')
+    .contains(subject)
+    .closest('.form-group')
+    .within(() => {
+      cy.get('.form-group').should('have.length', count)
+    })
 }
 
 export const hasFrequency = (subject: JQuery, answer: string) => {
@@ -78,7 +94,7 @@ export const hasInjectedPreviously = (subject: JQuery, answer: string) => {
 
 export const clickChange = (subject: JQuery) => {
   cy.wrap(subject)
-    .find('> .govuk-summary-list__actions > a')
+    .find('> .govuk-summary-list__actions > a, a.change-entry')
     .should('be.visible')
     .and('have.length', 1)
     .and('contain.text', 'Change')

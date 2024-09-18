@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import * as express from 'express'
 import FormWizard from 'hmpo-form-wizard'
 
@@ -38,16 +38,30 @@ export interface NavigationItem {
   active: boolean
 }
 
-export const createNavigation = (steps: FormWizard.Steps, currentSection: string): Array<NavigationItem> => {
+const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
+  Object.entries(steps)
+    .reverse()
+    .find(([_path, step]) => step.section === sectionName)[0]
+
+export const createNavigation = (
+  baseUrl: string,
+  steps: FormWizard.Steps,
+  currentSection: string,
+  isInEditMode: boolean,
+): Array<NavigationItem> => {
   return Object.entries(steps)
     .filter(([_path, config]) => config.navigationOrder)
     .sort(([_pathA, configA], [_pathB, configB]) => configA.navigationOrder - configB.navigationOrder)
-    .map(([path, config]) => ({
-      url: path.slice(1),
-      section: config.section,
-      label: config.pageTitle,
-      active: config.section === currentSection,
-    }))
+    .map(([path, config]) => {
+      const url = isInEditMode ? `${path}?action=resume` : getLastStepOfSection(steps, config.section)
+
+      return {
+        url: `${baseUrl}/${url.slice(1)}`,
+        section: config.section,
+        label: config.pageTitle,
+        active: config.section === currentSection,
+      }
+    })
 }
 
 type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -105,18 +119,6 @@ const setupForm = (form: Form): FormWizardRouter => {
         fields: form.fields,
       }),
     )
-
-    router.use((req: Request, res: Response, next: NextFunction) => {
-      const { fields = [], section: currentSection } = getStepFrom(form.steps, req.url)
-
-      res.locals.form = {
-        fields: fields.filter(fieldCode => !form.fields[fieldCode]?.dependent?.displayInline),
-        navigation: createNavigation(form.steps, currentSection),
-        sectionProgressRules: createSectionProgressRules(form.steps),
-      }
-
-      next()
-    })
 
     checkFormIntegrity(form)
 

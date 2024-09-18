@@ -6,12 +6,15 @@ $govuk-page-width: $moj-page-width;
 
 @import "govuk-frontend/dist/govuk/all";
 @import "@ministryofjustice/frontend/moj/all";
+@import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
 
 @import './components/header-bar';
 @import './components/offender-details';
 @import './components/drugs';
 @import './components/form';
+@import './components/modal';
 @import './components/navigation';
 @import './components/summary';
+@import './components/type';
 @import './components/practitioner-analysis-screen';
 @import './local';

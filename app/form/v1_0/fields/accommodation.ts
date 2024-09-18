@@ -1,17 +1,9 @@
 import FormWizard from 'hmpo-form-wizard'
-import {
-  validateFutureDate,
-  getMediumLabelClassFor,
-  orDivider,
-  toFormWizardFields,
-  visuallyHidden,
-  yesNoOptions,
-} from './common'
+import { FieldsFactory, utils } from './common'
 import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
-import { detailsCharacterLimit, detailsField } from './common/detailsField'
-import { createWantToMakeChangesFields } from './common/wantToMakeChangesFields'
-import { createPractitionerAnalysisFieldsWith } from './common/practitionerAnalysisFields'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
+import sections from '../config/sections'
+import { dependentOn } from './common/utils'
 
 const immigrationAccommodationHint = `
     <div class="govuk-!-width-two-thirds">
@@ -49,19 +41,10 @@ export function livingWithValidator() {
   return !(answers.includes('ALONE') && answers.length > 1)
 }
 
-export const questionSectionComplete: FormWizard.Field = {
-  text: 'Is the accommodation section complete?',
-  code: 'accommodation_section_complete',
-  type: FieldType.Radio,
-  options: yesNoOptions,
-}
-
-export const sectionCompleteFields: Array<FormWizard.Field> = [questionSectionComplete]
-
 const endDateSummaryDisplay = (value: string) => `Expected end date:\n${formatDateForDisplay(value) || 'Not provided'}`
 
-export const accommodationTypeFields: Array<FormWizard.Field> = [
-  {
+class AccommodationFieldsFactory extends FieldsFactory {
+  currentAccommodation: FormWizard.Field = {
     text: 'What type of accommodation does [subject] currently have?',
     code: 'current_accommodation',
     type: FieldType.Radio,
@@ -71,8 +54,9 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       { text: 'Temporary', value: 'TEMPORARY', kind: 'option' },
       { text: 'No accommodation', value: 'NO_ACCOMMODATION', kind: 'option' },
     ],
-  },
-  {
+  }
+
+  typeOfSettledAccommodation: FormWizard.Field = {
     text: 'Select the type of settled accommodation?',
     code: 'type_of_settled_accommodation',
     type: FieldType.Radio,
@@ -85,14 +69,11 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       { text: 'Residential healthcare', value: 'RESIDENTIAL_HEALTHCARE', kind: 'option' },
       { text: 'Supported accommodation', value: 'SUPPORTED_ACCOMMODATION', kind: 'option' },
     ],
-    dependent: {
-      field: 'current_accommodation',
-      value: 'SETTLED',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
+    dependent: dependentOn(this.currentAccommodation, 'SETTLED'),
+    labelClasses: utils.visuallyHidden,
+  }
+
+  typeOfTemporaryAccommodation: FormWizard.Field = {
     text: 'Select the type of temporary accommodation?',
     code: 'type_of_temporary_accommodation',
     type: FieldType.Radio,
@@ -114,89 +95,71 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
         kind: 'option',
       },
     ],
-    dependent: {
-      field: 'current_accommodation',
-      value: 'TEMPORARY',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  {
+    dependent: dependentOn(this.currentAccommodation, 'TEMPORARY'),
+    labelClasses: utils.visuallyHidden,
+  }
+
+  shortTermAccommodationEndDate: FormWizard.Field = {
     text: 'Enter expected end date (optional)',
     code: 'short_term_accommodation_end_date',
     type: FieldType.Date,
-    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
-    dependent: {
-      field: 'type_of_temporary_accommodation',
-      value: 'SHORT_TERM',
-      displayInline: true,
-    },
+    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    dependent: dependentOn(this.typeOfTemporaryAccommodation, 'SHORT_TERM'),
     summary: {
       displayFn: endDateSummaryDisplay,
       displayAlways: true,
     },
-  },
-  {
+  }
+
+  approvedPremisesEndDate: FormWizard.Field = {
     text: 'Enter expected end date (optional)',
     code: 'approved_premises_end_date',
     type: FieldType.Date,
-    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
-    dependent: {
-      field: 'type_of_temporary_accommodation',
-      value: 'APPROVED_PREMISES',
-      displayInline: true,
-    },
+    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    dependent: dependentOn(this.typeOfTemporaryAccommodation, 'APPROVED_PREMISES'),
     summary: {
       displayFn: endDateSummaryDisplay,
       displayAlways: true,
     },
-  },
-  {
+  }
+
+  cas2EndDate: FormWizard.Field = {
     text: 'Enter expected end date (optional)',
     code: 'cas2_end_date',
     type: FieldType.Date,
-    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
-    dependent: {
-      field: 'type_of_temporary_accommodation',
-      value: 'CAS2',
-      displayInline: true,
-    },
+    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    dependent: dependentOn(this.typeOfTemporaryAccommodation, 'CAS2'),
     summary: {
       displayFn: endDateSummaryDisplay,
       displayAlways: true,
     },
-  },
-  {
+  }
+
+  cas3EndDate: FormWizard.Field = {
     text: 'Enter expected end date (optional)',
     code: 'cas3_end_date',
     type: FieldType.Date,
-    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
-    dependent: {
-      field: 'type_of_temporary_accommodation',
-      value: 'CAS3',
-      displayInline: true,
-    },
+    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    dependent: dependentOn(this.typeOfTemporaryAccommodation, 'CAS3'),
     summary: {
       displayFn: endDateSummaryDisplay,
       displayAlways: true,
     },
-  },
-  {
+  }
+
+  immigrationAccommodationEndDate: FormWizard.Field = {
     text: 'Enter expected end date (optional)',
     code: 'immigration_accommodation_end_date',
     type: FieldType.Date,
-    validate: [{ fn: validateFutureDate, message: 'Enter a future date' }],
-    dependent: {
-      field: 'type_of_temporary_accommodation',
-      value: 'IMMIGRATION',
-      displayInline: true,
-    },
+    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    dependent: dependentOn(this.typeOfTemporaryAccommodation, 'IMMIGRATION'),
     summary: {
       displayFn: endDateSummaryDisplay,
       displayAlways: true,
     },
-  },
-  {
+  }
+
+  typeOfNoAccommodation: FormWizard.Field = {
     text: 'Select the type of accommodation?',
     code: 'type_of_no_accommodation',
     type: FieldType.Radio,
@@ -208,19 +171,11 @@ export const accommodationTypeFields: Array<FormWizard.Field> = [
       { text: 'Rough sleeping', value: 'ROUGH_SLEEPING', kind: 'option' },
       { text: 'Shelter', value: 'SHELTER', kind: 'option' },
     ],
-    dependent: {
-      field: 'current_accommodation',
-      value: 'NO_ACCOMMODATION',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-]
+    dependent: dependentOn(this.currentAccommodation, 'NO_ACCOMMODATION'),
+    labelClasses: utils.visuallyHidden,
+  }
 
-export const accommodationChangesFields = createWantToMakeChangesFields('their accommodation', 'accommodation')
-
-export const livingWithFields: Array<FormWizard.Field> = [
-  {
+  livingWith: FormWizard.Field = {
     text: 'Who is [subject] living with?',
     hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'living_with',
@@ -236,34 +191,34 @@ export const livingWithFields: Array<FormWizard.Field> = [
       { text: 'Partner', value: 'PARTNER', kind: 'option' },
       { text: 'Person under 18 years old', value: 'PERSON_UNDER_18', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
-      orDivider,
+      utils.orDivider,
       { text: 'Alone', value: 'ALONE', kind: 'option', behaviour: 'exclusive' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  ...[
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  livingWithDetailsGroup: FormWizard.Field[] = [
     ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject].'],
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>
-    detailsField({
-      parentFieldCode: 'living_with',
+    FieldsFactory.detailsField({
+      parentField: this.livingWith,
       dependentValue: option,
       textHint: hint,
     }),
-  ),
-]
+  )
 
-export const suitableLocationFields: Array<FormWizard.Field> = [
-  {
+  suitableHousingLocation: FormWizard.Field = {
     text: "Is the location of [subject]'s accommodation suitable?",
     code: 'suitable_housing_location',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if the location of the accommodation is suitable' }],
-    options: yesNoOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+    options: utils.yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  suitableHousingLocationConcerns: FormWizard.Field = {
     text: 'What are the concerns with the location?',
     hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'suitable_housing_location_concerns',
@@ -277,22 +232,17 @@ export const suitableLocationFields: Array<FormWizard.Field> = [
       { text: 'Safety of the area', value: 'AREA_SAFETY', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    dependent: {
-      field: 'suitable_housing_location',
-      value: 'NO',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  detailsField({
-    parentFieldCode: 'suitable_housing_location_concerns',
+    dependent: dependentOn(this.suitableHousingLocation, 'NO'),
+    labelClasses: utils.visuallyHidden,
+  }
+
+  suitableHousingLocationConcernsDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.suitableHousingLocationConcerns,
     dependentValue: 'OTHER',
     required: true,
-  }),
-]
+  })
 
-export const suitableAccommodationFields: Array<FormWizard.Field> = [
-  {
+  suitableHousing: FormWizard.Field = {
     text: "Is [subject]'s accommodation suitable?",
     hint: { text: 'This includes things like safety or having appropriate amenities.', kind: 'text' },
     code: 'suitable_housing',
@@ -303,28 +253,27 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
       { text: 'Yes, with concerns', value: 'YES_WITH_CONCERNS', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  suitableHousingConcerns: FormWizard.Field = {
     text: 'What are the concerns?',
     hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'suitable_housing_concerns',
     type: FieldType.CheckBox,
     multiple: true,
     options: suitableHousingConcernsOptions,
-    dependent: {
-      field: 'suitable_housing',
-      value: 'YES_WITH_CONCERNS',
-      displayInline: true,
-    },
-    labelClasses: visuallyHidden,
-  },
-  detailsField({
-    parentFieldCode: 'suitable_housing_concerns',
+    dependent: dependentOn(this.suitableHousing, 'YES_WITH_CONCERNS'),
+    labelClasses: utils.visuallyHidden,
+  }
+
+  suitableHousingConcernsDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.suitableHousingConcerns,
     dependentValue: 'OTHER',
     required: true,
-  }),
-  {
+  })
+
+  unsuitableHousingConcerns: FormWizard.Field = {
     text: 'What are the concerns?',
     hint: { text: 'Select all that apply (optional).', kind: 'text' },
     code: 'unsuitable_housing_concerns',
@@ -336,25 +285,25 @@ export const suitableAccommodationFields: Array<FormWizard.Field> = [
       value: 'NO',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
-  },
-  detailsField({
-    parentFieldCode: 'unsuitable_housing_concerns',
+    labelClasses: utils.visuallyHidden,
+  }
+
+  unsuitableHousingConcernsDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.unsuitableHousingConcerns,
     dependentValue: 'OTHER',
     required: true,
-  }),
-]
+  })
 
-export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
-  {
+  suitableHousingPlanned: FormWizard.Field = {
     text: 'Does [subject] have future accommodation planned?',
     code: 'suitable_housing_planned',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have future accommodation planned' }],
-    options: yesNoOptions,
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-  {
+    options: utils.yesNoOptions,
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
+  futureAccommodationType: FormWizard.Field = {
     text: 'What is the type of future accommodation?',
     code: 'future_accommodation_type',
     type: FieldType.Radio,
@@ -375,20 +324,23 @@ export const suitableHousingPlannedFields: Array<FormWizard.Field> = [
       value: 'YES',
       displayInline: true,
     },
-    labelClasses: visuallyHidden,
-  },
-  ...[['AWAITING_ASSESSMENT'], ['AWAITING_PLACEMENT'], ['OTHER', 'Include where and who with.']].map(([option, hint]) =>
-    detailsField({
-      parentFieldCode: 'future_accommodation_type',
+    labelClasses: utils.visuallyHidden,
+  }
+
+  futureAccommodationTypeDetailsGroup: FormWizard.Field[] = [
+    ['AWAITING_ASSESSMENT'],
+    ['AWAITING_PLACEMENT'],
+    ['OTHER', 'Include where and who with.'],
+  ].map(([option, hint]) =>
+    FieldsFactory.detailsField({
+      parentField: this.futureAccommodationType,
       dependentValue: option,
       textHint: hint,
       required: true,
     }),
-  ),
-]
+  )
 
-export const noAccommodationFields: Array<FormWizard.Field> = [
-  {
+  noAccommodationReason: FormWizard.Field = {
     text: 'Why does [subject] have no accommodation?',
     hint: { html: noAccommodationHint, kind: 'html' },
     code: 'no_accommodation_reason',
@@ -404,41 +356,28 @@ export const noAccommodationFields: Array<FormWizard.Field> = [
       { text: 'No accommodation when released from prison', value: 'PRISON_RELEASE', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.CheckBox),
-  },
-  detailsField({
-    parentFieldCode: 'no_accommodation_reason',
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  noAccommodationReasonDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.noAccommodationReason,
     dependentValue: 'OTHER',
     required: true,
-  }),
-  {
+  })
+
+  pastAccommodationDetails: FormWizard.Field = {
     text: "What's helped Sam stay in accommodation in the past? (optional)",
     code: 'past_accommodation_details',
     type: FieldType.TextArea,
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [detailsCharacterLimit],
-        message: `Details must be ${detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
       },
     ],
-    labelClasses: getMediumLabelClassFor(FieldType.Radio),
-  },
-]
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+}
 
-export const practitionerAnalysisFields: Array<FormWizard.Field> = createPractitionerAnalysisFieldsWith(
-  'accommodation',
-  'accommodation',
-)
-
-export default [
-  ...sectionCompleteFields,
-  ...accommodationTypeFields,
-  ...accommodationChangesFields,
-  ...livingWithFields,
-  ...suitableLocationFields,
-  ...suitableAccommodationFields,
-  ...suitableHousingPlannedFields,
-  ...noAccommodationFields,
-  ...practitionerAnalysisFields,
-].reduce(toFormWizardFields, {})
+export default new AccommodationFieldsFactory(sections.accommodation)

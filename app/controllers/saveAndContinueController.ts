@@ -4,13 +4,7 @@ import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
-import {
-  combineDateFields,
-  compileConditionalFields,
-  fieldsById,
-  withPlaceholdersFrom,
-  withValuesFrom,
-} from '../utils/field.utils'
+import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
@@ -52,7 +46,7 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      if (req.method === 'GET' && req.query.action === 'resume') {
+      if (req.method === 'GET' && isInEditMode(sessionData.user) && req.query.action === 'resume') {
         const currentPageToComplete = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
@@ -77,29 +71,6 @@ class SaveAndContinueController extends BaseController {
     }
 
     return super.get(req, res, next)
-  }
-
-  async process(req: FormWizard.Request, res: Response, next: NextFunction) {
-    req.form.values = combineDateFields(req.body, req.form.values)
-    const mergedAnswers = { ...req.form.persistedAnswers, ...req.form.values }
-
-    req.form.values = Object.entries(req.form.options.fields)
-      .filter(([_, field]) => {
-        const dependentValue = mergedAnswers[field.dependent?.field]
-        return (
-          !field.dependent ||
-          (Array.isArray(dependentValue)
-            ? dependentValue.includes(field.dependent.value)
-            : dependentValue === field.dependent.value)
-        )
-      })
-      .reduce((updatedAnswers, [key, field]) => {
-        return field.id
-          ? { ...updatedAnswers, [field.id]: req.form.values[key], [field.code]: req.form.values[key] }
-          : { ...updatedAnswers, [field.code]: req.form.values[key] }
-      }, {})
-
-    return super.process(req, res, next)
   }
 
   calculateUnitsForGender(gender: Gender): number {
@@ -196,11 +167,11 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getSectionProgress(req: FormWizard.Request, isValidated: boolean): FormWizard.Answers {
+  getSectionProgress(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
       req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
         fieldCode,
-        conditionFn(isValidated, req.form.values) ? 'YES' : 'NO',
+        conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO',
       ]),
     )
 
@@ -213,7 +184,7 @@ class SaveAndContinueController extends BaseController {
   async persistAnswers(req: FormWizard.Request, res: Response, options: { removeOrphanAnswers?: boolean } = {}) {
     const { assessmentId } = req.session.sessionData as SessionData
 
-    const { sectionHasErrors } = new FieldDependencyTreeBuilder(req.form.options, {
+    const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
       ...req.form.persistedAnswers,
       ...req.form.values,
     }).getNextPageToComplete()
@@ -221,7 +192,7 @@ class SaveAndContinueController extends BaseController {
     const allAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,
       ...(req.form.values || {}),
-      ...this.getSectionProgress(req, !sectionHasErrors),
+      ...this.getSectionProgress(req, isSectionComplete),
     }
 
     const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers, options)

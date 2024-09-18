@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "28126625-1686-46c6-8160-69e5f3d63cad",
-    "createdAt": "2024-07-24T16:06:14.847611",
+    "uuid": "c65054d1-c9f3-4dc8-a70b-d431ee5c5f15",
+    "createdAt": "2024-09-05T11:24:09.139298",
     "oasys_pks": [
-      "6004435"
+      "9650983"
     ],
-    "versionUuid": "90cbb871-1b63-4b88-a779-d0a6eeabc482",
-    "versionCreatedAt": "2024-07-24T16:06:14.848008",
+    "versionUuid": "cea0900e-34b9-4c76-bd26-d723186b7617",
+    "versionCreatedAt": "2024-09-05T11:24:09.139368",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -25,7 +25,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "alcohol_use": {
       "type": "RADIO",
@@ -45,7 +46,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "living_with": {
       "type": "CHECKBOX",
@@ -79,7 +81,8 @@
       "value": null,
       "values": [
         "ALONE"
-      ]
+      ],
+      "collection": null
     },
     "finance_debt": {
       "type": "CHECKBOX",
@@ -105,7 +108,8 @@
       "value": null,
       "values": [
         "NO"
-      ]
+      ],
+      "collection": null
     },
     "finance_income": {
       "type": "CHECKBOX",
@@ -159,7 +163,8 @@
       "value": null,
       "values": [
         "NO_MONEY"
-      ]
+      ],
+      "collection": null
     },
     "finance_changes": {
       "type": "RADIO",
@@ -203,7 +208,8 @@
         }
       ],
       "value": "NOT_APPLICABLE",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_gambling": {
       "type": "CHECKBOX",
@@ -229,7 +235,8 @@
       "value": null,
       "values": [
         "NO"
-      ]
+      ],
+      "collection": null
     },
     "suitable_housing": {
       "type": "RADIO",
@@ -249,7 +256,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_status": {
       "type": "RADIO",
@@ -281,7 +289,8 @@
         }
       ],
       "value": "RETIRED",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_history": {
       "type": "RADIO",
@@ -301,7 +310,8 @@
         }
       ],
       "value": "STABLE",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "assessment_complete": {
       "type": "RADIO",
@@ -317,7 +327,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_bank_account": {
       "type": "RADIO",
@@ -337,7 +348,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "accommodation_changes": {
       "type": "RADIO",
@@ -381,7 +393,8 @@
         }
       ],
       "value": "NOT_APPLICABLE",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "current_accommodation": {
       "type": "RADIO",
@@ -401,64 +414,12 @@
         }
       ],
       "value": "SETTLED",
-      "values": null
-    },
-    "offence_analysis_date": {
-      "type": "DATE",
-      "description": "When did the offence happen?",
-      "options": null,
-      "value": "1901-01-23",
-      "values": null
-    },
-    "offence_analysis_gain": {
-      "type": "CHECKBOX",
-      "description": "What was [subject] trying to gain from the offence?",
-      "options": [
-        {
-          "value": "EXERTING_POWER",
-          "text": "Exerting power"
-        },
-        {
-          "value": "SEXUAL_DESIRES",
-          "text": "Fulfilling specific sexual desires"
-        },
-        {
-          "value": "IMPRESSING_PEOPLE",
-          "text": "Impressing friends/associates"
-        },
-        {
-          "value": "EMOTIONS_CLOUDED_JUDGEMENT",
-          "text": "Individual was in a highly emotional state that clouded judgement"
-        },
-        {
-          "value": "BASIC_FINANCIAL_NEEDS",
-          "text": "Meeting basic financial needs"
-        },
-        {
-          "value": "SUPPORTING_DRUG_USE",
-          "text": "Supporting drug use"
-        },
-        {
-          "value": "SUPPORTING_LIFESTYLE",
-          "text": "Supporting lifestyle beyond basic needs"
-        },
-        {
-          "value": "PRESSURISED",
-          "text": "The individual was pressurised or led into offending by others"
-        },
-        {
-          "value": "OTHER",
-          "text": "Other"
-        }
-      ],
-      "value": null,
-      "values": [
-        "IMPRESSING_PEOPLE"
-      ]
+      "values": null,
+      "collection": null
     },
     "offence_analysis_risk": {
       "type": "RADIO",
-      "description": "Is the offence linked to risk of serious harm, risks to the individual or other risks?",
+      "description": "Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?",
       "options": [
         {
           "value": "YES",
@@ -470,7 +431,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "education_difficulties": {
       "type": "CHECKBOX",
@@ -496,21 +458,33 @@
       "value": null,
       "values": [
         "READING"
-      ]
+      ],
+      "collection": null
     },
-    "no_offence_risk_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details",
-      "options": null,
-      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null
+    "offence_analysis_leader": {
+      "type": "RADIO",
+      "description": "Was [subject] the leader in regard to committing the current index offence(s)?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "NO",
+      "values": null,
+      "collection": null
     },
     "offence_analysis_reason": {
       "type": "TEXT_AREA",
-      "description": "Why did the offence happen?",
+      "description": "Why did the current index offence(s) happen?",
       "options": null,
       "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_money_management": {
       "type": "RADIO",
@@ -534,11 +508,12 @@
         }
       ],
       "value": "BAD",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_section_complete": {
       "type": "RADIO",
-      "description": "Is the finance section complete?",
+      "description": "Is the Finance section complete?",
       "options": [
         {
           "value": "YES",
@@ -550,7 +525,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_changes": {
       "type": "RADIO",
@@ -594,7 +570,8 @@
         }
       ],
       "value": "NOT_APPLICABLE",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_outlook": {
       "type": "RADIO",
@@ -622,11 +599,12 @@
         }
       ],
       "value": "NOT_PRESENT",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_section_complete": {
       "type": "RADIO",
-      "description": "Is the drug use section complete?",
+      "description": "Is the Drug use section complete?",
       "options": [
         {
           "value": "YES",
@@ -638,19 +616,32 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "offence_analysis_elements": {
       "type": "CHECKBOX",
-      "description": "Did the offence have any of the following elements?",
+      "description": "Did the current index offence(s) have any of the following elements?",
       "options": [
+        {
+          "value": "ARSON",
+          "text": "Arson"
+        },
+        {
+          "value": "DOMESTIC_ABUSE",
+          "text": "Domestic abuse"
+        },
         {
           "value": "EXCESSIVE_OR_SADISTIC_VIOLENCE",
           "text": "Excessive violence or sadistic violence"
         },
         {
-          "value": "DOMESTIC_ABUSE",
-          "text": "Domestic abuse"
+          "value": "HATRED_OF_IDENTIFIABLE_GROUPS",
+          "text": "Hatred of identifiable groups"
+        },
+        {
+          "value": "PHYSICAL_DAMAGE_TO_PROPERTY",
+          "text": "Physical damage to property"
         },
         {
           "value": "SEXUAL_ELEMENT",
@@ -662,7 +653,11 @@
         },
         {
           "value": "VIOLENCE_OR_COERCION",
-          "text": "Violence or threat of violence or coercion"
+          "text": "Violence, or threat of violence or coercion"
+        },
+        {
+          "value": "WEAPON",
+          "text": "Weapon"
         },
         {
           "value": "NONE",
@@ -671,8 +666,9 @@
       ],
       "value": null,
       "values": [
-        "NONE"
-      ]
+        "ARSON"
+      ],
+      "collection": null
     },
     "suitable_housing_location": {
       "type": "RADIO",
@@ -688,11 +684,33 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_escalation": {
+      "type": "RADIO",
+      "description": "Is the current offence(s) an escalation in seriousness from previous offending?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        },
+        {
+          "value": "NOT_APPLICABLE",
+          "text": "Not applicable"
+        }
+      ],
+      "value": "NO",
+      "values": null,
+      "collection": null
     },
     "alcohol_use_section_complete": {
       "type": "RADIO",
-      "description": "Is the alcohol use section complete?",
+      "description": "Is the Alcohol use section complete?",
       "options": [
         {
           "value": "YES",
@@ -704,14 +722,8 @@
         }
       ],
       "value": "YES",
-      "values": null
-    },
-    "bad_money_management_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_education_changes": {
       "type": "RADIO",
@@ -755,7 +767,8 @@
         }
       ],
       "value": "NOT_APPLICABLE",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_self_harmed": {
       "type": "RADIO",
@@ -771,14 +784,51 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "no_impact_on_victims_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
+    "offence_analysis_motivations": {
+      "type": "CHECKBOX",
+      "description": "Did the current index offence(s) involve any of the following motivations?",
+      "options": [
+        {
+          "value": "ADDICTIONS_OR_PERCEIVED_NEEDS",
+          "text": "Addictions or perceived needs"
+        },
+        {
+          "value": "PRESSURISED_BY_OTHERS",
+          "text": "Being pressurised or led into offending by others"
+        },
+        {
+          "value": "FINANCIAL_MOTIVATION",
+          "text": "Financial motivation"
+        },
+        {
+          "value": "HATRED_OF_IDENTIFIABLE_GROUPS",
+          "text": "Hatred of identifiable groups"
+        },
+        {
+          "value": "SEEKING_OR_EXERTING_POWER",
+          "text": "Seeking or exerting power"
+        },
+        {
+          "value": "SEXUAL_MOTIVATION",
+          "text": "Sexual motivation"
+        },
+        {
+          "value": "THRILL_SEEKING",
+          "text": "Thrill seeking"
+        },
+        {
+          "value": "OTHER",
+          "text": "Other"
+        }
+      ],
+      "value": null,
+      "values": [
+        "THRILL_SEEKING"
+      ],
+      "collection": null
     },
     "education_transferable_skills": {
       "type": "RADIO",
@@ -798,7 +848,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "type_of_settled_accommodation": {
       "type": "RADIO",
@@ -830,11 +881,12 @@
         }
       ],
       "value": "HOMEOWNER",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "accommodation_section_complete": {
       "type": "RADIO",
-      "description": "Is the accommodation section complete?",
+      "description": "Is the Accommodation section complete?",
       "options": [
         {
           "value": "YES",
@@ -846,14 +898,16 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "offence_analysis_victim_details": {
+    "offence_analysis_risk_no_details": {
       "type": "TEXT_AREA",
-      "description": "Enter all victim details",
+      "description": "Give details",
       "options": null,
       "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "education_highest_level_completed": {
       "type": "RADIO",
@@ -905,14 +959,16 @@
         }
       ],
       "value": "ENTRY_LEVEL",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_history_stable_details": {
       "type": "TEXT_AREA",
       "description": "Give details (optional)",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_other_responsibilities": {
       "type": "CHECKBOX",
@@ -946,11 +1002,12 @@
       "value": null,
       "values": [
         "STUDYING"
-      ]
+      ],
+      "collection": null
     },
-    "finance_analysis_section_complete": {
+    "finance_is_finance_user_submitted": {
       "type": "RADIO",
-      "description": "Is the finance analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -962,7 +1019,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_positive_factors": {
       "type": "CHECKBOX",
@@ -1004,11 +1062,12 @@
       "value": null,
       "values": [
         "MONEY"
-      ]
+      ],
+      "collection": null
     },
     "health_wellbeing_section_complete": {
       "type": "RADIO",
-      "description": "Is the health and wellbeing section complete?",
+      "description": "Is the Health and wellbeing section complete?",
       "options": [
         {
           "value": "YES",
@@ -1020,11 +1079,12 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "offence_analysis_section_complete": {
       "type": "RADIO",
-      "description": "Is the offence analysis section complete?",
+      "description": "Is the Offence analysis section complete?",
       "options": [
         {
           "value": "YES",
@@ -1036,23 +1096,53 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "drug_use_analysis_section_complete": {
+    "offence_analysis_how_many_involved": {
       "type": "RADIO",
-      "description": "Is the drug use analysis section complete?",
+      "description": "How many other people were involved with committing the current index offence(s)?",
       "options": [
         {
-          "value": "YES",
-          "text": "Yes"
+          "value": "NONE",
+          "text": "There was no one else involved"
         },
         {
-          "value": "NO",
-          "text": "No"
+          "value": "ONE",
+          "text": "1"
+        },
+        {
+          "value": "TWO",
+          "text": "2"
+        },
+        {
+          "value": "THREE",
+          "text": "3"
+        },
+        {
+          "value": "FOUR",
+          "text": "4"
+        },
+        {
+          "value": "FIVE",
+          "text": "5"
+        },
+        {
+          "value": "SIX_TO_10",
+          "text": "6 to 10"
+        },
+        {
+          "value": "ELEVEN_TO_15",
+          "text": "11 to 15"
+        },
+        {
+          "value": "MORE_THAN_15",
+          "text": "More than 15"
         }
       ],
-      "value": "YES",
-      "values": null
+      "value": "NONE",
+      "values": null,
+      "collection": null
     },
     "offence_analysis_impact_on_victims": {
       "type": "RADIO",
@@ -1068,11 +1158,20 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "alcohol_use_analysis_section_complete": {
+    "offence_analysis_leader_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
+    },
+    "drug_use_is_drug_use_user_submitted": {
       "type": "RADIO",
-      "description": "Is the alcohol use analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -1084,11 +1183,39 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_who_was_the_victim": {
+      "type": "CHECKBOX",
+      "description": "Who was the victim?",
+      "options": [
+        {
+          "value": "ONE_OR_MORE_PERSON",
+          "text": "One or more person"
+        },
+        {
+          "value": "OTHER",
+          "text": "Other"
+        }
+      ],
+      "value": null,
+      "values": [
+        "OTHER"
+      ],
+      "collection": null
+    },
+    "finance_money_management_bad_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
     },
     "employment_education_section_complete": {
       "type": "RADIO",
-      "description": "Is the employment and education section complete?",
+      "description": "Is the Employment and education section complete?",
       "options": [
         {
           "value": "YES",
@@ -1100,7 +1227,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_changes": {
       "type": "RADIO",
@@ -1144,7 +1272,8 @@
         }
       ],
       "value": "NOT_APPLICABLE",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_attitude_towards_self": {
       "type": "RADIO",
@@ -1164,7 +1293,8 @@
         }
       ],
       "value": "POSITIVE",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_learning_difficulties": {
       "type": "RADIO",
@@ -1184,18 +1314,12 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "offence_analysis_patterns_of_offending": {
-      "type": "TEXT_AREA",
-      "description": "What are the patterns of offending?",
-      "options": null,
-      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null
-    },
-    "accommodation_analysis_section_complete": {
+    "offence_analysis_accept_responsibility": {
       "type": "RADIO",
-      "description": "Is the accommodation analysis section complete?",
+      "description": "Does [subject] accept responsibility for the current index offence(s)?",
       "options": [
         {
           "value": "YES",
@@ -1206,8 +1330,17 @@
           "text": "No"
         }
       ],
-      "value": "YES",
-      "values": null
+      "value": "NO",
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_patterns_of_offending": {
+      "type": "TEXT_AREA",
+      "description": "What are the patterns of offending?",
+      "options": null,
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
+      "values": null,
+      "collection": null
     },
     "education_difficulties_reading_severity": {
       "type": "RADIO",
@@ -1223,7 +1356,8 @@
         }
       ],
       "value": "SOME_DIFFICULTIES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_coping_day_to_day_life": {
       "type": "RADIO",
@@ -1243,7 +1377,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_head_injury_or_illness": {
       "type": "RADIO",
@@ -1263,14 +1398,16 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "offence_analysis_description_of_offence": {
       "type": "TEXT_AREA",
-      "description": "Enter a brief description of the offence",
+      "description": "Enter a brief description of the current index offence(s)",
       "options": null,
       "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_mental_health_condition": {
       "type": "RADIO",
@@ -1298,7 +1435,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_neurodiverse_conditions": {
       "type": "RADIO",
@@ -1318,7 +1456,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_changes": {
       "type": "RADIO",
@@ -1362,7 +1501,25 @@
         }
       ],
       "value": "NOT_APPLICABLE",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "alcohol_use_is_alcohol_use_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "offence_analysis_victim_of_domestic_abuse": {
       "type": "RADIO",
@@ -1378,7 +1535,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_supervision": {
       "type": "RADIO",
@@ -1398,11 +1556,12 @@
         }
       ],
       "value": "UNSURE_SUPERVISION",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "health_wellbeing_analysis_section_complete": {
+    "finance_is_finance_analysis_user_submitted": {
       "type": "RADIO",
-      "description": "Is the health and wellbeing analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -1414,7 +1573,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_physical_health_condition": {
       "type": "RADIO",
@@ -1434,14 +1594,16 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_belonging": {
       "type": "TEXT_AREA",
       "description": "Is [subject] part of any groups or communities that gives them a sense of belonging? (optional)",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_childhood": {
       "type": "RADIO",
@@ -1461,7 +1623,8 @@
         }
       ],
       "value": "POSITIVE_CHILDHOOD",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_consequences": {
       "type": "RADIO",
@@ -1481,7 +1644,8 @@
         }
       ],
       "value": "SOMETIMES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_peer_pressure": {
       "type": "RADIO",
@@ -1501,7 +1665,8 @@
         }
       ],
       "value": "SOME",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_peoples_views": {
       "type": "RADIO",
@@ -1521,7 +1686,50 @@
         }
       ],
       "value": "SOMETIMES",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "drug_use_is_drug_use_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "accommodation_is_accommodation_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_impact_on_victims_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_problem_solving": {
       "type": "RADIO",
@@ -1541,11 +1749,12 @@
         }
       ],
       "value": "LIMITED_PROBLEM_SOLVING",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "employment_education_analysis_section_complete": {
+    "employment_education_is_retired_user_submitted": {
       "type": "RADIO",
-      "description": "Is the employment and education analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -1557,7 +1766,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "offence_analysis_perpetrator_of_domestic_abuse": {
       "type": "RADIO",
@@ -1573,7 +1783,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_risk_sexual_harm": {
       "type": "RADIO",
@@ -1589,11 +1800,12 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_section_complete": {
       "type": "RADIO",
-      "description": "Is the thinking behaviours and attitude section complete?",
+      "description": "Is the Thinking, behaviours and attitudes section complete?",
       "options": [
         {
           "value": "YES",
@@ -1605,7 +1817,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_stable_behaviour": {
       "type": "RADIO",
@@ -1625,7 +1838,8 @@
         }
       ],
       "value": "SOMETIMES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_positive_attitude": {
       "type": "RADIO",
@@ -1645,7 +1859,8 @@
         }
       ],
       "value": "NEGATIVE_ATTITUDE_NO_CONCERNS",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_temper_management": {
       "type": "RADIO",
@@ -1665,7 +1880,8 @@
         }
       ],
       "value": "SOMETIMES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_criminal_behaviour": {
       "type": "RADIO",
@@ -1685,7 +1901,8 @@
         }
       ],
       "value": "SOMETIMES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -1701,7 +1918,24 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_accept_responsibility_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_who_was_the_victim_other_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details",
+      "options": null,
+      "value": "¯&#x5C;_(ツ)_&#x2F;¯",
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_important_people": {
       "type": "CHECKBOX",
@@ -1735,11 +1969,12 @@
       "value": null,
       "values": [
         "FRIENDS"
-      ]
+      ],
+      "collection": null
     },
     "personal_relationships_community_section_complete": {
       "type": "RADIO",
-      "description": "Is the personal relationships and community section complete?",
+      "description": "Is the Personal relationships and community section complete?",
       "options": [
         {
           "value": "YES",
@@ -1751,7 +1986,8 @@
         }
       ],
       "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_hostile_orientation": {
       "type": "RADIO",
@@ -1771,7 +2007,8 @@
         }
       ],
       "value": "SOME",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_impulsive_behaviour": {
       "type": "RADIO",
@@ -1791,7 +2028,25 @@
         }
       ],
       "value": "SOMETIMES",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "alcohol_use_is_alcohol_use_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "drug_use_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -1807,7 +2062,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -1823,7 +2079,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_offending_activities": {
       "type": "RADIO",
@@ -1843,7 +2100,8 @@
         }
       ],
       "value": "SOMETIMES_OFFENDING_ACTIVITIES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -1859,7 +2117,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "education_professional_or_vocational_qualifications": {
       "type": "RADIO",
@@ -1879,14 +2138,42 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "personal_relationships_community_happy_relationship": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
+    "health_wellbeing_is_health_wellbeing_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_is_offence_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_childhood_behaviour": {
       "type": "RADIO",
@@ -1902,7 +2189,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_family_relationship": {
       "type": "RADIO",
@@ -1926,7 +2214,25 @@
         }
       ],
       "value": "UNKNOWN",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "accommodation_is_settled_accommodation_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "alcohol_use_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -1942,7 +2248,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_current_relationship": {
       "type": "RADIO",
@@ -1962,7 +2269,25 @@
         }
       ],
       "value": "HAPPY_RELATIONSHIP",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "accommodation_is_accommodation_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "alcohol_use_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -1978,7 +2303,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_intimate_relationship": {
       "type": "RADIO",
@@ -1998,7 +2324,8 @@
         }
       ],
       "value": "STABLE_RELATIONSHIPS",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "accommodation_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -2014,7 +2341,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_attempted_suicide_or_suicidal_thoughts": {
       "type": "RADIO",
@@ -2030,23 +2358,8 @@
         }
       ],
       "value": "NO",
-      "values": null
-    },
-    "thinking_behaviours_attitudes_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the thinking behaviours and attitude section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "accommodation_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -2062,35 +2375,40 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_peer_pressure_some_details": {
       "type": "TEXT_AREA",
       "description": "Give details (optional)",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -2106,11 +2424,20 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "personal_relationships_community_analysis_section_complete": {
+    "drug_use_practitioner_analysis_risk_of_serious_harm_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
+    },
+    "employment_education_is_employment_education_user_submitted": {
       "type": "RADIO",
-      "description": "Is the personal relationships and community analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -2122,14 +2449,8 @@
         }
       ],
       "value": "YES",
-      "values": null
-    },
-    "drug_use_practitioner_analysis_risk_of_serious_harm_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details",
-      "options": null,
-      "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -2145,14 +2466,42 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
-    "personal_relationships_community_positive_childhood_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
+    "offence_analysis_is_offence_analysis_details_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "health_wellbeing_is_health_wellbeing_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_violence_controlling_behaviour": {
       "type": "RADIO",
@@ -2172,14 +2521,16 @@
         }
       ],
       "value": "SOMETIMES",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "alcohol_use_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "finance_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2195,21 +2546,16 @@
         }
       ],
       "value": "NO",
-      "values": null
-    },
-    "personal_relationships_community_stable_intimate_relationship": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "alcohol_use_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "drug_use_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2225,7 +2571,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_education_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -2241,7 +2588,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_manipulative_predatory_behaviour": {
       "type": "RADIO",
@@ -2261,14 +2609,16 @@
         }
       ],
       "value": "SOME",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "accommodation_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_education_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -2284,14 +2634,24 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_childhood_behaviour_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
     },
     "accommodation_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "alcohol_use_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2307,28 +2667,32 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_challenges_intimate_relationship": {
       "type": "TEXT_AREA",
       "description": "Is [subject] able to resolve any challenges in their intimate relationships?",
       "options": null,
       "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_important_people_friends_details": {
       "type": "TEXT_AREA",
       "description": "Give details about their friendship (optional)",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "accommodation_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2344,35 +2708,99 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_is_offence_analysis_others_involved_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "thinking_behaviours_attitudes_is_thinking_behaviours_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "employment_education_is_employment_education_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "finance_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_childhood_positive_childhood_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
     },
     "drug_use_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_education_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2388,14 +2816,16 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_education_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -2411,14 +2841,8 @@
         }
       ],
       "value": "NO",
-      "values": null
-    },
-    "personal_relationships_community_no_childhood_behaviour_problems_details": {
-      "type": "TEXT_AREA",
-      "description": "Give details (optional)",
-      "options": null,
-      "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -2434,14 +2858,50 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "alcohol_use_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "health_wellbeing_is_no_physical_or_mental_health_condition_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_is_personal_relationships_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "employment_education_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2457,7 +2917,8 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
@@ -2473,14 +2934,16 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "accommodation_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
@@ -2496,49 +2959,89 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "thinking_behaviours_attitudes_is_thinking_behaviours_attitudes_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "health_wellbeing_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_current_relationship_happy_relationship_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "employment_education_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_practitioner_analysis_risk_of_reoffending_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_intimate_relationship_stable_relationships_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2554,7 +3057,25 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_is_personal_relationships_community_2_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_practitioner_analysis_strengths_or_protective_factors": {
       "type": "RADIO",
@@ -2570,27 +3091,61 @@
         }
       ],
       "value": "NO",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "thinking_behaviours_attitudes_is_thinking_behaviours_attitudes_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "thinking_behaviours_attitudes_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_is_personal_relationships_community_analysis_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     },
     "personal_relationships_community_practitioner_analysis_strengths_or_protective_factors_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
       "options": null,
       "value": "",
-      "values": null
+      "values": null,
+      "collection": null
     }
   },
   "oasysEquivalent": {
-    "o2-1": "¯&#x5C;_(ツ)_&#x2F;¯",
-    "o2-6": "NO",
-    "o2-8": "¯&#x5C;_(ツ)_&#x2F;¯",
     "o3-3": "NO",
     "o3-4": "0",
     "o3-5": "0",
@@ -2626,7 +3181,6 @@
     "oSC4": "FULLTIME",
     "oSC5": null,
     "oSC8": "NOTCONFIDENT",
-    "o1-30": null,
     "o10-1": "2",
     "o10-2": "0",
     "o10-4": "0",
@@ -2643,9 +3197,6 @@
     "o12-4": "1",
     "o12-9": "1",
     "o13-1": "NO",
-    "o2-12": "¯&#x5C;_(ツ)_&#x2F;¯",
-    "o2-98": "¯&#x5C;_(ツ)_&#x2F;¯",
-    "o2-99": "NO",
     "o3-97": "Area not linked to strengths and positive factors notes - \nArea not linked to serious harm notes - \nArea not linked to reoffending notes - ",
     "o3-98": "NO",
     "o3-99": "NO",
@@ -2682,11 +3233,9 @@
     "o12-97": "Area not linked to strengths and positive factors notes - \nArea not linked to serious harm notes - \nArea not linked to reoffending notes - ",
     "o12-98": "NO",
     "o12-99": "NO",
-    "o2-7-2": "NO",
     "o4-7-1": [
       "READING"
     ],
-    "o6-7da": "NO",
     "o9-1-t": null,
     "oSC2-t": null,
     "o8-2-1-1": null,
@@ -2744,9 +3293,6 @@
     "o6-7-1-2da": null,
     "o6-7-2-1da": null,
     "o6-7-2-2da": null,
-    "o2-2_V2_SEXUAL": "NO",
-    "o2-9_V2_SEXUAL": "NO",
-    "o2-2_V2_ANYVIOL": "NO",
     "o3_SAN_STRENGTH": "NO",
     "o4_SAN_STRENGTH": "NO",
     "o5_SAN_STRENGTH": "NO",
@@ -2754,11 +3300,6 @@
     "o8_SAN_STRENGTH": "NO",
     "o9_SAN_STRENGTH": "NO",
     "o10_SAN_STRENGTH": "NO",
-    "o2-2_V2_DOM_ABUSE": "NO",
-    "o2-2_V2_EXCESSIVE": "NO",
-    "o2-9_V2_ADDICTION": "NO",
-    "o2-9_V2_EMOTIONAL": "NO",
-    "o2-9_V2_FINANCIAL": "NO",
     "oTBA_SAN_STRENGTH": "NO",
     "o10-7_V2_CHILDHOOD": "NO",
     "o10-7_V2_HISTPSYCH": "NO",
