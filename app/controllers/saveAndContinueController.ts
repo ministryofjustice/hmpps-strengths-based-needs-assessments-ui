@@ -181,7 +181,7 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  async persistAnswers(req: FormWizard.Request, res: Response) {
+  async persistAnswers(req: FormWizard.Request, res: Response, options: { removeOrphanAnswers?: boolean } = {}) {
     const { assessmentId } = req.session.sessionData as SessionData
 
     const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
@@ -195,7 +195,7 @@ class SaveAndContinueController extends BaseController {
       ...this.getSectionProgress(req, isSectionComplete),
     }
 
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers)
+    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers, options)
 
     req.form.values = {
       ...allAnswers,
@@ -208,18 +208,19 @@ class SaveAndContinueController extends BaseController {
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
     let answersPersisted = false
+    const jsonResponse = req.query.jsonResponse === 'true'
 
     try {
-      await this.persistAnswers(req, res)
+      await this.persistAnswers(req, res, { removeOrphanAnswers: !jsonResponse })
       answersPersisted = true
 
-      if (req.query.jsonResponse === 'true') {
+      if (jsonResponse) {
         return res.json({ answersPersisted })
       }
 
       return super.successHandler(req, res, next)
     } catch (error) {
-      if (req.query.jsonResponse === 'true') {
+      if (jsonResponse) {
         return res.json({ answersPersisted })
       }
 
@@ -229,21 +230,22 @@ class SaveAndContinueController extends BaseController {
 
   async errorHandler(err: Error, req: FormWizard.Request, res: Response, next: NextFunction) {
     let answersPersisted = false
+    const jsonResponse = req.query.jsonResponse === 'true'
 
     try {
       if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
-        await this.persistAnswers(req, res)
+        await this.persistAnswers(req, res, { removeOrphanAnswers: false })
         answersPersisted = true
         this.setErrors(err, req, res)
       }
 
-      if (req.query.jsonResponse === 'true') {
+      if (jsonResponse) {
         return res.json({ answersPersisted })
       }
 
       return super.errorHandler(err, req, res, next)
     } catch (error) {
-      if (req.query.jsonResponse === 'true') {
+      if (jsonResponse) {
         return res.json({ answersPersisted })
       }
 
