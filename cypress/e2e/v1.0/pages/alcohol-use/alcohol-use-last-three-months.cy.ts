@@ -1,3 +1,6 @@
+import alcoholFrequency from './questions/alcohol-frequency'
+import alcoholUnits from './questions/alcohol-units'
+import alcoholBingeDrinking from './questions/alcohol-binge-drinking'
 import evidenceOfBingeDrinking from './questions/alcohol-evidence-binge-drinking'
 import impactOfAlcohol from './questions/alcohol-impact-of-use'
 import pastAlcoholIssues from './questions/alcohol-past-issues'
@@ -5,10 +8,13 @@ import reasonsForUse from './questions/alcohol-reasons-for-use'
 import stoppedOrReducedAlcohol from './questions/alcohol-stopped-or-reduced'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
-describe('/alcohol-usage-but-not-last-three-months', () => {
-  const stepUrl = '/alcohol-usage-but-not-last-three-months'
-  const summaryPage = '/alcohol-use-analysis'
+describe('/alcohol-use-last-three-months', () => {
+  const stepUrl = '/alcohol-use-last-three-months'
+  const summaryPage = '/alcohol-use-summary'
   const questions = [
+    alcoholFrequency,
+    alcoholUnits,
+    alcoholBingeDrinking,
     evidenceOfBingeDrinking,
     pastAlcoholIssues,
     reasonsForUse,
@@ -20,7 +26,7 @@ describe('/alcohol-usage-but-not-last-three-months', () => {
   before(() => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Alcohol use')
-    cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, but not in the last 3 months').clickLabel()
+    cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, including the last 3 months').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Alcohol use', stepUrl)
