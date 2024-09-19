@@ -1,12 +1,11 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
-import { buildRequestBody, flattenAnswers, isReadOnly } from './saveAndContinue.utils'
+import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
-import { NavigationItem } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 
@@ -77,27 +76,10 @@ class SaveAndContinueController extends BaseController {
     return gender === Gender.Male ? 8 : 6
   }
 
-  setReadOnlyNavigation(steps: FormWizard.RenderedSteps, navigation: Array<NavigationItem>): Array<NavigationItem> {
-    return navigation.map(navigationItem => {
-      const [summaryPageUrl] =
-        Object.entries(steps).find(([_stepUrl, stepConfig]) => {
-          return stepConfig.section === navigationItem.section && stepConfig.isLastStep
-        }) || []
-
-      return {
-        ...navigationItem,
-        url: summaryPageUrl?.slice(1) || navigationItem.url,
-      }
-    })
-  }
-
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const subjectDetails = req.session.subjectDetails as HandoverSubject
       const sessionData = req.session.sessionData as SessionData
-      const navigation = isReadOnly(sessionData.user)
-        ? this.setReadOnlyNavigation(req.form.options.steps, res.locals.form.navigation)
-        : res.locals.form.navigation
 
       res.locals = {
         ...res.locals,
@@ -110,7 +92,7 @@ class SaveAndContinueController extends BaseController {
         },
         sessionData,
         subjectDetails,
-        form: { ...res.locals.form, navigation, section: req.form.options.section, steps: req.form.options.steps },
+        form: { ...res.locals.form, section: req.form.options.section, steps: req.form.options.steps },
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))

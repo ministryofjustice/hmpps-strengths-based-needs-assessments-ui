@@ -48,13 +48,13 @@ const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): Form
     fields: [assessmentComplete.code, ...fieldCodesFrom(step.fields || [])],
     template: step.template || 'forms/default',
     backLink: step.backLink || null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
-    isLastStep: step.isLastStep || false,
   },
 })
 
 export default function buildSteps(): FormWizard.Steps {
-  const stepsReducer = (sectionConfig: SectionConfig) => (allSectionSteps: FormWizard.Steps, step: SanStep) =>
-    toSteps(step, sectionConfig.section, allSectionSteps)
+  const stepsReducer =
+    (sectionConfig: SectionConfig) => (allSectionSteps: FormWizard.Steps, step: SanStep, i: number, a: SanStep[]) =>
+      toSteps({ ...step, isLastStep: i === a.length - 1 }, sectionConfig.section, allSectionSteps)
   const toSectionSteps = (allSteps: FormWizard.Steps, sectionConfig: SectionConfig) =>
     sectionConfig.steps.reduce(stepsReducer(sectionConfig), allSteps)
   return sectionConfigs.reduce(toSectionSteps, {})

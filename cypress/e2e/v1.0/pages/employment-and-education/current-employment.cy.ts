@@ -1,8 +1,8 @@
 import employmentStatus from './questions/employmentStatus'
 
-describe('/employment-education', () => {
-  const stepUrl = '/employment-education'
-  const summaryPage = '/employment-education-analysis'
+describe('/current-employment', () => {
+  const stepUrl = '/current-employment'
+  const summaryPage = '/employment-education-summary'
   const questions = [employmentStatus]
 
   beforeEach(() => {

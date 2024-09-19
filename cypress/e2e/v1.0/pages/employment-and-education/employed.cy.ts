@@ -11,7 +11,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/employed', () => {
   const stepUrl = '/employed'
-  const summaryPage = '/employment-education-analysis'
+  const summaryPage = '/employment-education-summary'
   const questions = [
     employmentArea,
     employmentHistory,

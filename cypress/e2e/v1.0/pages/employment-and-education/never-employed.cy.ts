@@ -6,9 +6,9 @@ import levelOfEducation from './questions/levelOfEducation'
 import experienceOfEducation from './questions/experienceOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
-describe('/never-been-employed', () => {
-  const stepUrl = '/never-been-employed'
-  const summaryPage = '/employment-education-analysis'
+describe('/never-employed', () => {
+  const stepUrl = '/never-employed'
+  const summaryPage = '/employment-education-summary'
   const questions = [
     otherResponsibilities,
     levelOfEducation,

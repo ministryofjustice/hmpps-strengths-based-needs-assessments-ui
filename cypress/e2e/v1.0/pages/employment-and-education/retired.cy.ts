@@ -8,7 +8,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/retired', () => {
   const stepUrl = '/retired'
-  const summaryPage = '/employment-education-analysis'
+  const summaryPage = '/employment-education-summary'
   const questions = [
     employmentHistory,
     otherResponsibilities,

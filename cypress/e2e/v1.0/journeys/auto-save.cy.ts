@@ -16,7 +16,7 @@ describe('Auto save', () => {
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
 
     cy.visitSection('Employment and education')
-    cy.assertStepUrlIs('/employment-education')
+    cy.assertStepUrlIs('/current-employment')
 
     cy.visitSection('Accommodation')
     cy.assertStepUrlIs('/current-accommodation')

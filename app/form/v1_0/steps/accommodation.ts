@@ -150,7 +150,6 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
-      isLastStep: true,
     },
   ],
 }

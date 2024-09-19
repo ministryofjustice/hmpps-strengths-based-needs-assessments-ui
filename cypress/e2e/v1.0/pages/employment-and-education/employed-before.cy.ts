@@ -8,9 +8,9 @@ import experienceOfEmployment from './questions/experienceOfEmployment'
 import experienceOfEducation from './questions/experienceOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
-describe('/has-been-employed', () => {
-  const stepUrl = '/has-been-employed'
-  const summaryPage = '/employment-education-analysis'
+describe('/employed-before', () => {
+  const stepUrl = '/employed-before'
+  const summaryPage = '/employment-education-summary'
   const questions = [
     employmentHistory,
     otherResponsibilities,
