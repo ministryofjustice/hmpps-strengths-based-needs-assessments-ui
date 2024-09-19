@@ -1,14 +1,14 @@
 import { testPractitionerAnalysis } from './common'
 
-describe('Origin: /accommodation', () => {
+describe('Origin: /current-accommodation', () => {
   const destinations = {
-    landingPage: '/accommodation',
+    landingPage: '/current-accommodation',
     settled: '/settled-accommodation',
     temporary: '/temporary-accommodation',
-    temporary2: '/temporary-accommodation-2',
+    temporaryCasAp: '/temporary-accommodation-cas-ap',
     noAccommodation: '/no-accommodation',
+    summary: '/accommodation-summary',
     analysis: '/accommodation-analysis',
-    analysisComplete: '/accommodation-analysis-complete',
   }
 
   const sectionName = 'Accommodation'
@@ -50,8 +50,8 @@ describe('Origin: /accommodation', () => {
       })
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.settled)
 
         cy.getQuestion('Who is Sam living with?').getCheckbox('Alone').clickLabel()
@@ -64,11 +64,11 @@ describe('Origin: /accommodation', () => {
 
         cy.assertResumeUrlIs(sectionName, destinations.settled)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -94,8 +94,8 @@ describe('Origin: /accommodation', () => {
       })
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.temporary)
 
         cy.getQuestion('Who is Sam living with?').getCheckbox('Other').clickLabel()
@@ -110,15 +110,15 @@ describe('Origin: /accommodation', () => {
 
         cy.assertResumeUrlIs(sectionName, destinations.temporary)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
-  describe(`Destination: ${destinations.temporary2}`, () => {
+  describe(`Destination: ${destinations.temporaryCasAp}`, () => {
     const typeOfAccommodation = 'Temporary'
 
     Array.of(
@@ -126,7 +126,7 @@ describe('Origin: /accommodation', () => {
       'Community Accommodation Service Tier 2 (CAS2)',
       'Community Accommodation Service Tier 3 (CAS3)',
     ).forEach(typeOfTemporaryAccommodation => {
-      it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporary2}"`, () => {
+      it(`"${typeOfAccommodation}" and "${typeOfTemporaryAccommodation}" routes to "${destinations.temporaryCasAp}"`, () => {
         cy.visitStep(destinations.landingPage)
 
         cy.getQuestion('What type of accommodation does Sam currently have?').getRadio(typeOfAccommodation).clickLabel()
@@ -139,14 +139,14 @@ describe('Origin: /accommodation', () => {
 
         cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.temporary2)
-        cy.assertResumeUrlIs(sectionName, destinations.temporary2)
+        cy.assertStepUrlIs(destinations.temporaryCasAp)
+        cy.assertResumeUrlIs(sectionName, destinations.temporaryCasAp)
       })
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
-        cy.visitStep(destinations.temporary2)
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
+        cy.visitStep(destinations.temporaryCasAp)
 
         cy.getQuestion("Is the location of Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
@@ -156,13 +156,13 @@ describe('Origin: /accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.temporary2)
+        cy.assertResumeUrlIs(sectionName, destinations.temporaryCasAp)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -192,8 +192,8 @@ describe('Origin: /accommodation', () => {
       },
     )
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.noAccommodation)
 
         cy.getQuestion('Why does Sam have no accommodation?').getCheckbox('Alcohol related problems').clickLabel()
@@ -204,11 +204,11 @@ describe('Origin: /accommodation', () => {
 
         cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 })

@@ -6,7 +6,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/temporary-accommodation', () => {
   const stepUrl = '/temporary-accommodation'
-  const summaryPage = '/accommodation-analysis'
+  const summaryPage = '/accommodation-summary'
   const questions = [
     livingWith,
     suitableAccommodationLocation,

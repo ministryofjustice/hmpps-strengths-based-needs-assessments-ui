@@ -6,8 +6,8 @@ import { isReadOnly } from './saveAndContinue.utils'
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
 
-const editModeLandingPage = 'accommodation'
-const readOnlyModeLandingPage = 'accommodation-analysis-complete'
+const editModeLandingPage = 'current-accommodation'
+const readOnlyModeLandingPage = 'accommodation-analysis'
 
 const startController = async (req: Request, res: Response, next: NextFunction) => {
   try {

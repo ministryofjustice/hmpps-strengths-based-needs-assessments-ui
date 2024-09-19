@@ -6,13 +6,13 @@ import templates from '../config/templates'
 
 const section = sections.accommodation
 const stepUrls = {
-  accommodation: 'accommodation',
+  currentAccommodation: 'current-accommodation',
   settledAccommodation: 'settled-accommodation',
   temporaryAccommodation: 'temporary-accommodation',
-  temporaryAccommodation2: 'temporary-accommodation-2',
+  temporaryAccommodationCasAp: 'temporary-accommodation-cas-ap',
   noAccommodation: 'no-accommodation',
+  summary: 'accommodation-summary',
   analysis: 'accommodation-analysis',
-  analysisComplete: 'accommodation-analysis-complete',
 }
 
 const accommodationTypeGroup: FormWizard.Field[] = [
@@ -62,10 +62,10 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: stepUrls.accommodation,
+      url: stepUrls.currentAccommodation,
       fields: [
         accommodationTypeGroup,
-        accommodationFields.isUserSubmitted(stepUrls.accommodation),
+        accommodationFields.isUserSubmitted(stepUrls.currentAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
       next: [
@@ -73,7 +73,7 @@ const sectionConfig: SectionConfig = {
         nextWhen(accommodationFields.currentAccommodation, 'TEMPORARY', [
           nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'SHORT_TERM', stepUrls.temporaryAccommodation),
           nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'IMMIGRATION', stepUrls.temporaryAccommodation),
-          stepUrls.temporaryAccommodation2,
+          stepUrls.temporaryAccommodationCasAp,
         ]),
         nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
       ],
@@ -90,8 +90,8 @@ const sectionConfig: SectionConfig = {
         accommodationFields.isUserSubmitted(stepUrls.settledAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
-      backLink: stepUrls.accommodation,
+      next: stepUrls.summary,
+      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -105,22 +105,22 @@ const sectionConfig: SectionConfig = {
         accommodationFields.isUserSubmitted(stepUrls.temporaryAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
-      backLink: stepUrls.accommodation,
+      next: stepUrls.summary,
+      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.temporaryAccommodation2,
+      url: stepUrls.temporaryAccommodationCasAp,
       fields: [
         suitableLocationGroup,
         suitableAccommodationGroup,
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),
-        accommodationFields.isUserSubmitted(stepUrls.temporaryAccommodation2),
+        accommodationFields.isUserSubmitted(stepUrls.temporaryAccommodationCasAp),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
-      backLink: stepUrls.accommodation,
+      next: stepUrls.summary,
+      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -132,24 +132,25 @@ const sectionConfig: SectionConfig = {
         accommodationFields.isUserSubmitted(stepUrls.noAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
-      backLink: stepUrls.accommodation,
+      next: stepUrls.summary,
+      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysis,
+      url: stepUrls.summary,
       fields: [
         accommodationFields.practitionerAnalysis(),
-        accommodationFields.isUserSubmitted(stepUrls.analysis),
+        accommodationFields.isUserSubmitted(stepUrls.summary),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysisComplete,
+      url: stepUrls.analysis,
       template: templates.analysisComplete,
+      isLastStep: true,
     },
   ],
 }

@@ -9,7 +9,7 @@ describe('Auto save', () => {
 
   it('automatically saves form data when navigating between sections', () => {
     cy.visitSection('Accommodation')
-    cy.assertStepUrlIs('/accommodation')
+    cy.assertStepUrlIs('/current-accommodation')
 
     cy.hasAutosaveEnabled()
 
@@ -19,18 +19,18 @@ describe('Auto save', () => {
     cy.assertStepUrlIs('/employment-education')
 
     cy.visitSection('Accommodation')
-    cy.assertStepUrlIs('/accommodation')
+    cy.assertStepUrlIs('/current-accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').isChecked()
   })
 
   it('automatically saves form data after a period of inactivity', () => {
     cy.visitSection('Accommodation')
-    cy.assertStepUrlIs('/accommodation')
+    cy.assertStepUrlIs('/current-accommodation')
 
     cy.hasAutosaveEnabled()
 
-    cy.intercept('POST', '/form/1/0/accommodation?jsonResponse=true').as('post')
+    cy.intercept('POST', '/form/1/0/current-accommodation?jsonResponse=true').as('post')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
 
@@ -41,7 +41,7 @@ describe('Auto save', () => {
 
   it('automatically saves when reloading the page', () => {
     cy.visitSection('Accommodation')
-    cy.assertStepUrlIs('/accommodation')
+    cy.assertStepUrlIs('/current-accommodation')
 
     cy.hasAutosaveEnabled()
 
@@ -49,7 +49,7 @@ describe('Auto save', () => {
     cy.reload()
 
     cy.visitSection('Accommodation')
-    cy.assertStepUrlIs('/accommodation')
+    cy.assertStepUrlIs('/current-accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').isChecked()
   })
@@ -66,7 +66,7 @@ describe('Auto save', () => {
     cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
 
     cy.visitSection('Accommodation')
-    cy.assertStepUrlIs('/accommodation')
+    cy.assertStepUrlIs('/current-accommodation')
 
     cy.visitSection('Drug use')
     cy.getQuestion('Has Sam ever used drugs?').getRadio('No').isChecked()

@@ -3,9 +3,9 @@ import suitableAccommodationLocation from './questions/suitableAccommodationLoca
 import suitableAccommodationPlanned from './questions/suitableAccommodationPlanned'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
-describe('/temporary-accommodation-2', () => {
-  const stepUrl = '/temporary-accommodation-2'
-  const summaryPage = '/accommodation-analysis'
+describe('/temporary-accommodation-cas-ap', () => {
+  const stepUrl = '/temporary-accommodation-cas-ap'
+  const summaryPage = '/accommodation-summary'
   const questions = [
     suitableAccommodationLocation,
     suitableAccommodation,

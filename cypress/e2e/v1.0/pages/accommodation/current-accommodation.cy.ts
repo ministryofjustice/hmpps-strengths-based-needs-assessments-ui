@@ -1,8 +1,8 @@
 import accommodationStatus from './questions/accommodationStatus'
 
-describe('/accommodation', () => {
-  const stepUrl = '/accommodation'
-  const summaryPage = '/accommodation-analysis'
+describe('/current-accommodation', () => {
+  const stepUrl = '/current-accommodation'
+  const summaryPage = '/accommodation-summary'
   const questions = [accommodationStatus]
 
   beforeEach(() => {

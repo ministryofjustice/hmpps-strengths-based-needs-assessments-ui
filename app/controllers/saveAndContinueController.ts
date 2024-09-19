@@ -80,8 +80,8 @@ class SaveAndContinueController extends BaseController {
   setReadOnlyNavigation(steps: FormWizard.RenderedSteps, navigation: Array<NavigationItem>): Array<NavigationItem> {
     return navigation.map(navigationItem => {
       const [summaryPageUrl] =
-        Object.entries(steps).find(([stepUrl, stepConfig]) => {
-          return stepConfig.section === navigationItem.section && stepUrl.endsWith('analysis-complete')
+        Object.entries(steps).find(([_stepUrl, stepConfig]) => {
+          return stepConfig.section === navigationItem.section && stepConfig.isLastStep
         }) || []
 
       return {

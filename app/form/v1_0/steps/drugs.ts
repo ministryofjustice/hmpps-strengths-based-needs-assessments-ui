@@ -90,6 +90,7 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.analysisComplete,
       template: templates.analysisComplete,
+      isLastStep: true,
     },
   ],
 }

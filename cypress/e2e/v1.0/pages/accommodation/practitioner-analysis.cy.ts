@@ -1,6 +1,6 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-const summaryPage = '/accommodation-analysis'
+const summaryPage = '/accommodation-summary'
 
 before(() => {
   cy.createAssessment().enterAssessment()
@@ -30,4 +30,4 @@ beforeEach(() => {
   cy.hasAutosaveEnabled()
 })
 
-testPractitionerAnalysis(summaryPage, '/accommodation-analysis-complete', 'accommodation')
+testPractitionerAnalysis(summaryPage, '/accommodation-analysis', 'accommodation')
