@@ -48,6 +48,7 @@ const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): Form
     fields: [assessmentComplete.code, ...fieldCodesFrom(step.fields || [])],
     template: step.template || 'forms/default',
     backLink: step.backLink || null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
+    isLastStep: step.isLastStep || false,
   },
 })
 

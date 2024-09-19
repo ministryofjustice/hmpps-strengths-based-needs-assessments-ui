@@ -34,7 +34,7 @@
 {% block analysisPanel %}
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}
-  {% set changeLink = options.section + '-analysis#practitioner-analysis' %}
+  {% set changeLink = options.section + '-summary#practitioner-analysis' %}
 
   <section>
     {{ renderAnalysisSummaryRow(

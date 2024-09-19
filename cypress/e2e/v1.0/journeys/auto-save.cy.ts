@@ -55,14 +55,14 @@ describe('Auto save', () => {
   })
 
   it('does not remove orphaned answers', () => {
-    cy.visitStep('/drug-use')
+    cy.visitStep('/drugs')
     cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
     cy.saveAndContinue()
     cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').clickLabel()
     cy.saveAndContinue()
     cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').isChecked()
 
-    cy.visitStep('/drug-use')
+    cy.visitStep('/drugs')
     cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
 
     cy.visitSection('Accommodation')

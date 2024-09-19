@@ -1,9 +1,9 @@
 import { Fixture } from '../../../../support/commands/fixture'
 
-describe('/drug-use-type', () => {
-  const stepUrl = '/drug-use-type'
+describe('/select-drugs', () => {
+  const stepUrl = '/select-drugs'
   const detailsStep = '/drug-usage-details'
-  const summaryPage = '/drug-use-analysis'
+  const summaryPage = '/drug-use-summary'
 
   const question = 'Which drugs has Sam used?'
 

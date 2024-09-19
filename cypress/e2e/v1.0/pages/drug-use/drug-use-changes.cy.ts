@@ -1,8 +1,8 @@
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
-describe('/drug-use-type', () => {
+describe('/select-drugs', () => {
   const stepUrl = '/drug-use-changes'
-  const summaryPage = '/drug-use-analysis'
+  const summaryPage = '/drug-use-summary'
   const questions = [wantToMakeChanges]
 
   before(() => {
