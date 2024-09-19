@@ -8,8 +8,8 @@ const stepUrls = {
   thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
   sexualOffending: 'thinking-behaviours-attitudes-sexual-offending',
   thinkingBehaviours: 'thinking-behaviours',
+  summary: 'thinking-behaviours-attitudes-summary',
   analysis: 'thinking-behaviours-attitudes-analysis',
-  analysisComplete: 'thinking-behaviours-attitudes-analysis-complete',
 }
 
 const sectionConfig: SectionConfig = {
@@ -68,23 +68,23 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehaviours),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.thinkingBehavioursAttitudes,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysis,
+      url: stepUrls.summary,
       fields: [
         thinkingBehavioursFields.practitionerAnalysis(),
-        thinkingBehavioursFields.isUserSubmitted(stepUrls.analysis),
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.summary),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysisComplete,
+      url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
   ],

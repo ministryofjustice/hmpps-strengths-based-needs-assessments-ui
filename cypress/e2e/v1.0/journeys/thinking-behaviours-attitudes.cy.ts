@@ -5,8 +5,8 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
     landingPage: '/thinking-behaviours-attitudes',
     sexualOffending: '/thinking-behaviours-attitudes-sexual-offending',
     thinkingBehaviours: '/thinking-behaviours',
+    summary: '/thinking-behaviours-attitudes-summary',
     analysis: '/thinking-behaviours-attitudes-analysis',
-    analysisComplete: '/thinking-behaviours-attitudes-analysis-complete',
   }
 
   const sectionName = 'Thinking, behaviours and attitudes'
@@ -66,8 +66,8 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
         cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
       })
 
-      describe(`Destination: ${destinations.analysis}`, () => {
-        it(`routes to "${destinations.analysis}"`, () => {
+      describe(`Destination: ${destinations.summary}`, () => {
+        it(`routes to "${destinations.summary}"`, () => {
           cy.visitStep(destinations.thinkingBehaviours)
           cy.getQuestion('Is Sam able to manage their temper?')
             .getRadio('Yes, is able to manage their temper well')
@@ -97,11 +97,11 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
             .clickLabel()
           cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.analysis)
-          cy.assertResumeUrlIs(sectionName, destinations.analysis)
+          cy.assertStepUrlIs(destinations.summary)
+          cy.assertResumeUrlIs(sectionName, destinations.summary)
         })
 
-        testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+        testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
       })
     })
   })
@@ -136,11 +136,11 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.thinkingBehaviours)
-      cy.assertResumeUrlIs(sectionName, destinations.analysis) // no answers changed on the thinkingBehaviours page, therefore resumeUrl should be the summary page
+      cy.assertResumeUrlIs(sectionName, destinations.summary) // no answers changed on the thinkingBehaviours page, therefore resumeUrl should be the summary page
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to "${destinations.analysis}"`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to "${destinations.summary}"`, () => {
         cy.visitStep(destinations.thinkingBehaviours)
         cy.getQuestion('Is Sam able to manage their temper?')
           .getRadio('Yes, is able to manage their temper well')
@@ -170,11 +170,11 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
           .clickLabel()
         cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 })

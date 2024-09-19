@@ -9,7 +9,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/thinking-behaviours', () => {
   const stepUrl = '/thinking-behaviours'
-  const summaryPage = '/thinking-behaviours-attitudes-analysis'
+  const summaryPage = '/thinking-behaviours-attitudes-summary'
   const questions = [
     managingTemper,
     violenceControllingBehaviour,
