@@ -1,8 +1,8 @@
 import { assertVictimEntry } from './questions/victim/summary'
 import utils from './questions/victim/utils'
 
-describe('/offence-analysis-victims-summary', () => {
-  const stepUrl = '/offence-analysis-victims-summary'
+describe('/offence-analysis-victim-details', () => {
+  const stepUrl = '/offence-analysis-victim-details'
   const createPage = '/offence-analysis-victim/create'
 
   const victims = [

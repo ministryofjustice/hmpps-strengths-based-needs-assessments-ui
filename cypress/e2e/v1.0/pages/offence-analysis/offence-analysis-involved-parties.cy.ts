@@ -1,7 +1,7 @@
 import othersInvolved from './questions/othersInvolved'
 
-describe('/others-involved', () => {
-  const stepUrl = '/others-involved'
+describe('/offence-analysis-involved-parties', () => {
+  const stepUrl = '/offence-analysis-involved-parties'
   const summaryPage = '/offence-analysis-summary'
   const questions = [othersInvolved]
 

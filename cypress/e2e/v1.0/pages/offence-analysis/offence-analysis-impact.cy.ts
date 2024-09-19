@@ -7,8 +7,8 @@ import linkedToRiskOfSeriousHarm from './questions/linkedToRiskOfSeriousHarm'
 import perpetratorOfDomesticAbuse from './questions/perpetratorOfDomesticAbuse'
 import victimOfDomesticAbuse from './questions/victimOfDomesticAbuse'
 
-describe('/offence-analysis-details', () => {
-  const stepUrl = '/offence-analysis-details'
+describe('/offence-analysis-impact', () => {
+  const stepUrl = '/offence-analysis-impact'
   const summaryPage = '/offence-analysis-summary'
   const questions = [
     whoWasTheLeader,

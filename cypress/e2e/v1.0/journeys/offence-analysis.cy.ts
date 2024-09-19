@@ -4,9 +4,9 @@ describe('Origin: /offence-analysis', () => {
     victimCreate: '/offence-analysis-victim/create',
     victimUpdate: '/offence-analysis-victim/edit',
     victimDelete: '/offence-analysis-victim/delete',
-    victimsSummary: '/offence-analysis-victims-summary',
-    othersInvolved: '/others-involved',
-    details: '/offence-analysis-details',
+    victimsSummary: '/offence-analysis-victim-details',
+    involvedParties: '/offence-analysis-involved-parties',
+    impact: '/offence-analysis-impact',
     summary: '/offence-analysis-summary',
   }
 
@@ -20,8 +20,8 @@ describe('Origin: /offence-analysis', () => {
     cy.enterAssessment()
   })
 
-  describe(`Destination: ${destinations.othersInvolved}`, () => {
-    it(`Victim is "Other" routes to "${destinations.othersInvolved}"`, () => {
+  describe(`Destination: ${destinations.involvedParties}`, () => {
+    it(`Victim is "Other" routes to "${destinations.involvedParties}"`, () => {
       cy.visitStep(destinations.landingPage)
 
       cy.getQuestion('Enter a brief description of the current index offence(s)').enterText('Test')
@@ -37,27 +37,27 @@ describe('Origin: /offence-analysis', () => {
 
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.othersInvolved)
-      cy.assertResumeUrlIs(sectionName, destinations.othersInvolved)
+      cy.assertStepUrlIs(destinations.involvedParties)
+      cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
     })
 
-    describe(`Destination: ${destinations.details}`, () => {
-      it(`Routes to "${destinations.details}"`, () => {
-        cy.visitStep(destinations.othersInvolved)
+    describe(`Destination: ${destinations.impact}`, () => {
+      it(`Routes to "${destinations.impact}"`, () => {
+        cy.visitStep(destinations.involvedParties)
 
         cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
           .getRadio('1')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.othersInvolved)
+        cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.details)
-        cy.assertResumeUrlIs(sectionName, destinations.details)
+        cy.assertStepUrlIs(destinations.impact)
+        cy.assertResumeUrlIs(sectionName, destinations.impact)
       })
 
       describe(`Destination: ${destinations.summary}`, () => {
         it(`Routes to "${destinations.summary}"`, () => {
-          cy.visitStep(destinations.details)
+          cy.visitStep(destinations.impact)
 
           cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
             .getRadio('No')
@@ -90,7 +90,7 @@ describe('Origin: /offence-analysis', () => {
             .getRadio('No')
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.details)
+          cy.assertResumeUrlIs(sectionName, destinations.impact)
           cy.markAsComplete()
           cy.assertStepUrlIs(destinations.summary)
           cy.assertResumeUrlIs(sectionName, destinations.summary)
@@ -100,13 +100,13 @@ describe('Origin: /offence-analysis', () => {
           cy.getSummary(
             'How many other people were involved with committing the current index offence(s)?',
           ).clickChange()
-          cy.assertStepUrlIs(destinations.othersInvolved)
+          cy.assertStepUrlIs(destinations.involvedParties)
           cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
             .getRadio('2')
             .clickLabel()
           cy.saveAndContinue()
 
-          cy.assertStepUrlIs(destinations.details)
+          cy.assertStepUrlIs(destinations.impact)
           cy.currentSectionNotMarkedAsComplete(sectionName)
           cy.markAsComplete()
 
@@ -142,29 +142,29 @@ describe('Origin: /offence-analysis', () => {
         cy.assertResumeUrlIs(sectionName, destinations.victimsSummary)
       })
 
-      describe(`Destination: ${destinations.othersInvolved}`, () => {
-        it(`routes to ${destinations.othersInvolved}`, () => {
+      describe(`Destination: ${destinations.involvedParties}`, () => {
+        it(`routes to ${destinations.involvedParties}`, () => {
           cy.assertResumeUrlIs(sectionName, destinations.victimsSummary)
 
           cy.visitStep(destinations.victimsSummary)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.othersInvolved)
+          cy.assertStepUrlIs(destinations.involvedParties)
         })
 
-        describe(`Destination: ${destinations.details}`, () => {
-          it(`routes to ${destinations.details}`, () => {
-            cy.assertResumeUrlIs(sectionName, destinations.details)
+        describe(`Destination: ${destinations.impact}`, () => {
+          it(`routes to ${destinations.impact}`, () => {
+            cy.assertResumeUrlIs(sectionName, destinations.impact)
 
-            cy.visitStep(destinations.othersInvolved)
+            cy.visitStep(destinations.involvedParties)
             cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.details)
+            cy.assertStepUrlIs(destinations.impact)
           })
 
           describe(`Destination: ${destinations.summary}`, () => {
             it(`routes to ${destinations.summary}`, () => {
-              cy.assertResumeUrlIs(sectionName, destinations.details)
+              cy.assertResumeUrlIs(sectionName, destinations.impact)
 
-              cy.visitStep(destinations.details)
+              cy.visitStep(destinations.impact)
               cy.markAsComplete()
               cy.assertStepUrlIs(destinations.summary)
               cy.assertResumeUrlIs(sectionName, destinations.summary)

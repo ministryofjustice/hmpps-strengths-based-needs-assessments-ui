@@ -1,12 +1,12 @@
 {
   "metaData": {
-    "uuid": "2964d9f0-e883-4385-86e2-a407f2fd2836",
-    "createdAt": "2024-09-19T14:31:38.905319",
+    "uuid": "4ef0dfb1-9344-4f1d-82c0-f848983408c4",
+    "createdAt": "2024-09-19T15:00:56.84399",
     "oasys_pks": [
-      "3778573"
+      "6433500"
     ],
-    "versionUuid": "8ce9b780-b077-44ef-a4bf-8e4403519946",
-    "versionCreatedAt": "2024-09-19T14:31:38.905366",
+    "versionUuid": "e585607c-4dc8-403e-85b1-831181740651",
+    "versionCreatedAt": "2024-09-19T15:00:56.844075",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -2065,23 +2065,6 @@
       "values": null,
       "collection": null
     },
-    "offence_analysis_is_others_involved_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "thinking_behaviours_attitudes_offending_activities": {
       "type": "RADIO",
       "description": "Does [subject] engage in activities that could link to offending?",
@@ -2461,6 +2444,23 @@
       "values": null,
       "collection": null
     },
+    "offence_analysis_is_offence_analysis_impact_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
     "drug_use_practitioner_analysis_risk_of_serious_harm_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
@@ -2500,23 +2500,6 @@
         }
       ],
       "value": "NO",
-      "values": null,
-      "collection": null
-    },
-    "offence_analysis_is_offence_analysis_details_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -2771,6 +2754,23 @@
       "collection": null
     },
     "thinking_behaviours_attitudes_is_thinking_behaviours_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "offence_analysis_is_offence_analysis_involved_parties_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
       "options": [
