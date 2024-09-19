@@ -148,6 +148,8 @@ describe('Origin: /accommodation', () => {
       it(`routes to ${destinations.analysis}`, () => {
         cy.visitStep(destinations.temporary2)
 
+        cy.getQuestion("Is the location of Sam's accommodation suitable?").getRadio('Yes').clickLabel()
+
         cy.getQuestion("Is Sam's accommodation suitable?").getRadio('Yes').clickLabel()
 
         cy.getQuestion('Does Sam have future accommodation planned?').getRadio('No').clickLabel()
