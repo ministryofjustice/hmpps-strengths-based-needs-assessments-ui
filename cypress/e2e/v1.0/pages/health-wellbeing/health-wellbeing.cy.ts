@@ -3,7 +3,7 @@ import physicalHealthCondition from './questions/physicalHealthCondition'
 
 describe('/health-wellbeing', () => {
   const stepUrl = '/health-wellbeing'
-  const summaryPage = '/health-wellbeing-analysis'
+  const summaryPage = '/health-wellbeing-summary'
   const questions = [physicalHealthCondition, mentalHealthCondition]
 
   beforeEach(() => {

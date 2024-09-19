@@ -7,12 +7,14 @@ import optimisticAboutFuture from './questions/optimisticAboutFuture'
 import positiveAspects from './questions/positiveAspects'
 import selfHarmed from './questions/selfHarmed'
 import suicide from './questions/suicide'
+import treatmentForPhysicalHealthCondition from './questions/treatmentForPhysicalHealthCondition'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/health-wellbeing', () => {
-  const stepUrl = '/no-physical-or-mental-health-condition'
-  const summaryPage = '/health-wellbeing-analysis'
+  const stepUrl = '/physical-health'
+  const summaryPage = '/health-wellbeing-summary'
   const questions = [
+    treatmentForPhysicalHealthCondition,
     headInjuryOrBrainIllness,
     neurodiverseCondition,
     learningDifficulties,
@@ -29,7 +31,7 @@ describe('/health-wellbeing', () => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Health and wellbeing')
 
-    cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
+    cy.getQuestion('Does Sam have any physical health conditions?').getRadio('Yes').clickLabel()
 
     cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?').getRadio('No').clickLabel()
 

@@ -5,18 +5,14 @@ import learningDifficulties from './questions/learningDifficulties'
 import neurodiverseCondition from './questions/neurodiverseCondition'
 import optimisticAboutFuture from './questions/optimisticAboutFuture'
 import positiveAspects from './questions/positiveAspects'
-import psychiatricTreatment from './questions/psychiatricTreatment'
 import selfHarmed from './questions/selfHarmed'
 import suicide from './questions/suicide'
-import treatmentForMentalHealthCondition from './questions/treatmentForMentalHealthCondition'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/health-wellbeing', () => {
-  const stepUrl = '/mental-health-condition'
-  const summaryPage = '/health-wellbeing-analysis'
+  const stepUrl = '/no-physical-mental-health'
+  const summaryPage = '/health-wellbeing-summary'
   const questions = [
-    treatmentForMentalHealthCondition,
-    psychiatricTreatment,
     headInjuryOrBrainIllness,
     neurodiverseCondition,
     learningDifficulties,
@@ -35,9 +31,7 @@ describe('/health-wellbeing', () => {
 
     cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
 
-    cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?')
-      .getRadio('Yes, ongoing - severe and documented over a prolonged period of time')
-      .clickLabel()
+    cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?').getRadio('No').clickLabel()
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)

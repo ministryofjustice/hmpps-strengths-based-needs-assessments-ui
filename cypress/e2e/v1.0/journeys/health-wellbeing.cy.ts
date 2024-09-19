@@ -3,12 +3,12 @@ import { testPractitionerAnalysis } from './common'
 describe('Origin: /health-wellbeing', () => {
   const destinations = {
     landingPage: '/health-wellbeing',
-    physicalAndMentalHealthCondition: '/physical-and-mental-health-condition',
-    physicalHealthCondition: '/physical-health-condition',
-    mentalHealthCondition: '/mental-health-condition',
-    noPhysicalAndMentalHealthCondition: '/no-physical-or-mental-health-condition',
+    physicalMentalHealth: '/physical-mental-health',
+    physicalHealth: '/physical-health',
+    mentalHealth: '/mental-health',
+    noPhysicalMentalHealth: '/no-physical-mental-health',
+    summary: '/health-wellbeing-summary',
     analysis: '/health-wellbeing-analysis',
-    analysisComplete: '/health-wellbeing-analysis-complete',
   }
 
   const sectionName = 'Health and wellbeing'
@@ -21,14 +21,14 @@ describe('Origin: /health-wellbeing', () => {
     cy.enterAssessment()
   })
 
-  describe(`Destination: ${destinations.physicalAndMentalHealthCondition}`, () => {
+  describe(`Destination: ${destinations.physicalMentalHealth}`, () => {
     Array.of('Yes').forEach(physicalHealthCondition => {
       Array.of(
         'Yes, ongoing - severe and documented over a prolonged period of time',
         'Yes, ongoing - duration is not known or there is no link to offending',
         'Yes, in the past',
       ).forEach(mentalHealthCondition => {
-        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.physicalAndMentalHealthCondition}"`, () => {
+        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.physicalMentalHealth}"`, () => {
           cy.visitStep(destinations.landingPage)
 
           cy.getQuestion('Does Sam have any physical health conditions?').getRadio(physicalHealthCondition).clickLabel()
@@ -39,15 +39,15 @@ describe('Origin: /health-wellbeing', () => {
 
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.physicalAndMentalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.physicalAndMentalHealthCondition)
+          cy.assertStepUrlIs(destinations.physicalMentalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.physicalMentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
-        cy.visitStep(destinations.physicalAndMentalHealthCondition)
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
+        cy.visitStep(destinations.physicalMentalHealth)
 
         cy.getQuestion('Is Sam currently having psychiatric treatment?').getRadio('No').clickLabel()
 
@@ -73,20 +73,20 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.physicalAndMentalHealthCondition)
+        cy.assertResumeUrlIs(sectionName, destinations.physicalMentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
-  describe(`Destination: ${destinations.physicalHealthCondition}`, () => {
+  describe(`Destination: ${destinations.physicalHealth}`, () => {
     Array.of('Yes').forEach(physicalHealthCondition => {
       Array.of('No', 'Unknown').forEach(mentalHealthCondition => {
-        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.physicalHealthCondition}"`, () => {
+        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.physicalHealth}"`, () => {
           cy.visitStep(destinations.landingPage)
 
           cy.getQuestion('Does Sam have any physical health conditions?').getRadio(physicalHealthCondition).clickLabel()
@@ -97,15 +97,15 @@ describe('Origin: /health-wellbeing', () => {
 
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.physicalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.physicalHealthCondition)
+          cy.assertStepUrlIs(destinations.physicalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.physicalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
-        cy.visitStep(destinations.physicalHealthCondition)
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
+        cy.visitStep(destinations.physicalHealth)
 
         cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
 
@@ -129,24 +129,24 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.physicalHealthCondition)
+        cy.assertResumeUrlIs(sectionName, destinations.physicalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
-  describe(`Destination: ${destinations.mentalHealthCondition}`, () => {
+  describe(`Destination: ${destinations.mentalHealth}`, () => {
     Array.of('No', 'Unknown').forEach(physicalHealthCondition => {
       Array.of(
         'Yes, ongoing - severe and documented over a prolonged period of time',
         'Yes, ongoing - duration is not known or there is no link to offending',
         'Yes, in the past',
       ).forEach(mentalHealthCondition => {
-        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.mentalHealthCondition}"`, () => {
+        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.mentalHealth}"`, () => {
           cy.visitStep(destinations.landingPage)
 
           cy.getQuestion('Does Sam have any physical health conditions?').getRadio(physicalHealthCondition).clickLabel()
@@ -157,15 +157,15 @@ describe('Origin: /health-wellbeing', () => {
 
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.mentalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.mentalHealthCondition)
+          cy.assertStepUrlIs(destinations.mentalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.mentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
-        cy.visitStep(destinations.mentalHealthCondition)
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
+        cy.visitStep(destinations.mentalHealth)
 
         cy.getQuestion('Is Sam currently having psychiatric treatment?').getRadio('No').clickLabel()
 
@@ -191,20 +191,20 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.mentalHealthCondition)
+        cy.assertResumeUrlIs(sectionName, destinations.mentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
-  describe(`Destination: ${destinations.noPhysicalAndMentalHealthCondition}`, () => {
+  describe(`Destination: ${destinations.noPhysicalMentalHealth}`, () => {
     Array.of('No', 'Unknown').forEach(physicalHealthCondition => {
       Array.of('No', 'Unknown').forEach(mentalHealthCondition => {
-        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.noPhysicalAndMentalHealthCondition}"`, () => {
+        it(`Physical health condition: "${physicalHealthCondition}" and Mental health condition: "${mentalHealthCondition}" routes to "${destinations.noPhysicalMentalHealth}"`, () => {
           cy.visitStep(destinations.landingPage)
 
           cy.getQuestion('Does Sam have any physical health conditions?').getRadio(physicalHealthCondition).clickLabel()
@@ -215,15 +215,15 @@ describe('Origin: /health-wellbeing', () => {
 
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.noPhysicalAndMentalHealthCondition)
-          cy.assertResumeUrlIs(sectionName, destinations.noPhysicalAndMentalHealthCondition)
+          cy.assertStepUrlIs(destinations.noPhysicalMentalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.noPhysicalMentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.analysis}`, () => {
-      it(`routes to ${destinations.analysis}`, () => {
-        cy.visitStep(destinations.noPhysicalAndMentalHealthCondition)
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
+        cy.visitStep(destinations.noPhysicalMentalHealth)
 
         cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
 
@@ -247,13 +247,13 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.noPhysicalAndMentalHealthCondition)
+        cy.assertResumeUrlIs(sectionName, destinations.noPhysicalMentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.analysis)
-        cy.assertResumeUrlIs(sectionName, destinations.analysis)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 })

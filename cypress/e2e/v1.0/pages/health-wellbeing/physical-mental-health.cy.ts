@@ -13,8 +13,8 @@ import treatmentForPhysicalHealthCondition from './questions/treatmentForPhysica
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/health-wellbeing', () => {
-  const stepUrl = '/physical-and-mental-health-condition'
-  const summaryPage = '/health-wellbeing-analysis'
+  const stepUrl = '/physical-mental-health'
+  const summaryPage = '/health-wellbeing-summary'
   const questions = [
     treatmentForPhysicalHealthCondition,
     treatmentForMentalHealthCondition,
