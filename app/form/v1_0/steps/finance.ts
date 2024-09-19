@@ -6,8 +6,8 @@ import templates from '../config/templates'
 const section = sections.finance
 const stepUrls = {
   finance: 'finance',
+  summary: 'finance-summary',
   analysis: 'finance-analysis',
-  analysisComplete: 'finance-analysis-complete',
 }
 
 const baseFinanceGroup = [
@@ -39,22 +39,22 @@ const sectionConfig: SectionConfig = {
         financeFields.sectionComplete(),
       ].flat(),
       navigationOrder: 3,
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysis,
+      url: stepUrls.summary,
       fields: [
         financeFields.practitionerAnalysis(),
-        financeFields.isUserSubmitted(stepUrls.analysis),
+        financeFields.isUserSubmitted(stepUrls.summary),
         financeFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysisComplete,
+      url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
   ],

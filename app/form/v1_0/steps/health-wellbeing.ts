@@ -7,12 +7,12 @@ import templates from '../config/templates'
 const section = sections.healthWellbeing
 const stepUrls = {
   healthWellbeing: 'health-wellbeing',
-  physicalAndMentalHealth: 'physical-and-mental-health-condition',
-  physicalHealth: 'physical-health-condition',
-  mentalHealth: 'mental-health-condition',
-  noHealthCondition: 'no-physical-or-mental-health-condition',
+  physicalMentalHealth: 'physical-mental-health',
+  physicalHealth: 'physical-health',
+  mentalHealth: 'mental-health',
+  noPhysicalMentalHealth: 'no-physical-mental-health',
+  summary: 'health-wellbeing-summary',
   analysis: 'health-wellbeing-analysis',
-  analysisComplete: 'health-wellbeing-analysis-complete',
 }
 
 const mentalHealthConditionsFieldsGroup: Array<FormWizard.Field> = [
@@ -59,7 +59,7 @@ const sectionConfig: SectionConfig = {
           nextWhen(
             healthWellbeingFields.healthWellbeingMentalHealthCondition,
             ['YES_ONGOING_SEVERE', 'YES_ONGOING', 'YES_IN_THE_PAST'],
-            stepUrls.physicalAndMentalHealth,
+            stepUrls.physicalMentalHealth,
           ),
           nextWhen(
             healthWellbeingFields.healthWellbeingMentalHealthCondition,
@@ -79,7 +79,7 @@ const sectionConfig: SectionConfig = {
             nextWhen(
               healthWellbeingFields.healthWellbeingMentalHealthCondition,
               ['NO', 'UNKNOWN'],
-              stepUrls.noHealthCondition,
+              stepUrls.noPhysicalMentalHealth,
             ),
           ],
         ),
@@ -87,16 +87,16 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.physicalAndMentalHealth,
+      url: stepUrls.physicalMentalHealth,
       fields: [
         healthWellbeingFields.healthWellbeingPrescribedMedicationPhysicalConditions,
         mentalHealthConditionsFieldsGroup,
         baseHealthAndWellbeingFieldsGroup,
         healthWellbeingFields.wantToMakeChanges(),
-        healthWellbeingFields.isUserSubmitted(stepUrls.physicalAndMentalHealth),
+        healthWellbeingFields.isUserSubmitted(stepUrls.physicalMentalHealth),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.healthWellbeing,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
@@ -109,7 +109,7 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.isUserSubmitted(stepUrls.physicalHealth),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.healthWellbeing,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
@@ -122,35 +122,35 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.isUserSubmitted(stepUrls.mentalHealth),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.healthWellbeing,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.noHealthCondition,
+      url: stepUrls.noPhysicalMentalHealth,
       fields: [
         baseHealthAndWellbeingFieldsGroup,
         healthWellbeingFields.wantToMakeChanges(),
-        healthWellbeingFields.isUserSubmitted(stepUrls.noHealthCondition),
+        healthWellbeingFields.isUserSubmitted(stepUrls.noPhysicalMentalHealth),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.healthWellbeing,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysis,
+      url: stepUrls.summary,
       fields: [
         healthWellbeingFields.practitionerAnalysis(),
-        healthWellbeingFields.isUserSubmitted(stepUrls.analysis),
+        healthWellbeingFields.isUserSubmitted(stepUrls.summary),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysisComplete,
+      url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
   ],

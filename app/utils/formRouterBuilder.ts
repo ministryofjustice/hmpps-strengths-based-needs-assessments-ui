@@ -31,7 +31,7 @@ const removeQueryParamsFrom = (urlWithParams: string) => {
   return url
 }
 
-export interface NavigationItem {
+interface NavigationItem {
   url: string
   section: string
   label: string
@@ -39,9 +39,7 @@ export interface NavigationItem {
 }
 
 const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
-  Object.entries(steps)
-    .reverse()
-    .find(([_path, step]) => step.section === sectionName)[0]
+  Object.entries(steps).find(([_path, step]) => step.section === sectionName && step.isLastStep)[0]
 
 export const createNavigation = (
   baseUrl: string,

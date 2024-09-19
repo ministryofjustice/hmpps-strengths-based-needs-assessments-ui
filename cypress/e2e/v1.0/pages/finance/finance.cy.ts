@@ -7,7 +7,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/finance', () => {
   const stepUrl = '/finance'
-  const summaryPage = '/finance-analysis'
+  const summaryPage = '/finance-summary'
   const questions = [financeSource, bankAccount, managingMoney, gambling, debt, wantToMakeChanges]
 
   beforeEach(() => {

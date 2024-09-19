@@ -8,8 +8,8 @@ import victimSex from './questions/victim/victimSex'
 describe('/offence-analysis-victim/create', () => {
   const createUrl = '/offence-analysis-victim/create'
   const editUrl = '/offence-analysis-victim/edit/0'
-  const collectionSummaryUrl = '/offence-analysis-victims-summary'
-  const summaryUrl = '/offence-analysis-complete'
+  const collectionSummaryUrl = '/offence-analysis-victim-details'
+  const summaryUrl = '/offence-analysis-summary'
 
   const questions = [
     victimRelationship.testCreate,

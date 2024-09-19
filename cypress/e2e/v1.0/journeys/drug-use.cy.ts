@@ -1,14 +1,14 @@
 import { testPractitionerAnalysis } from './common'
 
-describe('Origin: /drug-use', () => {
+describe('Origin: /drugs', () => {
   const destinations = {
-    landingPage: '/drug-use',
-    drugUseDetails: '/drug-use-details',
-    drugTypes: '/drug-use-type',
+    landingPage: '/drugs',
+    drugUse: '/drug-use',
+    selectDrugs: '/select-drugs',
     drugTypesDetails: '/drug-usage-details',
     changes: '/drug-use-changes',
+    summary: '/drug-use-summary',
     analysis: '/drug-use-analysis',
-    analysisComplete: '/drug-use-analysis-complete',
   }
 
   const sectionName = 'Drug use'
@@ -21,32 +21,32 @@ describe('Origin: /drug-use', () => {
     cy.enterAssessment()
   })
 
-  describe(`Destination: ${destinations.analysis}`, () => {
-    it(`No drug use routes to "${destinations.analysis}"`, () => {
+  describe(`Destination: ${destinations.summary}`, () => {
+    it(`No drug use routes to "${destinations.summary}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.analysis)
-      cy.assertResumeUrlIs(sectionName, destinations.analysis)
+      cy.assertStepUrlIs(destinations.summary)
+      cy.assertResumeUrlIs(sectionName, destinations.summary)
     })
 
-    testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+    testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
   })
 
-  describe(`Destination: ${destinations.drugUseDetails}`, () => {
-    it(`"Drug use routes to "${destinations.drugUseDetails}"`, () => {
+  describe(`Destination: ${destinations.drugUse}`, () => {
+    it(`"Drug use routes to "${destinations.drugUse}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.drugUseDetails)
-      cy.assertResumeUrlIs(sectionName, destinations.drugUseDetails)
+      cy.assertStepUrlIs(destinations.drugUse)
+      cy.assertResumeUrlIs(sectionName, destinations.drugUse)
     })
 
-    describe(`Destination: ${destinations.drugTypes}`, () => {
-      it(`routes to ${destinations.drugTypes}`, () => {
-        cy.visitStep(destinations.drugUseDetails)
+    describe(`Destination: ${destinations.selectDrugs}`, () => {
+      it(`routes to ${destinations.selectDrugs}`, () => {
+        cy.visitStep(destinations.drugUse)
 
         cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').clickLabel()
 
@@ -60,19 +60,19 @@ describe('Origin: /drug-use', () => {
           .getRadio('Motivated to stop or reduce')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.drugUseDetails)
+        cy.assertResumeUrlIs(sectionName, destinations.drugUse)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.drugTypes)
-        cy.assertResumeUrlIs(sectionName, destinations.drugTypes)
+        cy.assertStepUrlIs(destinations.selectDrugs)
+        cy.assertResumeUrlIs(sectionName, destinations.selectDrugs)
       })
 
       describe(`Destination: ${destinations.drugTypesDetails}`, () => {
         it(`routes to ${destinations.drugTypesDetails}`, () => {
-          cy.visitStep(destinations.drugTypes)
+          cy.visitStep(destinations.selectDrugs)
 
           cy.getQuestion('Which drugs has Sam used?').getCheckbox('Cannabis').clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.drugTypes)
+          cy.assertResumeUrlIs(sectionName, destinations.selectDrugs)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugTypesDetails)
           cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
@@ -92,8 +92,8 @@ describe('Origin: /drug-use', () => {
             cy.assertResumeUrlIs(sectionName, destinations.changes)
           })
 
-          describe(`Destination: ${destinations.analysis}`, () => {
-            it(`routes to ${destinations.analysis}`, () => {
+          describe(`Destination: ${destinations.summary}`, () => {
+            it(`routes to ${destinations.summary}`, () => {
               cy.visitStep(destinations.changes)
 
               cy.getQuestion('Does Sam want to make changes to their drug use?')
@@ -102,11 +102,11 @@ describe('Origin: /drug-use', () => {
 
               cy.assertResumeUrlIs(sectionName, destinations.changes)
               cy.saveAndContinue()
-              cy.assertStepUrlIs(destinations.analysis)
-              cy.assertResumeUrlIs(sectionName, destinations.analysis)
+              cy.assertStepUrlIs(destinations.summary)
+              cy.assertResumeUrlIs(sectionName, destinations.summary)
             })
 
-            testPractitionerAnalysis(sectionName, destinations.analysis, destinations.analysisComplete)
+            testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
           })
         })
       })

@@ -6,7 +6,7 @@ import drugsSection from './drugs'
 import alcoholSection from './alcohol'
 import employmentEducationSection from './employment-education'
 import healthAndWellbeingSection from './health-wellbeing'
-import thinkingBehavioursAttitudeSection from './thinking-behaviour-attitudes'
+import thinkingBehavioursAttitudeSection from './thinking-behaviours-attitudes'
 import personalRelationshipsAndCommunitySection from './personal-relationships-community'
 import offenceAnalysisSection from './offence-analysis'
 import { assessmentComplete } from '../fields'
@@ -52,8 +52,9 @@ const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): Form
 })
 
 export default function buildSteps(): FormWizard.Steps {
-  const stepsReducer = (sectionConfig: SectionConfig) => (allSectionSteps: FormWizard.Steps, step: SanStep) =>
-    toSteps(step, sectionConfig.section, allSectionSteps)
+  const stepsReducer =
+    (sectionConfig: SectionConfig) => (allSectionSteps: FormWizard.Steps, step: SanStep, i: number, a: SanStep[]) =>
+      toSteps({ ...step, isLastStep: i === a.length - 1 }, sectionConfig.section, allSectionSteps)
   const toSectionSteps = (allSteps: FormWizard.Steps, sectionConfig: SectionConfig) =>
     sectionConfig.steps.reduce(stepsReducer(sectionConfig), allSteps)
   return sectionConfigs.reduce(toSectionSteps, {})

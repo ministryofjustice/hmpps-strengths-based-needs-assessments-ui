@@ -6,7 +6,7 @@ import whoWasTheVictim from './questions/whoWasTheVictim'
 
 describe('/offence-analysis', () => {
   const stepUrl = '/offence-analysis'
-  const summaryPage = '/offence-analysis-complete'
+  const summaryPage = '/offence-analysis-summary'
   const questions = [descriptionOfTheOffence, elementsOfTheOffence, whyDidItHappen, motivations, whoWasTheVictim]
 
   beforeEach(() => {

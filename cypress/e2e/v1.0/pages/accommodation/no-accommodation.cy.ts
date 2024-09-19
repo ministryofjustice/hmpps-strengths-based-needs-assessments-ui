@@ -5,7 +5,7 @@ import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/no-accommodation', () => {
   const stepUrl = '/no-accommodation'
-  const summaryPage = '/accommodation-analysis'
+  const summaryPage = '/accommodation-summary'
   const questions = [noAccommodationReason, pastAccommodationDetails, suitableAccommodationPlanned, wantToMakeChanges]
 
   before(() => {

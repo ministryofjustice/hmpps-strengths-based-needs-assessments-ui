@@ -7,10 +7,10 @@ import templates from '../config/templates'
 const section = sections.personalRelationships
 const stepUrls = {
   personalRelationships: 'personal-relationships',
+  personalRelationshipsChildren: 'personal-relationships-children',
   personalRelationshipsCommunity: 'personal-relationships-community',
-  personalRelationshipsCommunity2: 'personal-relationships-community-2',
+  summary: 'personal-relationships-community-summary',
   analysis: 'personal-relationships-community-analysis',
-  analysisComplete: 'personal-relationships-community-analysis-complete',
 }
 
 const personalRelationshipsCommunityFieldsGroup: Array<FormWizard.Field> = [
@@ -65,14 +65,14 @@ const sectionConfig: SectionConfig = {
           field: personalRelationshipsFields.personalRelationshipsCommunityImportantPeople.code,
           op: contains,
           value: 'CHILD_PARENTAL_RESPONSIBILITIES',
-          next: stepUrls.personalRelationshipsCommunity,
+          next: stepUrls.personalRelationshipsChildren,
         },
-        stepUrls.personalRelationshipsCommunity2,
+        stepUrls.personalRelationshipsCommunity,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.personalRelationshipsCommunity,
+      url: stepUrls.personalRelationshipsChildren,
       fields: [
         currentRelationshipStatusFieldsGroup,
         intimateRelationshipFieldsGroup,
@@ -85,37 +85,37 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsCommunity),
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.personalRelationships,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.personalRelationshipsCommunity2,
+      url: stepUrls.personalRelationshipsCommunity,
       fields: [
         currentRelationshipStatusFieldsGroup,
         intimateRelationshipFieldsGroup,
         personalRelationshipsCommunityFieldsGroup,
         personalRelationshipsFields.wantToMakeChanges(),
-        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsCommunity2),
+        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildren),
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.personalRelationships,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysis,
+      url: stepUrls.summary,
       fields: [
         personalRelationshipsFields.practitionerAnalysis(),
-        personalRelationshipsFields.isUserSubmitted(stepUrls.analysis),
+        personalRelationshipsFields.isUserSubmitted(stepUrls.summary),
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysisComplete,
+      url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
   ],

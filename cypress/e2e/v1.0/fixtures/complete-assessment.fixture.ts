@@ -283,7 +283,7 @@ describe('Generate fixture for complete assessment', () => {
       .getRadio('No')
       .clickLabel()
     cy.getQuestion('Is there evidence that Sam has ever been a victim of domestic abuse?').getRadio('No').clickLabel()
-    cy.saveAndContinue()
+    cy.markAsComplete()
 
     cy.sectionMarkedAsComplete(section)
   })

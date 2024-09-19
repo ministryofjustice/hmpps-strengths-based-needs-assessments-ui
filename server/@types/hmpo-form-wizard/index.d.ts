@@ -207,6 +207,7 @@ declare module 'hmpo-form-wizard' {
       locals?: Record<string, boolean | string>
       secondaryActions?: SecondaryAction[]
       autosave?: boolean
+      isLastStep?: boolean
     }
 
     interface Step extends BaseStep {

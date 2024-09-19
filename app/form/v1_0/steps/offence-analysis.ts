@@ -11,9 +11,9 @@ const stepUrls = {
   offenceAnalysisVictimDelete: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.deleteUrl,
   offenceAnalysisVictimUpdate: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.updateUrl,
   offenceAnalysisVictimsSummary: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.summaryUrl,
-  offenceAnalysisOthersInvolved: 'offence-analysis-others-involved',
-  offenceAnalysisDetails: 'offence-analysis-details',
-  analysisComplete: 'offence-analysis-complete',
+  offenceAnalysisInvolvedParties: 'offence-analysis-involved-parties',
+  offenceAnalysisImpact: 'offence-analysis-impact',
+  summary: 'offence-analysis-summary',
 }
 
 const VictimsCollectionController = createCollectionController(offenceAnalysisFields.offenceAnalysisVictimsCollection)
@@ -51,7 +51,7 @@ const sectionConfig: SectionConfig = {
             stepUrls.offenceAnalysisVictimsSummary,
           ],
         },
-        stepUrls.offenceAnalysisOthersInvolved,
+        stepUrls.offenceAnalysisInvolvedParties,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
@@ -99,7 +99,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
         offenceAnalysisFields.sectionComplete(),
       ],
-      next: stepUrls.offenceAnalysisOthersInvolved,
+      next: stepUrls.offenceAnalysisInvolvedParties,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       secondaryActions: [
         {
@@ -110,18 +110,18 @@ const sectionConfig: SectionConfig = {
       backLink: stepUrls.offenceAnalysis,
     },
     {
-      url: stepUrls.offenceAnalysisOthersInvolved,
+      url: stepUrls.offenceAnalysisInvolvedParties,
       fields: [
         offenceAnalysisFields.offenceAnalysisHowManyInvolved,
-        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisOthersInvolved),
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisInvolvedParties),
         offenceAnalysisFields.sectionComplete(),
       ],
-      next: stepUrls.offenceAnalysisDetails,
+      next: stepUrls.offenceAnalysisImpact,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       backLink: stepUrls.offenceAnalysis,
     },
     {
-      url: stepUrls.offenceAnalysisDetails,
+      url: stepUrls.offenceAnalysisImpact,
       fields: [
         offenceAnalysisFields.offenceAnalysisLeader,
         offenceAnalysisFields.offenceAnalysisLeaderYesDetails,
@@ -140,18 +140,18 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuse,
         offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseType,
         offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseTypeDetails,
-        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisDetails),
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisImpact),
         offenceAnalysisFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysisComplete,
+      next: stepUrls.summary,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
-      backLink: stepUrls.offenceAnalysisOthersInvolved,
+      backLink: stepUrls.offenceAnalysisInvolvedParties,
       locals: {
         buttonText: 'Mark as complete',
       },
     },
     {
-      url: stepUrls.analysisComplete,
+      url: stepUrls.summary,
       template: templates.analysisComplete,
       locals: { hideAnalysis: true },
     },

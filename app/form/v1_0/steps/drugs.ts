@@ -5,52 +5,52 @@ import templates from '../config/templates'
 
 const section = sections.drugs
 const stepUrls = {
+  drugs: 'drugs',
   drugUse: 'drug-use',
-  drugUseDetails: 'drug-use-details',
-  drugUseType: 'drug-use-type',
+  selectDrugs: 'select-drugs',
   drugUsageDetails: 'drug-usage-details',
   drugUseChanges: 'drug-use-changes',
+  summary: 'drug-use-summary',
   analysis: 'drug-use-analysis',
-  analysisComplete: 'drug-use-analysis-complete',
 }
 
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: stepUrls.drugUse,
+      url: stepUrls.drugs,
       fields: [
         drugsFields.drugUseGroup,
-        drugsFields.isUserSubmitted(stepUrls.drugUse),
+        drugsFields.isUserSubmitted(stepUrls.drugs),
         drugsFields.sectionComplete(),
       ].flat(),
       next: [
-        nextWhen(drugsFields.drugUse, 'YES', stepUrls.drugUseDetails),
-        nextWhen(drugsFields.drugUse, 'NO', stepUrls.analysis),
+        nextWhen(drugsFields.drugUse, 'YES', stepUrls.drugUse),
+        nextWhen(drugsFields.drugUse, 'NO', stepUrls.summary),
       ],
       navigationOrder: 4,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.drugUseDetails,
+      url: stepUrls.drugUse,
       fields: [
         drugsFields.drugUsageDetailsGroup,
-        drugsFields.isUserSubmitted(stepUrls.drugUseDetails),
+        drugsFields.isUserSubmitted(stepUrls.drugUse),
         drugsFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.drugUseType,
-      backLink: stepUrls.drugUse,
+      next: stepUrls.selectDrugs,
+      backLink: stepUrls.drugs,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.drugUseType,
+      url: stepUrls.selectDrugs,
       fields: [
         drugsFields.drugUseTypeGroup,
-        drugsFields.isUserSubmitted(stepUrls.drugUseType),
+        drugsFields.isUserSubmitted(stepUrls.selectDrugs),
         drugsFields.sectionComplete(),
       ].flat(),
       next: stepUrls.drugUsageDetails,
-      backLink: stepUrls.drugUseDetails,
+      backLink: stepUrls.drugUse,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -62,7 +62,7 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: stepUrls.drugUseChanges,
       template: templates.drugUsage,
-      backLink: stepUrls.drugUseType,
+      backLink: stepUrls.selectDrugs,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -72,23 +72,23 @@ const sectionConfig: SectionConfig = {
         drugsFields.isUserSubmitted(stepUrls.drugUseChanges),
         drugsFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: stepUrls.summary,
       backLink: stepUrls.drugUsageDetails,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysis,
+      url: stepUrls.summary,
       fields: [
         drugsFields.practitionerAnalysis(),
-        drugsFields.isUserSubmitted(stepUrls.analysis),
+        drugsFields.isUserSubmitted(stepUrls.summary),
         drugsFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysisComplete}#practitioner-analysis`,
+      next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysisComplete,
+      url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
   ],

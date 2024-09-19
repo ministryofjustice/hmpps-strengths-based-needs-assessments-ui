@@ -420,7 +420,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       createUrl: 'offence-analysis-victim/create',
       updateUrl: 'offence-analysis-victim/edit',
       deleteUrl: 'offence-analysis-victim/delete',
-      summaryUrl: 'offence-analysis-victims-summary',
+      summaryUrl: 'offence-analysis-victim-details',
     },
     labelClasses: utils.getMediumLabelClassFor(FieldType.Collection),
     summary: { displayAlways: true },

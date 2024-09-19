@@ -3,7 +3,7 @@ import utils from './questions/victim/utils'
 
 describe('/offence-analysis-victim/delete/:entryId', () => {
   const createUrl = '/offence-analysis-victim/create'
-  const collectionSummaryUrl = '/offence-analysis-victims-summary'
+  const collectionSummaryUrl = '/offence-analysis-victim-details'
 
   const victims = [
     {
