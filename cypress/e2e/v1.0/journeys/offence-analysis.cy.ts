@@ -5,9 +5,9 @@ describe('Origin: /offence-analysis', () => {
     victimUpdate: '/offence-analysis-victim/edit',
     victimDelete: '/offence-analysis-victim/delete',
     victimsSummary: '/offence-analysis-victims-summary',
-    othersInvolved: '/offence-analysis-others-involved',
+    othersInvolved: '/others-involved',
     details: '/offence-analysis-details',
-    summary: '/offence-analysis-complete',
+    summary: '/offence-analysis-summary',
   }
 
   const sectionName = 'Offence analysis'

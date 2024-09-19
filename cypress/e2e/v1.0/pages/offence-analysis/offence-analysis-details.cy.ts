@@ -9,7 +9,7 @@ import victimOfDomesticAbuse from './questions/victimOfDomesticAbuse'
 
 describe('/offence-analysis-details', () => {
   const stepUrl = '/offence-analysis-details'
-  const summaryPage = '/offence-analysis-complete'
+  const summaryPage = '/offence-analysis-summary'
   const questions = [
     whoWasTheLeader,
     recogniseImpactOnVictims,
