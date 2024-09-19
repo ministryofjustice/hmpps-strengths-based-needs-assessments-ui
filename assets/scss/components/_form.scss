@@ -25,3 +25,26 @@
   @extend .govuk-body-l;
   margin-bottom: govuk-spacing(-1);
 }
+
+.form-header {
+  @include govuk-clearfix;
+}
+
+.form-header__actions {
+  float: right;
+
+  @include govuk-media-query($until: desktop){
+    width: 100%;
+    float: none;
+  }
+
+  & button {
+    @include govuk-media-query($until: desktop) {
+      width: 100%;
+    }
+  }
+}
+
+.form-header__title {
+  float: left;
+}

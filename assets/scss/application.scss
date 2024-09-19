@@ -4,6 +4,12 @@ $path: "/assets/images/";
 $moj-page-width: 1170px;
 $govuk-page-width: $moj-page-width;
 
+$govuk-breakpoints: (
+  mobile: 750px,
+  tablet: 760px,
+  desktop: 769px
+);
+
 @import "govuk-frontend/dist/govuk/all";
 @import "@ministryofjustice/frontend/moj/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min.css";

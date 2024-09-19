@@ -34,11 +34,11 @@ export const currentSectionNotMarkedAsComplete = (section: string) => {
 }
 
 export const assessmentMarkedAsComplete = () => {
-  cy.get('.return-to-assessment > button').should('not.have.class', 'govuk-button--secondary')
+  cy.get('.form-header__actions > button').should('not.have.class', 'govuk-button--secondary')
 }
 
 export const assessmentNotMarkedAsComplete = () => {
-  cy.get('.return-to-assessment > button').should('have.class', 'govuk-button--secondary')
+  cy.get('.form-header__actions > button').should('have.class', 'govuk-button--secondary')
 }
 
 export const hasAutosaveEnabled = () => {

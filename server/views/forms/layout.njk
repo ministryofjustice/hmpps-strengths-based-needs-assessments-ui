@@ -12,33 +12,35 @@
 
 {% block content %}
   <div class="govuk-width-container">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full offender-details">
-          <span>
-            <dl>
-              {% if subjectDetails.crn %}
-                <dt>CRN:</dt>
-                <dd>{{ subjectDetails.crn }}</dd>
-              {% endif %}
-              {% if subjectDetails.pnc %}
-                <dt>PNC:</dt>
-                <dd>{{ subjectDetails.pnc }}</dd>
-              {% endif %}
-              {% if subjectDetails.dateOfBirth %}
-                <dt>Date of birth:</dt>
-                <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
-              {% endif %}
-            </dl>
-          </span>
-          <span>
-            <h3 class="govuk-heading-m">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h3>
-          </span>
-          <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
-        </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full offender-details">
+        <span>
+          <dl>
+            {% if subjectDetails.crn %}
+              <dt>CRN:</dt>
+              <dd>{{ subjectDetails.crn }}</dd>
+            {% endif %}
+            {% if subjectDetails.pnc %}
+              <dt>PNC:</dt>
+              <dd>{{ subjectDetails.pnc }}</dd>
+            {% endif %}
+            {% if subjectDetails.dateOfBirth %}
+              <dt>Date of birth:</dt>
+              <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
+            {% endif %}
+          </dl>
+        </span>
+        <span>
+          <h3 class="govuk-heading-m">{{ subjectDetails.givenName }}
+            {{ subjectDetails.familyName }}</h3>
+        </span>
+        <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
       </div>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <div class= "return-to-assessment">
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <div class="form-header">
+          <div class="form-header__actions">
             {% if assessmentIsComplete %}
               {{ govukButton({
                 text: "Return to assessment",
@@ -52,70 +54,72 @@
               }) }}
             {% endif %}
           </div>
-          <h1 class="govuk-heading-l">Strengths and needs</h1>
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+          <h1 class="govuk-heading-l form-header__title">Strengths and needs</h1>
         </div>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-static-margin-top-0">
       </div>
-      {% block notification %}
-      {% endblock %}
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-quarter">
-          <nav class="moj-side-navigation side-navigation" aria-label="Side navigation">
-            <ul class="moj-side-navigation__list">
-              {% for link in form.navigation %}
-                <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
-                  <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
-                    <span class="section-label">{{ link.label }}</span>
-                    {% if sectionProgress[link.section] %}
-                      <span class="section-complete">✓</span>
-                    {% endif %}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </nav>
-        </div>
-        <div class="govuk-grid-column-three-quarters">
-          {%- if backLink -%}
-            {{ govukBackLink({
+    </div>
+    {% block notification %}{% endblock %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-quarter">
+        <nav class="moj-side-navigation side-navigation" aria-label="Side navigation">
+          <ul class="moj-side-navigation__list">
+            {% for link in form.navigation %}
+              <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
+                <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
+                  <span class="section-label">{{ link.label }}</span>
+                  {% if sectionProgress[link.section] %}
+                    <span class="section-complete">✓</span>
+                  {% endif %}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
+      <div class="govuk-grid-column-three-quarters">
+        {%- if backLink -%}
+          {{ govukBackLink({
               text: "Back",
               href: backLink
             }) }}
-          {%- endif -%}
-          {%- if errors | length -%}
-            {{ govukErrorSummary({
+        {%- endif -%}
+        {%- if errors | length -%}
+          {{ govukErrorSummary({
               titleText: "There is a problem",
               errorList: toErrorSummary(errors)
             }) }}
-          {%- endif -%}
-          <div id="unsaved-data-notification" class="moj-banner moj-banner--warning govuk-visually-hidden" role="region" aria-label="Warning">
-            <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
-              <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"/>
-            </svg>
-            <div class="moj-banner__message">You have unsaved changes on this page</div>
-          </div>
-          <div class="section-heading">
-            <div class="section-heading__heading">
-              {% if options.pageSubHeading %}<p class="page-sub-heading">{{ options.pageSubHeading }}</p>{% endif %}
-              {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
-              <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
-            </div>
-            {% if sectionProgress[options.section] %}
-              <div class="section-heading__status">
-                {{ govukTag({ text: "Complete" }) }}
-              </div>
-            {% else %}
-              <div class="section-heading__status">
-                {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
-              </div>
-            {% endif %}
-          </div>
-          {% block formContent %}{% endblock %}
+        {%- endif -%}
+        <div id="unsaved-data-notification" class="moj-banner moj-banner--warning govuk-visually-hidden" role="region" aria-label="Warning">
+          <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
+            <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"/>
+          </svg>
+          <div class="moj-banner__message">You have unsaved changes on this page</div>
         </div>
+        <div class="section-heading">
+          <div class="section-heading__heading">
+            {% if options.pageSubHeading %}
+              <p class="page-sub-heading">{{ options.pageSubHeading }}</p>
+            {% endif %}
+            {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
+            <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
+          </div>
+          {% if sectionProgress[options.section] %}
+            <div class="section-heading__status">
+              {{ govukTag({ text: "Complete" }) }}
+            </div>
+          {% else %}
+            <div class="section-heading__status">
+              {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
+            </div>
+          {% endif %}
+        </div>
+        {% block formContent %}{% endblock %}
       </div>
+    </div>
   </div>
 {% endblock %}
 
 {% block footer %}
-    {% include "../partials/footer.njk" %}
+  {% include "../partials/footer.njk" %}
 {% endblock %}
