@@ -75,8 +75,4 @@ beforeEach(() => {
   cy.hasAutosaveEnabled()
 })
 
-testPractitionerAnalysis(
-  summaryPage,
-  '/thinking-behaviours-attitudes-analysis',
-  'thinking, behaviours and attitudes',
-)
+testPractitionerAnalysis(summaryPage, '/thinking-behaviours-attitudes-analysis', 'thinking, behaviours and attitudes')

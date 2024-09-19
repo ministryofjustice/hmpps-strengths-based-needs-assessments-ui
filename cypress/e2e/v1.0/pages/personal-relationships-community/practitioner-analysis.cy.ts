@@ -1,6 +1,6 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-const summaryPage = '/personal-relationships-community-analysis'
+const summaryPage = '/personal-relationships-community-summary'
 
 before(() => {
   cy.createAssessment().enterAssessment()
@@ -38,6 +38,6 @@ beforeEach(() => {
 
 testPractitionerAnalysis(
   summaryPage,
-  '/personal-relationships-community-analysis-complete',
+  '/personal-relationships-community-analysis',
   'personal relationships and community',
 )

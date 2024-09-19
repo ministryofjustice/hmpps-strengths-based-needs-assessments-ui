@@ -2,7 +2,7 @@ import theImportantPeople from './questions/theImportantPeople'
 
 describe('/personal-relationships', () => {
   const stepUrl = '/personal-relationships'
-  const summaryPage = '/personal-relationships-community-analysis'
+  const summaryPage = '/personal-relationships-community-summary'
   const questions = [theImportantPeople]
 
   beforeEach(() => {
