@@ -81,20 +81,23 @@ describe('common/utils/formRouterBuilder', () => {
         pageTitle: 'Foo step',
         section: 'foo',
         navigationOrder: 1,
+        isLastStep: true,
       },
       '/baz': {
         pageTitle: 'Baz step',
         section: 'baz',
         navigationOrder: 3,
+        isLastStep: true,
+      },
+      '/bar/2': {
+        pageTitle: 'Bar summary',
+        section: 'bar',
+        isLastStep: true,
       },
       '/bar': {
         pageTitle: 'Bar step',
         section: 'bar',
         navigationOrder: 2,
-      },
-      '/bar/2': {
-        pageTitle: 'Bar summary',
-        section: 'bar',
       },
     }
 
