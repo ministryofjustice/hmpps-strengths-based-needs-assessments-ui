@@ -112,6 +112,7 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.temporaryAccommodation2,
       fields: [
+        suitableLocationGroup,
         suitableAccommodationGroup,
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),

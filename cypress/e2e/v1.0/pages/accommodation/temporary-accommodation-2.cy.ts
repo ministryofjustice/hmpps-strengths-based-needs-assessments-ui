@@ -1,11 +1,17 @@
 import suitableAccommodation from './questions/suitableAccommodation'
+import suitableAccommodationLocation from './questions/suitableAccommodationLocation'
 import suitableAccommodationPlanned from './questions/suitableAccommodationPlanned'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 
 describe('/temporary-accommodation-2', () => {
   const stepUrl = '/temporary-accommodation-2'
   const summaryPage = '/accommodation-analysis'
-  const questions = [suitableAccommodation, suitableAccommodationPlanned, wantToMakeChanges]
+  const questions = [
+    suitableAccommodationLocation,
+    suitableAccommodation,
+    suitableAccommodationPlanned,
+    wantToMakeChanges,
+  ]
 
   before(() => {
     cy.createAssessment().enterAssessment()
