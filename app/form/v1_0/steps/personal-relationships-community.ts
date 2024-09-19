@@ -72,7 +72,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.personalRelationshipsCommunity,
+      url: stepUrls.personalRelationshipsChildren,
       fields: [
         currentRelationshipStatusFieldsGroup,
         intimateRelationshipFieldsGroup,
@@ -90,7 +90,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: stepUrls.personalRelationshipsChildren,
+      url: stepUrls.personalRelationshipsCommunity,
       fields: [
         currentRelationshipStatusFieldsGroup,
         intimateRelationshipFieldsGroup,
