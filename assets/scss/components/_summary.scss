@@ -1,3 +1,8 @@
+$very-large-font: 18px;
+$large-font: 16px;
+$medium-font: 14px;
+$small-font: 12px;
+
 .summary-details-list {
   & span {
     display: block;
@@ -32,86 +37,72 @@
         display: none;
       }
     }
-
   }
 
-  thead th {
-    font-weight: normal;
-
-    @media print {
-      font-size: 12px;
-      font-weight: bold;
-      background-color: govuk-colour('mid-grey');
-      border: none;
-      border-right: 1px solid white;
-    }
-  }
-
-  tbody tr:first-child th {    
-    @media print {
-      font-size: 12px;
-      font-weight: bold;
-      background-color: govuk-colour('light-grey');
-      border: none;
-    }
-  }
-
-  tbody tr th {
-    @media print {
-      font-size: 12px;
+  thead {
+    th {
       font-weight: normal;
-      background-color: govuk-colour('light-grey');
-      border: none;
-      border-bottom: 1px solid govuk-colour('mid-grey');
+
+      @media print {
+        font-size: $small-font;
+        font-weight: bold;
+        background-color: govuk-colour('mid-grey');
+        border: none;
+        border-right: 1px solid govuk-colour('white');
+      }
     }
   }
 
-  tbody tr td {
-    @media print {
-      border-bottom: 1px solid govuk-colour('mid-grey');
-      font-size: 12px;
-      font-weight: normal;
+  tbody {
+    border-bottom: 1px solid $govuk-border-colour;
+
+    tr {
+      &:first-child th {
+        @media print {
+          font-size: $small-font;
+          font-weight: bold;
+          background-color: govuk-colour('light-grey');
+          border: none;
+        }
+      }
+
+      &:last-child {
+        th,
+        td {
+          font-size: $large-font;
+          padding-top: 0;
+
+          @media print {
+            padding-top: govuk-spacing(3);
+            font-size: $small-font;
+          }
+        }
+      }
+    }
+
+    th,
+    td {
+      border-bottom: none;
+    }
+
+    th {
+      @media print {
+        font-size: $small-font;
+        font-weight: normal;
+        background-color: govuk-colour('light-grey');
+        border: none;
+        border-bottom: 1px solid govuk-colour('mid-grey');
+      }
+    }
+
+    td {
+      @media print {
+        border-bottom: 1px solid govuk-colour('mid-grey');
+        font-size: $small-font;
+        font-weight: normal;
+      }
     }
   }
-
-  tbody tr:last-child {
-    th, td {
-      padding-top: 0;
-      @include govuk-font-size('16');
-    }
-  }
-}
-
-.clearfix {
-  @include govuk-clearfix;
-}
-
-.border-bottom {
-  border-bottom: 1px solid $govuk-border-colour;
-
-  th,
-  td {
-    border-bottom: none;
-  }
-}
-
-.as-block {
-  display: block;
-  width: 100%;
-}
-
-.to-the-left {
-  float: left;
-  text-align: left;
-}
-
-.to-the-right {
-  float: right;
-  text-align: right;
-}
-
-.with-text-right {
-  text-align: right;
 }
 
 .summary-list {
@@ -140,7 +131,7 @@
     padding: govuk-spacing(3) 0;
 
     @media print {
-      font-size: 12px;
+      font-size: $small-font;
       background-color: govuk-colour('light-grey');
       padding: govuk-spacing(3) govuk-spacing(1);
     }
@@ -148,13 +139,13 @@
     &--drugs {
       @media print {
         width: 100%;
-        background-color: white;
+        background-color: govuk-colour('white');
         padding-bottom: 0;
         margin-top: 40px;
         padding-top: 0;
 
         & span {
-          font-size: 14px;
+          font-size: $medium-font;
         }
       }
     }
@@ -185,32 +176,34 @@
   }
 }
 
-.summary__panel {
-  border: none !important;
-  padding: govuk-spacing(6) 0px !important;
-}
-
-.summary__label {
-  @include govuk-font(19, 'bold');
-
-  @media print {
-    font-size: 12px;
+.summary {
+  &__panel {
+    border: none !important;
+    padding: govuk-spacing(6) 0px !important;
   }
-}
 
-.summary__answer {
-  @include govuk-font(19);
+  &__label {
+    @include govuk-font(19, 'bold');
 
-  @media print {
-    font-size: 12px;
+    @media print {
+      font-size: $small-font;
+    }
   }
-}
 
-.summary__answer--secondary {
-  @include govuk-font(16);
+  &__answer {
+    @include govuk-font(19);
 
-  @media print {
-    font-size: 12px;
+    @media print {
+      font-size: $small-font;
+    }
+
+    &--secondary {
+      @include govuk-font(16);
+
+      @media print {
+        font-size: $small-font;
+      }
+    }
   }
 }
 
@@ -242,13 +235,18 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin-bottom: govuk-spacing(3);
+
+    @media print {
+      margin-bottom: 0;
+    }
   }
 
   &__label {
     @extend .govuk-heading-m;
 
     @media print {
-      font-size: 14px;
+      font-size: $medium-font;
     }
   }
 
@@ -263,11 +261,11 @@
 .summary-section {
   margin-bottom: govuk-spacing(7);
 
-  & dl:first-of-type > div {
+  dl:first-of-type > div {
     border-top: 1px solid govuk-colour('mid-grey');
   }
 
-  & dl:last-of-type > div {
+  dl:last-of-type > div {
     border-bottom: 1px solid govuk-colour('mid-grey');
   }
 }
@@ -282,20 +280,20 @@
     margin-top: govuk-spacing(9);
 
     @media print {
-      font-size: 18px;
+      font-size: $very-large-font;
     }
   }
 
   &__status > .govuk-tag {
     @media print {
-      font-size: 12px;
+      font-size: $small-font;
       padding: 3px 8px;
     }
   }
 
   &__subtitle {
     @media print {
-      font-size: 14px;
+      font-size: $medium-font;
     }
   }
 }

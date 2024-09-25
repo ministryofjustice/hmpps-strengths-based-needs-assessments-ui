@@ -30,23 +30,21 @@
         </div>
       </div>
       <div class="pdf-header__right">
-        <span class="govuk-tag pdf-header__tag">Official Sensitive</span>
+        {{ govukTag({ text: "Official Sensitive", classes: "govuk-tag--red" }) }}
       </div>
     </div>
 
-    <div class='govuk-grid-row pdf-title-page'>
+    <div class='govuk-grid-row pdf-cover-page'>
       <div class='govuk-grid-column-two-thirds'>
+        <img class="pdf-cover-page__logo" src="{{ imageAssetPath }}moj-logo-large.png" height='95'/>
 
-        <div class='title-page-logos'>
-          <img class="pdf-title__logo" src="{{ imageAssetPath }}moj-logo-large.png" height='95'/>
-        </div>
+        <div class='pdf-cover-page__body page-break-after'>
 
-        <div class='pdf-title-page__body page-break-after'>
-
-          <p class='pdf-title__strapline'>His Majesty's Prison & Probation Service</p>
-          <h1 class='pdf-title'>Strengths and needs</h1>
-          <div class='pdf-title__divider'></div>
-          <div class='pdf-pdf__details'>
+          <div class="pdf-cover-page__title">
+            <p>His Majesty's Prison & Probation Service</p>
+            <h1>Strengths and needs</h1>
+          </div>
+          <div class='pdf-cover-page__details'>
             <p>Prepared by:</p>
             <p>
               <strong>

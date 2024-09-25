@@ -42,8 +42,8 @@
           </div>
         {% endif %}
       </div>
-      <dl>
-        {% for nested in entry.nestedFields %}
+      {% for nested in entry.nestedFields %}
+        <dl class="govuk-summary-list summary-list">
           <div class="govuk-summary-list__row summary-list__row">
             <dt class="govuk-summary-list__key summary-list__key">
               <span class="summary__label">{{ nested.field.text }}</span>
@@ -60,8 +60,8 @@
               </ul>
             </dd>
           </div>
-        {% endfor %}
-      </dl>
+        </dl>
+      {% endfor %}
     </div>
   {% else %}
     <dl>
@@ -141,11 +141,11 @@
 {% for summary in summaryFields.singleFields %}
   <dl class="govuk-summary-list summary-list">
     {% switch summary.field.code %}
-      {% case 'drug_use_type' %}
-        {{ renderDrugsTable(summary, sessionData.user) }}
+    {% case 'drug_use_type' %}
+      {{ renderDrugsTable(summary, sessionData.user) }}
       {% default %}
-        {{ renderTopLevelField(summary, sessionData) }}
-    {% endswitch %}
+      {{ renderTopLevelField(summary, sessionData) }}
+      {% endswitch %}
     </dl>
   {% endfor %}
 
