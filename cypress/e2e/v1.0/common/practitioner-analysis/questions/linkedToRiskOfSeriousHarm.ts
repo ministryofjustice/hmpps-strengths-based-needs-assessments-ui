@@ -28,7 +28,6 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
       cy.checkAccessibility()
       cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
       cy.assertStepUrlIs(summaryPage)
-      cy.getQuestion(question)
     })
 
     it('"Give details" is required when selecting "Yes"', () => {
