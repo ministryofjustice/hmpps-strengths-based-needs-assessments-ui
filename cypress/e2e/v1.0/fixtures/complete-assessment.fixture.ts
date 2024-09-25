@@ -19,8 +19,8 @@ describe('Generate fixture for complete assessment', () => {
 
     Array.of(
       `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
-      `Is Sam’s ${sectionName.toLowerCase()} linked to risk of serious harm?`,
-      `Is Sam’s ${sectionName.toLowerCase()} linked to risk of reoffending?`,
+      `Is Sam's ${sectionName.toLowerCase()} linked to risk of serious harm?`,
+      `Is Sam's ${sectionName.toLowerCase()} linked to risk of reoffending?`,
     ).forEach(question => {
       cy.getQuestion(question).getRadio('No').clickLabel()
     })
@@ -167,7 +167,7 @@ describe('Generate fixture for complete assessment', () => {
       .clickLabel()
     cy.getQuestion('Is Sam able to resolve any challenges in their intimate relationships?').enterText('¯\\_(ツ)_/¯')
     cy.getQuestion("What is Sam's current relationship like with their family?").getRadio('Unknown').clickLabel()
-    cy.getQuestion('What was Sam’s experience of their childhood?').getRadio('Positive experience').clickLabel()
+    cy.getQuestion("What was Sam's experience of their childhood?").getRadio('Positive experience').clickLabel()
     cy.getQuestion('Did Sam have any childhood behavioural problems?').getRadio('No').clickLabel()
     cy.getQuestion('Does Sam want to make changes to their personal relationships and community?')
       .getRadio('Not applicable')

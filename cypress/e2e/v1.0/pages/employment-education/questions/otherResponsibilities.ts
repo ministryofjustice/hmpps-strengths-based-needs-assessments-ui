@@ -16,7 +16,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError(
-        'Select if they have any additional day-to-day commitments, or select ‘None’',
+        "Select if they have any additional day-to-day commitments, or select 'None'",
       )
       cy.checkAccessibility()
     })

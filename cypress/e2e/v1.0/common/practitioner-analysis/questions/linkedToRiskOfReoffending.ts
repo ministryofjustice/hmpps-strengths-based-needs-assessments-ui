@@ -1,5 +1,5 @@
 export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
-  const question = `Is Sam’s ${sectionName} linked to risk of reoffending?`
+  const question = `Is Sam's ${sectionName} linked to risk of reoffending?`
   const summaryQuestion = 'Linked to risk of reoffending'
 
   describe(question, () => {
@@ -20,7 +20,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .hasNoValidationError()
         .getRadio('No')
         .getConditionalQuestion()
-        .hasTitle('Give details (Optional)')
+        .hasTitle('Give details (optional)')
         .hasNoValidationError()
       cy.visitStep(analysisCompletePage)
       cy.get('#tab_practitioner-analysis').click()

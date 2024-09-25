@@ -11,7 +11,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they understand other people’s views')
+      cy.getQuestion(question).hasValidationError("Select if they understand other people's views")
       cy.checkAccessibility()
     })
 

@@ -116,7 +116,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   })
 
   personalRelationshipsCommunityChildhood: FormWizard.Field = {
-    text: 'What was [subject]’s experience of their childhood?',
+    text: "What was [subject]'s experience of their childhood?",
     code: 'personal_relationships_community_childhood',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their experience of childhood' }],
@@ -205,7 +205,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     },
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: 'Select if they’re able to manage their parental responsibilities' },
+      { type: ValidationType.Required, message: "Select if they're able to manage their parental responsibilities" },
     ],
     options: [
       {

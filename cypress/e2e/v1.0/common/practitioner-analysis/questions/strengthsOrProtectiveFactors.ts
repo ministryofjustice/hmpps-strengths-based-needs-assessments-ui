@@ -22,7 +22,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .hasNoValidationError()
         .getRadio('No')
         .getConditionalQuestion()
-        .hasTitle('Give details (Optional)')
+        .hasTitle('Give details (optional)')
         .hasNoValidationError()
       cy.visitStep(analysisCompletePage)
       cy.get('#tab_practitioner-analysis').click()
