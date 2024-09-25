@@ -58,6 +58,10 @@ export const formatDateForDisplay = (value: string): string => {
   return date.isValid ? date.toFormat('dd MMMM y') : null
 }
 
+export const displayDateForToday = (today: DateTime = DateTime.now()) => {
+  return today.toFormat('dd MMMM y')
+}
+
 export const urlSafe = (text: string) => text.replace(/[|&;$%@"<>()+,]/g, '').replace(/\s+/g, '-')
 
 export const startsWith = (subject: string, startWith: string) => subject.startsWith(startWith)

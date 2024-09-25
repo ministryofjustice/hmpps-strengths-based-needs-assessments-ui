@@ -1,0 +1,124 @@
+@use 'sass:math';
+
+@media screen {
+  .pdf-title-page {
+    display: none;
+  }
+}
+
+@media print {
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .pdf-header,
+  .pdf-footer {
+    display: none;
+  }
+
+  .pdf-table,
+  .pdf-chart,
+  .pdf-avoid-break {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2 {
+    break-after: avoid-page;
+  }
+
+  .govuk-template {
+    background: none;
+  }
+}
+
+.pdf-title {
+  &__strapline {
+    margin-bottom: 0;
+    margin-top: 50px;
+  }
+  &__logo {
+    margin-right: 30px;
+    margin-top: 150px;
+  }
+  &__divider {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    width: 440px;
+    border: 1px solid #626a6e;
+  }
+}
+
+.pdf__details p {
+  font-size: 10px;
+  line-height: 16px;
+}
+
+.pdf-title-page__body {
+  margin-top: 60px;
+}
+
+.pdf-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 48px;
+  font-family: Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.pdf-header {
+  @include govuk-clearfix;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  border-bottom: 1px solid #000;
+  margin-bottom: govuk-spacing(6);
+
+  &__left {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &__right {
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+
+  &__logo {
+    & span:first-of-type {
+      font-weight: bold;
+    }
+  }
+
+  &__title {
+    & span {
+      display: block;
+      width: 100%;
+    }
+  
+    & span:first-of-type {
+      font-weight: bold;
+    }
+  }
+
+  &__tag {
+    background-color: govuk-colour('red');
+  }
+}
+
+.pdf-footer {
+  font-weight: bold;
+
+  & strong {
+    color: govuk-colour('red');
+  }
+}
+
+.pdf-section-break--bold {
+  width: 1220px;
+  background-color: govuk-colour('black');
+  height: 2px;
+}

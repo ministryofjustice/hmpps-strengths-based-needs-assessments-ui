@@ -1,22 +1,22 @@
 {%- macro renderDrugsTable(summaryField, user) -%}
-  <div class="govuk-summary-list__row as-block clearfix">
-    <dt class="govuk-summary-list__key to-the-left">
+  <div class="govuk-summary-list__row summary-list__row summary-list__row--drugs">
+    <dt class="govuk-summary-list__key summary-list__key summary-list__key--drugs">
       <span class="summary__label">{{ summaryField.field.text }}</span>
     </dt>
     {% if user | isInEditMode %}
-    <dd class="govuk-summary-list__actions to-the-right govuk-!-padding-right-0 govuk-!-padding-bottom-0">
+    <dd class="govuk-summary-list__actions summary-list__actions govuk-!-padding-right-0 govuk-!-padding-bottom-0">
       <a class="govuk-link" href="{{ summaryField.changeLink }}">
         Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
       </a>
     </dd>
     {% endif %}
-    <dd class="govuk-!-margin-left-0">
+    <dd class="govuk-summary-list__value summary-list__value summary-list__value--drugs">
       <table class="govuk-table drugs-summary-table">
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header normal-font-weight">Drug</th>
-          <th scope="col" class="govuk-table__header normal-font-weight">Currently</th>
-          <th scope="col" class="govuk-table__header normal-font-weight">Previously</th>
+          <th scope="col" class="govuk-table__header">Drug</th>
+          <th scope="col" class="govuk-table__header">Currently</th>
+          <th scope="col" class="govuk-table__header">Previously</th>
           <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
         </tr>
         </thead>
@@ -68,7 +68,7 @@
               <th scope="row" class="govuk-table__header">{{ drugName }}</th>
               <td class="govuk-table__cell">{{ frequency | default("N/A", true) }}</td>
               <td class="govuk-table__cell">{{ previously | default("N/A", true) }}</td>
-              <td class="govuk-table__cell with-text-right">
+              <td class="govuk-table__cell summary-list__actions">
                 {% if user | isInEditMode %}
                   <a href="{{ changeLink }}" class="govuk-link">Change</a>
                 {% endif %}
