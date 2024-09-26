@@ -58,6 +58,7 @@
     </div>
 
   {% case 'RADIO' %}
+    {% set innerHtml %}
     {{ govukRadios({
       idPrefix: question.id,
       name: question.id,
@@ -77,8 +78,11 @@
       isConditional: question.isConditional,
       hint: question.hint
     }) }}
+    {% endset %}
+    {{ innerHtml | outdent(2) | safe }}
 
   {% case 'CHECKBOX' %}
+    {% set innerHtml %}
     {{ govukCheckboxes({
       idPrefix: question.id,
       name: question.id,
@@ -98,6 +102,8 @@
       isConditional: question.isConditional,
       hint: question.hint
     }) }}
+    {% endset %}
+    {{ innerHtml | outdent(2) | safe }}
 
   {% case 'DROPDOWN' %}
     {{ govukSelect({

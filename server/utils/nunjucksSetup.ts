@@ -12,6 +12,7 @@ import {
   getSelectedAnswers,
   isInEditMode,
   ordinalWordFromNumber,
+  outdent,
   practitionerAnalysisStarted,
   startsWith,
   toErrorSummary,
@@ -81,6 +82,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('startsWith', startsWith)
 
   njkEnv.addFilter('urlSafe', urlSafe)
+
+  njkEnv.addFilter('outdent', outdent)
 
   njkEnv.addGlobal('getSummaryFields', getSummaryFields)
 
