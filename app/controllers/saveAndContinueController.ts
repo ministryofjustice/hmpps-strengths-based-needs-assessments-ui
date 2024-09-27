@@ -45,16 +45,27 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      if (req.method === 'GET' && isInEditMode(sessionData.user) && req.query.action === 'resume') {
-        const currentPageToComplete = new FieldDependencyTreeBuilder(
+      if (req.method === 'GET' && isInEditMode(sessionData.user)) {
+        const pageNavigation = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getNextPageToComplete().url
-        if (req.url !== `/${currentPageToComplete}`) {
-          return res.redirect(currentPageToComplete)
+        ).getPageNavigation()
+
+        const getBackLinkFromTrail = (currentStep: string, stepsTaken: string[]) => {
+          const currentStepIndex = stepsTaken.indexOf(currentStep)
+
+          return currentStepIndex > 0 ? stepsTaken[currentStepIndex - 1] : null
+        }
+
+        res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
+
+        if (req.query.action === 'resume') {
+          const currentPageToComplete = pageNavigation.url
+          if (req.url !== `/${currentPageToComplete}`) {
+            return res.redirect(currentPageToComplete)
+          }
         }
       }
-
       return await super.configure(req, res, next)
     } catch (error) {
       return next(error)
@@ -169,7 +180,7 @@ class SaveAndContinueController extends BaseController {
     const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
       ...req.form.persistedAnswers,
       ...req.form.values,
-    }).getNextPageToComplete()
+    }).getPageNavigation()
 
     const allAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,

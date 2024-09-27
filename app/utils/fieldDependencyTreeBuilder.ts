@@ -221,10 +221,11 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getNextPageToComplete(): { url: string; isSectionComplete: boolean } {
+  getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
+    const stepsTaken = []
 
     let isSectionComplete = true
 
@@ -232,6 +233,8 @@ export class FieldDependencyTreeBuilder {
 
     for (const [stepUrl, step] of steps) {
       nextStep = stepUrl
+      stepsTaken.push(stepUrl)
+
       const hasErrors = Object.values(step.fields)
         .filter(it => dependencyMet(it, this.answers))
         .some(field => {
@@ -250,6 +253,7 @@ export class FieldDependencyTreeBuilder {
     if (steps.length === 1) {
       return {
         url: nextStep,
+        stepsTaken,
         isSectionComplete,
       }
     }
@@ -259,6 +263,7 @@ export class FieldDependencyTreeBuilder {
 
     return {
       url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
+      stepsTaken,
       isSectionComplete,
     }
   }

@@ -65,7 +65,6 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
-      backLink: stepUrls.offenceAnalysis,
       autosave: false,
     },
     {
@@ -79,7 +78,6 @@ const sectionConfig: SectionConfig = {
       next: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       params: '/:entryId',
-      backLink: stepUrls.offenceAnalysisVictimsSummary,
     },
     {
       url: stepUrls.offenceAnalysisVictimDelete,
@@ -107,7 +105,6 @@ const sectionConfig: SectionConfig = {
           url: stepUrls.offenceAnalysisVictimCreate,
         },
       ],
-      backLink: stepUrls.offenceAnalysis,
     },
     {
       url: stepUrls.offenceAnalysisInvolvedParties,
@@ -118,7 +115,6 @@ const sectionConfig: SectionConfig = {
       ],
       next: stepUrls.offenceAnalysisImpact,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
-      backLink: stepUrls.offenceAnalysis,
     },
     {
       url: stepUrls.offenceAnalysisImpact,
@@ -145,7 +141,6 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: stepUrls.summary,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
-      backLink: stepUrls.offenceAnalysisInvolvedParties,
       locals: {
         buttonText: 'Mark as complete',
       },

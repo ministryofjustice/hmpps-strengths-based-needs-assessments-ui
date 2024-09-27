@@ -4,6 +4,15 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "components/question/macro.njk" import renderQuestion %}
 
+{% block backLink %}
+  {%- if generatedBackLink -%}
+    {{ govukBackLink({
+      text: "Back",
+      href: generatedBackLink
+    }) }}
+  {%- endif -%}
+{% endblock %}
+
 {% block formContent %}
   <div class="govuk-!-width-three-quarters">
     <form id="form" method="post" action="{{ action }}" data-autosave="{{ "true" if options.autosave !== false else "false" }}">
@@ -30,7 +39,7 @@
               {{ renderSummaryFields(summaryFields, sessionData, errors) }}
             </fieldset>
           </div>
-          
+
         {% else %}
           {% if fieldsOnThisPage.length == 1 %}
             {% if field.type === "RADIO" or field.type === "CHECKBOX" %}

@@ -97,7 +97,7 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.healthWellbeing,
+
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -110,7 +110,6 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.healthWellbeing,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -123,7 +122,6 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.healthWellbeing,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -135,7 +133,6 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.healthWellbeing,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

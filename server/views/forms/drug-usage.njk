@@ -1,0 +1,104 @@
+{% extends "./default.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "components/question/macro.njk" import renderQuestion %}
+
+{% set pageTitleClass = "govuk-body-l govuk-!-margin-0" %}
+
+{% block backLink %}
+  {%- if generatedBackLink -%}
+    {{ govukBackLink({
+      text: "Back",
+      href: generatedBackLink
+    }) }}
+  {%- endif -%}
+{% endblock %}
+
+{%- macro renderDrugTypeOption(option, fields) -%}
+  {% if option.value === "OTHER_DRUG" %}
+    {% set label = fields["other_drug_details"].value | default("Other drug") | safe %}
+  {% else %}
+    {% set label = option.text %}
+  {% endif %}
+
+  <div class="drug" id="{{ option.text | lower | urlSafe }}">
+    <h2 class="govuk-heading-m">{{ label }}</h2>
+    {% switch option.value %}
+    {% case "AMPHETAMINES" %}
+      {{ renderQuestion(options.fields["drug_usage_amphetamines"], errors) }}
+      {{ renderQuestion(options.fields["past_drug_usage_amphetamines"], errors) }}
+      {% case "BENZODIAZEPINES" %}
+        {{ renderQuestion(options.fields["drug_usage_benzodiazepines"], errors) }}
+        {{ renderQuestion(options.fields["past_drug_usage_benzodiazepines"], errors) }}
+        {% case "CANNABIS" %}
+          {{ renderQuestion(options.fields["drug_usage_cannabis"], errors) }}
+          {{ renderQuestion(options.fields["past_drug_usage_cannabis"], errors) }}
+          {% case "COCAINE" %}
+            {{ renderQuestion(options.fields["drug_usage_cocaine"], errors) }}
+            {{ renderQuestion(options.fields["past_drug_usage_cocaine"], errors) }}
+            {% case "CRACK" %}
+              {{ renderQuestion(options.fields["drug_usage_crack"], errors) }}
+              {{ renderQuestion(options.fields["past_drug_usage_crack"], errors) }}
+              {% case "ECSTASY" %}
+                {{ renderQuestion(options.fields["drug_usage_ecstasy"], errors) }}
+                {{ renderQuestion(options.fields["past_drug_usage_ecstasy"], errors) }}
+                {% case "HALLUCINOGENICS" %}
+                  {{ renderQuestion(options.fields["drug_usage_hallucinogenics"], errors) }}
+                  {{ renderQuestion(options.fields["past_drug_usage_hallucinogenics"], errors) }}
+                  {% case "HEROIN" %}
+                    {{ renderQuestion(options.fields["drug_usage_heroin"], errors) }}
+                    {{ renderQuestion(options.fields["past_drug_usage_heroin"], errors) }}
+                    {% case "METHADONE_NOT_PRESCRIBED" %}
+                      {{ renderQuestion(options.fields["drug_usage_methadone_not_prescribed"], errors) }}
+                      {{ renderQuestion(options.fields["past_drug_usage_methadone_not_prescribed"], errors) }}
+                      {% case "MISUSED_PRESCRIBED_DRUGS" %}
+                        {{ renderQuestion(options.fields["drug_usage_misused_prescribed_drugs"], errors) }}
+                        {{ renderQuestion(options.fields["past_drug_usage_misused_prescribed_drugs"], errors) }}
+                        {% case "OTHER_OPIATES" %}
+                          {{ renderQuestion(options.fields["drug_usage_other_opiates"], errors) }}
+                          {{ renderQuestion(options.fields["past_drug_usage_other_opiates"], errors) }}
+                          {% case "SOLVENTS" %}
+                            {{ renderQuestion(options.fields["drug_usage_solvents"], errors) }}
+                            {{ renderQuestion(options.fields["past_drug_usage_solvents"], errors) }}
+                            {% case "SPICE" %}
+                              {{ renderQuestion(options.fields["drug_usage_spice"], errors) }}
+                              {{ renderQuestion(options.fields["past_drug_usage_spice"], errors) }}
+                              {% case "STEROIDS" %}
+                                {{ renderQuestion(options.fields["drug_usage_steroids"], errors) }}
+                                {{ renderQuestion(options.fields["past_drug_usage_steroids"], errors) }}
+                                {% case "OTHER_DRUG" %}
+                                  {{ renderQuestion(options.fields["drug_usage_other_drug"], errors) }}
+                                  {{ renderQuestion(options.fields["past_drug_usage_other_drug"], errors) }}
+                                  {% endswitch %}
+                                  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                                </div>
+                              {%- endmacro -%}
+
+                              {%- macro renderQuestionsForDrugTypes(fields, answers) -%}
+                                {% for option in fields["drug_use_type"].options %}
+                                  {% if option.checked %}
+                                    {{ renderDrugTypeOption(option, fields) }}
+                                  {% endif %}
+                                {% endfor %}
+                              {%- endmacro -%}
+
+                              {% block formContent %}
+                                <div class="section-heading">
+                                  <div class="section-heading__heading">
+                                    <h2 class="govuk-heading-l">Usage details</h2>
+                                  </div>
+                                </div>
+                                <form id="form" method="post" action="{{ action }}" data-autosave="true">
+                                  <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+                                  {{ renderQuestionsForDrugTypes(options.allFields, options.answers) }}
+
+                                  <div class="questiongroup-action-buttons">
+                                    {{ govukButton({
+        text: buttonText | default('Save and continue'),
+        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1',
+        name: getUserSubmittedField(form.fields),
+        value: 'YES'
+      }) }}
+                                  </div>
+                                </form>
+                              {% endblock %}

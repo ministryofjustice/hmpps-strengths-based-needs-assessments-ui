@@ -86,7 +86,6 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.personalRelationships,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -100,7 +99,6 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.personalRelationships,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

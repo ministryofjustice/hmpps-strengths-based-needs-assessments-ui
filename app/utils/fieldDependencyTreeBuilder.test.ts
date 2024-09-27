@@ -574,8 +574,8 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
     })
   })
 
-  describe('getNextPageToComplete', () => {
-    it('returns the next page to complete', () => {
+  describe('getPageNavigation', () => {
+    it('returns both the next step to complete along with a breadcrumb trail', () => {
       const fields: FormWizard.Fields = {
         q1: {
           id: 'q1',
@@ -637,9 +637,13 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
         q2: 'bar',
       }
 
-      const result = new TestableFieldDependencyTreeBuilder(options, answers).getNextPageToComplete()
+      const result = new TestableFieldDependencyTreeBuilder(options, answers).getPageNavigation()
 
-      expect(result).toEqual({ url: 'step-2', isSectionComplete: false })
+      expect(result).toEqual({
+        url: 'step-2',
+        stepsTaken: ['step-1', 'step-2'],
+        isSectionComplete: false,
+      })
     })
   })
 })
