@@ -26,6 +26,8 @@ class BaseController extends FormWizard.Controller {
     }
 
     res.locals.domain = config.domain
+    res.locals.oasysUrl = config.oasysUrl
+
     return super.configure(req, res, next)
   }
 

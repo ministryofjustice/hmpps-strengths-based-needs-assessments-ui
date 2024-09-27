@@ -21,12 +21,7 @@ export const user = {
 
 export const flashProvider = jest.fn()
 
-function appSetup(
-  services: Services,
-  production: boolean,
-  userSupplier: () => Express.User,
-  additionalRoutes: Router[],
-): Express {
+function appSetup(userSupplier: () => Express.User, additionalRoutes: Router[]): Express {
   const app = express()
 
   app.set('view engine', 'njk')
@@ -45,14 +40,12 @@ function appSetup(
   app.use(routes())
   additionalRoutes.forEach(it => app.use(it))
   app.use((req, res, next) => next(createError(404, 'Not found')))
-  app.use(errorHandler(production))
+  app.use(errorHandler())
 
   return app
 }
 
 export function appWithAllRoutes({
-  production = false,
-  services = {},
   userSupplier = () => user,
   additionalRoutes = [],
 }: {
@@ -62,5 +55,5 @@ export function appWithAllRoutes({
   additionalRoutes?: Router[]
 }): Express {
   auth.default.authenticationMiddleware = () => (req, res, next) => next()
-  return appSetup(services as Services, production, userSupplier, additionalRoutes)
+  return appSetup(userSupplier, additionalRoutes)
 }
