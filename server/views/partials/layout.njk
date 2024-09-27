@@ -1,3 +1,5 @@
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
 {% extends "govuk/template.njk" %}
 
 {% block head %}
@@ -13,6 +15,16 @@
 {% endblock %}
 
 {% block bodyStart %}{% endblock %}
+
+{% block beforeContent %}
+  {% set maintenanceMessage = getMaintenanceMessage() %}
+  {% if maintenanceMessage %}
+    {{ govukNotificationBanner({
+      text: maintenanceMessage,
+      classes: "maintenance-banner"
+    }) }}
+  {% endif %}
+{% endblock %}
 
 {% block bodyEnd %}
   <script type="module" src="/assets/js/app.js"></script>

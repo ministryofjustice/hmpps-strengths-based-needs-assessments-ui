@@ -9,6 +9,7 @@ import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
+import ForbiddenError from '../../server/errors/forbiddenError'
 
 export type Progress = Record<string, boolean>
 
@@ -26,7 +27,7 @@ class SaveAndContinueController extends BaseController {
       const sessionData = req.session.sessionData as SessionData
 
       if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
-        return res.status(401).send('Cannot edit whilst in read-only mode')
+        return next(new ForbiddenError(req))
       }
 
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
