@@ -100,12 +100,12 @@ export class FieldDependencyTreeBuilder {
       }
 
       if (field.collection) {
-        const entries = ((this.answers[field.code] || []) as FormWizard.CollectionEntry[]).map((e, i) => {
-          this.answersOverride = e
+        const entries = ((this.answers[field.code] || []) as FormWizard.CollectionEntry[]).map((entry, index) => {
+          this.answersOverride = entry
 
-          const entryFields = Object.keys(e)
-            .map(it => this.options.allFields[it])
-            .reduce(this.toStepFields(`${field.collection.updateUrl}/${i}`), [])
+          const entryFields = field.collection.fields
+            .map(it => this.options.allFields[it.code])
+            .reduce(this.toStepFields(`${field.collection.updateUrl}/${index}`), [])
 
           delete this.answersOverride
 
