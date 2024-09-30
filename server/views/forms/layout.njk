@@ -13,7 +13,7 @@
   <div class="govuk-width-container">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full offender-details">
-        <span>
+        <span class="offender-details__top">
           <dl>
             {% if subjectDetails.crn %}
               <dt>CRN:</dt>
@@ -29,9 +29,10 @@
             {% endif %}
           </dl>
         </span>
-        <span>
+        <span class="offender-details__bottom">
           <h3 class="govuk-heading-m">{{ subjectDetails.givenName }}
             {{ subjectDetails.familyName }}</h3>
+            <a href="print-preview" class="govuk-link print-link">Print</a>
         </span>
         <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
       </div>

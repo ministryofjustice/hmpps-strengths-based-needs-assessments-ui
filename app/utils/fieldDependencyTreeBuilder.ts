@@ -1,10 +1,16 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
-import { formatDateForDisplay } from '../../server/utils/nunjucks.utils'
+import { formatDateForDisplay, isPractitionerAnalysisField } from '../../server/utils/nunjucks.utils'
 import { dependencyMet, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import sections from '../form/v1_0/config/sections'
 import { validateField } from './validation'
+
+export interface Options {
+  section: string
+  allFields: Record<string, FormWizard.Field>
+  steps: FormWizard.RenderedSteps
+}
 
 export interface Field {
   field: FormWizard.Field
@@ -22,7 +28,7 @@ type StepFieldsFilterFn = (field: FormWizard.Field) => boolean
 const hasProperty = (a: object, b: string) => Object.prototype.hasOwnProperty.call(a, b)
 
 export class FieldDependencyTreeBuilder {
-  private readonly options: FormWizard.FormOptions
+  private readonly options: Options
 
   private readonly answers: FormWizard.Answers
 
@@ -30,7 +36,7 @@ export class FieldDependencyTreeBuilder {
 
   private stepFieldsFilterFn: StepFieldsFilterFn = () => true
 
-  constructor(options: FormWizard.FormOptions, answers: FormWizard.Answers) {
+  constructor(options: Options, answers: FormWizard.Answers) {
     this.options = options
     this.answers = answers
   }
@@ -94,12 +100,12 @@ export class FieldDependencyTreeBuilder {
       }
 
       if (field.collection) {
-        const entries = ((this.answers[field.code] || []) as FormWizard.CollectionEntry[]).map((e, i) => {
-          this.answersOverride = e
+        const entries = ((this.answers[field.code] || []) as FormWizard.CollectionEntry[]).map((entry, index) => {
+          this.answersOverride = entry
 
-          const entryFields = Object.keys(e)
-            .map(it => this.options.allFields[it])
-            .reduce(this.toStepFields(`${field.collection.updateUrl}/${i}`), [])
+          const entryFields = field.collection.fields
+            .map(it => this.options.allFields[it.code])
+            .reduce(this.toStepFields(`${field.collection.updateUrl}/${index}`), [])
 
           delete this.answersOverride
 
@@ -124,7 +130,9 @@ export class FieldDependencyTreeBuilder {
         ...fields,
         {
           field,
-          changeLink: `${stepPath}#${field.id || field.code}`,
+          changeLink: isPractitionerAnalysisField(field.code)
+            ? `${stepPath}#practitioner-analysis`
+            : `${stepPath}#${field.id || field.code}`,
           answers: this.getFieldAnswers(field),
         },
       ]

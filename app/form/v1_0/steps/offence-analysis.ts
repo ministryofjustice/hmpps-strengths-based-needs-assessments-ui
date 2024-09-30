@@ -1,4 +1,5 @@
-import { contains, setFieldToCompleteWhenValid, setFieldToIncomplete } from './common'
+import FormWizard from 'hmpo-form-wizard'
+import { contains, nextWhen, setFieldToCompleteWhenValid, setFieldToIncomplete } from './common'
 import offenceAnalysisFields from '../fields/offence-analysis'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
@@ -13,10 +14,28 @@ const stepUrls = {
   offenceAnalysisVictimsSummary: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.summaryUrl,
   offenceAnalysisInvolvedParties: 'offence-analysis-involved-parties',
   offenceAnalysisImpact: 'offence-analysis-impact',
+  offenceAnalysisImpactOthersInvolved: 'offence-analysis-impact-others-involved',
   summary: 'offence-analysis-summary',
 }
 
 const VictimsCollectionController = createCollectionController(offenceAnalysisFields.offenceAnalysisVictimsCollection)
+
+const offenceAnalysisImpactGroup: FormWizard.Field[] = [
+  offenceAnalysisFields.offenceAnalysisImpactOnVictims,
+  offenceAnalysisFields.offenceAnalysisImpactOnVictimsDetails,
+  offenceAnalysisFields.offenceAnalysisAcceptResponsibility,
+  offenceAnalysisFields.offenceAnalysisAcceptResponsibilityDetails,
+  offenceAnalysisFields.offenceAnalysisPatternsOfOffending,
+  offenceAnalysisFields.offenceAnalysisEscalation,
+  offenceAnalysisFields.offenceAnalysisRisk,
+  offenceAnalysisFields.offenceAnalysisRiskDetails,
+  offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuse,
+  offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuseType,
+  offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuseTypeDetails,
+  offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuse,
+  offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseType,
+  offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseTypeDetails,
+].flat()
 
 const sectionConfig: SectionConfig = {
   section,
@@ -113,30 +132,34 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisInvolvedParties),
         offenceAnalysisFields.sectionComplete(),
       ],
-      next: stepUrls.offenceAnalysisImpact,
+      next: [
+        nextWhen(offenceAnalysisFields.offenceAnalysisHowManyInvolved, 'NONE', stepUrls.offenceAnalysisImpact),
+        stepUrls.offenceAnalysisImpactOthersInvolved,
+      ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.offenceAnalysisImpact,
       fields: [
+        offenceAnalysisImpactGroup,
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisImpact),
+        offenceAnalysisFields.sectionComplete(),
+      ].flat(),
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      backLink: stepUrls.offenceAnalysisInvolvedParties,
+      locals: {
+        buttonText: 'Mark as complete',
+      },
+    },
+    {
+      url: stepUrls.offenceAnalysisImpactOthersInvolved,
+      fields: [
         offenceAnalysisFields.offenceAnalysisLeader,
         offenceAnalysisFields.offenceAnalysisLeaderYesDetails,
         offenceAnalysisFields.offenceAnalysisLeaderNoDetails,
-        offenceAnalysisFields.offenceAnalysisImpactOnVictims,
-        offenceAnalysisFields.offenceAnalysisImpactOnVictimsDetails,
-        offenceAnalysisFields.offenceAnalysisAcceptResponsibility,
-        offenceAnalysisFields.offenceAnalysisAcceptResponsibilityDetails,
-        offenceAnalysisFields.offenceAnalysisPatternsOfOffending,
-        offenceAnalysisFields.offenceAnalysisEscalation,
-        offenceAnalysisFields.offenceAnalysisRisk,
-        offenceAnalysisFields.offenceAnalysisRiskDetails,
-        offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuse,
-        offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuseType,
-        offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuseTypeDetails,
-        offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuse,
-        offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseType,
-        offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseTypeDetails,
-        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisImpact),
+        offenceAnalysisImpactGroup,
+        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisImpactOthersInvolved),
         offenceAnalysisFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,

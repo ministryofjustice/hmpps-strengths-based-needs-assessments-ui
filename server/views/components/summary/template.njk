@@ -8,16 +8,16 @@
     {% set entryErrorKey = ["entry-", loop.index0] | join %}
     {% set entryError = collectionErrors[entryErrorKey] %}
 
-    <div class="form-group govuk-form-group{% if entryError %} govuk-form-group--error{% endif %}">
-      <div class="clearfix">
+    <div class="collection-summary-list form-group govuk-form-group{% if entryError %} govuk-form-group--error{% endif %}">
+      <div class="collection-summary-list__header">
         <h3
               {% if entryError %}id="{{ summary.field.code }}-entry-{{ loop.index0 }}-error"{% endif %}
-              class="govuk-heading--s govuk-!-margin-top-0 to-the-left">
+              class="collection-summary-list__label">
           {{ loop.index | ordinalWordFromNumber | capitalize }}
           {{ summary.field.collection.subject }}
         </h3>
         {% if sessionData.user | isInEditMode %}
-          <div class="to-the-right">
+          <div class="collection-summary-list__actions">
             <div>
               <a class="govuk-link change-entry" href="{{ summary.field.collection.updateUrl }}/{{ loop.index - 1 }}">
                 Change<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
@@ -42,14 +42,14 @@
           </div>
         {% endif %}
       </div>
-      <dl>
-        {% for nested in entry.nestedFields %}
-          <div class="govuk-summary-list__row as-block clearfix">
-            <dt class="govuk-summary-list__key to-the-left">
+      {% for nested in entry.nestedFields %}
+        <dl class="govuk-summary-list summary-list">
+          <div class="govuk-summary-list__row summary-list__row">
+            <dt class="govuk-summary-list__key summary-list__key">
               <span class="summary__label">{{ nested.field.text }}</span>
               {{ renderCollectionValidationErrors(nested, entryError.messageGroup) }}
             </dt>
-            <dd class="govuk-summary-list__value to-the-left summary-value">
+            <dd class="govuk-summary-list__value summary-list__value">
               <ul class="govuk-list">
                 {% for answer in nested.answers %}
                   <li class="summary-details-list">
@@ -60,8 +60,8 @@
               </ul>
             </dd>
           </div>
-        {% endfor %}
-      </dl>
+        </dl>
+      {% endfor %}
     </div>
   {% else %}
     <dl>
@@ -86,11 +86,11 @@
 {%- endmacro -%}
 
 {%- macro renderTopLevelField(summary, sessionData) -%}
-  <div class="govuk-summary-list__row as-block clearfix">
-    <dt class="govuk-summary-list__key to-the-left">
+  <div class="govuk-summary-list__row summary-list__row">
+    <dt class="govuk-summary-list__key summary-list__key">
       <span class="summary__label">{{ summary.field.text }}</span>
     </dt>
-    <dd class="govuk-summary-list__value to-the-left summary-value">
+    <dd class="govuk-summary-list__value summary-list__value">
       <ul class="govuk-list">
 
         {% for answer in summary.answers %}
@@ -103,7 +103,7 @@
       </ul>
     </dd>
     {% if sessionData.user | isInEditMode %}
-      <dd class="govuk-summary-list__actions to-the-right">
+      <dd class="govuk-summary-list__actions summary-list__actions">
         <a class="govuk-link" href="{{ summary.changeLink }}">
         Change<span class="govuk-visually-hidden">value for {{ summary.field.text }}</span>
         </a>
@@ -139,13 +139,13 @@
 {%- endmacro -%}
 
 {% for summary in summaryFields.singleFields %}
-  <dl class="govuk-summary-list">
+  <dl class="govuk-summary-list summary-list">
     {% switch summary.field.code %}
-      {% case 'drug_use_type' %}
-        {{ renderDrugsTable(summary, sessionData.user) }}
+    {% case 'drug_use_type' %}
+      {{ renderDrugsTable(summary, sessionData.user) }}
       {% default %}
-        {{ renderTopLevelField(summary, sessionData) }}
-    {% endswitch %}
+      {{ renderTopLevelField(summary, sessionData) }}
+      {% endswitch %}
     </dl>
   {% endfor %}
 

@@ -1,0 +1,92 @@
+{% extends "print-layout.njk" %}
+{% from "components/moj-crest/macro.njk" import renderMojCrest %}
+{% from "components/summary/macro.njk" import renderSummaryFields %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% set backLink = 'task-list#pdf-preview' %}
+
+{% block pageTitle %}
+  {{ pageTitle }}
+{% endblock %}
+
+{% block header %}
+  {% include "partials/header.njk" %}
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  {% set imageAssetPath = "/assets/images/" %}
+
+  <div class="govuk-body pdf">
+    <div class="pdf-header">
+      <div class="pdf-header__left">
+        <div class="pdf-header__logo">
+          {{ renderMojCrest('#000000', 60) }}
+        </div>
+        <div class="pdf-header__title">
+          <span>Ministry of Justice</span>
+          <span>Strengths and needs</span>
+        </div>
+      </div>
+      <div class="pdf-header__right">
+        {{ govukTag({ text: "Official Sensitive", classes: "govuk-tag--red" }) }}
+      </div>
+    </div>
+
+    <div class='govuk-grid-row pdf-cover-page'>
+      <div class='govuk-grid-column-two-thirds'>
+        <img class="pdf-cover-page__logo" src="{{ imageAssetPath }}moj-logo-large.png" height='95'/>
+
+        <div class='pdf-cover-page__body page-break-after'>
+
+          <div class="pdf-cover-page__title">
+            <p>His Majesty's Prison & Probation Service</p>
+            <h1>Strengths and needs</h1>
+          </div>
+          <div class='pdf-cover-page__details'>
+            <p>Prepared by:</p>
+            <p>
+              <strong>
+                {{ sessionData.user.displayName }}<br/>
+                {{ displayDateForToday() }}
+              </strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% for key, section in form.sectionConfig %}
+      <div class='pdf-avoid-break'>
+        <div class="summary-section-header">
+          <h2 class="govuk-heading-l summary-section-header__title">{{ section.title }}</h2>
+          <div class="section-heading__status summary-section-header__status">
+            {% if sectionProgress[section.code] %}
+              {{ govukTag({ text: "Complete" }) }}
+            {% else %}
+              {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
+            {% endif %}
+          </div>
+        </div>
+
+        {% set summaryFields = getSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+        {% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
+        {% if sectionStarted %}
+          <div class="summary-section">
+            <h3 class="govuk-heading-m summary-section-header__subtitle">Summary</h3>
+            {{ renderSummaryFields(summaryFields, sessionData) }}
+          </div>
+          {% set analysisSummaryFields = getAnalysisSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+          {% if analysisSummaryFields.singleFields.length > 0 %}
+            <div class="summary-section">
+              <h3 class="govuk-heading-m summary-section-header__subtitle">Practitioner analysis</h3>
+              {{ renderSummaryFields(analysisSummaryFields, sessionData) }}
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

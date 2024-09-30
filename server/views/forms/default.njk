@@ -35,7 +35,7 @@
               <legend class="govuk-fieldset__legend {{ labelClasses }}">
                 {{ field.text }}
               </legend>
-              {% set summaryFields = getSummaryFields(options, answers, true) %}
+              {% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers, collectionOnly: true}) %}
               {{ renderSummaryFields(summaryFields, sessionData, errors) }}
             </fieldset>
           </div>
