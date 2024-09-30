@@ -58,11 +58,21 @@ export const formatDateForDisplay = (value: string): string => {
   return date.isValid ? date.toFormat('dd MMMM y') : null
 }
 
+export const displayDateForToday = (today: DateTime = DateTime.now()) => {
+  return today.toFormat('dd MMMM y')
+}
+
 export const urlSafe = (text: string) => text.replace(/[|&;$%@"<>()+,]/g, '').replace(/\s+/g, '-')
 
 export const startsWith = (subject: string, startWith: string) => subject.startsWith(startWith)
 
 export const isInEditMode = (user: HandoverPrincipal) => user.accessMode === 'READ_WRITE'
+
+export const outdent = (str: string, count: number) =>
+  str
+    .split('\n')
+    .map(it => (it.startsWith(' '.repeat(count)) ? it.substring(count) : it))
+    .join('\n')
 
 export const practitionerAnalysisStarted = (
   options: FormWizard.FormOptions,

@@ -21,7 +21,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError(
-        'Select if there’s evidence of binge drinking or excessive alcohol use in the last 6 months',
+        "Select if there's evidence of binge drinking or excessive alcohol use in the last 6 months",
       )
       cy.checkAccessibility()
     })

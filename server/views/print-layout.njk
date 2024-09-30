@@ -1,0 +1,19 @@
+{% extends "govuk/template.njk" %}
+
+{% block head %}
+  <link href="/assets/css/app.css?{{ version }}"  media="screen, print" rel="stylesheet"/>
+{% endblock %}
+
+{% block pageTitle %}
+  {{ pageTitle | default(applicationName) }}
+{% endblock %}
+
+{% block header %}
+  {% include "./header.njk" %}
+{% endblock %}
+
+{% block bodyStart %}{% endblock %}
+
+{% block bodyEnd %}{% endblock %}
+
+{% block footer %}{% endblock %}

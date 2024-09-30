@@ -87,7 +87,7 @@ class AlcoholFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select if there’s evidence of binge drinking or excessive alcohol use in the last 6 months',
+        message: "Select if there's evidence of binge drinking or excessive alcohol use in the last 6 months",
       },
     ],
     options: [

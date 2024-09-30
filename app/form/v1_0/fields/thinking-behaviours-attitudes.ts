@@ -81,7 +81,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select if they’re resilient towards peer pressure or influence by criminal associates',
+        message: "Select if they're resilient towards peer pressure or influence by criminal associates",
       },
     ],
     options: [
@@ -130,7 +130,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       { text: 'Yes, is able to solve problems and identify appropriate solutions', value: 'YES', kind: 'option' },
       { text: 'Has limited problem solving skills', value: 'LIMITED_PROBLEM_SOLVING', kind: 'option' },
       {
-        text: 'No, has poor problem solving skills and is unable to identify what steps to take to solve a problem',
+        text: 'No, has poor problem solving skills and is unable to identify what steps to take to solve a problem',
         value: 'NO',
         kind: 'option',
       },
@@ -142,10 +142,10 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
     text: "Does [subject] understand other people's views?",
     code: 'thinking_behaviours_attitudes_peoples_views',
     type: FieldType.Radio,
-    validate: [{ type: ValidationType.Required, message: 'Select if they understand other people’s views' }],
+    validate: [{ type: ValidationType.Required, message: "Select if they understand other people's views" }],
     options: [
       {
-        text: "Yes, understands other people's views and is able to distinguish between their own feelings and those of others",
+        text: "Yes, understands other people's views and is able to distinguish between their own feelings and those of others",
         value: 'YES',
         kind: 'option',
       },
@@ -362,7 +362,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
     ],
     options: [
       {
-        text: 'Does not use violence, aggressive or controlling behaviour to get their own way',
+        text: 'Does not use violence, aggressive or controlling behaviour to get their own way',
         value: 'NO_VIOLENCE',
         kind: 'option',
       },
@@ -372,7 +372,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: 'Patterns of using violence, aggressive or controlling behaviour to get their own way',
+        text: 'Patterns of using violence, aggressive or controlling behaviour to get their own way',
         value: 'YES_VIOLENCE',
         kind: 'option',
       },
@@ -453,7 +453,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: 'Some evidence of suspicious, angry or vengeful thinking and behaviour',
+        text: 'Some evidence of suspicious, angry or vengeful thinking and behaviour',
         value: 'SOME',
         kind: 'option',
       },
