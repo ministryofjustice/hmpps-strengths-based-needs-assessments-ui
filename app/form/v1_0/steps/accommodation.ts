@@ -91,7 +91,6 @@ const sectionConfig: SectionConfig = {
         accommodationFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -106,7 +105,6 @@ const sectionConfig: SectionConfig = {
         accommodationFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -120,7 +118,6 @@ const sectionConfig: SectionConfig = {
         accommodationFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -133,7 +130,6 @@ const sectionConfig: SectionConfig = {
         accommodationFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.currentAccommodation,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
