@@ -51,7 +51,6 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
       next: stepUrls.thinkingBehaviours,
-      backLink: stepUrls.thinkingBehavioursAttitudes,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -69,7 +68,6 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.thinkingBehavioursAttitudes,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

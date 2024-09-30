@@ -35,6 +35,9 @@
   </article>
 {% endmacro %}
 
+
+{% block backLink %}{% endblock %}
+
 {% block analysisPanel %}
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}

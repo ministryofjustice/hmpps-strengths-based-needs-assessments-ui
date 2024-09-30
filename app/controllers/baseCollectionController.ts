@@ -145,7 +145,7 @@ abstract class BaseCollectionController extends BaseController {
         const currentPageToComplete = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getNextPageToComplete().url
+        ).getPageNavigation().url
         if (req.url !== `/${currentPageToComplete}`) {
           return res.redirect(currentPageToComplete)
         }
