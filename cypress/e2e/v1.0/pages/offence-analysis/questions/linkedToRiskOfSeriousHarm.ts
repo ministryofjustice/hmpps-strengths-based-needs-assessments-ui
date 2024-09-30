@@ -1,5 +1,6 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?'
+  const question =
+    'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?'
 
   describe(question, () => {
     const options = ['Yes', 'No']
