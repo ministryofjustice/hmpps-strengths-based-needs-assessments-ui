@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { Field } from '../../app/utils/fieldDependencyTreeBuilder'
-import summaryFields from './nunjucks.summaryFields'
+import summaryFields, { GetSummaryFieldsOptions } from './nunjucks.summaryFields'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 describe('server/utils/nunjucks.summaryFields', () => {
@@ -45,7 +45,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
       },
     }
 
-    const options: FormWizard.FormOptions = {
+    const options: GetSummaryFieldsOptions = {
       section: 'test',
       steps: {
         '/step1': {
@@ -79,13 +79,12 @@ describe('server/utils/nunjucks.summaryFields', () => {
         },
       },
       allFields: fields,
-    } as unknown as FormWizard.FormOptions
-
-    const answers: FormWizard.Answers = {
-      q1: 'foo',
-      q2: ['foo', 'bar'],
-      q3: 'baz',
-      q4: 'qux',
+      answers: {
+        q1: 'foo',
+        q2: ['foo', 'bar'],
+        q3: 'baz',
+        q4: 'qux',
+      },
     }
 
     const expected = {
@@ -133,6 +132,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
       collectionFields: [] as Field[],
     }
 
-    expect(summaryFields(options, answers)).toEqual(expected)
+    expect(summaryFields(options)).toEqual(expected)
   })
 })

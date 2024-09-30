@@ -33,7 +33,6 @@ import {
   enterText,
   getCheckbox,
   getDrugQuestion,
-  getNextQuestion,
   getQuestion,
   getRadio,
   hasCheckboxes,
@@ -148,7 +147,6 @@ declare global {
       getDrugQuestion(drug: string, title: string): Chainable
       hasDrugQuestionGroups(count: number): Chainable
       hasQuestionsForDrug(drug: string, count: number): Chainable
-      getNextQuestion(): Chainable
       hasTitle(title: string): Chainable
       isQuestionNumber(position: number): Chainable
       hasHint(...hints: string[]): Chainable
@@ -243,7 +241,6 @@ Cypress.Commands.add('getQuestion', getQuestion)
 Cypress.Commands.add('getDrugQuestion', getDrugQuestion)
 Cypress.Commands.add('hasDrugQuestionGroups', hasDrugQuestionGroups)
 Cypress.Commands.add('hasQuestionsForDrug', hasQuestionsForDrug)
-Cypress.Commands.add('getNextQuestion', { prevSubject: true }, getNextQuestion)
 Cypress.Commands.add('hasTitle', { prevSubject: true }, hasTitle)
 Cypress.Commands.add('isQuestionNumber', { prevSubject: true }, isQuestionNumber)
 Cypress.Commands.add('hasHint', { prevSubject: true }, hasHint)

@@ -1,3 +1,8 @@
+$very-large-font: 18px;
+$large-font: 16px;
+$medium-font: 14px;
+$small-font: 12px;
+
 .summary-details-list {
   & span {
     display: block;
@@ -14,65 +19,192 @@
     margin-bottom: govuk-spacing(3);
   }
 
-  th, td {
-    padding: govuk-spacing(3) !important;
+  @media print {
+    border: none;
+    margin-bottom: govuk-spacing(5) !important;
+  }
+
+  th,
+  td {
+    @include govuk-font-size('19');
+    padding: govuk-spacing(3);
+
+    &:last-child {
+      text-align: right;
+      padding-right: govuk-spacing(3);
+
+      @media print {
+        display: none;
+      }
+    }
+  }
+
+  thead {
+    th {
+      font-weight: normal;
+
+      @media print {
+        font-size: $small-font;
+        font-weight: bold;
+        background-color: govuk-colour('mid-grey');
+        border: none;
+        border-right: 1px solid govuk-colour('white');
+      }
+    }
+  }
+
+  tbody {
+    border-bottom: 1px solid $govuk-border-colour;
+
+    tr {
+      &:first-child th {
+        @media print {
+          font-size: $small-font;
+          font-weight: bold;
+          background-color: govuk-colour('light-grey');
+          border: none;
+        }
+      }
+
+      &:last-child {
+        th,
+        td {
+          font-size: $large-font;
+          padding-top: 0;
+
+          @media print {
+            padding-top: govuk-spacing(3);
+            font-size: $small-font;
+          }
+        }
+      }
+    }
+
+    th,
+    td {
+      border-bottom: none;
+    }
+
+    th {
+      @media print {
+        font-size: $small-font;
+        font-weight: normal;
+        background-color: govuk-colour('light-grey');
+        border: none;
+        border-bottom: 1px solid govuk-colour('mid-grey');
+      }
+    }
+
+    td {
+      @media print {
+        border-bottom: 1px solid govuk-colour('mid-grey');
+        font-size: $small-font;
+        font-weight: normal;
+      }
+    }
   }
 }
 
-.normal-font-weight {
-  font-weight: normal;
-}
+.summary-list {
+  margin-bottom: 0;
 
-.clearfix {
-  @include govuk-clearfix;
-}
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    column-gap: govuk-spacing(1);
+    margin-bottom: 0;
 
-.border-bottom {
-  border-bottom: 1px solid $govuk-border-colour;
+    @media print {
+      page-break-inside: avoid;
+      border-bottom: 1px solid govuk-colour('mid-grey');
+    }
 
-  th, td {
-    border-bottom: none;
+    &--drugs {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__key {
+    width: 30%;
+    min-width: 30%;
+    margin-bottom: 0;
+    padding: govuk-spacing(3) 0;
+
+    @media print {
+      font-size: $small-font;
+      background-color: govuk-colour('light-grey');
+      padding: govuk-spacing(3) govuk-spacing(1);
+    }
+
+    &--drugs {
+      @media print {
+        width: 100%;
+        background-color: govuk-colour('white');
+        padding-bottom: 0;
+        margin-top: 40px;
+        padding-top: 0;
+
+        & span {
+          font-size: $medium-font;
+        }
+      }
+    }
+  }
+
+  &__value {
+    flex-grow: 1;
+    margin-bottom: 0;
+    padding: govuk-spacing(3) 0;
+
+    &--drugs {
+      width: 100%;
+
+      @media print {
+        padding-top: 0;
+      }
+    }
+  }
+
+  &__actions {
+    flex-grow: 0;
+    margin-bottom: 0;
+    padding: govuk-spacing(3) 0;
+
+    @media print {
+      display: none;
+    }
   }
 }
 
-.as-block {
-  display: block;
-  width: 100%;
-}
+.summary {
+  &__panel {
+    border: none !important;
+    padding: govuk-spacing(6) 0px !important;
+  }
 
-.to-the-left {
-  float: left;
-  text-align: left;
-}
+  &__label {
+    @include govuk-font(19, 'bold');
 
-.to-the-right {
-  float: right;
-  text-align: right;
-}
+    @media print {
+      font-size: $small-font;
+    }
+  }
 
-.with-text-right {
-  text-align: right;
-}
+  &__answer {
+    @include govuk-font(19);
 
-.summary-value {
-  width: 40%;
-}
+    @media print {
+      font-size: $small-font;
+    }
 
-.summary__panel {
-  border: none !important;
-  padding: govuk-spacing(6) 0px !important;
-}
+    &--secondary {
+      @include govuk-font(16);
 
-.summary__label {
-  @include govuk-font(19, "bold");
-}
-
-.summary__answer {
-  @include govuk-font(19);
-}
-
-.summary__answer--secondary {
-  @include govuk-font(16);
+      @media print {
+        font-size: $small-font;
+      }
+    }
+  }
 }
 
 .analysis__answer {
@@ -88,4 +220,84 @@
     font-size: 1rem;
     margin-top: 1rem;
   }
+}
+
+.collection-summary-list {
+  margin-top: govuk-spacing(7);
+
+  dl {
+    @media print {
+      margin-top: 0;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: govuk-spacing(3);
+
+    @media print {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    @extend .govuk-heading-m;
+
+    @media print {
+      font-size: $medium-font;
+    }
+  }
+
+  &__actions {
+    text-align: right;
+    @media print {
+      display: none;
+    }
+  }
+}
+
+.summary-section {
+  margin-bottom: govuk-spacing(7);
+
+  dl:first-of-type > div {
+    border-top: 1px solid govuk-colour('mid-grey');
+  }
+
+  dl:last-of-type > div {
+    border-bottom: 1px solid govuk-colour('mid-grey');
+  }
+}
+
+.summary-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  &__title {
+    margin-bottom: govuk-spacing(4);
+    margin-top: govuk-spacing(9);
+
+    @media print {
+      font-size: $very-large-font;
+    }
+  }
+
+  &__status > .govuk-tag {
+    @media print {
+      font-size: $small-font;
+      padding: 3px 8px;
+    }
+  }
+
+  &__subtitle {
+    @media print {
+      font-size: $medium-font;
+    }
+  }
+}
+
+.summary-action-buttons {
+  margin-top: govuk-spacing(7);
 }

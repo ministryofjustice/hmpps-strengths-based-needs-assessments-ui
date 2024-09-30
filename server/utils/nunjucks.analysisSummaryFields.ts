@@ -1,7 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldDependencyTreeBuilder } from '../../app/utils/fieldDependencyTreeBuilder'
 import { isNonRenderedField, isPractitionerAnalysisField } from './nunjucks.utils'
-import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 export interface GetSummaryFieldsOptions {
   section: string
@@ -22,18 +21,13 @@ export default (options: GetSummaryFieldsOptions) => {
   const isDisplayable = (field: FormWizard.Field) =>
     field && field.hidden !== true && (hasAnswer(field) || field.summary?.displayAlways)
 
-  const isCollection = (field: FormWizard.Field) => field.type === FieldType.Collection
-
   const stepFieldsFilterFn = (field: FormWizard.Field) =>
-    options.collectionOnly
-      ? isCollection(field)
-      : !isNonRenderedField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(field)
+    !isNonRenderedField(field.id) && isPractitionerAnalysisField(field.id) && isDisplayable(field)
 
   const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).build()
 
-  // append collection fields at the end of the array
   return {
     singleFields: allFields.filter(f => !f.field.collection),
-    collectionFields: allFields.filter(f => f.field.collection),
+    collectionFields: [] as FormWizard.Field[],
   }
 }

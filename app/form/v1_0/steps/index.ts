@@ -27,6 +27,19 @@ export const sectionConfigs: SectionConfig[] = [
       },
     ],
   },
+  {
+    section: {
+      title: 'Print preview',
+      code: 'print-preview',
+    },
+    steps: [
+      {
+        url: 'print-preview',
+        controller: SaveAndContinueController,
+        template: templates.printPreview,
+      },
+    ],
+  },
   accommodationSection,
   employmentEducationSection,
   financeSection,
