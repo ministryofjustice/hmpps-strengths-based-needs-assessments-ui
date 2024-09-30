@@ -7,6 +7,7 @@ describe('Origin: /offence-analysis', () => {
     victimsSummary: '/offence-analysis-victim-details',
     involvedParties: '/offence-analysis-involved-parties',
     impact: '/offence-analysis-impact',
+    impactOthersInvolved: '/offence-analysis-impact-others-involved',
     summary: '/offence-analysis-summary',
   }
 
@@ -46,7 +47,7 @@ describe('Origin: /offence-analysis', () => {
         cy.visitStep(destinations.involvedParties)
 
         cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
-          .getRadio('1')
+          .getRadio('There was no one else involved')
           .clickLabel()
 
         cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
@@ -59,9 +60,6 @@ describe('Origin: /offence-analysis', () => {
         it(`Routes to "${destinations.summary}"`, () => {
           cy.visitStep(destinations.impact)
 
-          cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
-            .getRadio('No')
-            .clickLabel()
           cy.getQuestion(
             'Does Sam recognise the impact or consequences on the victims or others and the wider community?',
           )
@@ -106,13 +104,89 @@ describe('Origin: /offence-analysis', () => {
             .clickLabel()
           cy.saveAndContinue()
 
-          cy.assertStepUrlIs(destinations.impact)
+          cy.assertStepUrlIs(destinations.impactOthersInvolved)
           cy.currentSectionNotMarkedAsComplete(sectionName)
+          cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
+            .getRadio('No')
+            .clickLabel()
           cy.markAsComplete()
 
           cy.assertStepUrlIs(destinations.summary)
           cy.currentSectionMarkedAsComplete(sectionName)
         })
+      })
+    })
+  })
+
+  describe(`Destination: ${destinations.impactOthersInvolved}`, () => {
+    it(`Routes to "${destinations.impactOthersInvolved}"`, () => {
+      cy.visitStep(destinations.involvedParties)
+
+      cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
+        .getRadio('1')
+        .clickLabel()
+
+      cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.impactOthersInvolved)
+      cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
+    })
+
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`Routes to "${destinations.summary}"`, () => {
+        cy.visitStep(destinations.impactOthersInvolved)
+
+        cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
+          .getRadio('No')
+          .clickLabel()
+        cy.getQuestion(
+          'Does Sam recognise the impact or consequences on the victims or others and the wider community?',
+        )
+          .getRadio('No')
+          .clickLabel()
+        cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
+        cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
+        cy.getQuestion('Is the current offence(s) an escalation in seriousness from previous offending?')
+          .getRadio('No')
+          .clickLabel()
+        cy.getQuestion(
+          'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+        )
+          .getRadio('No')
+          .clickLabel()
+        cy.getQuestion(
+          'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+        )
+          .getRadio('No')
+          .getConditionalQuestion()
+          .enterText('¯\\_(ツ)_/¯')
+        cy.getQuestion('Is there evidence that Sam has ever been a perpetrator of domestic abuse?')
+          .getRadio('No')
+          .clickLabel()
+        cy.getQuestion('Is there evidence that Sam has ever been a victim of domestic abuse?')
+          .getRadio('No')
+          .clickLabel()
+
+        cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
+        cy.markAsComplete()
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
+        cy.currentSectionMarkedAsComplete(sectionName)
+
+        // checkmark is removed on making a change
+        cy.getSummary('How many other people were involved with committing the current index offence(s)?').clickChange()
+        cy.assertStepUrlIs(destinations.involvedParties)
+        cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
+          .getRadio('2')
+          .clickLabel()
+        cy.saveAndContinue()
+
+        cy.assertStepUrlIs(destinations.impactOthersInvolved)
+        cy.currentSectionNotMarkedAsComplete(sectionName)
+        cy.markAsComplete()
+
+        cy.assertStepUrlIs(destinations.summary)
+        cy.currentSectionMarkedAsComplete(sectionName)
       })
     })
   })
@@ -151,20 +225,20 @@ describe('Origin: /offence-analysis', () => {
           cy.assertStepUrlIs(destinations.involvedParties)
         })
 
-        describe(`Destination: ${destinations.impact}`, () => {
-          it(`routes to ${destinations.impact}`, () => {
-            cy.assertResumeUrlIs(sectionName, destinations.impact)
+        describe(`Destination: ${destinations.impactOthersInvolved}`, () => {
+          it(`routes to ${destinations.impactOthersInvolved}`, () => {
+            cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
 
             cy.visitStep(destinations.involvedParties)
             cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.impact)
+            cy.assertStepUrlIs(destinations.impactOthersInvolved)
           })
 
           describe(`Destination: ${destinations.summary}`, () => {
             it(`routes to ${destinations.summary}`, () => {
-              cy.assertResumeUrlIs(sectionName, destinations.impact)
+              cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
 
-              cy.visitStep(destinations.impact)
+              cy.visitStep(destinations.impactOthersInvolved)
               cy.markAsComplete()
               cy.assertStepUrlIs(destinations.summary)
               cy.assertResumeUrlIs(sectionName, destinations.summary)

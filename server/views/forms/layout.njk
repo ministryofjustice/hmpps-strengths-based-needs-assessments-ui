@@ -1,5 +1,4 @@
 {%- extends "../partials/layout.njk" -%}
-{%- from "govuk/components/back-link/macro.njk" import govukBackLink -%}
 {%- from "govuk/components/error-summary/macro.njk" import govukErrorSummary -%}
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
 {%- from "moj/components/banner/macro.njk" import mojBanner -%}
@@ -79,12 +78,8 @@
         </nav>
       </div>
       <div class="govuk-grid-column-three-quarters">
-        {%- if backLink -%}
-          {{ govukBackLink({
-              text: "Back",
-              href: backLink
-            }) }}
-        {%- endif -%}
+        {% block backLink %}          
+        {% endblock %}
         {%- if errors | length -%}
           {{ govukErrorSummary({
               titleText: "There is a problem",

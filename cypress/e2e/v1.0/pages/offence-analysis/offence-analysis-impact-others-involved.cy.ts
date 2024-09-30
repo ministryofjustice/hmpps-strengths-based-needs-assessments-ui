@@ -1,3 +1,4 @@
+import whoWasTheLeader from './questions/whoWasTheLeader'
 import recogniseImpactOnVictims from './questions/recogniseImpactOnVictims'
 import acceptResponsibility from './questions/acceptResponsibility'
 import patternsOfOffending from './questions/patternsOfOffending'
@@ -7,9 +8,10 @@ import perpetratorOfDomesticAbuse from './questions/perpetratorOfDomesticAbuse'
 import victimOfDomesticAbuse from './questions/victimOfDomesticAbuse'
 
 describe('/offence-analysis-impact', () => {
-  const stepUrl = '/offence-analysis-impact'
+  const stepUrl = '/offence-analysis-impact-others-involved'
   const summaryPage = '/offence-analysis-summary'
   const questions = [
+    whoWasTheLeader,
     recogniseImpactOnVictims,
     acceptResponsibility,
     patternsOfOffending,
@@ -36,7 +38,7 @@ describe('/offence-analysis-impact', () => {
     cy.saveAndContinue()
 
     cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
-      .getRadio('There was no one else involved')
+      .getRadio('1')
       .clickLabel()
     cy.saveAndContinue()
 
