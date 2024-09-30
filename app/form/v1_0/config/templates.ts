@@ -3,4 +3,5 @@ export default {
   analysisIncomplete: 'forms/summary/summary-analysis-incomplete',
   drugUsage: 'forms/summary/drug-usage',
   dataMapping: 'forms/summary/data-mapping',
+  printPreview: 'pages/print-preview',
 }

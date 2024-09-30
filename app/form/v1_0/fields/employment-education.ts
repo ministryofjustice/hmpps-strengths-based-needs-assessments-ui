@@ -146,7 +146,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select if they have any additional day-to-day commitments, or select ‘None’',
+        message: "Select if they have any additional day-to-day commitments, or select 'None'",
       },
     ],
     options: [

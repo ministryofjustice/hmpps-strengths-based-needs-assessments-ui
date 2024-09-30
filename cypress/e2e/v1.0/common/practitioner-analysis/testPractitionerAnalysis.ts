@@ -28,12 +28,12 @@ export default (summaryPage: string, analysisCompletePage: string, sectionName: 
       beforeEach(() => {
         cy.get('#tab_practitioner-analysis').click()
         cy.get('#practitioner-analysis').should('be.visible')
-        cy.assertQuestionCount(questions.length * 2)
+        cy.assertQuestionCount(questions.length)
       })
 
       questions.forEach((questionTest, index) => {
         // skip the "Give details" questions, as they are tested within the main question tests
-        questionTest(summaryPage, analysisCompletePage, index * 2 + 1, sectionName)
+        questionTest(summaryPage, analysisCompletePage, index + 1, sectionName)
       })
     })
   })

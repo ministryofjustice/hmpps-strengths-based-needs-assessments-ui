@@ -39,16 +39,6 @@ export const hasQuestionsForDrug = (drug: string, count: number) => {
   return cy
 }
 
-export const getNextQuestion = (subject: JQuery) => {
-  return cy
-    .wrap(subject)
-    .closest('.form-group')
-    .next('.form-group')
-    .find('> fieldset, > .govuk-form-group')
-    .should('be.visible')
-    .and('have.length', 1)
-}
-
 export const hasTitle = (subject: JQuery, title: string) => {
   cy.wrap(subject)
     .find('> legend, > label')

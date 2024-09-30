@@ -8,6 +8,7 @@ import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesF
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
+import sectionConfig from '../form/v1_0/config/sections'
 
 export type Progress = Record<string, boolean>
 
@@ -92,7 +93,12 @@ class SaveAndContinueController extends BaseController {
         },
         sessionData,
         subjectDetails,
-        form: { ...res.locals.form, section: req.form.options.section, steps: req.form.options.steps },
+        form: {
+          ...res.locals.form,
+          section: req.form.options.section,
+          steps: req.form.options.steps,
+          sectionConfig,
+        },
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
