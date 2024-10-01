@@ -5,12 +5,14 @@ import * as pathModule from 'path'
 import { initialiseName } from './utils'
 import {
   answerIncludes,
+  displayDateForToday,
   formatDateForDisplay,
   getLabelForOption,
   getRenderedFields,
   getSelectedAnswers,
   isInEditMode,
   ordinalWordFromNumber,
+  outdent,
   practitionerAnalysisStarted,
   startsWith,
   toErrorSummary,
@@ -18,7 +20,9 @@ import {
   urlSafe,
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
+import getAnalysisSummaryFields from './nunjucks.analysisSummaryFields'
 import FieldsFactory from '../../app/form/v1_0/fields/common/fieldsFactory'
+import maintenanceMessage from './maintenanceMessage'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -80,7 +84,11 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   njkEnv.addFilter('urlSafe', urlSafe)
 
+  njkEnv.addFilter('outdent', outdent)
+
   njkEnv.addGlobal('getSummaryFields', getSummaryFields)
+
+  njkEnv.addGlobal('getAnalysisSummaryFields', getAnalysisSummaryFields)
 
   njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
 
@@ -89,4 +97,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('practitionerAnalysisStarted', practitionerAnalysisStarted)
 
   njkEnv.addFilter('ordinalWordFromNumber', ordinalWordFromNumber)
+
+  njkEnv.addGlobal('displayDateForToday', displayDateForToday)
+
+  njkEnv.addGlobal('getMaintenanceMessage', maintenanceMessage)
 }

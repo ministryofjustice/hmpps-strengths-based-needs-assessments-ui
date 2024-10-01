@@ -572,7 +572,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisEscalation: FormWizard.Field = {
-    text: 'Is the current offence(s) an escalation in seriousness from previous offending?',
+    text: 'Is the current index offence(s) an escalation in seriousness from previous offending?',
     code: 'offence_analysis_escalation',
     type: FieldType.Radio,
     validate: [
@@ -590,7 +590,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisRisk: FormWizard.Field = {
-    text: 'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+    text: 'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
     code: 'offence_analysis_risk',
     type: FieldType.Radio,
     validate: [

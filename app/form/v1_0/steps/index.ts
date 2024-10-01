@@ -27,6 +27,19 @@ export const sectionConfigs: SectionConfig[] = [
       },
     ],
   },
+  {
+    section: {
+      title: 'Print preview',
+      code: 'print-preview',
+    },
+    steps: [
+      {
+        url: 'print-preview',
+        controller: SaveAndContinueController,
+        template: templates.printPreview,
+      },
+    ],
+  },
   accommodationSection,
   employmentEducationSection,
   financeSection,
@@ -47,7 +60,7 @@ const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): Form
     controller: step.controller || SaveAndContinueController,
     fields: [assessmentComplete.code, ...fieldCodesFrom(step.fields || [])],
     template: step.template || 'forms/default',
-    backLink: step.backLink || null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
+    backLink: null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
   },
 })
 

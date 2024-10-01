@@ -419,7 +419,7 @@
     },
     "offence_analysis_risk": {
       "type": "RADIO",
-      "description": "Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?",
+      "description": "Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?",
       "options": [
         {
           "value": "YES",
@@ -689,7 +689,7 @@
     },
     "offence_analysis_escalation": {
       "type": "RADIO",
-      "description": "Is the current offence(s) an escalation in seriousness from previous offending?",
+      "description": "Is the current index offence(s) an escalation in seriousness from previous offending?",
       "options": [
         {
           "value": "YES",
@@ -1607,7 +1607,7 @@
     },
     "personal_relationships_community_childhood": {
       "type": "RADIO",
-      "description": "What was [subject]’s experience of their childhood?",
+      "description": "What was [subject]'s experience of their childhood?",
       "options": [
         {
           "value": "POSITIVE_CHILDHOOD",
@@ -1691,7 +1691,7 @@
       "options": [
         {
           "value": "YES",
-          "text": "Yes, understands other people's views and is able to distinguish between their own feelings and those of others"
+          "text": "Yes, understands other people's views and is able to distinguish between their own feelings and those of others"
         },
         {
           "value": "SOMETIMES",
@@ -1728,7 +1728,7 @@
         },
         {
           "value": "NO",
-          "text": "No, has poor problem solving skills and is unable to identify what steps to take to solve a problem"
+          "text": "No, has poor problem solving skills and is unable to identify what steps to take to solve a problem"
         }
       ],
       "value": "LIMITED_PROBLEM_SOLVING",
@@ -1906,7 +1906,7 @@
     },
     "finance_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s finance linked to risk of reoffending?",
+      "description": "Is [subject]'s finance linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -1999,7 +1999,7 @@
         },
         {
           "value": "SOME",
-          "text": "Some evidence of suspicious, angry or vengeful thinking and behaviour"
+          "text": "Some evidence of suspicious, angry or vengeful thinking and behaviour"
         },
         {
           "value": "YES",
@@ -2033,7 +2033,7 @@
     },
     "drug_use_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s drug use linked to risk of reoffending?",
+      "description": "Is [subject]'s drug use linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2050,7 +2050,7 @@
     },
     "finance_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s finance linked to risk of serious harm?",
+      "description": "Is [subject]'s finance linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -2088,7 +2088,7 @@
     },
     "drug_use_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s drug use linked to risk of serious harm?",
+      "description": "Is [subject]'s drug use linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -2253,7 +2253,7 @@
     },
     "alcohol_use_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s alcohol use linked to risk of reoffending?",
+      "description": "Is [subject]'s alcohol use linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2291,7 +2291,7 @@
     },
     "alcohol_use_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s alcohol use linked to risk of serious harm?",
+      "description": "Is [subject]'s alcohol use linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -2329,7 +2329,7 @@
     },
     "accommodation_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s accommodation linked to risk of reoffending?",
+      "description": "Is [subject]'s accommodation linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2363,7 +2363,7 @@
     },
     "accommodation_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s accommodation linked to risk of serious harm?",
+      "description": "Is [subject]'s accommodation linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -2429,7 +2429,7 @@
     },
     "health_wellbeing_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s health and wellbeing linked to risk of reoffending?",
+      "description": "Is [subject]'s health and wellbeing linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2488,7 +2488,7 @@
     },
     "health_wellbeing_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s health and wellbeing linked to risk of serious harm?",
+      "description": "Is [subject]'s health and wellbeing linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -2526,7 +2526,7 @@
       "options": [
         {
           "value": "NO_VIOLENCE",
-          "text": "Does not use violence, aggressive or controlling behaviour to get their own way"
+          "text": "Does not use violence, aggressive or controlling behaviour to get their own way"
         },
         {
           "value": "SOMETIMES",
@@ -2534,7 +2534,7 @@
         },
         {
           "value": "YES_VIOLENCE",
-          "text": "Patterns of using violence, aggressive or controlling behaviour to get their own way"
+          "text": "Patterns of using violence, aggressive or controlling behaviour to get their own way"
         }
       ],
       "value": "SOMETIMES",
@@ -2593,7 +2593,7 @@
     },
     "employment_education_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s employment and education linked to risk of reoffending?",
+      "description": "Is [subject]'s employment and education linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2639,7 +2639,7 @@
     },
     "employment_education_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s employment and education linked to risk of serious harm?",
+      "description": "Is [subject]'s employment and education linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -2846,7 +2846,7 @@
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s thinking, behaviours and attitudes linked to risk of reoffending?",
+      "description": "Is [subject]'s thinking, behaviours and attitudes linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2863,7 +2863,7 @@
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s thinking, behaviours and attitudes linked to risk of serious harm?",
+      "description": "Is [subject]'s thinking, behaviours and attitudes linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -2922,7 +2922,7 @@
     },
     "personal_relationships_community_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]’s personal relationships and community linked to risk of reoffending?",
+      "description": "Is [subject]'s personal relationships and community linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2947,7 +2947,7 @@
     },
     "personal_relationships_community_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]’s personal relationships and community linked to risk of serious harm?",
+      "description": "Is [subject]'s personal relationships and community linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",

@@ -1,8 +1,18 @@
-{% extends "../default.njk" %}
+{% extends "./default.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "components/question/macro.njk" import renderQuestion %}
 
 {% set pageTitleClass = "govuk-body-l govuk-!-margin-0" %}
+
+{% block backLink %}
+  {%- if generatedBackLink -%}
+    {{ govukBackLink({
+      text: "Back",
+      href: generatedBackLink
+    }) }}
+  {%- endif -%}
+{% endblock %}
 
 {%- macro renderDrugTypeOption(option, fields) -%}
   {% if option.value === "OTHER_DRUG" %}

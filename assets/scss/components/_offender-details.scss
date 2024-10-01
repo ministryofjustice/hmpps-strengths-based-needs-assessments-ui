@@ -42,4 +42,14 @@
     margin: 0;
     padding: 0 govuk-spacing(3);
   }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    & .govuk-link {
+      text-align: right;
+    }
+  }
 }

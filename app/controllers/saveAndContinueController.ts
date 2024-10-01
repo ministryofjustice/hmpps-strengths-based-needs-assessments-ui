@@ -8,6 +8,8 @@ import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesF
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
+import sectionConfig from '../form/v1_0/config/sections'
+import ForbiddenError from '../../server/errors/forbiddenError'
 
 export type Progress = Record<string, boolean>
 
@@ -25,7 +27,7 @@ class SaveAndContinueController extends BaseController {
       const sessionData = req.session.sessionData as SessionData
 
       if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
-        return res.status(401).send('Cannot edit whilst in read-only mode')
+        return next(new ForbiddenError(req))
       }
 
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
@@ -45,16 +47,27 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      if (req.method === 'GET' && isInEditMode(sessionData.user) && req.query.action === 'resume') {
-        const currentPageToComplete = new FieldDependencyTreeBuilder(
+      if (req.method === 'GET' && isInEditMode(sessionData.user)) {
+        const pageNavigation = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getNextPageToComplete().url
-        if (req.url !== `/${currentPageToComplete}`) {
-          return res.redirect(currentPageToComplete)
+        ).getPageNavigation()
+
+        const getBackLinkFromTrail = (currentStep: string, stepsTaken: string[]) => {
+          const currentStepIndex = stepsTaken.indexOf(currentStep)
+
+          return currentStepIndex > 0 ? stepsTaken[currentStepIndex - 1] : null
+        }
+
+        res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
+
+        if (req.query.action === 'resume') {
+          const currentPageToComplete = pageNavigation.url
+          if (req.url !== `/${currentPageToComplete}`) {
+            return res.redirect(currentPageToComplete)
+          }
         }
       }
-
       return await super.configure(req, res, next)
     } catch (error) {
       return next(error)
@@ -92,7 +105,12 @@ class SaveAndContinueController extends BaseController {
         },
         sessionData,
         subjectDetails,
-        form: { ...res.locals.form, section: req.form.options.section, steps: req.form.options.steps },
+        form: {
+          ...res.locals.form,
+          section: req.form.options.section,
+          steps: req.form.options.steps,
+          sectionConfig,
+        },
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
@@ -169,7 +187,7 @@ class SaveAndContinueController extends BaseController {
     const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
       ...req.form.persistedAnswers,
       ...req.form.values,
-    }).getNextPageToComplete()
+    }).getPageNavigation()
 
     const allAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,

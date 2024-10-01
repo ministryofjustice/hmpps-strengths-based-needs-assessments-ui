@@ -39,7 +39,6 @@ const sectionConfig: SectionConfig = {
         drugsFields.sectionComplete(),
       ].flat(),
       next: stepUrls.selectDrugs,
-      backLink: stepUrls.drugs,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -50,7 +49,7 @@ const sectionConfig: SectionConfig = {
         drugsFields.sectionComplete(),
       ].flat(),
       next: stepUrls.drugUsageDetails,
-      backLink: stepUrls.drugUse,
+
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -62,7 +61,6 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: stepUrls.drugUseChanges,
       template: templates.drugUsage,
-      backLink: stepUrls.selectDrugs,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -73,7 +71,6 @@ const sectionConfig: SectionConfig = {
         drugsFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
-      backLink: stepUrls.drugUsageDetails,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

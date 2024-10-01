@@ -11,6 +11,7 @@ import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { Progress } from './saveAndContinueController'
+import ForbiddenError from '../../server/errors/forbiddenError'
 
 enum CollectionAction {
   Create,
@@ -103,7 +104,7 @@ abstract class BaseCollectionController extends BaseController {
       const sessionData = req.session.sessionData as SessionData
 
       if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
-        return res.status(401).send('Cannot edit whilst in read-only mode')
+        return next(new ForbiddenError(req))
       }
 
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
@@ -144,7 +145,7 @@ abstract class BaseCollectionController extends BaseController {
         const currentPageToComplete = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getNextPageToComplete().url
+        ).getPageNavigation().url
         if (req.url !== `/${currentPageToComplete}`) {
           return res.redirect(currentPageToComplete)
         }

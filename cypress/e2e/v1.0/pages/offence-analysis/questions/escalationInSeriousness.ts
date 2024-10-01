@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is the current offence(s) an escalation in seriousness from previous offending?'
+  const question = 'Is the current index offence(s) an escalation in seriousness from previous offending?'
 
   describe(question, () => {
     const options = ['Yes', 'No', 'Not applicable']

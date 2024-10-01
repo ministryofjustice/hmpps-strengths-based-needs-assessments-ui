@@ -12,7 +12,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError(
-        'Select if they’re resilient towards peer pressure or influence by criminal associates',
+        "Select if they're resilient towards peer pressure or influence by criminal associates",
       )
       cy.checkAccessibility()
     })

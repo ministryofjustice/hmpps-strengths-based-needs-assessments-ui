@@ -1,4 +1,3 @@
-import whoWasTheLeader from './questions/whoWasTheLeader'
 import recogniseImpactOnVictims from './questions/recogniseImpactOnVictims'
 import acceptResponsibility from './questions/acceptResponsibility'
 import patternsOfOffending from './questions/patternsOfOffending'
@@ -11,7 +10,6 @@ describe('/offence-analysis-impact', () => {
   const stepUrl = '/offence-analysis-impact'
   const summaryPage = '/offence-analysis-summary'
   const questions = [
-    whoWasTheLeader,
     recogniseImpactOnVictims,
     acceptResponsibility,
     patternsOfOffending,
