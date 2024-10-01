@@ -41,18 +41,11 @@
       <div class="govuk-grid-column-full">
         <div class="form-header">
           <div class="form-header__actions">
-            {% if assessmentIsComplete %}
-              {{ govukButton({
-                text: "Return to assessment",
-                href: user.returnUrl | default("?defaultReturnUrlGoesHere")
-              }) }}
-            {% else %}
-              {{ govukButton({
-                text: "Return to assessment",
-                classes: "govuk-button--secondary",
-                href: user.returnUrl | default("?defaultReturnUrlGoesHere")
-              }) }}
-            {% endif %}
+            {{ govukButton({
+              text: "Return to OASys",
+              classes: "" if assessmentIsComplete else "govuk-button--secondary",
+              href: user.returnUrl | default("?defaultReturnUrlGoesHere")
+            }) }}
           </div>
           <h1 class="govuk-heading-l form-header__title">Strengths and needs</h1>
         </div>
