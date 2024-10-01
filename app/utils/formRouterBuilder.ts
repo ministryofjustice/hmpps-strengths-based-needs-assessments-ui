@@ -38,7 +38,7 @@ interface NavigationItem {
   active: boolean
 }
 
-const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
+export const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
   Object.entries(steps).find(([_path, step]) => step.section === sectionName && step.isLastStep)[0]
 
 export const createNavigation = (

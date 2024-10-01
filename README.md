@@ -63,6 +63,16 @@ To deploy a branch manually to the Test environment, open the project in CircleC
 3. Add a string parameter named "deploy" with value "test"
 4. Press "Trigger Pipeline"
 
+## Maintenance banner
+
+The maintenance banner is controlled by environment variables.
+
+`MAINTENANCE_UNPLANNED=true` will enable the unplanned maintenance banner.
+
+To display a scheduled maintenance banner, define the maintenance window with:
+`MAINTENANCE_START_TIMESTAMP_SECONDS=1729947600`
+`MAINTENANCE_END_TIMESTAMP_SECONDS=1729954800`
+
 ## Service dependencies
 
 * [hmpps-strengths-based-needs-assessments-api](https://github.com/ministryofjustice/hmpps-strengths-based-needs-assessments-api) - backend API

@@ -2,32 +2,18 @@ import type { Request, Response, NextFunction } from 'express'
 import type { HTTPError } from 'superagent'
 import logger from '../logger'
 
-export default function createErrorHandler(production: boolean) {
+export default function createErrorHandler() {
   return (error: HTTPError, req: Request, res: Response, next: NextFunction) => {
     logger.error(`Error handling request for '${req.originalUrl}', user '${res.locals.user?.username}'`, error)
-
-    if (error.status === 401 || error.status === 403) {
-      // logger.info('Logging user out')
-      // return req.session.destroy(() => {
-      //   res.locals.message = 'Something went wrong and you have been signed out.'
-      //   res.status(error.status)
-
-      //   res.render('pages/error')
-      // })
-      res.locals.message = 'Something went wrong and you have been signed out.'
-      res.status(error.status)
-
-      return res.render('pages/error')
-    }
-
-    res.locals.message = production
-      ? 'Something went wrong and the error has been logged. Please try again'
-      : error.message
-    res.locals.status = error.status
-    res.locals.stack = production ? null : error.stack
-
     res.status(error.status || 500)
-
-    return res.render('pages/error')
+    switch (error.status) {
+      case 401:
+      case 403:
+      case 404:
+      case 503:
+        return res.render(`error/${error.status}`)
+      default:
+        return res.render('error/500')
+    }
   }
 }
