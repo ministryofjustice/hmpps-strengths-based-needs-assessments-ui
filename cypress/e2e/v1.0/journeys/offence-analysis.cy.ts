@@ -150,12 +150,12 @@ describe('Origin: /offence-analysis', () => {
           .getRadio('No')
           .clickLabel()
         cy.getQuestion(
-          'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+          'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
         )
           .getRadio('No')
           .clickLabel()
         cy.getQuestion(
-          'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+          'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
         )
           .getRadio('No')
           .getConditionalQuestion()
