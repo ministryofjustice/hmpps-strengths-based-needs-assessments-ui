@@ -90,4 +90,10 @@ export default {
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
+  oasysUrl: get('OASYS_URL', 'http://localhost:7072', requiredInProduction),
+  maintenance: {
+    start: Number(get('MAINTENANCE_START_TIMESTAMP_SECONDS', 0)),
+    end: Number(get('MAINTENANCE_END_TIMESTAMP_SECONDS', 0)),
+    unplanned: get('MAINTENANCE_UNPLANNED', 'false') === 'true',
+  },
 }

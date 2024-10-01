@@ -40,7 +40,7 @@ export default function createApp(): express.Application {
   app.use(routes())
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
-  app.use(errorHandler(process.env.NODE_ENV === 'production'))
+  app.use(errorHandler())
 
   return app
 }

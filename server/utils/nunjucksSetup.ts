@@ -22,6 +22,7 @@ import {
 import getSummaryFields from './nunjucks.summaryFields'
 import getAnalysisSummaryFields from './nunjucks.analysisSummaryFields'
 import FieldsFactory from '../../app/form/v1_0/fields/common/fieldsFactory'
+import maintenanceMessage from './maintenanceMessage'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -98,4 +99,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('ordinalWordFromNumber', ordinalWordFromNumber)
 
   njkEnv.addGlobal('displayDateForToday', displayDateForToday)
+
+  njkEnv.addGlobal('getMaintenanceMessage', maintenanceMessage)
 }
