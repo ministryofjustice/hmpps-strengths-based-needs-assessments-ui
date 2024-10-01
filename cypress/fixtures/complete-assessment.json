@@ -419,7 +419,7 @@
     },
     "offence_analysis_risk": {
       "type": "RADIO",
-      "description": "Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?",
+      "description": "Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?",
       "options": [
         {
           "value": "YES",
@@ -689,7 +689,7 @@
     },
     "offence_analysis_escalation": {
       "type": "RADIO",
-      "description": "Is the current offence(s) an escalation in seriousness from previous offending?",
+      "description": "Is the current index offence(s) an escalation in seriousness from previous offending?",
       "options": [
         {
           "value": "YES",

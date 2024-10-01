@@ -67,16 +67,16 @@ describe('Origin: /offence-analysis', () => {
             .clickLabel()
           cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
           cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
-          cy.getQuestion('Is the current offence(s) an escalation in seriousness from previous offending?')
+          cy.getQuestion('Is the current index offence(s) an escalation in seriousness from previous offending?')
             .getRadio('No')
             .clickLabel()
           cy.getQuestion(
-            'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+            'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
           )
             .getRadio('No')
             .clickLabel()
           cy.getQuestion(
-            'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+            'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
           )
             .getRadio('No')
             .getConditionalQuestion()
@@ -146,16 +146,16 @@ describe('Origin: /offence-analysis', () => {
           .clickLabel()
         cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
         cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
-        cy.getQuestion('Is the current offence(s) an escalation in seriousness from previous offending?')
+        cy.getQuestion('Is the current index offence(s) an escalation in seriousness from previous offending?')
           .getRadio('No')
           .clickLabel()
         cy.getQuestion(
-          'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+          'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
         )
           .getRadio('No')
           .clickLabel()
         cy.getQuestion(
-          'Is the current offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+          'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
         )
           .getRadio('No')
           .getConditionalQuestion()
