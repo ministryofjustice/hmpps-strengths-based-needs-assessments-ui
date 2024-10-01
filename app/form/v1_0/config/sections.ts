@@ -23,7 +23,7 @@ export default {
     sectionCompleteField: 'employment_education_section_complete',
   },
   finance: {
-    title: 'Finance',
+    title: 'Finances',
     code: 'finance',
     sectionCompleteField: 'finance_section_complete',
   },

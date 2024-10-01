@@ -12,9 +12,9 @@ describe('/finance', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Finance')
+    cy.visitSection('Finances')
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Finance', stepUrl)
+    cy.assertResumeUrlIs('Finances', stepUrl)
     cy.assertQuestionCount(questions.length)
   })
 

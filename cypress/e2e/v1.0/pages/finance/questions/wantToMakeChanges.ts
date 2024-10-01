@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Sam want to make changes to their finance?'
+  const question = 'Does Sam want to make changes to their finances?'
   const options = [
     'I have already made positive changes and want to maintain them',
     'I am actively making changes',
@@ -21,7 +21,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they want to make changes to their finance')
+      cy.getQuestion(question).hasValidationError('Select if they want to make changes to their finances')
       cy.checkAccessibility()
     })
     Array.of(
