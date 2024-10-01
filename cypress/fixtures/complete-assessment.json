@@ -168,7 +168,7 @@
     },
     "finance_changes": {
       "type": "RADIO",
-      "description": "Does [subject] want to make changes to their finance?",
+      "description": "Does [subject] want to make changes to their finances?",
       "options": [
         {
           "value": "MADE_CHANGES",

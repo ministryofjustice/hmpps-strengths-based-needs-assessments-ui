@@ -13,7 +13,7 @@ before(() => {
     .clickLabel()
   cy.getQuestion('Is Sam affected by gambling?').getCheckbox('Unknown').clickLabel()
   cy.getQuestion('Is Sam affected by debt?').getCheckbox('Unknown').clickLabel()
-  cy.getQuestion('Does Sam want to make changes to their finance?').getRadio('Not applicable').clickLabel()
+  cy.getQuestion('Does Sam want to make changes to their finances?').getRadio('Not applicable').clickLabel()
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
@@ -28,4 +28,4 @@ beforeEach(() => {
   cy.hasAutosaveEnabled()
 })
 
-testPractitionerAnalysis(summaryPage, '/finance-analysis', 'finance')
+testPractitionerAnalysis(summaryPage, '/finance-analysis', 'finances')
