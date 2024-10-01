@@ -3,7 +3,7 @@ describe('navigation', () => {
     const sections = [
       'Accommodation',
       'Employment and education',
-      'Finance',
+      'Finances',
       'Drug use',
       'Alcohol use',
       'Health and wellbeing',

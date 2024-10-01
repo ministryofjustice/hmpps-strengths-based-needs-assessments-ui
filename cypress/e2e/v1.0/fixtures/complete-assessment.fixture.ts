@@ -93,7 +93,7 @@ describe('Generate fixture for complete assessment', () => {
       .clickLabel()
     cy.getQuestion('Is Sam affected by gambling?').getCheckbox('No').clickLabel()
     cy.getQuestion('Is Sam affected by debt?').getCheckbox('No').clickLabel()
-    cy.getQuestion('Does Sam want to make changes to their finance?').getRadio('Not applicable').clickLabel()
+    cy.getQuestion('Does Sam want to make changes to their finances?').getRadio('Not applicable').clickLabel()
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
