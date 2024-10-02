@@ -372,6 +372,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       },
       { text: 'White - Irish', value: 'WHITE_IRISH', kind: 'option' },
       { text: 'White - Gypsy or Irish Traveller', value: 'WHITE_GYPSY_OR_IRISH_TRAVELLER', kind: 'option' },
+      { text: 'White - Roma', value: 'WHITE_ROMA', kind: 'option' },
       { text: 'White - Any other White background', value: 'WHITE_ANY_OTHER_WHITE_BACKGROUND', kind: 'option' },
       { text: 'Mixed - White and Black Caribbean', value: 'MIXED_WHITE_AND_BLACK_CARIBBEAN', kind: 'option' },
       { text: 'Mixed - White and Black African', value: 'MIXED_WHITE_AND_BLACK_AFRICAN', kind: 'option' },
