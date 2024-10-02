@@ -1,5 +1,5 @@
 services:
-  ui:
+  san-ui:
     ports:
       - "3000:3000"
 

@@ -32,11 +32,11 @@ services:
     volumes:
       - ./hmpps-auth-proxy/nginx.conf:/etc/nginx/nginx.conf
 
-  api:
+  san-api:
     ports:
       - "8080:8080"
 
-  ui:
+  san-ui:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:local
     build:
       target: development
