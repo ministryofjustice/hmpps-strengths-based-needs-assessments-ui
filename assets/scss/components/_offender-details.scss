@@ -8,6 +8,7 @@
     & {
       & dd, & dt {
         @include govuk-font(16);
+        margin-left: 0;
       }
       
       & * dd {
@@ -31,7 +32,7 @@
       }
 
       & dd {
-        padding-left: govuk-spacing(1);
+        padding-left: govuk-spacing(0);
       }
     }
   }
@@ -41,7 +42,7 @@
     float: left;
 
     margin: 0;
-    padding: 0 govuk-spacing(3);
+    padding: 0 govuk-spacing(1);
   }
 
   &__bottom {
