@@ -14,12 +14,12 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     const accessToken = res.locals.user.token
     const contextData = await arnsHandoverService.getContextData(accessToken)
 
-    const assessment = await apiService.fetchOasysAssessment(contextData.assessmentContext.oasysAssessmentPk)
-    const version = assessment.sanAssessmentData.metaData.formVersion.replace(/\./g, '/')
+    const assessment = await apiService.fetchAssessment(contextData.assessmentContext.sanAssessmentId)
+    const version = assessment.metaData.formVersion.replace(/\./g, '/')
 
     req.session.sessionData = {
       ...contextData.assessmentContext,
-      assessmentId: assessment.sanAssessmentId,
+      assessmentId: contextData.assessmentContext.sanAssessmentId,
       user: contextData.principal,
     }
     req.session.subjectDetails = contextData.subject
