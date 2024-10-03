@@ -3,6 +3,7 @@ const options = [
   'White - English, Welsh, Scottish, Northern Irish or British',
   'White - Irish',
   'White - Gypsy or Irish Traveller',
+  'White - Roma',
   'White - Any other White background',
   'Mixed - White and Black Caribbean',
   'Mixed - White and Black African',
