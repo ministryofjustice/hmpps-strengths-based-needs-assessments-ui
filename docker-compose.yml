@@ -39,6 +39,8 @@ services:
       - coordinator-api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://arns-handover:7070/health/ping"]
+      interval: 5s
+      retries: 60
     environment:
       SERVER_PORT: 7070
       REDIS_HOST: redis
@@ -61,6 +63,8 @@ services:
       - redis
     healthcheck:
       test: ["CMD", "node", "/app/docker/healthcheck.js"]
+      interval: 5s
+      retries: 60
     environment:
       REDIS_ENABLED: "true"
       SYSTEM_CLIENT_SECRET: clientsecret
