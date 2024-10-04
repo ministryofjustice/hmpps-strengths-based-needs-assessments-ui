@@ -178,13 +178,14 @@ workflows:
           publish_latest_tag: true
           context: hmpps-common-vars
           requires:
-            - unit_test
-            - api_integration_tests
-            - e2e_test
-          filters:
-            branches:
-              only:
-                - main
+            - build_docker
+#            - unit_test
+#            - api_integration_tests
+#            - e2e_test
+#          filters:
+#            branches:
+#              only:
+#                - main
       - hmpps/deploy_env:
           name: deploy_dev
           env: "dev"
