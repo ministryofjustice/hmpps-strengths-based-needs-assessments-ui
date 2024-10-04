@@ -55,7 +55,7 @@ export type HandoverSubject = {
 }
 
 export type HandoverAssessmentContext = {
-  sanAssessmentId: string
+  assessmentId: string
   oasysAssessmentPk?: string
   assessmentVersion: number
 }
