@@ -36,6 +36,7 @@ services:
       - hmpps
     depends_on:
       - redis
+      - coordinator-api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://arns-handover:7070/health/ping"]
     environment:
@@ -101,6 +102,7 @@ services:
       SP_API_BASE_URL: http://sp-api:8080
       CLIENT_ID: hmpps-assess-risks-and-needs-oastub-ui
       CLIENT_SECRET: clientsecret
+      APP_STRATEGIES_PLAN: false
 
   san-api:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest

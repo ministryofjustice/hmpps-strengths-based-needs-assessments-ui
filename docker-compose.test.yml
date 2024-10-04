@@ -28,6 +28,7 @@ services:
     environment:
       CYPRESS_BASE_URL: http://san-ui:3000
       CYPRESS_SBNA_API_URL: http://san-api:8080
+      CYPRESS_COORDINATOR_API_URL: http://coordinator-api:8080
       CYPRESS_ARNS_HANDOVER_URL: http://arns-handover:7070
       CYPRESS_ARNS_HANDOVER_CLIENT_ID: strengths-and-needs-assessment
       CYPRESS_HMPPS_AUTH_URL: http://hmpps-auth:9090

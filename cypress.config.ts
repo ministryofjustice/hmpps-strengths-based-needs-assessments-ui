@@ -11,10 +11,11 @@ export default defineConfig({
   },
   taskTimeout: 60000,
   env: {
-    CLIENT_ID: 'hmpps-strengths-and-needs-ui-client',
+    CLIENT_ID: 'hmpps-assess-risks-and-needs-oastub-ui',
     CLIENT_SECRET: 'clientsecret',
     HMPPS_AUTH_URL: 'http://localhost:9091',
     SBNA_API_URL: 'http://localhost:8080',
+    COORDINATOR_API_URL: 'http://localhost:8070',
     ARNS_HANDOVER_URL: 'http://localhost:7070',
     ARNS_HANDOVER_CLIENT_ID: 'strengths-and-needs-assessment',
     OASYS_UI_URL: 'http://localhost:7072',
