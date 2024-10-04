@@ -87,18 +87,6 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return new RestClient('Strengths Based Needs Assessments API Client', config.apis.sbnaApi, token)
   }
 
-  async createAssessment(requestBody: CreateAssessmentRequest) {
-    const client = await this.getRestClient()
-    const responseBody = await client.post({ path: '/oasys/assessment/create', data: requestBody })
-    return responseBody as CreateAssessmentResponse
-  }
-
-  async fetchOasysAssessment(oasysAssessmentPk: string): Promise<OasysAssessmentResponse> {
-    const client = await this.getRestClient()
-    const responseBody = await client.get({ path: `/oasys/assessment/${oasysAssessmentPk}` })
-    return responseBody as OasysAssessmentResponse
-  }
-
   async fetchAssessment(assessmentId: string, versionNumber?: number): Promise<AssessmentResponse> {
     const client = await this.getRestClient()
 

@@ -114,11 +114,12 @@ export const createAssessment = (data = null) => {
   cy.log(`Creating assessment with OASys PK: ${oasysAssessmentPk}`)
   getApiToken().then(apiToken => {
     cy.request({
-      url: `${env('SBNA_API_URL')}/oasys/assessment/create`,
+      url: `${env('COORDINATOR_API_URL')}/oasys/create`,
       method: 'POST',
       auth: { bearer: apiToken },
       body: {
         oasysAssessmentPk,
+        planType: 'INITIAL',
         userDetails: oasysUser,
       },
       retryOnNetworkFailure: false,

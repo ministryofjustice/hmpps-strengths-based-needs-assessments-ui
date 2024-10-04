@@ -17,7 +17,7 @@ services:
       - /var/lib/postgresql
 
   hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:latest
+    image: quay.io/hmpps/hmpps-auth:2024-10-02.25761.db2ce3c
     networks:
       - hmpps
     healthcheck:
@@ -36,6 +36,7 @@ services:
       - hmpps
     depends_on:
       - redis
+      - coordinator-api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://arns-handover:7070/health/ping"]
     environment:
@@ -45,9 +46,12 @@ services:
       HMPPS_HANDOVER_BASE_URL: http://arns-handover:7070
       HMPPS_HANDOVER_EXTERNAL_URL: http://localhost:7070
       HMPPS_AUTH_BASE_URL: http://hmpps-auth:9090
+      COORDINATOR_API_BASE_URL: http://coordinator-api:8080
       OASYS_BASE_URL: http://localhost:7072
       SERVER_ERROR_WHITELABEL_ENABLED: true
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+      CLIENT_ID: hmpps-assess-risks-and-needs-oastub-ui
+      CLIENT_SECRET: clientsecret
 
   oasys-ui:
     image: quay.io/hmpps/hmpps-assess-risks-and-needs-oastub-ui:latest
@@ -60,7 +64,7 @@ services:
     environment:
       REDIS_ENABLED: "true"
       SYSTEM_CLIENT_SECRET: clientsecret
-      SYSTEM_CLIENT_ID: hmpps-strengths-and-needs-ui-client
+      SYSTEM_CLIENT_ID: hmpps-assess-risks-and-needs-oastub-ui
       SESSION_SECRET: sessionsecret
       REDIS_HOST: redis
       INGRESS_URL: http://localhost:7072
@@ -68,15 +72,39 @@ services:
       TOKEN_VERIFICATION_ENABLED: "false"
       TOKEN_VERIFICATION_API_URL: http://hmpps-auth:9091/verification
       HMPPS_ARNS_HANDOVER_URL: http://arns-handover:7070
-      SBNA_API_URL: "http://api:8080"
-      SP_API_URL: "http://¯\_(ツ)_/¯"
+      COORDINATOR_API_URL: "http://coordinator-api:8080"
       ENVIRONMENT_NAME: DEV
       AUDIT_ENABLED: "false"
       PRODUCT_ID: FOO
     volumes:
       - ./docker/healthcheck.js:/app/docker/healthcheck.js
 
-  api:
+  coordinator-api:
+    image: quay.io/hmpps/hmpps-assess-risks-and-needs-coordinator-api:latest
+    networks:
+      - hmpps
+    depends_on:
+      - postgres
+      - hmpps-auth
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://coordinator-api:8080/health/ping" ]
+      interval: 5s
+      retries: 60
+    environment:
+      SERVER_PORT: 8080
+      SPRING_PROFILES_ACTIVE: postgres
+      APP_DB_ENDPOINT: postgres:5432
+      APP_DB_NAME: postgres
+      APP_DB_USERNAME: root
+      APP_DB_PASSWORD: dev
+      HMPPS_AUTH_BASE_URL: http://hmpps-auth:9090/auth
+      SAN_API_BASE_URL: http://san-api:8080
+      SP_API_BASE_URL: http://sp-api:8080
+      CLIENT_ID: hmpps-assess-risks-and-needs-oastub-ui
+      CLIENT_SECRET: clientsecret
+      APP_STRATEGIES_PLAN: false
+
+  san-api:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest
     networks:
       - hmpps
@@ -84,7 +112,7 @@ services:
      - postgres
      - hmpps-auth
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://api:8080/health/ping"]
+      test: ["CMD", "curl", "-f", "http://san-api:8080/health/ping"]
       interval: 5s
       retries: 60
     environment:
@@ -92,9 +120,9 @@ services:
       SPRING_PROFILES_ACTIVE: postgres
       DATABASE_ENDPOINT: postgres:5432
       OAUTH_ENDPOINT_URL: http://hmpps-auth:9090/auth
-      FORM_CONFIG_BASE_URL: http://ui:3000/config
+      FORM_CONFIG_BASE_URL: http://san-ui:3000/config
 
-  ui:
+  san-ui:
     image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
     build:
       context: .
@@ -104,7 +132,7 @@ services:
     depends_on:
      - redis
      - hmpps-auth
-     - api
+     - san-api
      - arns-handover
      - oasys-ui
     healthcheck:
@@ -124,11 +152,11 @@ services:
       API_CLIENT_SECRET: clientsecret
       SYSTEM_CLIENT_SECRET: clientsecret
       API_CLIENT_ID: hmpps-strengths-and-needs-ui
-      SYSTEM_CLIENT_ID: hmpps-strengths-and-needs-ui-client
+      SYSTEM_CLIENT_ID: hmpps-assess-risks-and-needs-oastub-ui
       HANDOVER_CLIENT_ID: strengths-and-needs-assessment
       HANDOVER_CLIENT_SECRET: san-secret
       SESSION_SECRET: sessionsecret
-      SBNA_API_URL: http://api:8080
+      SBNA_API_URL: http://san-api:8080
       INGRESS_URL: http://localhost:3000
       HTTPS: false
 
