@@ -229,7 +229,7 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
+  getPageNavigation(): { url: string; stepsTaken: Array<{ href: string; text: string }>; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
@@ -241,7 +241,7 @@ export class FieldDependencyTreeBuilder {
 
     for (const [stepUrl, step] of steps) {
       nextStep = stepUrl
-      stepsTaken.push(stepUrl)
+      stepsTaken.push({ href: stepUrl, text: step.pageTitle })
 
       const hasErrors = Object.values(step.fields)
         .filter(it => dependencyMet(it, this.answers))
