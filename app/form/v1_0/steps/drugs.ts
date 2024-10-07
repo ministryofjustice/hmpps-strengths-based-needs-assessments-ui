@@ -18,6 +18,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      pageTitle: 'Drug use',
       url: stepUrls.drugs,
       fields: [
         drugsFields.drugUseGroup,
@@ -32,6 +33,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      pageTitle: 'Drug use details',
       url: stepUrls.drugUse,
       fields: [
         drugsFields.drugUsageDetailsGroup,
@@ -42,6 +44,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      pageTitle: 'Select drugs',
       url: stepUrls.selectDrugs,
       fields: [
         drugsFields.drugUseTypeGroup,
@@ -53,6 +56,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      pageTitle: 'Drug usage details',
       url: stepUrls.drugUsageDetails,
       fields: [
         drugsFields.drugUseTypeDetailsGroup,
@@ -64,6 +68,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      pageTitle: 'Drug use changes',
       url: stepUrls.drugUseChanges,
       fields: [
         drugsFields.wantToMakeChanges(),
@@ -74,6 +79,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      pageTitle: 'Summary',
       url: stepUrls.summary,
       fields: [
         drugsFields.practitionerAnalysis(),

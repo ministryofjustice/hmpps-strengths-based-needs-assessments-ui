@@ -53,13 +53,7 @@ class SaveAndContinueController extends BaseController {
           req.form.persistedAnswers,
         ).getPageNavigation()
 
-        const getBackLinkFromTrail = (currentStep: string, stepsTaken: string[]) => {
-          const currentStepIndex = stepsTaken.indexOf(currentStep)
-
-          return currentStepIndex > 0 ? stepsTaken[currentStepIndex - 1] : null
-        }
-
-        res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
+        res.locals.stepsTaken = pageNavigation.stepsTaken
 
         if (req.query.action === 'resume') {
           const currentPageToComplete = pageNavigation.url

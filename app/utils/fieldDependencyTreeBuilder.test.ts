@@ -641,7 +641,10 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
 
       expect(result).toEqual({
         url: 'step-2',
-        stepsTaken: ['step-1', 'step-2'],
+        stepsTaken: [
+          { href: 'step-1', pageTitle: 'Step 1' },
+          { href: 'step-2', text: 'Step 2' },
+        ],
         isSectionComplete: false,
       })
     })
