@@ -197,41 +197,6 @@ export default abstract class FieldsFactory {
         dependentValue: 'NO',
         maxChars: summaryCharacterLimit,
       }),
-      // TODO: 🔥
-      {
-        text: 'Give details',
-        code: `${this.fieldPrefix}_practitioner_analysis_strengths_or_protective_factors_details`,
-        type: FieldType.TextArea,
-        characterCountMax: summaryCharacterLimit,
-        dependent: {
-          field: `${this.fieldPrefix}_practitioner_analysis_strengths_or_protective_factors`,
-          value: 'FOO',
-          displayInline: true,
-        },
-      },
-      {
-        text: 'Give details',
-        code: `${this.fieldPrefix}_practitioner_analysis_risk_of_serious_harm_details`,
-        type: FieldType.TextArea,
-        characterCountMax: summaryCharacterLimit,
-        dependent: {
-          field: `${this.fieldPrefix}_practitioner_analysis_risk_of_serious_harm`,
-          value: 'FOO',
-          displayInline: true,
-        },
-      },
-      {
-        text: 'Give details',
-        code: `${this.fieldPrefix}_practitioner_analysis_risk_of_reoffending_details`,
-        type: FieldType.TextArea,
-        characterCountMax: summaryCharacterLimit,
-        dependent: {
-          field: `${this.fieldPrefix}_practitioner_analysis_risk_of_reoffending`,
-          value: 'FOO',
-          displayInline: true,
-        },
-      },
-      // TODO: 👆
     ]
   }
 }

@@ -1,5 +1,5 @@
 SHELL = '/bin/bash'
-PROJECT_NAME = hmpps-strengths-based-needs-assessments
+PROJECT_NAME = hmpps-assess-risks-and-needs
 DEV_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.dev.yml
 TEST_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.test.yml
 LOCAL_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.local.yml
@@ -11,8 +11,8 @@ help: ## The help text you're reading.
 	@grep --no-filename -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 up: ## Starts/restarts the UI in a production container.
-	docker compose ${LOCAL_COMPOSE_FILES} down ui
-	docker compose ${LOCAL_COMPOSE_FILES} up ui --wait --no-recreate
+	docker compose ${LOCAL_COMPOSE_FILES} down san-ui
+	docker compose ${LOCAL_COMPOSE_FILES} up san-ui --wait --no-recreate
 
 down: ## Stops and removes all containers in the project.
 	docker compose ${LOCAL_COMPOSE_FILES} down
@@ -20,32 +20,32 @@ down: ## Stops and removes all containers in the project.
 	make test-down
 
 build-ui: ## Builds a production image of the UI.
-	docker compose build ui
+	docker compose build san-ui
 
 dev-up: ## Starts/restarts the UI in a development container. A remote debugger can be attached on port 9229.
-	docker compose ${DEV_COMPOSE_FILES} down ui
-	docker compose ${DEV_COMPOSE_FILES} up ui --wait --no-recreate
+	docker compose ${DEV_COMPOSE_FILES} down san-ui
+	docker compose ${DEV_COMPOSE_FILES} up san-ui --wait --no-recreate
 
 dev-build: ## Builds a development image of the UI and installs Node dependencies.
-	docker compose ${DEV_COMPOSE_FILES} build ui
+	docker compose ${DEV_COMPOSE_FILES} build san-ui
 
 dev-down: ## Stops and removes all dev containers.
 	docker compose ${DEV_COMPOSE_FILES} down
 
 dev-update: update dev-build ## Pulls latest docker images, re-builds the Dev UI and copies node_modules to local filesystem.
 	rm -rf node_modules
-	docker compose ${DEV_COMPOSE_FILES} run --no-deps --name ui-node-modules ui node -v
+	docker compose ${DEV_COMPOSE_FILES} run --no-deps --name ui-node-modules san-ui node -v
 	docker container cp ui-node-modules:/app/node_modules .
 	docker container rm -f ui-node-modules
 
 test: ## Runs the unit test suite.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run test
+	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps san-ui npm run test
 
 lint: ## Runs the linter.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint
+	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps san-ui npm run lint
 
 lint-fix: ## Automatically fixes linting issues.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ui npm run lint:fix
+	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps san-ui npm run lint:fix
 
 BASE_URL ?= "http://localhost:3000"
 e2e: ## Run the end-to-end tests locally in the Cypress app. Override the default base URL with BASE_URL=...
@@ -68,7 +68,7 @@ e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in C
 
 test-up: ## Stands up a test environment.
 	docker compose pull --policy missing
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up ui --wait --force-recreate
+	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up san-ui --wait --force-recreate
 
 test-down: ## Stops and removes all of the test containers.
 	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test down
@@ -83,7 +83,8 @@ update: ## Downloads the latest versions of container images.
 save-logs: ## Saves docker container logs in a directory defined by OUTPUT_LOGS_DIR=
 	docker system info
 	mkdir -p ${OUTPUT_LOGS_DIR}
-	docker logs ${PROJECT_NAME}-api-1 > ${OUTPUT_LOGS_DIR}/api.log
-	docker logs ${PROJECT_NAME}-ui-1 > ${OUTPUT_LOGS_DIR}/ui.log
+	docker logs ${PROJECT_NAME}-san-api-1 > ${OUTPUT_LOGS_DIR}/san-api.log
+	docker logs ${PROJECT_NAME}-san-ui-1 > ${OUTPUT_LOGS_DIR}/san-ui.log
 	docker logs ${PROJECT_NAME}-arns-handover-1 > ${OUTPUT_LOGS_DIR}/arns-handover.log
+	docker logs ${PROJECT_NAME}-coordinator-api-1 > ${OUTPUT_LOGS_DIR}/coordinator-api.log
 	docker logs ${PROJECT_NAME}-hmpps-auth-1 > ${OUTPUT_LOGS_DIR}/hmpps-auth.log
