@@ -32,7 +32,6 @@
 
 .form-header__actions {
   float: right;
- 
   @include govuk-media-query($until: desktop){
     width: 100%;
     float: none;
