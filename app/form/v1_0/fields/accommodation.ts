@@ -104,7 +104,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'short_term_accommodation_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'SHORT_TERM'),
     summary: {
       displayFn: endDateSummaryDisplay,
