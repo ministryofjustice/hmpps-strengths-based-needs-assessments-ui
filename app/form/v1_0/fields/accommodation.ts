@@ -6,10 +6,11 @@ import sections from '../config/sections'
 import { dependentOn } from './common/utils'
 
 const immigrationAccommodationHint = `
-    <div class="govuk-!-width-two-thirds">
+    <div class="govuk-grid-column-full">
       <p class="govuk-hint">This includes:</p>
       <ul class="govuk-hint govuk-list govuk-list--bullet">
         <li>Schedule 10 - Home Office provides accommodation under the Immigration Act 2016</li>
+        <hr class="govuk-section-break govuk-section-break--m">
         <li>Schedule 4 - Home Office provides accommodation for those on immigration bail, prior to the Immigration Act 2016</li>
       </ul>
     </div>
