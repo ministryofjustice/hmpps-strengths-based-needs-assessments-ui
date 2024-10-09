@@ -4,7 +4,7 @@ import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-w
 import sections from '../config/sections'
 
 const sexualHarmWarningText = `
-<div class="govuk-warning-text">
+<div class="govuk-warning-text govuk-!-static-margin-0">
   <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
   <strong class="govuk-warning-text__text">
     <span class="govuk-visually-hidden">Warning</span>
