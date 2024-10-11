@@ -12,7 +12,7 @@ import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
 
 export type Progress = Record<string, boolean>
-type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
+export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 class SaveAndContinueController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
@@ -134,7 +134,7 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionProgressRules: SectionCompleteRule[]): Progress {
+  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
     const subsectionIsComplete =
       (answers: FormWizard.Answers = {}) =>
       (fieldCode: string) =>
@@ -146,7 +146,7 @@ class SaveAndContinueController extends BaseController {
         [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
       })
 
-    return sectionProgressRules.reduce(checkProgress(formAnswers), {})
+    return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
   }
 
   checkAssessmentComplete(progress: Progress): boolean {

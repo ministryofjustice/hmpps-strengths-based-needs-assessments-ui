@@ -1,11 +1,11 @@
 import FormWizard from 'hmpo-form-wizard'
 import { Response } from 'express'
-import Controller from './saveAndContinueController'
+import Controller, { Progress, SectionCompleteRule } from './saveAndContinueController'
 
 describe('SaveAndContinueController', () => {
   const controller = new Controller({ route: '/' })
 
-  describe('getSectionProgress', () => {
+  describe('getSectionProgressAnswers', () => {
     const conditionFn = jest.fn()
 
     const buildRequestWith = ({
@@ -90,7 +90,6 @@ describe('SaveAndContinueController', () => {
       const result = controller.getSectionProgressAnswers(req, true)
 
       expect(result).toEqual({
-        assessment_complete: 'YES',
         foo_section_complete: 'YES',
         bar_section_complete: 'YES',
         baz_section_complete: 'YES',
@@ -109,10 +108,75 @@ describe('SaveAndContinueController', () => {
       const result = controller.getSectionProgressAnswers(req, true)
 
       expect(result).toEqual({
-        assessment_complete: 'NO',
         foo_section_complete: 'YES',
         bar_section_complete: 'NO',
         baz_section_complete: 'YES',
+      })
+    })
+  })
+
+  describe('getAssessmentProgress', () => {
+    it('marks the section as complete if all subsections are complete', () => {
+      const answers: FormWizard.Answers = {
+        foo_section_complete: 'YES',
+        bar_section_complete: 'YES',
+      }
+
+      const sectionCompleteRules: SectionCompleteRule[] = [
+        { sectionName: 'test_section', fieldCodes: ['foo_section_complete', 'bar_section_complete'] },
+      ]
+
+      const result = controller.getAssessmentProgress(answers, sectionCompleteRules)
+
+      expect(result).toEqual({
+        test_section: true,
+      })
+    })
+
+    it('marks the section as incomplete is a subsection is incomplete', () => {
+      const answers: FormWizard.Answers = {
+        foo_section_complete: 'YES',
+        bar_section_complete: 'NO',
+      }
+
+      const sectionCompleteRules: SectionCompleteRule[] = [
+        { sectionName: 'test_section', fieldCodes: ['foo_section_complete', 'bar_section_complete'] },
+      ]
+
+      const result = controller.getAssessmentProgress(answers, sectionCompleteRules)
+
+      expect(result).toEqual({
+        test_section: false,
+      })
+    })
+  })
+
+  describe('getAssessmentCompletionAnswers', () => {
+    it('marks the assessment as complete if all sections are complete', () => {
+      const progress: Progress = {
+        foo_section_complete: true,
+        bar_section_complete: true,
+        baz_section_complete: true,
+      }
+
+      const result = controller.getAssessmentCompletionAnswers(progress)
+
+      expect(result).toEqual({
+        assessment_complete: 'YES',
+      })
+    })
+
+    it('marks the assessment as incomplete if a section is incomplete', () => {
+      const progress: Progress = {
+        foo_section_complete: true,
+        bar_section_complete: false,
+        baz_section_complete: true,
+      }
+
+      const result = controller.getAssessmentCompletionAnswers(progress)
+
+      expect(result).toEqual({
+        assessment_complete: 'NO',
       })
     })
   })
