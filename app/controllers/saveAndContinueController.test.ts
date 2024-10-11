@@ -41,7 +41,7 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      controller.getSectionProgress(req, true)
+      controller.getSectionProgressAnswers(req, true)
 
       expect(conditionFn).toHaveBeenCalledTimes(3)
     })
@@ -51,7 +51,7 @@ describe('SaveAndContinueController', () => {
         sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
       })
 
-      controller.getSectionProgress(req, true)
+      controller.getSectionProgressAnswers(req, true)
 
       expect(conditionFn).toHaveBeenLastCalledWith(true, {})
     })
@@ -61,7 +61,7 @@ describe('SaveAndContinueController', () => {
         sectionProgressRules: [{ fieldCode: 'foo_section_complete', conditionFn }],
       })
 
-      controller.getSectionProgress(req, false)
+      controller.getSectionProgressAnswers(req, false)
 
       expect(conditionFn).toHaveBeenLastCalledWith(false, {})
     })
@@ -73,7 +73,7 @@ describe('SaveAndContinueController', () => {
         formValues,
       })
 
-      controller.getSectionProgress(req, true)
+      controller.getSectionProgressAnswers(req, true)
 
       expect(conditionFn).toHaveBeenLastCalledWith(true, formValues)
     })
@@ -87,7 +87,7 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      const result = controller.getSectionProgress(req, true)
+      const result = controller.getSectionProgressAnswers(req, true)
 
       expect(result).toEqual({
         assessment_complete: 'YES',
@@ -106,7 +106,7 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      const result = controller.getSectionProgress(req, true)
+      const result = controller.getSectionProgressAnswers(req, true)
 
       expect(result).toEqual({
         assessment_complete: 'NO',
@@ -161,9 +161,9 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      controller.updateAssessmentProgress(req, res)
+      const progress = controller.getAssessmentProgress(req.form.persistedAnswers, res.locals.form.sectionProgressRules)
 
-      expect(res.locals.sectionProgress?.accommodation).toEqual(true)
+      expect(progress.accommodation).toEqual(true)
     })
 
     it('sets the sections to incomplete when their required fields have not been completed', () => {
@@ -188,11 +188,11 @@ describe('SaveAndContinueController', () => {
         ],
       })
 
-      controller.updateAssessmentProgress(req, res)
+      const progress = controller.getAssessmentProgress(req.form.persistedAnswers, res.locals.form.sectionProgressRules)
 
-      expect(res.locals.sectionProgress?.finance).toEqual(false)
-      expect(res.locals.sectionProgress?.['alcohol-use']).toEqual(false)
-      expect(res.locals.sectionProgress?.['drug-use']).toEqual(false)
+      expect(progress.finance).toEqual(false)
+      expect(progress['alcohol-use']).toEqual(false)
+      expect(progress['drug-use']).toEqual(false)
     })
   })
 })
