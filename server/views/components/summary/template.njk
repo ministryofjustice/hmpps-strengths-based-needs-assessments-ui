@@ -131,6 +131,7 @@
       {% for answer in summaryField.answers %}
         <span class="summary__answer--secondary">{{ answer.text | nl2br | safe }}</span>
         {{ renderNestedFields(answer.nestedFields) }}
+        <hr class="govuk-section-break govuk-section-break--m">
       {% endfor %}
 
     {% endif %}
