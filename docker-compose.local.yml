@@ -1,5 +1,9 @@
 services:
-  ui:
+  coordinator-api:
+    ports:
+      - "8070:8080"
+
+  san-ui:
     ports:
       - "3000:3000"
 

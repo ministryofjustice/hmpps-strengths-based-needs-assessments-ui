@@ -258,7 +258,7 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    if (steps.length === 1) {
+    if (steps.length < 2) {
       return {
         url: nextStep,
         stepsTaken,
