@@ -39,7 +39,7 @@ export function validatePastDate(value: string) {
   // return !value || value === '' ? true : date <= now
 }
 
-export function validateValidDate(value: string){
+export function validateValidDate(value: string) {
   const date = DateTime.fromISO(value)
   return !value || value === '' ? true : date.isValid
 }
