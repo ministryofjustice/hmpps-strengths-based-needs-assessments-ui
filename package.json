@@ -152,7 +152,6 @@
     "esbuild": "^0.24.0",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
-    "esbuild-plugin-tsc": "^0.4.0",
     "esbuild-sass-plugin": "^3.3.1",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
