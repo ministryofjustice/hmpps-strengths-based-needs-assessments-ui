@@ -81,7 +81,8 @@ import {
   cloneCapturedAssessment,
   createAssessment,
   enterAssessment,
-  lockAssessment, softDeleteAssessment,
+  lockAssessment,
+  softDeleteAssessment,
 } from './commands/api'
 import { Fixture, loadFixture, saveAsFixture } from './commands/fixture'
 
@@ -97,7 +98,7 @@ declare global {
       cloneCapturedAssessment(): Chainable
       enterAssessment(accessMode?: AccessMode, assessmentContextOverride?: AssessmentContext): Chainable
       lockAssessment(): Chainable
-      softDeleteAssessment(versionFrom: Number): Chainable
+      softDeleteAssessment(versionFrom: number): Chainable
 
       // analysis summary
       getAnalysisSummary(question: string): Chainable

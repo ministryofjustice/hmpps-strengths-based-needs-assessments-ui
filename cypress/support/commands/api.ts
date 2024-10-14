@@ -184,7 +184,7 @@ export const lockAssessment = () =>
     })
   })
 
-export const softDeleteAssessment = (versionFrom: Number) =>
+export const softDeleteAssessment = (versionFrom: number) =>
   getApiToken().then(apiToken => {
     const assessment: AssessmentContext = env('last_assessment')
 
