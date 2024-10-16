@@ -168,13 +168,36 @@ export const lockAssessment = () =>
     const assessment: AssessmentContext = env('last_assessment')
 
     cy.request({
-      url: `${env('SBNA_API_URL')}/oasys/assessment/${assessment.oasysAssessmentPk}/lock`,
+      url: `${env('SBNA_API_URL')}/assessment/${assessment.assessmentId}/lock`,
       method: 'POST',
       auth: { bearer: apiToken },
       body: {
         userDetails: {
           id: '111111',
           name: 'John Doe',
+          type: 'SAN',
+        },
+      },
+      retryOnNetworkFailure: false,
+    }).then(lockResponse => {
+      expect(lockResponse.isOkStatusCode).to.eq(true)
+    })
+  })
+
+export const softDeleteAssessment = (versionFrom: number) =>
+  getApiToken().then(apiToken => {
+    const assessment: AssessmentContext = env('last_assessment')
+
+    cy.request({
+      url: `${env('SBNA_API_URL')}/assessment/${assessment.assessmentId}/soft-delete`,
+      method: 'POST',
+      auth: { bearer: apiToken },
+      body: {
+        versionFrom,
+        userDetails: {
+          id: '111111',
+          name: 'John Doe',
+          type: 'SAN',
         },
       },
       retryOnNetworkFailure: false,

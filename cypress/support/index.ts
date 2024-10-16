@@ -82,6 +82,7 @@ import {
   createAssessment,
   enterAssessment,
   lockAssessment,
+  softDeleteAssessment,
 } from './commands/api'
 import { Fixture, loadFixture, saveAsFixture } from './commands/fixture'
 
@@ -97,6 +98,7 @@ declare global {
       cloneCapturedAssessment(): Chainable
       enterAssessment(accessMode?: AccessMode, assessmentContextOverride?: AssessmentContext): Chainable
       lockAssessment(): Chainable
+      softDeleteAssessment(versionFrom: number): Chainable
 
       // analysis summary
       getAnalysisSummary(question: string): Chainable
@@ -191,6 +193,7 @@ Cypress.Commands.add('captureAssessment', captureAssessment)
 Cypress.Commands.add('cloneCapturedAssessment', cloneCapturedAssessment)
 Cypress.Commands.add('enterAssessment', enterAssessment)
 Cypress.Commands.add('lockAssessment', lockAssessment)
+Cypress.Commands.add('softDeleteAssessment', softDeleteAssessment)
 
 // analysis summary
 Cypress.Commands.add('getAnalysisSummary', getAnalysisSummary)
