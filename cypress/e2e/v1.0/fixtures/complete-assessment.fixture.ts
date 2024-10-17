@@ -83,7 +83,7 @@ describe('Generate fixture for complete assessment', () => {
   })
 
   it('completes the finance section', () => {
-    const section = 'Finance'
+    const section = 'Finances'
 
     cy.visitSection(section)
     cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('No money').clickLabel()
@@ -261,9 +261,6 @@ describe('Generate fixture for complete assessment', () => {
       .clickLabel()
     cy.saveAndContinue()
 
-    cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
-      .getRadio('No')
-      .clickLabel()
     cy.getQuestion('Does Sam recognise the impact or consequences on the victims or others and the wider community?')
       .getRadio('No')
       .clickLabel()
