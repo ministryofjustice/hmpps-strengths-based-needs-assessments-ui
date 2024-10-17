@@ -33,9 +33,8 @@ describe('assessment print preview', () => {
           cy.get('h3:contains(Summary)').should('have.length', 1)
           cy.get('.summary-section-header__status').should('have.length', 1).and('contain.text', 'Complete')
 
-          hasPractitionerAnalysis
-            ? cy.get('h3:contains(Practitioner analysis)').should('have.length', 1)
-            : cy.get('h3:contains(Practitioner analysis)').should('not.exist')
+          if (hasPractitionerAnalysis) cy.get('h3:contains(Practitioner analysis)').should('have.length', 1)
+          else cy.get('h3:contains(Practitioner analysis)').should('not.exist')
 
           const practitionerAnalysisQuestions = [
             `Are there any strengths or protective factors related to Sam's ${section.toLowerCase()}?`,
@@ -44,9 +43,8 @@ describe('assessment print preview', () => {
           ]
 
           practitionerAnalysisQuestions.forEach(question => {
-            hasPractitionerAnalysis
-              ? cy.getSummary(question).getAnswer('No').hasNoSecondaryAnswer()
-              : cy.contains(question).should('not.exist')
+            if (hasPractitionerAnalysis) cy.getSummary(question).getAnswer('No').hasNoSecondaryAnswer()
+            else cy.contains(question).should('not.exist')
           })
         })
     })
