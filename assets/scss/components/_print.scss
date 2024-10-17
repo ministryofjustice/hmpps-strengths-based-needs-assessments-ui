@@ -136,8 +136,11 @@
     }
   }
 
-  .summary-list__actions * {
-    display: none;
+  .summary-list__actions,
+  .collection-summary-list__actions {
+    * {
+      display: none;
+    }
   }
 }
 
