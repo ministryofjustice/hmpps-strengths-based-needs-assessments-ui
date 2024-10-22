@@ -14,6 +14,8 @@ interface Locals {
 
 type Node = { code: string; id: string; dependents?: Node[] }
 
+const testNode = (a: Node) => a.blah
+
 const renderConditionalQuestion = (
   allFields: FormWizard.Field[],
   thisField: FormWizard.Field,
