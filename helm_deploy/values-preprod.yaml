@@ -8,12 +8,6 @@ generic-service:
     hosts: 
       - strengths-based-needs-preprod.hmpps.service.justice.gov.uk
       - strengths-based-needs-assessments-preprod.hmpps.service.justice.gov.uk
-    modsecurity_enabled: true
-    modsecurity_snippet: |
-      SecRuleEngine DetectionOnly
-      SecRuleUpdateActionById 949110 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
-      SecRuleUpdateActionById 959100 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
-      SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
 
   env:
     INGRESS_URL: "https://strengths-based-needs-assessments-preprod.hmpps.service.justice.gov.uk"
@@ -21,23 +15,7 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-preprod.prison.service.justice.gov.uk"
     SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-preprod.svc.cluster.local"
     HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service-preprod.hmpps.service.justice.gov.uk"
-    OASYS_URL: "https://pp.oasys.service.justice.gov.uk/"
-
-  allowlist:
-    capita-dev: 51.104.16.30/31
-    captia-further: 172.167.141.40/32
-    capita-developers-vms-one: 85.115.52.180/32
-    capita-developers-vms-two: 85.115.52.200/29
-    capita-developers-vms-three: 85.115.53.180/32
-    capita-developers-vms-four: 85.115.53.200/29
-    capita-developers-vms-five: 85.115.54.180/32
-    capita-developers-vms-six: 85.115.54.200/29
-    krupal-appsec: 80.195.27.199/32
-    
-    groups:
-      - circleci
-      - internal
-      - prisons
+    OASYS_URL: "https://pp.oasys.service.justice.gov.uk"
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-strengths-based-needs-assessments
