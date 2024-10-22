@@ -21,7 +21,7 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-preprod.prison.service.justice.gov.uk"
     SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-preprod.svc.cluster.local"
     HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service-preprod.hmpps.service.justice.gov.uk"
-    OASYS_URL: "https://example.com/oasys"
+    OASYS_URL: "https://pp.oasys.service.justice.gov.uk/"
 
   allowlist:
     capita-dev: 51.104.16.30/31
