@@ -209,7 +209,7 @@ workflows:
           pipeline_number: << pipeline.number >>
           context:
             - hmpps-common-vars
-            - hmpps-strengths-based-needs-assessments-ui-preprod
+            - hmpps-strengths-based-needs-assessments-preprod
           filters:
             branches:
               only:
@@ -228,7 +228,7 @@ workflows:
           slack_channel_name: << pipeline.parameters.releases-slack-channel >>
           context:
             - hmpps-common-vars
-            - hmpps-strengths-based-needs-assessments-ui-prod
+            - hmpps-strengths-based-needs-assessments-prod
           filters:
             branches:
               only:
@@ -251,13 +251,13 @@ workflows:
           pipeline_number: << pipeline.number >>
           context:
             - hmpps-common-vars
-            - hmpps-strengths-based-needs-assessments-ui-test
+            - hmpps-strengths-based-needs-assessments-test
       - hmpps/publish_docker:
           name: publish_docker
           publish_latest_tag: false
           context:
             - hmpps-common-vars
-            - hmpps-strengths-based-needs-assessments-ui-test
+            - hmpps-strengths-based-needs-assessments-test
           requires:
             - build_docker
       - hmpps/deploy_env:
@@ -269,7 +269,7 @@ workflows:
           pipeline_number: << pipeline.number >>
           context:
             - hmpps-common-vars
-            - hmpps-strengths-based-needs-assessments-ui-test
+            - hmpps-strengths-based-needs-assessments-test
           requires:
             - publish_docker
           helm_timeout: 5m
