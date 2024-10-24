@@ -12,6 +12,7 @@ import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
 
 export type Progress = Record<string, boolean>
+export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 class SaveAndContinueController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
@@ -133,33 +134,33 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  updateAssessmentProgress(req: FormWizard.Request, res: Response) {
-    type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
-    type AnswerValues = Record<string, string>
-
+  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
     const subsectionIsComplete =
-      (answers: AnswerValues = {}) =>
+      (answers: FormWizard.Answers = {}) =>
       (fieldCode: string) =>
         answers[fieldCode] === 'YES'
     const checkProgress =
-      (answers: AnswerValues) =>
+      (answers: FormWizard.Answers) =>
       (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
         ...sectionProgress,
         [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
       })
 
-    const sections = res.locals.form.sectionProgressRules
-    const sectionProgress: Progress = sections.reduce(
-      checkProgress(req.form.persistedAnswers as Record<string, string>),
-      {},
-    )
-    res.locals.sectionProgress = sectionProgress
-    res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
+    return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
+  }
+
+  checkAssessmentComplete(progress: Progress): boolean {
+    return !Object.values(progress).includes(false)
   }
 
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      this.updateAssessmentProgress(req, res)
+      const sectionProgress = this.getAssessmentProgress(
+        req.form.persistedAnswers,
+        res.locals.form.sectionProgressRules,
+      )
+      res.locals.sectionProgress = sectionProgress
+      res.locals.assessmentIsComplete = this.checkAssessmentComplete(sectionProgress)
 
       return super.getValues(req, res, next)
     } catch (error) {
@@ -167,7 +168,7 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getSectionProgress(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
+  getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
       req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
         fieldCode,
@@ -177,7 +178,12 @@ class SaveAndContinueController extends BaseController {
 
     return {
       ...sectionProgressFields,
-      assessment_complete: Object.values(sectionProgressFields).every(answer => answer === 'YES') ? 'YES' : 'NO',
+    }
+  }
+
+  getAssessmentCompletionAnswers(progress: Progress): FormWizard.Answers {
+    return {
+      assessment_complete: this.checkAssessmentComplete(progress) ? 'YES' : 'NO',
     }
   }
 
@@ -189,16 +195,25 @@ class SaveAndContinueController extends BaseController {
       ...req.form.values,
     }).getPageNavigation()
 
-    const allAnswers: FormWizard.Answers = {
+    const sectionCompleteAnswers = this.getSectionProgressAnswers(req, isSectionComplete)
+
+    const combinedAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,
       ...(req.form.values || {}),
-      ...this.getSectionProgress(req, isSectionComplete),
+      ...sectionCompleteAnswers,
     }
 
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers, options)
+    const answersToPersist = {
+      ...combinedAnswers,
+      ...this.getAssessmentCompletionAnswers(
+        this.getAssessmentProgress(combinedAnswers, res.locals.form.sectionProgressRules),
+      ),
+    }
+
+    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answersToPersist, options)
 
     req.form.values = {
-      ...allAnswers,
+      ...answersToPersist,
       ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
     }
     res.locals.values = req.form.values
