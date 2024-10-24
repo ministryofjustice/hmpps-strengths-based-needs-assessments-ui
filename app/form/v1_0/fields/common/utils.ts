@@ -25,21 +25,41 @@ export const orDivider: FormWizard.Field.Divider = {
   kind: 'divider',
 }
 
-export function validateFutureDate(value: string) {
-  const now = DateTime.now().startOf('day')
-  const date = DateTime.fromISO(value)
-  return !value || value === '' ? true : date.isValid && date >= now
-}
+// export function validateFutureDate(value: string) {
+//   const now = DateTime.now().startOf('day')
+//   const date = DateTime.fromISO(value)
+//   return !value || value === '' ? true : date.isValid && date >= now
+// }
 
-export function validatePastDate(value: string) {
-  const now = DateTime.now().startOf('day')
-  const date = DateTime.fromISO(value)
-  return !value || value === '' ? true : date.isValid && date >= now
-}
+// export function validatePastDate(value: string) {
+//   const now = DateTime.now().startOf('day')
+//   const date = DateTime.fromISO(value)
+//   return !value || value === '' ? true : date.isValid && date >= now
+// }
 
-export function validateValidDate(value: string) {
-  const date = DateTime.fromISO(value)
-  return !value || value === '' ? true : date.isValid
+// export function validateValidDate(value: string) {
+//   const date = DateTime.fromISO(value)
+//   return !value || value === '' ? true : date.isValid
+// }
+
+export function validateDate(value: string, mode: 'future' | 'past' | 'valid') {
+  const now = DateTime.now().startOf('day');
+  const date = DateTime.fromISO(value);
+
+  // Return true if the value is empty or null
+  if (!value || value === '') return true; 
+
+  // Ensure the date is valid
+  if (!date.isValid) return false; // add error message?
+
+  // Depending on the mode, validate future, past, or just the validity
+  if (mode === 'future') {
+    return date >= now;
+  } else if (mode === 'past') {
+    return date <= now;
+  }
+
+  return true; // If mode is 'valid'
 }
 
 export function requiredWhenValidator(field: string, requiredValue: string) {
