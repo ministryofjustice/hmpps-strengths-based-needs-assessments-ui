@@ -1,8 +1,9 @@
 import { testPractitionerAnalysis } from './common'
 
-describe(`Origin: /personal-relationships`, () => {
+describe(`Origin: /personal-relationships-children-information`, () => {
   const destinations = {
-    landingPage: '/personal-relationships',
+    landingPage: '/personal-relationships-children-information',
+    personalRelationships: '/personal-relationships',
     personalRelationshipsChildren: '/personal-relationships-children',
     personalRelationshipsCommunity: '/personal-relationships-community',
     summary: '/personal-relationships-community-summary',
@@ -19,13 +20,26 @@ describe(`Origin: /personal-relationships`, () => {
     cy.enterAssessment()
   })
 
+  describe(`Destination: ${destinations.personalRelationships}`, () => {
+    it(`Landing page routes to "${destinations.personalRelationships}"`, () => {
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion("Are there any children in Sam's life?")
+        .getCheckbox("No, there are no children in Sam's life")
+        .clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.personalRelationships)
+      cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
+    })
+  })
+  
   describe(`Destination: ${destinations.personalRelationshipsChildren}`, () => {
     it(`Has parental responsibilities routes to "${destinations.personalRelationshipsChildren}"`, () => {
-      cy.visitStep(destinations.landingPage)
+      cy.visitStep(destinations.personalRelationships)
       cy.getQuestion("Who are the important people in Sam's life?")
         .getCheckbox('Their children or anyone they have parental responsibilities for')
         .clickLabel()
-      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.personalRelationshipsChildren)
       cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsChildren)
@@ -60,13 +74,13 @@ describe(`Origin: /personal-relationships`, () => {
 
   describe(`Destination: ${destinations.personalRelationshipsCommunity}`, () => {
     it(`"No parental responsibilities routes to "${destinations.personalRelationshipsCommunity}"`, () => {
-      cy.visitStep(destinations.landingPage)
+      cy.visitStep(destinations.personalRelationships)
       cy.getQuestion("Who are the important people in Sam's life?")
         .getCheckbox('Their children or anyone they have parental responsibilities for')
         .isChecked()
         .clickLabel()
       cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
-      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.personalRelationshipsCommunity)
       cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsCommunity)

@@ -17,7 +17,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     code: 'personal_relationships_community_children_details',
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'ADD ERROR MESSAGE' }],
+    validate: [{ type: ValidationType.Required, message: 'Select at least one option' }], // double check error message with design
     options: [
       {
         text: "Yes, children that live with them",
