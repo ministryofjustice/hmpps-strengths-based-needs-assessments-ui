@@ -14,7 +14,6 @@ export const uuid = () => {
 const oasysUser = {
   id: uuid(),
   name: 'Cypress User',
-  returnUrl: Cypress.env('OASYS_UI_URL'),
 }
 
 // eslint-disable-next-line no-shadow
@@ -81,6 +80,7 @@ export const enterAssessment = (
               identifier: oasysUser.id,
               displayName: oasysUser.name,
               accessMode: accessMode.valueOf(),
+              returnUrl: Cypress.env('OASYS_UI_URL'),
             },
             subjectDetails: {
               crn: 'X123456',
