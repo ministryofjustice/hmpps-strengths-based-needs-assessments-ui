@@ -14,6 +14,7 @@ export const uuid = () => {
 const oasysUser = {
   id: uuid(),
   name: 'Cypress User',
+  returnUrl: Cypress.env('OASYS_UI_URL'),
 }
 
 // eslint-disable-next-line no-shadow
