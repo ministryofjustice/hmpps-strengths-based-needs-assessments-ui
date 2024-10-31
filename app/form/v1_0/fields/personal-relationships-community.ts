@@ -10,17 +10,16 @@ const childrenInformationHint = `
 `
 
 class PersonalRelationshipsFieldsFactory extends FieldsFactory {
-
   personalRelationshipsCommunityChildrenInformation: FormWizard.Field = {
     text: "Are there any children in [subject]'s life?",
-    hint: {html: childrenInformationHint, kind: 'html'},
+    hint: { html: childrenInformationHint, kind: 'html' },
     code: 'personal_relationships_community_children_details',
     type: FieldType.CheckBox,
     multiple: true,
     validate: [{ type: ValidationType.Required, message: 'Select at least one option' }],
     options: [
       {
-        text: "Yes, children that live with them",
+        text: 'Yes, children that live with them',
         value: 'YES_CHILDREN_LIVING_WITH_POP',
         kind: 'option',
       },
@@ -79,7 +78,6 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     ],
     dependent: dependentOn(this.personalRelationshipsCommunityChildrenInformation, 'YES_CHILDREN_VISITING'),
   }
-
 
   personalRelationshipsCommunityImportantPeople: FormWizard.Field = {
     text: "Who are the important people in [subject]'s life?",

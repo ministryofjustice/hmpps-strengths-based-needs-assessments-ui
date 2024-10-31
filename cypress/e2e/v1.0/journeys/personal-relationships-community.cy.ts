@@ -32,7 +32,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
       cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
     })
   })
-  
+
   describe(`Destination: ${destinations.personalRelationshipsChildren}`, () => {
     it(`Has parental responsibilities routes to "${destinations.personalRelationshipsChildren}"`, () => {
       cy.visitStep(destinations.personalRelationships)

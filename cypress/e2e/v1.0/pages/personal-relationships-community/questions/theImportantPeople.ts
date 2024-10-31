@@ -31,7 +31,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       [
         'Their children or anyone they have parental responsibilities for',
         'Give details of any children not captured by the previous question (optional)',
-        null
+        null,
       ],
       ['Other children', 'Give details about their relationship (optional)', null],
       ['Family members', 'Give details about their relationship (optional)', null],

@@ -10,7 +10,13 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     ]
 
     it('displays and validates the question', () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('This refers to any children (under 18 years) Sam has regular contact with, even if they do not have parental responsibility.', 'Select all that apply.').hasCheckboxes(options)
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .hasHint(
+          'This refers to any children (under 18 years) Sam has regular contact with, even if they do not have parental responsibility.',
+          'Select all that apply.',
+        )
+        .hasCheckboxes(options)
 
       cy.saveAndContinue()
 
@@ -20,10 +26,13 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.checkAccessibility()
     })
 
-    const detailsOptionsHeading = "Include the name, age and sex of any children, and their relationship to Sam."
+    const detailsOptionsHeading = 'Include the name, age and sex of any children, and their relationship to Sam.'
 
     it(`conditional field is displayed for "Yes, children that live with them"`, () => {
-      cy.getQuestion(question).getCheckbox('Yes, children that live with them').hasConditionalQuestion(false).clickLabel()
+      cy.getQuestion(question)
+        .getCheckbox('Yes, children that live with them')
+        .hasConditionalQuestion(false)
+        .clickLabel()
 
       cy.getQuestion(question)
         .getCheckbox('Yes, children that live with them')
@@ -49,37 +58,41 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getSummary(question).clickChange()
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
-      cy.getQuestion(question).getCheckbox('Yes, children that live with them').isChecked().getConditionalQuestion().hasText('Some text')
+      cy.getQuestion(question)
+        .getCheckbox('Yes, children that live with them')
+        .isChecked()
+        .getConditionalQuestion()
+        .hasText('Some text')
     })
     ;['Yes, children that do not live with them'].forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
         cy.getQuestion(question)
-        .getCheckbox(option)
-        .getConditionalQuestion()
-        .hasTitle(detailsOptionsHeading)
-        .hasHint(null)
-        .hasLimit(400)
+          .getCheckbox(option)
+          .getConditionalQuestion()
+          .hasTitle(detailsOptionsHeading)
+          .hasHint(null)
+          .hasLimit(400)
 
-      cy.saveAndContinue()
-      cy.getQuestion(question)
-        .hasNoValidationError()
-        .getCheckbox(option)
-        .getConditionalQuestion()
-        .hasValidationError('Enter details of any children that do not live with them')
-        .enterText('Some text')
+        cy.saveAndContinue()
+        cy.getQuestion(question)
+          .hasNoValidationError()
+          .getCheckbox(option)
+          .getConditionalQuestion()
+          .hasValidationError('Enter details of any children that do not live with them')
+          .enterText('Some text')
 
-      cy.checkAccessibility()
+        cy.checkAccessibility()
 
-      cy.saveAndContinue()
-      cy.visitStep(summaryPage)
-      cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('Some text')
-      cy.checkAccessibility()
-      cy.getSummary(question).clickChange()
-      cy.assertStepUrlIs(stepUrl)
-      cy.assertQuestionUrl(question)
-      cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some text')
+        cy.saveAndContinue()
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('Some text')
+        cy.checkAccessibility()
+        cy.getSummary(question).clickChange()
+        cy.assertStepUrlIs(stepUrl)
+        cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some text')
       })
     })
     ;['Yes, children that visit them regularly'].forEach(option => {
@@ -87,30 +100,30 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
         cy.getQuestion(question)
-        .getCheckbox(option)
-        .getConditionalQuestion()
-        .hasTitle(detailsOptionsHeading)
-        .hasHint(null)
-        .hasLimit(400)
+          .getCheckbox(option)
+          .getConditionalQuestion()
+          .hasTitle(detailsOptionsHeading)
+          .hasHint(null)
+          .hasLimit(400)
 
-      cy.saveAndContinue()
-      cy.getQuestion(question)
-        .hasNoValidationError()
-        .getCheckbox(option)
-        .getConditionalQuestion()
-        .hasValidationError('Enter details of any children that visit them regularly')
-        .enterText('Some text')
+        cy.saveAndContinue()
+        cy.getQuestion(question)
+          .hasNoValidationError()
+          .getCheckbox(option)
+          .getConditionalQuestion()
+          .hasValidationError('Enter details of any children that visit them regularly')
+          .enterText('Some text')
 
-      cy.checkAccessibility()
+        cy.checkAccessibility()
 
-      cy.saveAndContinue()
-      cy.visitStep(summaryPage)
-      cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('Some text')
-      cy.checkAccessibility()
-      cy.getSummary(question).clickChange()
-      cy.assertStepUrlIs(stepUrl)
-      cy.assertQuestionUrl(question)
-      cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some text')
+        cy.saveAndContinue()
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('Some text')
+        cy.checkAccessibility()
+        cy.getSummary(question).clickChange()
+        cy.assertStepUrlIs(stepUrl)
+        cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some text')
       })
     })
     ;["No, there are no children in Sam's life"].forEach(option => {

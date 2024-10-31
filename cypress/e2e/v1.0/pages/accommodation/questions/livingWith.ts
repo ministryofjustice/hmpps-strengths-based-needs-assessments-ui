@@ -66,10 +66,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.checkAccessibility()
     })
 
-    Array.of(
-      ['Partner', 'Include name, age and gender.'],
-      ['Other', null],
-    ).forEach(([option, hint]) => {
+    Array.of(['Partner', 'Include name, age and gender.'], ['Other', null]).forEach(([option, hint]) => {
       it(`details field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 

@@ -47,7 +47,8 @@ const intimateRelationshipFieldsGroup: Array<FormWizard.Field> = [
 const sectionConfig: SectionConfig = {
   section,
   steps: [
-    { url: stepUrls.personalRelationshipsChildrenInfo,
+    {
+      url: stepUrls.personalRelationshipsChildrenInfo,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityChildrenInformation,
         personalRelationshipsFields.personalRelationshipsCommunityLivingWithChildrenDetails,
