@@ -34,28 +34,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
-
-  // personalRelationshipsCommunityLivingWithChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
-  //   text: 'Include the name, age and sex of any children, and their relationship to [subject].',
-  //   parentField: this.personalRelationshipsCommunityChildrenInformation,
-  //   dependentValue: 'YES_CHILDREN_LIVING_WITH_POP',
-  //   required: true,
-  // })
-
-  // personalRelationshipsCommunityNotLivingWithChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
-  //   text: 'Include the name, age and sex of any children, and their relationship to [subject].',
-  //   parentField: this.personalRelationshipsCommunityChildrenInformation,
-  //   dependentValue: 'YES_CHILDREN_NOT_LIVING_WITH_POP',
-  //   required: true,
-  // })
-
-  // personalRelationshipsCommunityVisitingChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
-  //   text: 'Include the name, age and sex of any children, and their relationship to [subject].',
-  //   parentField: this.personalRelationshipsCommunityChildrenInformation,
-  //   dependentValue: 'YES_CHILDREN_VISITING',
-  //   required: true,
-  // })
-
+  
   personalRelationshipsCommunityLivingWithChildrenDetails: FormWizard.Field = {
     text: 'Include the name, age and sex of any children, and their relationship to [subject].',
     code: 'yes_children_living_with_pop_details',
