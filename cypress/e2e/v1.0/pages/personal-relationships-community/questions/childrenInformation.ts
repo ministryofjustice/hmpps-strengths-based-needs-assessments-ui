@@ -15,7 +15,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select at least one option') // double check 
+      cy.getQuestion(question).hasValidationError('Select at least one option')
 
       cy.checkAccessibility()
     })

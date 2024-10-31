@@ -17,7 +17,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     code: 'personal_relationships_community_children_details',
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select at least one option' }], // double check error message with design
+    validate: [{ type: ValidationType.Required, message: 'Select at least one option' }],
     options: [
       {
         text: "Yes, children that live with them",
@@ -34,7 +34,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
-  
+
   personalRelationshipsCommunityLivingWithChildrenDetails: FormWizard.Field = {
     text: 'Include the name, age and sex of any children, and their relationship to [subject].',
     code: 'yes_children_living_with_pop_details',
