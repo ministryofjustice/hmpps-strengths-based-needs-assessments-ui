@@ -138,7 +138,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityImportantPeopleChildDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'CHILD_PARENTAL_RESPONSIBILITIES',
-    textHint: 'Include their name, age, gender and the nature of their relationship.',
+    text: 'Give details of any children not captured by the previous question',
   })
 
   personalRelationshipsCommunityImportantPeopleOtherChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
