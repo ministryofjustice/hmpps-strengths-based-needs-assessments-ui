@@ -80,6 +80,7 @@ export const enterAssessment = (
               identifier: oasysUser.id,
               displayName: oasysUser.name,
               accessMode: accessMode.valueOf(),
+              returnUrl: Cypress.env('OASYS_UI_URL'),
             },
             subjectDetails: {
               crn: 'X123456',

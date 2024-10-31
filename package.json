@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.3",
-    "@ministryofjustice/frontend": "^2.2.4",
+    "@ministryofjustice/frontend": "^3.0.0",
     "accessible-autocomplete": "^3.0.1",
     "agentkeepalive": "^4.5.0",
     "applicationinsights": "^3.3.0",
@@ -116,7 +116,7 @@
     "redis": "^4.7.0",
     "superagent": "^10.1.0",
     "url-value-parser": "^2.2.0",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.1"
   },
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.1",
