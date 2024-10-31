@@ -45,7 +45,7 @@ describe('/offence-analysis-victim/edit/:entryId', () => {
     cy.getQuestion('Did the current index offence(s) involve any of the following motivations?')
       .getCheckbox('Thrill seeking')
       .clickLabel()
-    cy.getQuestion('Who was the victim?').getCheckbox('One or more person').clickLabel()
+    cy.getQuestion('Who was the offence committed against?').getCheckbox('One or more people').clickLabel()
 
     cy.saveAndContinue()
 

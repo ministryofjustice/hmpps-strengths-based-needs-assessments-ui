@@ -173,16 +173,16 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     required: true,
   })
 
-  offenceAnalysisWhoWasTheVictim: FormWizard.Field = {
-    text: 'Who was the victim?',
+  offenceAnalysiswhoWasTheOffenceCommittedAgainst: FormWizard.Field = {
+    text: 'Who was the offence committed against?',
     code: 'offence_analysis_who_was_the_victim',
     hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select who the victim was' }],
+    validate: [{ type: ValidationType.Required, message: 'Select who the offence was committed against' }],
     options: [
       {
-        text: 'One or more person',
+        text: 'One or more people',
         value: 'ONE_OR_MORE_PERSON',
         kind: 'option',
       },
@@ -190,14 +190,14 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         text: 'Other',
         value: 'OTHER',
         kind: 'option',
-        hint: { text: 'For example, the wider community.' },
+        hint: { text: 'For example, a business or the wider community.' },
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
   offenceAnalysisOtherVictimDetails: FormWizard.Field = FieldsFactory.detailsField({
-    parentField: this.offenceAnalysisWhoWasTheVictim,
+    parentField: this.offenceAnalysiswhoWasTheOffenceCommittedAgainst,
     dependentValue: 'OTHER',
     required: true,
   })

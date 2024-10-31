@@ -2,12 +2,12 @@ import descriptionOfTheOffence from './questions/descriptionOfTheOffence'
 import elementsOfTheOffence from './questions/elementsOfTheOffence'
 import whyDidItHappen from './questions/whyDidItHappen'
 import motivations from './questions/motivations'
-import whoWasTheVictim from './questions/whoWasTheVictim'
+import whoWasTheOffenceCommittedAgainst from './questions/whoWasTheOffenceCommittedAgainst'
 
 describe('/offence-analysis', () => {
   const stepUrl = '/offence-analysis'
   const summaryPage = '/offence-analysis-summary'
-  const questions = [descriptionOfTheOffence, elementsOfTheOffence, whyDidItHappen, motivations, whoWasTheVictim]
+  const questions = [descriptionOfTheOffence, elementsOfTheOffence, whyDidItHappen, motivations, whoWasTheOffenceCommittedAgainst]
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()

@@ -1162,11 +1162,11 @@
     },
     "offence_analysis_who_was_the_victim": {
       "type": "CHECKBOX",
-      "description": "Who was the victim?",
+      "description": "Who was the offence committed against?",
       "options": [
         {
           "value": "ONE_OR_MORE_PERSON",
-          "text": "One or more person"
+          "text": "One or more people"
         },
         {
           "value": "OTHER",

@@ -33,8 +33,8 @@ describe('Origin: /offence-analysis', () => {
       cy.getQuestion('Did the current index offence(s) involve any of the following motivations?')
         .getCheckbox('Thrill seeking')
         .clickLabel()
-      cy.getQuestion('Who was the victim?').getCheckbox('Other').clickLabel()
-      cy.getQuestion('Who was the victim?').getCheckbox('Other').getConditionalQuestion().enterText('Test')
+      cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').clickLabel()
+      cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').getConditionalQuestion().enterText('Test')
 
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
@@ -192,10 +192,10 @@ describe('Origin: /offence-analysis', () => {
   })
 
   describe(`Destination: ${destinations.victimCreate}`, () => {
-    it(`Victim is "One or more person" routes to "${destinations.victimCreate}"`, () => {
+    it(`Victim is "One or more people" routes to "${destinations.victimCreate}"`, () => {
       cy.visitStep(destinations.landingPage)
 
-      cy.getQuestion('Who was the victim?').getCheckbox('One or more person').clickLabel()
+      cy.getQuestion('Who was the offence committed against?').getCheckbox('One or more people').clickLabel()
 
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
