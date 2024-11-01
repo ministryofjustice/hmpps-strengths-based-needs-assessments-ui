@@ -1,5 +1,3 @@
-import { error } from "console";
-
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "Are there any children in Sam's life?"
 
@@ -67,18 +65,21 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some text')
       })
     })
-      it(`no conditional field is displayed for "No, there are no children in Sam's life"`, () => {
-        cy.getQuestion(question).getCheckbox("No, there are no children in Sam's life").hasConditionalQuestion(false).clickLabel()
-        cy.getQuestion(question).hasNoValidationError()
-        cy.saveAndContinue()
+    it(`no conditional field is displayed for "No, there are no children in Sam's life"`, () => {
+      cy.getQuestion(question)
+        .getCheckbox("No, there are no children in Sam's life")
+        .hasConditionalQuestion(false)
+        .clickLabel()
+      cy.getQuestion(question).hasNoValidationError()
+      cy.saveAndContinue()
 
-        cy.visitStep(summaryPage)
-        cy.getSummary(question).getAnswer("No, there are no children in Sam's life").hasNoSecondaryAnswer()
-        cy.checkAccessibility()
-        cy.getSummary(question).clickChange()
-        cy.assertStepUrlIs(stepUrl)
-        cy.assertQuestionUrl(question)
-        cy.getQuestion(question).getCheckbox("No, there are no children in Sam's life").isChecked()
-      })
+      cy.visitStep(summaryPage)
+      cy.getSummary(question).getAnswer("No, there are no children in Sam's life").hasNoSecondaryAnswer()
+      cy.checkAccessibility()
+      cy.getSummary(question).clickChange()
+      cy.assertStepUrlIs(stepUrl)
+      cy.assertQuestionUrl(question)
+      cy.getQuestion(question).getCheckbox("No, there are no children in Sam's life").isChecked()
+    })
   })
 }

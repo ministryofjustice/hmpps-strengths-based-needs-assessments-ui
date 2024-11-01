@@ -70,7 +70,6 @@ describe(`Origin: /personal-relationships-children-information`, () => {
         testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
       })
     })
-  
 
     describe(`Destination: ${destinations.personalRelationshipsCommunity}`, () => {
       it(`"No parental responsibilities routes to "${destinations.personalRelationshipsCommunity}"`, () => {
