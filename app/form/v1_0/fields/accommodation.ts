@@ -198,7 +198,6 @@ class AccommodationFieldsFactory extends FieldsFactory {
   }
 
   livingWithDetailsGroup: FormWizard.Field[] = [
-    ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject].'],
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>

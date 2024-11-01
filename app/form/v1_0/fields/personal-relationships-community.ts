@@ -2,8 +2,83 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import { FieldsFactory, utils } from './common'
 import sections from '../config/sections'
+import { dependentOn } from './common/utils'
+
+const childrenInformationHint = `
+<p class="govuk-hint">This refers to any children (under 18 years) [subject] has regular contact with, even if they do not have parental responsibility.</p>
+<p class="govuk-hint">Select all that apply.</p>
+`
 
 class PersonalRelationshipsFieldsFactory extends FieldsFactory {
+  personalRelationshipsCommunityChildrenInformation: FormWizard.Field = {
+    text: "Are there any children in [subject]'s life?",
+    hint: { html: childrenInformationHint, kind: 'html' },
+    code: 'personal_relationships_community_children_details',
+    type: FieldType.CheckBox,
+    multiple: true,
+    validate: [{ type: ValidationType.Required, message: 'Select at least one option' }],
+    options: [
+      {
+        text: 'Yes, children that live with them',
+        value: 'YES_CHILDREN_LIVING_WITH_POP',
+        kind: 'option',
+      },
+      {
+        text: 'Yes, children that do not live with them',
+        value: 'YES_CHILDREN_NOT_LIVING_WITH_POP',
+        kind: 'option',
+      },
+      { text: 'Yes, children that visit them regularly', value: 'YES_CHILDREN_VISITING', kind: 'option' },
+      { text: "No, there are no children in [subject]'s life", value: 'NO_CHILDREN', kind: 'option' },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  personalRelationshipsCommunityLivingWithChildrenDetails: FormWizard.Field = {
+    text: 'Include the name, age and sex of any children, and their relationship to [subject].',
+    code: 'yes_children_living_with_pop_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details of any children that live with them' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+      },
+    ],
+    dependent: dependentOn(this.personalRelationshipsCommunityChildrenInformation, 'YES_CHILDREN_LIVING_WITH_POP'),
+  }
+
+  personalRelationshipsCommunityNotLivingWithChildrenDetails: FormWizard.Field = {
+    text: 'Include the name, age and sex of any children, and their relationship to [subject].',
+    code: 'yes_children_not_living_with_pop_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details of any children that do not live with them' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+      },
+    ],
+    dependent: dependentOn(this.personalRelationshipsCommunityChildrenInformation, 'YES_CHILDREN_NOT_LIVING_WITH_POP'),
+  }
+
+  personalRelationshipsCommunityVisitingChildrenDetails: FormWizard.Field = {
+    text: 'Include the name, age and sex of any children, and their relationship to [subject].',
+    code: 'yes_children_visiting_details',
+    type: FieldType.TextArea,
+    validate: [
+      { type: ValidationType.Required, message: 'Enter details of any children that visit them regularly' },
+      {
+        type: ValidationType.MaxLength,
+        arguments: [FieldsFactory.detailsCharacterLimit],
+        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+      },
+    ],
+    dependent: dependentOn(this.personalRelationshipsCommunityChildrenInformation, 'YES_CHILDREN_VISITING'),
+  }
+
   personalRelationshipsCommunityImportantPeople: FormWizard.Field = {
     text: "Who are the important people in [subject]'s life?",
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -40,7 +115,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityImportantPeopleChildDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'CHILD_PARENTAL_RESPONSIBILITIES',
-    textHint: 'Include their name, age, gender and the nature of their relationship.',
+    text: 'Give details of any children not captured by the previous question',
   })
 
   personalRelationshipsCommunityImportantPeopleOtherChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
