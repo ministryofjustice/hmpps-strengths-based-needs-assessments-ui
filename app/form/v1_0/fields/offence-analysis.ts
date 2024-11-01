@@ -203,13 +203,13 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   })
 
   offenceAnalysisVictimRelationship: FormWizard.Field = {
-    text: `What is [subject]'s relationship to the victim?`,
+    text: 'Who is the victim?',
     code: `offence_analysis_victim_relationship`,
     type: FieldType.Radio,
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select relationship to the victim',
+        message: 'Select who the victim is',
       },
     ],
     options: [
@@ -224,23 +224,23 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: `Victim's child`,
-        value: 'CHILD',
+        text: `[subject]'s parent or step-parent`,
+        value: 'POP_PARENT_OR_STEP_PARENT',
         kind: 'option',
       },
       {
-        text: `Victim's partner`,
-        value: 'PARTNER',
+        text: `[subject]'s partner`,
+        value: 'POP_PARTNER',
         kind: 'option',
       },
       {
-        text: `Victim's ex-partner`,
-        value: 'EX_PARTNER',
+        text: `[subject]'s ex-partner`,
+        value: 'POP_EX_PARTNER',
         kind: 'option',
       },
       {
-        text: `Victim's parent or step-parent`,
-        value: 'PARENT_OR_STEP_PARENT',
+        text: `[subject]'s parent or step-parent`,
+        value: 'POP_PARENT_OR_STEP_PARENT',
         kind: 'option',
       },
       {

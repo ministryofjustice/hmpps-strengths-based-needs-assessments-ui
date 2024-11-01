@@ -1,11 +1,11 @@
-const question = "What is Sam's relationship to the victim?"
+const question = "Who is the victim?"
 const options = [
   'A stranger',
   'Criminal justice staff',
-  "Victim's child",
-  "Victim's partner",
-  "Victim's ex-partner",
-  "Victim's parent or step-parent",
+  "Sam's parent or step-parent",
+  "Sam's partner",
+  "Sam's ex-partner",
+  "Sam's parent or step-parent",
   'Other family member',
   'Other',
 ]
@@ -17,7 +17,7 @@ const testCreate = (createUrl: string, editUrl: string, positionNumber: number) 
 
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
-      cy.getQuestion(question).hasValidationError('Select relationship to the victim')
+      cy.getQuestion(question).hasValidationError('Select who the victim is')
       cy.checkAccessibility()
 
       cy.assertStepUrlIs(editUrl)

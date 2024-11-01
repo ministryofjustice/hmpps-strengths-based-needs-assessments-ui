@@ -207,7 +207,7 @@ describe('Origin: /offence-analysis', () => {
       it(`routes to ${destinations.victimsSummary}`, () => {
         cy.visitStep(destinations.victimCreate)
 
-        cy.getQuestion("What is Sam's relationship to the victim?").getRadio('A stranger').clickLabel()
+        cy.getQuestion("Who is the victim?").getRadio('A stranger').clickLabel()
         cy.getQuestion("What is the victim's approximate age?").getRadio('0 to 4 years').clickLabel()
         cy.getQuestion("What is the victim's sex?").getRadio('Male').clickLabel()
         cy.getQuestion("What is the victim's race or ethnicity?").enterText('white{enter}')
