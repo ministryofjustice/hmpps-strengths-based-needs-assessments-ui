@@ -154,6 +154,9 @@ describe('Generate fixture for complete assessment', () => {
     const section = 'Personal relationships and community'
 
     cy.visitSection(section)
+    cy.getQuestion("Are there any children in Sam's life?").getCheckbox("No, there are no children in Sam's life").clickLabel()
+    cy.saveAndContinue()
+    
     cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
     cy.saveAndContinue()
 

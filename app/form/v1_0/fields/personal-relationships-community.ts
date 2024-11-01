@@ -39,7 +39,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     code: 'yes_children_living_with_pop_details',
     type: FieldType.TextArea,
     validate: [
-      { type: ValidationType.Required, message: 'Enter details of any children that live them' },
+      { type: ValidationType.Required, message: 'Enter details of any children that live with them' },
       {
         type: ValidationType.MaxLength,
         arguments: [FieldsFactory.detailsCharacterLimit],

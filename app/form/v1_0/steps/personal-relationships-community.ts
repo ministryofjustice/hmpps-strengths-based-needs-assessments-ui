@@ -54,6 +54,8 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.personalRelationshipsCommunityLivingWithChildrenDetails,
         personalRelationshipsFields.personalRelationshipsCommunityNotLivingWithChildrenDetails,
         personalRelationshipsFields.personalRelationshipsCommunityVisitingChildrenDetails,
+        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildrenInfo),
+        personalRelationshipsFields.sectionComplete(),
       ].flat(),
       navigationOrder: 7,
       next: stepUrls.personalRelationships,

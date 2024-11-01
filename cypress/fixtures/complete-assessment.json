@@ -1,11 +1,11 @@
 {
   "metaData": {
-    "uuid": "e71476b6-6895-4caa-b4d3-31810e9d6ff4",
-    "createdAt": "2024-10-16T15:57:44.900735",
-    "versionUuid": "b57019f0-43e8-443f-a324-1918d64e6edf",
+    "uuid": "b23a14c3-e5f4-41e2-ac0a-f67c4f7eac09",
+    "createdAt": "2024-11-01T11:23:09.372259",
+    "versionUuid": "3578614f-ebe8-44b5-b470-8a8be1a2c1ee",
     "versionNumber": 0,
-    "versionCreatedAt": "2024-10-16T15:57:44.900776",
-    "versionUpdatedAt": "2024-10-16T15:58:12.82431",
+    "versionCreatedAt": "2024-11-01T11:23:09.372455",
+    "versionUpdatedAt": "2024-11-01T11:24:02.166581",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -1911,6 +1911,33 @@
       "values": null,
       "collection": null
     },
+    "personal_relationships_community_children_details": {
+      "type": "CHECKBOX",
+      "description": "Are there any children in [subject]'s life?",
+      "options": [
+        {
+          "value": "YES_CHILDREN_LIVING_WITH_POP",
+          "text": "Yes, children that live with them"
+        },
+        {
+          "value": "YES_CHILDREN_NOT_LIVING_WITH_POP",
+          "text": "Yes, children that do not live with them"
+        },
+        {
+          "value": "YES_CHILDREN_VISITING",
+          "text": "Yes, children that visit them regularly"
+        },
+        {
+          "value": "NO_CHILDREN",
+          "text": "No, there are no children in [subject]'s life"
+        }
+      ],
+      "value": null,
+      "values": [
+        "NO_CHILDREN"
+      ],
+      "collection": null
+    },
     "personal_relationships_community_important_people": {
       "type": "CHECKBOX",
       "description": "Who are the important people in [subject]'s life?",
@@ -3086,6 +3113,23 @@
       "collection": null
     },
     "personal_relationships_community_is_personal_relationships_community_summary_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_is_personal_relationships_children_information_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
       "options": [
