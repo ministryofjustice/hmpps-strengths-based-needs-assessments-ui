@@ -239,8 +239,8 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: `[subject]'s parent or step-parent`,
-        value: 'POP_PARENT_OR_STEP_PARENT',
+        text: `[subject]'s child or step-child`,
+        value: 'POP_CHILD_OR_STEP_CHILD',
         kind: 'option',
       },
       {

@@ -5,7 +5,7 @@ const options = [
   "Sam's parent or step-parent",
   "Sam's partner",
   "Sam's ex-partner",
-  "Sam's parent or step-parent",
+  "Sam's child or step-child",
   'Other family member',
   'Other',
 ]
