@@ -29,7 +29,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         'No, they have healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
         'While offending, they may have engaged in sexual activity that is illegal but their preferred route to meeting their sexual needs is both legal and consensual.',
       ],
-      ['Unknown', null],
+      ['No, there is no evidence', null],
     ).forEach(([option, hint]) => {
       it(`summary page displays "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).clickLabel()
