@@ -280,7 +280,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     },
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: "Select if they're able to manage their parental responsibilities" },
+      { type: ValidationType.Required, message: "Select if they’re able to manage their parenting responsibilities " },
     ],
     options: [
       {
