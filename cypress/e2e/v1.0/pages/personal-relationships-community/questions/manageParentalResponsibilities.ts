@@ -20,7 +20,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError("Select if they’re able to manage their parenting responsibilities ")
+      cy.getQuestion(question).hasValidationError('Select if they’re able to manage their parenting responsibilities')
 
       cy.checkAccessibility()
     })
