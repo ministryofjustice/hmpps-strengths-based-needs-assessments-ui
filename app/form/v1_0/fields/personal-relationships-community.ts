@@ -93,7 +93,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: 'Their children or anyone they have parental responsibilities for',
+        text: 'Their children or anyone they have parenting responsibilities for',
         value: 'CHILD_PARENTAL_RESPONSIBILITIES',
         kind: 'option',
       },

@@ -36,7 +36,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
       it(`Has parental responsibilities routes to "${destinations.personalRelationshipsChildren}"`, () => {
         cy.visitStep(destinations.personalRelationships)
         cy.getQuestion("Who are the important people in Sam's life?")
-          .getCheckbox('Their children or anyone they have parental responsibilities for')
+          .getCheckbox('Their children or anyone they have parenting responsibilities for')
           .clickLabel()
         cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
         cy.saveAndContinue()
@@ -75,7 +75,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
       it(`"No parental responsibilities routes to "${destinations.personalRelationshipsCommunity}"`, () => {
         cy.visitStep(destinations.personalRelationships)
         cy.getQuestion("Who are the important people in Sam's life?")
-          .getCheckbox('Their children or anyone they have parental responsibilities for')
+          .getCheckbox('Their children or anyone they have parenting responsibilities for')
           .isChecked()
           .clickLabel()
         cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()

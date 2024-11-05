@@ -31,7 +31,7 @@ describe('/personal-relationships-children', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.getQuestion("Who are the important people in Sam's life?")
-      .getCheckbox('Their children or anyone they have parental responsibilities for')
+      .getCheckbox('Their children or anyone they have parenting responsibilities for')
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
