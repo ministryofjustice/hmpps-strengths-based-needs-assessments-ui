@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     'Yes, there are recurrent and persistent patterns of a preference for sexual activity that is illegal or harmful and no evidence of healthy sexual interests',
     'Shows some evidence of healthy sexual activity including consensual sex but shows behaviour that is recurrent and persistent or an interest in sexual activity that is illegal or harmful',
     'No, they have healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
-    'Unknown',
+    'No, there is no evidence',
   ]
 
   describe(question, () => {
