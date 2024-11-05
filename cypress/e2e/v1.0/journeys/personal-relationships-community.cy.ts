@@ -54,7 +54,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
             .getRadio('History of both positive and negative relationships')
             .clickLabel()
           cy.getQuestion('Is Sam able to resolve any challenges in their intimate relationships?').enterText('test')
-          cy.getQuestion('Is Sam able to manage their parental responsibilities?').getRadio('Unknown').clickLabel()
+          cy.getQuestion('Is Sam able to manage their parenting responsibilities?').getRadio('Unknown').clickLabel()
           cy.getQuestion("What is Sam's current relationship like with their family?").getRadio('Unknown').clickLabel()
           cy.getQuestion("What was Sam's experience of their childhood?").getRadio('Positive experience').clickLabel()
           cy.getQuestion('Did Sam have any childhood behavioural problems?').getRadio('No').clickLabel()

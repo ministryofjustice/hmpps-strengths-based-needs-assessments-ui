@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is Sam able to manage their parental responsibilities?'
+  const question = 'Is Sam able to manage their parenting responsibilities?'
 
   describe(question, () => {
     const options = [

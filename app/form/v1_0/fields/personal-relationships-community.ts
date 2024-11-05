@@ -272,7 +272,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   }
 
   personalRelationshipsCommunityParentalResponsibilities: FormWizard.Field = {
-    text: 'Is [subject] able to manage their parental responsibilities? ',
+    text: 'Is [subject] able to manage their parenting responsibilities?',
     code: 'personal_relationships_community_parental_responsibilities',
     hint: {
       text: 'If there are parenting concerns, it does not always mean there are child wellbeing concerns. They may just require some help or support.',
