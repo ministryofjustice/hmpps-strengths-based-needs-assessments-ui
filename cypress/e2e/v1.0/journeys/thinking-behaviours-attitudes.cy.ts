@@ -55,10 +55,14 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
     describe(`Destination: ${destinations.thinkingBehaviours}`, () => {
       it(`routes to "${destinations.thinkingBehaviours}"`, () => {
         cy.visitStep(destinations.sexualOffending)
-        cy.getQuestion('Is there evidence Sam shows sexual preoccupation?').getRadio('Unknown').clickLabel()
-        cy.getQuestion('Is there evidence Sam has offence-related sexual interests?').getRadio('Unknown').clickLabel()
+        cy.getQuestion('Is there evidence Sam shows sexual preoccupation?')
+          .getRadio('No, there is no evidence')
+          .clickLabel()
+        cy.getQuestion('Is there evidence Sam has offence-related sexual interests?')
+          .getRadio('No, there is no evidence')
+          .clickLabel()
         cy.getQuestion('Is there evidence Sam finds it easier to seek emotional intimacy with children over adults?')
-          .getRadio('Unknown')
+          .getRadio('No, there is no evidence')
           .clickLabel()
         cy.assertResumeUrlIs(sectionName, destinations.sexualOffending)
         cy.saveAndContinue()
