@@ -253,7 +253,10 @@ describe('Generate fixture for complete assessment', () => {
       .getCheckbox('Thrill seeking')
       .clickLabel()
     cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').clickLabel()
-    cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').getConditionalQuestion().enterText('¯\\_(ツ)_/¯')
+    cy.getQuestion('Who was the offence committed against?')
+      .getCheckbox('Other')
+      .getConditionalQuestion()
+      .enterText('¯\\_(ツ)_/¯')
     cy.saveAndContinue()
 
     cy.getQuestion('How many other people were involved with committing the current index offence(s)?')

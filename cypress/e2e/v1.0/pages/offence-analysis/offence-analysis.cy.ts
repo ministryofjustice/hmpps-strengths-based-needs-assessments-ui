@@ -7,7 +7,13 @@ import whoWasTheOffenceCommittedAgainst from './questions/whoWasTheOffenceCommit
 describe('/offence-analysis', () => {
   const stepUrl = '/offence-analysis'
   const summaryPage = '/offence-analysis-summary'
-  const questions = [descriptionOfTheOffence, elementsOfTheOffence, whyDidItHappen, motivations, whoWasTheOffenceCommittedAgainst]
+  const questions = [
+    descriptionOfTheOffence,
+    elementsOfTheOffence,
+    whyDidItHappen,
+    motivations,
+    whoWasTheOffenceCommittedAgainst,
+  ]
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()

@@ -34,7 +34,10 @@ describe('Origin: /offence-analysis', () => {
         .getCheckbox('Thrill seeking')
         .clickLabel()
       cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').clickLabel()
-      cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').getConditionalQuestion().enterText('Test')
+      cy.getQuestion('Who was the offence committed against?')
+        .getCheckbox('Other')
+        .getConditionalQuestion()
+        .enterText('Test')
 
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
@@ -207,7 +210,7 @@ describe('Origin: /offence-analysis', () => {
       it(`routes to ${destinations.victimsSummary}`, () => {
         cy.visitStep(destinations.victimCreate)
 
-        cy.getQuestion("Who is the victim?").getRadio('A stranger').clickLabel()
+        cy.getQuestion('Who is the victim?').getRadio('A stranger').clickLabel()
         cy.getQuestion("What is the victim's approximate age?").getRadio('0 to 4 years').clickLabel()
         cy.getQuestion("What is the victim's sex?").getRadio('Male').clickLabel()
         cy.getQuestion("What is the victim's race or ethnicity?").enterText('white{enter}')

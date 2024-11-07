@@ -1,4 +1,4 @@
-const question = "Who is the victim?"
+const question = 'Who is the victim?'
 const options = [
   'A stranger',
   'Criminal justice staff',

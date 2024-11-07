@@ -18,7 +18,10 @@ describe('/offence-analysis-involved-parties', () => {
       .getCheckbox('Thrill seeking')
       .clickLabel()
     cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').clickLabel()
-    cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').getConditionalQuestion().enterText('¯\\_(ツ)_/¯')
+    cy.getQuestion('Who was the offence committed against?')
+      .getCheckbox('Other')
+      .getConditionalQuestion()
+      .enterText('¯\\_(ツ)_/¯')
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
