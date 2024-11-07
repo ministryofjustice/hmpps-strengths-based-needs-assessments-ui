@@ -12,7 +12,7 @@ export const uuid = () => {
 }
 
 const oasysUser = {
-  id: uuid(),
+  id: uuid().substring(0, 30),
   name: 'Cypress User',
 }
 
