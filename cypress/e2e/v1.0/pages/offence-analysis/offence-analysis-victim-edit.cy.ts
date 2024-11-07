@@ -26,7 +26,7 @@ describe('/offence-analysis-victim/edit/:entryId', () => {
   }
 
   const updated = {
-    relationship: "Victim's ex-partner",
+    relationship: "Sam's ex-partner",
     age: '21 to 25 years',
     sex: 'Female',
     raceOrEthnicityPartial: 'Any other White background',

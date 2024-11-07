@@ -14,7 +14,7 @@ describe('/offence-analysis-victim/delete/:entryId', () => {
       raceOrEthnicity: 'White - English, Welsh, Scottish, Northern Irish or British',
     },
     {
-      relationship: "Victim's ex-partner",
+      relationship: "Sam's ex-partner",
       age: '21 to 25 years',
       sex: 'Female',
       raceOrEthnicityPartial: 'Any other White background',
