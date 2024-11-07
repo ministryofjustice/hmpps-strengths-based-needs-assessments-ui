@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     'Yes, there are recurrent and persistent patterns of a preference for sexual activity that is illegal or harmful and no evidence of healthy sexual interests',
     'Shows some evidence of healthy sexual activity including consensual sex but shows behaviour that is recurrent and persistent or an interest in sexual activity that is illegal or harmful',
     'No, they have healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
-    'Unknown',
+    'No, there is no evidence',
   ]
 
   describe(question, () => {
@@ -29,7 +29,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         'No, they have healthy sexual interests rather than a preference for sexual activity that is illegal or harmful',
         'While offending, they may have engaged in sexual activity that is illegal but their preferred route to meeting their sexual needs is both legal and consensual.',
       ],
-      ['Unknown', null],
+      ['No, there is no evidence', null],
     ).forEach(([option, hint]) => {
       it(`summary page displays "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).clickLabel()

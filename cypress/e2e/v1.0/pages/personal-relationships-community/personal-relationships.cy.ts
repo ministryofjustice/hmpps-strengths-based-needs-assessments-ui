@@ -5,10 +5,21 @@ describe('/personal-relationships', () => {
   const summaryPage = '/personal-relationships-community-summary'
   const questions = [theImportantPeople]
 
-  beforeEach(() => {
+  before(() => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Personal relationships and community')
+    cy.getQuestion("Are there any children in Sam's life?")
+      .getCheckbox("No, there are no children in Sam's life")
+      .clickLabel()
+    cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
+    cy.assertResumeUrlIs('Personal relationships and community', stepUrl)
+    cy.captureAssessment()
+  })
+
+  beforeEach(() => {
+    cy.cloneCapturedAssessment().enterAssessment()
+    cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
   })

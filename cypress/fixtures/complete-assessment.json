@@ -1911,6 +1911,33 @@
       "values": null,
       "collection": null
     },
+    "personal_relationships_community_children_details": {
+      "type": "CHECKBOX",
+      "description": "Are there any children in [subject]'s life?",
+      "options": [
+        {
+          "value": "YES_CHILDREN_LIVING_WITH_POP",
+          "text": "Yes, children that live with them"
+        },
+        {
+          "value": "YES_CHILDREN_NOT_LIVING_WITH_POP",
+          "text": "Yes, children that do not live with them"
+        },
+        {
+          "value": "YES_CHILDREN_VISITING",
+          "text": "Yes, children that visit them regularly"
+        },
+        {
+          "value": "NO_CHILDREN",
+          "text": "No, there are no children in [subject]'s life"
+        }
+      ],
+      "value": null,
+      "values": [
+        "NO_CHILDREN"
+      ],
+      "collection": null
+    },
     "personal_relationships_community_important_people": {
       "type": "CHECKBOX",
       "description": "Who are the important people in [subject]'s life?",
@@ -1921,7 +1948,7 @@
         },
         {
           "value": "CHILD_PARENTAL_RESPONSIBILITIES",
-          "text": "Their children or anyone they have parental responsibilities for"
+          "text": "Their children or anyone they have parenting responsibilities for"
         },
         {
           "value": "OTHER_CHILDREN",
@@ -3086,6 +3113,23 @@
       "collection": null
     },
     "personal_relationships_community_is_personal_relationships_community_summary_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_is_personal_relationships_children_information_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
       "options": [
