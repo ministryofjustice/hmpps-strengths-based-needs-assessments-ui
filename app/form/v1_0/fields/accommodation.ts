@@ -29,7 +29,11 @@ const suitableHousingConcernsOptions: FormWizard.Field.Options = [
     kind: 'option',
   },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
-  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
+  {
+    text: 'Risk of their accommodation being exploited by others - for example, cuckooing',
+    value: 'EXPLOITATION',
+    kind: 'option',
+  },
   { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
   { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM', kind: 'option' },
   { text: 'Victimised by someone living with them', value: 'VICTIMISATION', kind: 'option' },
@@ -198,7 +202,6 @@ class AccommodationFieldsFactory extends FieldsFactory {
   }
 
   livingWithDetailsGroup: FormWizard.Field[] = [
-    ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject].'],
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>
