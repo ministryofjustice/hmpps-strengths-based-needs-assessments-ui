@@ -238,7 +238,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       {
         text: 'No, there is no evidence',
-        value: 'UNKNOWN',
+        value: 'NO_EVIDENCE',
         kind: 'option',
       },
     ],
@@ -279,7 +279,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       {
         text: 'No, there is no evidence',
-        value: 'UNKNOWN_OFFENCE_RELATED_SEXUAL_INTEREST',
+        value: 'NO_EVIDENCE',
         kind: 'option',
       },
     ],
@@ -315,7 +315,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       {
         text: 'No, there is no evidence',
-        value: 'UNKNOWN',
+        value: 'NO_EVIDENCE',
         kind: 'option',
       },
     ],
