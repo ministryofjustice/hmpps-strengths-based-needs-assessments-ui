@@ -212,7 +212,7 @@ describe('assessment print preview', () => {
     cy.getSummary('Did the current index offence(s) involve any of the following motivations?')
       .getAnswer('Thrill seeking')
       .hasNoSecondaryAnswer()
-    cy.getSummary('Who was the victim?').getAnswer('Other').hasSecondaryAnswer('¯\\_(ツ)_/¯')
+    cy.getSummary('Who was the offence committed against?').getAnswer('Other').hasSecondaryAnswer('¯\\_(ツ)_/¯')
     cy.getSummary('How many other people were involved with committing the current index offence(s)?')
       .getAnswer('There was no one else involved')
       .hasNoSecondaryAnswer()

@@ -33,8 +33,11 @@ describe('Origin: /offence-analysis', () => {
       cy.getQuestion('Did the current index offence(s) involve any of the following motivations?')
         .getCheckbox('Thrill seeking')
         .clickLabel()
-      cy.getQuestion('Who was the victim?').getCheckbox('Other').clickLabel()
-      cy.getQuestion('Who was the victim?').getCheckbox('Other').getConditionalQuestion().enterText('Test')
+      cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').clickLabel()
+      cy.getQuestion('Who was the offence committed against?')
+        .getCheckbox('Other')
+        .getConditionalQuestion()
+        .enterText('Test')
 
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
@@ -192,10 +195,10 @@ describe('Origin: /offence-analysis', () => {
   })
 
   describe(`Destination: ${destinations.victimCreate}`, () => {
-    it(`Victim is "One or more person" routes to "${destinations.victimCreate}"`, () => {
+    it(`Victim is "One or more people" routes to "${destinations.victimCreate}"`, () => {
       cy.visitStep(destinations.landingPage)
 
-      cy.getQuestion('Who was the victim?').getCheckbox('One or more person').clickLabel()
+      cy.getQuestion('Who was the offence committed against?').getCheckbox('One or more people').clickLabel()
 
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
@@ -207,7 +210,7 @@ describe('Origin: /offence-analysis', () => {
       it(`routes to ${destinations.victimsSummary}`, () => {
         cy.visitStep(destinations.victimCreate)
 
-        cy.getQuestion("What is Sam's relationship to the victim?").getRadio('A stranger').clickLabel()
+        cy.getQuestion('Who is the victim?').getRadio('A stranger').clickLabel()
         cy.getQuestion("What is the victim's approximate age?").getRadio('0 to 4 years').clickLabel()
         cy.getQuestion("What is the victim's sex?").getRadio('Male').clickLabel()
         cy.getQuestion("What is the victim's race or ethnicity?").enterText('white{enter}')

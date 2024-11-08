@@ -93,7 +93,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: 'Their children or anyone they have parental responsibilities for',
+        text: 'Their children or anyone they have parenting responsibilities for',
         value: 'CHILD_PARENTAL_RESPONSIBILITIES',
         kind: 'option',
       },
@@ -272,7 +272,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   }
 
   personalRelationshipsCommunityParentalResponsibilities: FormWizard.Field = {
-    text: 'Is [subject] able to manage their parental responsibilities? ',
+    text: 'Is [subject] able to manage their parenting responsibilities?',
     code: 'personal_relationships_community_parental_responsibilities',
     hint: {
       text: 'If there are parenting concerns, it does not always mean there are child wellbeing concerns. They may just require some help or support.',
@@ -280,7 +280,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     },
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: "Select if they're able to manage their parental responsibilities" },
+      { type: ValidationType.Required, message: 'Select if they’re able to manage their parenting responsibilities' },
     ],
     options: [
       {

@@ -37,7 +37,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const concerns = [
       'Issues with the property - for example, poor kitchen or bathroom facilities',
       'Overcrowding',
-      'Risk of accommodation exploited - for example, cuckooing',
+      'Risk of their accommodation being exploited by others - for example, cuckooing',
       'Safety of accommodation',
       'Victim lives with them',
       'Victimised by someone living with them',
