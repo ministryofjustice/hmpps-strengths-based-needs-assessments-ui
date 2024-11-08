@@ -1,11 +1,11 @@
 {
   "metaData": {
-    "uuid": "e71476b6-6895-4caa-b4d3-31810e9d6ff4",
-    "createdAt": "2024-10-16T15:57:44.900735",
-    "versionUuid": "b57019f0-43e8-443f-a324-1918d64e6edf",
+    "uuid": "55d794ae-8074-4cfa-8b4e-2f468013166c",
+    "createdAt": "2024-11-04T10:16:15.372284",
+    "versionUuid": "ad39d8ba-de54-4c9e-9bca-278d334a935b",
     "versionNumber": 0,
-    "versionCreatedAt": "2024-10-16T15:57:44.900776",
-    "versionUpdatedAt": "2024-10-16T15:58:12.82431",
+    "versionCreatedAt": "2024-11-04T10:16:15.372495",
+    "versionUpdatedAt": "2024-11-04T10:17:00.217158",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -1162,11 +1162,11 @@
     },
     "offence_analysis_who_was_the_victim": {
       "type": "CHECKBOX",
-      "description": "Who was the victim?",
+      "description": "Who was the offence committed against?",
       "options": [
         {
           "value": "ONE_OR_MORE_PERSON",
-          "text": "One or more person"
+          "text": "One or more people"
         },
         {
           "value": "OTHER",
@@ -1911,6 +1911,33 @@
       "values": null,
       "collection": null
     },
+    "personal_relationships_community_children_details": {
+      "type": "CHECKBOX",
+      "description": "Are there any children in [subject]'s life?",
+      "options": [
+        {
+          "value": "YES_CHILDREN_LIVING_WITH_POP",
+          "text": "Yes, children that live with them"
+        },
+        {
+          "value": "YES_CHILDREN_NOT_LIVING_WITH_POP",
+          "text": "Yes, children that do not live with them"
+        },
+        {
+          "value": "YES_CHILDREN_VISITING",
+          "text": "Yes, children that visit them regularly"
+        },
+        {
+          "value": "NO_CHILDREN",
+          "text": "No, there are no children in [subject]'s life"
+        }
+      ],
+      "value": null,
+      "values": [
+        "NO_CHILDREN"
+      ],
+      "collection": null
+    },
     "personal_relationships_community_important_people": {
       "type": "CHECKBOX",
       "description": "Who are the important people in [subject]'s life?",
@@ -1921,7 +1948,7 @@
         },
         {
           "value": "CHILD_PARENTAL_RESPONSIBILITIES",
-          "text": "Their children or anyone they have parental responsibilities for"
+          "text": "Their children or anyone they have parenting responsibilities for"
         },
         {
           "value": "OTHER_CHILDREN",
@@ -3086,6 +3113,23 @@
       "collection": null
     },
     "personal_relationships_community_is_personal_relationships_community_summary_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "personal_relationships_community_is_personal_relationships_children_information_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
       "options": [

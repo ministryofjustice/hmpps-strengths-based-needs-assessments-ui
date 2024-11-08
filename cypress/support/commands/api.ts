@@ -12,7 +12,7 @@ export const uuid = () => {
 }
 
 const oasysUser = {
-  id: uuid(),
+  id: uuid().substring(0, 30),
   name: 'Cypress User',
 }
 
@@ -80,6 +80,7 @@ export const enterAssessment = (
               identifier: oasysUser.id,
               displayName: oasysUser.name,
               accessMode: accessMode.valueOf(),
+              returnUrl: Cypress.env('OASYS_UI_URL'),
             },
             subjectDetails: {
               crn: 'X123456',

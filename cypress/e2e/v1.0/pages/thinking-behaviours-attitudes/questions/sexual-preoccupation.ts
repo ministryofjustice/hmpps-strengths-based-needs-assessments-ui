@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     'Yes, the amount of time they spend engaging in sexual activity or thinking about sex is unhealthy and is impacting their day-to-day life',
     'Shows some evidence of improving their day-to-day life but still spends a significant amount of time preoccupied with sex',
     'No, the amount of time they spend engaging in sexual activity or thinking about sex is healthy and is balanced alongside all other important areas of their life',
-    'Unknown',
+    'No, there is no evidence',
   ]
 
   describe(question, () => {
@@ -29,7 +29,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         'No, the amount of time they spend engaging in sexual activity or thinking about sex is healthy and is balanced alongside all other important areas of their life',
         'This includes behaviours like masturbating regularly, having casual sex or using pornography to meet their needs in a healthy way.',
       ],
-      ['Unknown', null],
+      ['No, there is no evidence', null],
     ).forEach(([option, hint]) => {
       it(`summary page displays "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).clickLabel()

@@ -49,7 +49,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.offenceAnalysisReason,
         offenceAnalysisFields.offenceAnalysisMotivation,
         offenceAnalysisFields.otherOffenceMotivationDetails,
-        offenceAnalysisFields.offenceAnalysisWhoWasTheVictim,
+        offenceAnalysisFields.offenceAnalysiswhoWasTheOffenceCommittedAgainst,
         offenceAnalysisFields.offenceAnalysisOtherVictimDetails,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
         offenceAnalysisFields.sectionComplete(),
@@ -57,7 +57,7 @@ const sectionConfig: SectionConfig = {
       navigationOrder: 9,
       next: [
         {
-          field: offenceAnalysisFields.offenceAnalysisWhoWasTheVictim.code,
+          field: offenceAnalysisFields.offenceAnalysiswhoWasTheOffenceCommittedAgainst.code,
           op: contains,
           value: 'ONE_OR_MORE_PERSON',
           next: [

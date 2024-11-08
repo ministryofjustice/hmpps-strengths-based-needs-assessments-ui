@@ -154,6 +154,11 @@ describe('Generate fixture for complete assessment', () => {
     const section = 'Personal relationships and community'
 
     cy.visitSection(section)
+    cy.getQuestion("Are there any children in Sam's life?")
+      .getCheckbox("No, there are no children in Sam's life")
+      .clickLabel()
+    cy.saveAndContinue()
+
     cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
     cy.saveAndContinue()
 
@@ -252,8 +257,11 @@ describe('Generate fixture for complete assessment', () => {
     cy.getQuestion('Did the current index offence(s) involve any of the following motivations?')
       .getCheckbox('Thrill seeking')
       .clickLabel()
-    cy.getQuestion('Who was the victim?').getCheckbox('Other').clickLabel()
-    cy.getQuestion('Who was the victim?').getCheckbox('Other').getConditionalQuestion().enterText('¯\\_(ツ)_/¯')
+    cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').clickLabel()
+    cy.getQuestion('Who was the offence committed against?')
+      .getCheckbox('Other')
+      .getConditionalQuestion()
+      .enterText('¯\\_(ツ)_/¯')
     cy.saveAndContinue()
 
     cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
