@@ -17,7 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     Array.of(
       [
         'Yes',
-        'Information suggests that there is evidence of sexual behaviour that could present a risk of sexual harm.',
+        'Information suggests that there is evidence of sexual behaviour that could pose a risk of sexual harm to others',
       ],
       ['No', null],
     ).forEach(([option, hint]) => {
