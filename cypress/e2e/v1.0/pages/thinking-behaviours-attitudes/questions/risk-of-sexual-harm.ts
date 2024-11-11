@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Are there any concerns that Sam is a risk of sexual harm?'
+  const question = 'Are there any concerns that Sam poses a risk of sexual harm to others?'
   const options = ['Yes', 'No']
 
   describe(question, () => {

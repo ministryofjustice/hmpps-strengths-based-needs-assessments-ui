@@ -173,7 +173,7 @@ describe('assessment print preview', () => {
         'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
       )
       .hasNoSecondaryAnswer()
-    cy.getSummary('Are there any concerns that Sam is a risk of sexual harm?').getAnswer('No').hasNoSecondaryAnswer()
+    cy.getSummary('Are there any concerns that Sam poses a risk of sexual harm to others?').getAnswer('No').hasNoSecondaryAnswer()
     cy.getSummary('Is Sam able to manage their temper?')
       .getAnswer('Sometimes has outbreaks of uncontrolled anger')
       .hasNoSecondaryAnswer()

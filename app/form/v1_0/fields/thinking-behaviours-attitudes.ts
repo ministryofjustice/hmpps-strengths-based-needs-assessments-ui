@@ -191,7 +191,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
   }
 
   thinkingBehavioursAttitudesRiskSexualHarm: FormWizard.Field = {
-    text: 'Are there any concerns that [subject] is a risk of sexual harm?',
+    text: 'Are there any concerns that [subject] poses a risk of sexual harm to others?',
     hint: { html: sexualHarmWarningText, kind: 'html' },
     code: 'thinking_behaviours_attitudes_risk_sexual_harm',
     type: FieldType.Radio,
