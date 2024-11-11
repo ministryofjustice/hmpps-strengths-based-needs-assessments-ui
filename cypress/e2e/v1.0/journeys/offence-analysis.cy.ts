@@ -50,7 +50,7 @@ describe('Origin: /offence-analysis', () => {
         cy.visitStep(destinations.involvedParties)
 
         cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
-          .getRadio('There was no one else involved')
+          .getRadio('None')
           .clickLabel()
 
         cy.assertResumeUrlIs(sectionName, destinations.involvedParties)

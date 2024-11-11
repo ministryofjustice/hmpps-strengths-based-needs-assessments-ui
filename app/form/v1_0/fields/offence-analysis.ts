@@ -439,7 +439,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     ],
     options: [
       {
-        text: 'There was no one else involved',
+        text: 'None',
         value: 'NONE',
         kind: 'option',
       },

@@ -214,7 +214,7 @@ describe('assessment print preview', () => {
       .hasNoSecondaryAnswer()
     cy.getSummary('Who was the offence committed against?').getAnswer('Other').hasSecondaryAnswer('¯\\_(ツ)_/¯')
     cy.getSummary('How many other people were involved with committing the current index offence(s)?')
-      .getAnswer('There was no one else involved')
+      .getAnswer('None')
       .hasNoSecondaryAnswer()
     cy.getSummary('Does Sam recognise the impact or consequences on the victims or others and the wider community?')
       .getAnswer('No')

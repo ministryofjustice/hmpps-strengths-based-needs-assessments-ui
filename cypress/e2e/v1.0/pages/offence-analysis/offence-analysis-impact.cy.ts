@@ -39,7 +39,7 @@ describe('/offence-analysis-impact', () => {
     cy.saveAndContinue()
 
     cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
-      .getRadio('There was no one else involved')
+      .getRadio('None')
       .clickLabel()
     cy.saveAndContinue()
 
