@@ -407,7 +407,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     text: 'Is [subject] able to resolve any challenges in their intimate relationships?',
     code: 'personal_relationships_community_challenges_intimate_relationship',
     hint: {
-      text: 'Consider any healthy and appropriate skills or strengths they may have.',
+      text: 'Consider how resilient they are, and how they work with their partner to resolve issues when they arise. An intimate relationship is one that involves physical and/or emotional closeness.',
       kind: 'text',
     },
     type: FieldType.TextArea,
