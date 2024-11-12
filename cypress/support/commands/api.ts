@@ -67,7 +67,7 @@ export const enterAssessment = (
   cy.log(`Entering assessment with OASys PK: ${assessment.oasysAssessmentPk}`)
 
   cy.session(
-    `${assessment.assessmentId}_${assessment.assessmentVersion}_${accessMode.valueOf()}`,
+    `${accessMode.valueOf()}:${JSON.stringify(assessment)}`,
     () => {
       getApiToken().then(apiToken => {
         cy.request({
