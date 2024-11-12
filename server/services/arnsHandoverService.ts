@@ -51,7 +51,7 @@ export type HandoverSubject = {
   dateOfBirth: string
   gender: Gender
   location: 'PRISON' | 'COMMUNITY'
-  sexuallyMotivatedOffenceHistory?: string
+  sexuallyMotivatedOffenceHistory?: 'YES' | 'NO'
 }
 
 export type HandoverAssessmentContext = {
