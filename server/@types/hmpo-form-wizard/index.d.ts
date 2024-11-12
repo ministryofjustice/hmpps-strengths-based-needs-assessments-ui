@@ -110,6 +110,7 @@ declare module 'hmpo-form-wizard' {
         value: string
         checked?: boolean
         selected?: boolean
+        disabled?: boolean
         conditional?: { html: string }
         hint?: { text: string } | { html: string }
         behaviour?: string
@@ -176,6 +177,7 @@ declare module 'hmpo-form-wizard' {
         displayFn?: (value: string) => string
         displayAlways?: boolean
       }
+      transform?: (CookieSessionObject) => FormWizard.Field
     }
 
     interface Fields {

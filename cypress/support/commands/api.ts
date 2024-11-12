@@ -26,6 +26,7 @@ export interface AssessmentContext {
   assessmentId?: string
   assessmentVersion?: number
   oasysAssessmentPk?: string
+  sexuallyMotivatedOffenceHistory?: string
 }
 
 export const getApiToken = () => {
@@ -90,7 +91,9 @@ export const enterAssessment = (
               dateOfBirth: '1970-01-01',
               gender: 0,
               location: 'COMMUNITY',
-              sexuallyMotivatedOffenceHistory: 'NO',
+              ...(assessment.sexuallyMotivatedOffenceHistory && {
+                sexuallyMotivatedOffenceHistory: assessment.sexuallyMotivatedOffenceHistory,
+              }),
             },
           },
           retryOnNetworkFailure: false,
