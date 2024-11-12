@@ -418,7 +418,7 @@
     },
     "offence_analysis_risk": {
       "type": "RADIO",
-      "description": "Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?",
+      "description": "Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?",
       "options": [
         {
           "value": "YES",

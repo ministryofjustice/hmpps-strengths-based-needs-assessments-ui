@@ -591,7 +591,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisRisk: FormWizard.Field = {
-    text: 'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+    text: 'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     code: 'offence_analysis_risk',
     type: FieldType.Radio,
     validate: [
