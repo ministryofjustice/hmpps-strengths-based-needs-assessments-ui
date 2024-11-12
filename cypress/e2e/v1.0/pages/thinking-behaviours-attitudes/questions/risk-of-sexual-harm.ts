@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Are there any concerns that Sam is a risk of sexual harm?'
+  const question = 'Are there any concerns that Sam poses a risk of sexual harm to others?'
   const options = ['Yes', 'No']
 
   describe(question, () => {
@@ -17,7 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     Array.of(
       [
         'Yes',
-        'Information suggests that there is evidence of sexual behaviour that could present a risk of sexual harm.',
+        'Information suggests that there is evidence of sexual behaviour that could pose a risk of sexual harm to others',
       ],
       ['No', null],
     ).forEach(([option, hint]) => {
