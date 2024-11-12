@@ -138,7 +138,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
           'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
         )
         .clickLabel()
-      cy.getQuestion('Are there any concerns that poses a risk of sexual harm to others?').getRadio('No').clickLabel()
+      cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.thinkingBehaviours)
