@@ -4,7 +4,8 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.thinkingBehaviours
-const stepUrls = {
+
+export const stepUrls = {
   thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
   sexualOffending: 'thinking-behaviours-attitudes-sexual-offending',
   thinkingBehaviours: 'thinking-behaviours',

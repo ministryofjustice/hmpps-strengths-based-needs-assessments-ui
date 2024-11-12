@@ -2,6 +2,8 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
+import CookieSessionObject = CookieSessionInterfaces.CookieSessionObject
+import { HandoverSubject } from '../../../../server/services/arnsHandoverService'
 
 const sexualHarmWarningText = `
 <div class="govuk-warning-text govuk-!-static-margin-0">
@@ -210,6 +212,16 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+    transform(session: CookieSessionObject): FormWizard.Field {
+      const subjectDetails = session.subjectDetails as HandoverSubject
+      if (subjectDetails.sexuallyMotivatedOffenceHistory === null) return this
+      return {
+        ...this,
+        options: this.options.map((option: FormWizard.Field.Option) =>
+          option.value !== subjectDetails.sexuallyMotivatedOffenceHistory ? { ...option, disabled: true } : option,
+        ),
+      }
+    },
   }
 
   thinkingBehavioursAttitudesSexualPreoccupation: FormWizard.Field = {
