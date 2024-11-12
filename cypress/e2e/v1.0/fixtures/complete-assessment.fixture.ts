@@ -212,7 +212,7 @@ describe('Generate fixture for complete assessment', () => {
         'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
       )
       .clickLabel()
-    cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('No').clickLabel()
+    cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 
     cy.getQuestion('Is Sam able to manage their temper?')
@@ -265,7 +265,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
-      .getRadio('There was no one else involved')
+      .getRadio('None')
       .clickLabel()
     cy.saveAndContinue()
 

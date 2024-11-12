@@ -1,7 +1,7 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'How many other people were involved with committing the current index offence(s)?'
   describe(question, () => {
-    const options = ['There was no one else involved', '1', '2', '3', '4', '5', '6 to 10', '11 to 15', 'More than 15']
+    const options = ['None', '1', '2', '3', '4', '5', '6 to 10', '11 to 15', 'More than 15']
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)

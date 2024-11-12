@@ -1104,7 +1104,7 @@
       "options": [
         {
           "value": "NONE",
-          "text": "There was no one else involved"
+          "text": "None"
         },
         {
           "value": "ONE",
@@ -1745,7 +1745,7 @@
     },
     "thinking_behaviours_attitudes_risk_sexual_harm": {
       "type": "RADIO",
-      "description": "Are there any concerns that [subject] is a risk of sexual harm?",
+      "description": "Are there any concerns that [subject] poses a risk of sexual harm to others?",
       "options": [
         {
           "value": "YES",
