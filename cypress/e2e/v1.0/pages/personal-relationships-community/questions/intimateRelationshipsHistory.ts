@@ -17,7 +17,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint(null)
+        .hasHint('An intimate relationship is one that involves physical and/or emotional closeness.')
         .hasRadios(options.map(([option, _]) => option))
 
       cy.saveAndContinue()

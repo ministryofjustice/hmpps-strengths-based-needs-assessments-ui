@@ -360,6 +360,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     text: "What is [subject]'s history of intimate relationships?",
     code: 'personal_relationships_community_intimate_relationship',
     type: FieldType.Radio,
+    hint: { text: 'An intimate relationship is one that involves physical and/or emotional closeness.', kind: 'text' },
     validate: [{ type: ValidationType.Required, message: 'Select their history of intimate relationships' }],
     options: [
       {
