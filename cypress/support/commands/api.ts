@@ -26,6 +26,7 @@ export interface AssessmentContext {
   assessmentId?: string
   assessmentVersion?: number
   oasysAssessmentPk?: string
+  sexuallyMotivatedOffenceHistory?: string
 }
 
 export const getApiToken = () => {
@@ -66,7 +67,7 @@ export const enterAssessment = (
   cy.log(`Entering assessment with OASys PK: ${assessment.oasysAssessmentPk}`)
 
   cy.session(
-    `${assessment.assessmentId}_${assessment.assessmentVersion}_${accessMode.valueOf()}`,
+    `${accessMode.valueOf()}:${JSON.stringify(assessment)}`,
     () => {
       getApiToken().then(apiToken => {
         cy.request({
@@ -90,7 +91,9 @@ export const enterAssessment = (
               dateOfBirth: '1970-01-01',
               gender: 0,
               location: 'COMMUNITY',
-              sexuallyMotivatedOffenceHistory: 'NO',
+              ...(assessment.sexuallyMotivatedOffenceHistory && {
+                sexuallyMotivatedOffenceHistory: assessment.sexuallyMotivatedOffenceHistory,
+              }),
             },
           },
           retryOnNetworkFailure: false,

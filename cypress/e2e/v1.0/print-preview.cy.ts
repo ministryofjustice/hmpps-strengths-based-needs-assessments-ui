@@ -229,7 +229,7 @@ describe('assessment print preview', () => {
       .getAnswer('No')
       .hasNoSecondaryAnswer()
     cy.getSummary(
-      'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+      'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     )
       .getAnswer('No')
       .hasSecondaryAnswer('¯\\_(ツ)_/¯')

@@ -10,6 +10,11 @@ export const isNotChecked = (subject: JQuery) => {
   return cy.wrap(subject)
 }
 
+export const isDisabled = (subject: JQuery) => {
+  cy.wrap(subject).children('input').should('be.disabled')
+  return cy.wrap(subject)
+}
+
 export const isOptionNumber = (subject: JQuery, position: number) => {
   const el = subject
     .parent()
