@@ -3,6 +3,7 @@ import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
 import { dependentOn } from './common/utils'
+import characterLimits from '../config/characterLimits'
 
 const usageFrequencies = [
   { text: 'Daily', value: 'DAILY' },
@@ -203,8 +204,8 @@ class DrugsFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter drug name' },
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.characterLimit.default],
-        message: `Drug name must be ${FieldsFactory.characterLimit.default} characters or less`,
+        arguments: [characterLimits.default],
+        message: `Drug name must be ${characterLimits.default} characters or less`,
       },
     ],
     dependent: dependentOn(this.drugUseType, 'OTHER_DRUG'),
