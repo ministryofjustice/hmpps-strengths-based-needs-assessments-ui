@@ -215,6 +215,10 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityChildhoodBehaviour: FormWizard.Field = {
     text: 'Did [subject] have any childhood behavioural problems?',
     code: 'personal_relationships_community_childhood_behaviour',
+    hint: {
+      text: 'Consider any adverse experiences and trauma, as well as neurodiversity that could lead to behavioural problems.',
+      kind: 'text',
+    },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they had childhood behavioural problems' }],
     options: [
