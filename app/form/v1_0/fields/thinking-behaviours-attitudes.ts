@@ -250,7 +250,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       {
         text: 'Unknown',
-        value: 'NO_EVIDENCE',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
@@ -291,7 +291,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       {
         text: 'Unknown',
-        value: 'NO_EVIDENCE',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
@@ -327,7 +327,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       {
         text: 'Unknown',
-        value: 'NO_EVIDENCE',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
