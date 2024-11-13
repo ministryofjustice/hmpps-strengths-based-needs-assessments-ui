@@ -2,6 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import { FieldsFactory, utils } from './common'
 import sections from '../config/sections'
+import characterLimits from '../config/characterLimits'
 
 const childrenInformationHint = `
 <p class="govuk-hint">This refers to any children (under 18 years) [subject] has regular contact with, even if they do not have parental responsibility.</p>
@@ -397,8 +398,8 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.characterLimit.default],
-        message: `Details must be ${FieldsFactory.characterLimit.default} characters or less`,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
       },
       { type: ValidationType.Required, message: 'Enter details' },
     ],

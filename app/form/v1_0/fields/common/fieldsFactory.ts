@@ -1,6 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 import { dependentOn, fieldCodeWith, getMediumLabelClassFor, orDivider, yesNoOptions } from './utils'
+import characterLimits from '../../config/characterLimits'
 
 type Section = {
   title: string
@@ -19,15 +20,6 @@ type DetailsFieldOptions = {
 }
 
 export default abstract class FieldsFactory {
-  static readonly characterLimit = {
-    default: 3000,
-    c128: 128,
-    c1000: 1000,
-    c1425: 1425,
-    c2000: 2000,
-    c4000: 4000,
-  }
-
   section: Section
 
   fieldPrefix: string
@@ -47,7 +39,7 @@ export default abstract class FieldsFactory {
   }
 
   static detailsField(options: DetailsFieldOptions): FormWizard.Field {
-    const maxChars = options.maxChars ? options.maxChars : this.characterLimit.default
+    const maxChars = options.maxChars ? options.maxChars : characterLimits.default
     const field: FormWizard.Field = {
       text: (options.text ? options.text : 'Give details') + (options.required ? '' : ' (optional)'),
       code: fieldCodeWith(
@@ -172,36 +164,36 @@ export default abstract class FieldsFactory {
         parentField: strengthsOrProtectiveFactorsField,
         dependentValue: 'YES',
         required: true,
-        maxChars: FieldsFactory.characterLimit.c1425,
+        maxChars: characterLimits.c1425,
       }),
       FieldsFactory.detailsField({
         parentField: strengthsOrProtectiveFactorsField,
         dependentValue: 'NO',
-        maxChars: FieldsFactory.characterLimit.c1425,
+        maxChars: characterLimits.c1425,
       }),
       riskOfSeriousHarmField,
       FieldsFactory.detailsField({
         parentField: riskOfSeriousHarmField,
         dependentValue: 'YES',
         required: true,
-        maxChars: FieldsFactory.characterLimit.c1425,
+        maxChars: characterLimits.c1425,
       }),
       FieldsFactory.detailsField({
         parentField: riskOfSeriousHarmField,
         dependentValue: 'NO',
-        maxChars: FieldsFactory.characterLimit.c1425,
+        maxChars: characterLimits.c1425,
       }),
       riskOfReoffendingField,
       FieldsFactory.detailsField({
         parentField: riskOfReoffendingField,
         dependentValue: 'YES',
         required: true,
-        maxChars: FieldsFactory.characterLimit.c1000,
+        maxChars: characterLimits.c1000,
       }),
       FieldsFactory.detailsField({
         parentField: riskOfReoffendingField,
         dependentValue: 'NO',
-        maxChars: FieldsFactory.characterLimit.c1000,
+        maxChars: characterLimits.c1000,
       }),
     ]
   }
