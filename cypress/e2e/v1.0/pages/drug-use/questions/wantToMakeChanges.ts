@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam want to make changes to their drug use?'
   const options = [
@@ -40,7 +42,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint(null)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(summaryPage)

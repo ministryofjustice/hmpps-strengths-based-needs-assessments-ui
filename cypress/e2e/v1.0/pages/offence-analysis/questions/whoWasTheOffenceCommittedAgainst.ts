@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Who was the offence committed against?'
   describe(question, () => {
@@ -26,7 +28,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasHint(null)
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.default)
 
       cy.saveAndContinue()
 

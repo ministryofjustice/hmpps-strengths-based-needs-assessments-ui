@@ -4,19 +4,17 @@ import express from 'express'
 import * as pathModule from 'path'
 import { initialiseName } from './utils'
 import {
-  answerIncludes,
   displayDateForToday,
   formatDateForDisplay,
-  getLabelForOption,
+  getMaxCharacterCount,
   getRenderedFields,
-  getSelectedAnswers,
   isInEditMode,
   ordinalWordFromNumber,
   outdent,
   practitionerAnalysisStarted,
+  setProp,
   startsWith,
   toErrorSummary,
-  toOptionDescription,
   urlSafe,
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
@@ -66,15 +64,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     return v?.['csrf-token'] || ''
   })
 
-  njkEnv.addFilter('toOptionDescription', toOptionDescription)
-
   njkEnv.addGlobal('toErrorSummary', toErrorSummary)
-
-  njkEnv.addGlobal('answerIncludes', answerIncludes)
-
-  njkEnv.addGlobal('getLabelForOption', getLabelForOption)
-
-  njkEnv.addGlobal('getSelectedAnswers', getSelectedAnswers)
 
   njkEnv.addGlobal('getRenderedFields', getRenderedFields)
 
@@ -89,6 +79,10 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('getSummaryFields', getSummaryFields)
 
   njkEnv.addGlobal('getAnalysisSummaryFields', getAnalysisSummaryFields)
+
+  njkEnv.addGlobal('getMaxCharacterCount', getMaxCharacterCount)
+
+  njkEnv.addFilter('setProp', setProp)
 
   njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
 

@@ -4,8 +4,6 @@ import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-w
 import sections from '../config/sections'
 import { dependentOn, yesNoOptions } from './common/utils'
 
-const offenceAnalysisDetailsCharacterLimit4k = 4000
-
 class OffenceAnalysisFieldsFactory extends FieldsFactory {
   offenceAnalysisDescriptionOfOffence: FormWizard.Field = {
     text: 'Enter a brief description of the current index offence(s)',
@@ -15,11 +13,10 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
+        arguments: [FieldsFactory.characterLimit.c4000],
+        message: `Details must be ${FieldsFactory.characterLimit.c4000} characters or less`,
       },
     ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   }
 
@@ -105,12 +102,11 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: `Enter details` },
       {
         type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
+        arguments: [FieldsFactory.characterLimit.c4000],
+        message: `Details must be ${FieldsFactory.characterLimit.c4000} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
   }
 
   offenceAnalysisMotivation: FormWizard.Field = {
@@ -171,6 +167,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     parentField: this.offenceAnalysisMotivation,
     dependentValue: 'OTHER',
     required: true,
+    maxChars: FieldsFactory.characterLimit.c128,
   })
 
   offenceAnalysiswhoWasTheOffenceCommittedAgainst: FormWizard.Field = {
@@ -505,11 +502,13 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     parentField: this.offenceAnalysisLeader,
     dependentValue: 'YES',
     required: true,
+    maxChars: FieldsFactory.characterLimit.c4000,
   })
 
   offenceAnalysisLeaderNoDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisLeader,
     dependentValue: 'NO',
+    maxChars: FieldsFactory.characterLimit.c4000,
   })
 
   offenceAnalysisImpactOnVictims: FormWizard.Field = {
@@ -549,6 +548,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   offenceAnalysisAcceptResponsibilityDetails: FormWizard.Field[] = this.offenceAnalysisAcceptResponsibility.options.map(
     FieldsFactory.detailsFieldWith({
       parentField: this.offenceAnalysisAcceptResponsibility,
+      maxChars: FieldsFactory.characterLimit.c4000,
     }),
   )
 
@@ -564,11 +564,10 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.characterLimit.c2000],
+        message: `Details must be ${FieldsFactory.characterLimit.c2000} characters or less`,
       },
     ],
-    characterCountMax: FieldsFactory.detailsCharacterLimit,
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   }
 
@@ -607,7 +606,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   offenceAnalysisRiskDetails: FormWizard.Field[] = this.offenceAnalysisRisk.options.map(
     FieldsFactory.detailsFieldWith({
       parentField: this.offenceAnalysisRisk,
-      maxChars: offenceAnalysisDetailsCharacterLimit4k,
+      maxChars: FieldsFactory.characterLimit.c4000,
       required: true,
     }),
   )

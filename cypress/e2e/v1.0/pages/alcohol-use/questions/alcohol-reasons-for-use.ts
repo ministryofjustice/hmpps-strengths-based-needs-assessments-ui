@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Why does Sam drink alcohol?'
   describe(question, () => {
@@ -32,7 +34,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasHint(null)
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
         cy.getQuestion(question)

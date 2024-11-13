@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Is Sam part of any groups or communities that gives them a sense of belonging? (optional)'
 
@@ -6,7 +8,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
         .hasHint('For example, online social media or community groups.')
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.default)
       cy.saveAndContinue()
       cy.getQuestion(question).hasNoValidationError().enterText('some text')
       cy.saveAndContinue()
