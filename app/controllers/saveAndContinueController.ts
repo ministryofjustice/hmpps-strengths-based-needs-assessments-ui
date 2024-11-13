@@ -4,7 +4,13 @@ import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
 import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
-import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
+import {
+  compileConditionalFields,
+  fieldsById,
+  withPlaceholdersFrom,
+  withStateAwareTransform,
+  withValuesFrom,
+} from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
@@ -118,7 +124,8 @@ class SaveAndContinueController extends BaseController {
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )
-      const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
+      const fieldsWithStateAwareTransform = fieldsWithReplacements.map(withStateAwareTransform(req.session))
+      const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithStateAwareTransform, {
         action: res.locals.action,
         errors: res.locals.errors,
       })
