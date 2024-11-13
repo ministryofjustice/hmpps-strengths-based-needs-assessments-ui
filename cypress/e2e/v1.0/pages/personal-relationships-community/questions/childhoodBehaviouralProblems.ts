@@ -7,7 +7,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const options = ['Yes', 'No']
 
     it('displays and validates the question', () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Consider any adverse experiences and trauma, as well as neurodiversity that could lead to behavioural problems.').hasRadios(options)
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .hasHint(
+          'Consider any adverse experiences and trauma, as well as neurodiversity that could lead to behavioural problems.',
+        )
+        .hasRadios(options)
 
       cy.saveAndContinue()
 
