@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { formatDateForDisplay, practitionerAnalysisStarted, toErrorSummary } from './nunjucks.utils'
+import { display, practitionerAnalysisStarted, toErrorSummary } from './nunjucks.utils'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 describe('server/utils/nunjucks.utils', () => {
@@ -18,23 +18,6 @@ describe('server/utils/nunjucks.utils', () => {
           expect.objectContaining({ text: 'Baz is required', href: '#baz-error' }),
         ]),
       )
-    })
-  })
-
-  describe('formatDateForDisplay', () => {
-    it('returns the data in the format', () => {
-      expect(formatDateForDisplay('2023-08-02')).toEqual('02 August 2023')
-    })
-
-    it('returns null when passed a null/undefined value', () => {
-      expect(formatDateForDisplay(null)).toEqual(null)
-      expect(formatDateForDisplay(undefined)).toEqual(null)
-    })
-
-    it('returns null when passed an invalid date', () => {
-      expect(formatDateForDisplay('99-99-9999')).toEqual(null)
-      expect(formatDateForDisplay('foo date')).toEqual(null)
-      expect(formatDateForDisplay('')).toEqual(null)
     })
   })
 
@@ -124,6 +107,16 @@ describe('server/utils/nunjucks.utils', () => {
 
       const result = practitionerAnalysisStarted(options, answers)
       expect(result).toEqual(false)
+    })
+  })
+
+  describe('display', () => {
+    it('returns html if set', () => {
+      expect(display({ text: 'Test', html: '<b>Test</b>', value: '', nestedFields: [] })).toEqual('<b>Test</b>')
+    })
+
+    it('returns text if html is not set', () => {
+      expect(display({ text: 'Test\nnew line', value: '', nestedFields: [] })).toEqual('Test<br>\nnew line')
     })
   })
 })

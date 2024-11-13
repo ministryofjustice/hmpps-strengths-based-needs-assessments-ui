@@ -182,7 +182,7 @@ export const withValuesFrom =
       case FieldType.Collection:
         return {
           ...field,
-          value: ((answer || []) as FormWizard.CollectionEntry[]).length,
+          value: ((answer || []) as FormWizard.CollectionEntry[]).length.toString(),
         }
       default:
         return field
@@ -230,3 +230,5 @@ export const dependencyMet = (field: FormWizard.Field, answers: FormWizard.Answe
 
   return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
 }
+
+export const isPractitionerAnalysisField = (field: string) => field.includes('_practitioner_analysis_')

@@ -107,6 +107,7 @@ declare module 'hmpo-form-wizard' {
     namespace Field {
       type Option = {
         text: string
+        html?: string
         value: string
         checked?: boolean
         selected?: boolean
@@ -160,7 +161,7 @@ declare module 'hmpo-form-wizard' {
       validate?: Validate[]
       dependent?: Dependent
       invalidates?: string[]
-      value?: FormWizard.An
+      value?: FormWizard.Answer
       collection?: {
         fields: FormWizard.Field[]
         subject: string

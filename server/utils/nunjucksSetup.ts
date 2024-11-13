@@ -4,12 +4,11 @@ import express from 'express'
 import * as pathModule from 'path'
 import { initialiseName } from './utils'
 import {
+  display,
   displayDateForToday,
-  formatDateForDisplay,
   getMaxCharacterCount,
   getRenderedFields,
   isInEditMode,
-  ordinalWordFromNumber,
   outdent,
   practitionerAnalysisStarted,
   setProp,
@@ -21,6 +20,7 @@ import getSummaryFields from './nunjucks.summaryFields'
 import getAnalysisSummaryFields from './nunjucks.analysisSummaryFields'
 import FieldsFactory from '../../app/form/v1_0/fields/common/fieldsFactory'
 import maintenanceMessage from './maintenanceMessage'
+import { formatDateForDisplay, ordinalWordFromNumber } from '../../app/utils/formatters'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -77,6 +77,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('outdent', outdent)
 
   njkEnv.addGlobal('getSummaryFields', getSummaryFields)
+
+  njkEnv.addFilter('display', display)
 
   njkEnv.addGlobal('getAnalysisSummaryFields', getAnalysisSummaryFields)
 
