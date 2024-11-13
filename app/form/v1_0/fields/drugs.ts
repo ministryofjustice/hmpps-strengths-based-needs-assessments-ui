@@ -203,8 +203,8 @@ class DrugsFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter drug name' },
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Drug name must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.characterLimit.default],
+        message: `Drug name must be ${FieldsFactory.characterLimit.default} characters or less`,
       },
     ],
     dependent: dependentOn(this.drugUseType, 'OTHER_DRUG'),

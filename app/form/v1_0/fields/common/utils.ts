@@ -2,8 +2,6 @@ import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
 import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
-export const summaryCharacterLimit = 1000
-
 export const getLabelClassFor = (size: string) => (type: FieldType) =>
   type === FieldType.CheckBox || type === FieldType.Radio || type === FieldType.Date
     ? `govuk-fieldset__legend--${size}`

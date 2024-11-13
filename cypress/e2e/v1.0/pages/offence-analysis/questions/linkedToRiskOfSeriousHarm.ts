@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question =
     'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?'
@@ -24,7 +26,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details')
           .hasHint(null)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.c4000)
 
         cy.markAsComplete()
         cy.getQuestion(question)

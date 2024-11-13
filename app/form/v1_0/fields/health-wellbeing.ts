@@ -89,8 +89,8 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.characterLimit.default],
+        message: `Details must be ${FieldsFactory.characterLimit.default} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
@@ -103,8 +103,8 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.characterLimit.default],
+        message: `Details must be ${FieldsFactory.characterLimit.default} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
