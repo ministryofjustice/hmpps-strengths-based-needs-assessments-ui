@@ -164,6 +164,10 @@ class DrugsFieldsFactory extends FieldsFactory {
     text: 'Has [subject] ever used drugs?',
     code: 'drug_use',
     type: FieldType.Radio,
+    hint: {
+      text: 'This refers to the misuse of prescription drugs as well as the use of illegal drugs.',
+      kind: 'text',
+    },
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever used drugs' }],
     options: utils.yesNoOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
