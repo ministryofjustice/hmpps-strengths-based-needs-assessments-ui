@@ -97,7 +97,7 @@
     "connect-flash": "^0.1.1",
     "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.7",
-    "csurf": "^1.2.2",
+    "csurf": "^1.11.0",
     "express": "^4.21.1",
     "express-prom-bundle": "^7.0.2",
     "express-session": "^1.18.1",
@@ -177,5 +177,10 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.3"
+  },
+  "overrides": {
+    "csurf": {
+      "cookie": "0.7.2"
+    }
   }
 }
