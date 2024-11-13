@@ -8,75 +8,75 @@
 {%- from "govuk/components/button/macro.njk" import govukButton -%}
 {%- from "govuk/components/character-count/macro.njk" import govukCharacterCount -%}
 
-{% set errorMessageText = errors[question.id].message %}
+{% set errorMessageText = errors[field.id].message %}
 {% if errorMessageText %}
   {% set errorMessage = { text: errorMessageText } %}
 {% endif %}
 
-{% switch question.type %}
+{% switch field.type %}
   {% case 'TEXT' %}
     <div class="form-group">
     {{ govukInput({
-      id: question.id,
-      name: question.id,
-      value: question.value | safe,
-      attributes: question.attributes,
+      id: field.id,
+      name: field.id,
+      value: field.value | safe,
+      attributes: field.attributes,
       label: {
-        text: question.text,
+        text: field.text,
         isPageHeading: false,
-        classes: question.id + " " + (question.labelClasses | default(""))
+        classes: field.id + " " + (field.labelClasses | default(""))
       },
       formGroup: {
-        classes: "form-group " + (question.formGroupClasses | default(""))
+        classes: "form-group " + (field.formGroupClasses | default(""))
       },
-      hint: question.hint,
+      hint: field.hint,
       errorMessage: errorMessage,
-      classes: question.classes
+      classes: field.classes
     }) }}
     </div>
 
   {% case 'TEXT_AREA' %}
     <div class="form-group">
     {{ govukCharacterCount({
-      name:question.id,
-      id: question.id,
-      maxlength: question.characterCountMax | default(400),
-      value: question.value | safe,
+      name:field.id,
+      id: field.id,
+      maxlength: getMaxCharacterCount(field),
+      value: field.value | safe,
       label: {
-        text: question.text,
+        text: field.text,
         isPageHeading: false,
-        classes: question.id + " " + (question.labelClasses | default(""))
+        classes: field.id + " " + (field.labelClasses | default(""))
       },
       formGroup: {
-        classes: "form-group " + (question.formGroupClasses | default(""))
+        classes: "form-group " + (field.formGroupClasses | default(""))
       },
-      attributes: question.attributes,
-      hint: question.hint,
+      attributes: field.attributes,
+      hint: field.hint,
       errorMessage: errorMessage,
-      classes: question.classes
+      classes: field.classes
     }) }}
     </div>
 
   {% case 'RADIO' %}
     {% set innerHtml %}
     {{ govukRadios({
-      idPrefix: question.id,
-      name: question.id,
-      classes: question.classes | default(""),
-      attributes: question.attributes,
+      idPrefix: field.id,
+      name: field.id,
+      classes: field.classes | default(""),
+      attributes: field.attributes,
       fieldset: {
         legend: {
-          text: question.text,
-          classes: question.id + " " + (question.labelClasses | default(""))
+          text: field.text,
+          classes: field.id + " " + (field.labelClasses | default(""))
         }
       },
       formGroup: {
-        classes: "form-group " + (question.formGroupClasses | default(""))
+        classes: "form-group " + (field.formGroupClasses | default(""))
       },
-      items: question.options,
+      items: field.options,
       errorMessage: errorMessage,
-      isConditional: question.isConditional,
-      hint: question.hint
+      isConditional: field.isConditional,
+      hint: field.hint
     }) }}
     {% endset %}
     {{ innerHtml | outdent(2) | safe }}
@@ -84,70 +84,70 @@
   {% case 'CHECKBOX' %}
     {% set innerHtml %}
     {{ govukCheckboxes({
-      idPrefix: question.id,
-      name: question.id,
-      classes: question.classes | default(""),
-      attributes: question.attributes,
+      idPrefix: field.id,
+      name: field.id,
+      classes: field.classes | default(""),
+      attributes: field.attributes,
       fieldset: {
         legend: {
-          text: question.text,
-          classes: question.id + " " + (question.labelClasses | default(""))
+          text: field.text,
+          classes: field.id + " " + (field.labelClasses | default(""))
         }
       },
       formGroup: {
-        classes: "form-group " + (question.formGroupClasses | default(""))
+        classes: "form-group " + (field.formGroupClasses | default(""))
       },
-      items: question.options,
+      items: field.options,
       errorMessage: errorMessage,
-      isConditional: question.isConditional,
-      hint: question.hint
+      isConditional: field.isConditional,
+      hint: field.hint
     }) }}
     {% endset %}
     {{ innerHtml | outdent(2) | safe }}
 
   {% case 'DROPDOWN' %}
     {{ govukSelect({
-      id: question.id,
-      name: question.id,
-      classes: question.classes | default(""),
+      id: field.id,
+      name: field.id,
+      classes: field.classes | default(""),
       label: {
-        text: question.text,
-        classes: question.id + " " + (question.labelClasses | default(""))
+        text: field.text,
+        classes: field.id + " " + (field.labelClasses | default(""))
       },
       formGroup: {
-        classes: "form-group " + (question.formGroupClasses | default(""))
+        classes: "form-group " + (field.formGroupClasses | default(""))
       },
-      attributes: question.attributes,
-      items: question.options,
+      attributes: field.attributes,
+      items: field.options,
       errorMessage: errorMessage,
-      isConditional: question.isConditional,
-      hint: question.hint
+      isConditional: field.isConditional,
+      hint: field.hint
     }) }}
 
   {% case 'AUTOCOMPLETE' %}
     <div class="form-group">
       {{ govukSelect({
-        id: question.id,
-        name: question.id,
-        classes: question.classes | default(""),
+        id: field.id,
+        name: field.id,
+        classes: field.classes | default(""),
         label: {
-          text: question.text,
-          classes: question.id + " " + (question.labelClasses | default(""))
+          text: field.text,
+          classes: field.id + " " + (field.labelClasses | default(""))
         },
         formGroup: {
-          classes: "form-group " + (question.formGroupClasses | default(""))
+          classes: "form-group " + (field.formGroupClasses | default(""))
         },
         attributes: { 'data-accessible-autocomplete': 'true' },
-        items: question.options,
-        value: question.value,
+        items: field.options,
+        value: field.value,
         errorMessage: errorMessage,
-        isConditional: question.isConditional,
-        hint: question.hint
+        isConditional: field.isConditional,
+        hint: field.hint
       }) }}
     </div>
 
   {% case 'DATE' %}
-    {% set dateAnswer = question.value %}
+    {% set dateAnswer = field.value %}
     {% if dateAnswer.length > 0 %}
       {% set answerDay = dateAnswer[2] %}
       {% set answerMonth = dateAnswer[1] %}
@@ -159,20 +159,20 @@
     {% endif %}
 
     {{ govukDateInput({
-      id: question.id,
-      namePrefix: question.id,
-      classes: question.classes | default(""),
+      id: field.id,
+      namePrefix: field.id,
+      classes: field.classes | default(""),
       fieldset: {
         legend: {
-          text: question.text,
+          text: field.text,
           isPageHeading: false,
-          classes: question.id + " " + (question.labelClasses | default(""))
+          classes: field.id + " " + (field.labelClasses | default(""))
         }
       },
       formGroup: {
-        classes: "form-group " + (question.formGroupClasses | default(""))
+        classes: "form-group " + (field.formGroupClasses | default(""))
       },
-      hint: question.hint,
+      hint: field.hint,
       items: [
         {
           classes: "govuk-input--width-2",
@@ -191,9 +191,9 @@
         }
       ],
       errorMessage: errorMessage,
-      attributes: question.attributes
+      attributes: field.attributes
     }) }}
 
   {% default %}
-    <!-- {{ question.id }} - {{ question.type }} questions are not currently rendered -->
+    <!-- {{ field.id }} - {{ field.type }} questions are not currently rendered -->
 {% endswitch %}

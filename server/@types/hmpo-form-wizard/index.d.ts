@@ -171,7 +171,6 @@ declare module 'hmpo-form-wizard' {
       }
       labelClasses?: string
       formGroupClasses?: string
-      characterCountMax?: number
       classes?: string
       summary?: {
         displayFn?: (value: string) => string

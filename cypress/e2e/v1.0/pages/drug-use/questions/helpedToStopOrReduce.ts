@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Has anything helped Sam to stop or reduce using drugs in the past?'
 
@@ -26,7 +28,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Give details (optional)')
         .hasHint(null)
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.default)
 
       cy.checkAccessibility()
 

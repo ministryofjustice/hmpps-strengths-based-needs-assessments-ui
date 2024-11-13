@@ -1,23 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
-import { AnswerDto } from '../services/strengthsBasedNeedsService'
-import { FieldType } from '../@types/hmpo-form-wizard/enums'
+import { ValidationType } from '../@types/hmpo-form-wizard/enums'
 import { HandoverPrincipal } from '../services/arnsHandoverService'
-
-export const toOptionDescription = (answer: AnswerDto): string => {
-  switch (answer.type) {
-    case FieldType.Radio:
-    case FieldType.Dropdown:
-    case FieldType.AutoComplete:
-      return answer.options.find(option => option.value === answer.value)?.text || answer.value
-    case FieldType.CheckBox:
-      return (answer.values || [])
-        .map(selected => answer.options.find(option => option.value === selected)?.text || selected)
-        .join(', ')
-    default:
-      return answer.value || ''
-  }
-}
+import { FieldsFactory } from '../../app/form/v1_0/fields/common'
 
 type ValidationError = { text: string; href: string } & FormWizard.Controller.Error
 
@@ -25,21 +10,6 @@ export const toErrorSummary = (errors: FormWizard.Controller.Errors): Validation
   Object.values(errors)
     .flatMap(it => (it.messageGroup ? Object.values(it.messageGroup) : it))
     .map(it => ({ ...it, text: it.message, href: `#${it.key}-error` }))
-
-export const answerIncludes = (value: string, answer: Array<string> = []) => answer.includes(value)
-
-export const getLabelForOption = (field: FormWizard.Field, value: string) => {
-  const option = (field.options || [])
-    .filter(o => o.kind === 'option')
-    .find((o: FormWizard.Field.Option) => o.value === value) as FormWizard.Field.Option
-  return option ? option.text : value
-}
-
-export const getSelectedAnswers = (field: FormWizard.Field) =>
-  ((field.options?.filter(o => o.kind === 'option') as Array<FormWizard.Field.Option>) || [])
-    .filter(o => o.checked)
-    .map(o => o.text)
-    .join(', ')
 
 export const isNonRenderedField = (field: string) =>
   field.endsWith('_section_complete') || field === 'assessment_complete'
@@ -114,3 +84,11 @@ export const ordinalWordFromNumber = (n: number): string => {
 
   return n <= 20 ? ordinals[n] : n.toString()
 }
+
+export const getMaxCharacterCount = (field: FormWizard.Field) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  field.validate?.find(rule => (<any>rule).type === ValidationType.MaxLength)?.arguments[0] ||
+  FieldsFactory.characterLimit.default
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const setProp = (obj: any, prop: string, value: any) => ({ ...obj, [prop]: value })

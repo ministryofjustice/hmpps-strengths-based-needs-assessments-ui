@@ -1,13 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
-import {
-  dependentOn,
-  fieldCodeWith,
-  getMediumLabelClassFor,
-  orDivider,
-  summaryCharacterLimit,
-  yesNoOptions,
-} from './utils'
+import { dependentOn, fieldCodeWith, getMediumLabelClassFor, orDivider, yesNoOptions } from './utils'
 
 type Section = {
   title: string
@@ -19,13 +12,21 @@ type DetailsFieldOptions = {
   parentField: FormWizard.Field
   dependentValue?: string
   required?: boolean
+  requiredMessage?: string
   maxChars?: number
   textHint?: string
   htmlHint?: string
 }
 
 export default abstract class FieldsFactory {
-  static readonly detailsCharacterLimit = 400
+  static readonly characterLimit = {
+    default: 3000,
+    c128: 128,
+    c1000: 1000,
+    c1425: 1425,
+    c2000: 2000,
+    c4000: 4000,
+  }
 
   section: Section
 
@@ -46,7 +47,7 @@ export default abstract class FieldsFactory {
   }
 
   static detailsField(options: DetailsFieldOptions): FormWizard.Field {
-    const maxChars = options.maxChars ? options.maxChars : this.detailsCharacterLimit
+    const maxChars = options.maxChars ? options.maxChars : this.characterLimit.default
     const field: FormWizard.Field = {
       text: (options.text ? options.text : 'Give details') + (options.required ? '' : ' (optional)'),
       code: fieldCodeWith(
@@ -54,7 +55,12 @@ export default abstract class FieldsFactory {
       ),
       type: FieldType.TextArea,
       validate: [
-        options.required ? { type: ValidationType.Required, message: 'Enter details' } : null,
+        options.required
+          ? {
+              type: ValidationType.Required,
+              message: options.requiredMessage ? options.requiredMessage : 'Enter details',
+            }
+          : null,
         {
           type: ValidationType.MaxLength,
           arguments: [maxChars],
@@ -166,36 +172,36 @@ export default abstract class FieldsFactory {
         parentField: strengthsOrProtectiveFactorsField,
         dependentValue: 'YES',
         required: true,
-        maxChars: summaryCharacterLimit,
+        maxChars: FieldsFactory.characterLimit.c1425,
       }),
       FieldsFactory.detailsField({
         parentField: strengthsOrProtectiveFactorsField,
         dependentValue: 'NO',
-        maxChars: summaryCharacterLimit,
+        maxChars: FieldsFactory.characterLimit.c1425,
       }),
       riskOfSeriousHarmField,
       FieldsFactory.detailsField({
         parentField: riskOfSeriousHarmField,
         dependentValue: 'YES',
         required: true,
-        maxChars: summaryCharacterLimit,
+        maxChars: FieldsFactory.characterLimit.c1425,
       }),
       FieldsFactory.detailsField({
         parentField: riskOfSeriousHarmField,
         dependentValue: 'NO',
-        maxChars: summaryCharacterLimit,
+        maxChars: FieldsFactory.characterLimit.c1425,
       }),
       riskOfReoffendingField,
       FieldsFactory.detailsField({
         parentField: riskOfReoffendingField,
         dependentValue: 'YES',
         required: true,
-        maxChars: summaryCharacterLimit,
+        maxChars: FieldsFactory.characterLimit.c1000,
       }),
       FieldsFactory.detailsField({
         parentField: riskOfReoffendingField,
         dependentValue: 'NO',
-        maxChars: summaryCharacterLimit,
+        maxChars: FieldsFactory.characterLimit.c1000,
       }),
     ]
   }
