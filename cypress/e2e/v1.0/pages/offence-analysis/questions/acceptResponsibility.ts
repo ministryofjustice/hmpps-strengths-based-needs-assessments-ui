@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam accept responsibility for the current index offence(s)?'
 
@@ -21,7 +23,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint(null)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.c4000)
 
         cy.markAsComplete()
         cy.getQuestion(question)

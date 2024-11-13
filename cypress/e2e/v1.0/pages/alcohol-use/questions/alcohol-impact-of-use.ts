@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "What's the impact of Sam drinking alcohol?"
   describe(question, () => {
@@ -32,7 +34,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint('Consider impact on themselves or others.')
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
         cy.getQuestion(question)

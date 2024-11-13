@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "Is the location of Sam's accommodation suitable?"
 
@@ -94,6 +96,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getCheckbox('Other')
         .getConditionalQuestion()
         .hasTitle('Give details')
+        .hasLimit(config.characterLimit.default)
         .enterText('Some details')
 
       cy.checkAccessibility()

@@ -163,6 +163,10 @@ class DrugsFieldsFactory extends FieldsFactory {
     text: 'Has [subject] ever used drugs?',
     code: 'drug_use',
     type: FieldType.Radio,
+    hint: {
+      text: 'This refers to the misuse of prescription drugs as well as the use of illegal drugs.',
+      kind: 'text',
+    },
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever used drugs' }],
     options: utils.yesNoOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
@@ -203,8 +207,8 @@ class DrugsFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter drug name' },
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Drug name must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        arguments: [FieldsFactory.characterLimit.default],
+        message: `Drug name must be ${FieldsFactory.characterLimit.default} characters or less`,
       },
     ],
     dependent: dependentOn(this.drugUseType, 'OTHER_DRUG'),

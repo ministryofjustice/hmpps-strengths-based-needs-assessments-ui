@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam have any physical health conditions?'
 
@@ -18,8 +20,21 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     optionsWithDetails.forEach(option => {
       it(`summary page displays "${option}"`, () => {
         cy.visitStep(stepUrl)
-        cy.getQuestion(question).getRadio(option).clickLabel()
-        cy.getQuestion(question).getRadio(option).getConditionalQuestion().enterText('Some details')
+        cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(option)
+          .getConditionalQuestion()
+          .hasTitle('Give details (optional)')
+          .hasHint(null)
+          .hasLimit(config.characterLimit.default)
+
+        cy.saveAndContinue()
+
+        cy.getQuestion(question)
+          .getRadio(option)
+          .getConditionalQuestion()
+          .hasNoValidationError()
+          .enterText('Some details')
 
         cy.saveAndContinue()
 
