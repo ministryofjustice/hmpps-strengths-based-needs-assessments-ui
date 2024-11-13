@@ -5,7 +5,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const options = ['Yes', 'No']
 
     it('displays and validates the question', () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('This refers to the misuse of prescription drugs as well as the use of illegal drugs.').hasRadios(options)
 
       cy.saveAndContinue()
 
