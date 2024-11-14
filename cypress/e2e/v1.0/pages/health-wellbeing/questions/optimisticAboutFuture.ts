@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'How optimistic is Sam about their future?'
+  const question = 'How does Sam feel about their future?'
   describe(question, () => {
     const options = [
       'Optimistic and has a positive outlook about their future',

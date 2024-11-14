@@ -258,7 +258,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
   })
 
   healthWellbeingOutlook: FormWizard.Field = {
-    text: 'How optimistic is [subject] about their future?',
+    text: 'How does [subject] feel about their future?',
     code: 'health_wellbeing_outlook',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select how optimistic they are about their future' }],
