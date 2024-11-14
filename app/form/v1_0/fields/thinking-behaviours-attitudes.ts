@@ -35,6 +35,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
   thinkingBehavioursAttitudesStableBehaviour: FormWizard.Field = {
     text: 'Does [subject] show stable behaviour?',
     code: 'thinking_behaviours_attitudes_stable_behaviour',
+    hint: { text: 'Consider their ability to manage boredom and routine tasks, and their level of thrill-seeking or risky behaviour.', kind: 'text' },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they show stable behaviour' }],
     options: [

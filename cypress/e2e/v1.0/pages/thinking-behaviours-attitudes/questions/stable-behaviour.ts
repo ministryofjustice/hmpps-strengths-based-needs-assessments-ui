@@ -8,7 +8,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options).hasHint('Consider their ability to manage boredom and routine tasks, and their level of thrill-seeking or risky behaviour.')
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if they show stable behaviour')
