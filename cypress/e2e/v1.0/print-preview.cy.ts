@@ -113,7 +113,7 @@ describe('assessment print preview', () => {
       .hasNoSecondaryAnswer()
     cy.getSummary('Has Sam ever self-harmed?').getAnswer('No').hasNoSecondaryAnswer()
     cy.getSummary('Has Sam ever attempted suicide or had suicidal thoughts?').getAnswer('No').hasNoSecondaryAnswer()
-    cy.getSummary('How optimistic is Sam about their future?').getAnswer('Sam is not present').hasNoSecondaryAnswer()
+    cy.getSummary('How does Sam feel about their future?').getAnswer('Sam is not present').hasNoSecondaryAnswer()
     cy.getSummary("What's helped Sam during periods of good health and wellbeing? (optional)")
       .getAnswer('Money')
       .hasNoSecondaryAnswer()

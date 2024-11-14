@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'How optimistic is Sam about their future?'
+  const question = 'How does Sam feel about their future?'
   describe(question, () => {
     const options = [
       'Optimistic and has a positive outlook about their future',
@@ -11,7 +11,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     ]
 
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .hasRadios(options)
+        .hasHint('This question must be directly answered by Sam.')
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select how optimistic they are about their future')

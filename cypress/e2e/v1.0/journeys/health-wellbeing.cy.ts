@@ -67,7 +67,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')
@@ -123,7 +123,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')
@@ -185,7 +185,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')
@@ -241,7 +241,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')
