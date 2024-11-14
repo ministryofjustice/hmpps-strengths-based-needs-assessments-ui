@@ -11,7 +11,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     ]
 
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options).hasHint('This question must be directly answered by Sam.')
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .hasRadios(options)
+        .hasHint('This question must be directly answered by Sam.')
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select how optimistic they are about their future')
