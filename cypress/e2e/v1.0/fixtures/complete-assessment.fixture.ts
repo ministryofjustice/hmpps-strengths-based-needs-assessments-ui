@@ -137,7 +137,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.getQuestion("What is Sam's attitude towards themselves?").getRadio('Positive and reasonably happy').clickLabel()
     cy.getQuestion('Has Sam ever self-harmed?').getRadio('No').clickLabel()
     cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
-    cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam is not present').clickLabel()
+    cy.getQuestion('How does Sam feel about their future?').getRadio('Sam is not present').clickLabel()
     cy.getQuestion("What's helped Sam during periods of good health and wellbeing? (optional)")
       .getCheckbox('Money')
       .clickLabel()

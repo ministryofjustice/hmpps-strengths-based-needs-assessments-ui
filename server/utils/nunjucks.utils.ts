@@ -2,8 +2,8 @@ import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
 import { ValidationType } from '../@types/hmpo-form-wizard/enums'
 import { HandoverPrincipal } from '../services/arnsHandoverService'
-import { FieldsFactory } from '../../app/form/v1_0/fields/common'
 import { FieldAnswer } from '../../app/utils/fieldDependencyTreeBuilder'
+import characterLimits from '../../app/form/v1_0/config/characterLimits'
 
 type ValidationError = { text: string; href: string } & FormWizard.Controller.Error
 
@@ -49,8 +49,7 @@ export const practitionerAnalysisStarted = (
 
 export const getMaxCharacterCount = (field: FormWizard.Field) =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  field.validate?.find(rule => (<any>rule).type === ValidationType.MaxLength)?.arguments[0] ||
-  FieldsFactory.characterLimit.default
+  field.validate?.find(rule => (<any>rule).type === ValidationType.MaxLength)?.arguments[0] || characterLimits.default
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setProp = (obj: any, prop: string, value: any) => ({ ...obj, [prop]: value })

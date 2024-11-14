@@ -1,6 +1,6 @@
 export default {
   characterLimit: {
-    default: 3000,
+    default: 400,
     c128: 128,
     c1000: 1000,
     c1425: 1425,

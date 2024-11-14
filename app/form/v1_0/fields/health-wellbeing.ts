@@ -2,6 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
+import characterLimits from '../config/characterLimits'
 
 const headInjuryOrIllnessHint = `
 <div class="govuk-grid-width-full">
@@ -89,8 +90,8 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.characterLimit.default],
-        message: `Details must be ${FieldsFactory.characterLimit.default} characters or less`,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
@@ -103,8 +104,8 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.characterLimit.default],
-        message: `Details must be ${FieldsFactory.characterLimit.default} characters or less`,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
@@ -257,8 +258,9 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
   })
 
   healthWellbeingOutlook: FormWizard.Field = {
-    text: 'How optimistic is [subject] about their future?',
+    text: 'How does [subject] feel about their future?',
     code: 'health_wellbeing_outlook',
+    hint: { text: 'This question must be directly answered by [subject].', kind: 'text' },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select how optimistic they are about their future' }],
     options: [

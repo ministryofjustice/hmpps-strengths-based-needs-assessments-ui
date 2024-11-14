@@ -4,6 +4,7 @@ import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-w
 import sections from '../config/sections'
 import { dependentOn } from './common/utils'
 import { formatDateForDisplay } from '../../../utils/formatters'
+import characterLimits from '../config/characterLimits'
 
 const immigrationAccommodationHint = `
     <div class="govuk-!-width-two-thirds">
@@ -375,8 +376,8 @@ class AccommodationFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.characterLimit.default],
-        message: `Details must be ${FieldsFactory.characterLimit.default} characters or less`,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
