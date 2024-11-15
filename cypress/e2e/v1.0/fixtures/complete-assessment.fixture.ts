@@ -277,10 +277,6 @@ describe('Generate fixture for complete assessment', () => {
     cy.getQuestion('Is the current index offence(s) an escalation in seriousness from previous offending?')
       .getRadio('No')
       .clickLabel()
-    cy.getQuestion('Is the current index offence(s) an escalation in seriousness from previous offending?')
-      .getRadio('No')
-      .getConditionalQuestion()
-      .enterText('¯\\_(ツ)_/¯')
     cy.getQuestion(
       'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     )
