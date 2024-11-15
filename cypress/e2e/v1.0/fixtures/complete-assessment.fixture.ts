@@ -86,7 +86,7 @@ describe('Generate fixture for complete assessment', () => {
     const section = 'Finances'
 
     cy.visitSection(section)
-    cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('No money').clickLabel()
+    cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('Pension').clickLabel()
     cy.getQuestion('Does Sam have their own bank account?').getRadio('No').clickLabel()
     cy.getQuestion('How good is Sam at managing their money?')
       .getRadio('Unable to manage their money which is creating other problems')

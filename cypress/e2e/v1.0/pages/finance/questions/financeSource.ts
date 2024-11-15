@@ -123,7 +123,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Student loan',
       'Undeclared (includes cash in hand)',
       'Work related benefits',
-      'No money',
     ).forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
