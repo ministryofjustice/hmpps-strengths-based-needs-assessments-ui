@@ -1,9 +1,9 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
-import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
 import { dependentOn } from './common/utils'
+import { formatDateForDisplay } from '../../../utils/formatters'
 import characterLimits from '../config/characterLimits'
 
 const immigrationAccommodationHint = `

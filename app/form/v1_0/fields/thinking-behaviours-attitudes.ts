@@ -474,7 +474,8 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: 'There is evidence of suspicious, angry or vengeful thinking and behaviour',
+        text: 'There is evidence of suspicious, angry and vengeful thinking and behaviour',
+        html: 'There is evidence of suspicious, angry <strong>and</strong> vengeful thinking and behaviour',
         value: 'YES',
         kind: 'option',
       },

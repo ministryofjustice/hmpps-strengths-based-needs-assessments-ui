@@ -1,8 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import { validate, Context, ValidationError } from 'hmpo-form-wizard/lib/validation'
-import { ordinalWordFromNumber } from '../../server/utils/nunjucks.utils'
 import { dependencyMet } from './field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
+import { ordinalWordFromNumber } from './formatters'
 
 const errorFrom = (from: ValidationError): FormWizard.Controller.Error =>
   new FormWizard.Controller.Error(

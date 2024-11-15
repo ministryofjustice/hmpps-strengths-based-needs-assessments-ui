@@ -2,6 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
 import { ValidationType } from '../@types/hmpo-form-wizard/enums'
 import { HandoverPrincipal } from '../services/arnsHandoverService'
+import { FieldAnswer } from '../../app/utils/fieldDependencyTreeBuilder'
 import characterLimits from '../../app/form/v1_0/config/characterLimits'
 
 type ValidationError = { text: string; href: string } & FormWizard.Controller.Error
@@ -14,19 +15,8 @@ export const toErrorSummary = (errors: FormWizard.Controller.Errors): Validation
 export const isNonRenderedField = (field: string) =>
   field.endsWith('_section_complete') || field === 'assessment_complete'
 
-export const isPractitionerAnalysisField = (field: string) => field.includes('_practitioner_analysis_')
-
 export const getRenderedFields = (fields: string[], step: FormWizard.RenderedStep) =>
   fields.filter(field => step.fields[field].hidden !== true)
-
-export const formatDateForDisplay = (value: string): string => {
-  if (!value) {
-    return null
-  }
-
-  const date = DateTime.fromISO(value)
-  return date.isValid ? date.toFormat('dd MMMM y') : null
-}
 
 export const displayDateForToday = (today: DateTime = DateTime.now()) => {
   return today.toFormat('dd MMMM y')
@@ -57,37 +47,12 @@ export const practitionerAnalysisStarted = (
     )
     .some(fieldCode => answers[fieldCode])
 
-export const ordinalWordFromNumber = (n: number): string => {
-  const ordinals = [
-    'zeroth',
-    'first',
-    'second',
-    'third',
-    'fourth',
-    'fifth',
-    'sixth',
-    'seventh',
-    'eighth',
-    'ninth',
-    'tenth',
-    'eleventh',
-    'twelfth',
-    'thirteenth',
-    'fourteenth',
-    'fifteenth',
-    'sixteenth',
-    'seventeenth',
-    'eighteenth',
-    'nineteenth',
-    'twentieth',
-  ]
-
-  return n <= 20 ? ordinals[n] : n.toString()
-}
-
 export const getMaxCharacterCount = (field: FormWizard.Field) =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   field.validate?.find(rule => (<any>rule).type === ValidationType.MaxLength)?.arguments[0] || characterLimits.default
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setProp = (obj: any, prop: string, value: any) => ({ ...obj, [prop]: value })
+
+export const display = (answer: FieldAnswer): string =>
+  answer.html ? answer.html : answer.text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2')
