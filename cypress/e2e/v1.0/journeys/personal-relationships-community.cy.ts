@@ -29,6 +29,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.personalRelationships)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
     })
 
@@ -41,6 +42,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
         cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.personalRelationshipsChildren)
+        cy.assertBackLinkIs(destinations.personalRelationships)
         cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsChildren)
       })
 
@@ -82,6 +84,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
         cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.personalRelationshipsCommunity)
+        cy.assertBackLinkIs(destinations.personalRelationships)
         cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsCommunity)
       })
 

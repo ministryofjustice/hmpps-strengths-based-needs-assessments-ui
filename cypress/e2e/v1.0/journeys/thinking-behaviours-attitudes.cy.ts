@@ -51,6 +51,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.sexualOffending)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.sexualOffending)
     })
 
@@ -65,6 +66,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
         cy.assertResumeUrlIs(sectionName, destinations.sexualOffending)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.thinkingBehaviours)
+        cy.assertBackLinkIs(destinations.sexualOffending)
         cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
       })
 
@@ -140,6 +142,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.thinkingBehaviours)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.summary) // no answers changed on the thinkingBehaviours page, therefore resumeUrl should be the summary page
     })
 
