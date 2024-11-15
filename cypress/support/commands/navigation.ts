@@ -25,7 +25,7 @@ export const assertBackLinkIs = (path: string) => {
     .should('be.visible')
     .invoke('attr', 'href')
     .then((href: string) => {
-      expect(href.endsWith(path)).to.eq(true)
+      expect(href.endsWith(path.charAt(0) === '/' ? path.substring(1) : path)).to.eq(true)
     })
 }
 
