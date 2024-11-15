@@ -17,7 +17,7 @@ import {
   isOptionNumber,
   clickLabel,
   getNthConditionalQuestion,
-  isDisabled,
+  isDisabled, isNotDisabled,
 } from './commands/option'
 import {
   assertQuestionCount,
@@ -130,6 +130,7 @@ declare global {
       isChecked(): Chainable
       isNotChecked(): Chainable
       isDisabled(): Chainable
+      isNotDisabled(): Chainable
       isOptionNumber(position: number): Chainable
       clickLabel(): Chainable
       hasConditionalQuestion(expect?: boolean): Chainable
@@ -226,6 +227,7 @@ Cypress.Commands.add('assertDrugQuestionGroupUrl', assertDrugQuestionGroupUrl)
 Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)
 Cypress.Commands.add('isNotChecked', { prevSubject: true }, isNotChecked)
 Cypress.Commands.add('isDisabled', { prevSubject: true }, isDisabled)
+Cypress.Commands.add('isNotDisabled', { prevSubject: true }, isNotDisabled)
 Cypress.Commands.add('isOptionNumber', { prevSubject: true }, isOptionNumber)
 Cypress.Commands.add('clickLabel', { prevSubject: true }, clickLabel)
 Cypress.Commands.add('hasConditionalQuestion', { prevSubject: true }, hasConditionalQuestion)

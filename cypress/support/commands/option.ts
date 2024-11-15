@@ -15,6 +15,11 @@ export const isDisabled = (subject: JQuery) => {
   return cy.wrap(subject)
 }
 
+export const isNotDisabled = (subject: JQuery) => {
+  cy.wrap(subject).children('input').should('not.be.disabled')
+  return cy.wrap(subject)
+}
+
 export const isOptionNumber = (subject: JQuery, position: number) => {
   const el = subject
     .parent()
