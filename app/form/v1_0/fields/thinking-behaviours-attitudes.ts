@@ -220,11 +220,11 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       const subjectDetails = session.subjectDetails as HandoverSubject
       return subjectDetails.sexuallyMotivatedOffenceHistory === 'YES'
         ? {
-          ...this,
-          options: this.options.map((option: FormWizard.Field.Option) =>
-            option.value === 'NO' ? { ...option, disabled: true } : option,
-          ),
-        }
+            ...this,
+            options: this.options.map((option: FormWizard.Field.Option) =>
+              option.value === 'NO' ? { ...option, disabled: true } : option,
+            ),
+          }
         : this
     },
   }

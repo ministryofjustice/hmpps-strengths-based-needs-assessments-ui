@@ -17,7 +17,8 @@ import {
   isOptionNumber,
   clickLabel,
   getNthConditionalQuestion,
-  isDisabled, isNotDisabled,
+  isDisabled,
+  isNotDisabled,
 } from './commands/option'
 import {
   assertQuestionCount,
