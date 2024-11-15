@@ -1325,6 +1325,14 @@
       "values": null,
       "collection": null
     },
+    "offence_analysis_escalation_no_details": {
+      "type": "TEXT_AREA",
+      "description": "Give details (optional)",
+      "options": null,
+      "value": "",
+      "values": null,
+      "collection": null
+    },
     "offence_analysis_patterns_of_offending": {
       "type": "TEXT_AREA",
       "description": "What are the patterns of offending?",
