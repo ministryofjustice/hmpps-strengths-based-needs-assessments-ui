@@ -172,6 +172,10 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityChildhood: FormWizard.Field = {
     text: "What was [subject]'s experience of their childhood?",
     code: 'personal_relationships_community_childhood',
+    hint: {
+      text: 'Childhood is the period up to and including 18 years old.',
+      kind: 'text',
+    },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their experience of childhood' }],
     options: [
