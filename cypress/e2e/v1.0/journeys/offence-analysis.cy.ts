@@ -42,6 +42,7 @@ describe('Origin: /offence-analysis', () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.involvedParties)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
     })
 
@@ -56,6 +57,7 @@ describe('Origin: /offence-analysis', () => {
         cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.impact)
+        cy.assertBackLinkIs(destinations.involvedParties)
         cy.assertResumeUrlIs(sectionName, destinations.impact)
       })
 
@@ -132,6 +134,7 @@ describe('Origin: /offence-analysis', () => {
       cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.impactOthersInvolved)
+      cy.assertBackLinkIs(destinations.involvedParties)
       cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
     })
 
@@ -203,6 +206,7 @@ describe('Origin: /offence-analysis', () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.victimCreate)
+      cy.assertBackLinkIs(destinations.victimsSummary)
       cy.assertResumeUrlIs(sectionName, destinations.victimsSummary)
     })
 
@@ -216,6 +220,7 @@ describe('Origin: /offence-analysis', () => {
         cy.getQuestion("What is the victim's race or ethnicity?").enterText('white{enter}')
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.victimsSummary)
+        cy.assertBackLinkIs(destinations.landingPage)
         cy.assertResumeUrlIs(sectionName, destinations.victimsSummary)
       })
 
@@ -226,6 +231,7 @@ describe('Origin: /offence-analysis', () => {
           cy.visitStep(destinations.victimsSummary)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.involvedParties)
+          cy.assertBackLinkIs(destinations.victimsSummary)
         })
 
         describe(`Destination: ${destinations.impactOthersInvolved}`, () => {
@@ -235,6 +241,7 @@ describe('Origin: /offence-analysis', () => {
             cy.visitStep(destinations.involvedParties)
             cy.saveAndContinue()
             cy.assertStepUrlIs(destinations.impactOthersInvolved)
+            cy.assertBackLinkIs(destinations.involvedParties)
           })
 
           describe(`Destination: ${destinations.summary}`, () => {

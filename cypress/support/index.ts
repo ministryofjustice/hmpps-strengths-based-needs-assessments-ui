@@ -1,5 +1,6 @@
 import { markAsComplete, saveAndContinue } from './commands/assessment'
 import {
+  assertBackLinkIs,
   assertDrugQuestionGroupUrl,
   assertQuestionUrl,
   assertResumeUrlIs,
@@ -121,6 +122,7 @@ declare global {
       visitSection(name: string): Chainable
       assertSectionIs(name: string): Chainable
       visitStep(path: string): Chainable
+      assertBackLinkIs(path: string): Chainable
       assertResumeUrlIs(section: string, path: string): Chainable
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
@@ -219,6 +221,7 @@ Cypress.Commands.add('visitSection', visitSection)
 Cypress.Commands.add('assertSectionIs', assertSectionIs)
 Cypress.Commands.add('visitStep', visitStep)
 Cypress.Commands.add('assertResumeUrlIs', assertResumeUrlIs)
+Cypress.Commands.add('assertBackLinkIs', assertBackLinkIs)
 Cypress.Commands.add('assertStepUrlIs', assertStepUrlIs)
 Cypress.Commands.add('assertStepUrlIsNot', assertStepUrlIsNot)
 Cypress.Commands.add('assertQuestionUrl', assertQuestionUrl)
