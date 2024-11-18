@@ -1289,7 +1289,7 @@
     },
     "health_wellbeing_learning_difficulties": {
       "type": "RADIO",
-      "description": "Does [subject] have any conditions or disabilities that impact their ability to learn? ",
+      "description": "Does [subject] have any conditions or disabilities that impact their ability to learn?",
       "options": [
         {
           "value": "YES_SIGNIFICANT_DIFFICULTIES",
