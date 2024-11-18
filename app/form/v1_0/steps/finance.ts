@@ -12,8 +12,8 @@ const stepUrls = {
 
 const baseFinanceGroup = [
   financeFields.financeIncome,
+  financeFields.financeIncomeDetails,
   financeFields.familyOrFriendsDetails,
-  financeFields.otherIncomeDetails,
   financeFields.financeBankAccount,
   financeFields.financeMoneyManagement,
   financeFields.financeMoneyManagementDetailsGroup,
