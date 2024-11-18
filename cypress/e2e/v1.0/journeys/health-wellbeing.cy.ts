@@ -56,7 +56,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?').getRadio('No difficulties').clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 
@@ -113,7 +113,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?').getRadio('No difficulties').clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 
@@ -176,7 +176,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?').getRadio('No difficulties').clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 
@@ -233,7 +233,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?').getRadio('No difficulties').clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 

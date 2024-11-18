@@ -1,7 +1,7 @@
 import config from '../../../../../support/config'
 
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Sam have any learning difficulties?'
+  const question = 'Does Sam have any conditions or disabilities that impact their ability to learn?'
   describe(question, () => {
     const options = ['Yes, significant learning difficulties', 'Yes, some learning difficulties', 'No difficulties']
 
