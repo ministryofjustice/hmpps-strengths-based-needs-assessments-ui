@@ -218,13 +218,14 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
     transform(session: CookieSessionObject): FormWizard.Field {
       const subjectDetails = session.subjectDetails as HandoverSubject
-      if (subjectDetails.sexuallyMotivatedOffenceHistory === null) return this
-      return {
-        ...this,
-        options: this.options.map((option: FormWizard.Field.Option) =>
-          option.value !== subjectDetails.sexuallyMotivatedOffenceHistory ? { ...option, disabled: true } : option,
-        ),
-      }
+      return subjectDetails.sexuallyMotivatedOffenceHistory === 'YES'
+        ? {
+            ...this,
+            options: this.options.map((option: FormWizard.Field.Option) =>
+              option.value === 'NO' ? { ...option, disabled: true } : option,
+            ),
+          }
+        : this
     },
   }
 
