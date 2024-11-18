@@ -6,7 +6,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const options = ['Yes, significant learning difficulties', 'Yes, some learning difficulties', 'No difficulties']
 
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options).hasHint("This refers to both learning disabilities (reduced intellectual ability) and learning difficulties (such as dyslexia or ADHD).")
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if they have any learning difficulties')

@@ -166,6 +166,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
   healthWellbeingLearningDifficulties: FormWizard.Field = {
     text: 'Does [subject] have any conditions or disabilities that impact their ability to learn? ',
     code: 'health_wellbeing_learning_difficulties',
+    hint: { text: "This refers to both learning disabilities (reduced intellectual ability) and learning difficulties (such as dyslexia or ADHD).", kind: 'text' },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have any learning difficulties' }],
     options: [
