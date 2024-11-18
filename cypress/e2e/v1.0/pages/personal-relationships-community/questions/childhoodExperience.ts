@@ -16,7 +16,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint(null)
+        .hasHint('Childhood is the period up to and including 18 years old.')
         .hasRadios(options.map(([option, _]) => option))
 
       cy.saveAndContinue()
