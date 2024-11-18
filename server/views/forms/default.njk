@@ -5,10 +5,10 @@
 {% from "components/question/macro.njk" import renderQuestion %}
 
 {% block backLink %}
-  {%- if generatedBackLink -%}
+  {%- if backLink or generatedBackLink -%}
     {{ govukBackLink({
       text: "Back",
-      href: generatedBackLink
+      href: backLink if backLink else generatedBackLink
     }) }}
   {%- endif -%}
 {% endblock %}

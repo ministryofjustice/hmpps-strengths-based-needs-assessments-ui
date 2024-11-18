@@ -39,6 +39,7 @@ describe('Origin: /alcohol', () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.alcoholUseLastThreeMonths)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.alcoholUseLastThreeMonths)
     })
 
@@ -82,6 +83,7 @@ describe('Origin: /alcohol', () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.alcoholUseLessThreeMonths)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.alcoholUseLessThreeMonths)
     })
 

@@ -41,6 +41,7 @@ describe('Origin: /drugs', () => {
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.drugUse)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.drugUse)
     })
 
@@ -63,6 +64,7 @@ describe('Origin: /drugs', () => {
         cy.assertResumeUrlIs(sectionName, destinations.drugUse)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.selectDrugs)
+        cy.assertBackLinkIs(destinations.drugUse)
         cy.assertResumeUrlIs(sectionName, destinations.selectDrugs)
       })
 
@@ -75,6 +77,7 @@ describe('Origin: /drugs', () => {
           cy.assertResumeUrlIs(sectionName, destinations.selectDrugs)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugTypesDetails)
+          cy.assertBackLinkIs(destinations.selectDrugs)
           cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
         })
 
@@ -89,6 +92,7 @@ describe('Origin: /drugs', () => {
             cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
             cy.saveAndContinue()
             cy.assertStepUrlIs(destinations.changes)
+            cy.assertBackLinkIs(destinations.drugTypesDetails)
             cy.assertResumeUrlIs(sectionName, destinations.changes)
           })
 

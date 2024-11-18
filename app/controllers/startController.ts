@@ -47,10 +47,11 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
 const setSexuallyMotivatedOffenceHistory = async (assessment: AssessmentResponse, contextData: HandoverContextData) => {
   const field = thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm
   const oasysAnswer = contextData.subject.sexuallyMotivatedOffenceHistory
+  const sanAnswer = assessment.assessment[field.code]?.value
   const sectionCompleteField = thinkingBehavioursFields.sectionComplete()
   const isUserSubmittedField = thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes)
 
-  if (oasysAnswer !== null && oasysAnswer !== assessment.assessment[field.code]?.value) {
+  if (oasysAnswer !== null && oasysAnswer !== sanAnswer && sanAnswer !== 'YES') {
     await apiService.updateAnswers(assessment.metaData.uuid, {
       answersToAdd: {
         [field.code]: createAnswerDto(field, contextData.subject.sexuallyMotivatedOffenceHistory),

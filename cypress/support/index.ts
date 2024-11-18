@@ -1,5 +1,6 @@
 import { markAsComplete, saveAndContinue } from './commands/assessment'
 import {
+  assertBackLinkIs,
   assertDrugQuestionGroupUrl,
   assertQuestionUrl,
   assertResumeUrlIs,
@@ -18,6 +19,7 @@ import {
   clickLabel,
   getNthConditionalQuestion,
   isDisabled,
+  isNotDisabled,
 } from './commands/option'
 import {
   assertQuestionCount,
@@ -120,6 +122,7 @@ declare global {
       visitSection(name: string): Chainable
       assertSectionIs(name: string): Chainable
       visitStep(path: string): Chainable
+      assertBackLinkIs(path: string): Chainable
       assertResumeUrlIs(section: string, path: string): Chainable
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
@@ -130,6 +133,7 @@ declare global {
       isChecked(): Chainable
       isNotChecked(): Chainable
       isDisabled(): Chainable
+      isNotDisabled(): Chainable
       isOptionNumber(position: number): Chainable
       clickLabel(): Chainable
       hasConditionalQuestion(expect?: boolean): Chainable
@@ -217,6 +221,7 @@ Cypress.Commands.add('visitSection', visitSection)
 Cypress.Commands.add('assertSectionIs', assertSectionIs)
 Cypress.Commands.add('visitStep', visitStep)
 Cypress.Commands.add('assertResumeUrlIs', assertResumeUrlIs)
+Cypress.Commands.add('assertBackLinkIs', assertBackLinkIs)
 Cypress.Commands.add('assertStepUrlIs', assertStepUrlIs)
 Cypress.Commands.add('assertStepUrlIsNot', assertStepUrlIsNot)
 Cypress.Commands.add('assertQuestionUrl', assertQuestionUrl)
@@ -226,6 +231,7 @@ Cypress.Commands.add('assertDrugQuestionGroupUrl', assertDrugQuestionGroupUrl)
 Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)
 Cypress.Commands.add('isNotChecked', { prevSubject: true }, isNotChecked)
 Cypress.Commands.add('isDisabled', { prevSubject: true }, isDisabled)
+Cypress.Commands.add('isNotDisabled', { prevSubject: true }, isNotDisabled)
 Cypress.Commands.add('isOptionNumber', { prevSubject: true }, isOptionNumber)
 Cypress.Commands.add('clickLabel', { prevSubject: true }, clickLabel)
 Cypress.Commands.add('hasConditionalQuestion', { prevSubject: true }, hasConditionalQuestion)
