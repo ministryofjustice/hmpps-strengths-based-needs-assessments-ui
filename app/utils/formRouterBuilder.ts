@@ -111,12 +111,12 @@ const setupForm = (form: Form): FormWizardRouter => {
   const configRouter = express.Router()
 
   if (form.options.active === true) {
-    configRouter.get('/', (_req: Request, res: Response) =>
+    configRouter.get('/', (_req: Request, res: Response) => {
       res.json({
         version: form.options.version,
         fields: form.fields,
-      }),
-    )
+      })
+    })
 
     checkFormIntegrity(form)
 
