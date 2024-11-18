@@ -82,7 +82,7 @@ describe('assessment print preview', () => {
       .hasNoSecondaryAnswer()
 
     // finance
-    cy.getSummary('Where does Sam currently get their money from?').getAnswer('No money').hasNoSecondaryAnswer()
+    cy.getSummary('Where does Sam currently get their money from?').getAnswer('Pension').hasNoSecondaryAnswer()
     cy.getSummary('Does Sam have their own bank account?').getAnswer('No').hasNoSecondaryAnswer()
     cy.getSummary('How good is Sam at managing their money?')
       .getAnswer('Unable to manage their money which is creating other problems')
