@@ -1293,15 +1293,15 @@
       "options": [
         {
           "value": "YES_SIGNIFICANT_DIFFICULTIES",
-          "text": "Yes, significant learning difficulties"
+          "text": "Yes, their ability to learn is significantly impacted"
         },
         {
           "value": "YES_SOME_DIFFICULTIES",
-          "text": "Yes, some learning difficulties"
+          "text": "Yes, their ability to learn is slightly impacted"
         },
         {
           "value": "NO",
-          "text": "No difficulties"
+          "text": "No, they do not have any conditions or disabilities that impact their ability to learn"
         }
       ],
       "value": "NO",

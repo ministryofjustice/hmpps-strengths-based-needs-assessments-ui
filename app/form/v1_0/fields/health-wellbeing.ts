@@ -170,9 +170,9 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have any learning difficulties' }],
     options: [
-      { text: 'Yes, significant learning difficulties', value: 'YES_SIGNIFICANT_DIFFICULTIES', kind: 'option' },
-      { text: 'Yes, some learning difficulties', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
-      { text: 'No difficulties', value: 'NO', kind: 'option' },
+      { text: 'Yes, their ability to learn is significantly impacted', value: 'YES_SIGNIFICANT_DIFFICULTIES', kind: 'option' },
+      { text: 'Yes, their ability to learn is slightly impacted', value: 'YES_SOME_DIFFICULTIES', kind: 'option' },
+      { text: 'No, they do not have any conditions or disabilities that impact their ability to learn', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }

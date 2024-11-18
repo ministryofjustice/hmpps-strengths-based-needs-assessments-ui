@@ -73,7 +73,7 @@ describe('Origin: /current-employment', () => {
           .clickLabel()
 
         cy.getQuestion('Does Sam have difficulties with reading, writing or numeracy?')
-          .getCheckbox('No difficulties')
+          .getCheckbox('No, they do not have any conditions or disabilities that impact their ability to learn')
           .clickLabel()
 
         cy.getQuestion("What is Sam's overall experience of employment?").getRadio('Positive').clickLabel()

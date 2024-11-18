@@ -106,7 +106,7 @@ describe('assessment print preview', () => {
       .getAnswer('No')
       .hasNoSecondaryAnswer()
     cy.getSummary('Does Sam have any neurodiverse conditions?').getAnswer('No').hasNoSecondaryAnswer()
-    cy.getSummary('Does Sam have any conditions or disabilities that impact their ability to learn?').getAnswer('No difficulties').hasNoSecondaryAnswer()
+    cy.getSummary('Does Sam have any conditions or disabilities that impact their ability to learn?').getAnswer('No, they do not have any conditions or disabilities that impact their ability to learn').hasNoSecondaryAnswer()
     cy.getSummary('Is Sam able to cope with day-to-day life?').getAnswer('Not able to cope').hasNoSecondaryAnswer()
     cy.getSummary("What is Sam's attitude towards themselves?")
       .getAnswer('Positive and reasonably happy')

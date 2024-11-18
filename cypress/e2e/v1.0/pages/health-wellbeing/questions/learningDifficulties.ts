@@ -3,7 +3,7 @@ import config from '../../../../../support/config'
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam have any conditions or disabilities that impact their ability to learn?'
   describe(question, () => {
-    const options = ['Yes, significant learning difficulties', 'Yes, some learning difficulties', 'No difficulties']
+    const options = ['Yes, their ability to learn is significantly impacted', 'Yes, their ability to learn is slightly impacted', 'No, they do not have any conditions or disabilities that impact their ability to learn']
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options).hasHint("This refers to both learning disabilities (reduced intellectual ability) and learning difficulties (such as dyslexia or ADHD).")
@@ -13,7 +13,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.checkAccessibility()
     })
 
-    Array.of('Yes, significant learning difficulties', 'Yes, some learning difficulties').forEach(option => {
+    Array.of('Yes, their ability to learn is significantly impacted', 'Yes, their ability to learn is slightly impacted').forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
 
@@ -45,7 +45,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    Array.of('No difficulties').forEach(option => {
+    Array.of('No, they do not have any conditions or disabilities that impact their ability to learn').forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
 
