@@ -27,6 +27,7 @@ const offenceAnalysisImpactGroup: FormWizard.Field[] = [
   offenceAnalysisFields.offenceAnalysisAcceptResponsibilityDetails,
   offenceAnalysisFields.offenceAnalysisPatternsOfOffending,
   offenceAnalysisFields.offenceAnalysisEscalation,
+  offenceAnalysisFields.offenceAnalysisEscalationDetails,
   offenceAnalysisFields.offenceAnalysisRisk,
   offenceAnalysisFields.offenceAnalysisRiskDetails,
   offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuse,
@@ -49,7 +50,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.offenceAnalysisReason,
         offenceAnalysisFields.offenceAnalysisMotivation,
         offenceAnalysisFields.otherOffenceMotivationDetails,
-        offenceAnalysisFields.offenceAnalysiswhoWasTheOffenceCommittedAgainst,
+        offenceAnalysisFields.offenceAnalysisWhoWasTheOffenceCommittedAgainst,
         offenceAnalysisFields.offenceAnalysisOtherVictimDetails,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
         offenceAnalysisFields.sectionComplete(),
@@ -57,7 +58,7 @@ const sectionConfig: SectionConfig = {
       navigationOrder: 9,
       next: [
         {
-          field: offenceAnalysisFields.offenceAnalysiswhoWasTheOffenceCommittedAgainst.code,
+          field: offenceAnalysisFields.offenceAnalysisWhoWasTheOffenceCommittedAgainst.code,
           op: contains,
           value: 'ONE_OR_MORE_PERSON',
           next: [

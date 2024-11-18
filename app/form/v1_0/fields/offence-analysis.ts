@@ -171,7 +171,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     maxChars: characterLimits.c128,
   })
 
-  offenceAnalysiswhoWasTheOffenceCommittedAgainst: FormWizard.Field = {
+  offenceAnalysisWhoWasTheOffenceCommittedAgainst: FormWizard.Field = {
     text: 'Who was the offence committed against?',
     code: 'offence_analysis_who_was_the_victim',
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -195,7 +195,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisOtherVictimDetails: FormWizard.Field = FieldsFactory.detailsField({
-    parentField: this.offenceAnalysiswhoWasTheOffenceCommittedAgainst,
+    parentField: this.offenceAnalysisWhoWasTheOffenceCommittedAgainst,
     dependentValue: 'OTHER',
     required: true,
   })
@@ -589,6 +589,10 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
+
+  offenceAnalysisEscalationDetails: FormWizard.Field[] = this.offenceAnalysisEscalation.options
+    .filter(it => it.kind === 'option' && ['Yes', 'No'].includes(it.text))
+    .map(FieldsFactory.detailsFieldWith({ parentField: this.offenceAnalysisEscalation }))
 
   offenceAnalysisRisk: FormWizard.Field = {
     text: 'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',

@@ -65,6 +65,10 @@ class FinanceFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
+  financeIncomeDetails: FormWizard.Field[] = this.financeIncome.options
+    .filter(it => it.kind === 'option' && ['NO_MONEY', 'OTHER'].includes(it.value))
+    .map(FieldsFactory.detailsFieldWith({ parentField: this.financeIncome }))
+
   familyOrFriendsDetails: FormWizard.Field = {
     text: 'Is [subject] over reliant on family or friends for money?',
     code: 'family_or_friends_details',
@@ -88,11 +92,6 @@ class FinanceFieldsFactory extends FieldsFactory {
     ],
     dependent: dependentOn(this.financeIncome, 'FAMILY_OR_FRIENDS'),
   }
-
-  otherIncomeDetails: FormWizard.Field = FieldsFactory.detailsField({
-    parentField: this.financeIncome,
-    dependentValue: 'OTHER',
-  })
 
   financeBankAccount: FormWizard.Field = {
     text: 'Does [subject] have their own bank account?',

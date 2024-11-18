@@ -7,56 +7,135 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
     sexualOffending: '/thinking-behaviours-attitudes-sexual-offending',
     thinkingBehaviours: '/thinking-behaviours',
     summary: '/thinking-behaviours-attitudes-summary',
-    analysis: '/thinking-behaviours-attitudes-analysis',
   }
 
   const sectionName = 'Thinking, behaviours and attitudes'
   const question = 'Are there any concerns that Sam poses a risk of sexual harm to others?'
 
-  beforeEach(() => {
-    cy.loadFixture(Fixture.CompleteAssessment)
-    cy.enterAssessment()
-    cy.sectionMarkedAsComplete(sectionName)
-    cy.assessmentMarkedAsComplete()
-    cy.visitSection(sectionName)
-    cy.getSummary(question).getAnswer('No')
+  describe('SAN value is NO', () => {
+    beforeEach(() => {
+      cy.loadFixture(Fixture.CompleteAssessment)
+      cy.enterAssessment()
+      cy.sectionMarkedAsComplete(sectionName)
+      cy.assessmentMarkedAsComplete()
+      cy.visitSection(sectionName)
+      cy.getSummary(question).getAnswer('No')
+    })
+
+    it('YES from Oasys overrides SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'YES' })
+      cy.sectionNotMarkedAsComplete(sectionName)
+      cy.assessmentNotMarkedAsComplete()
+      cy.visitSection(sectionName)
+      cy.assertStepUrlIs(destinations.landingPage)
+      cy.getQuestion(question).getRadio('Yes').isChecked()
+      cy.getQuestion(question).getRadio('No').isDisabled()
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.sexualOffending)
+    })
+
+    it('NO from Oasys does not override SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
+      cy.sectionMarkedAsComplete(sectionName)
+      cy.assessmentMarkedAsComplete()
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion(question).getRadio('No').isChecked()
+      cy.getQuestion(question).getRadio('Yes').isNotDisabled()
+    })
+
+    it('NULL from Oasys does not override SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: null })
+      cy.sectionMarkedAsComplete(sectionName)
+      cy.assessmentMarkedAsComplete()
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion(question).getRadio('No').isChecked()
+      cy.getQuestion(question).getRadio('Yes').isNotDisabled()
+    })
   })
 
-  it('value from OASys overrides SAN', () => {
-    cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'YES' })
-    cy.sectionNotMarkedAsComplete(sectionName)
-    cy.assessmentNotMarkedAsComplete()
-    cy.visitSection(sectionName)
-    cy.assertStepUrlIs(destinations.landingPage)
-    cy.getQuestion(question).getRadio('Yes').isChecked()
-    cy.getQuestion(question).getRadio('No').isDisabled()
-    cy.saveAndContinue()
-    cy.assertStepUrlIs(destinations.sexualOffending)
+  describe('SAN value is YES', () => {
+    before(() => {
+      cy.loadFixture(Fixture.CompleteAssessment)
+      cy.enterAssessment()
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion(question).getRadio('Yes').clickLabel()
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.sexualOffending)
+      cy.getQuestion('Is there evidence Sam shows sexual preoccupation?').getRadio('Unknown').clickLabel()
+      cy.getQuestion('Is there evidence Sam has offence-related sexual interests?').getRadio('Unknown').clickLabel()
+      cy.getQuestion('Is there evidence Sam finds it easier to seek emotional intimacy with children over adults?')
+        .getRadio('Unknown')
+        .clickLabel()
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.thinkingBehaviours)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.summary)
+      cy.get('#tab_practitioner-analysis').click()
+      cy.markAsComplete()
+      cy.sectionMarkedAsComplete(sectionName)
+      cy.assessmentMarkedAsComplete()
+      cy.captureAssessment()
+    })
 
-    cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
-    cy.sectionNotMarkedAsComplete(sectionName)
-    cy.assessmentNotMarkedAsComplete()
-    cy.visitSection(sectionName)
-    cy.assertStepUrlIs(destinations.landingPage)
-    cy.getQuestion(question).getRadio('Yes').isDisabled()
-    cy.getQuestion(question).getRadio('No').isChecked()
-    cy.saveAndContinue()
-    cy.assertStepUrlIs(destinations.thinkingBehaviours)
+    beforeEach(() => {
+      cy.cloneCapturedAssessment()
+    })
+
+    it('YES from Oasys does not override SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'YES' })
+      cy.sectionMarkedAsComplete(sectionName)
+      cy.assessmentMarkedAsComplete()
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion(question).getRadio('Yes').isChecked()
+      cy.getQuestion(question).getRadio('No').isDisabled()
+    })
+
+    it('NO from Oasys does not override SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
+      cy.sectionMarkedAsComplete(sectionName)
+      cy.assessmentMarkedAsComplete()
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion(question).getRadio('Yes').isChecked()
+      cy.getQuestion(question).getRadio('No').isNotDisabled()
+    })
+
+    it('NULL from Oasys does not override SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: null })
+      cy.sectionMarkedAsComplete(sectionName)
+      cy.assessmentMarkedAsComplete()
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion(question).getRadio('Yes').isChecked()
+      cy.getQuestion(question).getRadio('No').isNotDisabled()
+    })
   })
 
-  it('value from OASys matches the existing value in SAN', () => {
-    cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
-    cy.sectionMarkedAsComplete(sectionName)
-    cy.assessmentMarkedAsComplete()
-    cy.visitSection(sectionName)
-    cy.getSummary(question).getAnswer('No')
-  })
+  describe('SAN value is NULL', () => {
+    beforeEach(() => {
+      cy.createAssessment()
+    })
 
-  it('null value from OASys does not override SAN', () => {
-    cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: null })
-    cy.sectionMarkedAsComplete(sectionName)
-    cy.assessmentMarkedAsComplete()
-    cy.visitSection(sectionName)
-    cy.getSummary(question).getAnswer('No')
+    it('YES from Oasys overrides SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'YES' })
+      cy.sectionNotMarkedAsComplete(sectionName)
+      cy.visitSection(sectionName)
+      cy.getQuestion(question).getRadio('Yes').isChecked()
+      cy.getQuestion(question).getRadio('No').isDisabled()
+    })
+
+    it('NO from Oasys overrides SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
+      cy.sectionNotMarkedAsComplete(sectionName)
+      cy.visitSection(sectionName)
+      cy.getQuestion(question).getRadio('Yes').isNotDisabled()
+      cy.getQuestion(question).getRadio('No').isChecked()
+    })
+
+    it('NULL from Oasys does not override SAN', () => {
+      cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: null })
+      cy.sectionNotMarkedAsComplete(sectionName)
+      cy.visitSection(sectionName)
+      cy.getQuestion(question).getRadio('Yes').isNotDisabled().isNotChecked()
+      cy.getQuestion(question).getRadio('No').isNotDisabled().isNotChecked()
+    })
   })
 })
