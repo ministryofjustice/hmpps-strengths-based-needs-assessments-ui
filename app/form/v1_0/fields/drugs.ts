@@ -200,20 +200,12 @@ class DrugsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  otherDrugDetails: FormWizard.Field = {
-    text: 'Enter drug name',
-    code: 'other_drug_details',
-    type: FieldType.Text,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter drug name' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [characterLimits.default],
-        message: `Drug name must be ${characterLimits.default} characters or less`,
-      },
-    ],
-    dependent: dependentOn(this.drugUseType, 'OTHER_DRUG'),
-  }
+  otherDrugDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugUseType,
+    dependentValue: 'OTHER_DRUG',
+    required: true,
+    maxChars: characterLimits.c200,
+  })
 
   drugUseReasons: FormWizard.Field = {
     text: 'Why did [subject] start using drugs?',

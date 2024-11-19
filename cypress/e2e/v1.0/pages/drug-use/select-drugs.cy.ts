@@ -1,4 +1,5 @@
 import { Fixture } from '../../../../support/commands/fixture'
+import config from '../../../../support/config'
 
 describe('/select-drugs', () => {
   const stepUrl = '/select-drugs'
@@ -57,14 +58,15 @@ describe('/select-drugs', () => {
             cy.getQuestion(question)
               .getCheckbox(drug)
               .getConditionalQuestion()
-              .hasTitle('Enter drug name')
+              .hasTitle('Give details')
               .hasHint(null)
+              .hasLimit(config.characterLimit.c200)
             cy.saveAndContinue()
             cy.assertStepUrlIs(stepUrl)
             cy.getQuestion(question)
               .getCheckbox(drug)
               .getConditionalQuestion()
-              .hasValidationError('Enter drug name')
+              .hasValidationError('Enter details')
               .enterText(otherDrug)
           } else {
             cy.getQuestion(question).getCheckbox(drug).hasConditionalQuestion(false)
