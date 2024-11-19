@@ -103,6 +103,7 @@ export default abstract class FieldsFactory {
       { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
       { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
       { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
     ]
 
     const parentField: FormWizard.Field = {
@@ -113,7 +114,6 @@ export default abstract class FieldsFactory {
       validate: [{ type: ValidationType.Required, message: `Select if they want to make changes to ${changesTo}` }],
       options: [
         ...makeChangesOptionsWithDetails,
-        { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
         orDivider,
         { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
         { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
