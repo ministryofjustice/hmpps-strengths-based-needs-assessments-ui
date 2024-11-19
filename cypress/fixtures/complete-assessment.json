@@ -1,11 +1,11 @@
 {
   "metaData": {
-    "uuid": "bc7d8f46-3194-4ffe-86b3-a339094045e2",
-    "createdAt": "2024-11-15T16:30:39.682089",
-    "versionUuid": "468026d5-9ece-4648-a850-2f994b49e280",
+    "uuid": "f34d86e3-f376-4c4f-8f0f-104b3d7cb521",
+    "createdAt": "2024-11-18T13:59:28.322796",
+    "versionUuid": "6c66dcab-e3c6-4d22-96d4-bbdcb4b23b59",
     "versionNumber": 0,
-    "versionCreatedAt": "2024-11-15T16:30:39.682291",
-    "versionUpdatedAt": "2024-11-15T16:34:24.58202",
+    "versionCreatedAt": "2024-11-18T13:59:28.322896",
+    "versionUpdatedAt": "2024-11-18T14:00:18.351004",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -1289,19 +1289,19 @@
     },
     "health_wellbeing_learning_difficulties": {
       "type": "RADIO",
-      "description": "Does [subject] have any learning difficulties?",
+      "description": "Does [subject] have any conditions or disabilities that impact their ability to learn?",
       "options": [
         {
           "value": "YES_SIGNIFICANT_DIFFICULTIES",
-          "text": "Yes, significant learning difficulties"
+          "text": "Yes, their ability to learn is significantly impacted"
         },
         {
           "value": "YES_SOME_DIFFICULTIES",
-          "text": "Yes, some learning difficulties"
+          "text": "Yes, their ability to learn is slightly impacted"
         },
         {
           "value": "NO",
-          "text": "No difficulties"
+          "text": "No, they do not have any conditions or disabilities that impact their ability to learn"
         }
       ],
       "value": "NO",
