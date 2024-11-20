@@ -34,6 +34,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'I want to make changes but need help',
       'I am thinking about making changes',
       'I do not want to make changes',
+      'I do not want to answer',
     ).forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
@@ -68,7 +69,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    Array.of('I do not want to answer', 'Sam is not present', 'Not applicable').forEach(option => {
+    Array.of('Sam is not present', 'Not applicable').forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 
