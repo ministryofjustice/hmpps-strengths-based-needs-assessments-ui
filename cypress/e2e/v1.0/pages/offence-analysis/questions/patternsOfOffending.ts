@@ -10,7 +10,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .hasHint(
           'Analyse whether the current index offence(s) are part of a wider pattern of offending and identify any established or emerging themes. It is not necessary to list all previous convictions here.',
         )
-        .hasLimit(config.characterLimit.c2000)
+        .hasLimit(config.characterLimit.c4000)
       cy.markAsComplete()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Enter details').enterText('some text')
