@@ -258,7 +258,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     parentField: this.educationProfessionalOrVocationalQualifications,
     dependentValue: 'YES',
     required: true,
-    maxChars: characterLimits.c4000,
+    maxChars: characterLimits.c400,
   })
 
   educationTransferableSkills: FormWizard.Field = {

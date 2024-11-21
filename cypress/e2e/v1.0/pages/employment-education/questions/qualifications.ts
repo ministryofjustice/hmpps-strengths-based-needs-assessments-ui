@@ -21,7 +21,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasHint(null)
-        .hasLimit(config.characterLimit.c4000)
+        .hasLimit(config.characterLimit.c400)
 
       cy.saveAndContinue()
       cy.getQuestion(question)
