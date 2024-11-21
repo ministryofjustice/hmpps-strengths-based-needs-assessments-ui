@@ -6,6 +6,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const options = [
       'Addictions or perceived needs',
       'Being pressurised or led into offending by others',
+      'Emotional state of Sam',
       'Financial motivation',
       'Hatred of identifiable groups',
       'Seeking or exerting power',
@@ -60,6 +61,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     Array.of(
       'Addictions or perceived needs',
       'Being pressurised or led into offending by others',
+      'Emotional state of Sam',
       'Financial motivation',
       'Hatred of identifiable groups',
       'Seeking or exerting power',

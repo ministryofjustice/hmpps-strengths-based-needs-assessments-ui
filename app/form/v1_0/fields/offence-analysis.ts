@@ -131,6 +131,11 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
+        text: 'Emotional state of [subject]',
+        value: 'EMOTIONAL_STATE',
+        kind: 'option',
+      },
+      {
         text: 'Financial motivation',
         value: 'FINANCIAL_MOTIVATION',
         kind: 'option',
