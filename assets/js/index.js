@@ -15,3 +15,5 @@ document.addEventListener('DOMContentLoaded', function () {
             accessibleAutocomplete.enhanceSelectElement({ selectElement: it, showAllValues: false, confirmOnBlur: false, })
         )
 })
+
+document.getElementById('browser-back').addEventListener('click', () => { history.back() })

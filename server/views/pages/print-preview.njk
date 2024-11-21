@@ -1,6 +1,7 @@
 {% extends "print-layout.njk" %}
 {% from "components/moj-crest/macro.njk" import renderMojCrest %}
 {% from "components/summary/macro.njk" import renderSummaryFields %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 
 {% set backLink = 'task-list#pdf-preview' %}
@@ -14,6 +15,14 @@
 {% endblock %}
 
 {% block content %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "#",
+    attributes: {
+      id: "browser-back"
+    }
+  }) }}
+
   {{ super() }}
 
   {% set imageAssetPath = "/assets/images/" %}
