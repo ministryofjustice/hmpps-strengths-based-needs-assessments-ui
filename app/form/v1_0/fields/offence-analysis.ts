@@ -570,8 +570,8 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [characterLimits.c2000],
-        message: `Details must be ${characterLimits.c2000} characters or less`,
+        arguments: [characterLimits.c4000],
+        message: `Details must be ${characterLimits.c4000} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
