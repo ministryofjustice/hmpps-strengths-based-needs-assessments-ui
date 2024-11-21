@@ -41,6 +41,7 @@
       name:field.id,
       id: field.id,
       maxlength: getMaxCharacterCount(field),
+      rows: getTextAreaRowSize(field),
       value: field.value | safe,
       label: {
         text: field.text,

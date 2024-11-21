@@ -49,7 +49,10 @@ export const practitionerAnalysisStarted = (
 
 export const getMaxCharacterCount = (field: FormWizard.Field) =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  field.validate?.find(rule => (<any>rule).type === ValidationType.MaxLength)?.arguments[0] || characterLimits.default
+  <number>field.validate?.find(rule => (<any>rule).type === ValidationType.MaxLength)?.arguments[0] ||
+  characterLimits.default
+
+export const getTextAreaRowSize = (field: FormWizard.Field) => (getMaxCharacterCount(field) >= 1000 ? 33 : 5)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setProp = (obj: any, prop: string, value: any) => ({ ...obj, [prop]: value })

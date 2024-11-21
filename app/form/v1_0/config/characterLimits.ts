@@ -1,5 +1,5 @@
 export default {
-  default: 400,
+  default: 2000,
   c128: 128,
   c200: 200,
   c400: 400,

@@ -8,6 +8,7 @@ import {
   displayDateForToday,
   getMaxCharacterCount,
   getRenderedFields,
+  getTextAreaRowSize,
   isInEditMode,
   outdent,
   practitionerAnalysisStarted,
@@ -83,6 +84,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('getAnalysisSummaryFields', getAnalysisSummaryFields)
 
   njkEnv.addGlobal('getMaxCharacterCount', getMaxCharacterCount)
+
+  njkEnv.addGlobal('getTextAreaRowSize', getTextAreaRowSize)
 
   njkEnv.addFilter('setProp', setProp)
 
