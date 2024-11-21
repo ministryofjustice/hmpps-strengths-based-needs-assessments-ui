@@ -4,10 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasHint('Sam does not have any current or previous sexual or sexually motivated offences')
-        .hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if there are any concerns they are a risk of sexual harm')

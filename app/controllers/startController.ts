@@ -51,10 +51,10 @@ const setSexuallyMotivatedOffenceHistory = async (assessment: AssessmentResponse
   const sectionCompleteField = thinkingBehavioursFields.sectionComplete()
   const isUserSubmittedField = thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes)
 
-  if (oasysAnswer !== null && oasysAnswer !== sanAnswer && sanAnswer !== 'YES') {
+  if (oasysAnswer === 'YES' && oasysAnswer !== sanAnswer) {
     await apiService.updateAnswers(assessment.metaData.uuid, {
       answersToAdd: {
-        [field.code]: createAnswerDto(field, contextData.subject.sexuallyMotivatedOffenceHistory),
+        [field.code]: createAnswerDto(field, oasysAnswer),
         [sectionCompleteField.code]: createAnswerDto(sectionCompleteField, 'NO'),
         [isUserSubmittedField.code]: createAnswerDto(isUserSubmittedField, 'NO'),
         [assessmentComplete.code]: createAnswerDto(assessmentComplete, 'NO'),
