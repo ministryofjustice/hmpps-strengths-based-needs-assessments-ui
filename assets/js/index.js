@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .forEach(it =>
             accessibleAutocomplete.enhanceSelectElement({ selectElement: it, showAllValues: false, confirmOnBlur: false, })
         )
-})
 
-document.getElementById('browser-back').addEventListener('click', () => { history.back() })
+    document.querySelectorAll('[data-browser-back]').forEach(it =>
+      it.addEventListener('click', (e) => {
+          e.preventDefault()
+          history.back()
+      })
+    )
+})

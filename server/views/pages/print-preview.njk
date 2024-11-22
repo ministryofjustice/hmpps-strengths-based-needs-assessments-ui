@@ -4,8 +4,6 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 
-{% set backLink = 'task-list#pdf-preview' %}
-
 {% block pageTitle %}
   {{ pageTitle }}
 {% endblock %}
@@ -18,9 +16,7 @@
   {{ govukBackLink({
     text: "Back",
     href: "#",
-    attributes: {
-      id: "browser-back"
-    }
+    attributes: { "data-browser-back": "" }
   }) }}
 
   {{ super() }}
