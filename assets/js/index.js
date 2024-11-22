@@ -21,4 +21,15 @@ document.addEventListener('DOMContentLoaded', function () {
       history.back()
     })
   )
+
+  document.querySelectorAll('[data-grow-wrap]').forEach(textarea => {
+    const grower = document.createElement('div')
+    grower.className = 'grow-wrap'
+    textarea.parentNode.insertBefore(grower, textarea)
+    grower.appendChild(textarea)
+    textarea.addEventListener('input', () => {
+      textarea.parentNode.dataset.replicatedValue = textarea.value
+    })
+    textarea.dispatchEvent(new Event('input', { bubbles: true }))
+  })
 })

@@ -41,7 +41,6 @@
       name:field.id,
       id: field.id,
       maxlength: getMaxCharacterCount(field),
-      rows: getTextAreaRowSize(field),
       value: field.value | safe,
       label: {
         text: field.text,
@@ -51,7 +50,7 @@
       formGroup: {
         classes: "form-group " + (field.formGroupClasses | default(""))
       },
-      attributes: field.attributes,
+      attributes: field.attributes | setProp("data-grow-wrap"),
       hint: field.hint,
       errorMessage: errorMessage,
       classes: field.classes
