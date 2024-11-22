@@ -200,6 +200,14 @@ workflows:
             - helm_lint
             - publish_docker
           helm_timeout: 5m
+      - request-preprod-approval:
+          type: approval
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
       - hmpps/deploy_env:
           name: deploy_preprod
           env: "preprod"
@@ -215,8 +223,16 @@ workflows:
               only:
                 - main
           requires:
-            - deploy_dev
+            - request-preprod-approval
           helm_timeout: 5m
+      - request-prod-approval:
+          type: approval
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_preprod
       - hmpps/deploy_env:
           name: deploy_prod
           env: "prod"
@@ -234,7 +250,7 @@ workflows:
               only:
                 - main
           requires:
-            - deploy_preprod
+            - request-prod-approval
           helm_timeout: 5m
 
   deploy-to-test-env:
