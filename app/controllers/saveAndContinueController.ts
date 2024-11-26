@@ -221,7 +221,13 @@ class SaveAndContinueController extends BaseController {
 
     req.form.values = {
       ...answersToPersist,
-      ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
+      ...answersToRemove.reduce(
+        (removedAnswers: Record<string, string>, fieldCode: string): Record<string, string> => ({
+          ...removedAnswers,
+          [fieldCode]: null,
+        }),
+        {},
+      ),
     }
     res.locals.values = req.form.values
 
