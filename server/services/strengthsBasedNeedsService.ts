@@ -2,7 +2,7 @@ import { UUID } from 'crypto'
 import querystring from 'querystring'
 import config from '../config'
 import RestClient from '../data/restClient'
-import getHmppsAuthClient from '../data/hmppsAuthClient'
+import getHmppsAuthClient from '../data/index'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 import { HandoverPrincipal } from './arnsHandoverService'
 
