@@ -8,14 +8,6 @@ import { initialiseAppInsights, buildAppInsightsClient } from '../utils/azureApp
 initialiseAppInsights()
 buildAppInsightsClient()
 
-import getHmppsAuthClient, { HmppsAuthClient } from './hmppsAuthClient'
+import HmppsAuthClient from './hmppsAuthClient'
 
-type RestClientBuilder<T> = (token: string) => T
-
-export const dataAccess = () => ({
-  hmppsAuthClient: getHmppsAuthClient(),
-})
-
-export type DataAccess = ReturnType<typeof dataAccess>
-
-export { HmppsAuthClient, RestClientBuilder }
+export default () => new HmppsAuthClient()
