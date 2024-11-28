@@ -88,6 +88,9 @@ export default {
       clientId: get('HANDOVER_CLIENT_ID', 'clientid', requiredInProduction),
       clientSecret: get('HANDOVER_CLIENT_SECRET', 'clientsecret', requiredInProduction),
     },
+    appInsights: {
+      connectionString: get('APPLICATIONINSIGHTS_CONNECTION_STRING', null, requiredInProduction),
+    }
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   oasysUrl: get('OASYS_URL', 'http://localhost:7072', requiredInProduction),
