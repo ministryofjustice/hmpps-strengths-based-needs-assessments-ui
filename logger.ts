@@ -4,10 +4,10 @@ import config from './server/config'
 
 const formatOut = bunyanFormat({ outputMode: 'short', color: !config.production })
 
-const logger = bunyan.createLogger({
+export const logger = bunyan.createLogger({
   name: 'HMPPS Strengths Based Needs Assessments UI',
   stream: formatOut,
-  level: 'debug',
+  level: 'info',
 })
 
 export default logger

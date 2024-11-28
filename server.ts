@@ -2,13 +2,12 @@
 import 'applicationinsights'
 import { initialiseAppInsights, buildAppInsightsClient } from './server/utils/azureAppInsights'
 
-import { initApp, initMetricsApp } from './server/index'
-import logger from './logger'
-
 initialiseAppInsights()
 buildAppInsightsClient()
 
 const init = () => {
+  const { initApp, initMetricsApp } = require('./server/index')
+  const { logger } = require('./logger')
   const app = initApp()
   const metricsApp = initMetricsApp()
   app.listen(app.get('port'), () => {

@@ -24,8 +24,9 @@ export function initialiseAppInsights(): void {
 
 export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-    defaultClient.context.tags['ai.cloud.role'] = name
-    defaultClient.context.tags['ai.application.ver'] = version()
+    defaultClient.context.tags[defaultClient.context.keys.cloudRole] = name
+    defaultClient.context.tags[defaultClient.context.keys.applicationVersion] = version()
+    
     return defaultClient
   }
   return null
