@@ -77,5 +77,9 @@
 {% endblock %}
 
 {% block bodyEnd %}
+  <script nonce="{{ cspNonce }}">
+    const applicationInsightsConnectionString = '{{ applicationInsightsConnectionString }}'
+    const applicationInsightsRoleName = '{{ applicationInsightsRoleName }}'
+  </script>
   <script type="module" src="/assets/js/app.js"></script>
 {% endblock %}
