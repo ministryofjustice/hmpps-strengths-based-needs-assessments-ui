@@ -7,13 +7,15 @@ document.addEventListener('DOMContentLoaded', function () {
     autoCapture: true
   }
 
-  const appInsights = new ApplicationInsights({ config: {
+  const appInsights = new ApplicationInsights({
+    config: {
       connectionString: applicationInsightsConnectionString,
       autoTrackPageVisitTime: true,
       extensionConfig: {
         [clickPluginInstance.identifier]: clickPluginConfig
       },
-    } })
+    }
+  })
 
   const telemetryInitializer = (envelope) => {
     envelope.tags["ai.cloud.role"] = applicationInsightsRoleName
@@ -22,4 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
   appInsights.loadAppInsights()
   appInsights.addTelemetryInitializer(telemetryInitializer)
   appInsights.trackPageView()
+
+  document.addEventListener('AutoSaved', () => {
+    console.log('Pushing event')
+    appInsights.trackEvent({
+      name: 'AutoSaved',
+    })
+  })
 })

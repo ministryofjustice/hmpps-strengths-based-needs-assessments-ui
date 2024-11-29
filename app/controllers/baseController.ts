@@ -8,7 +8,7 @@ import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { validateCollectionField } from '../utils/validation'
 import { combineDateFields } from '../utils/field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
-import { defaultName } from '../../server/utils/azureAppInsights';
+import { defaultName } from '../../server/utils/azureAppInsights'
 
 class BaseController extends FormWizard.Controller {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {

@@ -18,6 +18,7 @@ declare module 'hmpo-form-wizard' {
       fields: Fields
       steps: RenderedSteps
       locals: Record<string, boolean | string>
+      name: string
     }
 
     interface Request extends express.Request {

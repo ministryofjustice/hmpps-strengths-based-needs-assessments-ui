@@ -16,6 +16,7 @@ import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
+import { EventType, trackEvent } from '../../server/utils/azureAppInsights'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -264,6 +265,15 @@ class SaveAndContinueController extends BaseController {
       if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
         await this.persistAnswers(req, res, { removeOrphanAnswers: false })
         answersPersisted = true
+        Object.entries(err).forEach(([fieldCode, validationError]) => {
+          if (!jsonResponse) {
+            trackEvent(EventType.VALIDATION_ERROR, {
+              formVersion: req.form.options.name,
+              fieldCode,
+              validationError: validationError.type,
+            })
+          }
+        })
         this.setErrors(err, req, res)
       }
 
