@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         [clickPluginInstance.identifier]: clickPluginConfig
       },
     }
-  })  
+  })
 
   const telemetryInitializer = (envelope) => {
     envelope.tags["ai.cloud.role"] = applicationInsightsRoleName
