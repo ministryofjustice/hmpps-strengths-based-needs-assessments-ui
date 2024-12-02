@@ -171,6 +171,7 @@ declare module 'hmpo-form-wizard' {
         deleteUrl: string
         summaryUrl: string
       }
+      section?: string
       labelClasses?: string
       formGroupClasses?: string
       classes?: string
