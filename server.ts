@@ -5,11 +5,13 @@ import { initialiseAppInsights, buildAppInsightsClient } from './server/utils/az
 initialiseAppInsights()
 buildAppInsightsClient()
 
-const init = () => {
-  const { initApp, initMetricsApp } = require('./server/index')
-  const { logger } = require('./logger')
+const init = async () => {
+  const { initApp, initMetricsApp } = await import('./server/index')
+  const logger = (await import('./logger')).default
+
   const app = initApp()
   const metricsApp = initMetricsApp()
+
   app.listen(app.get('port'), () => {
     logger.info(`Server listening on port ${app.get('port')}`)
   }).keepAliveTimeout = Number.parseInt(process.env.KEEP_ALIVE || '5000', 10)

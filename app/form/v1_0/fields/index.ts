@@ -11,18 +11,25 @@ export const assessmentComplete: FormWizard.Field = {
   options: utils.yesNoOptions,
 }
 
-const toFormWizardFields = (sectionCode: string) => (allFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
-  ...allFields,
-  [field.id || field.code]: { ...field, section: sectionCode },
-})
+const toFormWizardFields =
+  (sectionCode: string) =>
+  (allFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
+    ...allFields,
+    [field.id || field.code]: { ...field, section: sectionCode },
+  })
 
 export default function buildFields(sectionConfigs: SectionConfig[]): FormWizard.Fields {
   return {
     [assessmentComplete.code]: assessmentComplete,
-    ...sectionConfigs.reduce((acc, { steps, section }) => ({
-      ...acc,
-      ...steps.flatMap(step => step.fields).filter(Boolean)
-        .reduce(toFormWizardFields(section.code), {})
-    }), {})
+    ...sectionConfigs.reduce(
+      (acc, { steps, section }) => ({
+        ...acc,
+        ...steps
+          .flatMap(step => step.fields)
+          .filter(Boolean)
+          .reduce(toFormWizardFields(section.code), {}),
+      }),
+      {},
+    ),
   }
 }
