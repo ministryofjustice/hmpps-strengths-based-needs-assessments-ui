@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Did Sam have any childhood behavioural problems?'
 
@@ -5,7 +7,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const options = ['Yes', 'No']
 
     it('displays and validates the question', () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .hasHint(
+          'Consider any adverse experiences and trauma, as well as neurodiversity that could lead to behavioural problems.',
+        )
+        .hasRadios(options)
 
       cy.saveAndContinue()
 
@@ -24,7 +31,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint(null)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
 

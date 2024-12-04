@@ -1,13 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
-import {
-  dependentOn,
-  fieldCodeWith,
-  getMediumLabelClassFor,
-  orDivider,
-  summaryCharacterLimit,
-  yesNoOptions,
-} from './utils'
+import { dependentOn, fieldCodeWith, getMediumLabelClassFor, orDivider, yesNoOptions } from './utils'
+import characterLimits from '../../config/characterLimits'
 
 type Section = {
   title: string
@@ -19,14 +13,13 @@ type DetailsFieldOptions = {
   parentField: FormWizard.Field
   dependentValue?: string
   required?: boolean
+  requiredMessage?: string
   maxChars?: number
   textHint?: string
   htmlHint?: string
 }
 
 export default abstract class FieldsFactory {
-  static readonly detailsCharacterLimit = 400
-
   section: Section
 
   fieldPrefix: string
@@ -46,7 +39,7 @@ export default abstract class FieldsFactory {
   }
 
   static detailsField(options: DetailsFieldOptions): FormWizard.Field {
-    const maxChars = options.maxChars ? options.maxChars : this.detailsCharacterLimit
+    const maxChars = options.maxChars ? options.maxChars : characterLimits.default
     const field: FormWizard.Field = {
       text: (options.text ? options.text : 'Give details') + (options.required ? '' : ' (optional)'),
       code: fieldCodeWith(
@@ -54,7 +47,12 @@ export default abstract class FieldsFactory {
       ),
       type: FieldType.TextArea,
       validate: [
-        options.required ? { type: ValidationType.Required, message: 'Enter details' } : null,
+        options.required
+          ? {
+              type: ValidationType.Required,
+              message: options.requiredMessage ? options.requiredMessage : 'Enter details',
+            }
+          : null,
         {
           type: ValidationType.MaxLength,
           arguments: [maxChars],
@@ -105,6 +103,7 @@ export default abstract class FieldsFactory {
       { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
       { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
       { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
     ]
 
     const parentField: FormWizard.Field = {
@@ -115,7 +114,6 @@ export default abstract class FieldsFactory {
       validate: [{ type: ValidationType.Required, message: `Select if they want to make changes to ${changesTo}` }],
       options: [
         ...makeChangesOptionsWithDetails,
-        { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
         orDivider,
         { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
         { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
@@ -166,36 +164,36 @@ export default abstract class FieldsFactory {
         parentField: strengthsOrProtectiveFactorsField,
         dependentValue: 'YES',
         required: true,
-        maxChars: summaryCharacterLimit,
+        maxChars: characterLimits.c1425,
       }),
       FieldsFactory.detailsField({
         parentField: strengthsOrProtectiveFactorsField,
         dependentValue: 'NO',
-        maxChars: summaryCharacterLimit,
+        maxChars: characterLimits.c1425,
       }),
       riskOfSeriousHarmField,
       FieldsFactory.detailsField({
         parentField: riskOfSeriousHarmField,
         dependentValue: 'YES',
         required: true,
-        maxChars: summaryCharacterLimit,
+        maxChars: characterLimits.c1425,
       }),
       FieldsFactory.detailsField({
         parentField: riskOfSeriousHarmField,
         dependentValue: 'NO',
-        maxChars: summaryCharacterLimit,
+        maxChars: characterLimits.c1425,
       }),
       riskOfReoffendingField,
       FieldsFactory.detailsField({
         parentField: riskOfReoffendingField,
         dependentValue: 'YES',
         required: true,
-        maxChars: summaryCharacterLimit,
+        maxChars: characterLimits.c1000,
       }),
       FieldsFactory.detailsField({
         parentField: riskOfReoffendingField,
         dependentValue: 'NO',
-        maxChars: summaryCharacterLimit,
+        maxChars: characterLimits.c1000,
       }),
     ]
   }

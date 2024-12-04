@@ -1,9 +1,12 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Did the current index offence(s) involve any of the following motivations?'
   describe(question, () => {
     const options = [
       'Addictions or perceived needs',
       'Being pressurised or led into offending by others',
+      'Emotional state of Sam',
       'Financial motivation',
       'Hatred of identifiable groups',
       'Seeking or exerting power',
@@ -30,7 +33,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details')
           .hasHint(null)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.c128)
 
         cy.saveAndContinue()
 
@@ -58,6 +61,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     Array.of(
       'Addictions or perceived needs',
       'Being pressurised or led into offending by others',
+      'Emotional state of Sam',
       'Financial motivation',
       'Hatred of identifiable groups',
       'Seeking or exerting power',

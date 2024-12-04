@@ -2,7 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
-import { dependentOn } from './common/utils'
+import characterLimits from '../config/characterLimits'
 
 const usageFrequencies = [
   { text: 'Daily', value: 'DAILY' },
@@ -163,6 +163,10 @@ class DrugsFieldsFactory extends FieldsFactory {
     text: 'Has [subject] ever used drugs?',
     code: 'drug_use',
     type: FieldType.Radio,
+    hint: {
+      text: 'This refers to the misuse of prescription drugs as well as the use of illegal drugs.',
+      kind: 'text',
+    },
     validate: [{ type: ValidationType.Required, message: 'Select if they have ever used drugs' }],
     options: utils.yesNoOptions,
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
@@ -195,20 +199,12 @@ class DrugsFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
-  otherDrugDetails: FormWizard.Field = {
-    text: 'Enter drug name',
-    code: 'other_drug_details',
-    type: FieldType.Text,
-    validate: [
-      { type: ValidationType.Required, message: 'Enter drug name' },
-      {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Drug name must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
-      },
-    ],
-    dependent: dependentOn(this.drugUseType, 'OTHER_DRUG'),
-  }
+  otherDrugDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugUseType,
+    dependentValue: 'OTHER_DRUG',
+    required: true,
+    maxChars: characterLimits.c200,
+  })
 
   drugUseReasons: FormWizard.Field = {
     text: 'Why did [subject] start using drugs?',

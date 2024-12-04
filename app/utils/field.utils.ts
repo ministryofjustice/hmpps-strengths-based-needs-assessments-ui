@@ -1,6 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import nunjucks from 'nunjucks'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
+import CookieSessionObject = CookieSessionInterfaces.CookieSessionObject
 
 export const whereSelectable = (o: FormWizard.Field.Option | FormWizard.Field.Divider): o is FormWizard.Field.Option =>
   o.kind === 'option'
@@ -112,7 +113,7 @@ const replaceWithValuesFrom = (replacementValues: { [key: string]: string }) => 
 
 export const withPlaceholdersFrom = (replacementValues: { [key: string]: string }) => {
   const replacer = replaceWithValuesFrom(replacementValues)
-  const placeholderPattern = /(\[\w+\])/g
+  const placeholderPattern = /(\[\w+])/g
 
   return (field: FormWizard.Field): FormWizard.Field => {
     const modifiedField = { ...field }
@@ -181,12 +182,17 @@ export const withValuesFrom =
       case FieldType.Collection:
         return {
           ...field,
-          value: ((answer || []) as FormWizard.CollectionEntry[]).length,
+          value: ((answer || []) as FormWizard.CollectionEntry[]).length.toString(),
         }
       default:
         return field
     }
   }
+
+export const withStateAwareTransform =
+  (session: CookieSessionObject) =>
+  (field: FormWizard.Field): FormWizard.Field =>
+    field.transform ? field.transform(session) : field
 
 export const combineDateFields = (
   answers: FormWizard.Answers,
@@ -224,3 +230,5 @@ export const dependencyMet = (field: FormWizard.Field, answers: FormWizard.Answe
 
   return Array.isArray(answer) ? answer.includes(field.dependent.value) : answer === field.dependent.value
 }
+
+export const isPractitionerAnalysisField = (field: string) => field.includes('_practitioner_analysis_')

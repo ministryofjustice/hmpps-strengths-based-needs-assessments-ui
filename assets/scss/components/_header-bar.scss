@@ -27,11 +27,13 @@
       @include govuk-font($size: 24, $weight: 'bold');
       display: flex;
       align-items: center;
+      color: govuk-colour('white');
     }
 
     &__service-name {
       display: none;
       @include govuk-font(24);
+      color: govuk-colour('white');
 
       @include govuk-media-query($from: desktop) {
         display: inline-block;

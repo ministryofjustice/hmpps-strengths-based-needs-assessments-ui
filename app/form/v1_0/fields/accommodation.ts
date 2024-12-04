@@ -1,9 +1,10 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
-import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
 import { dependentOn } from './common/utils'
+import { formatDateForDisplay } from '../../../utils/formatters'
+import characterLimits from '../config/characterLimits'
 
 const immigrationAccommodationHint = `
     <div class="govuk-grid-column-full">
@@ -30,7 +31,11 @@ const suitableHousingConcernsOptions: FormWizard.Field.Options = [
     kind: 'option',
   },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
-  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
+  {
+    text: 'Risk of their accommodation being exploited by others - for example, cuckooing',
+    value: 'EXPLOITATION',
+    kind: 'option',
+  },
   { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
   { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM', kind: 'option' },
   { text: 'Victimised by someone living with them', value: 'VICTIMISATION', kind: 'option' },
@@ -202,7 +207,6 @@ class AccommodationFieldsFactory extends FieldsFactory {
   }
 
   livingWithDetailsGroup: FormWizard.Field[] = [
-    ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject].'],
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>
@@ -376,8 +380,8 @@ class AccommodationFieldsFactory extends FieldsFactory {
     validate: [
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),

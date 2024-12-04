@@ -53,7 +53,7 @@
               <ul class="govuk-list">
                 {% for answer in nested.answers %}
                   <li class="summary-details-list">
-                    <span class="summary__answer">{{ answer.text | nl2br | safe }}</span>
+                    <span class="summary__answer">{{ answer | display | safe }}</span>
                     {{ renderNestedFields(answer.nestedFields) }}
                   </li>
                 {% endfor %}
@@ -95,7 +95,7 @@
 
         {% for answer in summary.answers %}
           <li class="summary-details-list">
-            <span class="summary__answer">{{ answer.text | nl2br | safe }}</span>
+            <span class="summary__answer">{{ answer | display | safe }}</span>
             {{ renderNestedFields(answer.nestedFields) }}
           </li>
         {% endfor %}
@@ -115,12 +115,12 @@
 {%- macro renderNestedFields(summaryFields) -%}
   {% for summaryField in summaryFields %}
 
-    {% if summaryField.field.type in["RADIO", "CHECKBOX"] %}
+    {% if summaryField.field.type in ["RADIO", "CHECKBOX"] %}
 
       <ul class="govuk-list">
         {% for answer in summaryField.answers %}
           <li class="summary-details-list">
-            <span class="summary__answer--secondary">{{ answer.text | nl2br | safe }}</span>
+            <span class="summary__answer--secondary">{{ answer | display | safe }}</span>
             {{ renderNestedFields(answer.nestedFields, fieldError.messageGroup) }}
           </li>
         {% endfor %}
@@ -129,7 +129,7 @@
     {% else %}
 
       {% for answer in summaryField.answers %}
-        <span class="summary__answer--secondary">{{ answer.text | nl2br | safe }}</span>
+        <span class="summary__answer--secondary">{{ answer | display | safe }}</span>
         {{ renderNestedFields(answer.nestedFields) }}
         <hr class="govuk-section-break govuk-section-break--m">
       {% endfor %}
@@ -142,14 +142,14 @@
 {% for summary in summaryFields.singleFields %}
   <dl class="govuk-summary-list summary-list">
     {% switch summary.field.code %}
-    {% case 'drug_use_type' %}
-      {{ renderDrugsTable(summary, sessionData.user) }}
+      {% case 'drug_use_type' %}
+        {{ renderDrugsTable(summary, sessionData.user) }}
       {% default %}
-      {{ renderTopLevelField(summary, sessionData) }}
-      {% endswitch %}
-    </dl>
-  {% endfor %}
+        {{ renderTopLevelField(summary, sessionData) }}
+    {% endswitch %}
+  </dl>
+{% endfor %}
 
-  {% for collectionSummary in summaryFields.collectionFields %}
-    {{ renderCollection(collectionSummary, sessionData, errors) }}
-  {% endfor %}
+{% for collectionSummary in summaryFields.collectionFields %}
+  {{ renderCollection(collectionSummary, sessionData, errors) }}
+{% endfor %}

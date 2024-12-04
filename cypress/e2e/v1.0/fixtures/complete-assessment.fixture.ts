@@ -83,10 +83,10 @@ describe('Generate fixture for complete assessment', () => {
   })
 
   it('completes the finance section', () => {
-    const section = 'Finance'
+    const section = 'Finances'
 
     cy.visitSection(section)
-    cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('No money').clickLabel()
+    cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('Pension').clickLabel()
     cy.getQuestion('Does Sam have their own bank account?').getRadio('No').clickLabel()
     cy.getQuestion('How good is Sam at managing their money?')
       .getRadio('Unable to manage their money which is creating other problems')
@@ -132,12 +132,14 @@ describe('Generate fixture for complete assessment', () => {
 
     cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
     cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
-    cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+    cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?')
+      .getRadio('No, they do not have any conditions or disabilities that impact their ability to learn')
+      .clickLabel()
     cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Not able to cope').clickLabel()
     cy.getQuestion("What is Sam's attitude towards themselves?").getRadio('Positive and reasonably happy').clickLabel()
     cy.getQuestion('Has Sam ever self-harmed?').getRadio('No').clickLabel()
     cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
-    cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam is not present').clickLabel()
+    cy.getQuestion('How does Sam feel about their future?').getRadio('Sam is not present').clickLabel()
     cy.getQuestion("What's helped Sam during periods of good health and wellbeing? (optional)")
       .getCheckbox('Money')
       .clickLabel()
@@ -154,6 +156,11 @@ describe('Generate fixture for complete assessment', () => {
     const section = 'Personal relationships and community'
 
     cy.visitSection(section)
+    cy.getQuestion("Are there any children in Sam's life?")
+      .getCheckbox("No, there are no children in Sam's life")
+      .clickLabel()
+    cy.saveAndContinue()
+
     cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
     cy.saveAndContinue()
 
@@ -207,7 +214,7 @@ describe('Generate fixture for complete assessment', () => {
         'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
       )
       .clickLabel()
-    cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('No').clickLabel()
+    cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 
     cy.getQuestion('Is Sam able to manage their temper?')
@@ -252,18 +259,18 @@ describe('Generate fixture for complete assessment', () => {
     cy.getQuestion('Did the current index offence(s) involve any of the following motivations?')
       .getCheckbox('Thrill seeking')
       .clickLabel()
-    cy.getQuestion('Who was the victim?').getCheckbox('Other').clickLabel()
-    cy.getQuestion('Who was the victim?').getCheckbox('Other').getConditionalQuestion().enterText('¯\\_(ツ)_/¯')
+    cy.getQuestion('Who was the offence committed against?').getCheckbox('Other').clickLabel()
+    cy.getQuestion('Who was the offence committed against?')
+      .getCheckbox('Other')
+      .getConditionalQuestion()
+      .enterText('¯\\_(ツ)_/¯')
     cy.saveAndContinue()
 
     cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
-      .getRadio('There was no one else involved')
+      .getRadio('None')
       .clickLabel()
     cy.saveAndContinue()
 
-    cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
-      .getRadio('No')
-      .clickLabel()
     cy.getQuestion('Does Sam recognise the impact or consequences on the victims or others and the wider community?')
       .getRadio('No')
       .clickLabel()
@@ -273,12 +280,12 @@ describe('Generate fixture for complete assessment', () => {
       .getRadio('No')
       .clickLabel()
     cy.getQuestion(
-      'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+      'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     )
       .getRadio('No')
       .clickLabel()
     cy.getQuestion(
-      'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+      'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     )
       .getRadio('No')
       .getConditionalQuestion()

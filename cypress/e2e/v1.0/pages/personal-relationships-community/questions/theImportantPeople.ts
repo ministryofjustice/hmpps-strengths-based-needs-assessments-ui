@@ -1,10 +1,12 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "Who are the important people in Sam's life?"
 
   describe(question, () => {
     const options = [
       "Partner or someone they're in an intimate relationship with",
-      'Their children or anyone they have parental responsibilities for',
+      'Their children or anyone they have parenting responsibilities for',
       'Other children',
       'Family members',
       'Friends',
@@ -29,9 +31,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         "Include their name, age, gender and the nature of their relationship. For example, if they're in a casual or committed relationship.",
       ],
       [
-        'Their children or anyone they have parental responsibilities for',
-        'Give details (optional)',
-        'Include their name, age, gender and the nature of their relationship.',
+        'Their children or anyone they have parenting responsibilities for',
+        'Give details of any children not captured by the previous question (optional)',
+        null,
       ],
       ['Other children', 'Give details about their relationship (optional)', null],
       ['Family members', 'Give details about their relationship (optional)', null],
@@ -47,7 +49,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle(conditionalQuestion)
           .hasHint(hint)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
 
@@ -80,7 +82,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasHint(null)
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.default)
 
       cy.saveAndContinue()
 

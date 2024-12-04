@@ -1,9 +1,11 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'What job sector does Sam work in? (optional)'
 
   describe(question, () => {
     it(`displays and does not validate the question`, () => {
-      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasLimit(400)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasLimit(config.characterLimit.default)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasNoValidationError().enterText('some text')

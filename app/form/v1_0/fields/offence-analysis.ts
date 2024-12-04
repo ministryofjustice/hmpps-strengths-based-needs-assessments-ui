@@ -3,8 +3,7 @@ import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
 import { dependentOn, yesNoOptions } from './common/utils'
-
-const offenceAnalysisDetailsCharacterLimit4k = 4000
+import characterLimits from '../config/characterLimits'
 
 class OffenceAnalysisFieldsFactory extends FieldsFactory {
   offenceAnalysisDescriptionOfOffence: FormWizard.Field = {
@@ -15,11 +14,10 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
+        arguments: [characterLimits.c4000],
+        message: `Details must be ${characterLimits.c4000} characters or less`,
       },
     ],
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   }
 
@@ -105,12 +103,11 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: `Enter details` },
       {
         type: ValidationType.MaxLength,
-        arguments: [offenceAnalysisDetailsCharacterLimit4k],
-        message: `Details must be ${offenceAnalysisDetailsCharacterLimit4k} characters or less`,
+        arguments: [characterLimits.c4000],
+        message: `Details must be ${characterLimits.c4000} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-    characterCountMax: offenceAnalysisDetailsCharacterLimit4k,
   }
 
   offenceAnalysisMotivation: FormWizard.Field = {
@@ -131,6 +128,11 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       {
         text: 'Being pressurised or led into offending by others',
         value: 'PRESSURISED_BY_OTHERS',
+        kind: 'option',
+      },
+      {
+        text: 'Emotional state of [subject]',
+        value: 'EMOTIONAL_STATE',
         kind: 'option',
       },
       {
@@ -171,18 +173,19 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     parentField: this.offenceAnalysisMotivation,
     dependentValue: 'OTHER',
     required: true,
+    maxChars: characterLimits.c128,
   })
 
-  offenceAnalysisWhoWasTheVictim: FormWizard.Field = {
-    text: 'Who was the victim?',
+  offenceAnalysisWhoWasTheOffenceCommittedAgainst: FormWizard.Field = {
+    text: 'Who was the offence committed against?',
     code: 'offence_analysis_who_was_the_victim',
     hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select who the victim was' }],
+    validate: [{ type: ValidationType.Required, message: 'Select who the offence was committed against' }],
     options: [
       {
-        text: 'One or more person',
+        text: 'One or more people',
         value: 'ONE_OR_MORE_PERSON',
         kind: 'option',
       },
@@ -190,26 +193,26 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         text: 'Other',
         value: 'OTHER',
         kind: 'option',
-        hint: { text: 'For example, the wider community.' },
+        hint: { text: 'For example, a business or the wider community.' },
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   }
 
   offenceAnalysisOtherVictimDetails: FormWizard.Field = FieldsFactory.detailsField({
-    parentField: this.offenceAnalysisWhoWasTheVictim,
+    parentField: this.offenceAnalysisWhoWasTheOffenceCommittedAgainst,
     dependentValue: 'OTHER',
     required: true,
   })
 
   offenceAnalysisVictimRelationship: FormWizard.Field = {
-    text: `What is [subject]'s relationship to the victim?`,
+    text: 'Who is the victim?',
     code: `offence_analysis_victim_relationship`,
     type: FieldType.Radio,
     validate: [
       {
         type: ValidationType.Required,
-        message: 'Select relationship to the victim',
+        message: 'Select who the victim is',
       },
     ],
     options: [
@@ -224,23 +227,23 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: `Victim's child`,
-        value: 'CHILD',
+        text: `[subject]'s parent or step-parent`,
+        value: 'POP_PARENT_OR_STEP_PARENT',
         kind: 'option',
       },
       {
-        text: `Victim's partner`,
-        value: 'PARTNER',
+        text: `[subject]'s partner`,
+        value: 'POP_PARTNER',
         kind: 'option',
       },
       {
-        text: `Victim's ex-partner`,
-        value: 'EX_PARTNER',
+        text: `[subject]'s ex-partner`,
+        value: 'POP_EX_PARTNER',
         kind: 'option',
       },
       {
-        text: `Victim's parent or step-parent`,
-        value: 'PARENT_OR_STEP_PARENT',
+        text: `[subject]'s child or step-child`,
+        value: 'POP_CHILD_OR_STEP_CHILD',
         kind: 'option',
       },
       {
@@ -439,7 +442,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     ],
     options: [
       {
-        text: 'There was no one else involved',
+        text: 'None',
         value: 'NONE',
         kind: 'option',
       },
@@ -505,11 +508,13 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     parentField: this.offenceAnalysisLeader,
     dependentValue: 'YES',
     required: true,
+    maxChars: characterLimits.c4000,
   })
 
   offenceAnalysisLeaderNoDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.offenceAnalysisLeader,
     dependentValue: 'NO',
+    maxChars: characterLimits.c4000,
   })
 
   offenceAnalysisImpactOnVictims: FormWizard.Field = {
@@ -549,6 +554,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   offenceAnalysisAcceptResponsibilityDetails: FormWizard.Field[] = this.offenceAnalysisAcceptResponsibility.options.map(
     FieldsFactory.detailsFieldWith({
       parentField: this.offenceAnalysisAcceptResponsibility,
+      maxChars: characterLimits.c4000,
     }),
   )
 
@@ -564,11 +570,10 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       { type: ValidationType.Required, message: 'Enter details' },
       {
         type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        arguments: [characterLimits.c4000],
+        message: `Details must be ${characterLimits.c4000} characters or less`,
       },
     ],
-    characterCountMax: FieldsFactory.detailsCharacterLimit,
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   }
 
@@ -590,8 +595,12 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
+  offenceAnalysisEscalationDetails: FormWizard.Field[] = this.offenceAnalysisEscalation.options
+    .filter(it => it.kind === 'option' && ['Yes', 'No'].includes(it.text))
+    .map(FieldsFactory.detailsFieldWith({ parentField: this.offenceAnalysisEscalation }))
+
   offenceAnalysisRisk: FormWizard.Field = {
-    text: 'Is the current index offence(s) linked to risk of serious harm, risks to the individual or other risks?',
+    text: 'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     code: 'offence_analysis_risk',
     type: FieldType.Radio,
     validate: [
@@ -607,7 +616,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   offenceAnalysisRiskDetails: FormWizard.Field[] = this.offenceAnalysisRisk.options.map(
     FieldsFactory.detailsFieldWith({
       parentField: this.offenceAnalysisRisk,
-      maxChars: offenceAnalysisDetailsCharacterLimit4k,
+      maxChars: characterLimits.c4000,
       required: true,
     }),
   )

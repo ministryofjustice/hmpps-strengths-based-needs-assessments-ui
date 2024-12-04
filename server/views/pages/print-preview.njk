@@ -1,9 +1,8 @@
 {% extends "print-layout.njk" %}
 {% from "components/moj-crest/macro.njk" import renderMojCrest %}
 {% from "components/summary/macro.njk" import renderSummaryFields %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
-
-{% set backLink = 'task-list#pdf-preview' %}
 
 {% block pageTitle %}
   {{ pageTitle }}
@@ -14,11 +13,17 @@
 {% endblock %}
 
 {% block content %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "#",
+    attributes: { "data-browser-back": "" }
+  }) }}
+
   {{ super() }}
 
   {% set imageAssetPath = "/assets/images/" %}
 
-  <div class="govuk-body pdf">
+  <div class="govuk-body">
     <div class="pdf-header">
       <div class="pdf-header__left">
         <div class="pdf-header__logo">
@@ -41,8 +46,8 @@
         <div class='pdf-cover-page__body page-break-after'>
 
           <div class="pdf-cover-page__title">
-            <p>His Majesty's Prison & Probation Service</p>
-            <h1>Strengths and needs</h1>
+            <p class="pdf-cover-page__subheading">His Majesty's Prison & Probation Service</p>
+            <p class="pdf-cover-page__heading">Strengths and needs</p>
           </div>
           <div class='pdf-cover-page__details'>
             <p>Prepared by:</p>
@@ -57,36 +62,43 @@
       </div>
     </div>
 
-    {% for key, section in form.sectionConfig %}
-      <div class='pdf-avoid-break'>
-        <div class="summary-section-header">
-          <h2 class="govuk-heading-l summary-section-header__title">{{ section.title }}</h2>
-          <div class="section-heading__status summary-section-header__status">
-            {% if sectionProgress[section.code] %}
-              {{ govukTag({ text: "Complete" }) }}
-            {% else %}
-              {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
-            {% endif %}
-          </div>
-        </div>
-
-        {% set summaryFields = getSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
-        {% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
-        {% if sectionStarted %}
-          <div class="summary-section">
-            <h3 class="govuk-heading-m summary-section-header__subtitle">Summary</h3>
-            {{ renderSummaryFields(summaryFields, sessionData) }}
-          </div>
-          {% set analysisSummaryFields = getAnalysisSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
-          {% if analysisSummaryFields.singleFields.length > 0 %}
-            <div class="summary-section">
-              <h3 class="govuk-heading-m summary-section-header__subtitle">Practitioner analysis</h3>
-              {{ renderSummaryFields(analysisSummaryFields, sessionData) }}
-            </div>
+    <div class="pdf-body">
+      {% for key, section in form.sectionConfig %}
+        <div class='pdf-avoid-break'>
+          {% if loop.first %}
+            <h1 class="pdf-body__heading">{{ subjectDetails.givenName }}'s strengths and needs</h1>
           {% endif %}
-        {% endif %}
-      </div>
-    {% endfor %}
+
+          <div class="summary-section-header">
+            <h2 class="govuk-heading-l summary-section-header__title">{{ section.title }}</h2>
+            <div class="section-heading__status summary-section-header__status">
+              {% if sectionProgress[section.code] %}
+                {{ govukTag({ text: "Complete" }) }}
+              {% else %}
+                {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
+              {% endif %}
+            </div>
+          </div>
+
+          {% set summaryFields = getSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+          {% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
+          {% if sectionStarted %}
+            <div class="summary-section">
+              <h3 class="govuk-heading-m summary-section-header__subtitle">Summary</h3>
+              {{ renderSummaryFields(summaryFields, sessionData) }}
+            </div>
+            {% set analysisSummaryFields = getAnalysisSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+            {% if analysisSummaryFields.singleFields.length > 0 %}
+              <div class="summary-section">
+                <h3 class="govuk-heading-m summary-section-header__subtitle">Practitioner analysis</h3>
+                {{ renderSummaryFields(analysisSummaryFields, sessionData) }}
+              </div>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
   </div>
 
 {% endblock %}

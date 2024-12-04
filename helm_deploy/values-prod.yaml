@@ -1,0 +1,21 @@
+---
+# Per environment values which override defaults in hmpps-strengths-based-needs-assessments-ui/values.yaml
+
+generic-service:
+  replicaCount: 2
+
+  ingress:
+    hosts: 
+      - strengths-based-needs.hmpps.service.justice.gov.uk
+      - strengths-based-needs-assessments.hmpps.service.justice.gov.uk
+
+  env:
+    INGRESS_URL: "https://strengths-based-needs-assessments.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
+    SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-prod.svc.cluster.local"
+    HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service.hmpps.service.justice.gov.uk"
+    OASYS_URL: "https://oasys.service.justice.gov.uk"
+
+generic-prometheus-alerts:
+  alertSeverity: hmpps-strengths-based-needs-assessments

@@ -107,9 +107,11 @@ declare module 'hmpo-form-wizard' {
     namespace Field {
       type Option = {
         text: string
+        html?: string
         value: string
         checked?: boolean
         selected?: boolean
+        disabled?: boolean
         conditional?: { html: string }
         hint?: { text: string } | { html: string }
         behaviour?: string
@@ -159,7 +161,7 @@ declare module 'hmpo-form-wizard' {
       validate?: Validate[]
       dependent?: Dependent
       invalidates?: string[]
-      value?: FormWizard.An
+      value?: FormWizard.Answer
       collection?: {
         fields: FormWizard.Field[]
         subject: string
@@ -170,12 +172,12 @@ declare module 'hmpo-form-wizard' {
       }
       labelClasses?: string
       formGroupClasses?: string
-      characterCountMax?: number
       classes?: string
       summary?: {
         displayFn?: (value: string) => string
         displayAlways?: boolean
       }
+      transform?: (CookieSessionObject) => FormWizard.Field
     }
 
     interface Fields {

@@ -1,5 +1,7 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Is Sam able to manage their parental responsibilities?'
+  const question = 'Is Sam able to manage their parenting responsibilities?'
 
   describe(question, () => {
     const options = [
@@ -20,7 +22,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError("Select if they're able to manage their parental responsibilities")
+      cy.getQuestion(question).hasValidationError('Select if they’re able to manage their parenting responsibilities')
 
       cy.checkAccessibility()
     })
@@ -36,7 +38,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             .getConditionalQuestion()
             .hasTitle('Give details (optional)')
             .hasHint(null)
-            .hasLimit(400)
+            .hasLimit(config.characterLimit.default)
 
           cy.saveAndContinue()
 

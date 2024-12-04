@@ -20,6 +20,15 @@ export const assertResumeUrlIs = (section: string, path: string) => {
     .then(() => cy.assertStepUrlIs(path))
 }
 
+export const assertBackLinkIs = (path: string) => {
+  cy.get('.govuk-back-link')
+    .should('be.visible')
+    .invoke('attr', 'href')
+    .then((href: string) => {
+      expect(href.endsWith(path.charAt(0) === '/' ? path.substring(1) : path)).to.eq(true)
+    })
+}
+
 export const assertStepUrlIs = (path: string) => {
   return cy
     .location()

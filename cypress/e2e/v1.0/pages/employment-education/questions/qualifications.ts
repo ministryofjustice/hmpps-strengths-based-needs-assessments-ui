@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam have any professional or vocational qualifications?'
   describe(question, () => {
@@ -19,7 +21,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasHint(null)
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.c400)
 
       cy.saveAndContinue()
       cy.getQuestion(question)

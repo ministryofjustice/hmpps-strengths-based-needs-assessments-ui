@@ -1,14 +1,16 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Who was the victim?'
+  const question = 'Who was the offence committed against?'
   describe(question, () => {
-    const options = ['One or more person', 'Other']
+    const options = ['One or more people', 'Other']
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Select all that apply.').hasCheckboxes(options)
 
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select who the victim was')
+      cy.getQuestion(question).hasValidationError('Select who the offence was committed against')
       cy.checkAccessibility()
     })
 
@@ -17,7 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
       cy.getQuestion(question)
         .getCheckbox(option)
-        .hasHint('For example, the wider community.')
+        .hasHint('For example, a business or the wider community.')
         .hasConditionalQuestion(false)
         .clickLabel()
 
@@ -26,7 +28,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasHint(null)
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.default)
 
       cy.saveAndContinue()
 
@@ -50,8 +52,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('some text')
     })
 
-    it(`no conditional field is displayed for "One or more person"`, () => {
-      const option = 'One or more person'
+    it(`no conditional field is displayed for "One or more people"`, () => {
+      const option = 'One or more people'
 
       cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 

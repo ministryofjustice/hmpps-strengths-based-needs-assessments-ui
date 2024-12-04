@@ -41,7 +41,7 @@
                   {% set frequency = drugUsageAnswer.text %}
                 {% case drugUsage.field.code | startsWith("past_drug_usage_") %}
                   {% set previously = drugUsageAnswer.text %}
-                {% case drugUsage.field.code == "other_drug_details" %}
+                {% case drugUsage.field.code == "drug_use_type_other_drug_details" %}
                   {% set drugName = drugUsageAnswer.text | safe %}
               {% endswitch %}
 

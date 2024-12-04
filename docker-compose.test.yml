@@ -13,6 +13,7 @@ services:
       CLIENT_SAN_OAUTH_REDIRECT_URI: http://san-ui:3000/sign-in/callback
       CLIENT_SAN_HANDOVER_REDIRECT_URI: http://san-ui:3000/sign-in
       OASYS_BASE_URL: http://oasys-ui:3000
+      OASYS_RETURN_URLS: http://oasys-ui:3000
 
   oasys-ui:
     environment:

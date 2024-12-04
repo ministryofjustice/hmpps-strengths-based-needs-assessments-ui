@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam have future accommodation planned?'
 
@@ -104,6 +106,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details')
           .hasHint(hint)
+          .hasLimit(config.characterLimit.default)
           .enterText('Some details')
 
         cy.checkAccessibility()

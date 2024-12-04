@@ -40,7 +40,7 @@ export interface UserRole {
   roleCode: string
 }
 
-export class HmppsAuthClient {
+export default class HmppsAuthClient {
   tokenStore
 
   constructor(_tokenStore?: TokenStore) {
@@ -78,5 +78,3 @@ export class HmppsAuthClient {
     return newToken.body.access_token
   }
 }
-
-export default () => new HmppsAuthClient()

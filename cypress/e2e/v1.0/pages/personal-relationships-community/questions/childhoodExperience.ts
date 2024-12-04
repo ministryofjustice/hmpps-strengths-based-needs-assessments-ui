@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "What was Sam's experience of their childhood?"
 
@@ -14,7 +16,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint(null)
+        .hasHint('Childhood is the period up to and including 18 years old.')
         .hasRadios(options.map(([option, _]) => option))
 
       cy.saveAndContinue()
@@ -34,7 +36,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint(null)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
 

@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
   const question = `Are there any strengths or protective factors related to Sam's ${sectionName}?`
   const summaryQuestion = 'Strengths or protective factors'
@@ -23,6 +25,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .getRadio('No')
         .getConditionalQuestion()
         .hasTitle('Give details (optional)')
+        .hasLimit(config.characterLimit.c1425)
         .hasNoValidationError()
       cy.visitStep(analysisCompletePage)
       cy.get('#tab_practitioner-analysis').click()
@@ -40,6 +43,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .getRadio('Yes')
         .getConditionalQuestion()
         .hasTitle('Give details')
+        .hasLimit(config.characterLimit.c1425)
         .hasValidationError('Enter details')
         .enterText('some  details\n  new line<script>')
       cy.checkAccessibility()
