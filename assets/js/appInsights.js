@@ -15,10 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
         [clickPluginInstance.identifier]: clickPluginConfig
       },
     }
-  })
+  })  
 
   const telemetryInitializer = (envelope) => {
     envelope.tags["ai.cloud.role"] = applicationInsightsRoleName
+    envelope.data['assessmentId'] = assessmentId
+    envelope.data['assessmentVersion'] = assessmentVersion
+    envelope.data['userId'] = userId
+    envelope.data['sectionCode'] = sectionCode
   }
 
   appInsights.loadAppInsights()

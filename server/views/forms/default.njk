@@ -80,6 +80,10 @@
   <script nonce="{{ cspNonce }}">
     const applicationInsightsConnectionString = '{{ applicationInsightsConnectionString }}'
     const applicationInsightsRoleName = '{{ applicationInsightsRoleName }}'
+    const assessmentId = '{{ sessionData.assessmentId }}'
+    const assessmentVersion = '{{ assessmentVersion }}'
+    const userId = '{{ sessionData.user.identifier }}'
+    const sectionCode = '{{ form.section }}'
   </script>
   <script type="module" src="/assets/js/app.js"></script>
 {% endblock %}

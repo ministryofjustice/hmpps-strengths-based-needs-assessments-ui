@@ -32,11 +32,7 @@ export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
   return null
 }
 
-export const enum EventType {
-  VALIDATION_ERROR = 'ValidationError',
-}
-
-export const trackEvent = (event: EventType, properties: Record<string, string>) => {
+export const trackEvent = (event: string, properties: Record<string, string>) => {
   defaultClient.trackEvent({
     name: event,
     properties,

@@ -9,9 +9,10 @@ export const assessmentComplete: FormWizard.Field = {
   type: FieldType.Radio,
   hidden: true,
   options: utils.yesNoOptions,
+  section: 'assessment',
 }
 
-const toFormWizardFields =
+export const toFormWizardFields =
   (sectionCode: string) =>
   (allFields: FormWizard.Fields, field: FormWizard.Field): FormWizard.Fields => ({
     ...allFields,

@@ -54,6 +54,7 @@ interface AssessmentMetaData {
   versionCreatedAt: string
   versionTag: string
   formVersion: string
+  versionNumber: number
 }
 
 export interface AssessmentResponse {

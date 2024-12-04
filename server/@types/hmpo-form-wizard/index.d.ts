@@ -63,6 +63,8 @@ declare module 'hmpo-form-wizard' {
       errorHandler(error: Error, req: Request, res: express.Response, next: express.NextFunction): Promise
 
       setErrors(error: Error, req: Request, res: express.Response)
+
+      isValidationError(error: unknown): boolean
     }
 
     namespace Controller {
