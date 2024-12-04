@@ -2,6 +2,11 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import { ClickAnalyticsPlugin } from '@microsoft/applicationinsights-clickanalytics-js'
 
 document.addEventListener('DOMContentLoaded', function () {
+  if (!applicationInsightsConnectionString) {
+    console.log('AppInsights not configured')
+    return 
+  }
+
   const clickPluginInstance = new ClickAnalyticsPlugin()
   const clickPluginConfig = {
     autoCapture: true
@@ -29,8 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
   appInsights.addTelemetryInitializer(telemetryInitializer)
   appInsights.trackPageView()
 
-  document.addEventListener('AutoSaved', () => {
-    console.log('Pushing event')
+  document.addEventListener('AutoSaved', () => {    
     appInsights.trackEvent({
       name: 'AutoSaved',
     })
