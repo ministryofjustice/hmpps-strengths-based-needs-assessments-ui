@@ -370,7 +370,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
   })
 
   pastAccommodationDetails: FormWizard.Field = {
-    text: "What's helped Sam stay in accommodation in the past? (optional)",
+    text: "What's helped [subject] stay in accommodation in the past? (optional)",
     code: 'past_accommodation_details',
     type: FieldType.TextArea,
     validate: [
