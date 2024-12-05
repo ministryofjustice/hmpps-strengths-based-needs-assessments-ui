@@ -375,7 +375,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
     type: FieldType.TextArea,
     validate: [
       {
-        type: ValidationType.MaxLength,
+        fn: utils.validateMaxLength,
         arguments: [characterLimits.default],
         message: `Details must be ${characterLimits.default} characters or less`,
       },

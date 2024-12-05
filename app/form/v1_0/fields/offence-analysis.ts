@@ -13,7 +13,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
       {
-        type: ValidationType.MaxLength,
+        fn: utils.validateMaxLength,
         arguments: [characterLimits.c4000],
         message: `Details must be ${characterLimits.c4000} characters or less`,
       },
@@ -102,7 +102,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     validate: [
       { type: ValidationType.Required, message: `Enter details` },
       {
-        type: ValidationType.MaxLength,
+        fn: utils.validateMaxLength,
         arguments: [characterLimits.c4000],
         message: `Details must be ${characterLimits.c4000} characters or less`,
       },
@@ -569,7 +569,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     validate: [
       { type: ValidationType.Required, message: 'Enter details' },
       {
-        type: ValidationType.MaxLength,
+        fn: utils.validateMaxLength,
         arguments: [characterLimits.c4000],
         message: `Details must be ${characterLimits.c4000} characters or less`,
       },

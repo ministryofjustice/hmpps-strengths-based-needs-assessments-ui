@@ -221,28 +221,6 @@ export const combineDateFields = (
   }, preProcessedAnswers)
 }
 
-export const escape = (input: string) =>
-  input
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\//g, '&#x2F;')
-    .replace(/\\/g, '&#x5C;')
-    .replace(/`/g, '&#96;')
-
-export const escapeTextFields = (answers: FormWizard.Answers, fields: FormWizard.Fields): FormWizard.Answers =>
-  Object.entries(answers)
-    .filter(
-      ([code, answer]) =>
-        [FieldType.TextArea, FieldType.Text].includes(fields[code]?.type) && typeof answer === 'string',
-    )
-    .reduce(
-      (acc: FormWizard.Answers, [code, answer]) => ({ ...acc, [code]: escape(answer as unknown as string) }),
-      answers,
-    )
-
 export const dependencyMet = (field: FormWizard.Field, answers: FormWizard.Answers) => {
   if (!field.dependent) {
     return true

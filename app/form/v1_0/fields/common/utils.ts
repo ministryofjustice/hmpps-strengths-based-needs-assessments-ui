@@ -1,6 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
 import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
+import { unescape } from '../../../../utils/formatters'
 
 export const getLabelClassFor = (size: string) => (type: FieldType) =>
   type === FieldType.CheckBox || type === FieldType.Radio || type === FieldType.Date
@@ -27,6 +28,10 @@ export function validateFutureDate(value: string) {
   const now = DateTime.now().startOf('day')
   const date = DateTime.fromISO(value)
   return !value || value === '' ? true : date.isValid && date >= now
+}
+
+export function validateMaxLength(value: string, maxLength: number) {
+  return unescape(value).length <= maxLength
 }
 
 export function validatePastDate(value: string) {

@@ -1,4 +1,5 @@
 import steps, { sectionConfigs } from './steps/index'
+import { escape } from '../../utils/formatters'
 import fields from './fields'
 
 export default {
@@ -7,6 +8,6 @@ export default {
   options: {
     active: true,
     version: '1.0',
-    defaultFormatters: ['trim', 'hyphens', 'apostrophes', 'quotes'],
+    defaultFormatters: ['trim', 'hyphens', 'apostrophes', 'quotes', escape],
   },
 }

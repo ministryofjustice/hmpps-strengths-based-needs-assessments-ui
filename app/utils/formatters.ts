@@ -1,6 +1,31 @@
 // eslint-disable-next-line import/prefer-default-export
 import { DateTime } from 'luxon'
 
+export const escape = {
+  type: 'escape',
+  fn: (input: string) =>
+    input
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\//g, '&#x2F;')
+      .replace(/\\/g, '&#x5C;')
+      .replace(/`/g, '&#96;'),
+}
+
+export const unescape = (input: string) =>
+  input
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&#x2F;/g, '/')
+    .replace(/&#x5C;/g, '\\')
+    .replace(/&#96;/g, '`')
+
 export const formatDateForDisplay = (value: string): string => {
   if (!value) {
     return null

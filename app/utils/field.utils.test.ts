@@ -2,7 +2,6 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import {
   combineDateFields,
-  escape,
   formatForNunjucks,
   whereSelectable,
   withPlaceholdersFrom,
@@ -200,22 +199,6 @@ describe('field.utils', () => {
       expect(result).toEqual({
         date: '',
       })
-    })
-  })
-
-  describe('escape', () => {
-    it('should escape HTML', () => {
-      expect(escape('<script> alert("xss&fun"); </script>')).toEqual(
-        '&lt;script&gt; alert(&quot;xss&amp;fun&quot;); &lt;&#x2F;script&gt;',
-      )
-
-      expect(escape("<script> alert('xss&fun'); </script>")).toEqual(
-        '&lt;script&gt; alert(&#x27;xss&amp;fun&#x27;); &lt;&#x2F;script&gt;',
-      )
-
-      expect(escape('Backtick: `')).toEqual('Backtick: &#96;')
-
-      expect(escape('Backslash: \\')).toEqual('Backslash: &#x5C;')
     })
   })
 })
