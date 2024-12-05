@@ -18,6 +18,7 @@ declare module 'hmpo-form-wizard' {
       fields: Fields
       steps: RenderedSteps
       locals: Record<string, boolean | string>
+      name: string
     }
 
     interface Request extends express.Request {
@@ -62,6 +63,8 @@ declare module 'hmpo-form-wizard' {
       errorHandler(error: Error, req: Request, res: express.Response, next: express.NextFunction): Promise
 
       setErrors(error: Error, req: Request, res: express.Response)
+
+      isValidationError(error: unknown): boolean
     }
 
     namespace Controller {
@@ -170,6 +173,7 @@ declare module 'hmpo-form-wizard' {
         deleteUrl: string
         summaryUrl: string
       }
+      section?: string
       labelClasses?: string
       formGroupClasses?: string
       classes?: string
