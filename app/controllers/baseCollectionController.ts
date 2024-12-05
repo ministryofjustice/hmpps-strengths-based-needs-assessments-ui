@@ -134,8 +134,6 @@ abstract class BaseCollectionController extends BaseController {
         }
       }
 
-      res.locals.oasysEquivalent = assessment.oasysEquivalent
-
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
         ...others,
         [key]: { ...field, id: key },

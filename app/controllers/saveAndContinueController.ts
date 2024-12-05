@@ -48,7 +48,6 @@ class SaveAndContinueController extends BaseController {
         : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
 
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
-      res.locals.oasysEquivalent = assessment.oasysEquivalent
       res.locals.assessmentVersion = assessment.metaData.versionNumber
 
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
