@@ -2,7 +2,10 @@ import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
-import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  SessionData,
+  userDetailsFromSession,
+} from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import {
   compileConditionalFields,
@@ -233,7 +236,11 @@ class SaveAndContinueController extends BaseController {
     }
     res.locals.values = req.form.values
 
-    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove })
+    await this.apiService.updateAnswers(assessmentId, {
+      answersToAdd,
+      answersToRemove,
+      userDetails: userDetailsFromSession(req.session.sessionData as SessionData),
+    })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {

@@ -4,7 +4,10 @@ import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import { createAnswerDTOs, flattenAnswers } from './saveAndContinue.utils'
-import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  SessionData,
+  userDetailsFromSession,
+} from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
@@ -258,7 +261,11 @@ abstract class BaseCollectionController extends BaseController {
     const { assessmentId } = req.session.sessionData as SessionData
     const answersToAdd = this.buildRequestBody(req, res)
 
-    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove: [] })
+    await this.apiService.updateAnswers(assessmentId, {
+      answersToAdd,
+      answersToRemove: [],
+      userDetails: userDetailsFromSession(req.session.sessionData as SessionData),
+    })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
