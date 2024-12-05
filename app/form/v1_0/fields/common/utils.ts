@@ -31,7 +31,7 @@ export function validateFutureDate(value: string) {
 }
 
 export function validateMaxLength(value: string, maxLength: number) {
-  return unescape(value).length <= maxLength
+  return unescape(value || '').length <= maxLength
 }
 
 export function validatePastDate(value: string) {
