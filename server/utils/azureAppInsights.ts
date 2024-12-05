@@ -1,7 +1,9 @@
 import { setup, defaultClient, TelemetryClient, DistributedTracingModes } from 'applicationinsights'
 import applicationVersion from '../applicationVersion'
 
-function defaultName(): string {
+const appInsightsConnectionString = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
+
+export function defaultName(): string {
   const {
     packageData: { name },
   } = applicationVersion
@@ -14,7 +16,7 @@ function version(): string {
 }
 
 export function initialiseAppInsights(): void {
-  if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+  if (appInsightsConnectionString) {
     // eslint-disable-next-line no-console
     console.log('Enabling azure application insights')
 
@@ -23,10 +25,20 @@ export function initialiseAppInsights(): void {
 }
 
 export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
-  if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-    defaultClient.context.tags['ai.cloud.role'] = name
-    defaultClient.context.tags['ai.application.ver'] = version()
+  if (appInsightsConnectionString) {
+    defaultClient.context.tags[defaultClient.context.keys.cloudRole] = name
+    defaultClient.context.tags[defaultClient.context.keys.applicationVersion] = version()
+
     return defaultClient
   }
   return null
+}
+
+export const trackEvent = (event: string, properties: Record<string, string>) => {
+  if (appInsightsConnectionString) {
+    defaultClient.trackEvent({
+      name: event,
+      properties,
+    })
+  }
 }

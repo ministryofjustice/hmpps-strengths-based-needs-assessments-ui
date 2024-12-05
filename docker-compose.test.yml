@@ -5,7 +5,7 @@ services:
       HMPPS_AUTH_EXTERNAL_URL: http://hmpps-auth:9090/auth
       HMPPS_ARNS_HANDOVER_EXTERNAL_URL: http://arns-handover:7070
       OASYS_URL: http://oasys-ui:3000
-      KEEP_ALIVE: 30000
+      KEEP_ALIVE: 30000      
 
   arns-handover:
     environment:

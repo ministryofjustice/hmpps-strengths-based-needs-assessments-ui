@@ -52,7 +52,7 @@
             <dd class="govuk-summary-list__value summary-list__value">
               <ul class="govuk-list">
                 {% for answer in nested.answers %}
-                  <li class="summary-details-list">
+                  <li class="summary-details-list govuk-!-margin-bottom-4">
                     <span class="summary__answer">{{ answer | display | safe }}</span>
                     {{ renderNestedFields(answer.nestedFields) }}
                   </li>
@@ -94,7 +94,7 @@
       <ul class="govuk-list">
 
         {% for answer in summary.answers %}
-          <li class="summary-details-list">
+          <li class="summary-details-list govuk-!-margin-bottom-4">
             <span class="summary__answer">{{ answer | display | safe }}</span>
             {{ renderNestedFields(answer.nestedFields) }}
           </li>
@@ -130,7 +130,6 @@
 
       {% for answer in summaryField.answers %}
         <span class="summary__answer--secondary">{{ answer | display | safe }}</span>
-        {{ renderNestedFields(answer.nestedFields) }}
       {% endfor %}
 
     {% endif %}

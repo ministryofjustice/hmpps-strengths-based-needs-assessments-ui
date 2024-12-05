@@ -16,6 +16,7 @@ import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
+import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -45,6 +46,7 @@ class SaveAndContinueController extends BaseController {
 
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
       res.locals.oasysEquivalent = assessment.oasysEquivalent
+      res.locals.assessmentVersion = assessment.metaData.versionNumber
 
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
         ...others,
@@ -261,9 +263,14 @@ class SaveAndContinueController extends BaseController {
     const jsonResponse = req.query.jsonResponse === 'true'
 
     try {
-      if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
+      if (this.isValidationError(err)) {
         await this.persistAnswers(req, res, { removeOrphanAnswers: false })
         answersPersisted = true
+        sendTelemetryEventForValidationError(
+          err as unknown as FormWizard.Controller.Errors,
+          req.form.options.name,
+          jsonResponse,
+        )
         this.setErrors(err, req, res)
       }
 
