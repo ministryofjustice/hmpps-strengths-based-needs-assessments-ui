@@ -26,7 +26,6 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
 
     req.session.sessionData = {
       ...contextData.assessmentContext,
-      assessmentId: contextData.assessmentContext.assessmentId,
       user: contextData.principal,
     }
     req.session.subjectDetails = contextData.subject

@@ -25,6 +25,8 @@
     const [formAction] = form?.getAttribute('action').split('#')
     const endpoint = `${formAction}?jsonResponse=true`
 
+    document.dispatchEvent(new CustomEvent('AutoSaved'))
+
     return fetch(endpoint, {
       method: 'POST',
       body: formData,
