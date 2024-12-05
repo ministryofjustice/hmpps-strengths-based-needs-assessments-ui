@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import StrengthsBasedNeedsAssessmentsApiService, {
   AssessmentResponse,
+  SessionData,
+  userDetailsFromSession,
 } from '../../server/services/strengthsBasedNeedsService'
-import ArnsHandoverService, { HandoverContextData } from '../../server/services/arnsHandoverService'
+import ArnsHandoverService, { HandoverSubject } from '../../server/services/arnsHandoverService'
 import { createAnswerDto, isReadOnly } from './saveAndContinue.utils'
 import thinkingBehavioursFields from '../form/v1_0/fields/thinking-behaviours-attitudes'
 import { stepUrls } from '../form/v1_0/steps/thinking-behaviours-attitudes'
@@ -22,13 +24,15 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     const assessment = await apiService.fetchAssessment(contextData.assessmentContext.assessmentId)
     const version = assessment.metaData.formVersion.replace(/\./g, '/')
 
-    if (!isReadOnly(contextData.principal)) await setSexuallyMotivatedOffenceHistory(assessment, contextData)
-
     req.session.sessionData = {
       ...contextData.assessmentContext,
       user: contextData.principal,
     }
     req.session.subjectDetails = contextData.subject
+
+    if (!isReadOnly(contextData.principal))
+      await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
+
     req.session.save(error => {
       if (error) {
         return next(error)
@@ -43,9 +47,13 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
   }
 }
 
-const setSexuallyMotivatedOffenceHistory = async (assessment: AssessmentResponse, contextData: HandoverContextData) => {
+const setSexuallyMotivatedOffenceHistory = async (
+  assessment: AssessmentResponse,
+  subject: HandoverSubject,
+  session: SessionData,
+) => {
   const field = thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm
-  const oasysAnswer = contextData.subject.sexuallyMotivatedOffenceHistory
+  const oasysAnswer = subject.sexuallyMotivatedOffenceHistory
   const sanAnswer = assessment.assessment[field.code]?.value
   const sectionCompleteField = thinkingBehavioursFields.sectionComplete()
   const isUserSubmittedField = thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes)
@@ -59,6 +67,7 @@ const setSexuallyMotivatedOffenceHistory = async (assessment: AssessmentResponse
         [assessmentComplete.code]: createAnswerDto(assessmentComplete, 'NO'),
       },
       answersToRemove: [],
+      userDetails: userDetailsFromSession(session),
     })
   }
 }

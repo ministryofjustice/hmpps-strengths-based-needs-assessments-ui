@@ -17,18 +17,6 @@ import templates from '../config/templates'
 export const sectionConfigs: SectionConfig[] = [
   {
     section: {
-      title: 'Data mapping',
-      code: 'data-mapping',
-    },
-    steps: [
-      {
-        url: 'data-mapping',
-        template: templates.dataMapping,
-      },
-    ],
-  },
-  {
-    section: {
       title: 'Print preview',
       code: 'print-preview',
     },
