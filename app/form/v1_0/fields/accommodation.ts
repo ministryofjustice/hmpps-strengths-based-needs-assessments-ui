@@ -7,10 +7,10 @@ import { formatDateForDisplay } from '../../../utils/formatters'
 import characterLimits from '../config/characterLimits'
 
 const immigrationAccommodationHint = `
-    <div class="govuk-!-width-two-thirds">
+    <div class="govuk-grid-column-full">
       <p class="govuk-hint">This includes:</p>
       <ul class="govuk-hint govuk-list govuk-list--bullet">
-        <li>Schedule 10 - Home Office provides accommodation under the Immigration Act 2016</li>
+        <li class=" govuk-!-margin-bottom-5">Schedule 10 - Home Office provides accommodation under the Immigration Act 2016</li>
         <li>Schedule 4 - Home Office provides accommodation for those on immigration bail, prior to the Immigration Act 2016</li>
       </ul>
     </div>
@@ -108,7 +108,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'short_term_accommodation_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'SHORT_TERM'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -120,7 +123,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'approved_premises_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'APPROVED_PREMISES'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -132,7 +138,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'cas2_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'CAS2'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -144,7 +153,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'cas3_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'CAS3'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -156,7 +168,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'immigration_accommodation_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'IMMIGRATION'),
     summary: {
       displayFn: endDateSummaryDisplay,

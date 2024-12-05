@@ -4,7 +4,7 @@ import createApp from './app'
 
 promClient.collectDefaultMetrics()
 
-const app = createApp()
-const metricsApp = createMetricsApp()
+const initApp = createApp
+const initMetricsApp = createMetricsApp
 
-export { app, metricsApp }
+export { initApp, initMetricsApp }

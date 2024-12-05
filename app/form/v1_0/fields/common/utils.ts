@@ -37,7 +37,12 @@ export function validateMaxLength(value: string, maxLength: number) {
 export function validatePastDate(value: string) {
   const now = DateTime.now().startOf('day')
   const date = DateTime.fromISO(value)
-  return !value || value === '' ? true : date.isValid && date <= now
+  return !value || value === '' ? true : date.isValid && date >= now
+}
+
+export function validateValidDate(value: string) {
+  const date = DateTime.fromISO(value)
+  return !value || value === '' ? true : date.isValid
 }
 
 export function requiredWhenValidator(field: string, requiredValue: string) {
