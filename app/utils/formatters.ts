@@ -15,6 +15,17 @@ export const escape = {
       .replace(/`/g, '&#96;'),
 }
 
+export const unescape = (input: string) =>
+  input
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&#x2F;/g, '/')
+    .replace(/&#x5C;/g, '\\')
+    .replace(/&#96;/g, '`')
+
 export const formatDateForDisplay = (value: string): string => {
   if (!value) {
     return null

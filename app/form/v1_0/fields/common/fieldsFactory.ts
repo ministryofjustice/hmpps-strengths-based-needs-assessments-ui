@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
-import { dependentOn, fieldCodeWith, getMediumLabelClassFor, orDivider, yesNoOptions } from './utils'
+import { dependentOn, fieldCodeWith, getMediumLabelClassFor, orDivider, validateMaxLength, yesNoOptions } from './utils'
 import characterLimits from '../../config/characterLimits'
 
 type Section = {
@@ -54,11 +54,12 @@ export default abstract class FieldsFactory {
             }
           : null,
         {
-          type: ValidationType.MaxLength,
+          type: 'validateMaxLength',
+          fn: validateMaxLength,
           arguments: [maxChars],
           message: `Details must be ${maxChars} characters or less`,
         },
-      ].filter(it => it),
+      ].filter(Boolean),
     }
     if (options.dependentValue) {
       field.dependent = dependentOn(options.parentField, options.dependentValue)
