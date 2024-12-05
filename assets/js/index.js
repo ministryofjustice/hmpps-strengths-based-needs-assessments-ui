@@ -3,7 +3,6 @@ import * as mojFrontend from '@ministryofjustice/frontend'
 import accessibleAutocomplete from 'accessible-autocomplete'
 import './save-on-exit'
 import './modules'
-import './appInsights'
 
 govukFrontend.initAll()
 mojFrontend.initAll()
