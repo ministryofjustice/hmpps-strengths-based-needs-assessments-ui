@@ -139,6 +139,11 @@ export const createAssessment = (data = null) => {
           auth: { bearer: apiToken },
           body: {
             answersToAdd: data.assessment,
+            userDetails: {
+              id: 'cypress',
+              name: 'Cypress User',
+              type: 'SAN',
+            },
           },
           retryOnNetworkFailure: false,
         })
