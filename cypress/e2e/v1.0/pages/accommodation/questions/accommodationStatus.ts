@@ -139,7 +139,38 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .getRadio(typeOfTemporaryAccommodation)
           .getConditionalQuestion()
-          .enterDate('99-99-9999')
+          .enterDate('33-33-3333')
+
+        cy.saveAndContinue()
+
+        cy.assertStepUrlIs(stepUrl)
+
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .getConditionalQuestion()
+          .hasValidationError('Enter a valid date')
+
+        cy.checkAccessibility()
+      })
+    })
+
+    typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
+      it(`validates the date "${options.temporary} - ${typeOfTemporaryAccommodation} is in the future - Expected end date"`, () => {
+        cy.visitStep(stepUrl)
+        cy.getQuestion(question).getRadio(options.temporary).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .getConditionalQuestion()
+          .enterDate('01-01-1970')
 
         cy.saveAndContinue()
 
