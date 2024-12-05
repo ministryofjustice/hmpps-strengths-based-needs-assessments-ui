@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return 
   }
 
+  console.log('Configuring AppInsights')
+
   const clickPluginInstance = new ClickAnalyticsPlugin()
   const clickPluginConfig = {
     autoCapture: true
@@ -34,7 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
   appInsights.addTelemetryInitializer(telemetryInitializer)
   appInsights.trackPageView()
 
-  document.addEventListener('AutoSaved', () => {    
+  document.addEventListener('AutoSaved', () => {
+    console.log('Sending telemetry event')
     appInsights.trackEvent({
       name: 'AutoSaved',
     })
