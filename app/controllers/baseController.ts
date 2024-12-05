@@ -6,7 +6,7 @@ import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { validateCollectionField } from '../utils/validation'
-import { combineDateFields } from '../utils/field.utils'
+import { combineDateFields, escapeTextFields } from '../utils/field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 
 class BaseController extends FormWizard.Controller {
@@ -81,6 +81,11 @@ class BaseController extends FormWizard.Controller {
         .filter(it => it !== null)
         .map(error => [error.key, error]),
     )
+  }
+
+  async saveValues(req: FormWizard.Request, res: Response, next: NextFunction) {
+    req.form.values = escapeTextFields(req.form.values, req.form.options.fields)
+    return super.saveValues(req, res, next)
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
