@@ -54,11 +54,12 @@ export default abstract class FieldsFactory {
             }
           : null,
         {
+          type: 'validateMaxLength',
           fn: validateMaxLength,
           arguments: [maxChars],
           message: `Details must be ${maxChars} characters or less`,
         },
-      ].filter(it => it),
+      ].filter(Boolean),
     }
     if (options.dependentValue) {
       field.dependent = dependentOn(options.parentField, options.dependentValue)
