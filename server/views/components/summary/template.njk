@@ -115,26 +115,14 @@
 {%- macro renderNestedFields(summaryFields) -%}
   {% for summaryField in summaryFields %}
 
-    {% if summaryField.field.type in ["RADIO", "CHECKBOX"] %}
-
-      <ul class="govuk-list">
-        {% for answer in summaryField.answers %}
-          <li class="summary-details-list">
-            <span class="summary__answer--secondary">{{ answer | display | safe }}</span>
-            {{ renderNestedFields(answer.nestedFields, fieldError.messageGroup) }}
-          </li>
-        {% endfor %}
-      </ul>
-
-    {% else %}
-
+    <ul class="govuk-list">
       {% for answer in summaryField.answers %}
-        <span class="summary__answer--secondary">{{ answer | display | safe }}</span>
-        {{ renderNestedFields(answer.nestedFields) }}
-        <hr class="govuk-section-break govuk-section-break--m">
+        <li class="summary-details-list">
+          <span class="summary__answer--secondary">{{ answer | display | safe }}</span>
+          {{ renderNestedFields(answer.nestedFields, fieldError.messageGroup) }}
+        </li>
       {% endfor %}
-
-    {% endif %}
+    </ul>
 
   {% endfor %}
 {%- endmacro -%}
