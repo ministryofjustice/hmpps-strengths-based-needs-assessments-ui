@@ -1,10 +1,17 @@
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import { ClickAnalyticsPlugin } from '@microsoft/applicationinsights-clickanalytics-js'
 
-document.addEventListener('DOMContentLoaded', function () {
-  if (!applicationInsightsConnectionString) {
+document.initialiseTelemetry = (
+  applicationInsightsConnectionString,
+  applicationInsightsRoleName,
+  assessmentId,
+  assessmentVersion,
+  userId,
+  sectionCode,
+) => {
+  if (!Boolean(applicationInsightsConnectionString)) {
     console.log('AppInsights not configured')
-    return 
+    return
   }
 
   console.log('Configuring AppInsights')
@@ -22,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         [clickPluginInstance.identifier]: clickPluginConfig
       },
     }
-  })  
+  })
 
   const telemetryInitializer = (envelope) => {
     envelope.tags["ai.cloud.role"] = applicationInsightsRoleName
@@ -42,4 +49,4 @@ document.addEventListener('DOMContentLoaded', function () {
       name: 'AutoSaved',
     })
   })
-})
+}
