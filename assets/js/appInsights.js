@@ -25,6 +25,7 @@ document.initialiseTelemetry = (
     config: {
       connectionString: applicationInsightsConnectionString,
       autoTrackPageVisitTime: true,
+      // extensions: [clickPluginInstance],
       extensionConfig: {
         [clickPluginInstance.identifier]: clickPluginConfig
       },
