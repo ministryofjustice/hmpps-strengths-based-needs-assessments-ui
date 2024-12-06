@@ -17,7 +17,7 @@ export default function setUpWebSecurity(): Router {
     helmet({
       contentSecurityPolicy: {
         directives: {
-          defaultSrc: ["'self'", 'js.monitor.azure.com', '*.applicationinsights.azure.com'],
+          defaultSrc: ["'self'", 'js.monitor.azure.com', '*.applicationinsights.azure.com/v2/track'],
           // This nonce allows us to use scripts with the use of the `cspNonce` local, e.g (in a Nunjucks template):
           // <script nonce="{{ cspNonce }}">
           // or
