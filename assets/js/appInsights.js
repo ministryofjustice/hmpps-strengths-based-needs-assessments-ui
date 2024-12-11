@@ -4,10 +4,7 @@ import { ClickAnalyticsPlugin } from '@microsoft/applicationinsights-clickanalyt
 document.initialiseTelemetry = (
   applicationInsightsConnectionString,
   applicationInsightsRoleName,
-  assessmentId,
-  assessmentVersion,
-  userId,
-  sectionCode,
+  coreTelemetryData,
 ) => {
   if (!Boolean(applicationInsightsConnectionString)) {
     console.log('AppInsights not configured')
@@ -18,14 +15,20 @@ document.initialiseTelemetry = (
 
   const clickPluginInstance = new ClickAnalyticsPlugin()
   const clickPluginConfig = {
-    autoCapture: true
+    autoCapture: true,
+    dropInvalidEvents: true,
+    dataTags: {
+      customDataPrefix: 'data-ai-',
+      useDefaultContentNameOrId: false,
+    },
   }
 
   const appInsights = new ApplicationInsights({
     config: {
+      disableXhr: true,
       connectionString: applicationInsightsConnectionString,
       autoTrackPageVisitTime: true,
-      // extensions: [clickPluginInstance],
+      extensions: [clickPluginInstance],
       extensionConfig: {
         [clickPluginInstance.identifier]: clickPluginConfig
       },
@@ -34,20 +37,24 @@ document.initialiseTelemetry = (
 
   const telemetryInitializer = (envelope) => {
     envelope.tags["ai.cloud.role"] = applicationInsightsRoleName
-    envelope.data['assessmentId'] = assessmentId
-    envelope.data['assessmentVersion'] = assessmentVersion
-    envelope.data['userId'] = userId
-    envelope.data['sectionCode'] = sectionCode
+    envelope.data['ASSESSMENT_ID'] = coreTelemetryData.assessmentId
+    envelope.data['ASSESSMENT_VERSION'] = coreTelemetryData.assessmentVersion.toString()
+    envelope.data['SECTION_CODE'] = coreTelemetryData.section
+    envelope.data['USER_ID'] = coreTelemetryData.user
+    envelope.data['HANDOVER_SESSION_ID'] = coreTelemetryData.handoverSessionId
+    envelope.data['FORM_VERSION'] = coreTelemetryData.formVersion.split(':')[1] || 'Unknown'
   }
 
   appInsights.loadAppInsights()
   appInsights.addTelemetryInitializer(telemetryInitializer)
   appInsights.trackPageView()
 
+  const trackEvent = ({ name }) => {
+    console.log(`Sending telemetry event: ${name}`)
+    appInsights.trackEvent({ name })
+  }
+
   document.addEventListener('AutoSaved', () => {
-    console.log('Sending telemetry event')
-    appInsights.trackEvent({
-      name: 'AutoSaved',
-    })
+    trackEvent({ name: 'AUTOSAVED' })
   })
 }

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('select[data-accessible-autocomplete]')
     .forEach(it =>
-      accessibleAutocomplete.enhanceSelectElement({selectElement: it, showAllValues: false, confirmOnBlur: false,})
+      accessibleAutocomplete.enhanceSelectElement({ selectElement: it, showAllValues: false, confirmOnBlur: false, })
     )
 
   document.querySelectorAll('[data-browser-back]').forEach(it =>
