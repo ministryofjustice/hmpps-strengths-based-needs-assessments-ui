@@ -33,10 +33,7 @@
       document.initialiseTelemetry(
         '{{ applicationInsightsConnectionString | default('') }}',
         '{{ applicationInsightsRoleName }}',
-        '{{ sessionData.assessmentId }}',
-        '{{ assessmentVersion }}',
-        '{{ sessionData.user.identifier }}',
-        '{{ form.section }}',
+        {{ coreTelemetryData | dump | safe }}
       )
     })
   </script>

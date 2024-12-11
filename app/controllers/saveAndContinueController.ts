@@ -48,7 +48,6 @@ class SaveAndContinueController extends BaseController {
         : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
 
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
-      res.locals.assessmentVersion = assessment.metaData.versionNumber
 
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
         ...others,
@@ -79,6 +78,16 @@ class SaveAndContinueController extends BaseController {
           }
         }
       }
+
+      req.telemetry = {
+        assessmentId: sessionData.assessmentId,
+        assessmentVersion: assessment.metaData.versionNumber,
+        user: sessionData.user.identifier,
+        section: req.form.section,
+        handoverSessionId: sessionData.handoverSessionId,
+        formVersion: req.form.options.name,
+      }
+
       return await super.configure(req, res, next)
     } catch (error) {
       return next(error)
@@ -122,6 +131,7 @@ class SaveAndContinueController extends BaseController {
           steps: req.form.options.steps,
           sectionConfig,
         },
+        coreTelemetryData: req.telemetry,
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
@@ -148,14 +158,14 @@ class SaveAndContinueController extends BaseController {
   getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
     const subsectionIsComplete =
       (answers: FormWizard.Answers = {}) =>
-      (fieldCode: string) =>
-        answers[fieldCode] === 'YES'
+        (fieldCode: string) =>
+          answers[fieldCode] === 'YES'
     const checkProgress =
       (answers: FormWizard.Answers) =>
-      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-        ...sectionProgress,
-        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
-      })
+        (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
+          ...sectionProgress,
+          [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
+        })
 
     return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
   }
@@ -274,8 +284,8 @@ class SaveAndContinueController extends BaseController {
         answersPersisted = true
         sendTelemetryEventForValidationError(
           err as unknown as FormWizard.Controller.Errors,
-          req.form.options.name,
           jsonResponse,
+          req.telemetry,
         )
         this.setErrors(err, req, res)
       }

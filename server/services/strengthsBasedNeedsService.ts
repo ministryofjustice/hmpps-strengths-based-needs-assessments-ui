@@ -10,6 +10,7 @@ export interface SessionData {
   assessmentVersion: number
   oasysAssessmentPk: string
   user: HandoverPrincipal
+  handoverSessionId: string
 }
 
 interface Option {

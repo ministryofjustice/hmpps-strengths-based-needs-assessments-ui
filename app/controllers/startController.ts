@@ -27,6 +27,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     req.session.sessionData = {
       ...contextData.assessmentContext,
       user: contextData.principal,
+      handoverSessionId: contextData.handoverSessionId,
     }
     req.session.subjectDetails = contextData.subject
 
