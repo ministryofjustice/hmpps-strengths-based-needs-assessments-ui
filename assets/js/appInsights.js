@@ -15,11 +15,17 @@ document.initialiseTelemetry = (
 
   const clickPluginInstance = new ClickAnalyticsPlugin()
   const clickPluginConfig = {
-    autoCapture: true
+    autoCapture: true,
+    dropInvalidEvents: true,
+    dataTags: {
+      customDataPrefix: 'data-ai-',
+      useDefaultContentNameOrId: false,
+    },
   }
 
   const appInsights = new ApplicationInsights({
     config: {
+      disableXhr: true,
       connectionString: applicationInsightsConnectionString,
       autoTrackPageVisitTime: true,
       extensions: [clickPluginInstance],
@@ -33,7 +39,7 @@ document.initialiseTelemetry = (
     envelope.tags["ai.cloud.role"] = applicationInsightsRoleName
     envelope.data['ASSESSMENT_ID'] = coreTelemetryData.assessmentId
     envelope.data['ASSESSMENT_VERSION'] = coreTelemetryData.assessmentVersion.toString()
-    envelope.data['SECTION_CODE'] = coreTelemetryData.sectionCode
+    envelope.data['SECTION_CODE'] = coreTelemetryData.section
     envelope.data['USER_ID'] = coreTelemetryData.user
     envelope.data['HANDOVER_SESSION_ID'] = coreTelemetryData.handoverSessionId
     envelope.data['FORM_VERSION'] = coreTelemetryData.formVersion.split(':')[1] || 'Unknown'

@@ -6,7 +6,7 @@ export const enum EventType {
 }
 
 export function sendTelemetryEventForValidationError(
-  err: FormWizard.Controller.Errors,  
+  err: FormWizard.Controller.Errors,
   autosaved: boolean,
   coreTelemetryData: FormWizard.CoreTelemetryData,
 ) {

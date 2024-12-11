@@ -42,10 +42,13 @@
         <div class="form-header">
           <div class="form-header__actions">
             {{ govukButton({
-              id: 'return-to-oasys',
+              id: "return-to-oasys",
               text: "Return to OASys",
               classes: "" if assessmentIsComplete else "govuk-button--secondary",
-              href: user.returnUrl | default("?defaultReturnUrlGoesHere")
+              href: user.returnUrl | default("?defaultReturnUrlGoesHere"),
+              attributes: {
+                "data-ai-id": "return-to-oasys"
+              }
             }) }}
           </div>
           <h1 class="govuk-heading-l form-header__title">Strengths and needs</h1>

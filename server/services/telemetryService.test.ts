@@ -1,7 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
+import { randomUUID } from 'crypto'
 import { EventType, sendTelemetryEventForValidationError } from './telemetryService'
 import { trackEvent } from '../utils/azureAppInsights'
-import { randomUUID } from 'crypto'
 
 jest.mock('../utils/azureAppInsights')
 
@@ -33,7 +33,7 @@ describe('sendTelemetryEventForValidationError', () => {
       user: 'foo-user',
       section: 'some-section-code',
       formVersion: 'Form:1.0',
-      handoverSessionId: randomUUID().toString()
+      handoverSessionId: randomUUID().toString(),
     }
 
     sendTelemetryEventForValidationError(errors, false, coreTelemetryData)
@@ -68,7 +68,7 @@ describe('sendTelemetryEventForValidationError', () => {
       user: 'foo-user',
       section: 'some-section-code',
       formVersion: 'Form:1.0',
-      handoverSessionId: randomUUID().toString()
+      handoverSessionId: randomUUID().toString(),
     })
 
     expect(trackEvent).toHaveBeenCalledTimes(0)

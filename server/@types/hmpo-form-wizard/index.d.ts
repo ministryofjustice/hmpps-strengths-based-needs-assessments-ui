@@ -18,22 +18,22 @@ declare module 'hmpo-form-wizard' {
       fields: Fields
       steps: RenderedSteps
       locals: Record<string, boolean | string>
+      section: string
       name: string
     }
 
     export interface CoreTelemetryData {
-      assessmentId: string,
-      assessmentVersion: number,
-      user: string,
-      section: string,
-      formVersion: string,
-      handoverSessionId: string,
+      assessmentId: string
+      assessmentVersion: number
+      user: string
+      section: string
+      formVersion: string
+      handoverSessionId: string
     }
 
     interface Request extends express.Request {
       telemetry: CoreTelemetryData
       form: {
-        section: string
         values: Answers
         options: FormOptions
         persistedAnswers: Answers

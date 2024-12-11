@@ -83,7 +83,7 @@ class SaveAndContinueController extends BaseController {
         assessmentId: sessionData.assessmentId,
         assessmentVersion: assessment.metaData.versionNumber,
         user: sessionData.user.identifier,
-        section: req.form.section,
+        section: req.form.options.section,
         handoverSessionId: sessionData.handoverSessionId,
         formVersion: req.form.options.name,
       }
@@ -158,14 +158,14 @@ class SaveAndContinueController extends BaseController {
   getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
     const subsectionIsComplete =
       (answers: FormWizard.Answers = {}) =>
-        (fieldCode: string) =>
-          answers[fieldCode] === 'YES'
+      (fieldCode: string) =>
+        answers[fieldCode] === 'YES'
     const checkProgress =
       (answers: FormWizard.Answers) =>
-        (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-          ...sectionProgress,
-          [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
-        })
+      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
+        ...sectionProgress,
+        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
+      })
 
     return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
   }
