@@ -49,12 +49,20 @@ document.initialiseTelemetry = (
   appInsights.addTelemetryInitializer(telemetryInitializer)
   appInsights.trackPageView()
 
-  const trackEvent = ({ name }) => {
+  const trackEvent = (name, properties) => {
     console.log(`Sending telemetry event: ${name}`)
-    appInsights.trackEvent({ name })
+    appInsights.trackEvent({ name }, properties)
   }
 
-  document.addEventListener('AutoSaved', () => {
-    trackEvent({ name: 'AUTOSAVED' })
+  document.addEventListener('autosave', () => {
+    trackEvent('AUTOSAVED')
+  })
+
+  document.addEventListener('copy', (e) => {
+    ['textarea', 'text'].includes(e.target.type) && trackEvent('USER_COPY', { QUESTION_CODE: e.target.name })
+  })
+
+  document.addEventListener('paste', (e) => {
+    ['textarea', 'text'].includes(e.target.type) && trackEvent('USER_PASTE', { QUESTION_CODE: e.target.name })
   })
 }
