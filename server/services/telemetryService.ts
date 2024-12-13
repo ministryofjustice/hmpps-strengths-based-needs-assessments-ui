@@ -19,7 +19,7 @@ export function sendTelemetryEventForValidationError(
         USER_ID: coreTelemetryData.user,
         HANDOVER_SESSION_ID: coreTelemetryData.handoverSessionId,
         FORM_VERSION: coreTelemetryData.formVersion.split(':')[1] || 'Unknown',
-        FIELD_CODE: fieldCode,
+        QUESTION_CODE: fieldCode,
         VALIDATION_ERROR_TYPE: validationError.type,
       })
     }
