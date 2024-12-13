@@ -46,7 +46,7 @@ describe('sendTelemetryEventForValidationError', () => {
       USER_ID: coreTelemetryData.user,
       HANDOVER_SESSION_ID: coreTelemetryData.handoverSessionId,
       FORM_VERSION: '1.0',
-      FIELD_CODE: 'first_field',
+      QUESTION_CODE: 'first_field',
       VALIDATION_ERROR_TYPE: 'required',
     })
     expect(trackEvent).toHaveBeenNthCalledWith(2, EventType.VALIDATION_ERROR, {
@@ -56,7 +56,7 @@ describe('sendTelemetryEventForValidationError', () => {
       USER_ID: coreTelemetryData.user,
       HANDOVER_SESSION_ID: coreTelemetryData.handoverSessionId,
       FORM_VERSION: '1.0',
-      FIELD_CODE: 'second_field',
+      QUESTION_CODE: 'second_field',
       VALIDATION_ERROR_TYPE: 'date',
     })
   })
