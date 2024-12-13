@@ -89,6 +89,11 @@
         }
       })
     }
+
+    getForm().addEventListener('submit', () => {
+      console.log('User submitting - clearing timeout')
+      clearTimeout(timeoutHandle)
+    })
   }
 
   window.addEventListener('load', () => {
