@@ -16,7 +16,7 @@ parameters:
 
   node-version:
     type: string
-    default: "22.5"
+    default: "22.9"
 
   deploy:
     description: Trigger a manual deployment
