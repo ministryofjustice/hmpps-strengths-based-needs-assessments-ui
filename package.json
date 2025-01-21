@@ -138,7 +138,7 @@
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^18.19.71",
+    "@types/node": "^22.10.7",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.4.17",
@@ -152,7 +152,7 @@
     "chokidar": "^3.6.0",
     "concurrently": "^9.1.2",
     "cookie-session": "^2.1.0",
-    "cypress": "^13.17.0",
+    "cypress": "^14.0.0",
     "cypress-axe": "^1.5.0",
     "cypress-circleci-reporter": "^0.3.0",
     "cypress-multi-reporters": "^2.0.4",
@@ -187,6 +187,9 @@
   "overrides": {
     "csurf": {
       "cookie": "1.0.2"
+    },
+    "cypress-axe": {
+      "cypress": "^14.0.0"
     }
   }
 }
