@@ -1,0 +1,13 @@
+diff --git a/node_modules/hmpo-form-wizard/lib/controller/index.js b/node_modules/hmpo-form-wizard/lib/controller/index.js
+index 43130c1..77cb36a 100644
+--- a/node_modules/hmpo-form-wizard/lib/controller/index.js
++++ b/node_modules/hmpo-form-wizard/lib/controller/index.js
+@@ -67,7 +67,7 @@ class BaseController {
+     useWithMethod(method) {
+         if (!this.router) throw new Error('Cannot use middleware outside of middleware mixins');
+         let args = this._bindFunctions(arguments);
+-        args[0] = '*';
++        args[0] = '*splat';
+         this.router[method].apply(this.router, args);
+     }
+ 
