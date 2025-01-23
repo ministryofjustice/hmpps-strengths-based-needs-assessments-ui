@@ -12,7 +12,8 @@ export const escape = {
       .replace(/>/g, '&gt;')
       .replace(/\//g, '&#x2F;')
       .replace(/\\/g, '&#x5C;')
-      .replace(/`/g, '&#96;'),
+      .replace(/`/g, '&#96;')
+      .replace(/\r\n|\r/g, '\n'),
 }
 
 export const unescape = (input: string) =>
