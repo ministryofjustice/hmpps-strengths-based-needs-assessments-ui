@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 import { DateTime } from 'luxon'
 
 export const escape = {
