@@ -68,6 +68,7 @@ import {
   hasReceivingTreatmentPreviously,
   hasSecondaryAnswer,
 } from './commands/summary'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import 'cypress-axe'
 import { checkAccessibility } from './commands/accessibility'
 import {
@@ -89,6 +90,7 @@ import {
 } from './commands/api'
 import { Fixture, loadFixture, saveAsFixture } from './commands/fixture'
 
+/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace Cypress {
     interface Chainable {
