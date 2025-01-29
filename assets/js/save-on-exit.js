@@ -25,6 +25,8 @@
     const [formAction] = form?.getAttribute('action').split('#')
     const endpoint = `${formAction}?jsonResponse=true`
 
+    document.dispatchEvent(new CustomEvent('autosave'))
+
     return fetch(endpoint, {
       method: 'POST',
       body: formData,
@@ -87,6 +89,11 @@
         }
       })
     }
+
+    getForm().addEventListener('submit', () => {
+      console.log('User submitting - clearing timeout')
+      clearTimeout(timeoutHandle)
+    })
   }
 
   window.addEventListener('load', () => {

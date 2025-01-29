@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Is Sam affected by debt?'
   describe(question, () => {
@@ -55,6 +57,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
             .getConditionalQuestion()
             .hasTitle('Give details (optional')
             .hasHint(hint)
+            .hasLimit(config.characterLimit.default)
             .hasNoValidationError()
             .enterText('Some details')
 

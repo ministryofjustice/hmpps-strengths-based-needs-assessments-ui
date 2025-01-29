@@ -40,28 +40,13 @@
         {% else %}
           {% if fieldsOnThisPage.length == 1 %}
             {% if field.type === "RADIO" or field.type === "CHECKBOX" %}
-              {% set labelClasses = "govuk-fieldset__legend--l" %}
+              {% set field = field | setProp("labelClasses", "govuk-fieldset__legend--l") %}
             {% else %}
-              {% set labelClasses = "govuk-label--l" %}
+              {% set field = field | setProp("labelClasses", "govuk-label--l") %}
             {% endif %}
-          {% else %}
-            {% set labelClasses = field.labelClasses %}
           {% endif %}
 
-          {% set fieldOptions = {
-            text: field.text,
-            code: field.code,
-            id: field.id,
-            hint: field.hint,
-            type: field.type,
-            options: field.options,
-            value: field.value,
-            labelClasses: labelClasses,
-            characterCountMax: field.characterCountMax,
-            classes: field.classes
-          } %}
-
-          {{ renderQuestion(fieldOptions, errors, action) }}
+          {{ renderQuestion(field, errors, action) }}
         {% endif %}
 
       {% endfor %}
@@ -86,8 +71,4 @@
       {% endif %}
     </form>
   </div>
-{% endblock %}
-
-{% block bodyEnd %}
-  <script type="module" src="/assets/js/app.js"></script>
 {% endblock %}

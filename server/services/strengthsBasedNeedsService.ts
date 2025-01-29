@@ -1,31 +1,16 @@
-import { UUID } from 'crypto'
 import querystring from 'querystring'
 import config from '../config'
 import RestClient from '../data/restClient'
-import getHmppsAuthClient from '../data/hmppsAuthClient'
+import getHmppsAuthClient from '../data/index'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 import { HandoverPrincipal } from './arnsHandoverService'
-
-export interface CreateAssessmentRequest extends Record<string, unknown> {
-  oasysAssessmentPk: string
-  userDetails: {
-    id: string
-    name: string
-  }
-}
-
-export interface CreateAssessmentResponse {
-  sanAssessmentId: UUID
-  sanAssessmentVersion: number
-  sentencePlanId?: UUID
-  sentencePlanVersion?: number
-}
 
 export interface SessionData {
   assessmentId: string
   assessmentVersion: number
   oasysAssessmentPk: string
   user: HandoverPrincipal
+  handoverSessionId: string
 }
 
 interface Option {
@@ -54,6 +39,7 @@ interface AssessmentMetaData {
   versionCreatedAt: string
   versionTag: string
   formVersion: string
+  versionNumber: number
 }
 
 export interface AssessmentResponse {
@@ -62,18 +48,23 @@ export interface AssessmentResponse {
   metaData: AssessmentMetaData
 }
 
-export interface OasysAssessmentResponse {
-  sanAssessmentId: string
-  sanAssessmentVersion: number
-  sanAssessmentData: AssessmentResponse
-  lastUpdatedTimestamp: string
-}
-
 export interface UpdateAnswersDto extends Record<string, unknown> {
   answersToAdd: AnswerDTOs
   answersToRemove: string[]
-  tags?: string[]
+  userDetails: UserDetails
 }
+
+interface UserDetails {
+  id: string
+  name: string
+  type: string
+}
+
+export const userDetailsFromSession = (session: SessionData): UserDetails => ({
+  id: session.user.identifier,
+  name: session.user.displayName,
+  type: 'OASYS',
+})
 
 export default class StrengthsBasedNeedsAssessmentsApiService {
   authClient

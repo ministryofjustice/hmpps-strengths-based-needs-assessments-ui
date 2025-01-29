@@ -90,6 +90,11 @@ export const buildRequestBody = (
             sectionFields.includes(fieldCode) && !relevantFields.some(field => field.field.code === fieldCode),
         )
       : [],
+    userDetails: {
+      id: 'user-id',
+      name: 'User Name',
+      type: 'SAN',
+    },
   }
 }
 

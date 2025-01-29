@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Is Sam able to resolve any challenges in their intimate relationships?'
 
@@ -5,8 +7,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('Consider any healthy and appropriate skills or strengths they may have.')
-        .hasLimit(400)
+        .hasHint(
+          'Consider how resilient they are, and how they work with their partner to resolve issues when they arise. An intimate relationship is one that involves physical and/or emotional closeness.',
+        )
+        .hasLimit(config.characterLimit.default)
 
       cy.saveAndContinue()
 

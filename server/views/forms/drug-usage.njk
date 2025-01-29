@@ -5,18 +5,9 @@
 
 {% set pageTitleClass = "govuk-body-l govuk-!-margin-0" %}
 
-{% block backLink %}
-  {%- if generatedBackLink -%}
-    {{ govukBackLink({
-      text: "Back",
-      href: generatedBackLink
-    }) }}
-  {%- endif -%}
-{% endblock %}
-
 {%- macro renderDrugTypeOption(option, fields) -%}
   {% if option.value === "OTHER_DRUG" %}
-    {% set label = fields["other_drug_details"].value | default("Other drug") | safe %}
+    {% set label = fields["drug_use_type_other_drug_details"].value | default("Other drug") | safe %}
   {% else %}
     {% set label = option.text %}
   {% endif %}

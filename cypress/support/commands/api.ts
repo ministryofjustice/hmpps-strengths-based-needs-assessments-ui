@@ -12,11 +12,10 @@ export const uuid = () => {
 }
 
 const oasysUser = {
-  id: uuid(),
+  id: uuid().substring(0, 30),
   name: 'Cypress User',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum AccessMode {
   READ_WRITE = 'READ_WRITE',
   READ_ONLY = 'READ_ONLY',
@@ -26,6 +25,7 @@ export interface AssessmentContext {
   assessmentId?: string
   assessmentVersion?: number
   oasysAssessmentPk?: string
+  sexuallyMotivatedOffenceHistory?: string
 }
 
 export const getApiToken = () => {
@@ -66,7 +66,7 @@ export const enterAssessment = (
   cy.log(`Entering assessment with OASys PK: ${assessment.oasysAssessmentPk}`)
 
   cy.session(
-    `${assessment.assessmentId}_${assessment.assessmentVersion}_${accessMode.valueOf()}`,
+    `${accessMode.valueOf()}:${JSON.stringify(assessment)}`,
     () => {
       getApiToken().then(apiToken => {
         cy.request({
@@ -80,6 +80,7 @@ export const enterAssessment = (
               identifier: oasysUser.id,
               displayName: oasysUser.name,
               accessMode: accessMode.valueOf(),
+              returnUrl: Cypress.env('OASYS_UI_URL'),
             },
             subjectDetails: {
               crn: 'X123456',
@@ -89,7 +90,9 @@ export const enterAssessment = (
               dateOfBirth: '1970-01-01',
               gender: 0,
               location: 'COMMUNITY',
-              sexuallyMotivatedOffenceHistory: 'NO',
+              ...(assessment.sexuallyMotivatedOffenceHistory && {
+                sexuallyMotivatedOffenceHistory: assessment.sexuallyMotivatedOffenceHistory,
+              }),
             },
           },
           retryOnNetworkFailure: false,
@@ -135,6 +138,11 @@ export const createAssessment = (data = null) => {
           auth: { bearer: apiToken },
           body: {
             answersToAdd: data.assessment,
+            userDetails: {
+              id: 'cypress',
+              name: 'Cypress User',
+              type: 'SAN',
+            },
           },
           retryOnNetworkFailure: false,
         })
@@ -168,13 +176,36 @@ export const lockAssessment = () =>
     const assessment: AssessmentContext = env('last_assessment')
 
     cy.request({
-      url: `${env('SBNA_API_URL')}/oasys/assessment/${assessment.oasysAssessmentPk}/lock`,
+      url: `${env('SBNA_API_URL')}/assessment/${assessment.assessmentId}/lock`,
       method: 'POST',
       auth: { bearer: apiToken },
       body: {
         userDetails: {
           id: '111111',
           name: 'John Doe',
+          type: 'SAN',
+        },
+      },
+      retryOnNetworkFailure: false,
+    }).then(lockResponse => {
+      expect(lockResponse.isOkStatusCode).to.eq(true)
+    })
+  })
+
+export const softDeleteAssessment = (versionFrom: number) =>
+  getApiToken().then(apiToken => {
+    const assessment: AssessmentContext = env('last_assessment')
+
+    cy.request({
+      url: `${env('SBNA_API_URL')}/assessment/${assessment.assessmentId}/soft-delete`,
+      method: 'POST',
+      auth: { bearer: apiToken },
+      body: {
+        versionFrom,
+        userDetails: {
+          id: '111111',
+          name: 'John Doe',
+          type: 'SAN',
         },
       },
       retryOnNetworkFailure: false,

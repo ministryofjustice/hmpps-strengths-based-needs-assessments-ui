@@ -14,7 +14,7 @@ describe('/offence-analysis-victim-details', () => {
       raceOrEthnicity: 'White - English, Welsh, Scottish, Northern Irish or British',
     },
     {
-      relationship: "Victim's ex-partner",
+      relationship: "Sam's ex-partner",
       age: '21 to 25 years',
       sex: 'Female',
       raceOrEthnicityPartial: 'White - Irish',
@@ -34,7 +34,7 @@ describe('/offence-analysis-victim-details', () => {
     cy.getQuestion('Did the current index offence(s) involve any of the following motivations?')
       .getCheckbox('Thrill seeking')
       .clickLabel()
-    cy.getQuestion('Who was the victim?').getCheckbox('One or more person').clickLabel()
+    cy.getQuestion('Who was the offence committed against?').getCheckbox('One or more people').clickLabel()
 
     cy.saveAndContinue()
 

@@ -2,9 +2,11 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
+import CookieSessionObject = CookieSessionInterfaces.CookieSessionObject
+import { HandoverSubject } from '../../../../server/services/arnsHandoverService'
 
 const sexualHarmWarningText = `
-<div class="govuk-warning-text">
+<div class="govuk-warning-text govuk-!-static-margin-0">
   <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
   <strong class="govuk-warning-text__text">
     <span class="govuk-visually-hidden">Warning</span>
@@ -33,6 +35,10 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
   thinkingBehavioursAttitudesStableBehaviour: FormWizard.Field = {
     text: 'Does [subject] show stable behaviour?',
     code: 'thinking_behaviours_attitudes_stable_behaviour',
+    hint: {
+      text: 'Consider their ability to manage boredom and routine tasks, and their level of thrill-seeking or risky behaviour.',
+      kind: 'text',
+    },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they show stable behaviour' }],
     options: [
@@ -191,7 +197,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
   }
 
   thinkingBehavioursAttitudesRiskSexualHarm: FormWizard.Field = {
-    text: 'Are there any concerns that [subject] is a risk of sexual harm?',
+    text: 'Are there any concerns that [subject] poses a risk of sexual harm to others?',
     hint: { html: sexualHarmWarningText, kind: 'html' },
     code: 'thinking_behaviours_attitudes_risk_sexual_harm',
     type: FieldType.Radio,
@@ -202,7 +208,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       {
         text: 'Yes',
         hint: {
-          text: 'Information suggests that there is evidence of sexual behaviour that could present a risk of sexual harm.',
+          text: 'Information suggests that there is evidence of sexual behaviour that could pose a risk of sexual harm to others',
         },
         value: 'YES',
         kind: 'option',
@@ -210,6 +216,18 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+    transform(session: CookieSessionObject): FormWizard.Field {
+      const subjectDetails = session.subjectDetails as HandoverSubject
+      return {
+        ...this,
+        hint: subjectDetails.sexuallyMotivatedOffenceHistory === 'NO' ? this.hint : null,
+        options: this.options.map((option: FormWizard.Field.Option) =>
+          option.value === 'NO' && subjectDetails.sexuallyMotivatedOffenceHistory === 'YES'
+            ? { ...option, disabled: true }
+            : option,
+        ),
+      }
+    },
   }
 
   thinkingBehavioursAttitudesSexualPreoccupation: FormWizard.Field = {
@@ -279,7 +297,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       {
         text: 'Unknown',
-        value: 'UNKNOWN_OFFENCE_RELATED_SEXUAL_INTEREST',
+        value: 'UNKNOWN',
         kind: 'option',
       },
     ],
@@ -458,7 +476,8 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: 'There is evidence of suspicious, angry or vengeful thinking and behaviour',
+        text: 'There is evidence of suspicious, angry and vengeful thinking and behaviour',
+        html: 'There is evidence of suspicious, angry <strong>and</strong> vengeful thinking and behaviour',
         value: 'YES',
         kind: 'option',
       },

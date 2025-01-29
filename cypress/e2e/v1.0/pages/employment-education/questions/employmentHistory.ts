@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "What is Sam's employment history?"
 
@@ -28,7 +30,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint("Include what type of work they've done before.")
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.checkAccessibility()
 

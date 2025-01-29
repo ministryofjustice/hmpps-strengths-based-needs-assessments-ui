@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "What is Sam's history of intimate relationships?"
 
@@ -17,7 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint(null)
+        .hasHint('An intimate relationship is one that involves physical and/or emotional closeness.')
         .hasRadios(options.map(([option, _]) => option))
 
       cy.saveAndContinue()
@@ -37,7 +39,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint('Consider patterns and quality of any significant relationships.')
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
 

@@ -4,6 +4,7 @@ import {
   requiredWhenValidator,
   getMediumLabelClassFor,
   getSmallLabelClassFor,
+  validateMaxLength,
 } from './utils'
 import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
@@ -31,6 +32,13 @@ describe('fields/common', () => {
       expect(validateFutureDate(undefined)).toEqual(true)
       expect(validateFutureDate(null)).toEqual(true)
     })
+  })
+
+  describe('validateMaxLength', () => {
+    it('is valid when the length is under the limit', () => expect(validateMaxLength('abc', 4)).toEqual(true))
+    it('is valid when the length is equal to the limit', () => expect(validateMaxLength('abc', 3)).toEqual(true))
+    it('is invalid when the length is over the limit', () => expect(validateMaxLength('abc', 2)).toEqual(false))
+    it('unescapes html characters before validation', () => expect(validateMaxLength('&amp;', 1)).toEqual(true))
   })
 
   describe('requiredWhenValidator', () => {

@@ -1,13 +1,10 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Are there any concerns that Sam is a risk of sexual harm?'
+  const question = 'Are there any concerns that Sam poses a risk of sexual harm to others?'
   const options = ['Yes', 'No']
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasHint('Sam does not have any current or previous sexual or sexually motivated offences')
-        .hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Select if there are any concerns they are a risk of sexual harm')
@@ -17,7 +14,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     Array.of(
       [
         'Yes',
-        'Information suggests that there is evidence of sexual behaviour that could present a risk of sexual harm.',
+        'Information suggests that there is evidence of sexual behaviour that could pose a risk of sexual harm to others',
       ],
       ['No', null],
     ).forEach(([option, hint]) => {

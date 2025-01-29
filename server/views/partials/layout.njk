@@ -28,6 +28,15 @@
 
 {% block bodyEnd %}
   <script type="module" src="/assets/js/app.js"></script>
+  <script nonce="{{ cspNonce }}">
+    document.addEventListener('DOMContentLoaded', function () {
+      document.initialiseTelemetry(
+        '{{ applicationInsightsConnectionString | default('') }}',
+        '{{ applicationInsightsRoleName }}',
+        {{ coreTelemetryData | dump | safe }}
+      )
+    })
+  </script>
 {% endblock %}
 
 {% block footer %}

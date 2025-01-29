@@ -3,6 +3,7 @@ import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
 import { dependentOn } from './common/utils'
+import characterLimits from '../config/characterLimits'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   {
@@ -257,6 +258,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     parentField: this.educationProfessionalOrVocationalQualifications,
     dependentValue: 'YES',
     required: true,
+    maxChars: characterLimits.c400,
   })
 
   educationTransferableSkills: FormWizard.Field = {

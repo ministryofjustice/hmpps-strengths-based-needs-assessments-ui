@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Why did Sam start using drugs?'
 
@@ -57,7 +59,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getCheckbox('Other')
         .getConditionalQuestion()
         .hasTitle('Give details')
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.default)
         .hasNoValidationError()
 
       cy.saveAndContinue()

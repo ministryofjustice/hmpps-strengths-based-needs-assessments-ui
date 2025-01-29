@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = "What's the impact of Sam using drugs?"
 
@@ -56,7 +58,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasHint('Consider impact on themselves or others.')
-        .hasLimit(400)
+        .hasLimit(config.characterLimit.default)
         .hasNoValidationError()
 
       cy.saveAndContinue()

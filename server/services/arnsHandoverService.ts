@@ -1,6 +1,6 @@
 import config from '../config'
 import RestClient from '../data/restClient'
-import getHmppsAuthClient from '../data/hmppsAuthClient'
+import getHmppsAuthClient from '../data/index'
 import { Gender } from '../@types/hmpo-form-wizard/enums'
 
 export default class ArnsHandoverService {
@@ -51,7 +51,7 @@ export type HandoverSubject = {
   dateOfBirth: string
   gender: Gender
   location: 'PRISON' | 'COMMUNITY'
-  sexuallyMotivatedOffenceHistory?: string
+  sexuallyMotivatedOffenceHistory?: 'YES' | 'NO'
 }
 
 export type HandoverAssessmentContext = {

@@ -1,7 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
-import StrengthsBasedNeedsAssessmentsApiService from '../../server/services/strengthsBasedNeedsService'
-import ArnsHandoverService from '../../server/services/arnsHandoverService'
-import { isReadOnly } from './saveAndContinue.utils'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  AssessmentResponse,
+  SessionData,
+  userDetailsFromSession,
+} from '../../server/services/strengthsBasedNeedsService'
+import ArnsHandoverService, { HandoverSubject } from '../../server/services/arnsHandoverService'
+import { createAnswerDto, isReadOnly } from './saveAndContinue.utils'
+import thinkingBehavioursFields from '../form/v1_0/fields/thinking-behaviours-attitudes'
+import { stepUrls } from '../form/v1_0/steps/thinking-behaviours-attitudes'
+import { assessmentComplete } from '../form/v1_0/fields'
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
@@ -19,10 +26,14 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
 
     req.session.sessionData = {
       ...contextData.assessmentContext,
-      assessmentId: contextData.assessmentContext.assessmentId,
       user: contextData.principal,
+      handoverSessionId: contextData.handoverSessionId,
     }
     req.session.subjectDetails = contextData.subject
+
+    if (!isReadOnly(contextData.principal))
+      await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
+
     req.session.save(error => {
       if (error) {
         return next(error)
@@ -34,6 +45,31 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     })
   } catch {
     next(new Error('Unable to start assessment'))
+  }
+}
+
+const setSexuallyMotivatedOffenceHistory = async (
+  assessment: AssessmentResponse,
+  subject: HandoverSubject,
+  session: SessionData,
+) => {
+  const field = thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm
+  const oasysAnswer = subject.sexuallyMotivatedOffenceHistory
+  const sanAnswer = assessment.assessment[field.code]?.value
+  const sectionCompleteField = thinkingBehavioursFields.sectionComplete()
+  const isUserSubmittedField = thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes)
+
+  if (oasysAnswer === 'YES' && oasysAnswer !== sanAnswer) {
+    await apiService.updateAnswers(assessment.metaData.uuid, {
+      answersToAdd: {
+        [field.code]: createAnswerDto(field, oasysAnswer),
+        [sectionCompleteField.code]: createAnswerDto(sectionCompleteField, 'NO'),
+        [isUserSubmittedField.code]: createAnswerDto(isUserSubmittedField, 'NO'),
+        [assessmentComplete.code]: createAnswerDto(assessmentComplete, 'NO'),
+      },
+      answersToRemove: [],
+      userDetails: userDetailsFromSession(session),
+    })
   }
 }
 

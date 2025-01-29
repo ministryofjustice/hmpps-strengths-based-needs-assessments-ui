@@ -17,18 +17,6 @@ import templates from '../config/templates'
 export const sectionConfigs: SectionConfig[] = [
   {
     section: {
-      title: 'Data mapping',
-      code: 'data-mapping',
-    },
-    steps: [
-      {
-        url: 'data-mapping',
-        template: templates.dataMapping,
-      },
-    ],
-  },
-  {
-    section: {
       title: 'Print preview',
       code: 'print-preview',
     },
@@ -60,7 +48,7 @@ const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): Form
     controller: step.controller || SaveAndContinueController,
     fields: [assessmentComplete.code, ...fieldCodesFrom(step.fields || [])],
     template: step.template || 'forms/default',
-    backLink: null, // override FormWizard behaviour to provide a generated backlink, these will be set manually in config
+    backLink: step.backLink || null,
   },
 })
 

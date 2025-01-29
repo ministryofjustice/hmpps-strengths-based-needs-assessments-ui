@@ -58,10 +58,11 @@ services:
       - ./esbuild:/app/esbuild
       - ./server:/app/server
       - ./test_results:/app/test_results
+      - ./.editorconfig:/app/.editorconfig
       - ./.eslintcache:/app/.eslintcache
-      - ./.eslintignore:/app/.eslintignore
       - ./.eslintrc.json:/app/.eslintrc.json
-      - ./.prettierrc:/app/.prettierrc
+      - ./.prettierrc.json:/app/.prettierrc.json
+      - ./eslint.config.mjs:/app/eslint.config.mjs
       - ./logger.ts:/app/logger.ts
       - ./package.json:/app/package.json
       - ./package-lock.json:/app/package-lock.json

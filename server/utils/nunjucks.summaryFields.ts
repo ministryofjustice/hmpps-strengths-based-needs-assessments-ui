@@ -1,7 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldDependencyTreeBuilder } from '../../app/utils/fieldDependencyTreeBuilder'
-import { isNonRenderedField, isPractitionerAnalysisField } from './nunjucks.utils'
+import { isNonRenderedField } from './nunjucks.utils'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
+import { isPractitionerAnalysisField } from '../../app/utils/field.utils'
 
 export interface GetSummaryFieldsOptions {
   section: string

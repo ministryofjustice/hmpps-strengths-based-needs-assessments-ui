@@ -1,15 +1,16 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
-import { formatDateForDisplay } from '../../../../server/utils/nunjucks.utils'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
 import { dependentOn } from './common/utils'
+import { formatDateForDisplay } from '../../../utils/formatters'
+import characterLimits from '../config/characterLimits'
 
 const immigrationAccommodationHint = `
-    <div class="govuk-!-width-two-thirds">
+    <div class="govuk-grid-column-full">
       <p class="govuk-hint">This includes:</p>
       <ul class="govuk-hint govuk-list govuk-list--bullet">
-        <li>Schedule 10 - Home Office provides accommodation under the Immigration Act 2016</li>
+        <li class=" govuk-!-margin-bottom-5">Schedule 10 - Home Office provides accommodation under the Immigration Act 2016</li>
         <li>Schedule 4 - Home Office provides accommodation for those on immigration bail, prior to the Immigration Act 2016</li>
       </ul>
     </div>
@@ -29,7 +30,11 @@ const suitableHousingConcernsOptions: FormWizard.Field.Options = [
     kind: 'option',
   },
   { text: 'Overcrowding', value: 'OVERCROWDING', kind: 'option' },
-  { text: 'Risk of accommodation exploited - for example, cuckooing', value: 'EXPLOITATION', kind: 'option' },
+  {
+    text: 'Risk of their accommodation being exploited by others - for example, cuckooing',
+    value: 'EXPLOITATION',
+    kind: 'option',
+  },
   { text: 'Safety of accommodation', value: 'SAFETY', kind: 'option' },
   { text: 'Victim lives with them', value: 'LIVES_WITH_VICTIM', kind: 'option' },
   { text: 'Victimised by someone living with them', value: 'VICTIMISATION', kind: 'option' },
@@ -103,7 +108,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'short_term_accommodation_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'SHORT_TERM'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -115,7 +123,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'approved_premises_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'APPROVED_PREMISES'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -127,7 +138,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'cas2_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'CAS2'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -139,7 +153,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'cas3_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'CAS3'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -151,7 +168,10 @@ class AccommodationFieldsFactory extends FieldsFactory {
     text: 'Enter expected end date (optional)',
     code: 'immigration_accommodation_end_date',
     type: FieldType.Date,
-    validate: [{ fn: utils.validateFutureDate, message: 'Enter a future date' }],
+    validate: [
+      { fn: utils.validateValidDate, message: 'Enter a valid date' },
+      { fn: utils.validateFutureDate, message: 'Enter a future date' },
+    ],
     dependent: dependentOn(this.typeOfTemporaryAccommodation, 'IMMIGRATION'),
     summary: {
       displayFn: endDateSummaryDisplay,
@@ -198,7 +218,6 @@ class AccommodationFieldsFactory extends FieldsFactory {
   }
 
   livingWithDetailsGroup: FormWizard.Field[] = [
-    ['PERSON_UNDER_18', 'Include name, date of birth or age, gender and their relationship to [subject].'],
     ['PARTNER', 'Include name, age and gender.'],
     ['OTHER', null],
   ].map(([option, hint]) =>
@@ -366,14 +385,15 @@ class AccommodationFieldsFactory extends FieldsFactory {
   })
 
   pastAccommodationDetails: FormWizard.Field = {
-    text: "What's helped Sam stay in accommodation in the past? (optional)",
+    text: "What's helped [subject] stay in accommodation in the past? (optional)",
     code: 'past_accommodation_details',
     type: FieldType.TextArea,
     validate: [
       {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        type: 'validateMaxLength',
+        fn: utils.validateMaxLength,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),

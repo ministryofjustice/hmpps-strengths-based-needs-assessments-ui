@@ -6,6 +6,7 @@ import templates from '../config/templates'
 
 const section = sections.personalRelationships
 const stepUrls = {
+  personalRelationshipsChildrenInfo: 'personal-relationships-children-information',
   personalRelationships: 'personal-relationships',
   personalRelationshipsChildren: 'personal-relationships-children',
   personalRelationshipsCommunity: 'personal-relationships-community',
@@ -47,6 +48,20 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      url: stepUrls.personalRelationshipsChildrenInfo,
+      fields: [
+        personalRelationshipsFields.personalRelationshipsCommunityChildrenInformation,
+        personalRelationshipsFields.personalRelationshipsCommunityLivingWithChildrenDetails,
+        personalRelationshipsFields.personalRelationshipsCommunityNotLivingWithChildrenDetails,
+        personalRelationshipsFields.personalRelationshipsCommunityVisitingChildrenDetails,
+        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildrenInfo),
+        personalRelationshipsFields.sectionComplete(),
+      ].flat(),
+      navigationOrder: 7,
+      next: stepUrls.personalRelationships,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
       url: stepUrls.personalRelationships,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeople,
@@ -59,7 +74,6 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationships),
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 7,
       next: [
         {
           field: personalRelationshipsFields.personalRelationshipsCommunityImportantPeople.code,

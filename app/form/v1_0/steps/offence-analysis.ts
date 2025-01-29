@@ -27,6 +27,7 @@ const offenceAnalysisImpactGroup: FormWizard.Field[] = [
   offenceAnalysisFields.offenceAnalysisAcceptResponsibilityDetails,
   offenceAnalysisFields.offenceAnalysisPatternsOfOffending,
   offenceAnalysisFields.offenceAnalysisEscalation,
+  offenceAnalysisFields.offenceAnalysisEscalationDetails,
   offenceAnalysisFields.offenceAnalysisRisk,
   offenceAnalysisFields.offenceAnalysisRiskDetails,
   offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuse,
@@ -49,7 +50,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.offenceAnalysisReason,
         offenceAnalysisFields.offenceAnalysisMotivation,
         offenceAnalysisFields.otherOffenceMotivationDetails,
-        offenceAnalysisFields.offenceAnalysisWhoWasTheVictim,
+        offenceAnalysisFields.offenceAnalysisWhoWasTheOffenceCommittedAgainst,
         offenceAnalysisFields.offenceAnalysisOtherVictimDetails,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
         offenceAnalysisFields.sectionComplete(),
@@ -57,7 +58,7 @@ const sectionConfig: SectionConfig = {
       navigationOrder: 9,
       next: [
         {
-          field: offenceAnalysisFields.offenceAnalysisWhoWasTheVictim.code,
+          field: offenceAnalysisFields.offenceAnalysisWhoWasTheOffenceCommittedAgainst.code,
           op: contains,
           value: 'ONE_OR_MORE_PERSON',
           next: [
@@ -83,6 +84,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.sectionComplete(),
       ].flat(),
       next: stepUrls.offenceAnalysisVictimsSummary,
+      backLink: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       autosave: false,
     },
@@ -95,6 +97,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.sectionComplete(),
       ].flat(),
       next: stepUrls.offenceAnalysisVictimsSummary,
+      backLink: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       params: '/:entryId',
     },
@@ -106,6 +109,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.sectionComplete(),
       ],
       next: stepUrls.offenceAnalysisVictimsSummary,
+      backLink: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       params: '/:entryId',
     },
@@ -147,7 +151,6 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: stepUrls.summary,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
-      backLink: stepUrls.offenceAnalysisInvolvedParties,
       locals: {
         buttonText: 'Mark as complete',
       },

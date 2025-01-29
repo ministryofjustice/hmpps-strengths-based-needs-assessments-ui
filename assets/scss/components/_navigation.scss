@@ -6,11 +6,14 @@
 .section-label {
   width: 80%;
   display: inline-block;
+  white-space: nowrap;
+  @include govuk-media-query($from: tablet) {
+    white-space: normal;
+  }
 }
 
 .section-complete {
   font-size: 14px;
-  float: right;
   border-radius: 50%;
   background-color: $govuk-brand-colour;
   color: govuk-colour('white');

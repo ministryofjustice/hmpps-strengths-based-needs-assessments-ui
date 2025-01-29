@@ -40,6 +40,7 @@ describe('Origin: /health-wellbeing', () => {
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.physicalMentalHealth)
+          cy.assertBackLinkIs(destinations.landingPage)
           cy.assertResumeUrlIs(sectionName, destinations.physicalMentalHealth)
         })
       })
@@ -55,7 +56,9 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?')
+          .getRadio('No, they do not have any conditions or disabilities that impact their ability to learn')
+          .clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 
@@ -67,7 +70,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')
@@ -98,6 +101,7 @@ describe('Origin: /health-wellbeing', () => {
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.physicalHealth)
+          cy.assertBackLinkIs(destinations.landingPage)
           cy.assertResumeUrlIs(sectionName, destinations.physicalHealth)
         })
       })
@@ -111,7 +115,9 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?')
+          .getRadio('No, they do not have any conditions or disabilities that impact their ability to learn')
+          .clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 
@@ -123,7 +129,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')
@@ -158,6 +164,7 @@ describe('Origin: /health-wellbeing', () => {
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.mentalHealth)
+          cy.assertBackLinkIs(destinations.landingPage)
           cy.assertResumeUrlIs(sectionName, destinations.mentalHealth)
         })
       })
@@ -173,7 +180,9 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?')
+          .getRadio('No, they do not have any conditions or disabilities that impact their ability to learn')
+          .clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 
@@ -185,7 +194,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')
@@ -216,6 +225,7 @@ describe('Origin: /health-wellbeing', () => {
           cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.noPhysicalMentalHealth)
+          cy.assertBackLinkIs(destinations.landingPage)
           cy.assertResumeUrlIs(sectionName, destinations.noPhysicalMentalHealth)
         })
       })
@@ -229,7 +239,9 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
 
-        cy.getQuestion('Does Sam have any learning difficulties?').getRadio('No difficulties').clickLabel()
+        cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?')
+          .getRadio('No, they do not have any conditions or disabilities that impact their ability to learn')
+          .clickLabel()
 
         cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
 
@@ -241,7 +253,7 @@ describe('Origin: /health-wellbeing', () => {
 
         cy.getQuestion('Has Sam ever attempted suicide or had suicidal thoughts?').getRadio('No').clickLabel()
 
-        cy.getQuestion('How optimistic is Sam about their future?').getRadio('Sam does not want to answer').clickLabel()
+        cy.getQuestion('How does Sam feel about their future?').getRadio('Sam does not want to answer').clickLabel()
 
         cy.getQuestion('Does Sam want to make changes to their health and wellbeing?')
           .getRadio('Sam is not present')

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Result } from 'axe-core'
 
 // eslint-disable-next-line import/prefer-default-export

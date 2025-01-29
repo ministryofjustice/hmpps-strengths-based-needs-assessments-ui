@@ -1,10 +1,10 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
-import { formatDateForDisplay, isPractitionerAnalysisField } from '../../server/utils/nunjucks.utils'
-import { dependencyMet, whereSelectable } from './field.utils'
+import { dependencyMet, isPractitionerAnalysisField, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import sections from '../form/v1_0/config/sections'
 import { validateField } from './validation'
+import { formatDateForDisplay } from './formatters'
 
 export interface Options {
   section: string
@@ -20,6 +20,7 @@ export interface Field {
 
 export interface FieldAnswer {
   text: string
+  html?: string
   value: string
   nestedFields: Field[]
 }
@@ -178,6 +179,7 @@ export class FieldDependencyTreeBuilder {
           .map(o => {
             return {
               text: whereSelectable(o) ? o.summary?.displayFn(o.text, o.value) || o.text : '',
+              html: whereSelectable(o) ? o.html : null,
               value: whereSelectable(o) ? o.value : '',
               nestedFields: [],
             } as FieldAnswer

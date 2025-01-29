@@ -18,9 +18,21 @@ declare module 'hmpo-form-wizard' {
       fields: Fields
       steps: RenderedSteps
       locals: Record<string, boolean | string>
+      section: string
+      name: string
+    }
+
+    export interface CoreTelemetryData {
+      assessmentId: string
+      assessmentVersion: number
+      user: string
+      section: string
+      formVersion: string
+      handoverSessionId: string
     }
 
     interface Request extends express.Request {
+      telemetry: CoreTelemetryData
       form: {
         values: Answers
         options: FormOptions
@@ -62,6 +74,8 @@ declare module 'hmpo-form-wizard' {
       errorHandler(error: Error, req: Request, res: express.Response, next: express.NextFunction): Promise
 
       setErrors(error: Error, req: Request, res: express.Response)
+
+      isValidationError(error: unknown): boolean
     }
 
     namespace Controller {
@@ -107,9 +121,11 @@ declare module 'hmpo-form-wizard' {
     namespace Field {
       type Option = {
         text: string
+        html?: string
         value: string
         checked?: boolean
         selected?: boolean
+        disabled?: boolean
         conditional?: { html: string }
         hint?: { text: string } | { html: string }
         behaviour?: string
@@ -135,7 +151,7 @@ declare module 'hmpo-form-wizard' {
       | { type: FormatterType; arguments?: (string | number)[] }
       | { fn: FormatterFn; arguments?: (string | number)[] }
 
-    type ValidatorFn = (val: AnswerValue) => boolean
+    type ValidatorFn = ((val: AnswerValue) => boolean) | ((val: AnswerValue, prop: number) => boolean)
 
     type Validate =
       | { type: ValidationType; arguments?: (string | number)[]; message: string }
@@ -159,7 +175,7 @@ declare module 'hmpo-form-wizard' {
       validate?: Validate[]
       dependent?: Dependent
       invalidates?: string[]
-      value?: FormWizard.An
+      value?: FormWizard.Answer
       collection?: {
         fields: FormWizard.Field[]
         subject: string
@@ -168,14 +184,15 @@ declare module 'hmpo-form-wizard' {
         deleteUrl: string
         summaryUrl: string
       }
+      section?: string
       labelClasses?: string
       formGroupClasses?: string
-      characterCountMax?: number
       classes?: string
       summary?: {
         displayFn?: (value: string) => string
         displayAlways?: boolean
       }
+      transform?: (CookieSessionObject) => FormWizard.Field
     }
 
     interface Fields {

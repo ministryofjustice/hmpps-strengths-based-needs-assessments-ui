@@ -45,10 +45,13 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
           'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
         )
         .clickLabel()
-      cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('Yes').clickLabel()
+      cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?')
+        .getRadio('Yes')
+        .clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.sexualOffending)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.sexualOffending)
     })
 
@@ -63,6 +66,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
         cy.assertResumeUrlIs(sectionName, destinations.sexualOffending)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.thinkingBehaviours)
+        cy.assertBackLinkIs(destinations.sexualOffending)
         cy.assertResumeUrlIs(sectionName, destinations.thinkingBehaviours)
       })
 
@@ -132,10 +136,13 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
           'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
         )
         .clickLabel()
-      cy.getQuestion('Are there any concerns that Sam is a risk of sexual harm?').getRadio('No').clickLabel()
+      cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?')
+        .getRadio('No')
+        .clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.thinkingBehaviours)
+      cy.assertBackLinkIs(destinations.landingPage)
       cy.assertResumeUrlIs(sectionName, destinations.summary) // no answers changed on the thinkingBehaviours page, therefore resumeUrl should be the summary page
     })
 

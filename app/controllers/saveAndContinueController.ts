@@ -2,16 +2,27 @@ import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
-import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../../server/services/strengthsBasedNeedsService'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  SessionData,
+  userDetailsFromSession,
+} from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
-import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
+import {
+  compileConditionalFields,
+  fieldsById,
+  withPlaceholdersFrom,
+  withStateAwareTransform,
+  withValuesFrom,
+} from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
+import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
 
 export type Progress = Record<string, boolean>
+export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 class SaveAndContinueController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
@@ -37,7 +48,6 @@ class SaveAndContinueController extends BaseController {
         : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
 
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
-      res.locals.oasysEquivalent = assessment.oasysEquivalent
 
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
         ...others,
@@ -62,6 +72,16 @@ class SaveAndContinueController extends BaseController {
           }
         }
       }
+
+      req.telemetry = {
+        assessmentId: sessionData.assessmentId,
+        assessmentVersion: assessment.metaData.versionNumber,
+        user: sessionData.user.identifier,
+        section: req.form.options.section,
+        handoverSessionId: sessionData.handoverSessionId,
+        formVersion: req.form.options.name,
+      }
+
       return await super.configure(req, res, next)
     } catch (error) {
       return next(error)
@@ -105,13 +125,15 @@ class SaveAndContinueController extends BaseController {
           steps: req.form.options.steps,
           sectionConfig,
         },
+        coreTelemetryData: req.telemetry,
       }
 
       const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )
-      const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
+      const fieldsWithStateAwareTransform = fieldsWithReplacements.map(withStateAwareTransform(req.session))
+      const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithStateAwareTransform, {
         action: res.locals.action,
         errors: res.locals.errors,
       })
@@ -127,33 +149,33 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  updateAssessmentProgress(req: FormWizard.Request, res: Response) {
-    type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
-    type AnswerValues = Record<string, string>
-
+  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
     const subsectionIsComplete =
-      (answers: AnswerValues = {}) =>
+      (answers: FormWizard.Answers = {}) =>
       (fieldCode: string) =>
         answers[fieldCode] === 'YES'
     const checkProgress =
-      (answers: AnswerValues) =>
+      (answers: FormWizard.Answers) =>
       (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
         ...sectionProgress,
         [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
       })
 
-    const sections = res.locals.form.sectionProgressRules
-    const sectionProgress: Progress = sections.reduce(
-      checkProgress(req.form.persistedAnswers as Record<string, string>),
-      {},
-    )
-    res.locals.sectionProgress = sectionProgress
-    res.locals.assessmentIsComplete = !Object.values(sectionProgress).includes(false)
+    return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
+  }
+
+  checkAssessmentComplete(progress: Progress): boolean {
+    return !Object.values(progress).includes(false)
   }
 
   async getValues(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
-      this.updateAssessmentProgress(req, res)
+      const sectionProgress = this.getAssessmentProgress(
+        req.form.persistedAnswers,
+        res.locals.form.sectionProgressRules,
+      )
+      res.locals.sectionProgress = sectionProgress
+      res.locals.assessmentIsComplete = this.checkAssessmentComplete(sectionProgress)
 
       return super.getValues(req, res, next)
     } catch (error) {
@@ -161,7 +183,7 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getSectionProgress(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
+  getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
       req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
         fieldCode,
@@ -171,7 +193,12 @@ class SaveAndContinueController extends BaseController {
 
     return {
       ...sectionProgressFields,
-      assessment_complete: Object.values(sectionProgressFields).every(answer => answer === 'YES') ? 'YES' : 'NO',
+    }
+  }
+
+  getAssessmentCompletionAnswers(progress: Progress): FormWizard.Answers {
+    return {
+      assessment_complete: this.checkAssessmentComplete(progress) ? 'YES' : 'NO',
     }
   }
 
@@ -183,21 +210,40 @@ class SaveAndContinueController extends BaseController {
       ...req.form.values,
     }).getPageNavigation()
 
-    const allAnswers: FormWizard.Answers = {
+    const sectionCompleteAnswers = this.getSectionProgressAnswers(req, isSectionComplete)
+
+    const combinedAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,
       ...(req.form.values || {}),
-      ...this.getSectionProgress(req, isSectionComplete),
+      ...sectionCompleteAnswers,
     }
 
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, allAnswers, options)
+    const answersToPersist = {
+      ...combinedAnswers,
+      ...this.getAssessmentCompletionAnswers(
+        this.getAssessmentProgress(combinedAnswers, res.locals.form.sectionProgressRules),
+      ),
+    }
+
+    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answersToPersist, options)
 
     req.form.values = {
-      ...allAnswers,
-      ...answersToRemove.reduce((removedAnswers, fieldCode) => ({ ...removedAnswers, [fieldCode]: null }), {}),
+      ...answersToPersist,
+      ...answersToRemove.reduce(
+        (removedAnswers: Record<string, string>, fieldCode: string): Record<string, string> => ({
+          ...removedAnswers,
+          [fieldCode]: null,
+        }),
+        {},
+      ),
     }
     res.locals.values = req.form.values
 
-    await this.apiService.updateAnswers(assessmentId, { answersToAdd, answersToRemove })
+    await this.apiService.updateAnswers(assessmentId, {
+      answersToAdd,
+      answersToRemove,
+      userDetails: userDetailsFromSession(req.session.sessionData as SessionData),
+    })
   }
 
   async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -227,9 +273,14 @@ class SaveAndContinueController extends BaseController {
     const jsonResponse = req.query.jsonResponse === 'true'
 
     try {
-      if (Object.values(err).every(thisError => thisError instanceof FormWizard.Controller.Error)) {
+      if (this.isValidationError(err)) {
         await this.persistAnswers(req, res, { removeOrphanAnswers: false })
         answersPersisted = true
+        sendTelemetryEventForValidationError(
+          err as unknown as FormWizard.Controller.Errors,
+          jsonResponse,
+          req.telemetry,
+        )
         this.setErrors(err, req, res)
       }
 

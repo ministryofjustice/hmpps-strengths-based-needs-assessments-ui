@@ -1,3 +1,5 @@
+import config from '../../../../../support/config'
+
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
   const question = 'Does Sam want to make changes to their alcohol use?'
   const options = [
@@ -31,6 +33,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'I want to make changes but need help',
       'I am thinking about making changes',
       'I do not want to make changes',
+      'I do not want to answer',
     ].forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
@@ -40,7 +43,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getConditionalQuestion()
           .hasTitle('Give details (optional)')
           .hasHint(null)
-          .hasLimit(400)
+          .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
         cy.getQuestion(question)
@@ -62,7 +65,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getRadio(option).isChecked().getConditionalQuestion().hasText('some text')
       })
     })
-    ;['I do not want to answer', 'Sam is not present', 'Not applicable'].forEach(option => {
+    ;['Sam is not present', 'Not applicable'].forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 

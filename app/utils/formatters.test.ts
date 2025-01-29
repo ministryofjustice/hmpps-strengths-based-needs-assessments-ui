@@ -1,4 +1,4 @@
-import { escape } from './formatters'
+import { escape, formatDateForDisplay, unescape } from './formatters'
 
 describe('escape', () => {
   it('should escape HTML', () => {
@@ -13,5 +13,38 @@ describe('escape', () => {
     expect(escape.fn('Backtick: `')).toEqual('Backtick: &#96;')
 
     expect(escape.fn('Backslash: \\')).toEqual('Backslash: &#x5C;')
+  })
+})
+
+describe('unescape', () => {
+  it('should unescape HTML', () => {
+    expect(unescape('&lt;script&gt; alert(&quot;xss&amp;fun&quot;); &lt;&#x2F;script&gt;')).toEqual(
+      '<script> alert("xss&fun"); </script>',
+    )
+
+    expect(unescape('&lt;script&gt; alert(&#x27;xss&amp;fun&#x27;); &lt;&#x2F;script&gt;')).toEqual(
+      "<script> alert('xss&fun'); </script>",
+    )
+
+    expect(unescape('Backtick: &#96;')).toEqual('Backtick: `')
+
+    expect(unescape('Backslash: &#x5C;')).toEqual('Backslash: \\')
+  })
+})
+
+describe('formatDateForDisplay', () => {
+  it('returns the data in the format', () => {
+    expect(formatDateForDisplay('2023-08-02')).toEqual('02 August 2023')
+  })
+
+  it('returns null when passed a null/undefined value', () => {
+    expect(formatDateForDisplay(null)).toEqual(null)
+    expect(formatDateForDisplay(undefined)).toEqual(null)
+  })
+
+  it('returns null when passed an invalid date', () => {
+    expect(formatDateForDisplay('99-99-9999')).toEqual(null)
+    expect(formatDateForDisplay('foo date')).toEqual(null)
+    expect(formatDateForDisplay('')).toEqual(null)
   })
 })

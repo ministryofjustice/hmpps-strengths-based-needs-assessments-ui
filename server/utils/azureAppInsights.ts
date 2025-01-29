@@ -1,7 +1,10 @@
 import { setup, defaultClient, TelemetryClient, DistributedTracingModes } from 'applicationinsights'
+import { EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contracts'
 import applicationVersion from '../applicationVersion'
 
-function defaultName(): string {
+const appInsightsConnectionString = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
+
+export function defaultName(): string {
   const {
     packageData: { name },
   } = applicationVersion
@@ -14,7 +17,7 @@ function version(): string {
 }
 
 export function initialiseAppInsights(): void {
-  if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+  if (appInsightsConnectionString) {
     // eslint-disable-next-line no-console
     console.log('Enabling azure application insights')
 
@@ -22,11 +25,33 @@ export function initialiseAppInsights(): void {
   }
 }
 
+export function isAllowedPattern(s: string): boolean {
+  return ![/GET \/assets\/.+/, /GET \/ping/, /GET \/metrics/, /GET \/health/].some(
+    pattern => typeof s === 'string' && pattern.test(s),
+  )
+}
+
 export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
-  if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-    defaultClient.context.tags['ai.cloud.role'] = name
-    defaultClient.context.tags['ai.application.ver'] = version()
+  if (appInsightsConnectionString) {
+    defaultClient.context.tags[defaultClient.context.keys.cloudRole] = name
+    defaultClient.context.tags[defaultClient.context.keys.applicationVersion] = version()
+
+    // Ignore telemetry events for the following operations
+    // ideally we apply sampling here but that will require V3 of the SDK which doesn't currently support setting the cloud role name
+    defaultClient.addTelemetryProcessor((envelope: EnvelopeTelemetry): boolean => {
+      return isAllowedPattern(envelope.tags[defaultClient.context.keys.operationName])
+    })
+
     return defaultClient
   }
   return null
+}
+
+export const trackEvent = (event: string, properties: Record<string, string>) => {
+  if (appInsightsConnectionString) {
+    defaultClient.trackEvent({
+      name: event,
+      properties,
+    })
+  }
 }

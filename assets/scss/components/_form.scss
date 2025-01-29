@@ -32,7 +32,6 @@
 
 .form-header__actions {
   float: right;
-
   @include govuk-media-query($until: desktop){
     width: 100%;
     float: none;
@@ -47,4 +46,31 @@
 
 .form-header__title {
   float: left;
+}
+
+.form-header_hr {
+  margin-top: govuk-spacing(-4);
+}
+
+.grow-wrap {
+  display: grid;
+
+  &::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    visibility: hidden;
+  }
+
+  & > textarea {
+    resize: none;
+    overflow: hidden;
+  }
+
+  & > textarea,
+  &::after {
+    font: inherit;
+    padding: 5px;
+    border: 2px solid #0b0c0c;
+    grid-area: 1 / 1 / 2 / 2;
+  }
 }

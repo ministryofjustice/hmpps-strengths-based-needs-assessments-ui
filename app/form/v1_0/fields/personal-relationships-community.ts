@@ -2,8 +2,62 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import { FieldsFactory, utils } from './common'
 import sections from '../config/sections'
+import characterLimits from '../config/characterLimits'
+
+const childrenInformationHint = `
+<p class="govuk-hint">This refers to any children (under 18 years) [subject] has regular contact with, even if they do not have parental responsibility.</p>
+<p class="govuk-hint">Select all that apply.</p>
+`
 
 class PersonalRelationshipsFieldsFactory extends FieldsFactory {
+  personalRelationshipsCommunityChildrenInformation: FormWizard.Field = {
+    text: "Are there any children in [subject]'s life?",
+    hint: { html: childrenInformationHint, kind: 'html' },
+    code: 'personal_relationships_community_children_details',
+    type: FieldType.CheckBox,
+    multiple: true,
+    validate: [{ type: ValidationType.Required, message: 'Select at least one option' }],
+    options: [
+      {
+        text: 'Yes, children that live with them',
+        value: 'YES_CHILDREN_LIVING_WITH_POP',
+        kind: 'option',
+      },
+      {
+        text: 'Yes, children that do not live with them',
+        value: 'YES_CHILDREN_NOT_LIVING_WITH_POP',
+        kind: 'option',
+      },
+      { text: 'Yes, children that visit them regularly', value: 'YES_CHILDREN_VISITING', kind: 'option' },
+      { text: "No, there are no children in [subject]'s life", value: 'NO_CHILDREN', kind: 'option' },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  personalRelationshipsCommunityLivingWithChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildrenInformation,
+    dependentValue: 'YES_CHILDREN_LIVING_WITH_POP',
+    text: 'Include the name, age and sex of any children, and their relationship to [subject].',
+    required: true,
+    requiredMessage: 'Enter details of any children that live with them',
+  })
+
+  personalRelationshipsCommunityNotLivingWithChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildrenInformation,
+    dependentValue: 'YES_CHILDREN_NOT_LIVING_WITH_POP',
+    text: 'Include the name, age and sex of any children, and their relationship to [subject].',
+    required: true,
+    requiredMessage: 'Enter details of any children that do not live with them',
+  })
+
+  personalRelationshipsCommunityVisitingChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.personalRelationshipsCommunityChildrenInformation,
+    dependentValue: 'YES_CHILDREN_VISITING',
+    text: 'Include the name, age and sex of any children, and their relationship to [subject].',
+    required: true,
+    requiredMessage: 'Enter details of any children that visit them regularly',
+  })
+
   personalRelationshipsCommunityImportantPeople: FormWizard.Field = {
     text: "Who are the important people in [subject]'s life?",
     hint: { text: 'Select all that apply.', kind: 'text' },
@@ -18,7 +72,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       {
-        text: 'Their children or anyone they have parental responsibilities for',
+        text: 'Their children or anyone they have parenting responsibilities for',
         value: 'CHILD_PARENTAL_RESPONSIBILITIES',
         kind: 'option',
       },
@@ -40,7 +94,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityImportantPeopleChildDetails: FormWizard.Field = FieldsFactory.detailsField({
     parentField: this.personalRelationshipsCommunityImportantPeople,
     dependentValue: 'CHILD_PARENTAL_RESPONSIBILITIES',
-    textHint: 'Include their name, age, gender and the nature of their relationship.',
+    text: 'Give details of any children not captured by the previous question',
   })
 
   personalRelationshipsCommunityImportantPeopleOtherChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
@@ -118,6 +172,10 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityChildhood: FormWizard.Field = {
     text: "What was [subject]'s experience of their childhood?",
     code: 'personal_relationships_community_childhood',
+    hint: {
+      text: 'Childhood is the period up to and including 18 years old.',
+      kind: 'text',
+    },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their experience of childhood' }],
     options: [
@@ -161,6 +219,10 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   personalRelationshipsCommunityChildhoodBehaviour: FormWizard.Field = {
     text: 'Did [subject] have any childhood behavioural problems?',
     code: 'personal_relationships_community_childhood_behaviour',
+    hint: {
+      text: 'Consider any adverse experiences and trauma, as well as neurodiversity that could lead to behavioural problems.',
+      kind: 'text',
+    },
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they had childhood behavioural problems' }],
     options: [
@@ -197,7 +259,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
   }
 
   personalRelationshipsCommunityParentalResponsibilities: FormWizard.Field = {
-    text: 'Is [subject] able to manage their parental responsibilities? ',
+    text: 'Is [subject] able to manage their parenting responsibilities?',
     code: 'personal_relationships_community_parental_responsibilities',
     hint: {
       text: 'If there are parenting concerns, it does not always mean there are child wellbeing concerns. They may just require some help or support.',
@@ -205,7 +267,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     },
     type: FieldType.Radio,
     validate: [
-      { type: ValidationType.Required, message: "Select if they're able to manage their parental responsibilities" },
+      { type: ValidationType.Required, message: 'Select if they’re able to manage their parenting responsibilities' },
     ],
     options: [
       {
@@ -285,6 +347,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     text: "What is [subject]'s history of intimate relationships?",
     code: 'personal_relationships_community_intimate_relationship',
     type: FieldType.Radio,
+    hint: { text: 'An intimate relationship is one that involves physical and/or emotional closeness.', kind: 'text' },
     validate: [{ type: ValidationType.Required, message: 'Select their history of intimate relationships' }],
     options: [
       {
@@ -332,15 +395,16 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
     text: 'Is [subject] able to resolve any challenges in their intimate relationships?',
     code: 'personal_relationships_community_challenges_intimate_relationship',
     hint: {
-      text: 'Consider any healthy and appropriate skills or strengths they may have.',
+      text: 'Consider how resilient they are, and how they work with their partner to resolve issues when they arise. An intimate relationship is one that involves physical and/or emotional closeness.',
       kind: 'text',
     },
     type: FieldType.TextArea,
     validate: [
       {
-        type: ValidationType.MaxLength,
-        arguments: [FieldsFactory.detailsCharacterLimit],
-        message: `Details must be ${FieldsFactory.detailsCharacterLimit} characters or less`,
+        type: 'validateMaxLength',
+        fn: utils.validateMaxLength,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
       },
       { type: ValidationType.Required, message: 'Enter details' },
     ],
