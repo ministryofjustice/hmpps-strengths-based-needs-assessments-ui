@@ -58,6 +58,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
       { text: 'Settled', value: 'SETTLED', kind: 'option' },
       { text: 'Temporary', value: 'TEMPORARY', kind: 'option' },
       { text: 'No accommodation', value: 'NO_ACCOMMODATION', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
   }
 
@@ -211,6 +212,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
       { text: 'Partner', value: 'PARTNER', kind: 'option' },
       { text: 'Person under 18 years old', value: 'PERSON_UNDER_18', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
       utils.orDivider,
       { text: 'Alone', value: 'ALONE', kind: 'option', behaviour: 'exclusive' },
     ],
@@ -318,7 +320,11 @@ class AccommodationFieldsFactory extends FieldsFactory {
     code: 'suitable_housing_planned',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select if they have future accommodation planned' }],
-    options: utils.yesNoOptions,
+    options: [
+      { text: 'Yes', value: 'YES', kind: 'option' },
+      { text: 'No', value: 'NO', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
+    ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
