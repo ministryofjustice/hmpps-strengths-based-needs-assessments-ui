@@ -28,6 +28,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Renting from social, local authority or other',
       'Residential healthcare',
       'Supported accommodation',
+      'Unknown',
     ]
 
     it(`displays and validates the conditional options for ${options.settled}`, () => {
@@ -77,6 +78,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Community Accommodation Service Tier 3 (CAS3)',
       'Immigration accommodation',
       'Short term accommodation',
+      'Unknown',
     ]
 
     it(`displays and validates the conditional options for ${options.temporary}`, () => {
@@ -96,7 +98,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.checkAccessibility()
     })
 
-    typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
+    typesOfTemporaryAccommodation
+    .filter((typeOfTemporaryAccommodation) => typeOfTemporaryAccommodation !== 'Unknown')
+    .forEach(typeOfTemporaryAccommodation => {
       it(`summary page displays "${options.temporary} - ${typeOfTemporaryAccommodation}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(options.temporary).clickLabel()
@@ -125,7 +129,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
+    typesOfTemporaryAccommodation
+    .filter((typeOfTemporaryAccommodation) => typeOfTemporaryAccommodation !== 'Unknown')
+    .forEach(typeOfTemporaryAccommodation => {
       it(`validates the date "${options.temporary} - ${typeOfTemporaryAccommodation} - Expected end date"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(options.temporary).clickLabel()
@@ -156,7 +162,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
+    typesOfTemporaryAccommodation
+    .filter((typeOfTemporaryAccommodation) => typeOfTemporaryAccommodation !== 'Unknown')
+    .forEach(typeOfTemporaryAccommodation => {
       it(`validates the date "${options.temporary} - ${typeOfTemporaryAccommodation} is in the future - Expected end date"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(options.temporary).clickLabel()
@@ -187,7 +195,10 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    typesOfTemporaryAccommodation.forEach(typeOfTemporaryAccommodation => {
+
+    typesOfTemporaryAccommodation
+    .filter((typeOfTemporaryAccommodation) => typeOfTemporaryAccommodation !== 'Unknown')
+    .forEach(typeOfTemporaryAccommodation => {
       it(`summary page displays "${options.temporary} - ${typeOfTemporaryAccommodation} - Expected end date"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(options.temporary).clickLabel()
@@ -224,12 +235,44 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
+    typesOfTemporaryAccommodation
+    .filter((typeOfTemporaryAccommodation) => typeOfTemporaryAccommodation == 'Unknown')
+    .forEach(typeOfTemporaryAccommodation => {
+      it(`summary page displays "${options.temporary} - ${typeOfTemporaryAccommodation}"`, () => {
+        cy.visitStep(stepUrl)
+        cy.getQuestion(question).getRadio(options.temporary).clickLabel()
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .clickLabel()
+
+        cy.saveAndContinue()
+
+        cy.visitStep(summaryPage)
+        cy.getSummary(question)
+          .getAnswer(options.temporary)
+          .hasNoSecondaryAnswer()
+        cy.checkAccessibility()
+        cy.getSummary(question).clickChange()
+        cy.assertStepUrlIs(stepUrl)
+        cy.assertQuestionUrl(question)
+        cy.getQuestion(question)
+          .getRadio(options.temporary)
+          .isChecked()
+          .getConditionalQuestion()
+          .getRadio(typeOfTemporaryAccommodation)
+          .isChecked()
+      })
+    })
+
     const typesOfNoAccommodation = [
       'Campsite',
       'Emergency hostel',
       'Homeless - includes squatting',
       'Rough sleeping',
       'Shelter',
+      'Unknown',
     ]
 
     it(`displays and validates the conditional options for ${options.noAccommodation}`, () => {
