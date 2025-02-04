@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   const question = 'Does Sam have future accommodation planned?'
 
   describe(question, () => {
-    const options = ['Yes', 'No']
+    const options = ['Yes', 'No', 'Unknown']
 
     it('displays and validates the question', () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
