@@ -9,6 +9,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Studying',
       'Volunteering',
       'Other',
+      'Unknown',
       null,
       'None',
     ]
@@ -53,7 +54,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('some text')
       })
     })
-    Array.of('Studying', 'None').forEach(option => {
+    Array.of('Studying', 'Unknown', 'None').forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 

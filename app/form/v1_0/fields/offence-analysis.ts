@@ -323,6 +323,11 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         value: 'AGE_65_AND_OVER',
         kind: 'option',
       },
+      {
+        text: 'Unknown',
+        value: 'UNKNOWN',
+        kind: 'option',
+      },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }

@@ -156,6 +156,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
       { text: 'Studying', value: 'STUDYING', kind: 'option' },
       { text: 'Volunteering', value: 'VOLUNTEER', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
       utils.orDivider,
       { text: 'None', value: 'NONE', kind: 'option', behaviour: 'exclusive' },
     ],
