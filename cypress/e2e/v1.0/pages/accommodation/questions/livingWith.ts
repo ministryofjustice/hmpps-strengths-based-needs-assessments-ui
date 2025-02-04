@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   const question = 'Who is Sam living with?'
 
   describe(question, () => {
-    const options = ['Family', 'Friends', 'Partner', 'Person under 18 years old', 'Other', null, 'Alone']
+    const options = ['Family', 'Friends', 'Partner', 'Person under 18 years old', 'Other', 'Unknown', null, 'Alone']
 
     it('displays and validates the question', () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint('Select all that apply.').hasCheckboxes(options)

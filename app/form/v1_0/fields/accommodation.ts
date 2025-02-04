@@ -214,7 +214,7 @@ class AccommodationFieldsFactory extends FieldsFactory {
       { text: 'Partner', value: 'PARTNER', kind: 'option' },
       { text: 'Person under 18 years old', value: 'PERSON_UNDER_18', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
-      { text: 'Unknown', value: 'UNKNOWN ', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
       utils.orDivider,
       { text: 'Alone', value: 'ALONE', kind: 'option', behaviour: 'exclusive' },
     ],
