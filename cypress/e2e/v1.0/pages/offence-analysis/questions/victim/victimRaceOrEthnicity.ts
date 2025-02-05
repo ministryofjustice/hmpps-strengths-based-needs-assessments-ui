@@ -18,7 +18,7 @@ const options = [
   'Black or Black British - African',
   'Black or Black British - Any other Black background',
   'Any other ethnic group',
-  'Not stated',
+  'Unknown',
 ]
 
 const testCreate = (createUrl: string, editUrl: string, positionNumber: number) => {

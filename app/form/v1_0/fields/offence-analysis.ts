@@ -410,7 +410,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       },
       { text: 'Arab', value: 'ARAB', kind: 'option' },
       { text: 'Any other ethnic group', value: 'ANY_OTHER_ETHNIC_GROUP', kind: 'option' },
-      { text: 'Not stated', value: 'NOT_STATED', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.AutoComplete),
   }
