@@ -183,6 +183,9 @@
     },
     "cypress-axe": {
       "cypress": "^14.0.1"
+    },
+    "@jgoz/esbuild-plugin-typecheck": {
+      "esbuild": "$esbuild"
     }
   }
 }
