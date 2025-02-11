@@ -153,7 +153,7 @@
     "chokidar": "^3.6.0",
     "concurrently": "^9.1.2",
     "cookie-session": "^2.1.0",
-    "cypress": "^14.0.1",
+    "cypress": "^14.0.2",
     "cypress-axe": "^1.6.0",
     "cypress-circleci-reporter": "^0.3.0",
     "cypress-multi-reporters": "^2.0.5",
@@ -172,7 +172,7 @@
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2",
     "prettier-plugin-jinja-template": "^2.0.0",
-    "sass": "^1.83.4",
+    "sass": "^1.84.0",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"
@@ -182,7 +182,7 @@
       "cookie": "1.0.2"
     },
     "cypress-axe": {
-      "cypress": "^14.0.1"
+      "cypress": "^14.0.2"
     }
   }
 }
