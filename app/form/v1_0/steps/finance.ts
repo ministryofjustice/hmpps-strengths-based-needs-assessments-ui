@@ -31,6 +31,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Finance details',
       url: stepUrls.finance,
       fields: [
         baseFinanceGroup,
@@ -43,6 +44,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         financeFields.practitionerAnalysis(),
@@ -54,6 +56,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

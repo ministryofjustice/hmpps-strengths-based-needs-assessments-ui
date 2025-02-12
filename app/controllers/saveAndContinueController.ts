@@ -69,7 +69,8 @@ class SaveAndContinueController extends BaseController {
           return currentStepIndex > 0 ? stepsTaken[currentStepIndex - 1] : null
         }
 
-        res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
+        res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken.map(it => it.href))
+        res.locals.stepsTaken = pageNavigation.stepsTaken.map(it => ({ ...it, active: new RegExp(`^.*/${it.href}$`).test(req.url)}))
 
         if (req.query.action === 'resume') {
           const currentPageToComplete = pageNavigation.url
@@ -158,14 +159,14 @@ class SaveAndContinueController extends BaseController {
   getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
     const subsectionIsComplete =
       (answers: FormWizard.Answers = {}) =>
-      (fieldCode: string) =>
-        answers[fieldCode] === 'YES'
+        (fieldCode: string) =>
+          answers[fieldCode] === 'YES'
     const checkProgress =
       (answers: FormWizard.Answers) =>
-      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-        ...sectionProgress,
-        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
-      })
+        (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
+          ...sectionProgress,
+          [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
+        })
 
     return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
   }

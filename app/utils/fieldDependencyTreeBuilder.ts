@@ -231,19 +231,26 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
+  getPageNavigation(): { url: string; stepsTaken: Array<{ href: string; text: string }>; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
-    let nextStep = initialStepPath
-    const stepsTaken = []
 
     let isSectionComplete = true
 
     const steps = this.getSteps(initialStep, initialStepPath)
 
+    const [initialStepUrl] = steps[0]
+    let nextStep = initialStepUrl
+
+    const stepsTaken = []
+
     for (const [stepUrl, step] of steps) {
-      nextStep = stepUrl
-      stepsTaken.push(stepUrl)
+      // if ((/^.*-analysis$/i).test(stepUrl)) {
+      //   break
+      // }
+
+      stepsTaken.push({ href: stepUrl, text: step.navigationTitle || step.pageTitle })
+
 
       const hasErrors = Object.values(step.fields)
         .filter(it => dependencyMet(it, this.answers))
@@ -254,9 +261,12 @@ export class FieldDependencyTreeBuilder {
           return err !== null
         })
       const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
+
       if (hasErrors || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
         isSectionComplete = false
-        break
+        // break
+      } else {
+        nextStep = isSectionComplete ? stepUrl : nextStep
       }
     }
 

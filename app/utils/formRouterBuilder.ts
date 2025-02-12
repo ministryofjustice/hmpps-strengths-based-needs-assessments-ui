@@ -52,6 +52,7 @@ export const createNavigation = (
     .sort(([_pathA, configA], [_pathB, configB]) => configA.navigationOrder - configB.navigationOrder)
     .map(([path, config]) => {
       const url = isInEditMode ? `${path}?action=resume` : getLastStepOfSection(steps, config.section)
+      // const url = getLastStepOfSection(steps, config.section)
 
       return {
         url: `${baseUrl}/${url.slice(1)}`,

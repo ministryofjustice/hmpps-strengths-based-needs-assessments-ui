@@ -36,6 +36,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Alcohol use',
       url: stepUrls.alcohol,
       fields: [
         alcoholFields.alcoholUse,
@@ -46,11 +47,13 @@ const sectionConfig: SectionConfig = {
         nextWhen(alcoholFields.alcoholUse, 'YES_WITHIN_LAST_THREE_MONTHS', stepUrls.alcoholUseLastThreeMonths),
         nextWhen(alcoholFields.alcoholUse, 'YES_NOT_IN_LAST_THREE_MONTHS', stepUrls.alcoholUseLessThreeMonths),
         nextWhen(alcoholFields.alcoholUse, 'NO', stepUrls.summary),
+        stepUrls.summary,
       ],
       navigationOrder: 5,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Alcohol usage',
       url: stepUrls.alcoholUseLastThreeMonths,
       fields: [
         alcoholUsageWithinThreeMonthsGroup,
@@ -63,6 +66,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Alcohol usage',
       url: stepUrls.alcoholUseLessThreeMonths,
       fields: [
         baseAlcoholUsageGroup,
@@ -74,6 +78,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         alcoholFields.practitionerAnalysis(),
@@ -85,6 +90,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

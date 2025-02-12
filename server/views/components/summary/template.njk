@@ -136,17 +136,20 @@
 
   {% endfor %}
 {%- endmacro -%}
-
-{% for summary in summaryFields.singleFields %}
-  <dl class="govuk-summary-list summary-list">
-    {% switch summary.field.code %}
-      {% case 'drug_use_type' %}
-        {{ renderDrugsTable(summary, sessionData.user) }}
-      {% default %}
-        {{ renderTopLevelField(summary, sessionData) }}
-    {% endswitch %}
-  </dl>
-{% endfor %}
+{% if summaryFields.singleFields.length %}
+  {% for summary in summaryFields.singleFields %}
+    <dl class="govuk-summary-list summary-list">
+      {% switch summary.field.code %}
+        {% case 'drug_use_type' %}
+          {{ renderDrugsTable(summary, sessionData.user) }}
+        {% default %}
+          {{ renderTopLevelField(summary, sessionData) }}
+      {% endswitch %}
+    </dl>
+  {% endfor %}
+{% else  %}
+  <p class="govuk-body">Nothing to see here</p>
+{% endif %}
 
 {% for collectionSummary in summaryFields.collectionFields %}
   {{ renderCollection(collectionSummary, sessionData, errors) }}

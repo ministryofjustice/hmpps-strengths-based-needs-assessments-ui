@@ -7,6 +7,7 @@ import templates from '../config/templates'
 const section = sections.accommodation
 const stepUrls = {
   currentAccommodation: 'current-accommodation',
+  coreAccommodation: 'core-accommodation',
   settledAccommodation: 'settled-accommodation',
   temporaryAccommodation: 'temporary-accommodation',
   temporaryAccommodationCasAp: 'temporary-accommodation-cas-ap',
@@ -62,6 +63,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Current accommodation',
       url: stepUrls.currentAccommodation,
       fields: [
         accommodationTypeGroup,
@@ -76,11 +78,23 @@ const sectionConfig: SectionConfig = {
           stepUrls.temporaryAccommodationCasAp,
         ]),
         nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
+        stepUrls.coreAccommodation,
       ],
       navigationOrder: 1,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Accommodation details',
+      url: stepUrls.coreAccommodation,
+      fields: [
+        accommodationFields.wantToMakeChanges(),
+        accommodationFields.isUserSubmitted(stepUrls.coreAccommodation),
+      ].flat(),
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      navigationTitle: 'Accommodation details',
       url: stepUrls.settledAccommodation,
       fields: [
         livingWithGroup,
@@ -94,6 +108,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Accommodation details',
       url: stepUrls.temporaryAccommodation,
       fields: [
         livingWithGroup,
@@ -108,6 +123,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Accommodation details',
       url: stepUrls.temporaryAccommodationCasAp,
       fields: [
         suitableLocationGroup,
@@ -121,6 +137,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Accommodation details',
       url: stepUrls.noAccommodation,
       fields: [
         noAccommodationGroup,
@@ -133,6 +150,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         accommodationFields.practitionerAnalysis(),
@@ -144,6 +162,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
