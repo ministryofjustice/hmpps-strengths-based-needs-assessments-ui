@@ -41,7 +41,7 @@ services:
       - "8080:8080"
 
   san-ui:
-    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:local
+    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:local
     build:
       target: development
     command: npm run start:dev
