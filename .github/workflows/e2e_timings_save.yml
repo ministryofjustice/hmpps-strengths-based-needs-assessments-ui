@@ -14,7 +14,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: timings
+          pattern: timings-*
+          merge-multiple: true
       - name: Find spec files
         id: find-spec-files
         run: find timings -type f -name "*.json" | jq -R -s -c 'split("\n")[:-1] | map(sub("^timings/"; "") | sub(".json$"; ""))' >> $GITHUB_OUTPUT
@@ -30,7 +31,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: timings
+          pattern: timings-*
+          merge-multiple: true
       - name: Save timing cache
         uses: actions/cache@v4
         with:

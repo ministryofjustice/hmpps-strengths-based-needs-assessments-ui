@@ -37,9 +37,8 @@ jobs:
       - name: Upload timing
         uses: actions/upload-artifact@v4
         with:
-          name: timings
+          name: timings-${{ matrix.spec-file }}
           path: timings
-          overwrite: true
           include-hidden-files: true
 
   merge-timings:
@@ -49,7 +48,8 @@ jobs:
       - name: Download timings
         uses: actions/download-artifact@v4
         with:
-          name: timings
+          pattern: timings-*
+          merge-multiple: true
       - name: Merge timings
         run: |
           if ls timings/**/*.json; then durations=$(jq -s '[.[][]] | flatten' timings/**/*.json); else durations="[]"; fi && echo "{\"durations\": $durations}" > timings.json
