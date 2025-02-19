@@ -26,6 +26,7 @@ jobs:
         spec-file: ${{ fromJSON(needs.get-spec-files.outputs.spec-files) }}
     steps:
       - uses: actions/checkout@v4
+      - run: mkdir -p timings
       - name: Restore timing cache
         uses: actions/cache/restore@v4
         with:
@@ -36,7 +37,6 @@ jobs:
         with:
           name: timings
           path: timings
-          if-no-files-found: ignore
 
   merge-timings:
     needs: restore-timings-cache
