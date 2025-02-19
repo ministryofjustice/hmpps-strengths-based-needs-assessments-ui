@@ -31,7 +31,8 @@ services:
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
 
   arns-handover:
-    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-handover-service:latest
+#    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-handover-service:latest
+    image: quay.io/hmpps/hmpps-assess-risks-and-needs-handover-service:latest
     networks:
       - hmpps
     depends_on:
@@ -88,7 +89,8 @@ services:
       - ./docker/healthcheck.js:/app/docker/healthcheck.js
 
   coordinator-api:
-    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:latest
+#    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:latest
+    image: quay.io/hmpps/hmpps-assess-risks-and-needs-coordinator-api:latest
     networks:
       - hmpps
     depends_on:
@@ -131,7 +133,8 @@ services:
       FORM_CONFIG_BASE_URL: http://san-ui:3000/config
 
   san-ui:
-    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
+#    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
+    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
     build:
       context: .
       target: production

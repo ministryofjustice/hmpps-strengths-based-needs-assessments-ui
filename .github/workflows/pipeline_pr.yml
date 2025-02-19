@@ -10,13 +10,13 @@ concurrency:
 jobs:
   node_build:
     name: Build
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@v2
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@upload-image-to-artifacts-demo
     secrets: inherit
 
   node_unit_tests:
     name: Unit tests
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@v2
-    needs: [node_build]
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@upload-image-to-artifacts-demo
+    needs: node_build
     secrets: inherit
 
   helm_lint:
@@ -24,14 +24,14 @@ jobs:
     strategy:
       matrix:
         environments: ['dev', 'test', 'preprod', 'prod']
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@upload-image-to-artifacts-demo
     secrets: inherit
     with:
       environment: ${{ matrix.environments }}
 
   build_docker:
     name: Build docker image
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@upload-image-to-artifacts-demo
     with:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
@@ -43,13 +43,23 @@ jobs:
       image_artifact_retention_days: 2
 
   api_integration_tests:
-    needs: [ build_docker ]
+    needs: build_docker
     uses: ./.github/workflows/api_integration_tests.yml
     with:
       app_version: ${{ needs.build_docker.outputs.app_version }}
 
+  e2e_timings_get:
+    uses: ./.github/workflows/e2e_timings_get.yml
+
   e2e_test:
-    needs: [ build_docker ]
+    needs:
+      - build_docker
+      - e2e_timings_get
     uses: ./.github/workflows/e2e_test.yml
     with:
       app_version: ${{ needs.build_docker.outputs.app_version }}
+
+  e2e_timings_save:
+    uses: ./.github/workflows/e2e_timings_save.yml
+    needs: e2e_test
+    if: always()

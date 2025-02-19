@@ -1,0 +1,56 @@
+name: Get end-to-end test timings
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  get-spec-files:
+    runs-on: ubuntu-latest
+    outputs:
+      spec-files: ${{ steps.find-spec-files.outputs.spec-files }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find spec files
+        id: find-spec-files
+        run: find cypress/e2e -type f -name "*.cy.ts" | jq -R -s -c 'split("\n")[:-1]' >> $GITHUB_OUTPUT
+      - run: echo "${{ steps.find-spec-files.outputs.spec-files }}"
+
+  restore-timings-cache:
+    needs: get-spec-files
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        spec-file: ${{ fromJSON(needs.get-spec-files.outputs.spec-files) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore timing cache
+        uses: actions/cache/restore@v4
+        with:
+          path: timings/${{ matrix.spec-file }}.json
+          key: ${{ hashFiles(matrix.spec-file) }}
+      - name: Upload timing
+        uses: actions/upload-artifact@v4
+        with:
+          name: timings
+          path: timings
+          if-no-files-found: ignore
+
+  merge-timings:
+    needs: restore-timings-cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download timings
+        uses: actions/download-artifact@v4
+        with:
+          name: timings
+      - name: Merge timings
+        run: |
+          if ls timings/**/*.json; then durations=$(jq -s '[.[][]] | flatten' timings/**/*.json); else durations="[]"; fi && echo "{\"durations\": $durations}" > timings.json
+          cat timings.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: timings.json
+          path: timings.json
