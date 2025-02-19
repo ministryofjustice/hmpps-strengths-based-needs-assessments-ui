@@ -16,7 +16,7 @@ jobs:
       - name: Find spec files
         id: find-spec-files
         run: find cypress/e2e -type f -name "*.cy.ts" | jq -R -s -c 'split("\n")[:-1]' >> $GITHUB_OUTPUT
-      - run: echo "${{ steps.find-spec-files.outputs.spec-files }}"
+      - run: echo ${{ steps.find-spec-files.outputs.spec-files }}
 
   restore-timings-cache:
     needs: get-spec-files
