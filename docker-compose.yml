@@ -133,8 +133,7 @@ services:
       FORM_CONFIG_BASE_URL: http://san-ui:3000/config
 
   san-ui:
-#    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
-    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
+    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
     build:
       context: .
       target: production

@@ -18,8 +18,8 @@ jobs:
           merge-multiple: true
       - name: Find spec files
         id: find-spec-files
-        run: find timings -type f -name "*.json" | jq -R -s -c 'split("\n")[:-1] | map(sub("^timings/"; "") | sub(".json$"; ""))' >> $GITHUB_OUTPUT
-      - run: echo "${{ steps.find-spec-files.outputs.spec-files }}"
+        run: echo "spec-files=$(find timings -type f -name "*.json" | jq -R -s -c 'split("\n")[:-1] | map(sub("^timings/"; "") | sub(".json$"; ""))')" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.find-spec-files.outputs.spec-files }}
 
   save-timings-cache:
     runs-on: ubuntu-latest

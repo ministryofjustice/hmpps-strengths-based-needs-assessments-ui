@@ -53,9 +53,13 @@ jobs:
           merge-multiple: true
       - name: Merge timings
         run: |
-          if ls timings/**/*.json; then durations=$(jq -s '[.[][]] | flatten' timings/**/*.json); else durations="[]"; fi && echo "{\"durations\": $durations}" > timings.json
-          cat timings.json
+          if ls timings/**/*.json; then echo "{\"durations\": $(jq -s '[.[][]] | flatten' timings/**/*.json)}" > timings.json && cat timings.json; fi
+          touch .ignore-me
       - uses: actions/upload-artifact@v4
         with:
           name: timings.json
-          path: timings.json
+          path: |
+            timings.json
+            .ignore-me
+          include-hidden-files: true
+          if-no-files-found: ignore
