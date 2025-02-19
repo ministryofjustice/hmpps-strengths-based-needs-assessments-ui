@@ -1,8 +1,7 @@
 SHELL = '/bin/bash'
 PROJECT_NAME = hmpps-assess-risks-and-needs
-DEV_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.dev.yml
-TEST_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.test.yml
 LOCAL_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.local.yml
+DEV_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.dev.yml
 export COMPOSE_PROJECT_NAME=${PROJECT_NAME}
 
 default: help
@@ -47,31 +46,19 @@ lint: ## Runs the linter.
 lint-fix: ## Automatically fixes linting issues.
 	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps san-ui npm run lint:fix
 
-BASE_URL ?= "http://localhost:3000"
-e2e: ## Run the end-to-end tests locally in the Cypress app. Override the default base URL with BASE_URL=...
-	docker compose ${DEV_COMPOSE_FILES} up hmpps-auth-proxy --no-recreate --wait
+get-cypress:
 	npm i
 	npx cypress install
+
+BASE_URL ?= "http://localhost:3000"
+e2e: get-cypress ## Run the end-to-end tests locally in the Cypress app. Override the default base URL with BASE_URL=...
 	npx cypress open -c baseUrl=$(BASE_URL),experimentalInteractiveRunEvents=true
 
-e2e-fixtures: ## Runs all *.fixture.ts test files to generate JSON fixtures
-	docker compose ${DEV_COMPOSE_FILES} up hmpps-auth-proxy --no-recreate --wait
-	npm i
-	npx cypress install
+e2e-fixtures: get-cypress ## Runs all *.fixture.ts test files to generate JSON fixtures
 	npx cypress run --headless -b chrome -c baseUrl=$(BASE_URL) -s "cypress/e2e/**/*.fixture.ts"
 
-BASE_URL_CI ?= "http://ui:3000"
-e2e-ci: ## Run the end-to-end tests in parallel in a headless browser. Used in CI. Override the default base URL with BASE_URL_CI=...
-	circleci tests glob "cypress/e2e/**/*.cy.ts" | circleci tests split --split-by=timings --verbose | paste -sd ',' > tmp_specs.txt
-	cat tmp_specs.txt
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test run --rm cypress --headless -b edge -c baseUrl=${BASE_URL_CI} -s "$$(<tmp_specs.txt)"
-
-test-up: ## Stands up a test environment.
-	docker compose pull --policy missing
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test up san-ui --wait --force-recreate
-
-test-down: ## Stops and removes all of the test containers.
-	docker compose ${TEST_COMPOSE_FILES} -p ${PROJECT_NAME}-test down
+e2e-cli: get-cypress ## Run the end-to-end tests in a headless browser
+	npx cypress run --headless -b edge -c baseUrl=$(BASE_URL) -e split=1,splitIndex=0,splitFile=timings.json -s "cypress/e2e/**/*.cy.ts"
 
 clean: ## Stops and removes all project containers. Deletes local build/cache directories.
 	docker compose down
