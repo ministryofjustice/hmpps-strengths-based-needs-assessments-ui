@@ -69,7 +69,7 @@ jobs:
         if: '!cancelled()'
         uses: actions/upload-artifact@v4
         with:
-          name: timings
+          name: updated-timings-${{ strategy.job-index }}
           path: timings
 
       - name: Export container logs
