@@ -62,4 +62,4 @@ jobs:
   e2e_timings_save:
     uses: ./.github/workflows/e2e_timings_save.yml
     needs: e2e_test
-    if: always()
+    if: '!cancelled()'
