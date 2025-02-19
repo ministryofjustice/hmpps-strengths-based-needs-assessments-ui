@@ -39,6 +39,8 @@ jobs:
         with:
           name: timings
           path: timings
+          overwrite: true
+          include-hidden-files: true
 
   merge-timings:
     needs: restore-timings-cache
