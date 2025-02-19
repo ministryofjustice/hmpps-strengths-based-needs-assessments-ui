@@ -55,8 +55,8 @@ jobs:
           path: timings
       - name: Merge timings
         run: |
-          if find timings -type f -name "*.json"; then echo "{\"durations\": $(jq -s '[.[][]] | flatten' timings/**/*.json)}" > timings.json && cat timings.json; fi
-          touch .ignore-me
+          shopt -s globstar
+          if ls timings/**/*.json; then echo "{\"durations\": $(jq -s '[.[][]] | flatten' timings/**/*.json)}" > timings.json && cat timings.json; else touch .ignore-me; fi
       - uses: actions/upload-artifact@v4
         with:
           name: timings.json
