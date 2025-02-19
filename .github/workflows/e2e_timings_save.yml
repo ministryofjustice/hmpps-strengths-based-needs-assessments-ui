@@ -12,10 +12,12 @@ jobs:
     outputs:
       spec-files: ${{ steps.find-spec-files.outputs.spec-files }}
     steps:
+      - run: mkdir -p timings
       - uses: actions/download-artifact@v4
         with:
           pattern: updated-timings-*
           merge-multiple: true
+          path: timings
       - name: Find spec files
         id: find-spec-files
         run: echo "spec-files=$(find timings -type f -name "*.json" | jq -R -s -c 'split("\n")[:-1] | map(sub("^timings/"; "") | sub(".json$"; ""))')" >> $GITHUB_OUTPUT
@@ -29,10 +31,12 @@ jobs:
         spec-file: ${{ fromJSON(needs.get-spec-files.outputs.spec-files) }}
     steps:
       - uses: actions/checkout@v4
+      - run: mkdir -p timings
       - uses: actions/download-artifact@v4
         with:
           pattern: updated-timings-*
           merge-multiple: true
+          path: timings
       - name: Save timing cache
         uses: actions/cache@v4
         with:

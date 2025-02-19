@@ -46,11 +46,13 @@ jobs:
     needs: restore-timings-cache
     runs-on: ubuntu-latest
     steps:
+      - run: mkdir -p timings
       - name: Download timings
         uses: actions/download-artifact@v4
         with:
           pattern: timings-*
           merge-multiple: true
+          path: timings
       - name: Merge timings
         run: |
           if ls timings/**/*.json; then echo "{\"durations\": $(jq -s '[.[][]] | flatten' timings/**/*.json)}" > timings.json && cat timings.json; fi
