@@ -2,6 +2,15 @@ name: Get end-to-end test timings
 
 on:
   workflow_call:
+    inputs:
+      spec-file-patterns:
+        type: string
+        required: true
+        description: 'For example: e2e/**/*.cy.ts e2e/**/*.cy.js'
+    outputs:
+      timings:
+        description: "timings.json"
+        value: ${{ jobs.merge-timings.outputs.timings }}
 
 permissions:
   contents: read
@@ -15,7 +24,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Find spec files
         id: find-spec-files
-        run: echo "spec-files=$(find cypress/e2e -type f -name "*.cy.ts" | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+        run: |
+          shopt -s globstar
+          find ${{ inputs.spec-file-patterns }} -type f | jq -Rcn '[inputs | {path: ., id: gsub("[^a-zA-Z0-9]+"; "-") | rtrimstr("-")}]' > timings.json
+          echo "spec-files=$(cat timings.json)" >> $GITHUB_OUTPUT
       - run: echo ${{ steps.find-spec-files.outputs.spec-files }}
 
   restore-timings-cache:
@@ -24,44 +36,27 @@ jobs:
     strategy:
       matrix:
         spec-file: ${{ fromJSON(needs.get-spec-files.outputs.spec-files) }}
+    outputs:
+      ${{ matrix.spec-file.id }}: ${{ steps.export-timing.outputs.timing }}
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          mkdir -p timings
-          touch timings/.ignore-me
       - name: Restore timing cache
         uses: actions/cache/restore@v4
         with:
-          path: timings/${{ matrix.spec-file }}.json
-          key: ${{ hashFiles(matrix.spec-file) }}
-      - run: echo "ARTIFACT_NAME=timings-$(echo "${{ matrix.spec-file }}" | sed 's|[./]|-|g')" >> $GITHUB_ENV
-      - name: Upload timing
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: timings
-          include-hidden-files: true
+          path: timings/${{ matrix.spec-file.id }}.json
+          key: ${{ hashFiles(matrix.spec-file.path) }}
+      - name: Export timing
+        run: echo "timing=$(cat timings/${{ matrix.spec-file.id }}.json)" >> $GITHUB_OUTPUT
+        id: export-timing
 
   merge-timings:
     needs: restore-timings-cache
     runs-on: ubuntu-latest
+    outputs:
+      timings: ${{ steps.merge-timings.outputs.timings }}
     steps:
-      - run: mkdir -p timings
-      - name: Download timings
-        uses: actions/download-artifact@v4
-        with:
-          pattern: timings-*
-          merge-multiple: true
-          path: timings
-      - name: Merge timings
+      - name: Extract cached timings
+        id: merge-timings
         run: |
-          shopt -s globstar
-          if ls timings/**/*.json; then echo "{\"durations\": $(jq -s '[.[][]] | flatten' timings/**/*.json)}" > timings.json && cat timings.json; else touch .ignore-me; fi
-      - uses: actions/upload-artifact@v4
-        with:
-          name: timings.json
-          path: |
-            timings.json
-            .ignore-me
-          include-hidden-files: true
-          if-no-files-found: ignore
+          echo "timings=$(echo ${{ toJSON(needs.restore-timings-cache.outputs) }} | jq -c '{durations: [to_entries[].value]}')" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.merge-timings.outputs.timings }}
