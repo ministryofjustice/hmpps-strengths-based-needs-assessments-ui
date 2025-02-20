@@ -8,8 +8,7 @@ services:
       - "5432:5432"
 
   san-ui:
-#    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:local
-    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-ui:local
+    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:local
     build:
       target: development
     command: npm run start:dev
