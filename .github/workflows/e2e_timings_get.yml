@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       spec-files: ${{ steps.find-spec-files.outputs.spec-files }}
+      outputs-matrix: ${{ steps.outputs-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
       - name: Find spec files
@@ -29,6 +30,10 @@ jobs:
           find ${{ inputs.spec-file-patterns }} -type f | jq -Rcn '[inputs | {path: ., id: gsub("[^a-zA-Z0-9]+"; "-") | rtrimstr("-")}]' > timings.json
           echo "spec-files=$(cat timings.json)" >> $GITHUB_OUTPUT
       - run: echo ${{ steps.find-spec-files.outputs.spec-files }}
+      - name: Generate outputs matrix
+        id: outputs-matrix
+        run: |
+          echo "matrix={\"key-1\": \"${{ '${{ steps.export-timing.outputs.timing }}' }}\"}" >> $GITHUB_OUTPUT
 
   restore-timings-cache:
     needs: get-spec-files
@@ -36,8 +41,7 @@ jobs:
     strategy:
       matrix:
         spec-file: ${{ fromJSON(needs.get-spec-files.outputs.spec-files) }}
-    outputs:
-      ${{ matrix.spec-file.id }}: ${{ steps.export-timing.outputs.timing }}
+    outputs: ${{ toJSON(needs.get-spec-files.outputs.outputs-matrix) }}
     steps:
       - uses: actions/checkout@v4
       - name: Restore timing cache
