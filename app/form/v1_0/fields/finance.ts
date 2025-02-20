@@ -59,6 +59,7 @@ class FinanceFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       { text: 'Other', value: 'OTHER', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option', behaviour: 'exclusive' },
       utils.orDivider,
       { text: 'No money', value: 'NO_MONEY', kind: 'option', behaviour: 'exclusive' },
     ],
