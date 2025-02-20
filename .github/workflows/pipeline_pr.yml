@@ -58,8 +58,11 @@ jobs:
     uses: ./.github/workflows/e2e_test.yml
     with:
       app_version: ${{ needs.build_docker.outputs.app_version }}
+      timings: ${{ needs.e2e_timings_get.outputs.timings }}
 
   e2e_timings_save:
     uses: ./.github/workflows/e2e_timings_save.yml
     needs: e2e_test
     if: '!cancelled()'
+    with:
+      timings: ${{ needs.e2e_test.outputs.timings }}

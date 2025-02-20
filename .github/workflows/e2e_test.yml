@@ -7,6 +7,14 @@ on:
         description: App version
         required: true
         type: string
+      timings:
+        description: "Contents of timings.json"
+        required: true
+        type: string
+    outputs:
+      timings:
+        description: "Contents of updated timings.json"
+        value: ${{ jobs.e2e_test.outputs }}
 
 permissions:
   contents: read
@@ -19,7 +27,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        container: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    outputs:
+      timings-${{ matrix.container }}: ${{ steps.updated-timings.outputs.timings }}
     steps:
       - uses: actions/checkout@v4
 
@@ -43,10 +53,9 @@ jobs:
             ~/.cache/Cypress
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Download timings
-        uses: actions/download-artifact@v4
-        with:
-          name: timings.json
+      - name: Create timings.json
+        if: ${{ inputs.timings != '' }}
+        run: echo ${{ input.timings }} > timings.json
 
       - name: Stand up a test environment
         run: make up
@@ -62,15 +71,9 @@ jobs:
           SPLIT_FILE: 'timings.json'
 
       - name: Create updated timing files
+        id: updated-timings
         if: '!cancelled()'
-        run: jq -c '.durations[]' timings.json | while read -r json; do spec_path=timings/$(echo "$json" | jq -r '.spec').json && mkdir -p $(dirname $spec_path) && echo "{\"durations\":[$json]}" > $spec_path; done
-
-      - name: Upload updated timing files
-        if: '!cancelled()'
-        uses: actions/upload-artifact@v4
-        with:
-          name: updated-timings-${{ strategy.job-index }}
-          path: timings
+        run: echo "timings=$(cat timings.json)" >> $GITHUB_OUTPUT
 
       - name: Export container logs
         if: failure()
