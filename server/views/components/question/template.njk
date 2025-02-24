@@ -106,23 +106,25 @@
     {{ innerHtml | outdent(2) | safe }}
 
   {% case 'DROPDOWN' %}
-    {{ govukSelect({
-      id: field.id,
-      name: field.id,
-      classes: field.classes | default(""),
-      label: {
-        text: field.text,
-        classes: field.id + " " + (field.labelClasses | default(""))
-      },
-      formGroup: {
-        classes: "form-group " + (field.formGroupClasses | default(""))
-      },
-      attributes: field.attributes,
-      items: field.options,
-      errorMessage: errorMessage,
-      isConditional: field.isConditional,
-      hint: field.hint
-    }) }}
+    <div class="form-group">
+      {{ govukSelect({
+        id: field.id,
+        name: field.id,
+        classes: field.classes | default(""),
+        label: {
+          text: field.text,
+          classes: field.id + " " + (field.labelClasses | default(""))
+        },
+        formGroup: {
+          classes: "form-group " + (field.formGroupClasses | default(""))
+        },
+        attributes: field.attributes,
+        items: field.options,
+        errorMessage: errorMessage,
+        isConditional: field.isConditional,
+        hint: field.hint
+      }) }}
+    </div>
 
   {% case 'AUTOCOMPLETE' %}
     <div class="form-group">
@@ -192,8 +194,8 @@
       ],
       errorMessage: errorMessage,
       attributes: field.attributes
-    }) }}
-
+    }) }} 
+    
   {% default %}
     <!-- {{ field.id }} - {{ field.type }} questions are not currently rendered -->
 {% endswitch %}

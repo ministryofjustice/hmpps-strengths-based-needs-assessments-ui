@@ -235,3 +235,7 @@ export const hasDate = (subject: JQuery, date: string) => {
 
   return cy.wrap(subject)
 }
+
+export const selectOption = (subject: JQuery, option: string) => {
+  return cy.wrap(subject).get('select').select(option).parent()
+}

@@ -368,13 +368,12 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisVictimRace: FormWizard.Field = {
-    text: `What is the victim's race or ethnicity?`,
+    text: `What is the victim's ethnicity?`,
     code: `offence_analysis_victim_race`,
-    type: FieldType.AutoComplete,
-    hint: { text: 'Type in a race or ethnicity and a list of options will appear.', kind: 'text' },
-    validate: [{ type: ValidationType.Required, message: 'Select race or ethnicity' }],
+    type: FieldType.Dropdown,
+    validate: [{ type: ValidationType.Required, message: "Select the victim's ethnicity" }],
     options: [
-      { text: '', value: '', kind: 'option' },
+      { text: 'Select the victim’s ethnicity', value: '', kind: 'option' },
       {
         text: 'White - English, Welsh, Scottish, Northern Irish or British',
         value: 'WHITE_ENGLISH_WELSH_SCOTTISH_NORTHERN_IRISH_OR_BRITISH',
@@ -410,9 +409,9 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
       },
       { text: 'Arab', value: 'ARAB', kind: 'option' },
       { text: 'Any other ethnic group', value: 'ANY_OTHER_ETHNIC_GROUP', kind: 'option' },
-      { text: 'Not stated', value: 'NOT_STATED', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
-    labelClasses: utils.getMediumLabelClassFor(FieldType.AutoComplete),
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Dropdown),
   }
 
   offenceAnalysisVictimsCollection: FormWizard.Field = {

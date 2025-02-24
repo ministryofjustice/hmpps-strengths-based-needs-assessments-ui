@@ -22,7 +22,6 @@ describe('/offence-analysis-victim/create', () => {
     relationship: 'A stranger',
     age: '26 to 49 years',
     sex: 'Male',
-    raceOrEthnicityPartial: 'English',
     raceOrEthnicity: 'White - English, Welsh, Scottish, Northern Irish or British',
   }
 

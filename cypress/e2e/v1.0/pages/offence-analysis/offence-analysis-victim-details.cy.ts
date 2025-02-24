@@ -10,14 +10,12 @@ describe('/offence-analysis-victim-details', () => {
       relationship: 'A stranger',
       age: '26 to 49 years',
       sex: 'Male',
-      raceOrEthnicityPartial: 'English',
       raceOrEthnicity: 'White - English, Welsh, Scottish, Northern Irish or British',
     },
     {
       relationship: "Sam's ex-partner",
       age: '21 to 25 years',
       sex: 'Female',
-      raceOrEthnicityPartial: 'White - Irish',
       raceOrEthnicity: 'White - Irish',
     },
   ]

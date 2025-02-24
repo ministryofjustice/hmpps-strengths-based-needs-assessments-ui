@@ -1,4 +1,4 @@
-const question = "What is the victim's race or ethnicity?"
+const question = "What is the victim's ethnicity?"
 const options = [
   'White - English, Welsh, Scottish, Northern Irish or British',
   'White - Irish',
@@ -18,7 +18,7 @@ const options = [
   'Black or Black British - African',
   'Black or Black British - Any other Black background',
   'Any other ethnic group',
-  'Not stated',
+  'Unknown',
 ]
 
 const testCreate = (createUrl: string, editUrl: string, positionNumber: number) => {
@@ -26,12 +26,9 @@ const testCreate = (createUrl: string, editUrl: string, positionNumber: number) 
     it(`displays and validates the question`, () => {
       cy.assertStepUrlIs(createUrl)
 
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasHint('Type in a race or ethnicity and a list of options will appear.')
-        .enterText('')
+      cy.getQuestion(question).isQuestionNumber(positionNumber)
       cy.saveAndContinue()
-      cy.getQuestion(question).hasValidationError('Select race or ethnicity')
+      cy.getQuestion(question).hasValidationError("Select the victim's ethnicity")
       cy.checkAccessibility()
 
       cy.assertStepUrlIs(editUrl)
@@ -40,22 +37,13 @@ const testCreate = (createUrl: string, editUrl: string, positionNumber: number) 
     options.forEach(option => {
       it(`passes validation when "${option}" is selected`, () => {
         cy.assertStepUrlIs(createUrl)
-
-        cy.getQuestion(question).enterText(`${option}{enter}`)
+        cy.getQuestion(question).selectOption('White - English, Welsh, Scottish, Northern Irish or British')
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(editUrl)
 
         cy.getQuestion(question).hasNoValidationError()
       })
-    })
-
-    it(`supports autocomplete of partial term`, () => {
-      cy.getQuestion(question).enterText('Welsh{enter}')
-      cy.saveAndContinue()
-      cy.getQuestion(question)
-        .hasNoValidationError()
-        .hasText('White - English, Welsh, Scottish, Northern Irish or British')
     })
   })
 }
@@ -68,22 +56,10 @@ const testEdit = (editUrl: string, collectionSummaryUrl: string, positionNumber:
 
         cy.getQuestion(question)
           .isQuestionNumber(positionNumber)
-          .hasHint('Type in a race or ethnicity and a list of options will appear.')
-          .enterText(`${option}{enter}`)
+          .selectOption('White - English, Welsh, Scottish, Northern Irish or British')
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(collectionSummaryUrl)
-      })
-
-      it(`supports autocomplete of partial term`, () => {
-        cy.getQuestion(question).enterText('Welsh{enter}')
-        cy.saveAndContinue()
-
-        cy.assertStepUrlIs(collectionSummaryUrl)
-
-        cy.getSummary("What is the victim's race or ethnicity?").getAnswer(
-          'White - English, Welsh, Scottish, Northern Irish or British',
-        )
       })
     })
   })
