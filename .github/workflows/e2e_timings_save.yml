@@ -29,6 +29,7 @@ jobs:
               echo "$line" | jq --arg hash "$hash" '. + {hash: $hash}'; \
             done \
             | jq -s '{durations: .}' > merged-container-timings.json
+          cat merged-container-timings.json
           echo "timings=$(jq -c . < merged-container-timings.json)" >> $GITHUB_OUTPUT
       - name: Restore timings cache
         uses: actions/cache/restore@v4
@@ -38,7 +39,10 @@ jobs:
       - name: Get cached timings
         id: get-cached-timings
         run: |
-          if ls timings-cache.json; then echo "timings=$(jq -c . < timings-cache.json)" >> $GITHUB_OUTPUT; else echo "timings={\"durations\": []}" >> $GITHUB_OUTPUT; fi
+          if ls timings-cache.json; \
+          then cat timings-cache.json && echo "timings=$(jq -c . < timings-cache.json)" >> $GITHUB_OUTPUT; \
+          else echo "timings={\"durations\": []}" >> $GITHUB_OUTPUT; \
+          fi
       - name: Update timings cache
         id: update-timings-cache
         uses: ./.github/actions/update-timings-cache
@@ -46,7 +50,9 @@ jobs:
           container-timings: '${{ steps.merge-container-timings.outputs.timings }}'
           cached-timings: '${{ steps.get-cached-timings.outputs.timings }}'
       - name: Create timings file to cache
-        run: echo '${{ steps.update-timings-cache.outputs.timings }}' > timings-cache.json
+        run: |
+          echo '${{ steps.update-timings-cache.outputs.timings }}' > timings-cache.json
+          cat timings-cache.json
       - name: Delete Previous Cache
         continue-on-error: true
         run: |
