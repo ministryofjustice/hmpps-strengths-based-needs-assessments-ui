@@ -42,8 +42,8 @@ jobs:
         id: update-timings-cache
         uses: ./.github/actions/update-timings-cache
         with:
-          container-timings: ${{ steps.merge-container-timings.outputs.timings }}
-          cached-timings: ${{ steps.get-cached-timings.outputs.timings }}
+          container-timings: '${{ steps.merge-container-timings.outputs.timings }}'
+          cached-timings: '${{ steps.get-cached-timings.outputs.timings }}'
       - name: Create timings file to cache
         run: echo ${{ steps.update-timings-cache.outputs.timings }} > timings-cache.json
       - name: Delete Previous Cache
