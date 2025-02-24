@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   get-timings:
+    permissions: write-all
     runs-on: ubuntu-latest
     outputs:
       timings: ${{ steps.get-timings.outputs.timings }}
