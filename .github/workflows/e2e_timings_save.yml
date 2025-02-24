@@ -37,7 +37,8 @@ jobs:
           key: timings-cache.json
       - name: Get cached timings
         id: get-cached-timings
-        run: echo "timings=$(jq -c . < timings-cache.json)" >> $GITHUB_OUTPUT
+        run: |
+          if ls timings-cache.json; then echo "timings=$(jq -c . < timings-cache.json)" >> $GITHUB_OUTPUT; else echo "timings={\"durations\": []}" >> $GITHUB_OUTPUT; fi
       - name: Update timings cache
         id: update-timings-cache
         uses: ./.github/actions/update-timings-cache
