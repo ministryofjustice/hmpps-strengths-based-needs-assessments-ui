@@ -14,7 +14,7 @@ on:
     outputs:
       timings:
         description: "Contents of updated timings.json"
-        value: ${{ toJSON(jobs.e2e_test.outputs) }}
+        value: ${{ jobs.get-timings.outputs.timings }}
 
 permissions:
   contents: read
@@ -98,3 +98,13 @@ jobs:
             cypress/videos
             cypress/screenshots
             ${{ runner.temp }}/docker-logs
+
+  get-timings:
+    runs-on: ubuntu-latest
+    needs: e2e_test
+    outputs:
+      timings: ${{ steps.get-timings.outputs.timings }}
+    steps:
+      - name: Get timings
+        id: get-timings
+        run: echo "timings=$(echo '${{ toJSON(needs.e2e_test.outputs) }}' | jq -c . )" >> $GITHUB_OUTPUT
