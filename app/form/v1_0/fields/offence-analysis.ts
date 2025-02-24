@@ -371,9 +371,9 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     text: `What is the victim's ethnicity?`,
     code: `offence_analysis_victim_race`,
     type: FieldType.Dropdown,
-    validate: [{ type: ValidationType.Required, message: "Select the victim's ethnicity"}],
+    validate: [{ type: ValidationType.Required, message: "Select the victim's ethnicity" }],
     options: [
-      { text: "Select the victim’s ethnicity", value: '', kind: 'option' },
+      { text: 'Select the victim’s ethnicity', value: '', kind: 'option' },
       {
         text: 'White - English, Welsh, Scottish, Northern Irish or British',
         value: 'WHITE_ENGLISH_WELSH_SCOTTISH_NORTHERN_IRISH_OR_BRITISH',

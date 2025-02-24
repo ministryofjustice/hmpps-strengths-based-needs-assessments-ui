@@ -305,7 +305,7 @@ abstract class BaseCollectionController extends BaseController {
         const newEntryIndex = (req.form.persistedAnswers[this.field.code] || []).length
         const updateUrl = `${this.field.collection.updateUrl}/${newEntryIndex}`
         const updatedErrors = Object.fromEntries(
-          Object.entries(req.sessionModel.get('errors')|| {}).map(([key, error]) => [
+          Object.entries(req.sessionModel.get('errors') || {}).map(([key, error]) => [
             key,
             { ...error, url: error.url.replace(this.field.collection.createUrl, updateUrl) },
           ]),

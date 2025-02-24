@@ -217,7 +217,9 @@ describe('Origin: /offence-analysis', () => {
         cy.getQuestion('Who is the victim?').getRadio('A stranger').clickLabel()
         cy.getQuestion("What is the victim's approximate age?").getRadio('0 to 4 years').clickLabel()
         cy.getQuestion("What is the victim's sex?").getRadio('Male').clickLabel()
-        cy.getQuestion("What is the victim's ethnicity?").selectOption('White - English, Welsh, Scottish, Northern Irish or British')
+        cy.getQuestion("What is the victim's ethnicity?").selectOption(
+          'White - English, Welsh, Scottish, Northern Irish or British',
+        )
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.victimsSummary)
         cy.assertBackLinkIs(destinations.landingPage)

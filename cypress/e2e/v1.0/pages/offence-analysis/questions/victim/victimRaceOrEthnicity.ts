@@ -26,8 +26,7 @@ const testCreate = (createUrl: string, editUrl: string, positionNumber: number) 
     it(`displays and validates the question`, () => {
       cy.assertStepUrlIs(createUrl)
 
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
+      cy.getQuestion(question).isQuestionNumber(positionNumber)
       cy.saveAndContinue()
       cy.getQuestion(question).hasValidationError("Select the victim's ethnicity")
       cy.checkAccessibility()

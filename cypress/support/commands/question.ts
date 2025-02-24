@@ -237,9 +237,5 @@ export const hasDate = (subject: JQuery, date: string) => {
 }
 
 export const selectOption = (subject: JQuery, option: string) => {
-  return cy
-    .wrap(subject)
-    .get('select')
-    .select(option)
-    .parent()
+  return cy.wrap(subject).get('select').select(option).parent()
 }
