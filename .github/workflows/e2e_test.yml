@@ -82,7 +82,7 @@ jobs:
       - name: Create updated timing files
         id: updated-timings
         if: '!cancelled()'
-        run: echo "timings${{ matrix.container }}=$(cat timings.json)" >> $GITHUB_OUTPUT
+        run: echo "timings${{ matrix.container }}=$(jq -c . < timings.json)" >> $GITHUB_OUTPUT
 
       - name: Export container logs
         if: failure()

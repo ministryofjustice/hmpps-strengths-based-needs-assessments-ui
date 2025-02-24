@@ -28,7 +28,7 @@ jobs:
               echo "$line" | jq --arg hash "$hash" '. + {hash: $hash}'; \
             done \
             | jq -s '{durations: .}' > merged-container-timings.json
-          echo "timings=$(cat merged-container-timings.json)" >> $GITHUB_OUTPUT
+          echo "timings=$(jq -c . < merged-container-timings.json)" >> $GITHUB_OUTPUT
       - name: Restore timings cache
         uses: actions/cache/restore@v4
         with:
@@ -36,7 +36,7 @@ jobs:
           key: timings-cache.json
       - name: Get cached timings
         id: get-cached-timings
-        run: echo "timings=$(cat timings-cache.json)" >> $GITHUB_OUTPUT
+        run: echo "timings=$(jq -c . < timings-cache.json)" >> $GITHUB_OUTPUT
       - name: Update timings cache
         id: update-timings-cache
         uses: ./.github/actions/update-timings-cache

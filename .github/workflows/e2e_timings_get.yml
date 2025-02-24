@@ -30,7 +30,7 @@ jobs:
       - name: Get cached timings
         id: get-cached-timings
         run: |
-          if ls timings-cache.json; then echo "timings=${cat timings-cache.json}" >> $GITHUB_OUTPUT; else echo "timings=" >> $GITHUB_OUTPUT; fi
+          if ls timings-cache.json; then echo "timings=${jq -c . < timings-cache.json}" >> $GITHUB_OUTPUT; else echo "timings=" >> $GITHUB_OUTPUT; fi
       - name: Find spec files
         if: ${{ steps.get-cached-timings.outputs.timings != '' }}
         run: |
@@ -50,4 +50,4 @@ jobs:
       - name: Get timings.json
         id: get-timings
         run: |
-          if ls timings.json; then echo "timings=${cat timings.json}" >> $GITHUB_OUTPUT; else echo "timings=" >> $GITHUB_OUTPUT; fi
+          if ls timings.json; then echo "timings=${jq -c . < timings.json}" >> $GITHUB_OUTPUT; else echo "timings=" >> $GITHUB_OUTPUT; fi
