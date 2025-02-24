@@ -14,7 +14,7 @@ on:
     outputs:
       timings:
         description: "Contents of updated timings.json"
-        value: ${{ jobs.e2e_test.outputs }}
+        value: ${{ toJSON(jobs.e2e_test.outputs) }}
 
 permissions:
   contents: read
