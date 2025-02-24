@@ -9,12 +9,11 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   merge-timings:
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - uses: actions/checkout@v4
       - name: Merge container timings
