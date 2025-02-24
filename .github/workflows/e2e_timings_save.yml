@@ -14,28 +14,46 @@ permissions:
 jobs:
   merge-timings:
     runs-on: ubuntu-latest
-    outputs:
-      durations: ${{ steps.merge-timings.outputs.durations }}
-    steps:
-      - name: Merge container timings
-        id: merge-timings
-        run: |
-          echo "durations=$(echo ${{ inputs.timings }} | jq 'map(.durations) | add | map(.id = (.spec | gsub("[^a-zA-Z0-9]+"; "-") | rtrimstr("-")))')" >> $GITHUB_OUTPUT
-
-  save-timings-cache:
-    runs-on: ubuntu-latest
-    needs: merge-timings
-    strategy:
-      matrix:
-        duration: ${{ fromJSON(needs.merge-timings.outputs.durations) }}
     steps:
       - uses: actions/checkout@v4
-      - name: Create timing file
+      - name: Merge container timings
+        id: merge-container-timings
         run: |
-          mkdir -p timings
-          echo ${{ matrix.duration }} | jq 'del(.id)' > timings/${{ matrix.duration.id }}.json
-      - name: Save timing cache
-        uses: actions/cache@v4
+          echo ${{ inputs.timings }} \
+            | jq -r 'map(.durations) | add | map({spec, duration, hash: .spec})' \
+            | jq -c '.[]' \
+            | while read -r line; \
+              do spec=$(echo "$line" | jq -r '.spec'); \
+              hash=$(md5sum "$spec" 2>/dev/null | cut -d " " -f1 || echo "MISSING_FILE"); \
+              echo "$line" | jq --arg hash "$hash" '. + {hash: $hash}'; \
+            done \
+            | jq -s '{durations: .}' > merged-container-timings.json
+          echo "timings=$(cat merged-container-timings.json)" >> $GITHUB_OUTPUT
+      - name: Restore timings cache
+        uses: actions/cache/restore@v4
         with:
-          path: timings/${{ matrix.duration.id }}.json
-          key: ${{ hashFiles(matrix.duration.path) }}
+          path: timings-cache.json
+          key: timings-cache.json
+      - name: Get cached timings
+        id: get-cached-timings
+        run: echo "timings=$(cat timings-cache.json)" >> $GITHUB_OUTPUT
+      - name: Update timings cache
+        id: update-timings-cache
+        uses: ./.github/actions/update-timings-cache
+        with:
+          container-timings: ${{ steps.merge-container-timings.outputs.timings }}
+          cached-timings: ${{ steps.get-cached-timings.outputs.timings }}
+      - name: Create timings file to cache
+        run: echo ${{ steps.update-timings-cache.outputs.timings }} > timings-cache.json
+      - name: Delete Previous Cache
+        continue-on-error: true
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete "timings-cache.json" --confirm
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache timings
+        uses: actions/cache/save@v4
+        with:
+          path: timings-cache.json
+          key: timings-cache.json

@@ -29,7 +29,16 @@ jobs:
       matrix:
         container: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
     outputs:
-      timings-${{ matrix.container }}: ${{ steps.updated-timings.outputs.timings }}
+      timings-1: ${{ steps.updated-timings.outputs.timings1 }}
+      timings-2: ${{ steps.updated-timings.outputs.timings2 }}
+      timings-3: ${{ steps.updated-timings.outputs.timings3 }}
+      timings-4: ${{ steps.updated-timings.outputs.timings4 }}
+      timings-5: ${{ steps.updated-timings.outputs.timings5 }}
+      timings-6: ${{ steps.updated-timings.outputs.timings6 }}
+      timings-7: ${{ steps.updated-timings.outputs.timings7 }}
+      timings-8: ${{ steps.updated-timings.outputs.timings8 }}
+      timings-9: ${{ steps.updated-timings.outputs.timings9 }}
+      timings-10: ${{ steps.updated-timings.outputs.timings10 }}
     steps:
       - uses: actions/checkout@v4
 
@@ -73,7 +82,7 @@ jobs:
       - name: Create updated timing files
         id: updated-timings
         if: '!cancelled()'
-        run: echo "timings=$(cat timings.json)" >> $GITHUB_OUTPUT
+        run: echo "timings${{ matrix.container }}=$(cat timings.json)" >> $GITHUB_OUTPUT
 
       - name: Export container logs
         if: failure()

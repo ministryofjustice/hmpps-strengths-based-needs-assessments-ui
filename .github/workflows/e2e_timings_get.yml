@@ -10,57 +10,44 @@ on:
     outputs:
       timings:
         description: "timings.json"
-        value: ${{ jobs.merge-timings.outputs.timings }}
+        value: ${{ jobs.get-timings.outputs.timings }}
 
 permissions:
   contents: read
 
 jobs:
-  get-spec-files:
+  get-timings:
     runs-on: ubuntu-latest
     outputs:
-      spec-files: ${{ steps.find-spec-files.outputs.spec-files }}
-      outputs-matrix: ${{ steps.outputs-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Find spec files
-        id: find-spec-files
-        run: |
-          shopt -s globstar
-          find ${{ inputs.spec-file-patterns }} -type f | jq -Rcn '[inputs | {path: ., id: gsub("[^a-zA-Z0-9]+"; "-") | rtrimstr("-")}]' > timings.json
-          echo "spec-files=$(cat timings.json)" >> $GITHUB_OUTPUT
-      - run: echo ${{ steps.find-spec-files.outputs.spec-files }}
-      - name: Generate outputs matrix
-        id: outputs-matrix
-        run: |
-          echo "matrix={\"key-1\": \"${{ '${{ steps.export-timing.outputs.timing }}' }}\"}" >> $GITHUB_OUTPUT
-
-  restore-timings-cache:
-    needs: get-spec-files
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        spec-file: ${{ fromJSON(needs.get-spec-files.outputs.spec-files) }}
-    outputs: ${{ toJSON(needs.get-spec-files.outputs.outputs-matrix) }}
+      timings: ${{ steps.get-timings.outputs.timings }}
     steps:
       - uses: actions/checkout@v4
       - name: Restore timing cache
         uses: actions/cache/restore@v4
         with:
-          path: timings/${{ matrix.spec-file.id }}.json
-          key: ${{ hashFiles(matrix.spec-file.path) }}
-      - name: Export timing
-        run: echo "timing=$(cat timings/${{ matrix.spec-file.id }}.json)" >> $GITHUB_OUTPUT
-        id: export-timing
-
-  merge-timings:
-    needs: restore-timings-cache
-    runs-on: ubuntu-latest
-    outputs:
-      timings: ${{ steps.merge-timings.outputs.timings }}
-    steps:
-      - name: Extract cached timings
-        id: merge-timings
+          path: timings-cache.json
+          key: timings-cache.json
+      - name: Get cached timings
+        id: get-cached-timings
         run: |
-          echo "timings=$(echo ${{ toJSON(needs.restore-timings-cache.outputs) }} | jq -c '{durations: [to_entries[].value]}')" >> $GITHUB_OUTPUT
-      - run: echo ${{ steps.merge-timings.outputs.timings }}
+          if ls timings-cache.json; then echo "timings=${cat timings-cache.json}" >> $GITHUB_OUTPUT; else echo "timings=" >> $GITHUB_OUTPUT; fi
+      - name: Find spec files
+        if: ${{ steps.get-cached-timings.outputs.timings != '' }}
+        run: |
+          find ${{ inputs.spec-file-patterns }} -type f \
+            | while read -r spec; do \
+              hash=$(md5sum "$spec" | cut -d " " -f1); \
+              echo "{\"spec\": \"$spec\", \"hash\": \"$hash\"}"; \
+            done \
+            | jq -s '.' > spec-hashes.json
+      - name: Create timings.json
+        if: ${{ steps.get-cached-timings.outputs.timings != '' }}
+        run: |
+          cat timings-cache.json \
+          | jq --argjson specs "$(jq '[.[] | {spec, hash}]' spec-hashes.json)" \
+            '.durations | map(select([.spec, .hash] as $entry | $specs | any(.spec == $entry[0] and .hash == $entry[1])) | {spec, duration})' \
+          | jq '{durations: .}' > timings.json
+      - name: Get timings.json
+        id: get-timings
+        run: |
+          if ls timings.json; then echo "timings=${cat timings.json}" >> $GITHUB_OUTPUT; else echo "timings=" >> $GITHUB_OUTPUT; fi

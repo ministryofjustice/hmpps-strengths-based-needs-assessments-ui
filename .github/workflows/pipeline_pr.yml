@@ -50,6 +50,8 @@ jobs:
 
   e2e_timings_get:
     uses: ./.github/workflows/e2e_timings_get.yml
+    with:
+      spec-file-patterns: cypress/e2e/**/*.cy.ts
 
   e2e_test:
     needs:
