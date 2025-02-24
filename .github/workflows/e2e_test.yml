@@ -64,7 +64,7 @@ jobs:
 
       - name: Create timings.json
         if: ${{ inputs.timings != '' }}
-        run: echo ${{ inputs.timings }} > timings.json
+        run: echo '${{ inputs.timings }}' > timings.json
 
       - name: Stand up a test environment
         run: make up

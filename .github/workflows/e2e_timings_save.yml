@@ -46,7 +46,7 @@ jobs:
           container-timings: '${{ steps.merge-container-timings.outputs.timings }}'
           cached-timings: '${{ steps.get-cached-timings.outputs.timings }}'
       - name: Create timings file to cache
-        run: echo ${{ steps.update-timings-cache.outputs.timings }} > timings-cache.json
+        run: echo '${{ steps.update-timings-cache.outputs.timings }}' > timings-cache.json
       - name: Delete Previous Cache
         continue-on-error: true
         run: |
