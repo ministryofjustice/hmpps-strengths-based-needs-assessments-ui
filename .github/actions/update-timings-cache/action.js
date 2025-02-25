@@ -27560,15 +27560,29 @@ const core = __nccwpck_require__(7331);
 try {
   const containerTimings = JSON.parse(core.getInput('container-timings'));
   const cachedTimings = JSON.parse(core.getInput('cached-timings'));
-  const durationsReducer = (acc, duration) => ({...acc, [duration.spec + duration.hash]: duration});
+  const now = Date.now();
+
+  const durationsReducer = (acc, duration) => ({
+    ...acc,
+    [duration.spec + duration.hash]: {
+      ...duration,
+      timestamp: Object.hasOwn(duration, "timestamp") ? duration.timestamp : now
+    }
+  });
+
+  const mergedTimings = Object.values({
+    ...cachedTimings["durations"].reduce(durationsReducer, {}),
+    ...containerTimings["durations"].reduce(durationsReducer, {}),
+  }).filter((duration) => {
+    const timestamp = Number(duration["timestamp"]);
+    const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
+    return timestamp >= thirtyDaysAgo && timestamp <= now;
+  });
 
   core.setOutput(
     "timings",
     JSON.stringify({
-      "durations": Object.values({
-        ...cachedTimings["durations"].reduce(durationsReducer, {}),
-        ...containerTimings["durations"].reduce(durationsReducer, {}),
-      })
+      "durations": mergedTimings
     })
   );
 } catch (error) {
