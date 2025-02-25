@@ -9,7 +9,7 @@ on:
         description: 'List of glob patterns, separated by a single space. For example: e2e/**/*.cy.ts e2e/**/*.cy.js'
     outputs:
       timings:
-        description: "timings.json"
+        description: "Contents of timings.json"
         value: ${{ jobs.get-timings.outputs.timings }}
 
 permissions:

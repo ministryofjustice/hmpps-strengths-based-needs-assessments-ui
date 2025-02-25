@@ -58,6 +58,8 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - uses: ./.github/actions/cypress_create_timings_file
+        with:
+          timings: ${{ needs.get-timings.outputs.timings }}
 
       - name: Stand up a test environment
         run: make up
@@ -73,7 +75,10 @@ jobs:
           SPLIT_FILE: 'timings.json'
           SPLIT_OUTPUT_FILE: 'timings-out.json'
 
-      - uses: ./.github/actions/cypress_output_updated_timings
+      - name: Output updated timings
+        if: '!cancelled()'
+        id: timings
+        run: echo "t${{ matrix.container }}=$(jq -c . < timings-out.json)" >> $GITHUB_OUTPUT
 
       - name: Export container logs
         if: failure()
