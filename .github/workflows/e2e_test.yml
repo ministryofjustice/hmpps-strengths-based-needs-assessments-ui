@@ -78,11 +78,14 @@ jobs:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
           SPLIT_FILE: 'timings.json'
+          SPLIT_OUTPUT_FILE: 'timings-updated.json'
 
       - name: Create updated timing files
         id: updated-timings
         if: '!cancelled()'
-        run: echo "timings${{ matrix.container }}=$(jq -c . < timings.json)" >> $GITHUB_OUTPUT
+        run: |
+          cat timings-updated.json
+          echo "timings${{ matrix.container }}=$(jq -c . < timings-updated.json)" >> $GITHUB_OUTPUT
 
       - name: Export container logs
         if: failure()

@@ -43,6 +43,7 @@ jobs:
               echo "{\"spec\": \"$spec\", \"hash\": \"$hash\"}"; \
             done \
             | jq -s '.' > spec-hashes.json
+          cat spec-hashes.json
       - name: Create timings.json
         if: ${{ steps.get-cached-timings.outputs.timings != '' }}
         run: |
