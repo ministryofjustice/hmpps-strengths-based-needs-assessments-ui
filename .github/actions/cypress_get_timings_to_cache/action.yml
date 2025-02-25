@@ -1,5 +1,5 @@
-name: 'Update timings cache'
-description: 'Merges cached timings with current timings'
+name: 'Merge timings'
+description: 'Merges cached timings with container timings'
 inputs:
   container-timings:
     description: 'Merged container timings'

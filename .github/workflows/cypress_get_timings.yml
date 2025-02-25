@@ -1,4 +1,4 @@
-name: Get end-to-end test timings
+name: Get Cypress test timings from cache
 
 on:
   workflow_call:
@@ -6,7 +6,7 @@ on:
       spec-file-patterns:
         type: string
         required: true
-        description: 'For example: e2e/**/*.cy.ts e2e/**/*.cy.js'
+        description: 'List of glob patterns, separated by a single space. For example: e2e/**/*.cy.ts e2e/**/*.cy.js'
     outputs:
       timings:
         description: "timings.json"
