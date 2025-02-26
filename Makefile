@@ -57,9 +57,6 @@ e2e: get-cypress ## Run the end-to-end tests locally in the Cypress app. Overrid
 e2e-fixtures: get-cypress ## Runs all *.fixture.ts test files to generate JSON fixtures
 	npx cypress run --headless -b chrome -c baseUrl=$(BASE_URL) -s "cypress/e2e/**/*.fixture.ts"
 
-e2e-cli: get-cypress ## Run the end-to-end tests in a headless browser
-	npx cypress run --headless -b edge -c baseUrl=$(BASE_URL) -e split=1,splitIndex=0,splitFile=timings.json -s "cypress/e2e/**/*.cy.ts"
-
 clean: ## Stops and removes all project containers. Deletes local build/cache directories.
 	docker compose down
 	rm -rf dist node_modules test_results
