@@ -77,14 +77,13 @@ jobs:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
           SPLIT_FILE: 'timings.json'
-          SPLIT_OUTPUT_FILE: 'timings-out.json'
 
       - name: Output updated timings
         if: success() || failure()
         id: timings
         run: |
-          cat timings-out.json
-          echo "t${{ matrix.container }}=$(jq -c . < timings-out.json)" >> $GITHUB_OUTPUT
+          cat timings.json
+          echo "t${{ matrix.container }}=$(jq -c . < timings.json)" >> $GITHUB_OUTPUT
 
       - name: Export container logs
         if: failure()
@@ -102,8 +101,11 @@ jobs:
             ${{ runner.temp }}/docker-logs
 
   save-timings:
-    uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_save_timings.yml@arn-2494-shared-workflows-actions
-    needs: e2e-test
     if: success() || failure()
+    uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_save_timings.yml@arn-2494-shared-workflows-actions
+    needs:
+      - get-timings
+      - e2e-test
     with:
-      timings: ${{ toJSON(needs.e2e-test.outputs) }}
+      initial-timings: ${{ needs.get-timings.outputs.timings }}
+      updated-timings: ${{ toJSON(needs.e2e-test.outputs) }}
