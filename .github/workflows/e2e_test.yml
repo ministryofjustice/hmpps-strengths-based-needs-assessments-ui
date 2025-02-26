@@ -13,7 +13,7 @@ on:
 
 jobs:
   get-timings:
-    uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_get_timings.yml@arn-2494-shared-workflows-actions
+    uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_get_timings.yml@v1
     with:
       spec-file-patterns: ${{ inputs.spec-file-patterns }}
 
@@ -60,7 +60,7 @@ jobs:
             ~/.cache/Cypress
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-      - uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/actions/cypress/create_timings_file@arn-2494-shared-workflows-actions
+      - uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/actions/cypress/create_timings_file@v1
         with:
           timings: ${{ needs.get-timings.outputs.timings }}
 
@@ -101,7 +101,7 @@ jobs:
             ${{ runner.temp }}/docker-logs
 
   save-timings:
-    uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_save_timings.yml@arn-2494-shared-workflows-actions
+    uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_save_timings.yml@v1
     if: success() || failure()
     needs:
       - get-timings
