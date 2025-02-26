@@ -9,8 +9,14 @@ on:
         type: string
 
 jobs:
+  get-timings:
+    uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_get_timings.yml@arn-2494-shared-workflows-actions
+    with:
+      spec-file-patterns: 'cypress/e2e/**/*.cy.ts'
+
   e2e-test:
     runs-on: ubuntu-latest
+    needs: get-timings
     env:
       APP_VERSION: ${{ inputs.app_version }}
     strategy:
@@ -51,9 +57,9 @@ jobs:
             ~/.cache/Cypress
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-      - uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/actions/cypress/get_timings@arn-2494-shared-workflows-actions
+      - uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/actions/cypress/create_timings_file@arn-2494-shared-workflows-actions
         with:
-          spec-file-patterns: 'cypress/e2e/**/*.cy.ts'
+          timings: ${{ needs.get-timings.outputs.timings }}
 
       - name: Stand up a test environment
         run: make up
