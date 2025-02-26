@@ -101,8 +101,8 @@ jobs:
             ${{ runner.temp }}/docker-logs
 
   save-timings:
-    if: success() || failure()
     uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_save_timings.yml@arn-2494-shared-workflows-actions
+    if: success() || failure()
     needs:
       - get-timings
       - e2e-test
