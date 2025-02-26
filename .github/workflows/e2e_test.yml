@@ -3,6 +3,9 @@ name: Run end-to-end tests
 on:
   workflow_call:
     inputs:
+      spec-file-patterns:
+        type: string
+        default: 'cypress/e2e/**/*.cy.ts'
       app_version:
         description: App version
         required: true
@@ -12,7 +15,7 @@ jobs:
   get-timings:
     uses: ministryofjustice/hmpps-assess-risks-and-needs-github-actions/.github/workflows/cypress_get_timings.yml@arn-2494-shared-workflows-actions
     with:
-      spec-file-patterns: 'cypress/e2e/**/*.cy.ts'
+      spec-file-patterns: ${{ inputs.spec-file-patterns }}
 
   e2e-test:
     runs-on: ubuntu-latest
@@ -70,6 +73,7 @@ jobs:
           publish-summary: false
           browser: edge
         env:
+          SPEC: ${{ inputs.spec-file-patterns }}
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
           SPLIT_FILE: 'timings.json'
@@ -78,7 +82,9 @@ jobs:
       - name: Output updated timings
         if: success() || failure()
         id: timings
-        run: echo "t${{ matrix.container }}=$(jq -c . < timings-out.json)" >> $GITHUB_OUTPUT
+        run: |
+          cat timings-out.json
+          echo "t${{ matrix.container }}=$(jq -c . < timings-out.json)" >> $GITHUB_OUTPUT
 
       - name: Export container logs
         if: failure()
