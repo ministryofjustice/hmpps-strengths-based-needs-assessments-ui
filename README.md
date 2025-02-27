@@ -1,7 +1,6 @@
 # hmpps-strengths-based-needs-assessments-ui
 ![Main Pipeline](https://github.com/ministryofjustice/hmpps-strengths-based-needs-assessments-ui/actions/workflows/pipeline_main.yml/badge.svg?branch=main)
 [![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.message&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv2%2Fcompliant-repository%2Fhmpps-strengths-based-needs-assessments-ui)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-report/hmpps-strengths-based-needs-assessments-ui "Link to report")
-[![Docker Repository](https://quay.io/repository/hmpps/hmpps-strengths-based-needs-assessments-ui/status "Docker Repository")](https://github.com/ministryofjustice/hmpps-strengths-based-needs-assessments-ui/pkgs/container/hmpps-strengths-based-needs-assessments-ui)
 
 UI for the Strengths and Needs assessment service.
 
