@@ -21,8 +21,7 @@ const positiveFactorsHint = `
 <p class="govuk-hint">Select all that apply.</p>
 `
 const skipQuestionText = `
-<br>
-<p class="govuk-body">Before you submit the assessment, you'll need to answer this question.</p>
+<p class="govuk-body govuk-!-padding-top-3">Before you submit the assessment, you'll need to answer this question</p>
 `
 
 class HealthWellbeingFieldsFactory extends FieldsFactory {
@@ -36,7 +35,7 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
       utils.orDivider,
-      { text: 'Skip this question for now.', value: 'SKIP', hint: { html: skipQuestionText }, kind: 'option' },
+      { text: 'Skip this question for now', value: 'SKIP', hint: { html: skipQuestionText }, kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }

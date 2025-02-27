@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   const question = 'Does Sam have any physical health conditions?'
 
   const optionsWithDetails = ['Yes']
-  const options = ['No', 'Unknown', null, 'Skip this question for now.']
+  const options = ['No', 'Unknown', null, 'Skip this question for now']
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
