@@ -35,7 +35,13 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
       utils.orDivider,
-      { text: 'Skip this question for now', value: 'SKIP', hint: { html: skipQuestionText }, kind: 'option' },
+      {
+        text: 'Skip this question for now',
+        value: 'SKIP',
+        hint: { html: skipQuestionText },
+        kind: 'option',
+        behaviour: 'exclusive',
+      },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
