@@ -60,18 +60,25 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-quarter">
         <nav class="moj-side-navigation side-navigation" aria-label="Side navigation">
-          <ul class="moj-side-navigation__list">
-            {% for link in form.navigation %}
-              <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
+          {% for link in form.navigation %}
+              <h4 class="moj-side-navigation__title">
                 <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
-                  <span class="section-label">{{ link.label }}</span>
+                  {{ link.label }}
                   {% if sectionProgress[link.section] %}
                     <span class="section-complete">✓</span>
                   {% endif %}
                 </a>
-              </li>
-            {% endfor %}
-          </ul>
+              </h4>
+              {% if link.active %}
+                <ul class="moj-side-navigation__list">
+                {% for st in stepsTaken %}
+                  <li class="moj-side-navigation__item{% if st.active %} moj-side-navigation__item--active{% endif %}" >
+                    <a href="{{ st.href }}" class="govuk-link">{{ st.text }}</a>
+                  </li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+          {% endfor %}
         </nav>
       </div>
       <div class="govuk-grid-column-three-quarters">

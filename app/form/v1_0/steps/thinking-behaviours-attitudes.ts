@@ -17,6 +17,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Thinking behaviours and attitudes',
       url: stepUrls.thinkingBehavioursAttitudes,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
@@ -36,11 +37,12 @@ const sectionConfig: SectionConfig = {
       navigationOrder: 8,
       next: [
         nextWhen(thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm, 'YES', stepUrls.sexualOffending),
-        nextWhen(thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm, 'NO', stepUrls.thinkingBehaviours),
+        stepUrls.thinkingBehaviours,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Risk of sexual harm',
       url: stepUrls.sexualOffending,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
@@ -55,6 +57,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Thinking behaviours',
       url: stepUrls.thinkingBehaviours,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesTemperManagement,
@@ -72,6 +75,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         thinkingBehavioursFields.practitionerAnalysis(),
@@ -83,6 +87,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

@@ -42,6 +42,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle:  'Offence details',
       url: stepUrls.offenceAnalysis,
       fields: [
         offenceAnalysisFields.offenceAnalysisDescriptionOfOffence,
@@ -114,6 +115,7 @@ const sectionConfig: SectionConfig = {
       params: '/:entryId',
     },
     {
+      navigationTitle:  'Victims',
       url: stepUrls.offenceAnalysisVictimsSummary,
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimsCollection,
@@ -130,6 +132,7 @@ const sectionConfig: SectionConfig = {
       ],
     },
     {
+      navigationTitle:  'Involved parties',
       url: stepUrls.offenceAnalysisInvolvedParties,
       fields: [
         offenceAnalysisFields.offenceAnalysisHowManyInvolved,
@@ -143,6 +146,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle:  'Impact',
       url: stepUrls.offenceAnalysisImpact,
       fields: [
         offenceAnalysisImpactGroup,
@@ -156,6 +160,7 @@ const sectionConfig: SectionConfig = {
       },
     },
     {
+      navigationTitle:  'Others involved',
       url: stepUrls.offenceAnalysisImpactOthersInvolved,
       fields: [
         offenceAnalysisFields.offenceAnalysisLeader,
@@ -172,6 +177,7 @@ const sectionConfig: SectionConfig = {
       },
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.summary,
       template: templates.analysisComplete,
       locals: { hideAnalysis: true },
