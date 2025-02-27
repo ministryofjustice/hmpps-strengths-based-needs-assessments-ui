@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   const question = 'Does Sam have any physical health conditions?'
 
   const optionsWithDetails = ['Yes']
-  const options = ['No', 'Unknown']
+  const options = ['No', 'Unknown', null, 'Skip this question for now.']
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
@@ -48,7 +48,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    options.forEach(option => {
+    options
+    .filter(option => option !== null)
+    .forEach(option => {
       it(`summary page displays "${option}"`, () => {
         cy.visitStep(stepUrl)
         cy.getQuestion(question).getRadio(option).clickLabel()
