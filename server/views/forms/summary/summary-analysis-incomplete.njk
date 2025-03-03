@@ -1,23 +1,47 @@
-{% extends "../summary.njk" %}
-{% from "components/question/macro.njk" import renderQuestion %}
+{% extends "../layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/summary/macro.njk" import renderSummaryFields %}
+{% from "components/question/macro.njk" import renderQuestion %}
 
-{% block backLink %}{% endblock %}
+{% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+{% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
+{% set sectionComplete = sectionProgress[options.section] %}
 
-{% block analysisPanel %}
-  <form id="form" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
-    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-    {% for field in getRenderedFields(form.fields, options) %}
-      {{ renderQuestion(options.fields[field], errors) }}
-    {% endfor %}
+{% if sessionData.user | isInEditMode %}
+  {% set shouldShowAnalaysis = not hideAnalysis %}
+{% else %}
+  {% set shouldShowAnalaysis = not hideAnalysis and practitionerAnalysisStarted(form, answers) %}
+{% endif %}
 
-    <div class="questiongroup-action-buttons">
-      {{ govukButton({
-        text: buttonText | default("Mark as complete"),
-        classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1",
-        name: getUserSubmittedField(form.fields),
-        value: 'YES'
-      }) }}
+{% block notification %}
+  {% if not sessionData.user | isInEditMode and sectionStarted and not sectionComplete %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        {{ mojBanner({ type: "information", text: "This section is incomplete" }) }}
+      </div>
     </div>
-  </form>
+  {% endif %}
+{% endblock %}
+
+{% block formContent %}
+  <h2 class="govuk-tabs__title">
+      Practitioner analysis
+    </h2>
+  <div class="summary__panel" id="practitioner-analysis">
+    <form id="form" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
+      <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+      {% for field in getRenderedFields(form.fields, options) %}
+        {{ renderQuestion(options.fields[field], errors) }}
+      {% endfor %}
+
+      <div class="questiongroup-action-buttons">
+        {{ govukButton({
+          text: buttonText | default("Mark as complete"),
+          classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1",
+          name: getUserSubmittedField(form.fields),
+          value: 'YES'
+        }) }}
+      </div>
+    </form>
+  </div>
 {% endblock %}
