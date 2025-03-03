@@ -1,14 +1,11 @@
 import { defineConfig } from 'cypress'
+import cypressSplit from 'cypress-split'
 
 export default defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: 'cypress/fixtures',
   screenshotsFolder: 'cypress/screenshots',
   videosFolder: 'cypress/videos',
-  reporter: 'cypress-multi-reporters',
-  reporterOptions: {
-    configFile: 'reporter-config.json',
-  },
   taskTimeout: 60000,
   env: {
     CLIENT_ID: 'hmpps-assess-risks-and-needs-oastub-ui',
@@ -23,10 +20,13 @@ export default defineConfig({
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
+    baseUrl: 'http://localhost:3000',
     specPattern: ['cypress/e2e/**/*.cy.ts', 'cypress/e2e/**/*.fixture.ts'],
     supportFile: 'cypress/support/index.ts',
     testIsolation: true,
     setupNodeEvents(on, config) {
+      cypressSplit(on, config)
+
       on('task', {
         table(message) {
           // eslint-disable-next-line no-console
@@ -34,6 +34,7 @@ export default defineConfig({
           return null
         },
       })
+
       return config
     },
   },
