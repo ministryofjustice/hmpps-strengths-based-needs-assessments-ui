@@ -1,11 +1,11 @@
 {
   "metaData": {
-    "uuid": "f34d86e3-f376-4c4f-8f0f-104b3d7cb521",
-    "createdAt": "2024-11-18T13:59:28.322796",
-    "versionUuid": "6c66dcab-e3c6-4d22-96d4-bbdcb4b23b59",
+    "uuid": "0fc32f45-c49d-4431-831a-747ffa45d79d",
+    "createdAt": "2025-03-06T15:02:20.400607",
+    "versionUuid": "08faaffa-76ab-4a10-9d5b-2ca8fcf74676",
     "versionNumber": 0,
-    "versionCreatedAt": "2024-11-18T13:59:28.322896",
-    "versionUpdatedAt": "2024-11-18T14:00:18.351004",
+    "versionCreatedAt": "2025-03-06T15:02:20.404064",
+    "versionUpdatedAt": "2025-03-06T15:04:08.633007",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
@@ -71,6 +71,10 @@
         {
           "value": "OTHER",
           "text": "Other"
+        },
+        {
+          "value": "UNKNOWN",
+          "text": "Unknown"
         },
         {
           "value": "ALONE",
@@ -153,6 +157,10 @@
         {
           "value": "OTHER",
           "text": "Other"
+        },
+        {
+          "value": "UNKNOWN",
+          "text": "Unknown"
         },
         {
           "value": "NO_MONEY",
@@ -782,6 +790,10 @@
           "text": "Being pressurised or led into offending by others"
         },
         {
+          "value": "EMOTIONAL_STATE",
+          "text": "Emotional state of [subject]"
+        },
+        {
           "value": "FINANCIAL_MOTIVATION",
           "text": "Financial motivation"
         },
@@ -860,6 +872,10 @@
         {
           "value": "SUPPORTED_ACCOMMODATION",
           "text": "Supported accommodation"
+        },
+        {
+          "value": "UNKNOWN",
+          "text": "Unknown"
         }
       ],
       "value": "HOMEOWNER",
@@ -992,6 +1008,10 @@
         {
           "value": "OTHER",
           "text": "Other"
+        },
+        {
+          "value": "UNKNOWN",
+          "text": "Unknown"
         },
         {
           "value": "NONE",
@@ -1573,6 +1593,10 @@
         {
           "value": "UNKNOWN",
           "text": "Unknown"
+        },
+        {
+          "value": "SKIP",
+          "text": "Skip this question for now"
         }
       ],
       "value": "NO",
@@ -2746,23 +2770,6 @@
       "values": null,
       "collection": null
     },
-    "thinking_behaviours_attitudes_is_thinking_behaviours_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "offence_analysis_is_offence_analysis_involved_parties_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
@@ -3169,6 +3176,23 @@
       "value": "",
       "values": null,
       "collection": null
+    },
+    "thinking_behaviours_attitudes_is_thinking_behaviours_attitudes_risk_of_sexual_harm_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
     }
   },
   "oasysEquivalent": {
@@ -3354,6 +3378,7 @@
     "o2-2_V2_DOM_ABUSE": "NO",
     "o2-2_V2_EXCESSIVE": "NO",
     "o2-9_V2_ADDICTION": "NO",
+    "o2-9_V2_EMOTIONAL": "NO",
     "o2-9_V2_FINANCIAL": "NO",
     "oTBA_SAN_STRENGTH": "NO",
     "o10-7_V2_CHILDHOOD": "NO",

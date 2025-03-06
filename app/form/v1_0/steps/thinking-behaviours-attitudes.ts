@@ -29,7 +29,6 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.thinkingBehavioursAttitudesProblemSolving,
         thinkingBehavioursFields.thinkingBehavioursAttitudesPeoplesViews,
         thinkingBehavioursFields.thinkingBehavioursAttitudesManipulativePredatoryBehaviour,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm,
         thinkingBehavioursFields.thinkingBehavioursAttitudesTemperManagement,
         thinkingBehavioursFields.thinkingBehavioursAttitudesViolenceControllingBehaviour,
         thinkingBehavioursFields.thinkingBehavioursAttitudesImpulsiveBehaviour,
