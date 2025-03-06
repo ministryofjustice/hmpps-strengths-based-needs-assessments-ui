@@ -9,7 +9,6 @@ export const stepUrls = {
   thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
   riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
   riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
-  thinkingBehaviours: 'thinking-behaviours',
   summary: 'thinking-behaviours-attitudes-summary',
   analysis: 'thinking-behaviours-attitudes-analysis',
 }
@@ -60,7 +59,7 @@ const sectionConfig: SectionConfig = {
           'YES',
           stepUrls.riskOfSexualHarmDetails,
         ),
-        nextWhen(thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm, 'NO', stepUrls.thinkingBehaviours),
+        nextWhen(thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm, 'NO', stepUrls.summary),
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
@@ -75,7 +74,7 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.isUserSubmitted(stepUrls.riskOfSexualHarmDetails),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.thinkingBehaviours,
+      next: stepUrls.summary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
