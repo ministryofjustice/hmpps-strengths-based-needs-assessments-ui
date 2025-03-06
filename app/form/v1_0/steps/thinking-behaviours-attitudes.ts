@@ -37,6 +37,7 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.thinkingBehavioursAttitudesHostileOrientation,
         thinkingBehavioursFields.thinkingBehavioursAttitudesSupervision,
         thinkingBehavioursFields.thinkingBehavioursAttitudesCriminalBehaviour,
+        thinkingBehavioursFields.wantToMakeChanges(),
         thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
