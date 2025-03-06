@@ -4,8 +4,7 @@ import { AccessMode } from '../../../support/commands/api'
 describe('History of Sexually Motivated Offence conditional logic', () => {
   const destinations = {
     landingPage: '/thinking-behaviours-attitudes',
-    sexualOffending: '/thinking-behaviours-attitudes-sexual-offending',
-    thinkingBehaviours: '/thinking-behaviours',
+    riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
     summary: '/thinking-behaviours-attitudes-summary',
   }
 
@@ -32,7 +31,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
       cy.getQuestion(question).hasHint(null).getRadio('Yes').isChecked()
       cy.getQuestion(question).getRadio('No').isDisabled()
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.sexualOffending)
+      cy.assertStepUrlIs(destinations.riskOfSexualHarmDetails)
     })
 
     it('NO from Oasys does not override SAN', () => {
@@ -61,14 +60,14 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion(question).getRadio('Yes').clickLabel()
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.sexualOffending)
+      cy.assertStepUrlIs(destinations.riskOfSexualHarmDetails)
       cy.getQuestion('Is there evidence Sam shows sexual preoccupation?').getRadio('Unknown').clickLabel()
       cy.getQuestion('Is there evidence Sam has offence-related sexual interests?').getRadio('Unknown').clickLabel()
       cy.getQuestion('Is there evidence Sam finds it easier to seek emotional intimacy with children over adults?')
         .getRadio('Unknown')
         .clickLabel()
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.thinkingBehaviours)
+      cy.assertStepUrlIs(destinations.summary)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.summary)
       cy.get('#tab_practitioner-analysis').click()
