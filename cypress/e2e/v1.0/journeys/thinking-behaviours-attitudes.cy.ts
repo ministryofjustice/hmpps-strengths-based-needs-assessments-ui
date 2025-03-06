@@ -1,5 +1,3 @@
-import { testPractitionerAnalysis } from './common'
-
 describe(`Origin: /thinking-behaviours-attitudes`, () => {
   const destinations = {
     landingPage: '/thinking-behaviours-attitudes',
@@ -21,7 +19,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
   })
 
   describe(`Destination: ${destinations.riskOfSexualHarm}`, () => {
-    it(`Yes, Sam is a risk of sexual harm routes to "${destinations.riskOfSexualHarm}"`, () => {
+    it(`routes to "${destinations.riskOfSexualHarm}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Is Sam aware of the consequences of their actions?')
         .getRadio('Yes, is aware of the consequences of their actions')
@@ -81,7 +79,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
     })
 
     describe(`Destination: ${destinations.summary}`, () => {
-      it(`routes to "${destinations.summary}"`, () => {
+      it(`"No" routes to "${destinations.summary}"`, () => {
         cy.visitStep(destinations.thinkingBehaviours)
         cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?')
           .getRadio('No')
@@ -95,7 +93,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
     })
 
     describe(`Destination: ${destinations.riskOfSexualHarmDetails}`, () => {
-      it(`routes to "${destinations.riskOfSexualHarmDetails}"`, () => {
+      it(`"Yes" routes to "${destinations.riskOfSexualHarmDetails}"`, () => {
         cy.visitStep(destinations.thinkingBehaviours)
         cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?')
           .getRadio('Yes')
