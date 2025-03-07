@@ -7,8 +7,8 @@ const section = sections.thinkingBehaviours
 
 export const stepUrls = {
   thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
-  sexualOffending: 'thinking-behaviours-attitudes-sexual-offending',
-  thinkingBehaviours: 'thinking-behaviours',
+  riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
+  riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
   summary: 'thinking-behaviours-attitudes-summary',
   analysis: 'thinking-behaviours-attitudes-analysis',
 }
@@ -29,34 +29,6 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.thinkingBehavioursAttitudesProblemSolving,
         thinkingBehavioursFields.thinkingBehavioursAttitudesPeoplesViews,
         thinkingBehavioursFields.thinkingBehavioursAttitudesManipulativePredatoryBehaviour,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm,
-        thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
-        thinkingBehavioursFields.sectionComplete(),
-      ].flat(),
-      navigationOrder: 8,
-      next: [
-        nextWhen(thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm, 'YES', stepUrls.sexualOffending),
-        nextWhen(thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm, 'NO', stepUrls.thinkingBehaviours),
-      ],
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
-    },
-    {
-      url: stepUrls.sexualOffending,
-      pageTitle: 'Risk of sexual harm',
-      pageSubHeading: section.title,
-      fields: [
-        thinkingBehavioursFields.thinkingBehavioursAttitudesSexualPreoccupation,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesOffenceRelatedSexualInterest,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesEmotionalIntimacy,
-        thinkingBehavioursFields.isUserSubmitted(stepUrls.sexualOffending),
-        thinkingBehavioursFields.sectionComplete(),
-      ].flat(),
-      next: stepUrls.thinkingBehaviours,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
-    },
-    {
-      url: stepUrls.thinkingBehaviours,
-      fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesTemperManagement,
         thinkingBehavioursFields.thinkingBehavioursAttitudesViolenceControllingBehaviour,
         thinkingBehavioursFields.thinkingBehavioursAttitudesImpulsiveBehaviour,
@@ -65,7 +37,41 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.thinkingBehavioursAttitudesSupervision,
         thinkingBehavioursFields.thinkingBehavioursAttitudesCriminalBehaviour,
         thinkingBehavioursFields.wantToMakeChanges(),
-        thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehaviours),
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
+        thinkingBehavioursFields.sectionComplete(),
+      ].flat(),
+      navigationOrder: 8,
+      next: stepUrls.riskOfSexualHarm,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.riskOfSexualHarm,
+      pageTitle: 'Risk of sexual harm',
+      pageSubHeading: section.title,
+      fields: [
+        thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm,
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.riskOfSexualHarm),
+        thinkingBehavioursFields.sectionComplete(),
+      ].flat(),
+      next: [
+        nextWhen(
+          thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm,
+          'YES',
+          stepUrls.riskOfSexualHarmDetails,
+        ),
+        stepUrls.summary,
+      ],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.riskOfSexualHarmDetails,
+      pageTitle: 'Risk of sexual harm',
+      pageSubHeading: section.title,
+      fields: [
+        thinkingBehavioursFields.thinkingBehavioursAttitudesSexualPreoccupation,
+        thinkingBehavioursFields.thinkingBehavioursAttitudesOffenceRelatedSexualInterest,
+        thinkingBehavioursFields.thinkingBehavioursAttitudesEmotionalIntimacy,
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.riskOfSexualHarmDetails),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
