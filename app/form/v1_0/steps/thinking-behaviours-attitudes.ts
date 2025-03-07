@@ -59,7 +59,7 @@ const sectionConfig: SectionConfig = {
           'YES',
           stepUrls.riskOfSexualHarmDetails,
         ),
-        stepUrls.summary
+        stepUrls.summary,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
