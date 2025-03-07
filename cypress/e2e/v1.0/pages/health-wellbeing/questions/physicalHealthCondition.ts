@@ -4,7 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   const question = 'Does Sam have any physical health conditions?'
 
   const optionsWithDetails = ['Yes']
-  const options = ['No', 'Unknown', null, 'Skip this question for now']
+  const options = ['No', 'Unknown']
 
   describe(question, () => {
     it(`displays and validates the question`, () => {
@@ -48,23 +48,21 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    options
-      .filter(option => option !== null)
-      .forEach(option => {
-        it(`summary page displays "${option}"`, () => {
-          cy.visitStep(stepUrl)
-          cy.getQuestion(question).getRadio(option).clickLabel()
+    options.forEach(option => {
+      it(`summary page displays "${option}"`, () => {
+        cy.visitStep(stepUrl)
+        cy.getQuestion(question).getRadio(option).clickLabel()
 
-          cy.saveAndContinue()
+        cy.saveAndContinue()
 
-          cy.visitStep(summaryPage)
-          cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
-          cy.checkAccessibility()
-          cy.getSummary(question).clickChange()
-          cy.assertStepUrlIs(stepUrl)
-          cy.assertQuestionUrl(question)
-          cy.getQuestion(question).getRadio(option).isChecked()
-        })
+        cy.visitStep(summaryPage)
+        cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
+        cy.checkAccessibility()
+        cy.getSummary(question).clickChange()
+        cy.assertStepUrlIs(stepUrl)
+        cy.assertQuestionUrl(question)
+        cy.getQuestion(question).getRadio(option).isChecked()
       })
+    })
   })
 }
