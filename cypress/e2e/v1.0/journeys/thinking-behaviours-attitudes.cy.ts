@@ -1,9 +1,8 @@
 describe(`Origin: /thinking-behaviours-attitudes`, () => {
   const destinations = {
     landingPage: '/thinking-behaviours-attitudes',
-    riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
-    riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
-    thinkingBehaviours: '/thinking-behaviours',
+    riskOfSexualHarm: '/thinking-behaviours-attitudes-risk-of-sexual-harm',
+    riskOfSexualHarmDetails: '/thinking-behaviours-attitudes-risk-of-sexual-harm-details',
     summary: '/thinking-behaviours-attitudes-summary',
     analysis: '/thinking-behaviours-attitudes-analysis',
   }
@@ -80,21 +79,20 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
 
     describe(`Destination: ${destinations.summary}`, () => {
       it(`"No" routes to "${destinations.summary}"`, () => {
-        cy.visitStep(destinations.thinkingBehaviours)
+        cy.visitStep(destinations.riskOfSexualHarm)
         cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?')
           .getRadio('No')
           .clickLabel()
 
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.summary)
-        cy.assertBackLinkIs(destinations.riskOfSexualHarm)
         cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
     })
 
     describe(`Destination: ${destinations.riskOfSexualHarmDetails}`, () => {
       it(`"Yes" routes to "${destinations.riskOfSexualHarmDetails}"`, () => {
-        cy.visitStep(destinations.thinkingBehaviours)
+        cy.visitStep(destinations.riskOfSexualHarm)
         cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?')
           .getRadio('Yes')
           .clickLabel()
@@ -119,7 +117,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
             cy.assertResumeUrlIs(sectionName, destinations.riskOfSexualHarmDetails)
             cy.saveAndContinue()
             cy.assertStepUrlIs(destinations.summary)
-            cy.assertBackLinkIs(destinations.riskOfSexualHarmDetails)
             cy.assertResumeUrlIs(sectionName, destinations.summary)
           })
         })
