@@ -3,8 +3,8 @@ import { AccessMode } from '../../../support/commands/api'
 
 describe('History of Sexually Motivated Offence conditional logic', () => {
   const destinations = {
-    riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
-    riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
+    riskOfSexualHarm: '/thinking-behaviours-attitudes-risk-of-sexual-harm',
+    riskOfSexualHarmDetails: '/thinking-behaviours-attitudes-risk-of-sexual-harm-details',
     summary: '/thinking-behaviours-attitudes-summary',
   }
 
