@@ -20,9 +20,6 @@ const positiveFactorsHint = `
 <p class="govuk-hint">Consider what's helped them feel more hopeful.</p>
 <p class="govuk-hint">Select all that apply.</p>
 `
-const skipQuestionText = `
-<p class="govuk-body govuk-!-padding-top-3">Before you submit the assessment, you'll need to answer this question</p>
-`
 
 class HealthWellbeingFieldsFactory extends FieldsFactory {
   healthWellbeingPhysicalHealthCondition: FormWizard.Field = {
@@ -34,14 +31,6 @@ class HealthWellbeingFieldsFactory extends FieldsFactory {
       { text: 'Yes', value: 'YES', kind: 'option' },
       { text: 'No', value: 'NO', kind: 'option' },
       { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
-      utils.orDivider,
-      {
-        text: 'Skip this question for now',
-        value: 'SKIP',
-        hint: { html: skipQuestionText },
-        kind: 'option',
-        behaviour: 'exclusive',
-      },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
