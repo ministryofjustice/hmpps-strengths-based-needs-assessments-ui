@@ -101,24 +101,20 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
         cy.assertStepUrlIs(destinations.riskOfSexualHarmDetails)
         cy.assertBackLinkIs(destinations.riskOfSexualHarm)
         cy.assertResumeUrlIs(sectionName, destinations.riskOfSexualHarmDetails)
+      })
 
-        describe(`Destination: ${destinations.summary}`, () => {
-          it(`routes to "${destinations.summary}"`, () => {
-            cy.visitStep(destinations.riskOfSexualHarmDetails)
-            cy.getQuestion('Is there evidence Sam shows sexual preoccupation?').getRadio('Unknown').clickLabel()
-            cy.getQuestion('Is there evidence Sam has offence-related sexual interests?')
-              .getRadio('Unknown')
-              .clickLabel()
-            cy.getQuestion(
-              'Is there evidence Sam finds it easier to seek emotional intimacy with children over adults?',
-            )
-              .getRadio('Unknown')
-              .clickLabel()
-            cy.assertResumeUrlIs(sectionName, destinations.riskOfSexualHarmDetails)
-            cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.summary)
-            cy.assertResumeUrlIs(sectionName, destinations.summary)
-          })
+      describe(`Destination: ${destinations.summary}`, () => {
+        it(`routes to "${destinations.summary}"`, () => {
+          cy.visitStep(destinations.riskOfSexualHarmDetails)
+          cy.getQuestion('Is there evidence Sam shows sexual preoccupation?').getRadio('Unknown').clickLabel()
+          cy.getQuestion('Is there evidence Sam has offence-related sexual interests?').getRadio('Unknown').clickLabel()
+          cy.getQuestion('Is there evidence Sam finds it easier to seek emotional intimacy with children over adults?')
+            .getRadio('Unknown')
+            .clickLabel()
+          cy.assertResumeUrlIs(sectionName, destinations.riskOfSexualHarmDetails)
+          cy.saveAndContinue()
+          cy.assertStepUrlIs(destinations.summary)
+          cy.assertResumeUrlIs(sectionName, destinations.summary)
         })
       })
     })

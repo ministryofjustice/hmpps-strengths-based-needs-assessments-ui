@@ -6,9 +6,6 @@ before(() => {
   cy.createAssessment().enterAssessment()
 
   cy.visitSection('Thinking, behaviours and attitudes')
-  cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
-  cy.saveAndContinue()
-
   cy.getQuestion('Is Sam aware of the consequences of their actions?')
     .getRadio('Yes, is aware of the consequences of their actions')
     .clickLabel()
