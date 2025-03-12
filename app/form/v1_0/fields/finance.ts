@@ -90,6 +90,12 @@ class FinanceFieldsFactory extends FieldsFactory {
         value: 'NO',
         kind: 'option',
       },
+      {
+        text: 'Unknown',
+        // summary: { displayFn: () => 'No, not over reliant on friends and family for money' },
+        value: 'UNKNOWN',
+        kind: 'option',
+      },
     ],
     dependent: dependentOn(this.financeIncome, 'FAMILY_OR_FRIENDS'),
   }
