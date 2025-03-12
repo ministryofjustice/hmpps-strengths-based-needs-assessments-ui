@@ -75,6 +75,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const familyOrFriendsOptions = [
       ['Yes', 'Yes, over reliant on friends and family for money'],
       ['No', 'No, not over reliant on friends and family for money'],
+      ['Unknown', 'Unknown'],
     ]
 
     it(`displays and validates conditional question for "Family or friends"`, () => {
