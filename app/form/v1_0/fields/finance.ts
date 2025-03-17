@@ -92,7 +92,7 @@ class FinanceFieldsFactory extends FieldsFactory {
       },
       {
         text: 'Unknown',
-        // summary: { displayFn: () => 'No, not over reliant on friends and family for money' },
+        summary: { displayFn: () => 'Unknown if they’re over reliant on friends and family for money' },
         value: 'UNKNOWN',
         kind: 'option',
       },
