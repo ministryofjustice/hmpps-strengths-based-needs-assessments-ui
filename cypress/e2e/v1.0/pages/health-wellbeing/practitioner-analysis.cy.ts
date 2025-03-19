@@ -12,7 +12,7 @@ before(() => {
 
   cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
   cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
-  cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?')
+  cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn? (optional)')
     .getRadio('No, they do not have any conditions or disabilities that impact their ability to learn')
     .clickLabel()
   cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Yes, able to cope well').clickLabel()
