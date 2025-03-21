@@ -17,10 +17,13 @@ describe('Generate fixture for complete assessment', () => {
     cy.get('#tab_practitioner-analysis').click()
     cy.get('#practitioner-analysis').should('be.visible')
 
+    const sectionNameLowerCase = sectionName.toLowerCase()
+    const subjectPrefix = sectionName.endsWith('s') ? 'Are' : 'Is'
+
     Array.of(
       `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
-      `Is Sam's ${sectionName.toLowerCase()} linked to risk of serious harm?`,
-      `Is Sam's ${sectionName.toLowerCase()} linked to risk of reoffending?`,
+      `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of serious harm?`,
+      `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of reoffending?`,
     ).forEach(question => {
       cy.getQuestion(question).getRadio('No').clickLabel()
     })

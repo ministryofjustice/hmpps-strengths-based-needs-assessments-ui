@@ -1912,7 +1912,7 @@
     },
     "finance_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]'s finances linked to risk of reoffending?",
+      "description": "Are [subject]'s finances linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2083,7 +2083,7 @@
     },
     "finance_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]'s finances linked to risk of serious harm?",
+      "description": "Are [subject]'s finances linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",

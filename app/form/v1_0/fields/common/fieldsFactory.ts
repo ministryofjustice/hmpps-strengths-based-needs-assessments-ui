@@ -127,6 +127,7 @@ export default abstract class FieldsFactory {
 
   practitionerAnalysis(): Array<FormWizard.Field> {
     const sectionDisplayName = this.section.title.toLowerCase()
+    const subjectPrefix = sectionDisplayName.endsWith('s') ? 'Are' : 'Is'
 
     const strengthsOrProtectiveFactorsField: FormWizard.Field = {
       text: `Are there any strengths or protective factors related to [subject]'s ${sectionDisplayName}?`,
@@ -142,7 +143,7 @@ export default abstract class FieldsFactory {
     }
 
     const riskOfSeriousHarmField: FormWizard.Field = {
-      text: `Is [subject]'s ${sectionDisplayName} linked to risk of serious harm?`,
+      text: `${subjectPrefix} [subject]'s ${sectionDisplayName} linked to risk of serious harm?`,
       code: `${this.fieldPrefix}_practitioner_analysis_risk_of_serious_harm`,
       type: FieldType.Radio,
       validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of serious harm' }],
@@ -151,7 +152,7 @@ export default abstract class FieldsFactory {
     }
 
     const riskOfReoffendingField: FormWizard.Field = {
-      text: `Is [subject]'s ${sectionDisplayName} linked to risk of reoffending?`,
+      text: `${subjectPrefix} [subject]'s ${sectionDisplayName} linked to risk of reoffending?`,
       code: `${this.fieldPrefix}_practitioner_analysis_risk_of_reoffending`,
       type: FieldType.Radio,
       validate: [{ type: ValidationType.Required, message: 'Select if linked to risk of reoffending' }],
