@@ -1,7 +1,8 @@
 import config from '../../../../../support/config'
 
 export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
-  const question = `Is Sam's ${sectionName} linked to risk of reoffending?`
+  const subjectPrefix = sectionName.endsWith('s') ? 'Are' : 'Is'
+  const question = `${subjectPrefix} Sam's ${sectionName} linked to risk of reoffending?`
   const summaryQuestion = 'Linked to risk of reoffending'
 
   describe(question, () => {
