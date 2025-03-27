@@ -55,7 +55,11 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
       next: [
-        nextWhen(thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm, 'YES', stepUrls.riskOfSexualHarmDetails,),
+        nextWhen(
+          thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm,
+          'YES',
+          stepUrls.riskOfSexualHarmDetails,
+        ),
         stepUrls.summary,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
