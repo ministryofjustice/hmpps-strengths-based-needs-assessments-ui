@@ -1,7 +1,7 @@
 import config from '../../../../../support/config'
 
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Sam have any conditions or disabilities that impact their ability to learn?'
+  const question = 'Does Sam have any conditions or disabilities that impact their ability to learn? (optional)'
   describe(question, () => {
     const options = [
       'Yes, their ability to learn is significantly impacted',
@@ -18,7 +18,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         )
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they have any learning difficulties')
+      cy.getQuestion(question).hasNoValidationError()
       cy.checkAccessibility()
     })
 

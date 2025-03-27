@@ -50,6 +50,7 @@ import {
   hasTitle,
   hasValidationError,
   isQuestionNumber,
+  selectOption,
 } from './commands/question'
 import {
   changeDrugUsage,
@@ -171,6 +172,7 @@ declare global {
       enterDate(date: string): Chainable
       hasText(value: string): Chainable
       hasDate(value: string): Chainable
+      selectOption(option: string): Chainable
 
       // summary
       getSummary(question: string): Chainable
@@ -269,6 +271,7 @@ Cypress.Commands.add('enterText', { prevSubject: true }, enterText)
 Cypress.Commands.add('enterDate', { prevSubject: true }, enterDate)
 Cypress.Commands.add('hasText', { prevSubject: true }, hasText)
 Cypress.Commands.add('hasDate', { prevSubject: true }, hasDate)
+Cypress.Commands.add('selectOption', { prevSubject: true }, selectOption)
 
 // summary
 Cypress.Commands.add('getSummary', getSummary)

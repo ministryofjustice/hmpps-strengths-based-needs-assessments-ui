@@ -14,8 +14,20 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Undeclared (includes cash in hand)',
       'Work related benefits',
       'Other',
+      'Unknown',
       null,
       'No money',
+    ]
+
+    const knownSources = [
+      "Carer's allowance",
+      'Disability benefits',
+      'Employment',
+      'Offending',
+      'Pension',
+      'Student loan',
+      'Undeclared (includes cash in hand)',
+      'Work related benefits',
     ]
 
     it(`displays and validates the question`, () => {
@@ -63,6 +75,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const familyOrFriendsOptions = [
       ['Yes', 'Yes, over reliant on friends and family for money'],
       ['No', 'No, not over reliant on friends and family for money'],
+      ['Unknown', 'Unknown if they’re over reliant on friends and family for money'],
     ]
 
     it(`displays and validates conditional question for "Family or friends"`, () => {
@@ -114,16 +127,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    Array.of(
-      "Carer's allowance",
-      'Disability benefits',
-      'Employment',
-      'Offending',
-      'Pension',
-      'Student loan',
-      'Undeclared (includes cash in hand)',
-      'Work related benefits',
-    ).forEach(option => {
+    knownSources.forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
@@ -139,6 +143,39 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
         cy.getQuestion(question).getCheckbox(option).isChecked()
+      })
+    })
+
+    Array.of('Unknown', 'No money').forEach(option => {
+      it(`selecting "${option}" deselects other options`, () => {
+        knownSources.forEach(knownSource => {
+          cy.getQuestion(question).getCheckbox(knownSource).clickLabel()
+
+          cy.getQuestion(question).getCheckbox(knownSource).isChecked()
+        })
+
+        cy.getQuestion(question).getCheckbox(option).clickLabel()
+
+        knownSources.forEach(knownSource => {
+          cy.getQuestion(question).getCheckbox(knownSource).isNotChecked()
+        })
+
+        cy.checkAccessibility()
+      })
+
+      it(`selecting "${option}" then selecting other options deselects "${option}"`, () => {
+        knownSources.forEach(knownSource => {
+          cy.getQuestion(question).getCheckbox(option).clickLabel()
+
+          cy.getQuestion(question).getCheckbox(option).isChecked()
+
+          cy.getQuestion(question).getCheckbox(knownSource).clickLabel()
+
+          cy.getQuestion(question).getCheckbox(knownSource).isChecked()
+
+          cy.getQuestion(question).getCheckbox(option).isNotChecked()
+        })
+        cy.checkAccessibility()
       })
     })
   })

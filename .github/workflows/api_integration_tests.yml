@@ -1,0 +1,62 @@
+name: Run API integration tests
+
+on:
+  workflow_call:
+    inputs:
+      app_version:
+        description: App version
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  api_integration_tests:
+    runs-on: ubuntu-latest
+    env:
+      APP_VERSION: ${{ inputs.app_version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download docker image
+        uses: actions/download-artifact@v4
+        with:
+          name: build_image
+          path: ${{ runner.temp }}
+
+      - name: Load image
+        run: docker load --input ${{ runner.temp }}/build_image.tar
+
+      - name: Stand up the UI
+        run: make up
+
+      - name: Clone API repository
+        uses: actions/checkout@v4
+        with:
+          repository: ministryofjustice/hmpps-strengths-based-needs-assessments-api
+          path: api-test
+
+      - name: Stand up the latest API in dev mode
+        run: |
+          cd api-test
+          make dev-up
+
+      - name: Run API integration tests
+        run: |
+          cd api-test
+          make test-integration
+
+      - name: Export container logs
+        if: failure()
+        run: make save-logs OUTPUT_LOGS_DIR=${{ runner.temp }}/docker-logs
+
+      - name: Upload test results
+        if: '!cancelled()'
+        uses: actions/upload-artifact@v4
+        with:
+          name: api_test_results
+          path: |
+            api-test/build/test-results
+            api-test/build/reports/tests
+            ${{ runner.temp }}/docker-logs

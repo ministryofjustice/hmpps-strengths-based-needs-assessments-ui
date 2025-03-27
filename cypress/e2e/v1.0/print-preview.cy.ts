@@ -36,10 +36,13 @@ describe('assessment print preview', () => {
           if (hasPractitionerAnalysis) cy.get('h3:contains(Practitioner analysis)').should('have.length', 1)
           else cy.get('h3:contains(Practitioner analysis)').should('not.exist')
 
+          const sectionName = section.toLowerCase()
+          const subjectPrefix = sectionName.endsWith('s') ? 'Are' : 'Is'
+
           const practitionerAnalysisQuestions = [
             `Are there any strengths or protective factors related to Sam's ${section.toLowerCase()}?`,
-            `Is Sam's ${section.toLowerCase()} linked to risk of serious harm?`,
-            `Is Sam's ${section.toLowerCase()} linked to risk of reoffending?`,
+            `${subjectPrefix} Sam's ${sectionName} linked to risk of serious harm?`,
+            `${subjectPrefix} Sam's ${sectionName} linked to risk of reoffending?`,
           ]
 
           practitionerAnalysisQuestions.forEach(question => {
@@ -106,7 +109,7 @@ describe('assessment print preview', () => {
       .getAnswer('No')
       .hasNoSecondaryAnswer()
     cy.getSummary('Does Sam have any neurodiverse conditions?').getAnswer('No').hasNoSecondaryAnswer()
-    cy.getSummary('Does Sam have any conditions or disabilities that impact their ability to learn?')
+    cy.getSummary('Does Sam have any conditions or disabilities that impact their ability to learn? (optional)')
       .getAnswer('No, they do not have any conditions or disabilities that impact their ability to learn')
       .hasNoSecondaryAnswer()
     cy.getSummary('Is Sam able to cope with day-to-day life?').getAnswer('Not able to cope').hasNoSecondaryAnswer()

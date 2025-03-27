@@ -6,9 +6,6 @@ before(() => {
   cy.createAssessment().enterAssessment()
 
   cy.visitSection('Thinking, behaviours and attitudes')
-  cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
-  cy.saveAndContinue()
-
   cy.getQuestion('Is Sam aware of the consequences of their actions?')
     .getRadio('Yes, is aware of the consequences of their actions')
     .clickLabel()
@@ -32,9 +29,6 @@ before(() => {
       'Generally gives an honest account of their lives and has no history of showing manipulative behaviour or a predatory lifestyle',
     )
     .clickLabel()
-  cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
-  cy.saveAndContinue()
-
   cy.getQuestion('Is Sam able to manage their temper?')
     .getRadio('Yes, is able to manage their temper well')
     .clickLabel()
@@ -61,6 +55,10 @@ before(() => {
   cy.getQuestion('Does Sam want to make changes to their thinking, behaviours and attitudes?')
     .getRadio('Not applicable')
     .clickLabel()
+  cy.saveAndContinue()
+
+  cy.assertStepUrlIs('/thinking-behaviours-attitudes-risk-of-sexual-harm')
+  cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)

@@ -17,10 +17,13 @@ describe('Generate fixture for complete assessment', () => {
     cy.get('#tab_practitioner-analysis').click()
     cy.get('#practitioner-analysis').should('be.visible')
 
+    const sectionNameLowerCase = sectionName.toLowerCase()
+    const subjectPrefix = sectionName.endsWith('s') ? 'Are' : 'Is'
+
     Array.of(
       `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
-      `Is Sam's ${sectionName.toLowerCase()} linked to risk of serious harm?`,
-      `Is Sam's ${sectionName.toLowerCase()} linked to risk of reoffending?`,
+      `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of serious harm?`,
+      `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of reoffending?`,
     ).forEach(question => {
       cy.getQuestion(question).getRadio('No').clickLabel()
     })
@@ -132,7 +135,7 @@ describe('Generate fixture for complete assessment', () => {
 
     cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
     cy.getQuestion('Does Sam have any neurodiverse conditions?').getRadio('No').clickLabel()
-    cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn?')
+    cy.getQuestion('Does Sam have any conditions or disabilities that impact their ability to learn? (optional)')
       .getRadio('No, they do not have any conditions or disabilities that impact their ability to learn')
       .clickLabel()
     cy.getQuestion('Is Sam able to cope with day-to-day life?').getRadio('Not able to cope').clickLabel()
@@ -214,9 +217,6 @@ describe('Generate fixture for complete assessment', () => {
         'Some evidence that they show manipulative behaviour or act in a predatory way towards certain individuals',
       )
       .clickLabel()
-    cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
-    cy.saveAndContinue()
-
     cy.getQuestion('Is Sam able to manage their temper?')
       .getRadio('Sometimes has outbreaks of uncontrolled anger')
       .clickLabel()
@@ -241,6 +241,9 @@ describe('Generate fixture for complete assessment', () => {
     cy.getQuestion('Does Sam want to make changes to their thinking, behaviours and attitudes?')
       .getRadio('Not applicable')
       .clickLabel()
+    cy.saveAndContinue()
+
+    cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)

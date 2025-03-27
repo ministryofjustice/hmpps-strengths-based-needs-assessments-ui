@@ -9,6 +9,7 @@ const options = [
   '26 to 49 years',
   '50 to 64 years',
   '65 years and over',
+  'Unknown',
 ]
 
 const testCreate = (createUrl: string, editUrl: string, positionNumber: number) => {

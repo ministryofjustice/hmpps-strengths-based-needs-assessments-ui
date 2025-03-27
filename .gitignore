@@ -127,5 +127,6 @@ test_results/
 cypress/videos/
 cypress/screenshots/
 cypress/downloads/
+timings.json
 */*.iml
 **/Chart.lock
