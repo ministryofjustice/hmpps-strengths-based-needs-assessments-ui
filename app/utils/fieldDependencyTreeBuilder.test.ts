@@ -640,9 +640,13 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       const result = new TestableFieldDependencyTreeBuilder(options, answers).getPageNavigation()
 
       expect(result).toEqual({
-        url: 'step-2',
-        stepsTaken: ['step-1', 'step-2'],
+        url: 'step-1',
         isSectionComplete: false,
+        stepsTaken: [
+          { href: 'step-1', text: 'Step 1' },
+          { href: 'step-2', text: 'Step 2' },
+          { href: 'step-3', text: 'Step 3' },
+        ],
       })
     })
   })
