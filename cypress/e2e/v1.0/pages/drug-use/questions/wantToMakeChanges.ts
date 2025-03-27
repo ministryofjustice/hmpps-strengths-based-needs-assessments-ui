@@ -19,7 +19,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it(`displays and validates the question`, () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('This question must be directly answered by Sam.')
+        .hasHint('Sam must answer this question.')
         .hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
