@@ -12,7 +12,7 @@
 {% block content %}
   <div class="govuk-width-container">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full offender-details">
+      <aside class="govuk-grid-column-full offender-details" aria-label="Offender details">
         <span class="offender-details__top">
           <dl>
             {% if subjectDetails.crn %}
@@ -35,7 +35,7 @@
             <a href="print-preview" class="govuk-link print-link">Print</a>
         </span>
         <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
-      </div>
+      </aside>
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
@@ -59,7 +59,7 @@
     {% block notification %}{% endblock %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-quarter">
-        <nav class="moj-side-navigation side-navigation" aria-label="Side navigation">
+        <nav class="moj-side-navigation side-navigation" aria-label="Assessment">
           <ul class="moj-side-navigation__list">
             {% for link in form.navigation %}
               <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
@@ -74,7 +74,7 @@
           </ul>
         </nav>
       </div>
-      <div class="govuk-grid-column-three-quarters">
+      <div class="govuk-grid-column-three-quarters" aria-label="Form content">
         {% block backLink %}
         {% endblock %}
         {%- if errors | length -%}
