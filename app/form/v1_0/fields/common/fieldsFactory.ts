@@ -109,7 +109,7 @@ export default abstract class FieldsFactory {
 
     const parentField: FormWizard.Field = {
       text: `Does [subject] want to make changes to ${changesTo}?`,
-      hint: { text: 'This question must be directly answered by [subject].', kind: 'text' },
+      hint: { text: '[subject] must answer this question.', kind: 'text' },
       code: `${this.fieldPrefix}_changes`,
       type: FieldType.Radio,
       validate: [{ type: ValidationType.Required, message: `Select if they want to make changes to ${changesTo}` }],
