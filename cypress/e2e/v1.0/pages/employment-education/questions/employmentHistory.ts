@@ -8,6 +8,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Continuous employment history',
       'Generally in employment but changes jobs often',
       'Unstable employment history with regular periods of unemployment',
+      'Unknown',
     ]
 
     it(`displays and validates the question`, () => {
