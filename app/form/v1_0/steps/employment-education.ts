@@ -6,6 +6,7 @@ import templates from '../config/templates'
 const section = sections.employmentEducation
 const stepUrls = {
   currentEmployment: 'current-employment',
+  coreQuestions: 'employment-education-core',
   employed: 'employed',
   retired: 'retired',
   employedBefore: 'employed-before',
@@ -47,6 +48,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Employment status',
       url: stepUrls.currentEmployment,
       fields: [
         employmentStatusGroup,
@@ -65,11 +67,24 @@ const sectionConfig: SectionConfig = {
             nextWhen(employmentEducationFields.hasBeenEmployedPrototype, 'NO', stepUrls.neverEmployed),
           ],
         ),
+        stepUrls.coreQuestions,
       ],
       navigationOrder: 2,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Education details',
+      url: stepUrls.coreQuestions,
+      fields: [
+        educationGroup,
+        employmentEducationFields.wantToMakeChanges(),
+        employmentEducationFields.isUserSubmitted(stepUrls.coreQuestions),
+      ].flat(),
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      navigationTitle: 'Employment and education details',
       url: stepUrls.employed,
       fields: [
         employmentGroup,
@@ -85,6 +100,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Employment and education details',
       url: stepUrls.retired,
       fields: [
         employmentHistoryGroup,
@@ -97,6 +113,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Employment and education details',
       url: stepUrls.employedBefore,
       fields: [
         employmentHistoryGroup,
@@ -111,6 +128,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Education details',
       url: stepUrls.neverEmployed,
       fields: [
         educationGroup,
@@ -123,6 +141,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         employmentEducationFields.practitionerAnalysis(),
@@ -134,6 +153,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

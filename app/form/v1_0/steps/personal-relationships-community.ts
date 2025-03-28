@@ -48,6 +48,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Personal relationships children',
       url: stepUrls.personalRelationshipsChildrenInfo,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityChildrenInformation,
@@ -62,6 +63,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Personal relationships',
       url: stepUrls.personalRelationships,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeople,
@@ -86,6 +88,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Personal relationships details',
       url: stepUrls.personalRelationshipsChildren,
       fields: [
         currentRelationshipStatusFieldsGroup,
@@ -103,6 +106,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Personal relationships details',
       url: stepUrls.personalRelationshipsCommunity,
       fields: [
         currentRelationshipStatusFieldsGroup,
@@ -116,6 +120,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         personalRelationshipsFields.practitionerAnalysis(),
@@ -127,6 +132,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
