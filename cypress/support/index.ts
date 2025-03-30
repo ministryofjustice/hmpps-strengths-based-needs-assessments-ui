@@ -7,7 +7,7 @@ import {
   assertSectionIs,
   assertStepUrlIs,
   assertStepUrlIsNot,
-  visitSection,
+  visitSection, visitSectionQuestionSteps,
   visitStep,
 } from './commands/navigation'
 import {
@@ -123,6 +123,7 @@ declare global {
 
       // navigation
       visitSection(name: string): Chainable
+      visitSectionQuestionSteps(name: string): Chainable
       assertSectionIs(name: string): Chainable
       visitStep(path: string): Chainable
       assertBackLinkIs(path: string): Chainable
@@ -222,6 +223,7 @@ Cypress.Commands.add('saveAsFixture', saveAsFixture)
 
 // navigation
 Cypress.Commands.add('visitSection', visitSection)
+Cypress.Commands.add('visitSectionQuestionSteps', visitSectionQuestionSteps)
 Cypress.Commands.add('assertSectionIs', assertSectionIs)
 Cypress.Commands.add('visitStep', visitStep)
 Cypress.Commands.add('assertResumeUrlIs', assertResumeUrlIs)

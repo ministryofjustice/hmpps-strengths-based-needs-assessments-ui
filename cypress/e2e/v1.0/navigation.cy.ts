@@ -12,20 +12,25 @@ describe('navigation', () => {
       'Offence analysis',
     ]
 
+    const subSections = ['Questions', 'Summary & Analysis']
+
     before(() => {
       cy.createAssessment()
     })
 
     beforeEach(() => {
       cy.enterAssessment()
-      cy.get('.side-navigation li.moj-side-navigation__item').should('have.length', sections.length)
+      cy.get('.side-navigation li.moj-side-navigation__item').should(
+        'have.length',
+        [...sections, ...subSections].length,
+      )
     })
 
     sections.forEach((section, index) => {
       it(`"${section}" section is in position ${index + 1} and can be navigated to`, () => {
+        cy.visitSection(section)
         cy.get('.side-navigation li.moj-side-navigation__item').eq(index).should('contain.text', section)
 
-        cy.visitSection(section)
         cy.assertSectionIs(section)
       })
     })
