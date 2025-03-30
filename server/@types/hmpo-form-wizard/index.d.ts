@@ -217,7 +217,7 @@ declare module 'hmpo-form-wizard' {
       template?: string
       next?: FormWizard.Step.NextStep
       controller?: typeof FormWizard.Controller
-      navigationOrder?: number
+      sectionOrder?: number
       backLink?: string
       sectionProgressRules?: Array<SectionProgressRule>
       noPost?: boolean
@@ -225,6 +225,9 @@ declare module 'hmpo-form-wizard' {
       secondaryActions?: SecondaryAction[]
       autosave?: boolean
       isLastStep?: boolean
+      isSectionEntryPoint?: boolean
+      isSectionSummary?: boolean
+      isSectionAnalysis?: boolean
     }
 
     interface Step extends BaseStep {
