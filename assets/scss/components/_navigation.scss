@@ -21,3 +21,18 @@
   width: 19px;
   height: 19px;
 }
+
+.moj-side-navigation {
+  &__item {
+    &--title {
+      @extend .moj-side-navigation__title;
+      font-weight: bold;
+    }
+
+    &--sub-navigation {
+      * > span {
+        margin-left: govuk-spacing(4);
+      }
+    }
+  }
+}

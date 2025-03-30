@@ -19,7 +19,8 @@ class BaseController extends FormWizard.Controller {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
       navigation: createNavigation(
         req.baseUrl,
-        steps as unknown as FormWizard.Steps,
+        req.path.replace(req.baseUrl, ''),
+        steps as unknown as Record<string, FormWizard.Step & { route: string }>, // TODO: Probably want to look at cleaning up types
         section,
         isInEditMode(sessionData.user),
       ),
