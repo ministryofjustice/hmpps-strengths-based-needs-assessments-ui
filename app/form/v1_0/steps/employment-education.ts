@@ -66,8 +66,8 @@ const sectionConfig: SectionConfig = {
           ],
         ),
       ],
-      navigationOrder: 2,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
     },
     {
       url: stepUrls.employed,
@@ -132,10 +132,12 @@ const sectionConfig: SectionConfig = {
       next: stepUrls.analysis,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      isSectionSummary: true,
     },
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
+      isSectionAnalysis: true
     },
   ],
 }

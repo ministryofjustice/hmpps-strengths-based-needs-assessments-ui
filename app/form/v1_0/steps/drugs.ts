@@ -28,8 +28,8 @@ const sectionConfig: SectionConfig = {
         nextWhen(drugsFields.drugUse, 'YES', stepUrls.drugUse),
         nextWhen(drugsFields.drugUse, 'NO', stepUrls.summary),
       ],
-      navigationOrder: 4,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
     },
     {
       url: stepUrls.drugUse,
@@ -83,10 +83,12 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      isSectionSummary: true,
     },
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
+      isSectionAnalysis: true,
     },
   ],
 }

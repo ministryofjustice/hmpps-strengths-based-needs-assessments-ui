@@ -40,8 +40,8 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 8,
       next: stepUrls.riskOfSexualHarm,
+      isSectionEntryPoint: true,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -87,10 +87,12 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      isSectionSummary: true,
     },
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
+      isSectionAnalysis: true,
     },
   ],
 }

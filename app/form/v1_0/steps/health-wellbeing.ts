@@ -53,7 +53,6 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.isUserSubmitted(stepUrls.healthWellbeing),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 6,
       next: [
         nextWhen(healthWellbeingFields.healthWellbeingPhysicalHealthCondition, 'YES', [
           nextWhen(
@@ -85,6 +84,7 @@ const sectionConfig: SectionConfig = {
         ),
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
     },
     {
       url: stepUrls.physicalMentalHealth,
@@ -145,10 +145,12 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      isSectionSummary: true,
     },
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
+      isSectionAnalysis: true,
     },
   ],
 }

@@ -55,7 +55,6 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
         offenceAnalysisFields.sectionComplete(),
       ],
-      navigationOrder: 9,
       next: [
         {
           field: offenceAnalysisFields.offenceAnalysisWhoWasTheOffenceCommittedAgainst.code,
@@ -74,6 +73,7 @@ const sectionConfig: SectionConfig = {
         stepUrls.offenceAnalysisInvolvedParties,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
     },
     {
       url: stepUrls.offenceAnalysisVictimCreate,
@@ -175,6 +175,7 @@ const sectionConfig: SectionConfig = {
       url: stepUrls.summary,
       template: templates.analysisComplete,
       locals: { hideAnalysis: true },
+      isSectionSummary: true,
     },
   ].flat(),
 }

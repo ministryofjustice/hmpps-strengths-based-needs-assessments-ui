@@ -77,8 +77,8 @@ const sectionConfig: SectionConfig = {
         ]),
         nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
       ],
-      navigationOrder: 1,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
     },
     {
       url: stepUrls.settledAccommodation,
@@ -142,10 +142,12 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      isSectionSummary: true,
     },
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
+      isSectionAnalysis: true,
     },
   ],
 }

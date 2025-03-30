@@ -19,6 +19,7 @@ export const sectionConfigs: SectionConfig[] = [
     section: {
       title: 'Print preview',
       code: 'print-preview',
+      order: -1,
     },
     steps: [
       {
@@ -45,6 +46,7 @@ const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): Form
     ...step,
     pageTitle: step.pageTitle || section.title,
     section: section.code,
+    sectionOrder: section.order,
     controller: step.controller || SaveAndContinueController,
     fields: [assessmentComplete.code, ...fieldCodesFrom(step.fields || [])],
     template: step.template || 'forms/default',

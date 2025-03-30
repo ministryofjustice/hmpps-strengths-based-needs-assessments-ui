@@ -57,9 +57,9 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildrenInfo),
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 7,
       next: stepUrls.personalRelationships,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
     },
     {
       url: stepUrls.personalRelationships,
@@ -125,10 +125,12 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      isSectionSummary: true,
     },
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
+      isSectionSummary: true,
     },
   ],
 }
