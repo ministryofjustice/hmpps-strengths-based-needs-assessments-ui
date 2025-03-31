@@ -5,9 +5,7 @@ generic-service:
   replicaCount: 2
 
   ingress:
-    hosts: 
-      - strengths-based-needs-dev.hmpps.service.justice.gov.uk
-      - strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk
+    host: strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk
 
   env:
     INGRESS_URL: "https://strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk"

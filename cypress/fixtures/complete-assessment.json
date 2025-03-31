@@ -314,6 +314,10 @@
         {
           "value": "UNSTABLE",
           "text": "Unstable employment history with regular periods of unemployment"
+        },
+        {
+          "value": "UNKNOWN",
+          "text": "Unknown"
         }
       ],
       "value": "STABLE",

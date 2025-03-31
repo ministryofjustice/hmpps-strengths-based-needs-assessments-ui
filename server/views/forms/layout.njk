@@ -6,6 +6,13 @@
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block header %}
+  {% if deploymentName %}
+    <div class="custom-deployment-banner">
+      <span class="govuk-body">
+        <u><strong>Notice</strong></u>: You are viewing deployment <strong>{{ deploymentName }}</strong>.
+      </span>
+    </div>
+  {% endif %}
   {% include "../partials/header.njk" %}
 {% endblock %}
 

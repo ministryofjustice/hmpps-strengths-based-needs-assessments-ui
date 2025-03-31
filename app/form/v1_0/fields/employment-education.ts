@@ -127,6 +127,7 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
       },
       { text: 'Generally in employment but changes jobs often', value: 'PERIODS_OF_INSTABILITY', kind: 'option' },
       { text: 'Unstable employment history with regular periods of unemployment', value: 'UNSTABLE', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
