@@ -93,7 +93,7 @@ export const createNavigation = (
 
       const items: NavigationItem[] = [
         {
-          url: isCurrentSection && sectionUrl,
+          url: !isCurrentSection ? sectionUrl : undefined,
           section: section.code,
           label: section.title,
           type: NavigationItemType.SECTION,
