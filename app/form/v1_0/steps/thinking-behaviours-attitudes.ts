@@ -17,6 +17,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Thinking behaviours and attitudes',
       url: stepUrls.thinkingBehavioursAttitudes,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
@@ -64,6 +65,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Risk of sexual harm',
       url: stepUrls.riskOfSexualHarmDetails,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
@@ -78,6 +80,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         thinkingBehavioursFields.practitionerAnalysis(),
@@ -89,6 +92,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

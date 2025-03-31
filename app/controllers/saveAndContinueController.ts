@@ -69,7 +69,14 @@ class SaveAndContinueController extends BaseController {
           return currentStepIndex > 0 ? stepsTaken[currentStepIndex - 1] : null
         }
 
-        res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
+        res.locals.generatedBackLink = getBackLinkFromTrail(
+          req.url.slice(1),
+          pageNavigation.stepsTaken.map(it => it.href),
+        )
+        res.locals.stepsTaken = pageNavigation.stepsTaken.map(it => ({
+          ...it,
+          active: new RegExp(`^.*/${it.href}$`).test(req.url),
+        }))
 
         if (req.query.action === 'resume') {
           const currentPageToComplete = pageNavigation.url

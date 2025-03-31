@@ -7,6 +7,7 @@ import templates from '../config/templates'
 const section = sections.healthWellbeing
 const stepUrls = {
   healthWellbeing: 'health-wellbeing',
+  coreQuestions: 'health-wellbeing-core',
   physicalMentalHealth: 'physical-mental-health',
   physicalHealth: 'physical-health',
   mentalHealth: 'mental-health',
@@ -42,6 +43,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Physical and mental health',
       url: stepUrls.healthWellbeing,
       fields: [
         healthWellbeingFields.healthWellbeingPhysicalHealthCondition,
@@ -83,10 +85,23 @@ const sectionConfig: SectionConfig = {
             ),
           ],
         ),
+        stepUrls.coreQuestions,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Health and wellbeing details',
+      url: stepUrls.coreQuestions,
+      fields: [
+        baseHealthAndWellbeingFieldsGroup,
+        healthWellbeingFields.wantToMakeChanges(),
+        healthWellbeingFields.isUserSubmitted(stepUrls.coreQuestions),
+      ].flat(),
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      navigationTitle: 'Physical and mental health details',
       url: stepUrls.physicalMentalHealth,
       fields: [
         healthWellbeingFields.healthWellbeingPrescribedMedicationPhysicalConditions,
@@ -101,6 +116,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Physical health details',
       url: stepUrls.physicalHealth,
       fields: [
         healthWellbeingFields.healthWellbeingPrescribedMedicationPhysicalConditions,
@@ -113,6 +129,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Mental health details',
       url: stepUrls.mentalHealth,
       fields: [
         mentalHealthConditionsFieldsGroup,
@@ -125,6 +142,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.noPhysicalMentalHealth,
       fields: [
         baseHealthAndWellbeingFieldsGroup,
@@ -136,6 +154,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         healthWellbeingFields.practitionerAnalysis(),
@@ -147,6 +166,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
