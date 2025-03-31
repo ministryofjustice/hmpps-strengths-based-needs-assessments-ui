@@ -168,7 +168,6 @@ services:
       INGRESS_URL: http://localhost:3000
       HTTPS: false
       NODE_ENV: development
-      DEPLOYMENT_NAME: PR-754
 
 networks:
   hmpps:
