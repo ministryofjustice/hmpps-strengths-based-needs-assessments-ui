@@ -21,6 +21,7 @@ import getAnalysisSummaryFields from './nunjucks.analysisSummaryFields'
 import FieldsFactory from '../../app/form/v1_0/fields/common/fieldsFactory'
 import maintenanceMessage from './maintenanceMessage'
 import { formatDateForDisplay, ordinalWordFromNumber } from '../../app/utils/formatters'
+import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -29,6 +30,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Strengths and needs'
+  app.locals.deploymentName = config.deploymentName
 
   // Cache busting version string
   if (production) {

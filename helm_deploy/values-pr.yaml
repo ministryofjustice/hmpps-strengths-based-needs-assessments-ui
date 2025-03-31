@@ -1,0 +1,22 @@
+---
+# Per environment values which override defaults in hmpps-strengths-based-needs-assessments-ui/values.yaml
+
+generic-service:
+  nameOverride: $RELEASE_NAME
+  replicaCount: 1
+
+  ingress:
+    host: pr-$PR_NUMBER.strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk
+
+  env:
+    INGRESS_URL: "https://pr-$PR_NUMBER.strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
+    SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-dev.svc.cluster.local"
+    HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service-dev.hmpps.service.justice.gov.uk"
+    OASYS_URL: "https://arns-oastub-dev.hmpps.service.justice.gov.uk/"
+    DEPLOYMENT_NAME: PR-$PR_NUMBER
+
+generic-prometheus-alerts:
+  targetApplication: $RELEASE_NAME
+  alertSeverity: NON_PROD_ALERTS_SEVERITY_LABEL
