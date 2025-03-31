@@ -6,7 +6,7 @@ generic-service:
   replicaCount: 1
 
   ingress:
-    host: pr-$PR_NUMBER.template-typescript-dev.hmpps.service.justice.gov.uk
+    host: pr-$PR_NUMBER.strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk
 
   env:
     INGRESS_URL: "https://pr-$PR_NUMBER.strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk"
