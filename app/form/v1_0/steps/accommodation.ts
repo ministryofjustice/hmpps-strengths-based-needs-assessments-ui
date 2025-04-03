@@ -5,6 +5,13 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.accommodation
+
+const groups = {
+  background: 'Accommodation background',
+  summary: 'Summary',
+  analysis: 'Analysis',
+}
+
 const stepUrls = {
   currentAccommodation: 'current-accommodation',
   settledAccommodation: 'settled-accommodation',
@@ -60,8 +67,10 @@ const noAccommodationGroup: FormWizard.Field[] = [
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.currentAccommodation,
       fields: [
         accommodationTypeGroup,
@@ -79,8 +88,10 @@ const sectionConfig: SectionConfig = {
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.settledAccommodation,
       fields: [
         livingWithGroup,
@@ -94,6 +105,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.temporaryAccommodation,
       fields: [
         livingWithGroup,
@@ -108,6 +120,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.temporaryAccommodationCasAp,
       fields: [
         suitableLocationGroup,
@@ -121,6 +134,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.noAccommodation,
       fields: [
         noAccommodationGroup,
@@ -133,6 +147,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.summary,
       url: stepUrls.summary,
       fields: [
         accommodationFields.practitionerAnalysis(),
@@ -142,12 +157,11 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
-      isSectionSummary: true,
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
-      isSectionAnalysis: true,
     },
   ],
 }

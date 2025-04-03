@@ -4,6 +4,13 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.finance
+
+const groups = {
+  background: 'Finance background',
+  summary: 'Summary',
+  analysis: 'Analysis',
+}
+
 const stepUrls = {
   finance: 'finance',
   summary: 'finance-summary',
@@ -29,8 +36,10 @@ const baseFinanceGroup = [
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.finance,
       fields: [
         baseFinanceGroup,
@@ -41,8 +50,10 @@ const sectionConfig: SectionConfig = {
       next: stepUrls.summary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.summary,
       url: stepUrls.summary,
       fields: [
         financeFields.practitionerAnalysis(),
@@ -52,12 +63,11 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
-      isSectionSummary: true,
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
-      isSectionAnalysis: true
     },
   ],
 }

@@ -6,6 +6,12 @@ import templates from '../config/templates'
 import { createCollectionController } from '../../../controllers/baseCollectionController'
 
 const section = sections.offenceAnalysis
+
+const groups = {
+  background: 'Offence analysis background',
+  summary: 'Summary',
+}
+
 const stepUrls = {
   offenceAnalysis: 'offence-analysis',
   offenceAnalysisVictimCreate: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.createUrl,
@@ -40,8 +46,10 @@ const offenceAnalysisImpactGroup: FormWizard.Field[] = [
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysis,
       fields: [
         offenceAnalysisFields.offenceAnalysisDescriptionOfOffence,
@@ -74,8 +82,10 @@ const sectionConfig: SectionConfig = {
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysisVictimCreate,
       controller: VictimsCollectionController,
       fields: [
@@ -89,6 +99,7 @@ const sectionConfig: SectionConfig = {
       autosave: false,
     },
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysisVictimUpdate,
       controller: VictimsCollectionController,
       fields: [
@@ -102,6 +113,7 @@ const sectionConfig: SectionConfig = {
       params: '/:entryId',
     },
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysisVictimDelete,
       controller: VictimsCollectionController,
       fields: [
@@ -114,6 +126,7 @@ const sectionConfig: SectionConfig = {
       params: '/:entryId',
     },
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysisVictimsSummary,
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimsCollection,
@@ -130,6 +143,7 @@ const sectionConfig: SectionConfig = {
       ],
     },
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysisInvolvedParties,
       fields: [
         offenceAnalysisFields.offenceAnalysisHowManyInvolved,
@@ -143,6 +157,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysisImpact,
       fields: [
         offenceAnalysisImpactGroup,
@@ -156,6 +171,7 @@ const sectionConfig: SectionConfig = {
       },
     },
     {
+      group: groups.background,
       url: stepUrls.offenceAnalysisImpactOthersInvolved,
       fields: [
         offenceAnalysisFields.offenceAnalysisLeader,
@@ -172,10 +188,10 @@ const sectionConfig: SectionConfig = {
       },
     },
     {
+      group: groups.summary,
       url: stepUrls.summary,
       template: templates.analysisComplete,
       locals: { hideAnalysis: true },
-      isSectionSummary: true,
     },
   ].flat(),
 }

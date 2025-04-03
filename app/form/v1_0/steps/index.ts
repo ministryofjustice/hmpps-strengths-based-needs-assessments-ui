@@ -21,11 +21,13 @@ export const sectionConfigs: SectionConfig[] = [
       code: 'print-preview',
       order: -1,
     },
+    groups: {},
     steps: [
       {
         url: 'print-preview',
         controller: SaveAndContinueController,
         template: templates.printPreview,
+        group: 'print-preview',
       },
     ],
   },

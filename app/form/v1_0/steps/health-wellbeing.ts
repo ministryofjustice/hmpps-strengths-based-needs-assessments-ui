@@ -5,6 +5,13 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.healthWellbeing
+
+const groups = {
+  background: 'Health and wellbeing background',
+  summary: 'Summary',
+  analysis: 'Analysis',
+}
+
 const stepUrls = {
   healthWellbeing: 'health-wellbeing',
   physicalMentalHealth: 'physical-mental-health',
@@ -40,8 +47,10 @@ const baseHealthAndWellbeingFieldsGroup: Array<FormWizard.Field> = [
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.healthWellbeing,
       fields: [
         healthWellbeingFields.healthWellbeingPhysicalHealthCondition,
@@ -85,8 +94,10 @@ const sectionConfig: SectionConfig = {
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.physicalMentalHealth,
       fields: [
         healthWellbeingFields.healthWellbeingPrescribedMedicationPhysicalConditions,
@@ -101,6 +112,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.physicalHealth,
       fields: [
         healthWellbeingFields.healthWellbeingPrescribedMedicationPhysicalConditions,
@@ -113,6 +125,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.mentalHealth,
       fields: [
         mentalHealthConditionsFieldsGroup,
@@ -125,6 +138,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.noPhysicalMentalHealth,
       fields: [
         baseHealthAndWellbeingFieldsGroup,
@@ -136,6 +150,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.summary,
       url: stepUrls.summary,
       fields: [
         healthWellbeingFields.practitionerAnalysis(),
@@ -145,12 +160,11 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
-      isSectionSummary: true,
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
-      isSectionAnalysis: true,
     },
   ],
 }

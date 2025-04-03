@@ -5,6 +5,12 @@ import templates from '../config/templates'
 
 const section = sections.thinkingBehaviours
 
+const groups = {
+  background: 'Thinking, behaviours and attitudes background',
+  summary: 'Summary',
+  analysis: 'Analysis',
+}
+
 export const stepUrls = {
   thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
   riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
@@ -15,8 +21,10 @@ export const stepUrls = {
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.thinkingBehavioursAttitudes,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
@@ -41,10 +49,12 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
       next: stepUrls.riskOfSexualHarm,
-      isSectionEntryPoint: true,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.riskOfSexualHarm,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
@@ -64,6 +74,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.riskOfSexualHarmDetails,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
@@ -78,6 +89,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.summary,
       url: stepUrls.summary,
       fields: [
         thinkingBehavioursFields.practitionerAnalysis(),
@@ -87,12 +99,11 @@ const sectionConfig: SectionConfig = {
       next: `${stepUrls.analysis}#practitioner-analysis`,
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
-      isSectionSummary: true,
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
-      isSectionAnalysis: true,
     },
   ],
 }
