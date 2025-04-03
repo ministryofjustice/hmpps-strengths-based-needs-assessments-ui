@@ -2,6 +2,7 @@ import { SanStep } from '../steps/common'
 
 export interface SectionConfig {
   steps: SanStep[]
+  groups: Record<string, string>
   section: Section
 }
 

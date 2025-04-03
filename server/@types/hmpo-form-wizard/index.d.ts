@@ -18,7 +18,7 @@ declare module 'hmpo-form-wizard' {
       fields: Fields
       steps: RenderedSteps
       locals: Record<string, boolean | string>
-      section: string
+      sections: SectionConfig[]
       name: string
     }
 
@@ -225,9 +225,9 @@ declare module 'hmpo-form-wizard' {
       secondaryActions?: SecondaryAction[]
       autosave?: boolean
       isLastStep?: boolean
+      group: string
       isSectionEntryPoint?: boolean
-      isSectionSummary?: boolean
-      isSectionAnalysis?: boolean
+      isGroupEntryPoint?: boolean
     }
 
     interface Step extends BaseStep {
