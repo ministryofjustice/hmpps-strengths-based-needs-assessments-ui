@@ -6,7 +6,7 @@ import templates from '../config/templates'
 const section = sections.alcohol
 
 const groups = {
-  background: 'Alcohol background',
+  background: 'Alcohol use background',
   summary: 'Summary',
   analysis: 'Analysis',
 }

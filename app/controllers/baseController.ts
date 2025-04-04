@@ -18,6 +18,7 @@ class BaseController extends FormWizard.Controller {
     res.locals.form = {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
       navigation: createNavigation(
+        req.baseUrl,
         req.path.replace(req.baseUrl, ''),
         sections,
         currentSection,

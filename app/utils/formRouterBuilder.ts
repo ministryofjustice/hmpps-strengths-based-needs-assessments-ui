@@ -42,6 +42,7 @@ interface NavigationItem {
 }
 
 export const createNavigation = (
+  basePath: string,
   currentPath: string,
   sections: SectionConfig[],
   currentSection: string,
@@ -54,8 +55,8 @@ export const createNavigation = (
   return sortedSections.flatMap(({ section, steps, groups }) => {
     const isCurrentSection = section.code === currentSection
     const sectionUrl = isInEditMode
-      ? `${steps.find(step => step.isSectionEntryPoint)?.url ?? steps[0].url}?action=resume`
-      : steps.find(step => step.isLastStep).url
+      ? `${basePath}/${steps.find(step => step.isSectionEntryPoint)?.url ?? steps[0].url}?action=resume`
+      : `${basePath}/${steps[steps.length - 1].url}`
 
     const item: NavigationItem = {
       type: 'section',
@@ -74,7 +75,7 @@ export const createNavigation = (
           active: groupSteps.some(step => step.url === currentPath.slice(1)),
           label: groupName,
           section: section.code,
-          url: groupSteps.find(step => step.isGroupEntryPoint)?.url ?? groupSteps[0].url,
+          url: `${basePath}/${groupSteps.find(step => step.isGroupEntryPoint)?.url ?? groupSteps[0].url}`,
         }
       })
 
