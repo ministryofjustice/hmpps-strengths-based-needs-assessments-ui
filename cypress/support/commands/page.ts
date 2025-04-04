@@ -5,7 +5,8 @@ export const assertQuestionCount = (count: number) => {
 }
 
 export const sectionMarkedAsComplete = (section: string) => {
-  cy.get('.moj-side-navigation__item > a > .section-label')
+  cy.get('.moj-side-navigation__item')
+    .find('.section-label')
     .contains(section)
     .parent()
     .find('.section-complete')
@@ -13,7 +14,8 @@ export const sectionMarkedAsComplete = (section: string) => {
 }
 
 export const sectionNotMarkedAsComplete = (section: string) => {
-  cy.get('.moj-side-navigation__item > a > .section-label')
+  cy.get('.moj-side-navigation__item')
+    .find('.section-label')
     .contains(section)
     .parent()
     .find('.section-complete')

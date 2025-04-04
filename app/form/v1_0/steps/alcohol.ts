@@ -4,6 +4,13 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.alcohol
+
+const groups = {
+  background: 'Alcohol use background',
+  summary: 'Summary',
+  analysis: 'Analysis',
+}
+
 const stepUrls = {
   alcohol: 'alcohol',
   alcoholUseLastThreeMonths: 'alcohol-use-last-three-months',
@@ -34,8 +41,10 @@ const alcoholUsageWithinThreeMonthsGroup = [
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.alcohol,
       fields: [
         alcoholFields.alcoholUse,
@@ -47,10 +56,12 @@ const sectionConfig: SectionConfig = {
         nextWhen(alcoholFields.alcoholUse, 'YES_NOT_IN_LAST_THREE_MONTHS', stepUrls.alcoholUseLessThreeMonths),
         nextWhen(alcoholFields.alcoholUse, 'NO', stepUrls.summary),
       ],
-      navigationOrder: 5,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.alcoholUseLastThreeMonths,
       fields: [
         alcoholUsageWithinThreeMonthsGroup,
@@ -63,6 +74,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.alcoholUseLessThreeMonths,
       fields: [
         baseAlcoholUsageGroup,
@@ -74,6 +86,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.summary,
       url: stepUrls.summary,
       fields: [
         alcoholFields.practitionerAnalysis(),
@@ -85,6 +98,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

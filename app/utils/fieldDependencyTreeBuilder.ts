@@ -226,7 +226,7 @@ export class FieldDependencyTreeBuilder {
   protected getInitialStep() {
     return (
       Object.entries(this.options.steps).find(
-        ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
+        ([_, s]) => s.section === this.options.section && s.isSectionEntryPoint,
       ) || []
     )
   }
