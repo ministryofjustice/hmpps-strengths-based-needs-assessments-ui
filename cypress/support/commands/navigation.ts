@@ -3,15 +3,22 @@ export const visitSection = (name: string) => {
   return cy.get(`.side-navigation li.moj-side-navigation__item`).contains(name).should('have.length', 1).click()
 }
 
-export const visitSectionQuestionSteps = (name: string) => {
+export const visitNextSection = (name: string) => {
   return cy
     .get('.side-navigation li')
-    .contains(name)
-    .closest('li')
-    .next()
-    .contains('Questions')
-    .should('have.length', 1)
-    .click()
+    .not('.moj-side-navigation__item--sub-navigation, .moj-side-navigation__item--title')
+    .then($items => {
+      const items = Cypress.$($items) // jQuery-wrapped array
+      const currentIndex = items.toArray().findIndex(el => el.innerText.trim() === name)
+
+      const nextIndex = (currentIndex + 1) % items.length
+      const nextItem = items[nextIndex]
+
+      cy.wrap(nextItem).click()
+    })
+    .then(() => {
+      cy.get('h2').should('not.contain.text', name)
+    })
 }
 
 export const assertSectionIs = (name: string) => {
@@ -32,8 +39,9 @@ export const visitStep = (path: string) => {
 }
 
 export const assertResumeUrlIs = (section: string, path: string) => {
+  cy.visitNextSection(section)
   cy.intercept({ query: { action: 'resume' } }).as('resumeRequest')
-  cy.visitSectionQuestionSteps(section)
+  cy.visitSection(section)
   cy.wait('@resumeRequest')
     .its('response')
     .then(() => cy.assertStepUrlIs(path))
