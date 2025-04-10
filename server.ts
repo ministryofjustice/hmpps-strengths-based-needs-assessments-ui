@@ -1,7 +1,10 @@
-// Require app insights before anything else to allow for instrumentation of bunyan and express
 import 'applicationinsights'
 import { initialiseAppInsights, buildAppInsightsClient } from './server/utils/azureAppInsights'
 
+/*
+ * Do appinsights first as it does some magic instrumentation work, i.e. it affects other 'require's
+ * In particular, applicationinsights automatically collects bunyan logs
+ */
 initialiseAppInsights()
 buildAppInsightsClient()
 
