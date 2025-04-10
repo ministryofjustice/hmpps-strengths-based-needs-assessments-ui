@@ -18,9 +18,7 @@ describe('GET 404', () => {
         expect(res.text).toContain('If you typed the web address, check it is correct.')
         expect(res.text).toContain('If you pasted the web address, check you copied the entire address.')
         expect(res.text).not.toContain('NotFoundError: Not found')
-        expect(loggerSpy).toHaveBeenCalledWith(
-          expect.objectContaining({ crn: 'X123456' }),
-          'Error handling request')
+        expect(loggerSpy).toHaveBeenCalledWith(expect.objectContaining({ crn: 'X123456' }), 'Error handling request')
       })
   })
 })
