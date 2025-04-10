@@ -1,5 +1,6 @@
 import request from 'supertest'
 import { appWithAllRoutes } from './routes/testutils/appSetup'
+import logger from '../logger'
 
 afterEach(() => {
   jest.resetAllMocks()
@@ -7,6 +8,7 @@ afterEach(() => {
 
 describe('GET 404', () => {
   it('should render content without stack in production mode', () => {
+    const loggerSpy = jest.spyOn(logger, 'error')
     return request(appWithAllRoutes({ production: true }))
       .get('/unknown')
       .expect(404)
@@ -16,6 +18,9 @@ describe('GET 404', () => {
         expect(res.text).toContain('If you typed the web address, check it is correct.')
         expect(res.text).toContain('If you pasted the web address, check you copied the entire address.')
         expect(res.text).not.toContain('NotFoundError: Not found')
+        expect(loggerSpy).toHaveBeenCalledWith(
+          expect.objectContaining({ crn: 'X123456' }),
+          'Error handling request')
       })
   })
 })
