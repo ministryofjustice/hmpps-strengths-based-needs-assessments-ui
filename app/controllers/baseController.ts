@@ -12,15 +12,16 @@ import { defaultName } from '../../server/utils/azureAppInsights'
 
 class BaseController extends FormWizard.Controller {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const { fields, section, steps } = req.form.options
+    const { fields, section: currentSection, steps, sections } = req.form.options
     const sessionData = req.session.sessionData as SessionData
 
     res.locals.form = {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
       navigation: createNavigation(
         req.baseUrl,
-        steps as unknown as FormWizard.Steps,
-        section,
+        req.path.replace(req.baseUrl, ''),
+        sections,
+        currentSection,
         isInEditMode(sessionData.user),
       ),
       sectionProgressRules: createSectionProgressRules(steps as unknown as FormWizard.Steps),

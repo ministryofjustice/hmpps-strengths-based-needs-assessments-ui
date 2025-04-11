@@ -69,14 +69,23 @@
         <nav class="moj-side-navigation side-navigation" aria-label="Side navigation">
           <ul class="moj-side-navigation__list">
             {% for link in form.navigation %}
-              <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
-                <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
-                  <span class="section-label">{{ link.label }}</span>
-                  {% if sectionProgress[link.section] %}
-                    <span class="section-complete">✓</span>
-                  {% endif %}
-                </a>
-              </li>
+                {% if link.active and link.type === 'section'  %}
+                  <li class="moj-side-navigation__item moj-side-navigation__item--title">
+                    <span class="section-label">{{ link.label }}</span>
+                    {% if sectionProgress[link.section] %}
+                      <span class="section-complete">✓</span>
+                    {% endif %}
+                  </li>
+                {% else %}
+                  <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %} {% if link.type === 'group' %} moj-side-navigation__item--sub-navigation{% endif %}">
+                    <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
+                      <span class="section-label">{{ link.label }}</span>
+                      {% if link.type === 'section' and sectionProgress[link.section ] %}
+                        <span class="section-complete">✓</span>
+                      {% endif %}
+                    </a>
+                  </li>
+                {% endif %}
             {% endfor %}
           </ul>
         </nav>

@@ -102,6 +102,7 @@ describe('fields/index.ts', () => {
           section: {
             title: 'First Section',
             code: 'first_section',
+            order: 1,
           },
         },
         {
@@ -120,6 +121,7 @@ describe('fields/index.ts', () => {
           section: {
             title: 'Second Section',
             code: 'second_section',
+            order: 2,
           },
         },
       ]

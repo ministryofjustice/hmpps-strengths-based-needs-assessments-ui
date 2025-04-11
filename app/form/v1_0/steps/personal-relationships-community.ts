@@ -5,6 +5,13 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.personalRelationships
+
+const groups = {
+  background: 'Personal relationships and community background',
+  summary: 'Summary',
+  analysis: 'Analysis',
+}
+
 const stepUrls = {
   personalRelationshipsChildrenInfo: 'personal-relationships-children-information',
   personalRelationships: 'personal-relationships',
@@ -46,8 +53,10 @@ const intimateRelationshipFieldsGroup: Array<FormWizard.Field> = [
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.personalRelationshipsChildrenInfo,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityChildrenInformation,
@@ -57,11 +66,13 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildrenInfo),
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 7,
       next: stepUrls.personalRelationships,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.personalRelationships,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeople,
@@ -86,6 +97,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.personalRelationshipsChildren,
       fields: [
         currentRelationshipStatusFieldsGroup,
@@ -103,6 +115,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.personalRelationshipsCommunity,
       fields: [
         currentRelationshipStatusFieldsGroup,
@@ -116,6 +129,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.summary,
       url: stepUrls.summary,
       fields: [
         personalRelationshipsFields.practitionerAnalysis(),
@@ -127,6 +141,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
