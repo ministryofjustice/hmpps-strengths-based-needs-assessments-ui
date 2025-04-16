@@ -3,9 +3,35 @@ export const visitSection = (name: string) => {
   return cy.get(`.side-navigation li.moj-side-navigation__item`).contains(name).should('have.length', 1).click()
 }
 
+export const visitNextSection = (name: string) => {
+  return cy
+    .get('.side-navigation li')
+    .not('.moj-side-navigation__item--sub-navigation, .moj-side-navigation__item--title')
+    .then($items => {
+      const items = Cypress.$($items) // jQuery-wrapped array
+      const currentIndex = items.toArray().findIndex(el => el.innerText.trim() === name)
+
+      const nextIndex = (currentIndex + 1) % items.length
+      const nextItem = items[nextIndex]
+
+      cy.wrap(nextItem).click()
+    })
+    .then(() => {
+      cy.get('h2').should('not.contain.text', name)
+    })
+}
+
 export const assertSectionIs = (name: string) => {
-  cy.get(`.side-navigation li.moj-side-navigation__item--active`).should('have.length', 1).and('contain.text', name)
-  cy.get(`h2`).should('contain.text', name)
+  cy.get('.side-navigation li.moj-side-navigation__item--active').should('have.length', 1)
+
+  cy.get('.side-navigation li.moj-side-navigation__item--title')
+    .contains(name)
+    .closest('li')
+    .next()
+    .should('have.class', 'moj-side-navigation__item--active')
+
+  // Optionally, confirm the main heading includes the section name
+  cy.get('h2').should('contain.text', name)
 }
 
 export const visitStep = (path: string) => {
@@ -13,6 +39,7 @@ export const visitStep = (path: string) => {
 }
 
 export const assertResumeUrlIs = (section: string, path: string) => {
+  cy.visitNextSection(section)
   cy.intercept({ query: { action: 'resume' } }).as('resumeRequest')
   cy.visitSection(section)
   cy.wait('@resumeRequest')

@@ -45,13 +45,18 @@ describe('server/utils/nunjucks.summaryFields', () => {
       },
     }
 
+    const groups = {
+      testGroup: 'Test group',
+    }
+
     const options: GetSummaryFieldsOptions = {
       section: 'test',
       steps: {
         '/step1': {
           pageTitle: 'page 1',
+          group: groups.testGroup,
           section: 'test',
-          navigationOrder: 1,
+          isSectionEntryPoint: true,
           fields: {
             q1: fields.q1,
             q2_id: fields.q2_id,
@@ -62,6 +67,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         },
         '/step2': {
           pageTitle: 'page 2',
+          group: groups.testGroup,
           section: 'test',
           fields: {
             q3: fields.q3,
@@ -72,6 +78,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         },
         '/step3': {
           pageTitle: 'page 3',
+          group: groups.testGroup,
           section: 'none',
           fields: {
             q4: fields.q4,

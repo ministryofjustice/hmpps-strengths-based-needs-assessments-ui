@@ -28,6 +28,7 @@ describe('server/utils/nunjucks.utils', () => {
           '/foo': {
             pageTitle: 'Foo step',
             section: 'test-section',
+            group: 'Test group',
             fields: {
               test_section_practitioner_analysis_question: {
                 text: 'Foo field 1',
@@ -54,6 +55,7 @@ describe('server/utils/nunjucks.utils', () => {
           '/foo': {
             pageTitle: 'Foo step',
             section: 'test-section',
+            group: 'Test group',
             fields: {
               test_section_practitioner_analysis_question: {
                 text: 'Foo field 1',
@@ -78,6 +80,7 @@ describe('server/utils/nunjucks.utils', () => {
           '/foo': {
             pageTitle: 'Foo step',
             section: 'test-section',
+            group: 'Test group',
             fields: {
               test_section_practitioner_analysis_question: {
                 text: 'Foo field 1',
@@ -89,6 +92,7 @@ describe('server/utils/nunjucks.utils', () => {
           '/bar': {
             pageTitle: 'Bar step',
             section: 'other-section',
+            group: 'Test group',
             fields: {
               other_section_practitioner_analysis_question: {
                 text: 'Bar field 1',

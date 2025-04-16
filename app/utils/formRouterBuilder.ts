@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 import * as express from 'express'
 import FormWizard from 'hmpo-form-wizard'
+import { SectionConfig } from '../form/v1_0/config/sections'
 
 type FormWizardRouter = {
   metaData: FormOptions
@@ -17,6 +18,7 @@ export type FormOptions = {
 export type Form = {
   fields: FormWizard.Fields
   steps: FormWizard.Steps
+  sections: SectionConfig[]
   options: FormOptions
 }
 
@@ -32,34 +34,66 @@ const removeQueryParamsFrom = (urlWithParams: string) => {
 }
 
 interface NavigationItem {
+  type: 'section' | 'group'
   url: string
   section: string
   label: string
   active: boolean
 }
 
-export const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
-  Object.entries(steps).find(([_path, step]) => step.section === sectionName && step.isLastStep)[0]
-
 export const createNavigation = (
-  baseUrl: string,
-  steps: FormWizard.Steps,
+  basePath: string,
+  currentPath: string,
+  sections: SectionConfig[],
   currentSection: string,
   isInEditMode: boolean,
-): Array<NavigationItem> => {
-  return Object.entries(steps)
-    .filter(([_path, config]) => config.navigationOrder)
-    .sort(([_pathA, configA], [_pathB, configB]) => configA.navigationOrder - configB.navigationOrder)
-    .map(([path, config]) => {
-      const url = isInEditMode ? `${path}?action=resume` : getLastStepOfSection(steps, config.section)
+): NavigationItem[] => {
+  const sortedSections = sections
+    .filter(({ section }) => section.order !== -1)
+    .sort(({ section: a }, { section: b }) => a.order - b.order)
 
-      return {
-        url: `${baseUrl}/${url.slice(1)}`,
-        section: config.section,
-        label: config.pageTitle,
-        active: config.section === currentSection,
-      }
-    })
+  return sortedSections.flatMap(({ section, steps, groups }) => {
+    const isCurrentSection = section.code === currentSection
+    const sectionUrl = isInEditMode
+      ? `${basePath}/${steps.find(step => step.isSectionEntryPoint)?.url ?? steps[0].url}?action=resume`
+      : `${basePath}/${steps[steps.length - 1].url}`
+
+    const item: NavigationItem = {
+      type: 'section',
+      active: isCurrentSection,
+      label: section.title,
+      section: section.code,
+      url: sectionUrl,
+    }
+
+    if (isCurrentSection) {
+      const subNavigationItems: NavigationItem[] = Object.entries(groups)
+        .filter(([, groupName]) => steps.some(step => step.group === groupName))
+        .map(([, groupName]) => {
+          const groupSteps = steps.filter(step => step.group === groupName)
+
+          let url = `${basePath}/${groupSteps.find(step => step.isGroupEntryPoint)?.url ?? groupSteps[0].url}`
+
+          if (groupSteps.length > 1) {
+            url = isInEditMode
+              ? `${basePath}/${groupSteps.find(step => step.isSectionEntryPoint)?.url ?? groupSteps[0].url}?action=resume`
+              : `${basePath}/${groupSteps[groupSteps.length - 1].url}`
+          }
+
+          return {
+            type: 'group',
+            active: groupSteps.some(step => step.url === currentPath.slice(1)),
+            label: groupName,
+            section: section.code,
+            url,
+          }
+        })
+
+      return [item, ...subNavigationItems]
+    }
+
+    return item
+  })
 }
 
 type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -124,6 +158,7 @@ const setupForm = (form: Form): FormWizardRouter => {
       FormWizard(form.steps, form.fields, {
         name: `Assessment:${form.options.version}`,
         entryPoint: true,
+        sections: form.sections,
         defaultFormatters: form.options.defaultFormatters,
       }),
     )

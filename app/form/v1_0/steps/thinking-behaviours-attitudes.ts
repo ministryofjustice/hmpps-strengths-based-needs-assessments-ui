@@ -5,6 +5,11 @@ import templates from '../config/templates'
 
 const section = sections.thinkingBehaviours
 
+const groups = {
+  background: 'Thinking, behaviours and attitudes background',
+  analysis: 'Practitioner Analysis',
+}
+
 export const stepUrls = {
   thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
   riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
@@ -15,8 +20,10 @@ export const stepUrls = {
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.thinkingBehavioursAttitudes,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
@@ -40,11 +47,13 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 8,
       next: stepUrls.riskOfSexualHarm,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.riskOfSexualHarm,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
@@ -64,6 +73,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.riskOfSexualHarmDetails,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
@@ -78,6 +88,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.summary,
       fields: [
         thinkingBehavioursFields.practitionerAnalysis(),
@@ -89,6 +100,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

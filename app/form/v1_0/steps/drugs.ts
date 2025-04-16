@@ -4,6 +4,12 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.drugs
+
+const groups = {
+  background: 'Drug use background',
+  analysis: 'Practitioner Analysis',
+}
+
 const stepUrls = {
   drugs: 'drugs',
   drugUse: 'drug-use',
@@ -16,8 +22,10 @@ const stepUrls = {
 
 const sectionConfig: SectionConfig = {
   section,
+  groups,
   steps: [
     {
+      group: groups.background,
       url: stepUrls.drugs,
       fields: [
         drugsFields.drugUseGroup,
@@ -28,10 +36,12 @@ const sectionConfig: SectionConfig = {
         nextWhen(drugsFields.drugUse, 'YES', stepUrls.drugUse),
         nextWhen(drugsFields.drugUse, 'NO', stepUrls.summary),
       ],
-      navigationOrder: 4,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      isSectionEntryPoint: true,
+      isGroupEntryPoint: true,
     },
     {
+      group: groups.background,
       url: stepUrls.drugUse,
       fields: [
         drugsFields.drugUsageDetailsGroup,
@@ -42,6 +52,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.selectDrugs,
       fields: [
         drugsFields.drugUseTypeGroup,
@@ -53,6 +64,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.drugUsageDetails,
       fields: [
         drugsFields.drugUseTypeDetailsGroup,
@@ -64,6 +76,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.drugUseChanges,
       fields: [
         drugsFields.wantToMakeChanges(),
@@ -74,6 +87,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      group: groups.background,
       url: stepUrls.summary,
       fields: [
         drugsFields.practitionerAnalysis(),
@@ -85,6 +99,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      group: groups.analysis,
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },

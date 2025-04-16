@@ -75,11 +75,16 @@ describe('fields/index.ts', () => {
 
   describe('buildFields', () => {
     it('takes a list of sections and extracts the fields', () => {
+      const groups = {
+        background: 'Test background',
+      }
       const sections: SectionConfig[] = [
         {
+          groups,
           steps: [
             {
               url: '/first_section/first_step',
+              group: groups.background,
               fields: [
                 {
                   text: 'First Question',
@@ -90,6 +95,7 @@ describe('fields/index.ts', () => {
             },
             {
               url: '/first_section/second_step',
+              group: groups.background,
               fields: [
                 {
                   text: 'Second Question',
@@ -102,12 +108,15 @@ describe('fields/index.ts', () => {
           section: {
             title: 'First Section',
             code: 'first_section',
+            order: 1,
           },
         },
         {
+          groups,
           steps: [
             {
               url: '/second_section/first_step',
+              group: groups.background,
               fields: [
                 {
                   text: 'First Question',
@@ -120,6 +129,7 @@ describe('fields/index.ts', () => {
           section: {
             title: 'Second Section',
             code: 'second_section',
+            order: 2,
           },
         },
       ]
