@@ -8,8 +8,7 @@ const section = sections.accommodation
 
 const groups = {
   background: 'Accommodation background',
-  summary: 'Summary',
-  analysis: 'Analysis',
+  analysis: 'Practitioner Analysis',
 }
 
 const stepUrls = {
@@ -147,7 +146,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      group: groups.summary,
+      group: groups.background,
       url: stepUrls.summary,
       fields: [
         accommodationFields.practitionerAnalysis(),

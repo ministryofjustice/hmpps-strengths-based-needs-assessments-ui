@@ -8,8 +8,7 @@ import { createCollectionController } from '../../../controllers/baseCollectionC
 const section = sections.offenceAnalysis
 
 const groups = {
-  background: 'Offence analysis background',
-  summary: 'Summary',
+  background: 'Offence analysis',
 }
 
 const stepUrls = {
@@ -188,7 +187,7 @@ const sectionConfig: SectionConfig = {
       },
     },
     {
-      group: groups.summary,
+      group: groups.background,
       url: stepUrls.summary,
       template: templates.analysisComplete,
       locals: { hideAnalysis: true },

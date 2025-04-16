@@ -7,8 +7,7 @@ const section = sections.thinkingBehaviours
 
 const groups = {
   background: 'Thinking, behaviours and attitudes background',
-  summary: 'Summary',
-  analysis: 'Analysis',
+  analysis: 'Practitioner Analysis',
 }
 
 export const stepUrls = {
@@ -89,7 +88,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      group: groups.summary,
+      group: groups.background,
       url: stepUrls.summary,
       fields: [
         thinkingBehavioursFields.practitionerAnalysis(),

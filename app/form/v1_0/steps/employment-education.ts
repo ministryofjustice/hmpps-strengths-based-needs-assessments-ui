@@ -7,8 +7,7 @@ const section = sections.employmentEducation
 
 const groups = {
   background: 'Employment and education background',
-  summary: 'Summary',
-  analysis: 'Analysis',
+  analysis: 'Practitioner Analysis',
 }
 
 const stepUrls = {
@@ -137,7 +136,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      group: groups.summary,
+      group: groups.background,
       url: stepUrls.summary,
       fields: [
         employmentEducationFields.practitionerAnalysis(),

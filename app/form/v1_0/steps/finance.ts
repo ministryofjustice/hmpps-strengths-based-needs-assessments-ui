@@ -7,8 +7,7 @@ const section = sections.finance
 
 const groups = {
   background: 'Finance background',
-  summary: 'Summary',
-  analysis: 'Analysis',
+  analysis: 'Practitioner Analysis',
 }
 
 const stepUrls = {
@@ -53,7 +52,7 @@ const sectionConfig: SectionConfig = {
       isGroupEntryPoint: true,
     },
     {
-      group: groups.summary,
+      group: groups.background,
       url: stepUrls.summary,
       fields: [
         financeFields.practitionerAnalysis(),
