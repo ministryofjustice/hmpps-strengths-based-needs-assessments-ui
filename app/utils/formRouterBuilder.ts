@@ -67,17 +67,27 @@ export const createNavigation = (
     }
 
     if (isCurrentSection) {
-      const subNavigationItems: NavigationItem[] = Object.entries(groups).map(([, groupName]) => {
-        const groupSteps = steps.filter(step => step.group === groupName)
+      const subNavigationItems: NavigationItem[] = Object.entries(groups)
+        .filter(([, groupName]) => steps.some(step => step.group === groupName))
+        .map(([, groupName]) => {
+          const groupSteps = steps.filter(step => step.group === groupName)
 
-        return {
-          type: 'group',
-          active: groupSteps.some(step => step.url === currentPath.slice(1)),
-          label: groupName,
-          section: section.code,
-          url: `${basePath}/${groupSteps.find(step => step.isGroupEntryPoint)?.url ?? groupSteps[0].url}`,
-        }
-      })
+          let url = `${basePath}/${groupSteps.find(step => step.isGroupEntryPoint)?.url ?? groupSteps[0].url}`
+
+          if (groupSteps.length > 1) {
+            url = isInEditMode
+              ? `${basePath}/${groupSteps.find(step => step.isSectionEntryPoint)?.url ?? groupSteps[0].url}?action=resume`
+              : `${basePath}/${groupSteps[groupSteps.length - 1].url}`
+          }
+
+          return {
+            type: 'group',
+            active: groupSteps.some(step => step.url === currentPath.slice(1)),
+            label: groupName,
+            section: section.code,
+            url,
+          }
+        })
 
       return [item, ...subNavigationItems]
     }
