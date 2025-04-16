@@ -114,7 +114,7 @@ services:
       APP_STRATEGIES_PLAN: false
 
   san-api:
-    image: quay.io/hmpps/hmpps-strengths-based-needs-assessments-api:latest
+    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:latest
     networks:
       - hmpps
     depends_on:
