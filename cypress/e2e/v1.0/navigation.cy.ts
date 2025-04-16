@@ -35,7 +35,7 @@ describe('navigation', () => {
       },
       {
         name: 'Offence analysis',
-        groups: ['Offence analysis background', 'Summary'],
+        groups: ['Offence analysis'],
       },
     ]
 
