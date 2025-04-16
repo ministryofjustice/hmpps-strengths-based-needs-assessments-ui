@@ -199,8 +199,8 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   })
 
   describe('getSteps', () => {
-    const currentStep: FormWizard.RenderedStep = { pageTitle: 'page 1', section: 'none' }
-    const nextStep: FormWizard.RenderedStep = { pageTitle: 'page 2', section: 'none' }
+    const currentStep: FormWizard.RenderedStep = { pageTitle: 'page 1', section: 'none', group: 'Test group' }
+    const nextStep: FormWizard.RenderedStep = { pageTitle: 'page 2', section: 'none', group: 'Test group' }
     const sut = builderWithStep('/page-2', nextStep)
 
     it('should return the path and step object of the next steps', () => {
@@ -431,7 +431,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
 
   describe('build', () => {
     it('should return empty array when no starting step is found in config', () => {
-      const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
+      const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined, group: 'Test group' })
       expect(sut.build()).toEqual([])
     })
 
@@ -447,7 +447,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
           '/step1': {
             pageTitle: 'page 1',
             section: 'test',
-            navigationOrder: 1,
+            isSectionEntryPoint: true,
             fields: {
               q1: fields.q1,
               q2: fields.q2,
@@ -490,7 +490,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
 
   describe('buildAndFlatten', () => {
     it('should return empty array when no starting step is found in config', () => {
-      const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
+      const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined, group: 'Test group' })
       expect(sut.buildAndFlatten()).toEqual([])
     })
 
@@ -507,7 +507,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
           '/step1': {
             pageTitle: 'page 1',
             section: 'test',
-            navigationOrder: 1,
+            isSectionEntryPoint: true,
             fields: {
               q1: fields.q1,
               q2: fields.q2,
@@ -607,7 +607,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
           '/step-1': {
             pageTitle: 'Step 1',
             section: 'test',
-            navigationOrder: 1,
+            isSectionEntryPoint: true,
             fields: {
               q1: fields.q1,
               q2: fields.q2,
