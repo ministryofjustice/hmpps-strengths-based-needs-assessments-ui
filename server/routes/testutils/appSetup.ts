@@ -7,6 +7,7 @@ import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
 import * as auth from '../../authentication/auth'
 import { Services } from '../../services'
+import { Gender } from '../../@types/hmpo-form-wizard/enums'
 
 export const user = {
   firstName: 'first',
@@ -28,6 +29,20 @@ function appSetup(userSupplier: () => Express.User, additionalRoutes: Router[]):
 
   nunjucksSetup(app, path)
   app.use(cookieSession({ keys: [''] }))
+
+  app.use((req, res, next) => {
+    req.session.subjectDetails = {
+      crn: 'X123456',
+      pnc: '2023/0123456X',
+      givenName: 'John',
+      familyName: 'Doe',
+      dateOfBirth: '1980-01-01',
+      gender: Gender.Male,
+      location: 'COMMUNITY',
+    }
+    next()
+  })
+
   app.use((req, res, next) => {
     req.user = userSupplier()
     req.flash = flashProvider
