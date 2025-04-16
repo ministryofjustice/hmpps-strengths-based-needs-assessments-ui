@@ -221,13 +221,7 @@ describe('common/utils/formRouterBuilder', () => {
         },
       ]
 
-      const result = createNavigation(
-        basePath,
-        '/step-4',
-        sections,
-        'secA',
-        false,
-      )
+      const result = createNavigation(basePath, '/step-4', sections, 'secA', false)
 
       expect(result).toHaveLength(4)
 
@@ -268,13 +262,7 @@ describe('common/utils/formRouterBuilder', () => {
         },
       ]
 
-      const result = createNavigation(
-        basePath,
-        '/step-2',
-        sections,
-        'secA',
-        true,
-      )
+      const result = createNavigation(basePath, '/step-2', sections, 'secA', true)
 
       expect(result).toHaveLength(2)
 
