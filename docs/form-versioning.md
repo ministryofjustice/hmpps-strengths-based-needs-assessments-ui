@@ -15,6 +15,12 @@ The API application contains form version references in two places:
 
 These are executed in full each time an assessment is submitted or updated.
 
+### Data storage
+
+When a new Assessment is created the latest form version config is fetched from the UI and then deserialized into Kotlin objects using the MappingProvider. When the Assessment is persisted the form version is stored in the `assessments_form_info` table.
+
+The Assessment itself is stored in the `answers` column of the `assessments_versions` table as a JSON blob.
+
 ## UI Application
 
 The UI knows about versioning because it stores the questions and answers that users are asked, conditions for moving between the steps etc.
@@ -25,9 +31,10 @@ The UI application contains form version references in multiple places:
 
 1. The versioned form config is in `app/form`
 2. Forms are made available to routing from `app/index.ts` - the latest version here must match the latest version provided by the API when requesting http://localhost:3000/config/latest
+3. The form version number is specified in `app/form/VERSION/index.ts`
 
 ### Possible problems
 
 The `startController.ts`, `baseController.ts` and `saveAndContinueController.ts` files all import files directly from the versioned form config directory. We should consider whether this is the best way to do this, or whether we should be using a mapping function to get the correct version of the form config.
 
-There may be some utility functions in files in the `utils` directory which need to be versioned but currently are not.
+There may be some utility functions in files in the `utils` directory which need to be versioned since they are used by versioned forms, but currently are not.
