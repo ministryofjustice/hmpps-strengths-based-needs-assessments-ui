@@ -28,4 +28,6 @@ The UI application contains form version references in multiple places:
 
 ### Possible problems
 
+The `startController.ts`, `baseController.ts` and `saveAndContinueController.ts` files all import files directly from the versioned form config directory. We should consider whether this is the best way to do this, or whether we should be using a mapping function to get the correct version of the form config.
+
 There may be some utility functions in files in the `utils` directory which need to be versioned but currently are not.
