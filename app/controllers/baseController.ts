@@ -16,8 +16,9 @@ class BaseController extends FormWizard.Controller {
     const sessionData = req.session.sessionData as SessionData
 
     const reqFormVersion = name.split(':')[1].replace('.', '/')
-    if (reqFormVersion !== sessionData.formVersion) {
-      return res.redirect(req.originalUrl.replace(reqFormVersion, sessionData.formVersion))
+    const sessionFormVersion = sessionData.formVersion.replace('.', '/')
+    if (reqFormVersion !== sessionFormVersion) {
+      return res.redirect(req.originalUrl.replace(reqFormVersion, sessionFormVersion))
     }
 
     res.locals.form = {
