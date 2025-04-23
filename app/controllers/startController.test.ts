@@ -3,9 +3,7 @@ import startController from './startController'
 import { AssessmentResponse } from '../../server/services/strengthsBasedNeedsService'
 
 jest.mock('./saveAndContinue.utils', () => ({
-  isReadOnly: jest.fn(
-    () => false,
-  ),
+  isReadOnly: jest.fn(() => false),
 }))
 
 jest.mock('../../server/services/strengthsBasedNeedsService', () => {
