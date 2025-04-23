@@ -11,6 +11,7 @@ export interface SessionData {
   oasysAssessmentPk: string
   user: HandoverPrincipal
   handoverSessionId: string
+  formVersion: string
 }
 
 interface Option {
