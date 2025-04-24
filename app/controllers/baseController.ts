@@ -16,6 +16,8 @@ class BaseController extends FormWizard.Controller {
     const sessionData = req.session.sessionData as SessionData
     const formVersion = `v${name.split(':')[1]}`
 
+
+
     res.locals.form = {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
       navigation: createNavigation(

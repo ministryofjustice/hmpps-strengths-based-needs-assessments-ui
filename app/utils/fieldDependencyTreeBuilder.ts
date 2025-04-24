@@ -226,8 +226,11 @@ export class FieldDependencyTreeBuilder {
     return typeof fieldAnswer[0] === 'string' ? (fieldAnswer as string[]) : null
   }
 
-  protected getInitialStep() {
-    const initialStepUrl = getFirstStepOfSection(findSectionByCode(this.options.section, this.options.sections))
+  protected getInitialStep(startFromSubsection: boolean = false) {
+    const sectionToStartFrom = startFromSubsection
+      ? findSectionByStepUrl(this.options.url, this.options.sections)
+      : findSectionByCode(this.options.section, this.options.sections)
+    const initialStepUrl = getFirstStepOfSection(sectionToStartFrom)
     return (
       Object.entries(this.options.steps).find(
         ([path, step]) => path.slice(1) === initialStepUrl && step.section === this.options.section,
@@ -235,8 +238,8 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
-    const [initialStepPath, initialStep] = this.getInitialStep()
+  getPageNavigation(startFromSubsection: boolean = false): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
+    const [initialStepPath, initialStep] = this.getInitialStep(startFromSubsection)
 
     let nextStep = initialStepPath
     const stepsTaken = []
@@ -265,6 +268,10 @@ export class FieldDependencyTreeBuilder {
         isSectionComplete = false
         break
       }
+    }
+
+    if (steps.length === 0) {
+       isSectionComplete = false
     }
 
     if (steps.length < 2) {

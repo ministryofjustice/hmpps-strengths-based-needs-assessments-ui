@@ -80,9 +80,9 @@ export const buildRequestBody = (
     .reduce((acc: string[], step) => [...acc, ...Object.values(step.fields).map(f => f.code)], [])
 
   return {
-    answersToAdd: relevantFields
-      .filter(it => Object.keys(formOptions.fields).includes(it.field.id) && it.field.type !== FieldType.Collection)
-      .map(it => it.field)
+    answersToAdd: Object.entries(formOptions.fields)
+      .filter(([_, field]) => field.type !== FieldType.Collection)
+      .map(([_, field]) => field)
       .reduce(createAnswerDTOs(answers), {}),
     answersToRemove: removeOrphanAnswers
       ? Object.keys(answers).filter(

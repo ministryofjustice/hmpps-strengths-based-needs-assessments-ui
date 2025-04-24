@@ -61,7 +61,7 @@ class SaveAndContinueController extends BaseController {
         const pageNavigation = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getPageNavigation()
+        ).getPageNavigation(true)
 
         const getBackLinkFromTrail = (currentStep: string, stepsTaken: string[]) => {
           const currentStepIndex = stepsTaken.indexOf(currentStep)
@@ -231,7 +231,11 @@ class SaveAndContinueController extends BaseController {
       ),
     }
 
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answersToPersist, options)
+    const { answersToAdd, answersToRemove } = buildRequestBody(
+      req.form.options,
+      answersToPersist,
+      { ...options, removeOrphanAnswers: options.removeOrphanAnswers && isSectionComplete }
+    )
 
     req.form.values = {
       ...answersToPersist,
