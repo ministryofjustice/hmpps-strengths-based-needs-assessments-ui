@@ -178,7 +178,7 @@ class SaveAndContinueController extends BaseController {
     try {
       const sectionProgress = this.getAssessmentProgress(
         req.form.persistedAnswers,
-        res.locals.form.sectionProgressRules,
+        res.locals.form.sectionProgressRules ?? [],
       )
       res.locals.sectionProgress = sectionProgress
       res.locals.assessmentIsComplete = this.checkAssessmentComplete(sectionProgress)
@@ -191,7 +191,7 @@ class SaveAndContinueController extends BaseController {
 
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
-      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
+      (req.form.options.sectionProgressRules ?? []).map(({ fieldCode, conditionFn }) => [
         fieldCode,
         conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO',
       ]),
@@ -227,7 +227,7 @@ class SaveAndContinueController extends BaseController {
     const answersToPersist = {
       ...combinedAnswers,
       ...this.getAssessmentCompletionAnswers(
-        this.getAssessmentProgress(combinedAnswers, res.locals.form.sectionProgressRules),
+        this.getAssessmentProgress(combinedAnswers, res.locals.form.sectionProgressRules ?? []),
       ),
     }
 

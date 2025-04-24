@@ -6,6 +6,7 @@ import { initialiseName } from './utils'
 import {
   display,
   displayDateForToday,
+  getLastStepOfCurrentSection,
   getMaxCharacterCount,
   getRenderedFields,
   isInEditMode,
@@ -83,6 +84,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('display', display)
 
   njkEnv.addGlobal('getAnalysisSummaryFields', getAnalysisSummaryFields)
+
+  njkEnv.addGlobal('getLastStepOfCurrentSection', getLastStepOfCurrentSection)
 
   njkEnv.addGlobal('getMaxCharacterCount', getMaxCharacterCount)
 

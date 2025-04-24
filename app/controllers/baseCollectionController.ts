@@ -222,7 +222,7 @@ abstract class BaseCollectionController extends BaseController {
         [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
       })
 
-    const sections = res.locals.form.sectionProgressRules
+    const sections = res.locals.form.sectionProgressRules ?? []
     const sectionProgress: Progress = sections.reduce(
       checkProgress(req.form.persistedAnswers as Record<string, string>),
       {},

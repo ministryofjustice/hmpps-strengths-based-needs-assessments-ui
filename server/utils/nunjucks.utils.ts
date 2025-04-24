@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import { HandoverPrincipal } from '../services/arnsHandoverService'
 import { FieldAnswer } from '../../app/utils/fieldDependencyTreeBuilder'
 import characterLimits from '../../app/form/v1_0/config/characterLimits'
+import { findSectionByCode, getLastStepOfSection } from '../../app/utils/formRouterBuilder';
 
 type ValidationError = { text: string; href: string } & FormWizard.Controller.Error
 
@@ -55,3 +56,6 @@ export const setProp = (obj: any, prop: string, value: any) => ({ ...obj, [prop]
 
 export const display = (answer: FieldAnswer): string =>
   answer.html ? answer.html : answer.text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2')
+
+export const getLastStepOfCurrentSection = (options: FormWizard.FormOptions): string =>
+  getLastStepOfSection(findSectionByCode(options.section, options.sections))

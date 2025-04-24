@@ -1,0 +1,69 @@
+{% extends "./layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/summary/macro.njk" import renderSummaryFields %}
+
+{% set summaryFields = getSummaryFields(options, answers) %}
+{% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
+{% set sectionComplete = sectionProgress[options.section] %}
+
+{% if sessionData.user | isInEditMode %}
+  {% set shouldShowAnalaysis = not hideAnalysis %}
+{% else %}
+  {% set shouldShowAnalaysis = not hideAnalysis and practitionerAnalysisStarted(form, answers) %}
+{% endif %}
+
+{% block notification %}
+  {% if not sessionData.user | isInEditMode and sectionStarted and not sectionComplete %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {{ mojBanner({ type: "information", text: "This section is incomplete" }) }}
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block formContent %}
+{% if sectionStarted %}
+  <div class="govuk-tabs" data-module="govuk-tabs">
+    <h2 class="govuk-tabs__title">
+      Content
+    </h2>
+    <ul class="govuk-tabs__list">
+      <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+        <a class="govuk-tabs__tab" href="#summary">
+          Summary
+        </a>
+      </li>
+    {% if shouldShowAnalaysis %}
+      <li class="govuk-tabs__list-item">
+        <a class="govuk-tabs__tab" href="#practitioner-analysis">
+          Practitioner analysis
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <div class="govuk-tabs__panel summary__panel" id="summary">
+      <form id="form" method="post">
+        <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+        {{ renderSummaryFields(summaryFields, sessionData) }}
+      </form>
+    {% if shouldShowAnalaysis %}
+      <div class="questiongroup-action-buttons summary-action-buttons">
+        {{ govukButton({
+          text: "Go to practitioner analysis",
+          classes: "govuk-button--secondary govuk-!-margin-bottom-3",
+          href: "#practitioner-analysis"
+        }) }}
+      </div>
+    {% endif %}
+    </div>
+    {% if shouldShowAnalaysis %}
+      <div class="govuk-tabs__panel summary__panel govuk-tabs__panel--hidden" id="practitioner-analysis">
+        {% block analysisPanel %}{% endblock %}
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <p class="govuk-body">This section is incomplete</p>
+{% endif %}
+{% endblock %}

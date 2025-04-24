@@ -1,18 +1,12 @@
 import FormWizard from 'hmpo-form-wizard'
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, contains } from './common'
 import personalRelationshipsFields from '../fields/personal-relationships-community'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.personalRelationships
-const stepUrls = {
-  personalRelationshipsChildrenInfo: 'personal-relationships-children-information',
-  personalRelationships: 'personal-relationships',
-  personalRelationshipsChildren: 'personal-relationships-children',
-  personalRelationshipsCommunity: 'personal-relationships-community',
-  summary: 'personal-relationships-community-summary',
-  analysis: 'personal-relationships-community-analysis',
-}
+const stepUrls = section.stepUrls
 
 const personalRelationshipsCommunityFieldsGroup: Array<FormWizard.Field> = [
   personalRelationshipsFields.personalRelationshipsCommunityFamilyRelationship,
@@ -57,7 +51,6 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildrenInfo),
         personalRelationshipsFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 7,
       next: stepUrls.personalRelationships,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },

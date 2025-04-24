@@ -1,19 +1,12 @@
 import FormWizard from 'hmpo-form-wizard'
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import healthWellbeingFields from '../fields/health-wellbeing'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.healthWellbeing
-const stepUrls = {
-  healthWellbeing: 'health-wellbeing',
-  physicalMentalHealth: 'physical-mental-health',
-  physicalHealth: 'physical-health',
-  mentalHealth: 'mental-health',
-  noPhysicalMentalHealth: 'no-physical-mental-health',
-  summary: 'health-wellbeing-summary',
-  analysis: 'health-wellbeing-analysis',
-}
+const stepUrls = section.stepUrls
 
 const mentalHealthConditionsFieldsGroup: Array<FormWizard.Field> = [
   healthWellbeingFields.healthWellbeingPrescribedMedicationMentalConditions,
@@ -53,7 +46,6 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.isUserSubmitted(stepUrls.healthWellbeing),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 6,
       next: [
         nextWhen(healthWellbeingFields.healthWellbeingPhysicalHealthCondition, 'YES', [
           nextWhen(

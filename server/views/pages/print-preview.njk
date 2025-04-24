@@ -80,14 +80,14 @@
             </div>
           </div>
 
-          {% set summaryFields = getSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+          {% set summaryFields = getSummaryFields(options, answers, section.code) %}
           {% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
           {% if sectionStarted %}
             <div class="summary-section">
               <h3 class="govuk-heading-m summary-section-header__subtitle">Summary</h3>
               {{ renderSummaryFields(summaryFields, sessionData) }}
             </div>
-            {% set analysisSummaryFields = getAnalysisSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+            {% set analysisSummaryFields = getAnalysisSummaryFields(options, answers, section.code) %}
             {% if analysisSummaryFields.singleFields.length > 0 %}
               <div class="summary-section">
                 <h3 class="govuk-heading-m summary-section-header__subtitle">Practitioner analysis</h3>

@@ -2,7 +2,7 @@ import { type Response, NextFunction, Router } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import { HTTPError } from 'superagent'
 import FormRouterBuilder from './utils/formRouterBuilder'
-import V1_0 from './form/v1_0'
+import { formVersions } from './form'
 
 interface FormWizardError extends HTTPError {
   redirect?: string
@@ -19,7 +19,7 @@ export default class App {
   }
 
   constructor() {
-    const formRouterBuilder = FormRouterBuilder.configure(V1_0)
+    const formRouterBuilder = FormRouterBuilder.configure(...Object.values(formVersions))
 
     this.formRouter = formRouterBuilder.formRouter.use(App.errorHandler)
     this.formConfigRouter = formRouterBuilder.formConfigRouter

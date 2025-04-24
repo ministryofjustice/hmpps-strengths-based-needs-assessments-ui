@@ -8,6 +8,7 @@ export default function createErrorHandler() {
     const subjectDetails = req.session.subjectDetails as HandoverSubject
     logger.error(
       {
+        stack: error.stack,
         err: error,
         url: req.originalUrl,
         user: res.locals.user?.username,

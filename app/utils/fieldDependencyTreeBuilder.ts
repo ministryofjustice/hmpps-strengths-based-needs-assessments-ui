@@ -2,12 +2,15 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { dependencyMet, isPractitionerAnalysisField, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
-import sections from '../form/v1_0/config/sections'
 import { validateField } from './validation'
 import { formatDateForDisplay } from './formatters'
+import { Section } from '../form/common/section';
+import { findSectionByCode, findSectionByStepUrl, getFirstStepOfSection } from './formRouterBuilder';
 
 export interface Options {
+  url: string
   section: string
+  sections: Record<string, Section>
   allFields: Record<string, FormWizard.Field>
   steps: FormWizard.RenderedSteps
 }
@@ -224,9 +227,10 @@ export class FieldDependencyTreeBuilder {
   }
 
   protected getInitialStep() {
+    const initialStepUrl = getFirstStepOfSection(findSectionByCode(this.options.section, this.options.sections))
     return (
       Object.entries(this.options.steps).find(
-        ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
+        ([path, step]) => path.slice(1) === initialStepUrl && step.section === this.options.section,
       ) || []
     )
   }
@@ -239,7 +243,10 @@ export class FieldDependencyTreeBuilder {
 
     let isSectionComplete = true
 
+    const relevantStepUrls = Object.values(findSectionByStepUrl(this.options.url, this.options.sections).stepUrls)
+
     const steps = this.getSteps(initialStep, initialStepPath)
+      .filter(([stepUrl]) => relevantStepUrls.includes(stepUrl))
 
     for (const [stepUrl, step] of steps) {
       nextStep = stepUrl
@@ -268,11 +275,12 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
-    const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
+    // const { sectionCompleteField } = Object.values(this.options.sections).find(it => it.code === this.options.section) || {}
+    // const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
     return {
-      url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
+      url: nextStep,
+      // url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
       stepsTaken,
       isSectionComplete,
     }

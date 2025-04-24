@@ -1,0 +1,93 @@
+{% extends "./layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/summary/macro.njk" import renderSummaryFields %}
+
+{% macro renderAnalysisSummaryRow(label, field, yesDetailsField, noDetailsField, link) %}
+  <article class="analysis-summary__item">
+    <div class="analysis-summary__row">
+      <div class="analysis-summary__heading">
+        <h2 class="govuk-heading-m full-width">{{ label }}</h2>
+      </div>
+      {% if sessionData.user | isInEditMode %}
+        <div class="analysis-summary__action">
+          <a class="govuk-link" href="{{ link }}">Change<span class="govuk-visually-hidden">value for {{ label }}</span></a>
+        </div>
+      {% endif %}
+    </div>
+    <div class="analysis-summary__row">
+      <div class="analysis-summary__value">
+        <ul class="govuk-list">
+          {% for option in field.options %}
+            {% if option.checked %}
+              {% if option.value === "YES" %}
+                {% set detailsAnswer = yesDetailsField.value %}
+              {% else %}
+                {% set detailsAnswer = noDetailsField.value %}
+              {% endif %}
+
+              <li class="summary-details-list">
+                <span class="analysis__answer">{{ option.text }}</span>
+                <p class="analysis__answer--secondary">{{ detailsAnswer | nl2br | safe }}</p>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </article>
+{% endmacro %}
+
+{% block notification %}
+  {% if not sessionData.user | isInEditMode and sectionStarted and not sectionComplete %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        {{ mojBanner({ type: "information", text: "This section is incomplete" }) }}
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block formContent %}
+  <form id="form" method="post" action="{{ action }}">
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+
+    {% set section = options.section | replace("-", "_") %}
+    {% set fields = options.allFields %}
+    {% set changeLink = options.section + '-analysis' %}
+
+    <section>
+      {{ renderAnalysisSummaryRow(
+        "Strengths or protective factors",
+        fields[section + "_practitioner_analysis_strengths_or_protective_factors"],
+        fields[section + "_practitioner_analysis_strengths_or_protective_factors_yes_details"],
+        fields[section + "_practitioner_analysis_strengths_or_protective_factors_no_details"],
+        changeLink
+      ) }}
+      <hr class="govuk-section-break govuk-section-break--l">
+      {{ renderAnalysisSummaryRow(
+        "Linked to risk of serious harm",
+        fields[section + "_practitioner_analysis_risk_of_serious_harm"],
+        fields[section + "_practitioner_analysis_risk_of_serious_harm_yes_details"],
+        fields[section + "_practitioner_analysis_risk_of_serious_harm_no_details"],
+        changeLink
+      ) }}
+      <hr class="govuk-section-break govuk-section-break--l">
+      {{ renderAnalysisSummaryRow(
+        "Linked to risk of reoffending",
+        fields[section + "_practitioner_analysis_risk_of_reoffending"],
+        fields[section + "_practitioner_analysis_risk_of_reoffending_yes_details"],
+        fields[section + "_practitioner_analysis_risk_of_reoffending_no_details"],
+        changeLink
+      ) }}
+    </section>
+
+    <div class="questiongroup-action-buttons">
+      {{ govukButton({
+        text: buttonText | default("Mark section as complete"),
+        classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1",
+        name: getUserSubmittedField(form.fields),
+        value: 'YES'
+      }) }}
+    </div>
+  </form>
+{% endblock %}

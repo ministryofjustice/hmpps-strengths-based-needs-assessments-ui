@@ -1,22 +1,13 @@
 import FormWizard from 'hmpo-form-wizard'
 import { contains, nextWhen, setFieldToCompleteWhenValid, setFieldToIncomplete } from './common'
 import offenceAnalysisFields from '../fields/offence-analysis'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
 import { createCollectionController } from '../../../controllers/baseCollectionController'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.offenceAnalysis
-const stepUrls = {
-  offenceAnalysis: 'offence-analysis',
-  offenceAnalysisVictimCreate: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.createUrl,
-  offenceAnalysisVictimDelete: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.deleteUrl,
-  offenceAnalysisVictimUpdate: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.updateUrl,
-  offenceAnalysisVictimsSummary: offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.summaryUrl,
-  offenceAnalysisInvolvedParties: 'offence-analysis-involved-parties',
-  offenceAnalysisImpact: 'offence-analysis-impact',
-  offenceAnalysisImpactOthersInvolved: 'offence-analysis-impact-others-involved',
-  summary: 'offence-analysis-summary',
-}
+const stepUrls = section.stepUrls
 
 const VictimsCollectionController = createCollectionController(offenceAnalysisFields.offenceAnalysisVictimsCollection)
 
@@ -55,7 +46,6 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
         offenceAnalysisFields.sectionComplete(),
       ],
-      navigationOrder: 9,
       next: [
         {
           field: offenceAnalysisFields.offenceAnalysisWhoWasTheOffenceCommittedAgainst.code,

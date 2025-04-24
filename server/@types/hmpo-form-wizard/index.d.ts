@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 declare module 'hmpo-form-wizard' {
   import express from 'express'
+  import { Section } from '../../../app/form/common/section';
 
   function FormWizard(steps: Steps, fields: Fields, config: FormWizardConfig)
 
@@ -14,12 +15,13 @@ declare module 'hmpo-form-wizard' {
       allFields: { [key: string]: Field }
       journeyName: string
       section: string
+      sections: Record<string, Section>
       sectionProgressRules: Array<SectionProgressRule>
       fields: Fields
       steps: RenderedSteps
       locals: Record<string, boolean | string>
-      section: string
       name: string
+      url: string
     }
 
     export interface CoreTelemetryData {
@@ -217,7 +219,6 @@ declare module 'hmpo-form-wizard' {
       template?: string
       next?: FormWizard.Step.NextStep
       controller?: typeof FormWizard.Controller
-      navigationOrder?: number
       backLink?: string
       sectionProgressRules?: Array<SectionProgressRule>
       noPost?: boolean

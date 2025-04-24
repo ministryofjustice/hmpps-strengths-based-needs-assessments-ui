@@ -3,16 +3,8 @@ import { FieldDependencyTreeBuilder } from '../../app/utils/fieldDependencyTreeB
 import { isNonRenderedField } from './nunjucks.utils'
 import { isPractitionerAnalysisField } from '../../app/utils/field.utils'
 
-export interface GetSummaryFieldsOptions {
-  section: string
-  allFields: Record<string, FormWizard.Field>
-  steps: FormWizard.RenderedSteps
-  answers: FormWizard.Answers
-  collectionOnly?: boolean
-}
-
-export default (options: GetSummaryFieldsOptions) => {
-  const builder = new FieldDependencyTreeBuilder(options, options.answers)
+export default (options: FormWizard.FormOptions, answers: FormWizard.Answers, sectionCode: string = options.section, collectionOnly: boolean = false) => {
+  const builder = new FieldDependencyTreeBuilder({...options, section: sectionCode}, answers)
 
   const hasAnswer = (field: FormWizard.Field) => {
     const answer = builder.getAnswers(field.code)

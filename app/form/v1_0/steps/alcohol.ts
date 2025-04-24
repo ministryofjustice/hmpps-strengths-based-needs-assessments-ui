@@ -1,16 +1,11 @@
 import alcoholFields from '../fields/alcohol'
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.alcohol
-const stepUrls = {
-  alcohol: 'alcohol',
-  alcoholUseLastThreeMonths: 'alcohol-use-last-three-months',
-  alcoholUseLessThreeMonths: 'alcohol-use-less-three-months',
-  summary: 'alcohol-use-summary',
-  analysis: 'alcohol-use-analysis',
-}
+const stepUrls = section.stepUrls
 
 const baseAlcoholUsageGroup = [
   alcoholFields.alcoholEvidenceOfExcessDrinking,
@@ -47,7 +42,6 @@ const sectionConfig: SectionConfig = {
         nextWhen(alcoholFields.alcoholUse, 'YES_NOT_IN_LAST_THREE_MONTHS', stepUrls.alcoholUseLessThreeMonths),
         nextWhen(alcoholFields.alcoholUse, 'NO', stepUrls.summary),
       ],
-      navigationOrder: 5,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

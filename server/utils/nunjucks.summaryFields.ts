@@ -4,16 +4,8 @@ import { isNonRenderedField } from './nunjucks.utils'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 import { isPractitionerAnalysisField } from '../../app/utils/field.utils'
 
-export interface GetSummaryFieldsOptions {
-  section: string
-  allFields: Record<string, FormWizard.Field>
-  steps: FormWizard.RenderedSteps
-  answers: FormWizard.Answers
-  collectionOnly?: boolean
-}
-
-export default (options: GetSummaryFieldsOptions) => {
-  const builder = new FieldDependencyTreeBuilder(options, options.answers)
+export default (options: FormWizard.FormOptions, answers: FormWizard.Answers, sectionCode: string = options.section, collectionOnly: boolean = false) => {
+  const builder = new FieldDependencyTreeBuilder({...options, section: sectionCode}, answers)
 
   const hasAnswer = (field: FormWizard.Field) => {
     const answer = builder.getAnswers(field.code)
@@ -26,7 +18,7 @@ export default (options: GetSummaryFieldsOptions) => {
   const isCollection = (field: FormWizard.Field) => field.type === FieldType.Collection
 
   const stepFieldsFilterFn = (field: FormWizard.Field) =>
-    options.collectionOnly
+    collectionOnly
       ? isCollection(field)
       : !isNonRenderedField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(field)
 

@@ -1,0 +1,31 @@
+{% macro renderSideNavigation(navigation, sectionProgress) %}
+  <ul class="moj-side-navigation__list">
+    {% for link in navigation %}
+      <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--{% if link.subNavigation %}expanded{% else %}active{% endif %}{% endif %}">
+        {% if not link.active or not link.subNavigation %}
+          <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
+            <span class="section-label">{{ link.label }}</span>
+            {% if sectionProgress[link.section] %}
+              <span class="section-complete">✓</span>
+            {% endif %}
+          </a>
+        {% else %}
+          <div class="section-label-wrapper">
+            <span class="section-label">{{ link.label }}</span>
+            {% if sectionProgress[link.section] %}
+              <span class="section-complete">✓</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if link.subNavigation %}
+          {{ renderSideNavigation(link.subNavigation, sectionProgress) }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
+<nav class="moj-side-navigation side-navigation" aria-label="Side navigation">
+  {{ renderSideNavigation(form.navigation, sectionProgress) }}
+</nav>

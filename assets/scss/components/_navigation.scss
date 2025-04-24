@@ -3,6 +3,25 @@
   padding: 0;
 }
 
+.moj-side-navigation__item {
+  ul {
+    display: none;
+  }
+
+  &--expanded {
+    > ul {
+      display: block;
+      margin: 0 0 0 govuk-spacing(4);
+    }
+  }
+}
+
+.section-label-wrapper {
+  padding: 10px;
+  border-left: 4px solid transparent;
+  font-weight: bold;
+}
+
 .section-label {
   width: 80%;
   display: inline-block;
