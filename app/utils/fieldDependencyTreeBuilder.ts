@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
-import { dependencyMet, isPractitionerAnalysisField, whereSelectable } from './field.utils'
+import { dependencyMet, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import { validateField } from './validation'
 import { formatDateForDisplay } from './formatters'
@@ -134,9 +134,7 @@ export class FieldDependencyTreeBuilder {
         ...fields,
         {
           field,
-          changeLink: isPractitionerAnalysisField(field.code)
-            ? `${stepPath}#practitioner-analysis`
-            : `${stepPath}#${field.id || field.code}`,
+          changeLink: `${stepPath}#${field.id || field.code}`,
           answers: this.getFieldAnswers(field),
         },
       ]
@@ -246,10 +244,11 @@ export class FieldDependencyTreeBuilder {
 
     let isSectionComplete = true
 
+    const allSteps = this.getSteps(initialStep, initialStepPath)
     const relevantStepUrls = Object.values(findSectionByStepUrl(this.options.url, this.options.sections).stepUrls)
-
-    const steps = this.getSteps(initialStep, initialStepPath)
-      .filter(([stepUrl]) => relevantStepUrls.includes(stepUrl))
+    const steps = startFromSubsection
+      ? allSteps.filter(([stepUrl]) => relevantStepUrls.includes(stepUrl))
+      : allSteps
 
     for (const [stepUrl, step] of steps) {
       nextStep = stepUrl
@@ -282,12 +281,8 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    // const { sectionCompleteField } = Object.values(this.options.sections).find(it => it.code === this.options.section) || {}
-    // const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
-
     return {
       url: nextStep,
-      // url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
       stepsTaken,
       isSectionComplete,
     }

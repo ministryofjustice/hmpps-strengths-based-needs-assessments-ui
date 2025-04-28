@@ -81,7 +81,7 @@ export const buildRequestBody = (
 
   return {
     answersToAdd: Object.entries(formOptions.fields)
-      .filter(([_, field]) => field.type !== FieldType.Collection)
+      .filter(([_, field]) => answers[field.id] !== undefined && field.type !== FieldType.Collection)
       .map(([_, field]) => field)
       .reduce(createAnswerDTOs(answers), {}),
     answersToRemove: removeOrphanAnswers

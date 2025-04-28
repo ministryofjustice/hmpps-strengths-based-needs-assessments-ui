@@ -86,7 +86,8 @@
         text: buttonText | default("Mark section as complete"),
         classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1",
         name: getUserSubmittedField(form.fields),
-        value: 'YES'
+        value: 'YES',
+        disabled: not isSectionComplete(options, answers)
       }) }}
     </div>
   </form>

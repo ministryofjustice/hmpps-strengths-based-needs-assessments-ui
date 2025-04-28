@@ -20,6 +20,7 @@ import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
 import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
+import { findSectionByCode } from '../utils/formRouterBuilder'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -149,6 +150,11 @@ class SaveAndContinueController extends BaseController {
         .reduce(fieldsById, {})
       res.locals.options.allFields = fieldsWithRenderedConditionals.reduce(fieldsById, {})
 
+      const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
+        ...req.form.persistedAnswers,
+        ...req.form.values,
+      }).getPageNavigation()
+
       await super.locals(req, res, next)
     } catch (error) {
       next(error)
@@ -217,6 +223,8 @@ class SaveAndContinueController extends BaseController {
     }).getPageNavigation()
 
     const sectionCompleteAnswers = this.getSectionProgressAnswers(req, isSectionComplete)
+    const section = findSectionByCode(req.form.options.section, req.form.options.sections)
+    const isSectionReallyComplete = sectionCompleteAnswers[section.sectionCompleteField] === 'YES'
 
     const combinedAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,
@@ -234,7 +242,7 @@ class SaveAndContinueController extends BaseController {
     const { answersToAdd, answersToRemove } = buildRequestBody(
       req.form.options,
       answersToPersist,
-      { ...options, removeOrphanAnswers: options.removeOrphanAnswers && isSectionComplete }
+      { ...options, removeOrphanAnswers: options.removeOrphanAnswers && isSectionReallyComplete }
     )
 
     req.form.values = {

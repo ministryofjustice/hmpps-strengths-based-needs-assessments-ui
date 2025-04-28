@@ -19,6 +19,7 @@ import {
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
 import getAnalysisSummaryFields from './nunjucks.analysisSummaryFields'
+import isSectionComplete from './nunjucks.isSectionComplete'
 import FieldsFactory from '../../app/form/v1_0/fields/common/fieldsFactory'
 import maintenanceMessage from './maintenanceMessage'
 import { formatDateForDisplay, ordinalWordFromNumber } from '../../app/utils/formatters'
@@ -80,6 +81,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('outdent', outdent)
 
   njkEnv.addGlobal('getSummaryFields', getSummaryFields)
+
+  njkEnv.addGlobal('isSectionComplete', isSectionComplete)
 
   njkEnv.addFilter('display', display)
 
