@@ -3,15 +3,16 @@ import { FieldsFactory, utils } from '../common'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../../config/sections'
 import { dependentOn } from '../common/utils'
+import characterLimits from '../../config/characterLimits'
 
 class DrugUseHistoryFieldsFactory extends FieldsFactory {
   drugsReasonsForUse: FormWizard.Field = {
     text: 'Why does [subject] use drugs?',
-    hint: { text: 'Consider why they started using, their history, any triggers.', kind: 'text' },
+    hint: { text: 'Consider why they started using, their history, any triggers. Select all that apply.', kind: 'text' },
     code: 'drugs_reasons_for_use',
     type: FieldType.CheckBox,
     multiple: true,
-    validate: [{ type: ValidationType.Required, message: 'Select why they drink alcohol' }],
+    validate: [{ type: ValidationType.Required, message: 'Select why they use drugs' }],
     options: [
       { text: 'Cultural or religious practice', value: 'CULTURAL_OR_RELIGIOUS', kind: 'option' },
       { text: 'Curiosity or experimentation', value: 'CURIOSITY_OR_EXPERIMENTATION', kind: 'option' },
@@ -30,4 +31,89 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
     parentField: this.drugsReasonsForUse,
     dependentValue: 'YES',
   })
+
+  drugsAffectedTheirLife: FormWizard.Field = {
+    text: 'How has [subject]\'s drug use affected their life?',
+    hint: { text: 'Select all that apply.', kind: 'text' },
+    code: 'drugs_affected_their_life',
+    type: FieldType.CheckBox,
+    multiple: true,
+    validate: [{ type: ValidationType.Required, message: 'Select how their drug use has affected their life' }],
+    options: [
+      {
+        text: 'Behaviour',
+        hint: { text: 'Includes unemployment, disruption on education or lack of productivity.' },
+        value: 'BEHAVIOUR',
+        kind: 'option',
+      },
+      {
+        text: 'Community',
+        hint: { text: 'Includes limited opportunities or judgement from others.' },
+        value: 'COMMUNITY',
+        kind: 'option',
+      },
+      {
+        text: 'Finances',
+        hint: { text: 'Includes having no money.' },
+        value: 'FINANCES',
+        kind: 'option',
+      },
+      {
+        text: 'Links to offending',
+        value: 'BEHAVIOUR',
+        kind: 'option',
+      },
+      {
+        text: 'Physical or mental health',
+        hint: { text: 'Includes overdose.' },
+        value: 'HEALTH',
+        kind: 'option',
+      },
+      {
+        text: 'Relationships',
+        hint: { text: 'Includes isolation or neglecting responsibilities.' },
+        value: 'RELATIONSHIPS',
+        kind: 'option',
+      },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  drugsAffectedTheirLifeDetails: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsAffectedTheirLife,
+    dependentValue: 'YES',
+  })
+
+  drugsAnythingHelpedStopOrReduceUse: FormWizard.Field = {
+    text: 'Has anything helped [name] stop or reduce their drug use? (optional)',
+    hint: { text: 'Note any treatment or lifestyle changes that have helped them.', kind: 'text' },
+    code: 'drugs_anything_helped_stop_or_reduce_use',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: 'validateMaxLength',
+        fn: utils.validateMaxLength,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  }
+
+  drugsWhatCouldHelpNotUseDrugsInFuture: FormWizard.Field = {
+    text: 'What could help [name] not use drugs in the future? (optional)',
+    code: 'drugs_what_could_help_not_use_drugs_in_future',
+    type: FieldType.TextArea,
+    validate: [
+      {
+        type: 'validateMaxLength',
+        fn: utils.validateMaxLength,
+        arguments: [characterLimits.default],
+        message: `Details must be ${characterLimits.default} characters or less`,
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  }
+
 }
