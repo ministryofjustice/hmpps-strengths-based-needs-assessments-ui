@@ -20,6 +20,7 @@ import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
 import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
+import { findSectionByCode } from '../utils/formRouterBuilder'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -61,7 +62,7 @@ class SaveAndContinueController extends BaseController {
         const pageNavigation = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getPageNavigation()
+        ).getPageNavigation(true)
 
         const getBackLinkFromTrail = (currentStep: string, stepsTaken: string[]) => {
           const currentStepIndex = stepsTaken.indexOf(currentStep)
@@ -149,6 +150,11 @@ class SaveAndContinueController extends BaseController {
         .reduce(fieldsById, {})
       res.locals.options.allFields = fieldsWithRenderedConditionals.reduce(fieldsById, {})
 
+      const { isSectionComplete } = new FieldDependencyTreeBuilder(req.form.options, {
+        ...req.form.persistedAnswers,
+        ...req.form.values,
+      }).getPageNavigation()
+
       await super.locals(req, res, next)
     } catch (error) {
       next(error)
@@ -178,7 +184,7 @@ class SaveAndContinueController extends BaseController {
     try {
       const sectionProgress = this.getAssessmentProgress(
         req.form.persistedAnswers,
-        res.locals.form.sectionProgressRules,
+        res.locals.form.sectionProgressRules ?? [],
       )
       res.locals.sectionProgress = sectionProgress
       res.locals.assessmentIsComplete = this.checkAssessmentComplete(sectionProgress)
@@ -191,7 +197,7 @@ class SaveAndContinueController extends BaseController {
 
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
-      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
+      (req.form.options.sectionProgressRules ?? []).map(({ fieldCode, conditionFn }) => [
         fieldCode,
         conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO',
       ]),
@@ -217,6 +223,8 @@ class SaveAndContinueController extends BaseController {
     }).getPageNavigation()
 
     const sectionCompleteAnswers = this.getSectionProgressAnswers(req, isSectionComplete)
+    const section = findSectionByCode(req.form.options.section, req.form.options.sections)
+    const isSectionReallyComplete = sectionCompleteAnswers[section.sectionCompleteField] === 'YES'
 
     const combinedAnswers: FormWizard.Answers = {
       ...req.form.persistedAnswers,
@@ -227,11 +235,15 @@ class SaveAndContinueController extends BaseController {
     const answersToPersist = {
       ...combinedAnswers,
       ...this.getAssessmentCompletionAnswers(
-        this.getAssessmentProgress(combinedAnswers, res.locals.form.sectionProgressRules),
+        this.getAssessmentProgress(combinedAnswers, res.locals.form.sectionProgressRules ?? []),
       ),
     }
 
-    const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answersToPersist, options)
+    const { answersToAdd, answersToRemove } = buildRequestBody(
+      req.form.options,
+      answersToPersist,
+      { ...options, removeOrphanAnswers: options.removeOrphanAnswers && isSectionReallyComplete }
+    )
 
     req.form.values = {
       ...answersToPersist,

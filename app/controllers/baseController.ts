@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import config from '../../server/config'
-import { createNavigation, createSectionProgressRules } from '../utils/formRouterBuilder'
+import { createNavigation, createSectionProgressRules, getSections } from '../utils/formRouterBuilder'
 import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
@@ -14,6 +14,9 @@ class BaseController extends FormWizard.Controller {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     const { fields, section, steps, name } = req.form.options
     const sessionData = req.session.sessionData as SessionData
+    const formVersion = `v${name.split(':')[1]}`
+
+
 
     const reqFormVersion = name.split(':')[1].replace('.', '/')
     const sessionFormVersion = sessionData.formVersion.replace('.', '/')
@@ -25,8 +28,9 @@ class BaseController extends FormWizard.Controller {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
       navigation: createNavigation(
         req.baseUrl,
+        getSections(formVersion),
         steps as unknown as FormWizard.Steps,
-        section,
+        req.url.slice(1),
         isInEditMode(sessionData.user),
       ),
       sectionProgressRules: createSectionProgressRules(steps as unknown as FormWizard.Steps),

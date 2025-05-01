@@ -10,15 +10,17 @@ import thinkingBehavioursAttitudeSection from './thinking-behaviours-attitudes'
 import personalRelationshipsAndCommunitySection from './personal-relationships-community'
 import offenceAnalysisSection from './offence-analysis'
 import { assessmentComplete } from '../fields'
-import { fieldCodesFrom, SanStep } from './common'
-import { Section, SectionConfig } from '../config/sections'
+import { fieldCodesFrom } from './common'
 import templates from '../config/templates'
+import { Section, SectionConfig } from '../../common/section';
+import { SanStep } from '../../common/step';
 
 export const sectionConfigs: SectionConfig[] = [
   {
     section: {
       title: 'Print preview',
       code: 'print-preview',
+      url: 'print-preview',
     },
     steps: [
       {

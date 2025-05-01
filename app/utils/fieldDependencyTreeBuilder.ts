@@ -1,13 +1,16 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
-import { dependencyMet, isPractitionerAnalysisField, whereSelectable } from './field.utils'
+import { dependencyMet, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
-import sections from '../form/v1_0/config/sections'
 import { validateField } from './validation'
 import { formatDateForDisplay } from './formatters'
+import { Section } from '../form/common/section';
+import { findSectionByCode, findSectionByStepUrl, getFirstStepOfSection } from './formRouterBuilder';
 
 export interface Options {
+  url: string
   section: string
+  sections: Record<string, Section>
   allFields: Record<string, FormWizard.Field>
   steps: FormWizard.RenderedSteps
 }
@@ -131,9 +134,7 @@ export class FieldDependencyTreeBuilder {
         ...fields,
         {
           field,
-          changeLink: isPractitionerAnalysisField(field.code)
-            ? `${stepPath}#practitioner-analysis`
-            : `${stepPath}#${field.id || field.code}`,
+          changeLink: `${stepPath}#${field.id || field.code}`,
           answers: this.getFieldAnswers(field),
         },
       ]
@@ -223,23 +224,31 @@ export class FieldDependencyTreeBuilder {
     return typeof fieldAnswer[0] === 'string' ? (fieldAnswer as string[]) : null
   }
 
-  protected getInitialStep() {
+  protected getInitialStep(startFromSubsection: boolean = false) {
+    const sectionToStartFrom = startFromSubsection
+      ? findSectionByStepUrl(this.options.url, this.options.sections)
+      : findSectionByCode(this.options.section, this.options.sections)
+    const initialStepUrl = getFirstStepOfSection(sectionToStartFrom)
     return (
       Object.entries(this.options.steps).find(
-        ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
+        ([path, step]) => path.slice(1) === initialStepUrl && step.section === this.options.section,
       ) || []
     )
   }
 
-  getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
-    const [initialStepPath, initialStep] = this.getInitialStep()
+  getPageNavigation(startFromSubsection: boolean = false): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
+    const [initialStepPath, initialStep] = this.getInitialStep(startFromSubsection)
 
     let nextStep = initialStepPath
     const stepsTaken = []
 
     let isSectionComplete = true
 
-    const steps = this.getSteps(initialStep, initialStepPath)
+    const allSteps = this.getSteps(initialStep, initialStepPath)
+    const relevantStepUrls = Object.values(findSectionByStepUrl(this.options.url, this.options.sections).stepUrls)
+    const steps = startFromSubsection
+      ? allSteps.filter(([stepUrl]) => relevantStepUrls.includes(stepUrl))
+      : allSteps
 
     for (const [stepUrl, step] of steps) {
       nextStep = stepUrl
@@ -260,6 +269,10 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
+    if (steps.length === 0) {
+       isSectionComplete = false
+    }
+
     if (steps.length < 2) {
       return {
         url: nextStep,
@@ -268,11 +281,8 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
-    const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
-
     return {
-      url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
+      url: nextStep,
       stepsTaken,
       isSectionComplete,
     }
