@@ -1,8 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from '../common'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
-import sections from '../../config/sections'
-import { dependentOn } from '../common/utils'
 import characterLimits from '../../config/characterLimits'
 
 class DrugUseHistoryFieldsFactory extends FieldsFactory {
@@ -140,5 +138,40 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
+
+  drugsWantToMakeChangesToDrugUseDetailsPositiveChanges: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsWantToMakeChangesToDrugUse,
+    dependentValue: 'POSITIVE_CHANGES',
+  })
+
+  drugsWantToMakeChangesToDrugUseDetailsMakingChanges: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsWantToMakeChangesToDrugUse,
+    dependentValue: 'MAKING_CHANGES',
+  })
+
+  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChanges: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsWantToMakeChangesToDrugUse,
+    dependentValue: 'WANT_TO_MAKE_CHANGES_KNOW_HOW',
+  })
+
+  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChangesHelp: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsWantToMakeChangesToDrugUse,
+    dependentValue: 'WANT_TO_MAKE_CHANGES_NEED_HELP',
+  })
+
+  drugsWantToMakeChangesToDrugUseDetailsThinkingAboutChanges: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsWantToMakeChangesToDrugUse,
+    dependentValue: 'THINKING_ABOUT_CHANGES',
+  })
+
+  drugsWantToMakeChangesToDrugUseDetailsDoNotWantChanges: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsWantToMakeChangesToDrugUse,
+    dependentValue: 'DO_NOT_WANT_CHANGES',
+  })
+
+  drugsWantToMakeChangesToDrugUseDetailsDoNotWantToAnswer: FormWizard.Field = FieldsFactory.detailsField({
+    parentField: this.drugsWantToMakeChangesToDrugUse,
+    dependentValue: 'DO_NOT_WANT_TO_ANSWER',
+  })
 
 }
