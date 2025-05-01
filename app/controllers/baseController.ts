@@ -18,6 +18,12 @@ class BaseController extends FormWizard.Controller {
 
 
 
+    const reqFormVersion = name.split(':')[1].replace('.', '/')
+    const sessionFormVersion = sessionData.formVersion.replace('.', '/')
+    if (reqFormVersion !== sessionFormVersion) {
+      return res.redirect(req.originalUrl.replace(reqFormVersion, sessionFormVersion))
+    }
+
     res.locals.form = {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
       navigation: createNavigation(

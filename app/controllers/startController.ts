@@ -22,12 +22,13 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     const contextData = await arnsHandoverService.getContextData(accessToken)
 
     const assessment = await apiService.fetchAssessment(contextData.assessmentContext.assessmentId)
-    const version = assessment.metaData.formVersion.replace(/\./g, '/')
+    const versionUrl = assessment.metaData.formVersion.replace(/\./g, '/')
 
     req.session.sessionData = {
       ...contextData.assessmentContext,
       user: contextData.principal,
       handoverSessionId: contextData.handoverSessionId,
+      formVersion: assessment.metaData.formVersion,
     }
     req.session.subjectDetails = contextData.subject
 
@@ -38,10 +39,9 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
       if (error) {
         return next(error)
       }
-
       return isReadOnly(contextData.principal)
-        ? res.redirect(`/form/${version}/${readOnlyModeLandingPage}`)
-        : res.redirect(`/form/${version}/${editModeLandingPage}?action=resume`)
+        ? res.redirect(`/form/${versionUrl}/${readOnlyModeLandingPage}`)
+        : res.redirect(`/form/${versionUrl}/${editModeLandingPage}?action=resume`)
     })
   } catch {
     next(new Error('Unable to start assessment'))
