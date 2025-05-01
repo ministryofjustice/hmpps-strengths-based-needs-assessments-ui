@@ -116,4 +116,29 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   }
 
+  drugsWantToMakeChangesToDrugUse: FormWizard.Field = {
+    text: 'Does [name] want to make changes to their drug use?',
+    code: 'drugs_want_to_make_changes_to_drug_use',
+    type: FieldType.Radio,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: "Select if they want to make changes to their drug use",
+      },
+    ],
+    options: [
+      { text: 'I have already made positive changes and want to maintain them', value: 'POSITIVE_CHANGES', kind: 'option' },
+      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
+      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES_KNOW_HOW', kind: 'option' },
+      { text: 'I want to make changes but need help', value: 'WANT_TO_MAKE_CHANGES_NEED_HELP', kind: 'option' },
+      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_CHANGES', kind: 'option' },
+      { text: 'I do not want to make changes', value: 'DO_NOT_WANT_CHANGES', kind: 'option' },
+      { text: 'I do not want to answer', value: 'DO_NOT_WANT_TO_ANSWER', kind: 'option' },
+      { text: '[name] is not present', value: 'NOT_PRESENT', kind: 'option' },
+      { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
+
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
 }
