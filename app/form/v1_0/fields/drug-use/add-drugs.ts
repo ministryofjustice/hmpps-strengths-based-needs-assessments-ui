@@ -72,7 +72,7 @@ const otherDrugNameField: FormWizard.Field = {
   labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
 }
 
-const misusedDrugsLastUsed: FormWizard.Field = [
+const misusedDrugsLastUsed: FormWizard.Field[] = [
   misusedDrugsLastUsedField('AMPHETAMINES'),
   misusedDrugsLastUsedField('BENZODIAZEPINES'),
   misusedDrugsLastUsedField('CANNABIS'),
@@ -88,7 +88,7 @@ const misusedDrugsLastUsed: FormWizard.Field = [
   misusedDrugsLastUsedField('STEROIDS'),
   misusedDrugsLastUsedField('SPICE'),
   misusedDrugsLastUsedField('OTHER_DRUG'),
-].flat()
+]
 
 export default {
   selectMisusedDrugs,
