@@ -1,10 +1,9 @@
-import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from '../common'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 import characterLimits from '../../config/characterLimits'
 
-class DrugUseHistoryFieldsFactory extends FieldsFactory {
-  drugsReasonsForUse: FormWizard.Field = {
+export default {
+  drugsReasonsForUse: {
     text: 'Why does [subject] use drugs?',
     hint: { text: 'Consider why they started using, their history, any triggers. Select all that apply.', kind: 'text' },
     code: 'drugs_reasons_for_use',
@@ -23,14 +22,14 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  }
+  },
 
-  drugsReasonsForUseDetails: FormWizard.Field = FieldsFactory.detailsField({
+  drugsReasonsForUseDetails: FieldsFactory.detailsField({
     parentField: this.drugsReasonsForUse,
     dependentValue: 'YES',
-  })
+  }),
 
-  drugsAffectedTheirLife: FormWizard.Field = {
+  drugsAffectedTheirLife: {
     text: 'How has [subject]\'s drug use affected their life?',
     hint: { text: 'Select all that apply.', kind: 'text' },
     code: 'drugs_affected_their_life',
@@ -76,14 +75,14 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
-  }
+  },
 
-  drugsAffectedTheirLifeDetails: FormWizard.Field = FieldsFactory.detailsField({
+  drugsAffectedTheirLifeDetails: FieldsFactory.detailsField({
     parentField: this.drugsAffectedTheirLife,
     dependentValue: 'YES',
-  })
+  }),
 
-  drugsAnythingHelpedStopOrReduceUse: FormWizard.Field = {
+  drugsAnythingHelpedStopOrReduceUse: {
     text: 'Has anything helped [name] stop or reduce their drug use? (optional)',
     hint: { text: 'Note any treatment or lifestyle changes that have helped them.', kind: 'text' },
     code: 'drugs_anything_helped_stop_or_reduce_use',
@@ -97,9 +96,9 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  }
+  },
 
-  drugsWhatCouldHelpNotUseDrugsInFuture: FormWizard.Field = {
+  drugsWhatCouldHelpNotUseDrugsInFuture: {
     text: 'What could help [name] not use drugs in the future? (optional)',
     code: 'drugs_what_could_help_not_use_drugs_in_future',
     type: FieldType.TextArea,
@@ -112,9 +111,9 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
       },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
-  }
+  },
 
-  drugsWantToMakeChangesToDrugUse: FormWizard.Field = {
+  drugsWantToMakeChangesToDrugUse: {
     text: 'Does [name] want to make changes to their drug use?',
     code: 'drugs_want_to_make_changes_to_drug_use',
     type: FieldType.Radio,
@@ -137,41 +136,40 @@ class DrugUseHistoryFieldsFactory extends FieldsFactory {
 
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-  }
+  },
 
-  drugsWantToMakeChangesToDrugUseDetailsPositiveChanges: FormWizard.Field = FieldsFactory.detailsField({
+  drugsWantToMakeChangesToDrugUseDetailsPositiveChanges: FieldsFactory.detailsField({
     parentField: this.drugsWantToMakeChangesToDrugUse,
     dependentValue: 'POSITIVE_CHANGES',
-  })
+  }),
 
-  drugsWantToMakeChangesToDrugUseDetailsMakingChanges: FormWizard.Field = FieldsFactory.detailsField({
+  drugsWantToMakeChangesToDrugUseDetailsMakingChanges: FieldsFactory.detailsField({
     parentField: this.drugsWantToMakeChangesToDrugUse,
     dependentValue: 'MAKING_CHANGES',
-  })
+  }),
 
-  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChanges: FormWizard.Field = FieldsFactory.detailsField({
+  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChanges: FieldsFactory.detailsField({
     parentField: this.drugsWantToMakeChangesToDrugUse,
     dependentValue: 'WANT_TO_MAKE_CHANGES_KNOW_HOW',
-  })
+  }),
 
-  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChangesHelp: FormWizard.Field = FieldsFactory.detailsField({
+  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChangesHelp: FieldsFactory.detailsField({
     parentField: this.drugsWantToMakeChangesToDrugUse,
     dependentValue: 'WANT_TO_MAKE_CHANGES_NEED_HELP',
-  })
+  }),
 
-  drugsWantToMakeChangesToDrugUseDetailsThinkingAboutChanges: FormWizard.Field = FieldsFactory.detailsField({
+  drugsWantToMakeChangesToDrugUseDetailsThinkingAboutChanges: FieldsFactory.detailsField({
     parentField: this.drugsWantToMakeChangesToDrugUse,
     dependentValue: 'THINKING_ABOUT_CHANGES',
-  })
+  }),
 
-  drugsWantToMakeChangesToDrugUseDetailsDoNotWantChanges: FormWizard.Field = FieldsFactory.detailsField({
+  drugsWantToMakeChangesToDrugUseDetailsDoNotWantChanges: FieldsFactory.detailsField({
     parentField: this.drugsWantToMakeChangesToDrugUse,
     dependentValue: 'DO_NOT_WANT_CHANGES',
-  })
+  }),
 
-  drugsWantToMakeChangesToDrugUseDetailsDoNotWantToAnswer: FormWizard.Field = FieldsFactory.detailsField({
+  drugsWantToMakeChangesToDrugUseDetailsDoNotWantToAnswer: FieldsFactory.detailsField({
     parentField: this.drugsWantToMakeChangesToDrugUse,
     dependentValue: 'DO_NOT_WANT_TO_ANSWER',
-  })
-
+  }),
 }
