@@ -15,5 +15,5 @@ const drugsPractitionerAnaLysisMotivatedToStop: FormWizard.Field = {
 }
 
 export default {
-  drugsPractitionerAnaLysisMotivatedToStop
+  drugsPractitionerAnaLysisMotivatedToStop,
 }
