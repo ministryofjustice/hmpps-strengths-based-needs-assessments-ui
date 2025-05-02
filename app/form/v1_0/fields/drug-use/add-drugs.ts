@@ -34,7 +34,7 @@ const selectMisusedDrugs: FormWizard.Field = {
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
 }
 
-const misusedDrugsLastUsed = (option: string): FormWizard.Field => ({
+const misusedDrugsLastUsedField = (option: string): FormWizard.Field => ({
   text: '',
   code: utils.fieldCodeWith('drug_usage', option),
   type: FieldType.Radio,
@@ -72,26 +72,26 @@ const otherDrugNameField: FormWizard.Field = {
   labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
 }
 
-const drugUseTimePeriodFields = [
-  misusedDrugsLastUsed('AMPHETAMINES'),
-  misusedDrugsLastUsed('BENZODIAZEPINES'),
-  misusedDrugsLastUsed('CANNABIS'),
-  misusedDrugsLastUsed('COCAINE'),
-  misusedDrugsLastUsed('CRACK'),
-  misusedDrugsLastUsed('ECSTASY'),
-  misusedDrugsLastUsed('HALLUCINOGENICS'),
-  misusedDrugsLastUsed('HEROIN'),
-  misusedDrugsLastUsed('METHADONE_NOT_PRESCRIBED'),
-  misusedDrugsLastUsed('MISUSED_PRESCRIBED_DRUGS'),
-  misusedDrugsLastUsed('OTHER_OPIATES'),
-  misusedDrugsLastUsed('SOLVENTS'),
-  misusedDrugsLastUsed('STEROIDS'),
-  misusedDrugsLastUsed('SPICE'),
-  misusedDrugsLastUsed('OTHER_DRUG'),
+const misusedDrugsLastUsed: FormWizard.Field = [
+  misusedDrugsLastUsedField('AMPHETAMINES'),
+  misusedDrugsLastUsedField('BENZODIAZEPINES'),
+  misusedDrugsLastUsedField('CANNABIS'),
+  misusedDrugsLastUsedField('COCAINE'),
+  misusedDrugsLastUsedField('CRACK'),
+  misusedDrugsLastUsedField('ECSTASY'),
+  misusedDrugsLastUsedField('HALLUCINOGENICS'),
+  misusedDrugsLastUsedField('HEROIN'),
+  misusedDrugsLastUsedField('METHADONE_NOT_PRESCRIBED'),
+  misusedDrugsLastUsedField('MISUSED_PRESCRIBED_DRUGS'),
+  misusedDrugsLastUsedField('OTHER_OPIATES'),
+  misusedDrugsLastUsedField('SOLVENTS'),
+  misusedDrugsLastUsedField('STEROIDS'),
+  misusedDrugsLastUsedField('SPICE'),
+  misusedDrugsLastUsedField('OTHER_DRUG'),
 ].flat()
 
 export default {
   selectMisusedDrugs,
   otherDrugNameField,
-  drugUseTimePeriodFields,
+  misusedDrugsLastUsed,
 }
