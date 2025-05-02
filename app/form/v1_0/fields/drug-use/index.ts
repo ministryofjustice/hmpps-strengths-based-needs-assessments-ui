@@ -1,7 +1,7 @@
 import sections, { Section } from '../../config/sections'
 import { FieldsFactory } from '../common'
 // TODO: Uncomment your fields import as you add it.
-// import addDrugs from './add-drugs'
+import addDrugs from './add-drugs'
 // import drugDetails from './drug-details'
 // import drugUse from './drug-use'
 // import drugUseAnalysis from './drug-use-analysis'
@@ -14,7 +14,7 @@ class DrugUse extends FieldsFactory {
     super(section)
     Object.assign(this, {
       // TODO: Uncomment your fields import as you add it.
-      // ...addDrugs,
+      ...addDrugs,
       // ...drugDetails,
       // ...drugUse,
       // ...drugUseAnalysis,

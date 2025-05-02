@@ -1,0 +1,97 @@
+import FormWizard from 'hmpo-form-wizard'
+import { utils } from '../common'
+import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
+import characterLimits from '../../config/characterLimits'
+import { dependentOn } from '../common/utils'
+
+const drugUseTypeHint = `
+  <h1 class="govuk-heading-m">Which drugs has [subject] misused?</h1>
+  <p class="govuk-hint">Select all that apply.</p>`
+
+const selectMisusedDrugs: FormWizard.Field = {
+  text: 'Which drugs has [subject] misused?',
+  code: 'select_misused_drugs',
+  hint: { html: drugUseTypeHint, kind: 'html' },
+  type: FieldType.CheckBox,
+  multiple: true,
+  validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
+  options: [
+    { text: 'Amphetamines (including speed, methamphetamine)', value: 'AMPHETAMINES', kind: 'option' },
+    { text: 'Benzodiazepines (including diazepam, xanex)', value: 'BENZODIAZEPINES', kind: 'option' },
+    { text: 'Cannabis', value: 'CANNABIS', kind: 'option' },
+    { text: 'Cocaine', value: 'COCAINE', kind: 'option' },
+    { text: 'Crack cocaine', value: 'CRACK', kind: 'option' },
+    { text: 'Ecstasy (MDMA)', value: 'ECSTASY', kind: 'option' },
+    { text: 'Hallucinogenics (including ketamine)', value: 'HALLUCINOGENICS', kind: 'option' },
+    { text: 'Heroin', value: 'HEROIN', kind: 'option' },
+    { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
+    { text: 'Prescribed drugs', value: 'MISUSED_PRESCRIBED_DRUGS', kind: 'option' },
+    { text: 'Other opiates', value: 'OTHER_OPIATES', kind: 'option' },
+    { text: 'Solvents (including gases and glues)', value: 'SOLVENTS', kind: 'option' },
+    { text: 'Steroids', value: 'STEROIDS', kind: 'option' },
+    { text: 'Synthetic cannabinoids (spice)', value: 'SPICE', kind: 'option' },
+    { text: 'Other', value: 'OTHER_DRUG', kind: 'option' },
+  ],
+  labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+}
+
+const misusedDrugsLastUsed = (option: string): FormWizard.Field => ({
+  text: '',
+  code: utils.fieldCodeWith('drug_usage', option),
+  type: FieldType.Radio,
+  dependent: dependentOn(selectMisusedDrugs, option),
+  validate: [{ type: ValidationType.Required, message: 'Select when they last used this drug' }],
+  options: [
+    { text: 'Used in the last 6 months', value: 'LAST_SIX', kind: 'option' },
+    { text: 'Used more than 6 months ago', value: 'MORE_THAN_SIX', kind: 'option' },
+  ],
+  labelClasses: utils.getSmallLabelClassFor(FieldType.Radio),
+})
+
+const otherDrugNameField: FormWizard.Field = {
+  text: '',
+  hint: { text: 'Add drug name', kind: 'text' },
+  code: 'DRUG_USE_TYPE_OTHER_DRUG_DETAILS',
+  type: FieldType.Text,
+  dependent: {
+    field: 'select_misused_drugs',
+    value: 'OTHER_DRUG',
+    displayInline: true,
+  },
+  validate: [
+    {
+      type: ValidationType.Required,
+      message: "Enter which other drug they've misused",
+    },
+    {
+      arguments: [characterLimits.c200],
+      type: ValidationType.MaxLength,
+      message: "Enter which other drug they've misused",
+    },
+  ],
+  labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
+}
+
+const drugUseTimePeriodFields = [
+  misusedDrugsLastUsed('AMPHETAMINES'),
+  misusedDrugsLastUsed('BENZODIAZEPINES'),
+  misusedDrugsLastUsed('CANNABIS'),
+  misusedDrugsLastUsed('COCAINE'),
+  misusedDrugsLastUsed('CRACK'),
+  misusedDrugsLastUsed('ECSTASY'),
+  misusedDrugsLastUsed('HALLUCINOGENICS'),
+  misusedDrugsLastUsed('HEROIN'),
+  misusedDrugsLastUsed('METHADONE_NOT_PRESCRIBED'),
+  misusedDrugsLastUsed('MISUSED_PRESCRIBED_DRUGS'),
+  misusedDrugsLastUsed('OTHER_OPIATES'),
+  misusedDrugsLastUsed('SOLVENTS'),
+  misusedDrugsLastUsed('STEROIDS'),
+  misusedDrugsLastUsed('SPICE'),
+  misusedDrugsLastUsed('OTHER_DRUG'),
+].flat()
+
+export default {
+  selectMisusedDrugs,
+  otherDrugNameField,
+  drugUseTimePeriodFields,
+}
