@@ -5,7 +5,6 @@ import characterLimits from '../../config/characterLimits'
 import { dependentOn } from '../common/utils'
 
 const drugUseTypeHint = `
-  <h1 class="govuk-heading-m">Which drugs has [subject] misused?</h1>
   <p class="govuk-hint">Select all that apply.</p>`
 
 const selectMisusedDrugs: FormWizard.Field = {
@@ -51,7 +50,7 @@ const misusedDrugsLastUsed = (option: string): FormWizard.Field => ({
 const otherDrugNameField: FormWizard.Field = {
   text: '',
   hint: { text: 'Add drug name', kind: 'text' },
-  code: 'DRUG_USE_TYPE_OTHER_DRUG_DETAILS',
+  code: 'other_drug_name',
   type: FieldType.Text,
   dependent: {
     field: 'select_misused_drugs',
@@ -64,9 +63,10 @@ const otherDrugNameField: FormWizard.Field = {
       message: "Enter which other drug they've misused",
     },
     {
+      type: 'validateMaxLength',
+      fn: utils.validateMaxLength,
       arguments: [characterLimits.c200],
-      type: ValidationType.MaxLength,
-      message: "Enter which other drug they've misused",
+      message: `Drug name must be ${characterLimits.c200} characters or less`,
     },
   ],
   labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
