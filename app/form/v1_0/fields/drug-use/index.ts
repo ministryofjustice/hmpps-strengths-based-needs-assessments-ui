@@ -1,3 +1,4 @@
+import FormWizard from 'hmpo-form-wizard'
 import sections, { Section } from '../../config/sections'
 import { FieldsFactory } from '../common'
 // TODO: Uncomment your fields import as you add it.
@@ -10,18 +11,31 @@ import drugUse from './drug-use'
 // import drugUseSummary from './drug-use-summary'
 
 class DrugUse extends FieldsFactory {
+  readonly addDrugs: Record<string, FormWizard.Field>
+
+  readonly drugDetails: Record<string, FormWizard.Field>
+
+  readonly drugUse: Record<string, FormWizard.Field>
+
+  readonly drugUseAnalysis: Record<string, FormWizard.Field>
+
+  readonly drugUseAnalysisSummary: Record<string, FormWizard.Field>
+
+  readonly drugUseHistory: Record<string, FormWizard.Field>
+
+  readonly drugUseSummary: Record<string, FormWizard.Field>
+
   constructor(section: Section) {
     super(section)
-    Object.assign(this, {
-      // TODO: Uncomment your fields import as you add it.
-      // ...addDrugs,
-      // ...drugDetails,
-      ...drugUse,
-      // ...drugUseAnalysis,
-      // ...drugUseAnalysisSummary,
-      // ...drugUseHistory,
-      // ...drugUseSummary,
-    })
+
+    // TODO: Uncomment your fields import as you add it.
+    // this.addDrugs = addDrugs
+    // this.drugDetails = drugDetails
+    this.drugUse = drugUse
+    // this.drugUseAnalysis = drugUseAnalysis
+    // this.drugUseAnalysisSummary = drugUseAnalysisSummary
+    // this.drugUseHistory = drugUseHistory
+    // this.drugUseSummary = drugUseSummary
   }
 }
 
