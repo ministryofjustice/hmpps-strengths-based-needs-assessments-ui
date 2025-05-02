@@ -72,26 +72,38 @@ const otherDrugNameField: FormWizard.Field = {
   labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
 }
 
-const misusedDrugsLastUsed: FormWizard.Field[] = [
-  misusedDrugsLastUsedField('AMPHETAMINES'),
-  misusedDrugsLastUsedField('BENZODIAZEPINES'),
-  misusedDrugsLastUsedField('CANNABIS'),
-  misusedDrugsLastUsedField('COCAINE'),
-  misusedDrugsLastUsedField('CRACK'),
-  misusedDrugsLastUsedField('ECSTASY'),
-  misusedDrugsLastUsedField('HALLUCINOGENICS'),
-  misusedDrugsLastUsedField('HEROIN'),
-  misusedDrugsLastUsedField('METHADONE_NOT_PRESCRIBED'),
-  misusedDrugsLastUsedField('MISUSED_PRESCRIBED_DRUGS'),
-  misusedDrugsLastUsedField('OTHER_OPIATES'),
-  misusedDrugsLastUsedField('SOLVENTS'),
-  misusedDrugsLastUsedField('STEROIDS'),
-  misusedDrugsLastUsedField('SPICE'),
-  misusedDrugsLastUsedField('OTHER_DRUG'),
-]
+const drugUsageAmphetamines = misusedDrugsLastUsedField('AMPHETAMINES')
+const drugUsageBenzodiazepines = misusedDrugsLastUsedField('BENZODIAZEPINES')
+const drugUsageCannabis = misusedDrugsLastUsedField('CANNABIS')
+const drugUsageCocaine = misusedDrugsLastUsedField('COCAINE')
+const drugUsageCrack = misusedDrugsLastUsedField('CRACK')
+const drugUsageEcstasy = misusedDrugsLastUsedField('ECSTASY')
+const drugUsageHallucinogenics = misusedDrugsLastUsedField('HALLUCINOGENICS')
+const drugUsageHeroin = misusedDrugsLastUsedField('HEROIN')
+const drugUsageMethadoneNotPrescribed = misusedDrugsLastUsedField('METHADONE_NOT_PRESCRIBED')
+const drugUsageMisusedPrescribedDrugs = misusedDrugsLastUsedField('MISUSED_PRESCRIBED_DRUGS')
+const drugUsageOtherOpiates = misusedDrugsLastUsedField('OTHER_OPIATES')
+const drugUsageSolvents = misusedDrugsLastUsedField('SOLVENTS')
+const drugUsageSteroids = misusedDrugsLastUsedField('STEROIDS')
+const drugUsageSpice = misusedDrugsLastUsedField('SPICE')
+const drugUsageOtherDrug = misusedDrugsLastUsedField('OTHER_DRUG')
 
 export default {
   selectMisusedDrugs,
   otherDrugNameField,
-  misusedDrugsLastUsed,
+  drugUsageAmphetamines,
+  drugUsageBenzodiazepines,
+  drugUsageCannabis,
+  drugUsageCocaine,
+  drugUsageCrack,
+  drugUsageEcstasy,
+  drugUsageHallucinogenics,
+  drugUsageHeroin,
+  drugUsageMethadoneNotPrescribed,
+  drugUsageMisusedPrescribedDrugs,
+  drugUsageOtherOpiates,
+  drugUsageSolvents,
+  drugUsageSteroids,
+  drugUsageSpice,
+  drugUsageOtherDrug,
 }
