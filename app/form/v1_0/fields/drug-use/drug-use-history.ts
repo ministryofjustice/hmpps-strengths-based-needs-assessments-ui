@@ -4,9 +4,14 @@ import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-for
 
 import characterLimits from '../../config/characterLimits'
 
+const drugReasonsForUseHint = `
+<p class="govuk-hint">Consider why they started using, their history, any triggers.</p>
+<p class="govuk-hint">Select all that apply.</p>
+`
+
 const drugsReasonsForUse: FormWizard.Field = {
   text: 'Why does [subject] use drugs?',
-  hint: { text: 'Consider why they started using, their history, any triggers. Select all that apply.', kind: 'text' },
+  hint: { html: drugReasonsForUseHint, kind: 'html' },
   code: 'drugs_reasons_for_use',
   type: FieldType.CheckBox,
   multiple: true,
@@ -27,7 +32,6 @@ const drugsReasonsForUse: FormWizard.Field = {
 
 const drugsReasonsForUseDetails = FieldsFactory.detailsField({
   parentField: drugsReasonsForUse,
-  dependentValue: 'YES',
 })
 
 const drugsAffectedTheirLife: FormWizard.Field = {
@@ -79,12 +83,11 @@ const drugsAffectedTheirLife: FormWizard.Field = {
 }
 
 const drugsAffectedTheirLifeDetails = FieldsFactory.detailsField({
-  parentField: drugsAffectedTheirLife, // this is a problem - can't reference `this` here
-  dependentValue: 'YES',
+  parentField: drugsAffectedTheirLife,
 })
 
 const drugsAnythingHelpedStopOrReduceUse: FormWizard.Field = {
-  text: 'Has anything helped [name] stop or reduce their drug use? (optional)',
+  text: 'Has anything helped [subject] stop or reduce their drug use? (optional)',
   hint: { text: 'Note any treatment or lifestyle changes that have helped them.', kind: 'text' },
   code: 'drugs_anything_helped_stop_or_reduce_use',
   type: FieldType.TextArea,
@@ -100,7 +103,7 @@ const drugsAnythingHelpedStopOrReduceUse: FormWizard.Field = {
 }
 
 const drugsWhatCouldHelpNotUseDrugsInFuture: FormWizard.Field = {
-  text: 'What could help [name] not use drugs in the future? (optional)',
+  text: 'What could help [subject] not use drugs in the future? (optional)',
   code: 'drugs_what_could_help_not_use_drugs_in_future',
   type: FieldType.TextArea,
   validate: [
@@ -115,7 +118,8 @@ const drugsWhatCouldHelpNotUseDrugsInFuture: FormWizard.Field = {
 }
 
 const drugsWantToMakeChangesToDrugUse: FormWizard.Field = {
-  text: 'Does [name] want to make changes to their drug use?',
+  text: 'Does [subject] want to make changes to their drug use?',
+  hint: { text: '[subject] must answer this question.', kind: 'text' },
   code: 'drugs_want_to_make_changes_to_drug_use',
   type: FieldType.Radio,
   validate: [
@@ -136,7 +140,7 @@ const drugsWantToMakeChangesToDrugUse: FormWizard.Field = {
     { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_CHANGES', kind: 'option' },
     { text: 'I do not want to make changes', value: 'DO_NOT_WANT_CHANGES', kind: 'option' },
     { text: 'I do not want to answer', value: 'DO_NOT_WANT_TO_ANSWER', kind: 'option' },
-    { text: '[name] is not present', value: 'NOT_PRESENT', kind: 'option' },
+    { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
     { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
