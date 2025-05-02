@@ -3,7 +3,7 @@ import { FieldsFactory } from '../common'
 // TODO: Uncomment your fields import as you add it.
 // import addDrugs from './add-drugs'
 // import drugDetails from './drug-details'
-// import drugUse from './drug-use'
+import drugUse from './drug-use'
 // import drugUseAnalysis from './drug-use-analysis'
 // import drugUseAnalysisSummary from './drug-use-analysis-summary'
 // import drugUseHistory from './drug-use-history'
@@ -16,7 +16,7 @@ class DrugUse extends FieldsFactory {
       // TODO: Uncomment your fields import as you add it.
       // ...addDrugs,
       // ...drugDetails,
-      // ...drugUse,
+      ...drugUse,
       // ...drugUseAnalysis,
       // ...drugUseAnalysisSummary,
       // ...drugUseHistory,
