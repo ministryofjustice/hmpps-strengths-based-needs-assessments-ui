@@ -5,7 +5,7 @@ import { FieldsFactory } from '../common'
 import addDrugs from './add-drugs'
 // import drugDetails from './drug-details'
 import drugUse from './drug-use'
-// import drugUseAnalysis from './drug-use-analysis'
+import drugUseAnalysis from './drug-use-analysis'
 // import drugUseAnalysisSummary from './drug-use-analysis-summary'
 import drugUseHistory from './drug-use-history'
 // import drugUseSummary from './drug-use-summary'
@@ -31,7 +31,7 @@ class DrugUse extends FieldsFactory {
     this.addDrugs = addDrugs
     // this.drugDetails = drugDetails
     this.drugUse = drugUse
-    // this.drugUseAnalysis = drugUseAnalysis
+    this.drugUseAnalysis = drugUseAnalysis
     // this.drugUseAnalysisSummary = drugUseAnalysisSummary
     this.drugUseHistory = drugUseHistory
     // this.drugUseSummary = drugUseSummary
