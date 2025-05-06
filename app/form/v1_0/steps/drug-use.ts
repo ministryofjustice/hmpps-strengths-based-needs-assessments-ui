@@ -1,6 +1,7 @@
 import sections, { SectionConfig } from '../config/sections'
-import { nextWhen, setFieldToIncomplete } from './common'
+import { nextWhen, setFieldToCompleteWhenValid, setFieldToIncomplete } from './common'
 import drugsUseFields from '../fields/drug-use'
+import templates from '../config/templates'
 
 const section = sections.drugsUse
 // TODO: remove `temp` part when we've removed the old Drugs section
@@ -79,6 +80,22 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: stepUrls.summary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.summary,
+      fields: [
+        drugsUseFields.practitionerAnalysis(),
+        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop, // TODO: Figure out how to make this conditional
+        drugsUseFields.isUserSubmitted(stepUrls.summary),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      next: `${stepUrls.analysis}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      template: templates.analysisComplete,
     },
   ],
 }

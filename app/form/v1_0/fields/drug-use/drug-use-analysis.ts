@@ -1,5 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
+import { utils } from '../common'
 
 const drugsPractitionerAnalysisMotivatedToStop: FormWizard.Field = {
   text: `Does [subject] seem motivated to stop or reduce their drug use?`,
@@ -12,6 +13,7 @@ const drugsPractitionerAnalysisMotivatedToStop: FormWizard.Field = {
     { text: 'Motivated to stop or reduce', value: 'FULL_MOTIVATION', kind: 'option' },
     { text: 'Unknown', value: 'UNKNOWN', kind: 'option' },
   ],
+  labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
 }
 
 export default {
