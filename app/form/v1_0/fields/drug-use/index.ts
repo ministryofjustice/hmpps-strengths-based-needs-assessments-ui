@@ -1,4 +1,3 @@
-import FormWizard from 'hmpo-form-wizard'
 import sections, { Section } from '../../config/sections'
 import { FieldsFactory } from '../common'
 // TODO: Uncomment your fields import as you add it.
