@@ -7,7 +7,7 @@ import { dependentOn } from '../common/utils'
 const selectMisusedDrugs: FormWizard.Field = {
   text: 'Which drugs has [subject] misused?',
   code: 'select_misused_drugs',
-  hint: { text: "Select all that apply.", kind: 'text' },
+  hint: { text: 'Select all that apply.', kind: 'text' },
   type: FieldType.CheckBox,
   multiple: true,
   validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
