@@ -87,33 +87,25 @@ const otherDrugNameField: FormWizard.Field = {
   labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
 }
 
-const drugUsageAmphetamines = misusedDrugsLastUsedField(drugsList.AMPHETAMINES.value, drugsList.AMPHETAMINES.text)
-const drugUsageBenzodiazepines = misusedDrugsLastUsedField(
-  drugsList.BENZODIAZEPINES.value,
-  drugsList.BENZODIAZEPINES.text,
-)
-const drugUsageCannabis = misusedDrugsLastUsedField(drugsList.CANNABIS.value, drugsList.CANNABIS.text)
-const drugUsageCocaine = misusedDrugsLastUsedField(drugsList.COCAINE.value, drugsList.COCAINE.text)
-const drugUsageCrack = misusedDrugsLastUsedField(drugsList.CRACK.value, drugsList.CRACK.text)
-const drugUsageEcstasy = misusedDrugsLastUsedField(drugsList.ECSTASY.value, drugsList.ECSTASY.text)
-const drugUsageHallucinogenics = misusedDrugsLastUsedField(
-  drugsList.HALLUCINOGENICS.value,
-  drugsList.HALLUCINOGENICS.text,
-)
-const drugUsageHeroin = misusedDrugsLastUsedField(drugsList.HEROIN.value, drugsList.HEROIN.text)
-const drugUsageMethadoneNotPrescribed = misusedDrugsLastUsedField(
-  drugsList.METHADONE_NOT_PRESCRIBED.value,
-  drugsList.METHADONE_NOT_PRESCRIBED.text,
-)
-const drugUsageMisusedPrescribedDrugs = misusedDrugsLastUsedField(
-  drugsList.MISUSED_PRESCRIBED_DRUGS.value,
-  drugsList.MISUSED_PRESCRIBED_DRUGS.text,
-)
-const drugUsageOtherOpiates = misusedDrugsLastUsedField(drugsList.OTHER_OPIATES.value, drugsList.OTHER_OPIATES.text)
-const drugUsageSolvents = misusedDrugsLastUsedField(drugsList.SOLVENTS.value, drugsList.SOLVENTS.text)
-const drugUsageSteroids = misusedDrugsLastUsedField(drugsList.STEROIDS.value, drugsList.STEROIDS.text)
-const drugUsageSpice = misusedDrugsLastUsedField(drugsList.SPICE.value, drugsList.SPICE.text)
-const drugUsageOtherDrug = misusedDrugsLastUsedField(drugsList.OTHER_DRUG.value, drugsList.OTHER_DRUG.text)
+const mapDrugUsage = Object.values(drugsList).map(drug => misusedDrugsLastUsedField(drug.value, drug.text))
+
+const [
+  drugUsageAmphetamines,
+  drugUsageBenzodiazepines,
+  drugUsageCannabis,
+  drugUsageCocaine,
+  drugUsageCrack,
+  drugUsageEcstasy,
+  drugUsageHallucinogenics,
+  drugUsageHeroin,
+  drugUsageMethadoneNotPrescribed,
+  drugUsageMisusedPrescribedDrugs,
+  drugUsageOtherOpiates,
+  drugUsageSolvents,
+  drugUsageSteroids,
+  drugUsageSpice,
+  drugUsageOtherDrug,
+] = mapDrugUsage
 
 export default {
   selectMisusedDrugs,
