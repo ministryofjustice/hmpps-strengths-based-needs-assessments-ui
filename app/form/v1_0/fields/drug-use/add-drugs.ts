@@ -4,6 +4,24 @@ import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-for
 import characterLimits from '../../config/characterLimits'
 import { dependentOn } from '../common/utils'
 
+const drugsList = {
+  AMPHETAMINES: { value: 'AMPHETAMINES', text: 'Amphetamines (including speed, methamphetamine)'},
+  BENZODIAZEPINES: { value: 'BENZODIAZEPINES', text: 'Benzodiazepines (including diazepam, xanex)' },
+  CANNABIS: { value: 'CANNABIS', text: 'Cannabis'},
+  COCAINE: { value: 'COCAINE', text: 'Cocaine'},
+  CRACK: { value: 'CRACK', text: 'Crack cocaine'},
+  ECSTASY: { value: 'ECSTASY', text: 'Ecstasy (MDMA)'},
+  HALLUCINOGENICS: { value: 'HALLUCINOGENICS', text: 'Hallucinogenics (including ketamine)' },
+  HEROIN: { value: 'HEROIN', text: 'Heroin'},
+  METHADONE_NOT_PRESCRIBED: { value: 'METHADONE_NOT_PRESCRIBED', text: 'Methadone (not prescribed)' },
+  MISUSED_PRESCRIBED_DRUGS: { value: 'MISUSED_PRESCRIBED_DRUGS', text: 'Prescribed drugs'},
+  OTHER_OPIATES: { value: 'OTHER_OPIATES', text: 'Other opiates'},
+  SOLVENTS: { value: 'SOLVENTS', text: 'Solvents (including gases and glues)' },
+  STEROIDS: { value: 'STEROIDS', text: 'Steroids'},
+  SPICE: { value: 'SPICE', text: 'Synthetic cannabinoids (spice)' },
+  OTHER_DRUG: { value: 'OTHER_DRUG', text: 'Other'},
+}
+
 const selectMisusedDrugs: FormWizard.Field = {
   text: 'Which drugs has [subject] misused?',
   code: 'select_misused_drugs',
@@ -12,27 +30,27 @@ const selectMisusedDrugs: FormWizard.Field = {
   multiple: true,
   validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
   options: [
-    { text: 'Amphetamines (including speed, methamphetamine)', value: 'AMPHETAMINES', kind: 'option' },
-    { text: 'Benzodiazepines (including diazepam, xanex)', value: 'BENZODIAZEPINES', kind: 'option' },
-    { text: 'Cannabis', value: 'CANNABIS', kind: 'option' },
-    { text: 'Cocaine', value: 'COCAINE', kind: 'option' },
-    { text: 'Crack cocaine', value: 'CRACK', kind: 'option' },
-    { text: 'Ecstasy (MDMA)', value: 'ECSTASY', kind: 'option' },
-    { text: 'Hallucinogenics (including ketamine)', value: 'HALLUCINOGENICS', kind: 'option' },
-    { text: 'Heroin', value: 'HEROIN', kind: 'option' },
-    { text: 'Methadone (not prescribed)', value: 'METHADONE_NOT_PRESCRIBED', kind: 'option' },
-    { text: 'Prescribed drugs', value: 'MISUSED_PRESCRIBED_DRUGS', kind: 'option' },
-    { text: 'Other opiates', value: 'OTHER_OPIATES', kind: 'option' },
-    { text: 'Solvents (including gases and glues)', value: 'SOLVENTS', kind: 'option' },
-    { text: 'Steroids', value: 'STEROIDS', kind: 'option' },
-    { text: 'Synthetic cannabinoids (spice)', value: 'SPICE', kind: 'option' },
-    { text: 'Other', value: 'OTHER_DRUG', kind: 'option' },
+    { text: drugsList.AMPHETAMINES.text, value: drugsList.AMPHETAMINES.value, kind: 'option' },
+    { text: drugsList.BENZODIAZEPINES.text, value: drugsList.BENZODIAZEPINES.value, kind: 'option' },
+    { text: drugsList.CANNABIS.text, value: drugsList.CANNABIS.value, kind: 'option' },
+    { text: drugsList.COCAINE.text, value: drugsList.COCAINE.value, kind: 'option' },
+    { text: drugsList.CRACK.text, value: drugsList.CRACK.value, kind: 'option' },
+    { text: drugsList.ECSTASY.text, value: drugsList.ECSTASY.value, kind: 'option' },
+    { text: drugsList.HALLUCINOGENICS.text, value: drugsList.HALLUCINOGENICS.value, kind: 'option' },
+    { text: drugsList.HEROIN.text, value: drugsList.HEROIN.value, kind: 'option' },
+    { text: drugsList.METHADONE_NOT_PRESCRIBED.text, value: drugsList.METHADONE_NOT_PRESCRIBED.value, kind: 'option' },
+    { text: drugsList.MISUSED_PRESCRIBED_DRUGS.text, value: drugsList.MISUSED_PRESCRIBED_DRUGS.value, kind: 'option' },
+    { text: drugsList.OTHER_OPIATES.text, value: drugsList.OTHER_OPIATES.value, kind: 'option' },
+    { text: drugsList.SOLVENTS.text, value: drugsList.SOLVENTS.value, kind: 'option' },
+    { text: drugsList.STEROIDS.text, value: drugsList.STEROIDS.value, kind: 'option' },
+    { text: drugsList.SPICE.text, value: drugsList.SPICE.value, kind: 'option' },
+    { text: drugsList.OTHER_DRUG.text, value: drugsList.OTHER_DRUG.value, kind: 'option' },
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
 }
 
-const misusedDrugsLastUsedField = (option: string): FormWizard.Field => ({
-  text: '',
+const misusedDrugsLastUsedField = (option: string, value: string): FormWizard.Field => ({
+  text: `When did they last use ${value}?`,
   code: utils.fieldCodeWith('drug_last_used', option),
   type: FieldType.Radio,
   dependent: dependentOn(selectMisusedDrugs, option),
@@ -41,7 +59,7 @@ const misusedDrugsLastUsedField = (option: string): FormWizard.Field => ({
     { text: 'Used in the last 6 months', value: 'LAST_SIX', kind: 'option' },
     { text: 'Used more than 6 months ago', value: 'MORE_THAN_SIX', kind: 'option' },
   ],
-  labelClasses: utils.getSmallLabelClassFor(FieldType.Radio),
+  labelClasses: utils.visuallyHidden,
 })
 
 const otherDrugNameField: FormWizard.Field = {
@@ -69,21 +87,22 @@ const otherDrugNameField: FormWizard.Field = {
   labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
 }
 
-const drugUsageAmphetamines = misusedDrugsLastUsedField('AMPHETAMINES')
-const drugUsageBenzodiazepines = misusedDrugsLastUsedField('BENZODIAZEPINES')
-const drugUsageCannabis = misusedDrugsLastUsedField('CANNABIS')
-const drugUsageCocaine = misusedDrugsLastUsedField('COCAINE')
-const drugUsageCrack = misusedDrugsLastUsedField('CRACK')
-const drugUsageEcstasy = misusedDrugsLastUsedField('ECSTASY')
-const drugUsageHallucinogenics = misusedDrugsLastUsedField('HALLUCINOGENICS')
-const drugUsageHeroin = misusedDrugsLastUsedField('HEROIN')
-const drugUsageMethadoneNotPrescribed = misusedDrugsLastUsedField('METHADONE_NOT_PRESCRIBED')
-const drugUsageMisusedPrescribedDrugs = misusedDrugsLastUsedField('MISUSED_PRESCRIBED_DRUGS')
-const drugUsageOtherOpiates = misusedDrugsLastUsedField('OTHER_OPIATES')
-const drugUsageSolvents = misusedDrugsLastUsedField('SOLVENTS')
-const drugUsageSteroids = misusedDrugsLastUsedField('STEROIDS')
-const drugUsageSpice = misusedDrugsLastUsedField('SPICE')
-const drugUsageOtherDrug = misusedDrugsLastUsedField('OTHER_DRUG')
+const drugUsageAmphetamines = misusedDrugsLastUsedField(drugsList.AMPHETAMINES.value, drugsList.AMPHETAMINES.text)
+const drugUsageBenzodiazepines = misusedDrugsLastUsedField(drugsList.BENZODIAZEPINES.value, drugsList.BENZODIAZEPINES.text)
+const drugUsageCannabis = misusedDrugsLastUsedField(drugsList.CANNABIS.value, drugsList.CANNABIS.text)
+const drugUsageCocaine = misusedDrugsLastUsedField(drugsList.COCAINE.value, drugsList.COCAINE.text)
+const drugUsageCrack = misusedDrugsLastUsedField(drugsList.CRACK.value, drugsList.CRACK.text)
+const drugUsageEcstasy = misusedDrugsLastUsedField(drugsList.ECSTASY.value, drugsList.ECSTASY.text)
+const drugUsageHallucinogenics = misusedDrugsLastUsedField(drugsList.HALLUCINOGENICS.value, drugsList.HALLUCINOGENICS.text)
+const drugUsageHeroin = misusedDrugsLastUsedField(drugsList.HEROIN.value, drugsList.HEROIN.text)
+const drugUsageMethadoneNotPrescribed = misusedDrugsLastUsedField(drugsList.METHADONE_NOT_PRESCRIBED.value, drugsList.METHADONE_NOT_PRESCRIBED.text)
+const drugUsageMisusedPrescribedDrugs = misusedDrugsLastUsedField(drugsList.MISUSED_PRESCRIBED_DRUGS.value, drugsList.MISUSED_PRESCRIBED_DRUGS.text)
+const drugUsageOtherOpiates = misusedDrugsLastUsedField(drugsList.OTHER_OPIATES.value, drugsList.OTHER_OPIATES.text)
+const drugUsageSolvents = misusedDrugsLastUsedField(drugsList.SOLVENTS.value, drugsList.SOLVENTS.text)
+const drugUsageSteroids = misusedDrugsLastUsedField(drugsList.STEROIDS.value, drugsList.STEROIDS.text)
+const drugUsageSpice = misusedDrugsLastUsedField(drugsList.SPICE.value, drugsList.SPICE.text)
+const drugUsageOtherDrug = misusedDrugsLastUsedField(drugsList.OTHER_DRUG.value, drugsList.OTHER_DRUG.text)
+
 
 export default {
   selectMisusedDrugs,
