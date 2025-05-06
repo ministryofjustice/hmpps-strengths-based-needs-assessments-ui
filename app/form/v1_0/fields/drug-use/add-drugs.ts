@@ -4,13 +4,10 @@ import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-for
 import characterLimits from '../../config/characterLimits'
 import { dependentOn } from '../common/utils'
 
-const drugUseTypeHint = `
-  <p class="govuk-hint">Select all that apply.</p>`
-
 const selectMisusedDrugs: FormWizard.Field = {
   text: 'Which drugs has [subject] misused?',
   code: 'select_misused_drugs',
-  hint: { html: drugUseTypeHint, kind: 'html' },
+  hint: { text: "Select all that apply.", kind: 'text' },
   type: FieldType.CheckBox,
   multiple: true,
   validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
@@ -36,7 +33,7 @@ const selectMisusedDrugs: FormWizard.Field = {
 
 const misusedDrugsLastUsedField = (option: string): FormWizard.Field => ({
   text: '',
-  code: utils.fieldCodeWith('drug_usage', option),
+  code: utils.fieldCodeWith('drug_last_used', option),
   type: FieldType.Radio,
   dependent: dependentOn(selectMisusedDrugs, option),
   validate: [{ type: ValidationType.Required, message: 'Select when they last used this drug' }],
