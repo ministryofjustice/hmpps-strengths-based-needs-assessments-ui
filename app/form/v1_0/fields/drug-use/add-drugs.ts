@@ -29,23 +29,11 @@ const selectMisusedDrugs: FormWizard.Field = {
   type: FieldType.CheckBox,
   multiple: true,
   validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
-  options: [
-    { text: drugsList.AMPHETAMINES.text, value: drugsList.AMPHETAMINES.value, kind: 'option' },
-    { text: drugsList.BENZODIAZEPINES.text, value: drugsList.BENZODIAZEPINES.value, kind: 'option' },
-    { text: drugsList.CANNABIS.text, value: drugsList.CANNABIS.value, kind: 'option' },
-    { text: drugsList.COCAINE.text, value: drugsList.COCAINE.value, kind: 'option' },
-    { text: drugsList.CRACK.text, value: drugsList.CRACK.value, kind: 'option' },
-    { text: drugsList.ECSTASY.text, value: drugsList.ECSTASY.value, kind: 'option' },
-    { text: drugsList.HALLUCINOGENICS.text, value: drugsList.HALLUCINOGENICS.value, kind: 'option' },
-    { text: drugsList.HEROIN.text, value: drugsList.HEROIN.value, kind: 'option' },
-    { text: drugsList.METHADONE_NOT_PRESCRIBED.text, value: drugsList.METHADONE_NOT_PRESCRIBED.value, kind: 'option' },
-    { text: drugsList.MISUSED_PRESCRIBED_DRUGS.text, value: drugsList.MISUSED_PRESCRIBED_DRUGS.value, kind: 'option' },
-    { text: drugsList.OTHER_OPIATES.text, value: drugsList.OTHER_OPIATES.value, kind: 'option' },
-    { text: drugsList.SOLVENTS.text, value: drugsList.SOLVENTS.value, kind: 'option' },
-    { text: drugsList.STEROIDS.text, value: drugsList.STEROIDS.value, kind: 'option' },
-    { text: drugsList.SPICE.text, value: drugsList.SPICE.value, kind: 'option' },
-    { text: drugsList.OTHER_DRUG.text, value: drugsList.OTHER_DRUG.value, kind: 'option' },
-  ],
+  options: Object.values(drugsList).map(drug => ({
+    text: drug.text,
+    value: drug.value,
+    kind: 'option',
+  })),
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
 }
 
