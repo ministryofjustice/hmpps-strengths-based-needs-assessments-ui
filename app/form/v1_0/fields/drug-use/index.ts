@@ -29,4 +29,4 @@ class DrugUse extends FieldsFactory {
   }
 }
 
-export default new DrugUse(sections.drugs)
+export default new DrugUse(sections.drugsUse)
