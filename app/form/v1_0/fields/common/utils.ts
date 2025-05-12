@@ -7,6 +7,7 @@ export const getLabelClassFor = (size: string) => (type: FieldType) =>
   type === FieldType.CheckBox || type === FieldType.Radio || type === FieldType.Date
     ? `govuk-fieldset__legend--${size}`
     : `govuk-label--${size}`
+export const getLargeLabelClassFor = getLabelClassFor('l')
 export const getMediumLabelClassFor = getLabelClassFor('m')
 export const getSmallLabelClassFor = getLabelClassFor('s')
 
