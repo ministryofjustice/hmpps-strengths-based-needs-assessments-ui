@@ -40,7 +40,7 @@ export default {
   drugsUse: {
     title: 'Drug use (new)',
     code: 'temp-drug-use', // TODO: Remove 'temp'
-    sectionCompleteField: 'drugs_use_section_complete',
+    sectionCompleteField: 'temp_drug_use_section_complete', // TODO: Remove 'temp'
   },
   healthWellbeing: {
     title: 'Health and wellbeing',
