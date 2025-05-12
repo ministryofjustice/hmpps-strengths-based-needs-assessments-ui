@@ -3,7 +3,6 @@ import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-w
 import { FieldsFactory, utils } from './common'
 import sections from '../config/sections'
 import characterLimits from '../config/characterLimits'
-import { getLargeLabelClassFor } from './common/utils'
 
 const childrenInformationHint = `
 <p class="govuk-hint">This refers to any children (under 18 years) [subject] has regular contact with, even if they do not have parental responsibility.</p>
