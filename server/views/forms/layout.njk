@@ -98,6 +98,7 @@
 
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
 
+            <!-- Two implementations - One nests the caption in the h1, one does not. Nested caption will be read out by screen reader with the h1. -->
             {% if options.pageHeading and options.pageCaption %}
                 <h1 class="govuk-heading-l">
                     <span class="govuk-caption-l">{{ options.pageCaption }}</span>
