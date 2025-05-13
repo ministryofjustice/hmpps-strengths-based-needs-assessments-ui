@@ -156,7 +156,7 @@ class SaveAndContinueController extends BaseController {
   }
 
   checkProgress(answers: FormWizard.Answers) {
-    return function (progress: Progress, rule: SectionCompleteRule): Progress {
+    return function fn(progress: Progress, rule: SectionCompleteRule): Progress {
       const updatedProgress = { ...progress }
       let allFieldsComplete = true
 
