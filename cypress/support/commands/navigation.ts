@@ -15,6 +15,7 @@ export const visitStep = (path: string) => {
 export const assertResumeUrlIs = (section: string, path: string) => {
   cy.intercept({ query: { action: 'resume' } }).as('resumeRequest')
   cy.visitSection(section)
+  cy.log(`asserting resume url is ${path}`)
   cy.wait('@resumeRequest')
     .its('response')
     .then(() => cy.assertStepUrlIs(path))
@@ -30,6 +31,7 @@ export const assertBackLinkIs = (path: string) => {
 }
 
 export const assertStepUrlIs = (path: string) => {
+  cy.log(`asserting step url is ${path}`)
   return cy
     .location()
     .should(url => expect(url.pathname.endsWith(path), `${url.pathname} should end with ${path}`).to.be.true)
