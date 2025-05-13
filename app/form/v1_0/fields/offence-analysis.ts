@@ -493,7 +493,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
     ],
-    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getLargeLabelClassFor(FieldType.Radio),
   }
 
   offenceAnalysisLeader: FormWizard.Field = {

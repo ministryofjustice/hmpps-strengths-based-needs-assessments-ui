@@ -15,11 +15,14 @@ const stepUrls = {
   analysis: 'temp-drug-use-analysis',
 }
 
+const sectionHeading = 'Drug use background'
+
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
       url: stepUrls.drugUse,
+      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUse.drugUse,
         drugsUseFields.isUserSubmitted(stepUrls.drugUse),
@@ -34,6 +37,7 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.addDrugs,
+      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.addDrugs.selectMisusedDrugs,
         drugsUseFields.addDrugs.otherDrugNameField,
@@ -60,6 +64,7 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.drugUseHistory,
+      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUseHistory.drugsReasonsForUse,
         drugsUseFields.drugUseHistory.drugsReasonsForUseDetails,
@@ -83,6 +88,8 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.summary,
+      pageCaption: 'Drug use',
+      pageHeading: 'Practitioner analysis',
       fields: [
         drugsUseFields.practitionerAnalysis(),
         drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop, // TODO: Figure out how to make this conditional
