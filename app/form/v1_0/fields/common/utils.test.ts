@@ -45,28 +45,31 @@ describe('fields/common', () => {
     const contextWithAnswers = (answers: Record<string, string | string[]>) => ({
       values: answers,
     })
+    const contextWithSessionAnswers = (answers: Record<string, string | string[]>) => ({
+      sessionModel: { attributes: answers },
+    })
 
     describe('when the the dependent field has a single value answer', () => {
       it('is valid when a value is present and the condition is met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({ foo: 'bar' }))('baz')).toEqual(true)
       })
 
       it('is invalid when a value is not present and the condition is met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({ foo: 'bar' }))('')).toEqual(false)
       })
 
       it('is valid when a value is present and the condition is not met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({}))('baz')).toEqual(true)
       })
 
       it('is valid when no value is present and the condition is not met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({}))('')).toEqual(true)
       })
@@ -74,27 +77,53 @@ describe('fields/common', () => {
 
     describe('when the the dependent field has an array of answers', () => {
       it('is valid when a value is present and the condition is met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({ foo: ['bar'] }))('baz')).toEqual(true)
       })
 
       it('is invalid when a value is not present and the condition is met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({ foo: ['bar'] }))('')).toEqual(false)
       })
 
       it('is valid when a value is present and the condition is not met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({ foo: [] }))('baz')).toEqual(true)
       })
 
       it('is valid when no value is present and the condition is not met', () => {
-        const validate = requiredWhenValidator('foo', 'bar')
+        const validate = requiredWhenValidator('foo', 'step', 'bar')
 
         expect(validate.bind(contextWithAnswers({ foo: [] }))('')).toEqual(true)
+      })
+    })
+
+    describe('when the dependent field is not on the same step', () => {
+      it('is valid when a value is present and the condition is met', () => {
+        const validate = requiredWhenValidator('foo', 'assessment', 'bar')
+
+        expect(validate.bind(contextWithSessionAnswers({ foo: 'bar' }))('baz')).toEqual(true)
+      })
+
+      it('is invalid when a value is not present and the condition is met', () => {
+        const validate = requiredWhenValidator('foo', 'assessment', 'bar')
+
+        expect(validate.bind(contextWithSessionAnswers({ foo: 'bar' }))('')).toEqual(false)
+      })
+
+      it('is valid when a value is present and the condition is not met', () => {
+        const validate = requiredWhenValidator('foo', 'assessment', 'bar')
+
+        expect(validate.bind(contextWithSessionAnswers({}))('baz')).toEqual(true)
+      })
+
+      it('is valid when no value is present and the condition is not met', () => {
+        const validate = requiredWhenValidator('foo', 'assessment', 'bar')
+
+        expect(validate.bind(contextWithSessionAnswers({}))('')).toEqual(true)
       })
     })
   })
