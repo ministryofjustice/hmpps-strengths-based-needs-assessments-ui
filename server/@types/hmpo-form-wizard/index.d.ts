@@ -193,7 +193,7 @@ declare module 'hmpo-form-wizard' {
         displayFn?: (value: string) => string
         displayAlways?: boolean
       }
-      transform?: (state: { session: CookieSessionObject, answers: FormWizard.Answers }) => FormWizard.Field
+      transform?: (state: { session: CookieSessionObject; answers: FormWizard.Answers }) => FormWizard.Field
     }
 
     interface Fields {

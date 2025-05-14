@@ -43,7 +43,9 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.sectionComplete(),
       ].flat(),
       next: [
-        drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField => nextWhen(lastUsedField, 'MORE_THAN_SIX', stepUrls.drugsDetailMoreThanSix)),
+        drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
+          nextWhen(lastUsedField, 'MORE_THAN_SIX', stepUrls.drugsDetailMoreThanSix),
+        ),
         stepUrls.drugsDetail,
       ].flat(),
       sectionProgressRules: [

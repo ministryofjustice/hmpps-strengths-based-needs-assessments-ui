@@ -45,13 +45,17 @@ class BaseController extends FormWizard.Controller {
   }
 
   async process(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const fieldsWithStateAwareTransforms = Object.values(req.form.options.fields)
-      .map(withStateAwareTransform(req.session, req.form.persistedAnswers))
+    const fieldsWithStateAwareTransforms = Object.values(req.form.options.fields).map(
+      withStateAwareTransform(req.session, req.form.persistedAnswers),
+    )
 
-    req.form.options.fields = Object.keys(req.form.options.fields).reduce((acc, key, i) => ({
-      ...acc,
-      [key]: fieldsWithStateAwareTransforms[i]
-    }), {})
+    req.form.options.fields = Object.keys(req.form.options.fields).reduce(
+      (acc, key, i) => ({
+        ...acc,
+        [key]: fieldsWithStateAwareTransforms[i],
+      }),
+      {},
+    )
 
     req.form.values = combineDateFields(req.body, req.form.values)
 
