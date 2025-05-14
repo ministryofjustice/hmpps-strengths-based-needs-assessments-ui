@@ -130,6 +130,7 @@ declare module 'hmpo-form-wizard' {
         hint?: { text: string } | { html: string }
         behaviour?: string
         kind: 'option'
+        attributes?: Record<string, unknown>
         summary?: {
           displayFn?: (text: string, value: string) => string
         }
@@ -192,7 +193,7 @@ declare module 'hmpo-form-wizard' {
         displayFn?: (value: string) => string
         displayAlways?: boolean
       }
-      transform?: (CookieSessionObject) => FormWizard.Field
+      transform?: (state: { session: CookieSessionObject, answers: FormWizard.Answers }) => FormWizard.Field
     }
 
     interface Fields {

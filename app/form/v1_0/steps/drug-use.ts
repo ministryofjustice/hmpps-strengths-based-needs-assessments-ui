@@ -46,7 +46,11 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField => nextWhen(lastUsedField, 'MORE_THAN_SIX', stepUrls.drugsDetailMoreThanSix)),
         stepUrls.drugsDetail,
       ].flat(),
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [
+        setFieldToIncomplete(section.sectionCompleteField),
+        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugsDetail).code),
+        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugsDetailMoreThanSix).code),
+      ],
     },
     {
       url: stepUrls.drugsDetail,

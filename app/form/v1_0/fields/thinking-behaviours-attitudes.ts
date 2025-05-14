@@ -216,8 +216,8 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       { text: 'No', value: 'NO', kind: 'option' },
     ],
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-    transform(session: CookieSessionObject): FormWizard.Field {
-      const subjectDetails = session.subjectDetails as HandoverSubject
+    transform(state): FormWizard.Field {
+      const subjectDetails = state.session.subjectDetails as HandoverSubject
       return {
         ...this,
         hint: subjectDetails.sexuallyMotivatedOffenceHistory === 'NO' ? this.hint : null,

@@ -113,12 +113,13 @@ class SaveAndContinueController extends BaseController {
     try {
       const subjectDetails = req.session.subjectDetails as HandoverSubject
       const sessionData = req.session.sessionData as SessionData
+      const answers: FormWizard.Answers = req.form.persistedAnswers
 
       res.locals = {
         ...res.locals,
         ...req.form.options.locals,
-        answers: req.form.persistedAnswers,
-        values: req.form.persistedAnswers,
+        answers,
+        values: answers,
         placeholderValues: {
           subject: subjectDetails.givenName,
           alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
@@ -134,11 +135,11 @@ class SaveAndContinueController extends BaseController {
         coreTelemetryData: req.telemetry,
       }
 
-      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
+      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(answers))
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )
-      const fieldsWithStateAwareTransform = fieldsWithReplacements.map(withStateAwareTransform(req.session))
+      const fieldsWithStateAwareTransform = fieldsWithReplacements.map(withStateAwareTransform(req.session, answers))
       const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithStateAwareTransform, {
         action: res.locals.action,
         errors: res.locals.errors,

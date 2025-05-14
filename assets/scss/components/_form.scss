@@ -13,6 +13,25 @@
   margin-bottom: govuk-spacing(7);
 }
 
+.hidden-conditional {
+  margin-bottom: -20px !important;
+
+  & > * {
+    display: none;
+  }
+}
+
+.govuk-checkboxes__item, .govuk-radios__item {
+  & [data-hidden] {
+    width: 0;
+    height: 0;
+
+    & + * {
+      display: none;
+    }
+  }
+}
+
 .radio-group--analysis {
   margin-bottom: govuk-spacing(3);
 }

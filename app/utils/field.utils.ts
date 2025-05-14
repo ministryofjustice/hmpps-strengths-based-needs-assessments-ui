@@ -190,9 +190,9 @@ export const withValuesFrom =
   }
 
 export const withStateAwareTransform =
-  (session: CookieSessionObject) =>
+  (session: CookieSessionObject, answers: FormWizard.Answers) =>
   (field: FormWizard.Field): FormWizard.Field =>
-    field.transform ? field.transform(session) : field
+    field.transform ? field.transform({ session, answers }) : field
 
 export const combineDateFields = (
   answers: FormWizard.Answers,

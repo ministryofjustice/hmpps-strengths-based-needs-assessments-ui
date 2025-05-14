@@ -10,6 +10,7 @@ import {
 import { drugLastUsedField } from './add-drugs'
 import FormWizard from 'hmpo-form-wizard'
 import { drugsList } from './drugs'
+import addDrugs from './add-drugs'
 import characterLimits from '../../config/characterLimits'
 
 const usedLastSixMonths: Array<FormWizard.Field> = drugsList.map(drug => {
@@ -21,7 +22,7 @@ const usedLastSixMonths: Array<FormWizard.Field> = drugsList.map(drug => {
     classes: 'govuk-radios--inline',
     validate: [{
       type: ValidationType.Required,
-      message: 'Select how often they have used this drug', // TODO: check error message
+      message: 'Select how often they have used this drug',
     }],
     options: ['Daily', 'Weekly', 'Monthly', 'Occasionally']
       .map(it => ({ text: it, value: it.toUpperCase(), kind: 'option' })),
@@ -41,13 +42,13 @@ const notUsedInTheLastSixMonths: FormWizard.Field = {
   validate: [
     {
       type: ValidationType.Required,
-      message: "asdasdsa", // TODO: add error message
+      message: "Enter details about their use of these drugs",
     },
     {
       type: 'validateMaxLength',
       fn: utils.validateMaxLength,
       arguments: [characterLimits.default],
-      message: `Details must be ${characterLimits.default} characters or less`, // TODO: add error message
+      message: `Details must be ${characterLimits.default} characters or less`,
     },
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
@@ -65,7 +66,7 @@ const injectedDrugs: FormWizard.Field = {
   type: FieldType.CheckBox,
   multiple: true,
   validate: [
-    { type: ValidationType.Required, message: 'Select the highest level of academic qualification completed' },
+    { type: ValidationType.Required, message: 'Select which drugs they have injected' },
   ],
   options: [
     {
@@ -77,7 +78,34 @@ const injectedDrugs: FormWizard.Field = {
     utils.orDivider,
     ...injectableDrugsOptions,
   ],
+  classes: 'injected-drugs-checkboxes',
   labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  transform(state): FormWizard.Field {
+    return {
+      ...this,
+      options: (this.options as FormWizard.Field.Options)
+        .map((option) => {
+          if (option.kind === 'divider' || option.value === 'NONE') return option
+          const drug = drugsList.find(drug => drug.value === option.value)
+          const lastUsed = state.answers[drugLastUsedField(drug).code]
+          const drugName = option.value === 'OTHER_DRUG' ? state.answers[addDrugs.otherDrugNameField.code] : option.text
+          if (lastUsed === undefined) {
+            return {
+              ...option,
+              text: drugName,
+              selected: false,
+              checked: false,
+              disabled: true,
+              attributes: { 'data-hidden': true }
+            }
+          }
+          return {
+            ...option,
+            text: drugName,
+          }
+        }),
+    }
+  },
 }
 
 const injectedDrugsWhen: Array<FormWizard.Field> = drugsList.filter(it => it.injectable).map(drug => ({
@@ -87,24 +115,51 @@ const injectedDrugsWhen: Array<FormWizard.Field> = drugsList.filter(it => it.inj
   type: FieldType.CheckBox,
   multiple: true,
   validate: [{
-    fn: requiredWhenValidator(drugLastUsedField(drug).code, 'LAST_SIX'),
-    message: 'Select one or both',
+    fn: requiredWhenValidator(drugLastUsedField(drug).code, 'assessment', 'LAST_SIX'),
+    message: 'Select when they injected this drug',
   }],
   options: [
     { text: 'In the last 6 months', value: 'LAST_SIX', kind: 'option' },
     { text: 'More than 6 months ago', value: 'MORE_THAN_SIX', kind: 'option' },
   ],
-  labelClasses: getSmallLabelClassFor(FieldType.Radio),
+  labelClasses: getSmallLabelClassFor(FieldType.CheckBox),
   dependent: dependentOn(injectedDrugs, drug.value),
+  transform(state): FormWizard.Field {
+    const drug = drugsList.find(it => it.value.toLowerCase() === this.code.replace('drugs_injected_', ''))
+    const lastUsed = state.answers[drugLastUsedField(drug).code]
+    if (lastUsed === 'LAST_SIX') return this
+    return {
+      ...this,
+      formGroupClasses: this.formGroupClasses + ' hidden-conditional',
+      options: this.options.map((it: FormWizard.Field.Option) => ({
+        ...it,
+        selected: false,
+        checked: false,
+        disabled: true,
+      })),
+    }
+  },
 }))
 
 const drugsIsReceivingTreatment: FormWizard.Field = {
   text: `Is [subject] receiving treatment for their drug use?`,
   code: `drugs_is_receiving_treatment`,
   type: FieldType.Radio,
-  validate: [{ type: ValidationType.Required, message: 'Select if there are receiving treatment' }],
+  validate: [{ type: ValidationType.Required, message: 'Select if they are receiving treatment' }],
   options: yesNoOptions,
   labelClasses: getMediumLabelClassFor(FieldType.Radio),
+  transform(state): FormWizard.Field {
+    const usedInTheLastSixMonths = addDrugs.drugLastUsedFields.some(field => state.answers[field.code] === 'LAST_SIX')
+    if (usedInTheLastSixMonths) return this
+    return {
+      ...this,
+      text: this.text.replace(/^Is (.+?) receiving treatment for their drug use\?$/, 'Has $1 ever received treatment for their drug use?'),
+      validate: this.validate.map((it: FormWizard.Validate) => ({
+        ...it,
+        message: 'type' in it && it.type === ValidationType.Required ? 'Select if they have ever received treatment' : it.message
+      })),
+    }
+  },
 }
 
 const drugsIsReceivingTreatmentYesDetails = FieldsFactory.detailsField({
