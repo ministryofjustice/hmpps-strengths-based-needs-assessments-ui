@@ -212,6 +212,8 @@ declare module 'hmpo-form-wizard' {
     type SecondaryAction = { text: string; url: string }
 
     interface BaseStep {
+      pageHeading?: string
+      pageCaption?: string
       pageSubHeading?: string
       reset?: boolean
       entryPoint?: boolean

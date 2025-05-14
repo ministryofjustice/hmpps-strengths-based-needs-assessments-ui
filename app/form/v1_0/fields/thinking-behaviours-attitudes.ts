@@ -214,7 +214,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
       },
       { text: 'No', value: 'NO', kind: 'option' },
     ],
-    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+    labelClasses: utils.getLargeLabelClassFor(FieldType.Radio),
     transform(state): FormWizard.Field {
       const subjectDetails = state.session.subjectDetails as HandoverSubject
       return {

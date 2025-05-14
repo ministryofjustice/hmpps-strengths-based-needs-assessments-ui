@@ -156,19 +156,25 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
-    const subsectionIsComplete =
-      (answers: FormWizard.Answers = {}) =>
-      (fieldCode: string) =>
-        answers[fieldCode] === 'YES'
-    const checkProgress =
-      (answers: FormWizard.Answers) =>
-      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-        ...sectionProgress,
-        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
-      })
+  checkProgress(answers: FormWizard.Answers) {
+    return function fn(progress: Progress, rule: SectionCompleteRule): Progress {
+      const updatedProgress = { ...progress }
+      let allFieldsComplete = true
 
-    return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
+      for (const code of rule.fieldCodes) {
+        if (answers[code] !== 'YES') {
+          allFieldsComplete = false
+          break
+        }
+      }
+
+      updatedProgress[rule.sectionName] = allFieldsComplete
+      return updatedProgress
+    }
+  }
+
+  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
+    return sectionCompleteRules.reduce(this.checkProgress(formAnswers), {})
   }
 
   checkAssessmentComplete(progress: Progress): boolean {
