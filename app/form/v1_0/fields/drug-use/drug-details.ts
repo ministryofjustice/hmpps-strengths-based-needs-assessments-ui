@@ -74,7 +74,7 @@ const injectedDrugs: FormWizard.Field = {
   code: 'drugs_injected',
   type: FieldType.CheckBox,
   multiple: true,
-  validate: [{ type: ValidationType.Required, message: 'Select which drugs they have injected' }],
+  validate: [{ type: ValidationType.Required, message: `Select which drugs they've injected, or select 'None'` }],
   options: [
     {
       text: 'None',
@@ -154,7 +154,7 @@ const drugsIsReceivingTreatment: FormWizard.Field = {
   text: `Is [subject] receiving treatment for their drug use?`,
   code: `drugs_is_receiving_treatment`,
   type: FieldType.Radio,
-  validate: [{ type: ValidationType.Required, message: 'Select if they are receiving treatment' }],
+  validate: [{ type: ValidationType.Required, message: `Select if they're receiving treatment for their drug use` }],
   options: yesNoOptions,
   labelClasses: getMediumLabelClassFor(FieldType.Radio),
   transform(state): FormWizard.Field {
@@ -181,6 +181,7 @@ const drugsIsReceivingTreatmentYesDetails = FieldsFactory.detailsField({
   parentField: drugsIsReceivingTreatment,
   dependentValue: 'YES',
   required: true,
+  requiredMessage: `Give details on their treatment`
 })
 
 const drugsIsReceivingTreatmentNoDetails = FieldsFactory.detailsField({
