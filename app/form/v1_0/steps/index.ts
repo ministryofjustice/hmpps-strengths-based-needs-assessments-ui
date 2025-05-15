@@ -32,13 +32,13 @@ export const sectionConfigs: SectionConfig[] = [
   accommodationSection,
   employmentEducationSection,
   financeSection,
+  drugUseSection,
   drugsSection,
   alcoholSection,
   healthAndWellbeingSection,
   thinkingBehavioursAttitudeSection,
   personalRelationshipsAndCommunitySection,
   offenceAnalysisSection,
-  drugUseSection,
 ]
 
 const toSteps = (step: SanStep, section: Section, steps: FormWizard.Steps): FormWizard.Steps => ({
