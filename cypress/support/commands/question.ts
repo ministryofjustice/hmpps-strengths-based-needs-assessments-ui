@@ -2,7 +2,7 @@
 
 export const getQuestion = (title: string) => {
   return cy
-    .get(`form > .form-group, form > .drug > .form-group`)
+    .get(`form > .form-group, .drug > .form-group`)
     .find('> fieldset > legend, > .govuk-form-group > label')
     .contains(title)
     .should('be.visible')
