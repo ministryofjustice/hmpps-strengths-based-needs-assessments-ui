@@ -90,7 +90,10 @@ describe('Origin: /temp-drug-use', () => {
       cy.getQuestion('Which drugs has Sam injected').getCheckbox('None').clickLabel()
 
       cy.getQuestion('Is Sam receiving treatment for their drug use?').getRadio('Yes').clickLabel()
-      cy.getQuestion('Is Sam receiving treatment for their drug use?').getRadio('Yes').getConditionalQuestion().enterText('Treatment details')
+      cy.getQuestion('Is Sam receiving treatment for their drug use?')
+        .getRadio('Yes')
+        .getConditionalQuestion()
+        .enterText('Treatment details')
 
       cy.assertResumeUrlIs(sectionName, destinations.drugsDetail)
       cy.saveAndContinue()
