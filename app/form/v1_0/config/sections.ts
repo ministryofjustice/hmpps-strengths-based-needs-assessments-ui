@@ -38,7 +38,7 @@ export default {
     sectionCompleteField: 'drug_use_section_complete',
   },
   drugsUse: {
-    title: 'Drug use (new)',
+    title: 'Drug use',
     code: 'temp-drug-use', // TODO: Remove 'temp'
     sectionCompleteField: 'temp_drug_use_section_complete', // TODO: Remove 'temp'
   },
