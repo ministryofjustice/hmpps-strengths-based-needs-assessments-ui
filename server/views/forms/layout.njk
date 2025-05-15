@@ -100,15 +100,15 @@
 
             <!-- Two implementations - One nests the caption in the h1, one does not. Nested caption will be read out by screen reader with the h1. -->
             {% if options.pageHeading and options.pageCaption %}
-                <h1 class="govuk-heading-l">
+                <h2 class="govuk-heading-l">
                     <span class="govuk-caption-l">{{ options.pageCaption }}</span>
                     {{ options.pageHeading }}
-                </h1>
+                </h2>
             {% elseif options.pageHeading %}
                 <span class="govuk-caption-l">{{ options.pageTitle }}</span>
-                <h1 class="govuk-heading-l">
+                <h2 class="govuk-heading-l">
                     {{ options.pageHeading }}
-                </h1>
+                </h2>
             {% else %}
                 <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
             {% endif %}
