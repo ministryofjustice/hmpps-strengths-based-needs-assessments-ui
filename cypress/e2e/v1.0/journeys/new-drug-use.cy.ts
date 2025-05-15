@@ -3,7 +3,8 @@ describe('Origin: /temp-drug-use', () => {
   const destinations = {
     landingPage: '/temp-drug-use',
     addDrugs: '/temp-add-drugs',
-    drugsDetail: '/temp-drug-detail',
+    drugsDetail: 'temp-drug-detail',
+    drugsDetailMoreThanSix: 'temp-drug-detail-more-than-six-months',
     drugUseHistory: '/temp-drug-use-history',
     summary: '/temp-drug-use-summary',
     analysis: '/temp-drug-use-analysis',
@@ -20,18 +21,19 @@ describe('Origin: /temp-drug-use', () => {
     cy.enterAssessment()
   })
 
-  // describe(`Destination: ${destinations.summary}`, () => {
-  //   it(`No drug use routes to "${destinations.summary}"`, () => {
-  //     cy.visitStep(destinations.landingPage)
-  //     cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
-  //     cy.assertResumeUrlIs(sectionName, destinations.landingPage)
-  //     cy.saveAndContinue()
-  //     cy.assertStepUrlIs(destinations.summary)
-  //     cy.assertResumeUrlIs(sectionName, destinations.summary)
-  //   })
-  //
-  //   testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
-  // })
+  describe(`Destination: ${destinations.summary}`, () => {
+    it(`No drug use routes to "${destinations.summary}"`, () => {
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.summary)
+      cy.assertResumeUrlIs(sectionName, destinations.summary)
+    })
+
+    // TODO when this part is done
+    // testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+  })
 
   describe(`Destination: ${destinations.landingPage}`, () => {
     it(`"Drug use no routes to "${destinations.summary}"`, () => {
@@ -69,15 +71,15 @@ describe('Origin: /temp-drug-use', () => {
 
       cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.drugUseHistory) // TODO change to drugsDetail once it exists
+      cy.assertStepUrlIs(destinations.drugsDetail)
       cy.assertBackLinkIs(destinations.addDrugs)
-      cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory) // TODO  change to drugsDetail once it exists
+      cy.assertResumeUrlIs(sectionName, destinations.drugsDetail)
     })
   })
 
   // TODO
   describe(`Destination: ${destinations.drugsDetail}`, () => {
-    // it(`routes to ${destinations.drugTypesDetails}`, () => {
+    // it(`routes to ${destinations.drugsDetail}`, () => {
     // })
   })
 
