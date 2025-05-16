@@ -8,7 +8,9 @@
   <form id="form" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in getRenderedFields(form.fields, options) %}
-      {{ renderQuestion(options.fields[field], errors) }}
+      {% if not (field == 'temp_drug_use_practitioner_analysis_motivated_to_stop' and answers.drug_use == 'NO') %}
+        {{ renderQuestion(options.fields[field], errors) }}
+      {% endif %}
     {% endfor %}
 
     <div class="questiongroup-action-buttons">
