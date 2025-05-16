@@ -120,8 +120,8 @@ const sectionConfig: SectionConfig = {
       pageCaption: 'Drug use',
       pageHeading: 'Practitioner analysis',
       fields: [
+        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop,
         drugsUseFields.practitionerAnalysis(),
-        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop, // TODO: Figure out how to make this conditional
         drugsUseFields.isUserSubmitted(stepUrls.summary),
         drugsUseFields.sectionComplete(),
       ].flat(),
