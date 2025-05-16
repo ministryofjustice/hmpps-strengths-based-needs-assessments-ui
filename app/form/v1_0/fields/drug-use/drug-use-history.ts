@@ -30,20 +30,9 @@ const drugsReasonsForUse: FormWizard.Field = {
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
 }
 
-const drugsReasonsForUseDetails: FormWizard.Field = {
-  text: 'Give details about why [subject] uses drugs (optional)',
-  code: 'drugs_reasons_for_use_details',
-  type: FieldType.TextArea,
-  validate: [
-    {
-      type: 'validateMaxLength',
-      fn: utils.validateMaxLength,
-      arguments: [characterLimits.default],
-      message: `Details must be ${characterLimits.default} characters or less`,
-    },
-  ],
-  labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-}
+const drugsReasonsForUseDetails = FieldsFactory.detailsField({
+  parentField: drugsReasonsForUse,
+})
 
 const drugsAffectedTheirLife: FormWizard.Field = {
   text: "How has [subject]'s drug use affected their life?",
@@ -93,20 +82,9 @@ const drugsAffectedTheirLife: FormWizard.Field = {
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
 }
 
-const drugsAffectedTheirLifeDetails: FormWizard.Field = {
-  text: "Give details about how [subject]'s life has been affected (optional)",
-  code: 'drugs_affected_their_life_details',
-  type: FieldType.TextArea,
-  validate: [
-    {
-      type: 'validateMaxLength',
-      fn: utils.validateMaxLength,
-      arguments: [characterLimits.default],
-      message: `Details must be ${characterLimits.default} characters or less`,
-    },
-  ],
-  labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-}
+const drugsAffectedTheirLifeDetails = FieldsFactory.detailsField({
+  parentField: drugsAffectedTheirLife,
+})
 
 const drugsAnythingHelpedStopOrReduceUse: FormWizard.Field = {
   text: 'Has anything helped [subject] stop or reduce their drug use? (optional)',

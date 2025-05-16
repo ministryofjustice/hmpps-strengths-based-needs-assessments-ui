@@ -125,6 +125,13 @@ export const getCheckbox = (subject: JQuery, label: string) => {
     .parent()
 }
 
+export const getFollowingDetails = (subject: JQuery) => {
+  return cy.wrap(subject)
+    .parent()
+    .find('+ .form-group')
+    .should('have.length', 1)
+}
+
 export const hasRadios = (subject: JQuery, options: string[]) => {
   cy.wrap(subject)
     .find('> .govuk-radios > :not(.govuk-radios__conditional):visible')
