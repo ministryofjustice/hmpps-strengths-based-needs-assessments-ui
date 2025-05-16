@@ -9,6 +9,7 @@ import healthAndWellbeingSection from './health-wellbeing'
 import thinkingBehavioursAttitudeSection from './thinking-behaviours-attitudes'
 import personalRelationshipsAndCommunitySection from './personal-relationships-community'
 import offenceAnalysisSection from './offence-analysis'
+import drugUseSection from './drug-use'
 import { assessmentComplete } from '../fields'
 import { fieldCodesFrom, SanStep } from './common'
 import { Section, SectionConfig } from '../config/sections'
@@ -31,6 +32,7 @@ export const sectionConfigs: SectionConfig[] = [
   accommodationSection,
   employmentEducationSection,
   financeSection,
+  drugUseSection,
   drugsSection,
   alcoholSection,
   healthAndWellbeingSection,
