@@ -12,7 +12,7 @@ const selectMisusedDrugs: FormWizard.Field = {
   hint: { text: 'Select all that apply.', kind: 'text' },
   type: FieldType.CheckBox,
   multiple: true,
-  validate: [{ type: ValidationType.Required, message: 'Select which drugs they have used' }],
+  validate: [{ type: ValidationType.Required, message: "Select which drugs they've misused" }],
   options: drugsList.map(drug => ({
     text: drug.text,
     value: drug.value,
