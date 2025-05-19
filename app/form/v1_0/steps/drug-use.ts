@@ -66,10 +66,11 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       sectionProgressRules: [
         setFieldToIncomplete(section.sectionCompleteField),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetails).code),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsInjected).code),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSix).code),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSixInjected).code),
+        // TODO: find another way to invalidate these "user-submitted" fields
+        // setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetails).code),
+        // setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsInjected).code),
+        // setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSix).code),
+        // setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSixInjected).code),
       ],
     },
     {
