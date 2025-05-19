@@ -64,13 +64,7 @@ const sectionConfig: SectionConfig = {
         ),
         stepUrls.drugDetails,
       ].flat(),
-      sectionProgressRules: [
-        setFieldToIncomplete(section.sectionCompleteField),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetails).code),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsInjected).code),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSix).code),
-        setFieldToIncomplete(drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSixInjected).code),
-      ],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.drugDetails,
