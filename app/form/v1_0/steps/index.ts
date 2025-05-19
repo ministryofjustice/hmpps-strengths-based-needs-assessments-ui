@@ -2,14 +2,13 @@ import FormWizard from 'hmpo-form-wizard'
 import SaveAndContinueController from '../../../controllers/saveAndContinueController'
 import accommodationSection from './accommodation'
 import financeSection from './finance'
-import drugsSection from './drugs'
+import drugUseSection from './drug-use'
 import alcoholSection from './alcohol'
 import employmentEducationSection from './employment-education'
 import healthAndWellbeingSection from './health-wellbeing'
 import thinkingBehavioursAttitudeSection from './thinking-behaviours-attitudes'
 import personalRelationshipsAndCommunitySection from './personal-relationships-community'
 import offenceAnalysisSection from './offence-analysis'
-import drugUseSection from './drug-use'
 import { assessmentComplete } from '../fields'
 import { fieldCodesFrom, SanStep } from './common'
 import { Section, SectionConfig } from '../config/sections'
@@ -33,7 +32,6 @@ export const sectionConfigs: SectionConfig[] = [
   employmentEducationSection,
   financeSection,
   drugUseSection,
-  drugsSection,
   alcoholSection,
   healthAndWellbeingSection,
   thinkingBehavioursAttitudeSection,
