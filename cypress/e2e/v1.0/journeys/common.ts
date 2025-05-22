@@ -18,6 +18,9 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
         cy.getQuestion(question).getRadio('No').clickLabel()
       })
 
+      // todo only for Drug use
+      // cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
+
       cy.assertResumeUrlIs(sectionName, origin)
       cy.get('#tab_practitioner-analysis').click()
       cy.get('#practitioner-analysis').should('be.visible')
