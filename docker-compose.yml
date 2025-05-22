@@ -169,6 +169,7 @@ services:
       INGRESS_URL: http://localhost:3000
       HTTPS: false
       NODE_ENV: development
+      FEEDBACK_URL: http://foo.bar
 
   localstack:
     image: localstack/localstack:3
