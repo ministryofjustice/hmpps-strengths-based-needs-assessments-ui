@@ -35,7 +35,7 @@ export const drugLastUsedField = (drug: Drug): FormWizard.Field => ({
 })
 
 const otherDrugNameField: FormWizard.Field = {
-  text: 'Enter which other drug they\'ve misused',
+  text: "Enter which other drug they've misused",
   hint: { text: 'Add drug name', kind: 'text' },
   code: 'other_drug_name',
   type: FieldType.Text,
