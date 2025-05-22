@@ -35,7 +35,7 @@ export const drugLastUsedField = (drug: Drug): FormWizard.Field => ({
 })
 
 const otherDrugNameField: FormWizard.Field = {
-  text: '',
+  text: "Enter which other drug they've misused",
   hint: { text: 'Add drug name', kind: 'text' },
   code: 'other_drug_name',
   type: FieldType.Text,
@@ -56,7 +56,7 @@ const otherDrugNameField: FormWizard.Field = {
       message: `Drug name must be ${characterLimits.c200} characters or less`,
     },
   ],
-  labelClasses: utils.getSmallLabelClassFor(FieldType.Text),
+  labelClasses: utils.visuallyHidden,
 }
 
 const drugLastUsedFields = drugsList.map(drugLastUsedField)
