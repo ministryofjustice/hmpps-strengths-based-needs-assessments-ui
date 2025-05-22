@@ -126,10 +126,7 @@ export const getCheckbox = (subject: JQuery, label: string) => {
 }
 
 export const getFollowingDetails = (subject: JQuery) => {
-  return cy.wrap(subject)
-    .parent()
-    .find('+ .form-group')
-    .should('have.length', 1)
+  return cy.wrap(subject).parent().find('+ .form-group').should('have.length', 1)
 }
 
 export const hasRadios = (subject: JQuery, options: string[]) => {
