@@ -32,15 +32,10 @@ export default {
     code: 'alcohol-use',
     sectionCompleteField: 'alcohol_use_section_complete',
   },
-  drugs: {
-    title: 'Drug use (old)',
-    code: 'drug-use',
-    sectionCompleteField: 'drug_use_section_complete',
-  },
   drugsUse: {
     title: 'Drug use',
-    code: 'temp-drug-use', // TODO: Remove 'temp'
-    sectionCompleteField: 'temp_drug_use_section_complete', // TODO: Remove 'temp'
+    code: 'drug-use',
+    sectionCompleteField: 'drug_use_section_complete',
   },
   healthWellbeing: {
     title: 'Health and wellbeing',
