@@ -14,7 +14,7 @@ export const drugsList: Array<Drug> = [
   { value: 'HALLUCINOGENICS', text: 'Hallucinogenics (including ketamine)', injectable: false },
   { value: 'HEROIN', text: 'Heroin', injectable: true },
   { value: 'METHADONE_NOT_PRESCRIBED', text: 'Methadone (not prescribed)', injectable: true },
-  { value: 'MISUSED_PRESCRIBED_DRUGS', text: 'Prescribed drugs', injectable: false },
+  { value: 'MISUSED_PRESCRIBED_DRUGS', text: 'Prescribed drugs', injectable: true },
   { value: 'OTHER_OPIATES', text: 'Other opiates', injectable: true },
   { value: 'SOLVENTS', text: 'Solvents (including gases and glues)', injectable: false },
   { value: 'STEROIDS', text: 'Steroids', injectable: true },

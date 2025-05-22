@@ -74,8 +74,11 @@ export class FieldDependencyTreeBuilder {
 
     if (hasProperty(next, 'field') && hasProperty(next, 'value')) {
       const con = next as FormWizard.Step.FieldValueCondition
-      const conditionMet = (condition: string | string[]) => (value: string) =>
-        Array.isArray(condition) ? condition.includes(value) : condition === value
+      const conditionMet = (condition: string | string[]) => (value: string | string[]) => {
+        const cond = Array.isArray(condition) ? condition : [condition]
+        const val = Array.isArray(value) ? value : [value]
+        return val.some(valToCheck => cond.includes(valToCheck))
+      }
       return this.getAnswers(con.field)?.some(conditionMet(con.value)) ? this.resolveNextStep(con.next) : undefined
     }
 
