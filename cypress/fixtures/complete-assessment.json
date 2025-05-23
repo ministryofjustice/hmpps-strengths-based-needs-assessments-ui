@@ -1712,7 +1712,7 @@
       "values": null,
       "collection": null
     },
-    "drug_use_practitioner_analysis_motivated_to_change": {
+    "drugs_practitioner_analysis_motivated_to_stop": {
       "type": "RADIO",
       "description": "Does [subject] seem motivated to stop or reduce their drug use?",
       "options": [
