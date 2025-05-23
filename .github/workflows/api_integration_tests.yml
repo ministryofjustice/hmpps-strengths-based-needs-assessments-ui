@@ -48,10 +48,16 @@ jobs:
           docker run -d --rm --name api-test -p 8060:8080 \
             ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:2025-05-19.4.e7d3eb4
 
+#      - name: Run API integration tests
+#        run: |
+#          cd api-test
+#          make test-integration
+
+      # TODO: Remove below step and uncomment the above step - pinned to version without drugs mappings
       - name: Run API integration tests
         run: |
           cd api-test
-          make test-integration
+          ./gradlew integrationTests --parallel
 
       - name: Export container logs
         if: failure()
