@@ -55,24 +55,23 @@ describe('Auto save', () => {
   })
 
   it('does not remove orphaned answers', () => {
-    cy.visitStep('/drugs')
-    cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+    cy.visitStep('/drug-use')
+    cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
     cy.saveAndContinue()
-    cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').clickLabel()
+    cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()
     cy.saveAndContinue()
-    cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').isChecked()
 
-    cy.visitStep('/drugs')
-    cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
+    cy.visitStep('/drug-use')
+    cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
 
     cy.visitSection('Accommodation')
     cy.assertStepUrlIs('/current-accommodation')
 
     cy.visitSection('Drug use')
-    cy.getQuestion('Has Sam ever used drugs?').getRadio('No').isChecked()
-    cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+    cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').isChecked()
+    cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
     cy.saveAndContinue()
 
-    cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').isChecked()
+    cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').isChecked()
   })
 })

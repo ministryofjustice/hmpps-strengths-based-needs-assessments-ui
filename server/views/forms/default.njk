@@ -43,9 +43,18 @@
         {% else %}
           {% if fieldsOnThisPage.length == 1 %}
             {% if field.type === "RADIO" or field.type === "CHECKBOX" %}
-              {% set field = field | setProp("labelClasses", "govuk-fieldset__legend--l") %}
+              {% if field.labelClasses %}
+                {% set field = field | setProp("labelClasses", field.labelClasses) %}
+              {% else %}
+                {% set field = field | setProp("labelClasses", "govuk-fieldset__legend--l") %}
+            {% endif %}
+
             {% else %}
-              {% set field = field | setProp("labelClasses", "govuk-label--l") %}
+              {% if field.labelClasses %}
+                {% set field = field | setProp("labelClasses", field.labelClasses) %}
+              {% else %}
+                {% set field = field | setProp("labelClasses", "govuk-label--l") %}
+            {% endif %}
             {% endif %}
           {% endif %}
 

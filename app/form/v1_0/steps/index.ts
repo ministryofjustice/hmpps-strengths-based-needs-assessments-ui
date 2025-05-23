@@ -2,7 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import SaveAndContinueController from '../../../controllers/saveAndContinueController'
 import accommodationSection from './accommodation'
 import financeSection from './finance'
-import drugsSection from './drugs'
+import drugUseSection from './drug-use'
 import alcoholSection from './alcohol'
 import employmentEducationSection from './employment-education'
 import healthAndWellbeingSection from './health-wellbeing'
@@ -31,7 +31,7 @@ export const sectionConfigs: SectionConfig[] = [
   accommodationSection,
   employmentEducationSection,
   financeSection,
-  drugsSection,
+  drugUseSection,
   alcoholSection,
   healthAndWellbeingSection,
   thinkingBehavioursAttitudeSection,

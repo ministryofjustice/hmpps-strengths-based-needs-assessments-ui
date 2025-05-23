@@ -40,7 +40,7 @@ export const nextWhen = (
   }
 
   if (optionArray.length > 1) {
-    nextStep.op = 'in'
+    nextStep.op = field.multiple ? 'some' : 'in'
   }
 
   return nextStep

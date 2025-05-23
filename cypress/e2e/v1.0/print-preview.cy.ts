@@ -95,7 +95,7 @@ describe('assessment print preview', () => {
     cy.getSummary('Does Sam want to make changes to their finances?').getAnswer('Not applicable').hasNoSecondaryAnswer()
 
     // drugs
-    cy.getSummary('Has Sam ever used drugs?').getAnswer('No').hasNoSecondaryAnswer()
+    cy.getSummary('Has Sam ever misused drugs?').getAnswer('No').hasNoSecondaryAnswer()
 
     // alcohol
     cy.getSummary('Has Sam ever drunk alcohol?').getAnswer('No').hasNoSecondaryAnswer()
