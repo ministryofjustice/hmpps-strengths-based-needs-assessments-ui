@@ -1,13 +1,13 @@
 // TODO remove temp
-describe('Origin: /temp-drug-use', () => {
+describe('Origin: /drug-use', () => {
   const destinations = {
-    landingPage: '/temp-drug-use',
-    addDrugs: '/temp-add-drugs',
-    drugsDetail: '/temp-drug-detail',
-    drugsDetailMoreThanSix: '/temp-drug-detail-more-than-six-months',
-    drugUseHistory: '/temp-drug-use-history',
-    summary: '/temp-drug-use-summary',
-    analysis: '/temp-drug-use-analysis',
+    landingPage: '/drug-use',
+    addDrugs: '/add-drugs',
+    drugDetails: '/drug-details',
+    drugDetailsMoreThanSix: '/drug-detail-more-than-six-months',
+    drugUseHistory: '/drug-use-history',
+    summary: '/drug-use-summary',
+    analysis: '/drug-use-analysis',
   }
 
   const sectionName = 'Drug use'
@@ -57,7 +57,7 @@ describe('Origin: /temp-drug-use', () => {
   })
 
   describe(`Destination: ${destinations.addDrugs}`, () => {
-    it(`routes to ${destinations.drugsDetail}`, () => {
+    it(`routes to ${destinations.drugDetails}`, () => {
       cy.visitStep(destinations.addDrugs)
 
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()
@@ -70,23 +70,19 @@ describe('Origin: /temp-drug-use', () => {
 
       cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.drugsDetail)
+      cy.assertStepUrlIs(destinations.drugDetails)
       cy.assertBackLinkIs(destinations.addDrugs)
-      cy.assertResumeUrlIs(sectionName, destinations.drugsDetail)
+      cy.assertResumeUrlIs(sectionName, destinations.drugDetails)
     })
   })
 
   // TODO needs another case to deal with more than 6 months
 
-  describe(`Destination: ${destinations.drugsDetail}`, () => {
+  describe(`Destination: ${destinations.drugDetails}`, () => {
     it(`routes to ${destinations.drugUseHistory}`, () => {
-      cy.visitStep(destinations.drugsDetail)
+      cy.visitStep(destinations.drugDetails)
 
       cy.getQuestion('How often is Sam using this drug?').getRadio('Daily').clickLabel()
-
-      // TODO uncomment when bug is fixed
-      // cy.getQuestion('Which drugs has Sam injected').should('not.exist')
-      cy.getQuestion('Which drugs has Sam injected').getCheckbox('None').clickLabel()
 
       cy.getQuestion('Is Sam receiving treatment for their drug use?').getRadio('Yes').clickLabel()
       cy.getQuestion('Is Sam receiving treatment for their drug use?')
@@ -94,10 +90,10 @@ describe('Origin: /temp-drug-use', () => {
         .getConditionalQuestion()
         .enterText('Treatment details')
 
-      cy.assertResumeUrlIs(sectionName, destinations.drugsDetail)
+      cy.assertResumeUrlIs(sectionName, destinations.drugDetails)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.drugUseHistory)
-      cy.assertBackLinkIs(destinations.drugsDetail)
+      cy.assertBackLinkIs(destinations.drugDetails)
       cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
     })
   })
