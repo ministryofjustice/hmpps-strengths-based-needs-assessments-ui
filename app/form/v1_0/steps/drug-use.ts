@@ -13,7 +13,7 @@ const stepUrls = {
   drugDetailsMoreThanSix: 'drug-details-more-than-six-months',
   drugDetailsMoreThanSixInjected: 'drug-details-more-than-six-months-injected',
   drugUseHistory: 'drug-use-history',
-
+  analysisConditional: 'drug-use-analysis-conditional',
   summary: 'drug-use-summary',
   analysis: 'drug-use-analysis',
 }
@@ -162,13 +162,23 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.isUserSubmitted(stepUrls.summary),
         drugsUseFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysis}#practitioner-analysis`,
+      next: [
+          drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
+            nextWhen(lastUsedField, 'LAST_SIX', `${stepUrls.analysisConditional}#practitioner-analysis`),
+          ),
+        // nextWhen(drugsUseFields.addDrugs.selectMisusedDrugs, 'LAST_SIX', templates.analysisConditional),
+        `${stepUrls.analysis}#practitioner-analysis`,
+      ].flat(),
       template: templates.analysisIncomplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
       url: stepUrls.analysis,
       template: templates.analysisComplete,
+    },
+    {
+      url: stepUrls.analysisConditional,
+      template: templates.analysisConditional,
     },
   ],
 }

@@ -4,7 +4,7 @@ import { utils } from '../common'
 
 const drugsPractitionerAnalysisMotivatedToStop: FormWizard.Field = {
   text: `Does [subject] seem motivated to stop or reduce their drug use?`,
-  code: `drugs_practitioner_analysis_motivated_to_stop`,
+  code: `drug_use_practitioner_analysis_motivated_to_change`,
   type: FieldType.Radio,
   validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
   options: [

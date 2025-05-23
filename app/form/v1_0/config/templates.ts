@@ -4,4 +4,5 @@ export default {
   drugUsage: 'forms/drug-usage',
   drugUsageNew: 'forms/drug-usage-new',
   printPreview: 'pages/print-preview',
+  analysisConditional: 'forms/summary/summary-analysis-conditional',
 }
