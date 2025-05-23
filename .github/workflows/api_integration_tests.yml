@@ -37,10 +37,16 @@ jobs:
           repository: ministryofjustice/hmpps-strengths-based-needs-assessments-api
           path: api-test
 
-      - name: Stand up the latest API in dev mode
+      # - name: Stand up the latest API in dev mode
+      #   run: |
+      #     cd api-test
+      #     make dev-up
+
+      # TODO: Remove temporary fix and uncomment the above step - pinned to version without drugs mappings
+      - name: Run API (temporary fix)
         run: |
-          cd api-test
-          make dev-up
+          docker run -d --rm --name api-test -p 8080:8080 \
+            ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:2025-05-19.4.e7d3eb4
 
       - name: Run API integration tests
         run: |
