@@ -6,7 +6,7 @@ export type Drug = {
 
 export const drugsList: Array<Drug> = [
   { value: 'AMPHETAMINES', text: 'Amphetamines (including speed, methamphetamine)', injectable: true },
-  { value: 'BENZODIAZEPINES', text: 'Benzodiazepines (including diazepam, xanex)', injectable: true },
+  { value: 'BENZODIAZEPINES', text: 'Benzodiazepines (including diazepam, temazepam)', injectable: true },
   { value: 'CANNABIS', text: 'Cannabis', injectable: false },
   { value: 'COCAINE', text: 'Cocaine', injectable: true },
   { value: 'CRACK', text: 'Crack cocaine', injectable: true },
