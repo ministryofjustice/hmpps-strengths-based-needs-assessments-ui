@@ -45,7 +45,7 @@ jobs:
       # TODO: Remove temporary fix and uncomment the above step - pinned to version without drugs mappings
       - name: Run API (temporary fix)
         run: |
-          docker run -d --rm --name api-test -p 8080:8080 \
+          docker run -d --rm --name api-test -p 8070:8080 \
             ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:2025-05-19.4.e7d3eb4
 
       - name: Run API integration tests
