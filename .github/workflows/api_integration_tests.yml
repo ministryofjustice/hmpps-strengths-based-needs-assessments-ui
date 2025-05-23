@@ -48,6 +48,12 @@ jobs:
           docker run -d --rm --name api-test -p 8060:8080 \
             ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:2025-05-19.4.e7d3eb4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
 #      - name: Run API integration tests
 #        run: |
 #          cd api-test
