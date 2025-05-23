@@ -5,7 +5,7 @@ import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-for
 import characterLimits from '../../config/characterLimits'
 
 const drugReasonsForUseHint = `
-<p class="govuk-hint">Consider why they started using, their history, any triggers.</p>
+<p class="govuk-hint">Consider why they started using, their history, and any triggers.</p>
 <p class="govuk-hint">Select all that apply.</p>
 `
 
