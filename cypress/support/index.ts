@@ -28,6 +28,7 @@ import {
   currentSectionMarkedAsComplete,
   currentSectionNotMarkedAsComplete,
   hasAutosaveEnabled,
+  hasFeedbackLink,
   sectionMarkedAsComplete,
   sectionNotMarkedAsComplete,
 } from './commands/page'
@@ -152,6 +153,7 @@ declare global {
       assessmentMarkedAsComplete(): Chainable
       assessmentNotMarkedAsComplete(): Chainable
       hasAutosaveEnabled(): Chainable
+      hasFeedbackLink(): Chainable
 
       // question
       getQuestion(title: string): Chainable
@@ -251,6 +253,7 @@ Cypress.Commands.add('currentSectionNotMarkedAsComplete', currentSectionNotMarke
 Cypress.Commands.add('assessmentMarkedAsComplete', assessmentMarkedAsComplete)
 Cypress.Commands.add('assessmentNotMarkedAsComplete', assessmentNotMarkedAsComplete)
 Cypress.Commands.add('hasAutosaveEnabled', hasAutosaveEnabled)
+Cypress.Commands.add('hasFeedbackLink', hasFeedbackLink)
 
 // question
 Cypress.Commands.add('getQuestion', getQuestion)

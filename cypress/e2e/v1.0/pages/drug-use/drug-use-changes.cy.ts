@@ -33,6 +33,7 @@ describe('/select-drugs', () => {
     cy.assertSectionIs('Drug use')
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

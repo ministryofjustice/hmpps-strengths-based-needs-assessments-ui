@@ -39,6 +39,7 @@ beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
+  cy.hasFeedbackLink()
 })
 
 testPractitionerAnalysis(summaryPage, '/employment-education-analysis', 'employment and education')

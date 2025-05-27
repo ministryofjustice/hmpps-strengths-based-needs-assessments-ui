@@ -18,6 +18,7 @@ beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
+  cy.hasFeedbackLink()
 })
 
 testPractitionerAnalysis(summaryPage, '/drug-use-analysis', 'drug use')

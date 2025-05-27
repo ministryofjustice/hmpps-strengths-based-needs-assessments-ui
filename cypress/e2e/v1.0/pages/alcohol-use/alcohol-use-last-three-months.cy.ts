@@ -38,6 +38,7 @@ describe('/alcohol-use-last-three-months', () => {
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

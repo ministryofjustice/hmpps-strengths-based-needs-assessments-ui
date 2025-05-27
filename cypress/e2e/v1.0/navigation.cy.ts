@@ -14,6 +14,8 @@ describe('navigation', () => {
 
     before(() => {
       cy.createAssessment()
+      cy.enterAssessment()
+      cy.hasFeedbackLink()
     })
 
     beforeEach(() => {
