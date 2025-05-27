@@ -50,12 +50,9 @@ export const hasFeedbackLink = () => {
 
   cy.get('.govuk-phase-banner__text > .govuk-link').as('feedbackLink')
 
-  cy.get('@feedbackLink')
-    .should('have.attr', 'target').and('equal', '_blank')
+  cy.get('@feedbackLink').should('have.attr', 'target').and('equal', '_blank')
 
-  cy.get('@feedbackLink')
-    .invoke('attr', 'target', '_self')
-    .click()
+  cy.get('@feedbackLink').invoke('attr', 'target', '_self').click()
 
   cy.url().should('equal', stubFeedbackUrl)
 
