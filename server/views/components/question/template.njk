@@ -1,6 +1,7 @@
 {%- from "govuk/components/input/macro.njk" import govukInput -%}
 {%- from "govuk/components/textarea/macro.njk" import govukTextarea -%}
-{%- from "govuk/components/radios/macro.njk" import govukRadios -%}
+{# TODO: This radio component is a copy of the one in 'govuk-frontend' to fix accessibility issues. Remove when resolved #}
+{%- from "./radios/macro.njk" import govukRadios -%}
 {%- from "govuk/components/checkboxes/macro.njk" import govukCheckboxes -%}
 {%- from "govuk/components/select/macro.njk" import govukSelect -%}
 {%- from "govuk/components/date-input/macro.njk" import govukDateInput -%}
