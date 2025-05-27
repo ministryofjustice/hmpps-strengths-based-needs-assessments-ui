@@ -1,18 +1,18 @@
 {
   "metaData": {
-    "uuid": "0fc32f45-c49d-4431-831a-747ffa45d79d",
-    "createdAt": "2025-03-06T15:02:20.400607",
-    "versionUuid": "08faaffa-76ab-4a10-9d5b-2ca8fcf74676",
+    "uuid": "70d49987-3966-4147-a4b4-364eae25f78e",
+    "createdAt": "2025-05-19T16:22:29.011307",
+    "versionUuid": "8bea3697-519a-45b9-a7b3-0c7444861d79",
     "versionNumber": 0,
-    "versionCreatedAt": "2025-03-06T15:02:20.404064",
-    "versionUpdatedAt": "2025-03-06T15:04:08.633007",
+    "versionCreatedAt": "2025-05-19T16:22:29.011353",
+    "versionUpdatedAt": "2025-05-19T16:23:02.767758",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
   "assessment": {
     "drug_use": {
       "type": "RADIO",
-      "description": "Has [subject] ever used drugs?",
+      "description": "Has [subject] ever misused drugs?",
       "options": [
         {
           "value": "YES",
@@ -903,23 +903,6 @@
       "values": null,
       "collection": null
     },
-    "drug_use_is_drugs_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "offence_analysis_risk_no_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
@@ -1181,6 +1164,23 @@
         }
       ],
       "value": "NO",
+      "values": null,
+      "collection": null
+    },
+    "drug_use_is_drug_use_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -1597,10 +1597,6 @@
         {
           "value": "UNKNOWN",
           "text": "Unknown"
-        },
-        {
-          "value": "SKIP",
-          "text": "Skip this question for now"
         }
       ],
       "value": "NO",
@@ -1713,6 +1709,31 @@
         }
       ],
       "value": "SOMETIMES",
+      "values": null,
+      "collection": null
+    },
+    "drugs_practitioner_analysis_motivated_to_stop": {
+      "type": "RADIO",
+      "description": "Does [subject] seem motivated to stop or reduce their drug use?",
+      "options": [
+        {
+          "value": "NO_MOTIVATION",
+          "text": "Does not show motivation to stop or reduce"
+        },
+        {
+          "value": "PARTIAL_MOTIVATION",
+          "text": "Shows some motivation to stop or reduce "
+        },
+        {
+          "value": "FULL_MOTIVATION",
+          "text": "Motivated to stop or reduce"
+        },
+        {
+          "value": "UNKNOWN",
+          "text": "Unknown"
+        }
+      ],
+      "value": "UNKNOWN",
       "values": null,
       "collection": null
     },
@@ -2834,7 +2855,7 @@
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]'s thinking, behaviours and attitudes linked to risk of reoffending?",
+      "description": "Are [subject]'s thinking, behaviours and attitudes linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2859,7 +2880,7 @@
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]'s thinking, behaviours and attitudes linked to risk of serious harm?",
+      "description": "Are [subject]'s thinking, behaviours and attitudes linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -3228,11 +3249,6 @@
     "o7-3": "1",
     "o7-4": "1",
     "o7-5": "1",
-    "o8-1": "NO",
-    "o8-4": "0",
-    "o8-5": "M",
-    "o8-6": "0",
-    "o8-8": null,
     "o9-1": "0",
     "o9-2": "0",
     "oSC2": "NO",
@@ -3281,9 +3297,6 @@
     "o7-97": null,
     "o7-98": "NO",
     "o7-99": "NO",
-    "o8-97": null,
-    "o8-98": "NO",
-    "o8-99": "NO",
     "o9-97": null,
     "o9-98": "NO",
     "o9-99": "NO",
@@ -3308,58 +3321,7 @@
     "o9-1-t": null,
     "oSC2-t": null,
     "o2-11-t": "",
-    "o8-2-1-1": null,
-    "o8-2-1-2": null,
-    "o8-2-1-3": null,
-    "o8-2-1-4": null,
-    "o8-2-2-1": null,
-    "o8-2-2-2": null,
-    "o8-2-2-3": null,
-    "o8-2-2-4": null,
-    "o8-2-3-1": null,
-    "o8-2-3-2": null,
-    "o8-2-3-3": null,
-    "o8-2-3-4": null,
-    "o8-2-4-1": null,
-    "o8-2-4-2": null,
-    "o8-2-4-3": null,
-    "o8-2-4-4": null,
-    "o8-2-5-1": null,
-    "o8-2-5-2": null,
-    "o8-2-5-3": null,
-    "o8-2-5-4": null,
-    "o8-2-6-1": null,
-    "o8-2-6-2": null,
-    "o8-2-6-3": null,
-    "o8-2-6-4": null,
-    "o8-2-7-1": null,
-    "o8-2-7-2": null,
-    "o8-2-7-3": null,
-    "o8-2-7-4": null,
-    "o8-2-8-1": null,
-    "o8-2-8-2": null,
-    "o8-2-8-3": null,
-    "o8-2-8-4": null,
-    "o8-2-9-1": null,
-    "o8-2-9-3": null,
     "o2-9-t_V2": null,
-    "o8-2-10-1": null,
-    "o8-2-10-3": null,
-    "o8-2-11-1": null,
-    "o8-2-11-3": null,
-    "o8-2-12-1": null,
-    "o8-2-12-3": null,
-    "o8-2-13-1": null,
-    "o8-2-13-2": null,
-    "o8-2-13-3": null,
-    "o8-2-13-4": null,
-    "o8-2-14-1": null,
-    "o8-2-14-2": null,
-    "o8-2-14-3": null,
-    "o8-2-14-4": null,
-    "o8-2-14-t": null,
-    "o8-2-15-1": null,
-    "o8-2-15-3": null,
     "o6-7-1-1da": null,
     "o6-7-1-2da": null,
     "o6-7-2-1da": null,
@@ -3376,7 +3338,6 @@
     "o4_SAN_STRENGTH": "NO",
     "o5_SAN_STRENGTH": "NO",
     "o6_SAN_STRENGTH": "NO",
-    "o8_SAN_STRENGTH": "NO",
     "o9_SAN_STRENGTH": "NO",
     "o10_SAN_STRENGTH": "NO",
     "o2-2_V2_DOM_ABUSE": "NO",

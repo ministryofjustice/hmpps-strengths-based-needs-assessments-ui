@@ -40,12 +40,12 @@ describe('read-only mode', () => {
     cy.sectionMarkedAsComplete('Drug use')
 
     cy.visitSection('Drug use')
-    cy.getSummary('Has Sam ever used drugs?').clickChange()
-    cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+    cy.getSummary('Has Sam ever misused drugs?').clickChange()
+    cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
     cy.saveAndContinue()
 
     cy.sectionNotMarkedAsComplete('Drug use')
-    cy.assertResumeUrlIs('Drug use', '/drug-use')
+    cy.assertResumeUrlIs('Drug use', '/add-drugs')
 
     cy.enterAssessment(AccessMode.READ_ONLY)
     cy.sectionNotMarkedAsComplete('Drug use')

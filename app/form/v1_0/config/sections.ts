@@ -32,7 +32,7 @@ export default {
     code: 'alcohol-use',
     sectionCompleteField: 'alcohol_use_section_complete',
   },
-  drugs: {
+  drugsUse: {
     title: 'Drug use',
     code: 'drug-use',
     sectionCompleteField: 'drug_use_section_complete',

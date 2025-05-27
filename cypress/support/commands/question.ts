@@ -2,7 +2,7 @@
 
 export const getQuestion = (title: string) => {
   return cy
-    .get(`form > .form-group, form > .drug > .form-group`)
+    .get(`form > .form-group, .drug > .form-group`)
     .find('> fieldset > legend, > .govuk-form-group > label')
     .contains(title)
     .should('be.visible')
@@ -123,6 +123,10 @@ export const getCheckbox = (subject: JQuery, label: string) => {
     .should('be.visible')
     .and('have.length', 1)
     .parent()
+}
+
+export const getFollowingDetails = (subject: JQuery) => {
+  return cy.wrap(subject).parent().find('+ .form-group').should('have.length', 1)
 }
 
 export const hasRadios = (subject: JQuery, options: string[]) => {

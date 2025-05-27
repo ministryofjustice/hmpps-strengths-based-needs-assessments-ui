@@ -36,6 +36,7 @@ import {
   enterText,
   getCheckbox,
   getDrugQuestion,
+  getFollowingDetails,
   getQuestion,
   getRadio,
   hasCheckboxes,
@@ -168,6 +169,7 @@ declare global {
       hasNoValidationError(): Chainable
       getRadio(label: string): Chainable
       getCheckbox(label: string): Chainable
+      getFollowingDetails(): Chainable
       enterText(value: string): Chainable
       enterDate(date: string): Chainable
       hasText(value: string): Chainable
@@ -265,6 +267,7 @@ Cypress.Commands.add('hasValidationError', { prevSubject: true }, hasValidationE
 Cypress.Commands.add('hasNoValidationError', { prevSubject: true }, hasNoValidationError)
 Cypress.Commands.add('getRadio', { prevSubject: true }, getRadio)
 Cypress.Commands.add('getCheckbox', { prevSubject: true }, getCheckbox)
+Cypress.Commands.add('getFollowingDetails', { prevSubject: true }, getFollowingDetails)
 Cypress.Commands.add('hasRadios', { prevSubject: true }, hasRadios)
 Cypress.Commands.add('hasCheckboxes', { prevSubject: true }, hasCheckboxes)
 Cypress.Commands.add('enterText', { prevSubject: true }, enterText)
