@@ -13,6 +13,7 @@ const stepUrls = {
   drugDetailsMoreThanSix: 'drug-details-more-than-six-months',
   drugDetailsMoreThanSixInjected: 'drug-details-more-than-six-months-injected',
   drugUseHistory: 'drug-use-history',
+  drugUseHistoryAllMoreThanSix: 'drug-use-history-more-than-six-months',
 
   summary: 'drug-use-summary',
   analysis: 'drug-use-analysis',
@@ -125,7 +126,17 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
-      next: stepUrls.drugUseHistory,
+      next: (data) => {
+        // Check if all of the selected drugs have been used more than 6 months ago
+        const allDrugMoreThanSixMonths = drugsUseFields.addDrugs.drugLastUsedFields.every(field =>
+          data.form.values[field.code] === 'MORE_THAN_SIX' || data.form.values[field.code] === undefined
+        );
+
+        if (allDrugMoreThanSixMonths) {
+          return stepUrls.drugUseHistoryAllMoreThanSix
+        }
+        return stepUrls.drugUseHistory
+      },
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -137,7 +148,6 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.drugUseHistory.drugsAffectedTheirLife,
         drugsUseFields.drugUseHistory.drugsAffectedTheirLifeDetails,
         drugsUseFields.drugUseHistory.drugsAnythingHelpedStopOrReduceUse,
-        drugsUseFields.drugUseHistory.drugsWhatCouldHelpNotUseDrugsInFuture,
         drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUse,
         drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsPositiveChanges,
         drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsMakingChanges,
@@ -147,6 +157,30 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsDoNotWantChanges,
         drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsDoNotWantToAnswer,
         drugsUseFields.isUserSubmitted(stepUrls.drugUseHistory),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugUseHistoryAllMoreThanSix,
+      pageHeading: sectionHeading,
+      fields: [
+        drugsUseFields.drugUseHistory.drugsReasonsForUse,
+        drugsUseFields.drugUseHistory.drugsReasonsForUseDetails,
+        drugsUseFields.drugUseHistory.drugsAffectedTheirLife,
+        drugsUseFields.drugUseHistory.drugsAffectedTheirLifeDetails,
+        drugsUseFields.drugUseHistory.drugsAnythingHelpedStopOrReduceUse,
+        drugsUseFields.drugUseHistory.drugsWhatCouldHelpNotUseDrugsInFuture, // This one only displays if any drugs were Used more than 6 months ago
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUse,
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsPositiveChanges,
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsMakingChanges,
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsWantToMakeChanges,
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsWantToMakeChangesHelp,
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsThinkingAboutChanges,
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsDoNotWantChanges,
+        drugsUseFields.drugUseHistory.drugsWantToMakeChangesToDrugUseDetailsDoNotWantToAnswer,
+        drugsUseFields.isUserSubmitted(stepUrls.drugUseHistoryAllMoreThanSix),
         drugsUseFields.sectionComplete(),
       ].flat(),
       next: stepUrls.summary,
