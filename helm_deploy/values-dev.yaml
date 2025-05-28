@@ -15,6 +15,10 @@ generic-service:
     HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service-dev.hmpps.service.justice.gov.uk"
     OASYS_URL: "https://arns-oastub-dev.hmpps.service.justice.gov.uk/"
 
+  namespace_secrets:
+    hmpps-strengths-based-needs-assessments-ui-feedback-url:
+      FEEDBACK_URL: "FEEDBACK_URL"
+
   allowlist:
     capita-dev: 51.104.16.30/31
     captia-further: 172.167.141.40/32
