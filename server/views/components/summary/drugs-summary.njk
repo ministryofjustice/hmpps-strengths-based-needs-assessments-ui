@@ -4,7 +4,7 @@
 {%- macro renderDrugsSummary(drugUseField, sessionData, summaryFields) -%}
   {{ renderTopLevelField(drugUseField, sessionData) }}
 
-  {% set drugsSummary = generateDrugsSummary(summaryFields.singleFields) %}
+  {% set drugsSummary = generateDrugsSummary(summaryFields.singleFields, sessionData.user) %}
 
   {% set hasUsedDrugs = false %}
   {% for answer in drugUseField.answers %}
@@ -14,21 +14,29 @@
   {% endfor %}
 
   {% if drugsSummary.usedInTheLastSix | length %}
-    <h3 class="govuk-heading-m govuk-!-font-size-27">Used in the last 6 months</h3>
+    <h3 class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</h3>
     {% for card in drugsSummary.usedInTheLastSix %}
       {{ govukSummaryList(card) }}
     {% endfor %}
   {% endif %}
 
   {% if drugsSummary.notUsedInTheLastSix | length %}
-    <h3 class="govuk-heading-m govuk-!-font-size-27">Not used in the last 6 months</h3>
+    <h3 class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</h3>
     {% for card in drugsSummary.notUsedInTheLastSix %}
       {{ govukSummaryList(card) }}
     {% endfor %}
   {% endif %}
 
+  {% if drugsSummary.otherFields | length %}
+    <div class="drugs-summary__other-fields">
+      {% for otherField in drugsSummary.otherFields %}
+        {{ renderTopLevelField(otherField, sessionData) }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
   {% if hasUsedDrugs %}
-    <h3 class="govuk-heading-m govuk-!-font-size-27">More information</h3>
+    <h3 class="govuk-heading-m drugs-summary__subheading">More information</h3>
   {% endif %}
 
 {%- endmacro -%}
