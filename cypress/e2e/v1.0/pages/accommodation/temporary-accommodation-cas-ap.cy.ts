@@ -37,6 +37,7 @@ describe('/temporary-accommodation-cas-ap', () => {
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

@@ -3,6 +3,7 @@ import { type RequestHandler, Router } from 'express'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import App from '../../app'
 import startController from '../../app/controllers/startController'
+import config from '../config'
 
 export default function routes(): Router {
   const router = Router()
@@ -18,6 +19,7 @@ export default function routes(): Router {
   })
 
   get('/accessibility-statement', (req, res, next) => {
+    res.locals.feedbackUrl = config.feedbackUrl
     res.render('pages/accessibility-statement')
   })
 

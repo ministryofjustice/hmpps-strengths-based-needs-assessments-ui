@@ -34,6 +34,7 @@ class BaseController extends FormWizard.Controller {
 
     res.locals.domain = config.domain
     res.locals.oasysUrl = config.oasysUrl
+    res.locals.feedbackUrl = config.feedbackUrl
     res.locals.applicationInsightsConnectionString = config.apis.appInsights.connectionString
     res.locals.applicationInsightsRoleName = defaultName()
 

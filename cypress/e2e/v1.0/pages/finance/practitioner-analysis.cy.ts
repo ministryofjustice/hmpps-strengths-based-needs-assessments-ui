@@ -26,6 +26,7 @@ beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
+  cy.hasFeedbackLink()
 })
 
 testPractitionerAnalysis(summaryPage, '/finance-analysis', 'finances')

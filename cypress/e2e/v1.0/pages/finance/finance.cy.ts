@@ -16,6 +16,8 @@ describe('/finance', () => {
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Finances', stepUrl)
     cy.assertQuestionCount(questions.length)
+    cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

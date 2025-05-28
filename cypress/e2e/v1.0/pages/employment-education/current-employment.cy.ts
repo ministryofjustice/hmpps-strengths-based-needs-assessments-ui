@@ -12,6 +12,7 @@ describe('/current-employment', () => {
     cy.assertSectionIs('Employment and education')
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

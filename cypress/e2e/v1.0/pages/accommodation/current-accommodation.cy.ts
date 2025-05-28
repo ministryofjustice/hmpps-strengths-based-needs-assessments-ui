@@ -12,6 +12,7 @@ describe('/current-accommodation', () => {
     cy.assertSectionIs('Accommodation')
     cy.assertQuestionCount(1)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

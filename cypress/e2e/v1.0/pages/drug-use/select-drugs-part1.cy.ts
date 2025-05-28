@@ -13,6 +13,7 @@ describe('/select-drugs - Part 1', () => {
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionCount(1)
       cy.hasAutosaveEnabled()
+      cy.hasFeedbackLink()
 
       cy.getQuestion(question)
         .isQuestionNumber(1)

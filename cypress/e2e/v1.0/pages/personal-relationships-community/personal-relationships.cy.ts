@@ -22,6 +22,7 @@ describe('/personal-relationships', () => {
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

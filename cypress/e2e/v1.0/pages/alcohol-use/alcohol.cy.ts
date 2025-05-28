@@ -11,6 +11,7 @@ describe('/alcohol', () => {
     cy.assertSectionIs('Alcohol use')
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
     cy.assertResumeUrlIs('Alcohol use', stepUrl)
   })
 

@@ -4,113 +4,114 @@
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">Accessibility statement for Strengths Based Needs Assessments</h1>
-            <p class="govuk-body">
-                This page only contains information about the Strengths Based Needs Assessments service, available at:
-                <a href="https://strengths-based-needs-assessments.hmpps.service.justice.gov.uk" class="govuk-link govuk-link--no-visited-state">
-                    https://strengths-based-needs-assessments.hmpps.service.justice.gov.uk/
-                </a>
-            </p>
+  {% include "../partials/feedback.njk" %}
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-l">Accessibility statement for Strengths Based Needs Assessments</h1>
+          <p class="govuk-body">
+              This page only contains information about the Strengths Based Needs Assessments service, available at:
+              <a href="https://strengths-based-needs-assessments.hmpps.service.justice.gov.uk" class="govuk-link govuk-link--no-visited-state">
+                  https://strengths-based-needs-assessments.hmpps.service.justice.gov.uk/
+              </a>
+          </p>
 
-            <h2 class="govuk-heading-m">Using this service</h2>
-            <p class="govuk-body">
-                This service is run by HMPPS Digital Services.
-                We want as many people as possible to be able to use this service.
-            </p>
-            <p class="govuk-body">For example, that means you should be able to:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                {# TODO: Revise this as necessary #}
-                <li>TODO: This needs filling in after the accessibility review</li>
-                <li>change colours, contrast levels and fonts</li>
-                <li>zoom in up to 300% without the text spilling off the screen</li>
-                <li>get from the start of the service to the end using just a keyboard</li>
-                <li>get from the start of the service to the end using speech recognition software</li>
-                <li>listen to the service using a screen reader (including the most recent versions of JAWS, NVDA and
-                    VoiceOver)
-                </li>
-            </ul>
-            <p class="govuk-body">We've also made the text in the service as simple as possible to understand.</p>
-            <p class="govuk-body">
-                <a href="https://mcmw.abilitynet.org.uk/" class="govuk-link govuk-link--no-visited-state">AbilityNet</a>
-                has advice on making your device easier to use if you have a disability.
-            </p>
+          <h2 class="govuk-heading-m">Using this service</h2>
+          <p class="govuk-body">
+              This service is run by HMPPS Digital Services.
+              We want as many people as possible to be able to use this service.
+          </p>
+          <p class="govuk-body">For example, that means you should be able to:</p>
+          <ul class="govuk-list govuk-list--bullet">
+              {# TODO: Revise this as necessary #}
+              <li>TODO: This needs filling in after the accessibility review</li>
+              <li>change colours, contrast levels and fonts</li>
+              <li>zoom in up to 300% without the text spilling off the screen</li>
+              <li>get from the start of the service to the end using just a keyboard</li>
+              <li>get from the start of the service to the end using speech recognition software</li>
+              <li>listen to the service using a screen reader (including the most recent versions of JAWS, NVDA and
+                  VoiceOver)
+              </li>
+          </ul>
+          <p class="govuk-body">We've also made the text in the service as simple as possible to understand.</p>
+          <p class="govuk-body">
+              <a href="https://mcmw.abilitynet.org.uk/" class="govuk-link govuk-link--no-visited-state">AbilityNet</a>
+              has advice on making your device easier to use if you have a disability.
+          </p>
 
-            <h2 class="govuk-heading-m">How accessible this service is</h2>
-            <p class="govuk-body">We know some parts of this service are not fully accessible:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                {# TODO: This needs filling in after the accessibility review #}
-                <li>TODO: This needs filling in after the accessibility review</li>
-            </ul>
+          <h2 class="govuk-heading-m">How accessible this service is</h2>
+          <p class="govuk-body">We know some parts of this service are not fully accessible:</p>
+          <ul class="govuk-list govuk-list--bullet">
+              {# TODO: This needs filling in after the accessibility review #}
+              <li>TODO: This needs filling in after the accessibility review</li>
+          </ul>
 
-            <h2 class="govuk-heading-m">Feedback and contact information</h2>
-            <p class="govuk-body">If you have difficulty using this service, email:
-                <a href="mailto:arns@digital.justice.gov.uk" class="govuk-link govuk-link--no-visited-state">arns@digital.justice.gov.uk</a>
-            </p>
-
-
-            <h2 class="govuk-heading-m">Reporting accessibility problems with this service</h2>
-            <p class="govuk-body">We're always looking to improve the accessibility of this service.</p>
-            <p class="govuk-body">
-                If you find any problems that are not listed on this page or think we're not meeting accessibility requirements, email:
-                <a href="mailto:arns@digital.justice.gov.uk" class="govuk-link govuk-link--no-visited-state">arns@digital.justice.gov.uk</a>
-            </p>
+          <h2 class="govuk-heading-m">Feedback and contact information</h2>
+          <p class="govuk-body">If you have difficulty using this service, email:
+              <a href="mailto:arns@digital.justice.gov.uk" class="govuk-link govuk-link--no-visited-state">arns@digital.justice.gov.uk</a>
+          </p>
 
 
-            <h2 class="govuk-heading-m">Enforcement procedure</h2>
-            <p class="govuk-body">
-                The Equality and Human Rights Commission (EHRC) is responsible for enforcing the
-                Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018
-                (the 'accessibility regulations').
-            </p>
-            <p class="govuk-body">
-                If you're not happy with how we respond to your complaint, contact
-                <a href="https://www.equalityadvisoryservice.com/" class="govuk-link govuk-link--no-visited-state">
-                    the Equality Advisory and Support Service (EASS).
-                </a>
-            </p>
-
-            <h2 class="govuk-heading-m">Technical information about this service's accessibility</h2>
-            <p class="govuk-body">
-                HMPPS Digital Services is committed to making this service accessible, in accordance
-                with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
-            </p>
+          <h2 class="govuk-heading-m">Reporting accessibility problems with this service</h2>
+          <p class="govuk-body">We're always looking to improve the accessibility of this service.</p>
+          <p class="govuk-body">
+              If you find any problems that are not listed on this page or think we're not meeting accessibility requirements, email:
+              <a href="mailto:arns@digital.justice.gov.uk" class="govuk-link govuk-link--no-visited-state">arns@digital.justice.gov.uk</a>
+          </p>
 
 
-            <h3 class="govuk-heading-s">Compliance status</h3>
-            <p class="govuk-body">
-                This service is fully compliant with
-                <a href="https://www.w3.org/TR/WCAG21/" class="govuk-link govuk-link--no-visited-state">
-                    the Web Content Accessibility Guidelines version 2.2 AA standard
-                </a>
-            </p>
+          <h2 class="govuk-heading-m">Enforcement procedure</h2>
+          <p class="govuk-body">
+              The Equality and Human Rights Commission (EHRC) is responsible for enforcing the
+              Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018
+              (the 'accessibility regulations').
+          </p>
+          <p class="govuk-body">
+              If you're not happy with how we respond to your complaint, contact
+              <a href="https://www.equalityadvisoryservice.com/" class="govuk-link govuk-link--no-visited-state">
+                  the Equality Advisory and Support Service (EASS).
+              </a>
+          </p>
+
+          <h2 class="govuk-heading-m">Technical information about this service's accessibility</h2>
+          <p class="govuk-body">
+              HMPPS Digital Services is committed to making this service accessible, in accordance
+              with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
+          </p>
 
 
-            <h2 class="govuk-heading-m">What we are doing to improve accessibility</h2>
-            <p class="govuk-body">
-                We'll carry out on-going internal audits to check the accessibility of this service as
-                well as taking feedback from users.
-            </p>
-            <p class="govuk-body">
-                Any required changes will be planned into our continuous improvement work for this
-                service.
-            </p>
-            <p class="govuk-body">
-                This accessibility statement will be updated based on any issues we identify or any
-                changes we make to address any issues raised.
-            </p>
+          <h3 class="govuk-heading-s">Compliance status</h3>
+          <p class="govuk-body">
+              This service is fully compliant with
+              <a href="https://www.w3.org/TR/WCAG21/" class="govuk-link govuk-link--no-visited-state">
+                  the Web Content Accessibility Guidelines version 2.2 AA standard
+              </a>
+          </p>
 
 
-            <h2 class="govuk-heading-m">Preparation of this accessibility statement</h2>
-            <p class="govuk-body">
-                This statement was prepared on Wednesday 7th August 2024. It was last reviewed on Wednesday 7th August 2024.
-            </p>
-            <p class="govuk-body">
-                {# TODO: Set correct dates #}
-                This service was last tested on TODO: TEST-DATE.
-                The test was carried out by the Digital Accessibility Centre.</p>
-            <p class="govuk-body pac-secondary-text">Last updated: Wednesday 7th August 2024</p>
-        </div>
-    </div>
+          <h2 class="govuk-heading-m">What we are doing to improve accessibility</h2>
+          <p class="govuk-body">
+              We'll carry out on-going internal audits to check the accessibility of this service as
+              well as taking feedback from users.
+          </p>
+          <p class="govuk-body">
+              Any required changes will be planned into our continuous improvement work for this
+              service.
+          </p>
+          <p class="govuk-body">
+              This accessibility statement will be updated based on any issues we identify or any
+              changes we make to address any issues raised.
+          </p>
+
+
+          <h2 class="govuk-heading-m">Preparation of this accessibility statement</h2>
+          <p class="govuk-body">
+              This statement was prepared on Wednesday 7th August 2024. It was last reviewed on Wednesday 7th August 2024.
+          </p>
+          <p class="govuk-body">
+              {# TODO: Set correct dates #}
+              This service was last tested on TODO: TEST-DATE.
+              The test was carried out by the Digital Accessibility Centre.</p>
+          <p class="govuk-body pac-secondary-text">Last updated: Wednesday 7th August 2024</p>
+      </div>
+  </div>
 {% endblock %}
