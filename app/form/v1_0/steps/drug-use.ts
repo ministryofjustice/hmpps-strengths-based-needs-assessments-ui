@@ -1,3 +1,4 @@
+import FormWizard from 'hmpo-form-wizard'
 import sections, { SectionConfig } from '../config/sections'
 import { nextWhen, setFieldToCompleteWhenValid, setFieldToIncomplete } from './common'
 import drugsUseFields from '../fields/drug-use'
@@ -126,18 +127,19 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
-      next: data => {
-        // Check if all of the selected drugs have been used more than 6 months ago
-        const allDrugMoreThanSixMonths = drugsUseFields.addDrugs.drugLastUsedFields.every(
-          drugField =>
-            data.form.values[drugField.code] === 'MORE_THAN_SIX' || data.form.values[drugField.code] === undefined,
-        )
-
-        if (allDrugMoreThanSixMonths) {
-          return stepUrls.drugUseHistoryAllMoreThanSix
-        }
-        return stepUrls.drugUseHistory
-      },
+      next: [
+        {
+          fn: (req: FormWizard.Request) => {
+            // Check if all of the selected drugs were last used more than 6 months ago
+            return drugsUseFields.addDrugs.drugLastUsedFields.every(
+              drugField =>
+                req.form.values[drugField.code] === 'MORE_THAN_SIX' || req.form.values[drugField.code] === undefined,
+            )
+          },
+          next: stepUrls.drugUseHistoryAllMoreThanSix,
+        },
+        stepUrls.drugUseHistory, // default next value if the condition is not met
+      ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
