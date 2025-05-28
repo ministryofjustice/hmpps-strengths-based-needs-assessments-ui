@@ -36,7 +36,7 @@ const usedLastSixMonths: Array<FormWizard.Field> = drugsList
     }
     const detailsField: FormWizard.Field = {
       text: 'Give details (optional)',
-      code: fieldCodeWith('how_often_used_last_six_months', drug.value, 'details'),
+      code: fieldCodeWith(field.code, 'details'),
       type: FieldType.TextArea,
       validate: [
         {
