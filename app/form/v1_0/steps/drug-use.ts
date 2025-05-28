@@ -164,9 +164,8 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: [
           drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
-            nextWhen(lastUsedField, 'LAST_SIX', `${stepUrls.analysisConditional}#practitioner-analysis`),
+            nextWhen(lastUsedField, 'LAST_SIX' || 'MORE_THAN_SIX', `${stepUrls.analysisConditional}#practitioner-analysis`),
           ),
-        // nextWhen(drugsUseFields.addDrugs.selectMisusedDrugs, 'LAST_SIX', templates.analysisConditional),
         `${stepUrls.analysis}#practitioner-analysis`,
       ].flat(),
       template: templates.analysisIncomplete,

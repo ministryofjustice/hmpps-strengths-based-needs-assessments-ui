@@ -1,18 +1,13 @@
 {% extends "../summary.njk" %}
 
 {% macro renderAnalysisSummaryRow(label, field, yesDetailsField, noDetailsField, link) %}
-  <article class="analysis-summary__item">
-    <div class="analysis-summary__row">
-      <div class="analysis-summary__heading">
-        <h2 class="govuk-heading-m full-width">{{ label }}</h2>
+  <article class="analysis-summary">
+    <div class="govuk-grid-column-one-third analysis-summary__row">
+      <div class="analysis-summary__label">
+        {{ label }}
       </div>
-      {% if sessionData.user | isInEditMode %}
-        <div class="analysis-summary__action">
-          <a class="govuk-link" href="{{ link }}">Change<span class="govuk-visually-hidden">value for {{ label }}</span></a>
-        </div>
-      {% endif %}
     </div>
-    <div class="analysis-summary__row">
+    <div class="govuk-grid-column-one-third analysis-summary__row">
       <div class="analysis-summary__value">
         <ul class="govuk-list">
           {% for option in field.options %}
@@ -24,7 +19,7 @@
               {% endif %}
 
               <li class="summary-details-list">
-                <span class="analysis__answer">{{ option.text }}</span>
+                <span class="analysis-summary__answer">{{ option.text }}</span>
                 <p class="analysis__answer--secondary">{{ detailsAnswer | nl2br | safe }}</p>
               </li>
             {% endif %}
@@ -32,7 +27,13 @@
         </ul>
       </div>
     </div>
+    {% if sessionData.user | isInEditMode %}
+      <div class="govuk-grid-column-one-third analysis-summary__action">
+        <a class="govuk-link" href="{{ link }}">Change<span class="govuk-visually-hidden">value for {{ label }}</span></a>
+      </div>
+    {% endif %}
   </article>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 {% endmacro %}
 
 
@@ -45,23 +46,21 @@
 
   <section>
     {{ renderAnalysisSummaryRow(
-      "Strengths or protective factors",
+      "Are there any strength or protective factors related to " + subjectDetails.givenName + "'s drug use?",
       fields[section + "_practitioner_analysis_strengths_or_protective_factors"],
       fields[section + "_practitioner_analysis_strengths_or_protective_factors_yes_details"],
       fields[section + "_practitioner_analysis_strengths_or_protective_factors_no_details"],
       changeLink
     ) }}
-    <hr class="govuk-section-break govuk-section-break--l">
     {{ renderAnalysisSummaryRow(
-      "Linked to risk of serious harm",
+      "Is "+ subjectDetails.givenName +"'s drug use inked to risk of serious harm?",
       fields[section + "_practitioner_analysis_risk_of_serious_harm"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_yes_details"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_no_details"],
       changeLink
     ) }}
-    <hr class="govuk-section-break govuk-section-break--l">
     {{ renderAnalysisSummaryRow(
-      "Linked to risk of reoffending",
+      "Is "+ subjectDetails.givenName +"'s drug use linked to risk of reoffending?",
       fields[section + "_practitioner_analysis_risk_of_reoffending"],
       fields[section + "_practitioner_analysis_risk_of_reoffending_yes_details"],
       fields[section + "_practitioner_analysis_risk_of_reoffending_no_details"],
