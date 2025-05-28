@@ -126,11 +126,12 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
-      next: (data) => {
+      next: data => {
         // Check if all of the selected drugs have been used more than 6 months ago
-        const allDrugMoreThanSixMonths = drugsUseFields.addDrugs.drugLastUsedFields.every(field =>
-          data.form.values[field.code] === 'MORE_THAN_SIX' || data.form.values[field.code] === undefined
-        );
+        const allDrugMoreThanSixMonths = drugsUseFields.addDrugs.drugLastUsedFields.every(
+          drugField =>
+            data.form.values[drugField.code] === 'MORE_THAN_SIX' || data.form.values[drugField.code] === undefined,
+        )
 
         if (allDrugMoreThanSixMonths) {
           return stepUrls.drugUseHistoryAllMoreThanSix
