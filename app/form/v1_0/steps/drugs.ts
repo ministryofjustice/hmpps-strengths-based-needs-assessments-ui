@@ -18,6 +18,7 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      navigationTitle: 'Drug use',
       url: stepUrls.drugs,
       fields: [
         drugsFields.drugUseGroup,
@@ -27,11 +28,13 @@ const sectionConfig: SectionConfig = {
       next: [
         nextWhen(drugsFields.drugUse, 'YES', stepUrls.drugUse),
         nextWhen(drugsFields.drugUse, 'NO', stepUrls.summary),
+        stepUrls.summary,
       ],
       navigationOrder: 4,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Drug use details',
       url: stepUrls.drugUse,
       fields: [
         drugsFields.drugUsageDetailsGroup,
@@ -42,6 +45,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Drug usage',
       url: stepUrls.selectDrugs,
       fields: [
         drugsFields.drugUseTypeGroup,
@@ -53,6 +57,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Drug usage details',
       url: stepUrls.drugUsageDetails,
       fields: [
         drugsFields.drugUseTypeDetailsGroup,
@@ -64,6 +69,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Drug use changes',
       url: stepUrls.drugUseChanges,
       fields: [
         drugsFields.wantToMakeChanges(),
@@ -74,6 +80,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Practitioner analysis',
       url: stepUrls.summary,
       fields: [
         drugsFields.practitionerAnalysis(),
@@ -85,6 +92,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
+      navigationTitle: 'Summary',
       url: stepUrls.analysis,
       template: templates.analysisComplete,
     },
