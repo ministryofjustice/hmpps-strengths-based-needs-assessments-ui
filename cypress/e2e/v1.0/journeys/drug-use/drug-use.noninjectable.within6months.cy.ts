@@ -1,4 +1,3 @@
-// TODO remove temp
 describe('Origin: /drug-use', () => {
   const destinations = {
     landingPage: '/drug-use',
