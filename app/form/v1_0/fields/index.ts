@@ -1,7 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import { utils } from './common'
 import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
-import { SectionConfig } from '../config/sections'
+
+import { SectionConfig } from '../../common/section';
 
 export const assessmentComplete: FormWizard.Field = {
   text: 'Is the assessment complete?',

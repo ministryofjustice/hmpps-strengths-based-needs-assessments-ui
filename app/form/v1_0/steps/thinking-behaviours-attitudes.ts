@@ -1,17 +1,12 @@
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import thinkingBehavioursFields from '../fields/thinking-behaviours-attitudes'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.thinkingBehaviours
 
-export const stepUrls = {
-  thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
-  riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
-  riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
-  summary: 'thinking-behaviours-attitudes-summary',
-  analysis: 'thinking-behaviours-attitudes-analysis',
-}
+export const stepUrls = section.stepUrls
 
 const sectionConfig: SectionConfig = {
   section,
@@ -40,7 +35,6 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 8,
       next: stepUrls.riskOfSexualHarm,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },

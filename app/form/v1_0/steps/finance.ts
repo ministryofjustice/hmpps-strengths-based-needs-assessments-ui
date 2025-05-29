@@ -1,14 +1,11 @@
 import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
 import financeFields from '../fields/finance'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.finance
-const stepUrls = {
-  finance: 'finance',
-  summary: 'finance-summary',
-  analysis: 'finance-analysis',
-}
+const stepUrls = section.stepUrls
 
 const baseFinanceGroup = [
   financeFields.financeIncome,
@@ -38,7 +35,6 @@ const sectionConfig: SectionConfig = {
         financeFields.isUserSubmitted(stepUrls.finance),
         financeFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 3,
       next: stepUrls.summary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },

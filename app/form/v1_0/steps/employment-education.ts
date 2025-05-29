@@ -1,18 +1,11 @@
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import employmentEducationFields from '../fields/employment-education'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.employmentEducation
-const stepUrls = {
-  currentEmployment: 'current-employment',
-  employed: 'employed',
-  retired: 'retired',
-  employedBefore: 'employed-before',
-  neverEmployed: 'never-employed',
-  summary: 'employment-education-summary',
-  analysis: 'employment-education-analysis',
-}
+const stepUrls = section.stepUrls
 
 const employmentStatusGroup = [
   employmentEducationFields.employmentStatus,
@@ -66,7 +59,6 @@ const sectionConfig: SectionConfig = {
           ],
         ),
       ],
-      navigationOrder: 2,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
