@@ -29,7 +29,7 @@
     </div>
     {% if sessionData.user | isInEditMode %}
       <div class="govuk-grid-column-one-third analysis-summary__action">
-        <a class="govuk-link" href="{{ link }}">Change<span class="govuk-visually-hidden">value for {{ label }}</span></a>
+        <a class="govuk-link" href="{{ link }}">Change<span class="govuk-visually-hidden"> value for {{ label }}</span></a>
       </div>
     {% endif %}
   </article>
@@ -53,7 +53,7 @@
       changeLink
     ) }}
     {{ renderAnalysisSummaryRow(
-      "Is "+ subjectDetails.givenName +"'s drug use inked to risk of serious harm?",
+      "Is "+ subjectDetails.givenName +"'s drug use linked to risk of serious harm?",
       fields[section + "_practitioner_analysis_risk_of_serious_harm"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_yes_details"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_no_details"],
