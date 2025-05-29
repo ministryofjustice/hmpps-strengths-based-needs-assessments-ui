@@ -72,6 +72,14 @@
 
     const links = document.getElementsByTagName('a')
 
+    const handleLink = (link) => {
+      if (!link.target || link.target === '_self') {
+        window.location = link.href
+      } else {
+        window.open(link.href, link.target)
+      }
+    }
+
     for (const link of links) {
       link.addEventListener('click', event => {
         event.preventDefault()
@@ -80,12 +88,12 @@
             .then(response =>
               response.text().then(text => {
                 console.log(`Form persisted: ${text}`)
-                window.location = link.href
+                handleLink(link)
               }),
             )
             .catch(e => console.error(`Failed to persist form: ${e.message}`))
         } else {
-          window.location = link.href
+          handleLink(link)
         }
       })
     }
