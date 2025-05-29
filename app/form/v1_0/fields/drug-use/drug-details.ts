@@ -40,7 +40,8 @@ const usedLastSixMonths: Array<FormWizard.Field> = drugsList
       type: FieldType.TextArea,
       validate: [
         {
-          type: ValidationType.MaxLength,
+          type: 'validateMaxLength',
+          fn: utils.validateMaxLength,
           arguments: [characterLimits.default],
           message: `Details must be ${characterLimits.default} characters or less`,
         },
