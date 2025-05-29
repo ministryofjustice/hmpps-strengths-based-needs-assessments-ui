@@ -41,7 +41,7 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
   const notUsedInTheLastSix: DrugCard[] = []
   const selectDrugsField = summaryFields.find(it => it.field.code === 'select_misused_drugs')
 
-  selectDrugsField.answers.forEach(drug => {
+  selectDrugsField?.answers.forEach(drug => {
     const lastUsedFieldCode = `drug_last_used_${drug.value.toLowerCase()}`
     const lastUsedField = drug.nestedFields.find(it => it.field.code === lastUsedFieldCode)
     const lastUsedAnswer = lastUsedField?.answers[0]
@@ -187,12 +187,14 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
     }
   })
 
+  const notUsedInTheLastSixDetailsField =
+    notUsedInTheLastSix.length > 0
+      ? summaryFields.find(it => it.field.code === 'not_used_in_last_six_months_details')
+      : null
+
   return {
     usedInTheLastSix,
     notUsedInTheLastSix,
-    otherFields:
-      notUsedInTheLastSix.length > 0
-        ? [summaryFields.find(it => it.field.code === 'not_used_in_last_six_months_details')]
-        : [],
+    otherFields: notUsedInTheLastSixDetailsField ? [notUsedInTheLastSixDetailsField] : [],
   }
 }
