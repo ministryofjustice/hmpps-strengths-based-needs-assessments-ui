@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
+import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 import { utils } from '../common'
 import { dependentOn, requiredWhenValidator } from '../common/utils'
 import drugUse from './drug-use'

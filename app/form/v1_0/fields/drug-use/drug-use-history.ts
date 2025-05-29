@@ -43,7 +43,7 @@ const drugsReasonsForUseDetails: FormWizard.Field = {
       fn: utils.validateMaxLength,
       arguments: [characterLimits.default],
       message: `Details must be ${characterLimits.default} characters or less`,
-    }
+    },
   ],
   transform(state): FormWizard.Field {
     const usedInTheLastSixMonths = addDrugs.drugLastUsedFields.some(field => state.answers[field.code] === 'LAST_SIX')
@@ -52,7 +52,7 @@ const drugsReasonsForUseDetails: FormWizard.Field = {
       ...this,
       summary: {
         text: `Details on why ${subject.givenName} ${usedInTheLastSixMonths ? 'uses' : 'used'} drugs`,
-      }
+      },
     }
   },
 }
@@ -115,7 +115,7 @@ const drugsAffectedTheirLifeDetails: FormWizard.Field = {
       fn: utils.validateMaxLength,
       arguments: [characterLimits.default],
       message: `Details must be ${characterLimits.default} characters or less`,
-    }
+    },
   ],
   transform(state): FormWizard.Field {
     const subject = state.session.subjectDetails as HandoverSubject
@@ -123,7 +123,7 @@ const drugsAffectedTheirLifeDetails: FormWizard.Field = {
       ...this,
       summary: {
         text: `Details on how ${subject.givenName}'s drug use has affected their life`,
-      }
+      },
     }
   },
 }
