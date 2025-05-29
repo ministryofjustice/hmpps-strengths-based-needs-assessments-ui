@@ -6,7 +6,7 @@ const drugsPractitionerAnalysisMotivatedToStop: FormWizard.Field = {
   text: `Does [subject] seem motivated to stop or reduce their drug use?`,
   code: `drugs_practitioner_analysis_motivated_to_stop`,
   type: FieldType.Radio,
-  validate: [{ type: ValidationType.Required, message: 'Select if there are any strengths or protective factors' }],
+  validate: [{ type: ValidationType.Required, message: 'Select if they seem motivated to stop or reduce their drug use' }],
   options: [
     { text: 'Does not show motivation to stop or reduce', value: 'NO_MOTIVATION', kind: 'option' },
     { text: 'Shows some motivation to stop or reduce ', value: 'PARTIAL_MOTIVATION', kind: 'option' },
