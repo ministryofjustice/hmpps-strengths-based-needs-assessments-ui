@@ -240,6 +240,12 @@ class SaveAndContinueController extends BaseController {
 
     const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answersToPersist, options)
 
+    // remove answers from the session model
+    // because FormWizard uses it for page routing logic
+    answersToRemove.forEach(fieldCode => {
+      req.sessionModel.set(fieldCode, null)
+    })
+
     req.form.values = {
       ...answersToPersist,
       ...answersToRemove.reduce(
