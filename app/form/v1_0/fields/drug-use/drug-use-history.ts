@@ -28,6 +28,23 @@ const drugsReasonsForUse: FormWizard.Field = {
     { text: 'Other', value: 'OTHER', kind: 'option' },
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  transform(state): FormWizard.Field {
+    let fieldText = this.text
+
+    if (
+      Object.entries(state.answers)
+        .filter(([key]) => key.startsWith('drug_last_used_'))
+        .map(([_, answer]) => answer)
+        .every(answer => answer === 'MORE_THAN_SIX')
+    ) {
+      fieldText = fieldText.replace('does', 'did')
+    }
+
+    return {
+      ...this,
+      text: fieldText,
+    }
+  },
 }
 
 const drugsReasonsForUseDetails = FieldsFactory.detailsField({

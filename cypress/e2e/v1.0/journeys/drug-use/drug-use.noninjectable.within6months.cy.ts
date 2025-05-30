@@ -1,4 +1,3 @@
-// TODO remove temp
 describe('Origin: /drug-use', () => {
   const destinations = {
     landingPage: '/drug-use',
@@ -115,8 +114,6 @@ describe('Origin: /drug-use', () => {
         .enterText('how life has been affected')
 
       cy.getQuestion('Has anything helped Sam stop or reduce their drug use?').enterText('stop or reduce drug use')
-
-      cy.getQuestion('What could help Sam not use drugs in the future?').enterText('not use in the future')
 
       cy.getQuestion('Does Sam want to make changes to their drug use?')
         .getRadio('I want to make changes but need help')
