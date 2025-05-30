@@ -29,9 +29,11 @@
 
   {% if drugsSummary.otherFields | length %}
     <div class="drugs-summary__other-fields">
+      <dl class="govuk-summary-list summary-list">
       {% for otherField in drugsSummary.otherFields %}
         {{ renderTopLevelField(otherField, sessionData) }}
       {% endfor %}
+      </dl>
     </div>
   {% endif %}
 
