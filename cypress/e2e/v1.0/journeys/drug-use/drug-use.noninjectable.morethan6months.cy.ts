@@ -96,11 +96,11 @@ describe('Origin: /drug-use', () => {
     it(`routes to ${destinations.summary}`, () => {
       cy.visitStep(destinations.drugUseHistoryAllMoreThanSix)
 
-      cy.getQuestion('Why does Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
+      cy.getQuestion('Why did Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
 
-      cy.getQuestion('Why does Sam use drugs?').getCheckbox('Peer pressure or social influence').clickLabel()
+      cy.getQuestion('Why did Sam use drugs?').getCheckbox('Peer pressure or social influence').clickLabel()
 
-      cy.getQuestion('Why does Sam use drugs?').getFollowingDetails().enterText('why sam uses drugs')
+      cy.getQuestion('Why did Sam use drugs?').getFollowingDetails().enterText('why sam uses drugs')
 
       cy.getQuestion("How has Sam's drug use affected their life?").getCheckbox('Behaviour').clickLabel()
 
