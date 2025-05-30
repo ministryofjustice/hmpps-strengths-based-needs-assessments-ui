@@ -140,12 +140,8 @@ describe('Origin: /drug-use', () => {
       cy.getQuestion("Are there any strengths or protective factors related to Sam's drug use?")
         .getRadio('No')
         .clickLabel()
-      cy.getQuestion("Is Sam's drug use linked to risk of serious harm?")
-        .getRadio('No')
-        .clickLabel()
-      cy.getQuestion("Is Sam's drug use linked to risk of reoffending?")
-        .getRadio('No')
-        .clickLabel()
+      cy.getQuestion("Is Sam's drug use linked to risk of serious harm?").getRadio('No').clickLabel()
+      cy.getQuestion("Is Sam's drug use linked to risk of reoffending?").getRadio('No').clickLabel()
 
       cy.markAsComplete()
 
