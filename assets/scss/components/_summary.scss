@@ -9,99 +9,14 @@ $small-font: 12px;
   }
 }
 
-.drugs-summary-table {
-  width: 100%;
-  margin-top: govuk-spacing(3);
-  margin-bottom: govuk-spacing(3);
-  border: 1px solid $govuk-border-colour;
-
-  caption {
-    margin-bottom: govuk-spacing(3);
+.drugs-summary {
+  &__subheading {
+    @include govuk-font(27, 'bold');
+    margin-top: govuk-spacing(6);
   }
 
-  @media print {
-    border: none;
-    margin-bottom: govuk-spacing(5) !important;
-  }
-
-  th,
-  td {
-    @include govuk-font-size('19');
-    padding: govuk-spacing(3);
-
-    &:last-child {
-      text-align: right;
-      padding-right: govuk-spacing(3);
-
-      @media print {
-        display: none;
-      }
-    }
-  }
-
-  thead {
-    th {
-      font-weight: normal;
-
-      @media print {
-        font-size: $small-font;
-        font-weight: bold;
-        background-color: govuk-colour('mid-grey');
-        border: none;
-        border-right: 1px solid govuk-colour('white');
-      }
-    }
-  }
-
-  tbody {
-    border-bottom: 1px solid $govuk-border-colour;
-
-    tr {
-      &:first-child th {
-        @media print {
-          font-size: $small-font;
-          font-weight: bold;
-          background-color: govuk-colour('light-grey');
-          border: none;
-        }
-      }
-
-      &:last-child {
-        th,
-        td {
-          font-size: $large-font;
-          padding-top: 0;
-
-          @media print {
-            padding-top: govuk-spacing(3);
-            font-size: $small-font;
-          }
-        }
-      }
-    }
-
-    th,
-    td {
-      border-bottom: none;
-    }
-
-    th {
-      @media print {
-        font-size: $small-font;
-        font-weight: normal;
-        background-color: govuk-colour('light-grey');
-        border: none;
-        border-bottom: 1px solid govuk-colour('mid-grey');
-      }
-    }
-
-    td {
-      @media print {
-        border-bottom: 1px solid govuk-colour('mid-grey');
-        font-size: $small-font;
-        font-weight: normal;
-      }
-    }
+  &__other-fields {
+    margin-top: govuk-spacing(-4)
   }
 }
 
@@ -118,10 +33,6 @@ $small-font: 12px;
       page-break-inside: avoid;
       border-bottom: 1px solid govuk-colour('mid-grey');
     }
-
-    &--drugs {
-      flex-wrap: wrap;
-    }
   }
 
   &__key {
@@ -135,34 +46,12 @@ $small-font: 12px;
       background-color: govuk-colour('light-grey');
       padding: govuk-spacing(3) govuk-spacing(1);
     }
-
-    &--drugs {
-      @media print {
-        width: 100%;
-        background-color: govuk-colour('white');
-        padding-bottom: 0;
-        margin-top: 40px;
-        padding-top: 0;
-
-        & span {
-          font-size: $medium-font;
-        }
-      }
-    }
   }
 
   &__value {
     flex-grow: 1;
     margin-bottom: 0;
     padding: govuk-spacing(3) 0;
-
-    &--drugs {
-      width: 100%;
-
-      @media print {
-        padding-top: 0;
-      }
-    }
   }
 
   &__actions {
@@ -184,6 +73,8 @@ $small-font: 12px;
 
   &__label {
     @include govuk-font(19, 'bold');
+    margin-bottom: govuk-spacing(2);
+    display: block;
 
     @media print {
       font-size: $small-font;
