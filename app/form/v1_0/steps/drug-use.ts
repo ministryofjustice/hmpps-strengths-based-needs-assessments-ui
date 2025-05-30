@@ -13,7 +13,6 @@ const stepUrls = {
   drugDetailsMoreThanSix: 'drug-details-more-than-six-months',
   drugDetailsMoreThanSixInjected: 'drug-details-more-than-six-months-injected',
   drugUseHistory: 'drug-use-history',
-
   summary: 'drug-use-summary',
   analysis: 'drug-use-analysis',
 }
