@@ -4,7 +4,7 @@
   <article class="analysis-summary">
     <div class="govuk-grid-column-one-third analysis-summary__row">
       <div class="analysis-summary__label">
-        {{ label }}
+        <h2 class="govuk-heading-m full-width">{{ label }}</h2>
       </div>
     </div>
     <div class="govuk-grid-column-one-third analysis-summary__row">
@@ -45,6 +45,15 @@
   {% set changeLink = options.section + '-summary#practitioner-analysis' %}
 
   <section>
+    {% if section == 'drug_use' and answers.drug_use == 'YES' %}
+      {{ renderAnalysisSummaryRow(
+        "Does " + subjectDetails.givenName + " seem motivated to stop or reduce their drug use?",
+        fields["drugs_practitioner_analysis_motivated_to_stop"],
+        fields[""],
+        fields[""],
+        changeLink
+      ) }}
+    {% endif %}
     {{ renderAnalysisSummaryRow(
       "Are there any strength or protective factors related to " + subjectDetails.givenName + "'s drug use?",
       fields[section + "_practitioner_analysis_strengths_or_protective_factors"],
