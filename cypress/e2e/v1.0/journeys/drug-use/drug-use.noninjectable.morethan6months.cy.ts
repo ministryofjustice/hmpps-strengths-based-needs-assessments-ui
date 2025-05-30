@@ -5,7 +5,7 @@ describe('Origin: /drug-use', () => {
     drugDetails: '/drug-details',
     drugDetailsMoreThanSix: '/drug-details-more-than-six-months',
     drugUseHistory: '/drug-use-history',
-    drugUseHistoryAllMoreThanSix: 'drug-use-history-more-than-six-months',
+    drugUseHistoryAllMoreThanSix: '/drug-use-history-more-than-six-months',
     summary: '/drug-use-summary',
     analysis: '/drug-use-analysis',
   }
@@ -57,7 +57,7 @@ describe('Origin: /drug-use', () => {
   })
 
   describe(`Destination: ${destinations.addDrugs}`, () => {
-    it(`routes to ${destinations.drugDetails}`, () => {
+    it(`routes to ${destinations.drugDetailsMoreThanSix}`, () => {
       cy.visitStep(destinations.addDrugs)
 
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()
@@ -77,7 +77,7 @@ describe('Origin: /drug-use', () => {
   })
 
   describe(`Destination: ${destinations.drugDetailsMoreThanSix}`, () => {
-    it(`routes to ${destinations.drugUseHistory}`, () => {
+    it(`routes to ${destinations.drugUseHistoryAllMoreThanSix}`, () => {
       cy.visitStep(destinations.drugDetailsMoreThanSix)
 
       cy.getQuestion("Give details about Sam's use of these drugs").enterText('Details about drug use')
@@ -86,15 +86,15 @@ describe('Origin: /drug-use', () => {
 
       cy.assertResumeUrlIs(sectionName, destinations.drugDetailsMoreThanSix)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.drugUseHistory)
+      cy.assertStepUrlIs(destinations.drugUseHistoryAllMoreThanSix)
       cy.assertBackLinkIs(destinations.drugDetailsMoreThanSix)
-      cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
+      cy.assertResumeUrlIs(sectionName, destinations.drugUseHistoryAllMoreThanSix)
     })
   })
 
-  describe(`Destination: ${destinations.drugUseHistory}`, () => {
+  describe(`Destination: ${destinations.drugUseHistoryAllMoreThanSix}`, () => {
     it(`routes to ${destinations.summary}`, () => {
-      cy.visitStep(destinations.drugUseHistory)
+      cy.visitStep(destinations.drugUseHistoryAllMoreThanSix)
 
       cy.getQuestion('Why does Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
 
@@ -116,7 +116,7 @@ describe('Origin: /drug-use', () => {
         .getRadio('I want to make changes but need help')
         .clickLabel()
 
-      cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
+      cy.assertResumeUrlIs(sectionName, destinations.drugUseHistoryAllMoreThanSix)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.summary)
       cy.get('.govuk-back-link').should('not.exist')
