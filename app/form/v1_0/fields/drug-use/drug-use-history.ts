@@ -3,6 +3,9 @@ import { FieldsFactory, utils } from '../common'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 import characterLimits from '../../config/characterLimits'
+import { fieldCodeWith } from '../common/utils'
+import addDrugs from './add-drugs'
+import { HandoverSubject } from '../../../../../server/services/arnsHandoverService'
 
 const drugReasonsForUseHint = `
 <p class="govuk-hint">Consider why they started using, their history, and any triggers.</p>
@@ -30,9 +33,29 @@ const drugsReasonsForUse: FormWizard.Field = {
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
 }
 
-const drugsReasonsForUseDetails = FieldsFactory.detailsField({
-  parentField: drugsReasonsForUse,
-})
+const drugsReasonsForUseDetails: FormWizard.Field = {
+  text: 'Give details (optional)',
+  code: fieldCodeWith(drugsReasonsForUse.code, 'details'),
+  type: FieldType.TextArea,
+  validate: [
+    {
+      type: 'validateMaxLength',
+      fn: utils.validateMaxLength,
+      arguments: [characterLimits.default],
+      message: `Details must be ${characterLimits.default} characters or less`,
+    },
+  ],
+  transform(state): FormWizard.Field {
+    const usedInTheLastSixMonths = addDrugs.drugLastUsedFields.some(field => state.answers[field.code] === 'LAST_SIX')
+    const subject = state.session.subjectDetails as HandoverSubject
+    return {
+      ...this,
+      summary: {
+        text: `Details on why ${subject.givenName} ${usedInTheLastSixMonths ? 'uses' : 'used'} drugs`,
+      },
+    }
+  },
+}
 
 const drugsAffectedTheirLife: FormWizard.Field = {
   text: "How has [subject]'s drug use affected their life?",
@@ -82,9 +105,28 @@ const drugsAffectedTheirLife: FormWizard.Field = {
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
 }
 
-const drugsAffectedTheirLifeDetails = FieldsFactory.detailsField({
-  parentField: drugsAffectedTheirLife,
-})
+const drugsAffectedTheirLifeDetails: FormWizard.Field = {
+  text: 'Give details (optional)',
+  code: fieldCodeWith(drugsAffectedTheirLife.code, 'details'),
+  type: FieldType.TextArea,
+  validate: [
+    {
+      type: 'validateMaxLength',
+      fn: utils.validateMaxLength,
+      arguments: [characterLimits.default],
+      message: `Details must be ${characterLimits.default} characters or less`,
+    },
+  ],
+  transform(state): FormWizard.Field {
+    const subject = state.session.subjectDetails as HandoverSubject
+    return {
+      ...this,
+      summary: {
+        text: `Details on how ${subject.givenName}'s drug use has affected their life`,
+      },
+    }
+  },
+}
 
 const drugsAnythingHelpedStopOrReduceUse: FormWizard.Field = {
   text: 'Has anything helped [subject] stop or reduce their drug use? (optional)',
