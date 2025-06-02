@@ -34,10 +34,15 @@ const drugsReasonsForUse: FormWizard.Field = {
   transform(state): FormWizard.Field {
     const usedInTheLastSixMonths = addDrugs.drugLastUsedFields.some(field => state.answers[field.code] === 'LAST_SIX')
 
+    if (usedInTheLastSixMonths) return this
+
     return {
       ...this,
-      // TODO validation message should be updated to reflect the change in tense if usedInTheLastSixMonths
-      text: usedInTheLastSixMonths ? this.text : this.text.replace('does', 'did'),
+      text: this.text.replace('does', 'did'),
+      validate: this.validate.map((it: FormWizard.Validate) => ({
+        ...it,
+        message: 'type' in it && it.type === ValidationType.Required ? it.message.replace('use', 'used') : it.message,
+      })),
     }
   },
 }
