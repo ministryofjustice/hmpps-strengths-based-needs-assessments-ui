@@ -1,5 +1,5 @@
 {% from "./drugs-summary.njk" import renderDrugsSummary %}
-{% from "./macros.njk" import renderTopLevelField, renderCollection %}
+{% from "./rendering-macros.njk" import renderTopLevelField, renderCollection %}
 
 {% for summary in summaryFields.singleFields %}
   <dl class="govuk-summary-list summary-list">
