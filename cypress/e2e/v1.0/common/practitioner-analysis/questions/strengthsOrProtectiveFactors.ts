@@ -2,7 +2,7 @@ import config from '../../../../../support/config'
 
 export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
   const question = `Are there any strengths or protective factors related to Sam's ${sectionName}?`
-  const summaryQuestion = 'Strengths or protective factors'
+  const summaryQuestion = `Are there any strengths or protective factors related to Sam's ${sectionName}?`
   describe(question, () => {
     const options = ['Yes', 'No']
 
