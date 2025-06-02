@@ -190,6 +190,7 @@ declare module 'hmpo-form-wizard' {
       formGroupClasses?: string
       classes?: string
       summary?: {
+        text?: string
         displayFn?: (value: string) => string
         displayAlways?: boolean
       }

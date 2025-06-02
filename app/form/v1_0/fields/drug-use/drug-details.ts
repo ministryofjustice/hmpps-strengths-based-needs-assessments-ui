@@ -34,7 +34,21 @@ const usedLastSixMonths: Array<FormWizard.Field> = drugsList
       })),
       dependent: dependentOn(dependsOn, 'LAST_SIX', false),
     }
-    return [field, FieldsFactory.detailsField({ parentField: field })]
+    const detailsField: FormWizard.Field = {
+      text: 'Give details (optional)',
+      code: fieldCodeWith(field.code, 'details'),
+      type: FieldType.TextArea,
+      validate: [
+        {
+          type: 'validateMaxLength',
+          fn: utils.validateMaxLength,
+          arguments: [characterLimits.default],
+          message: `Details must be ${characterLimits.default} characters or less`,
+        },
+      ],
+      dependent: dependentOn(dependsOn, 'LAST_SIX', false),
+    }
+    return [field, detailsField]
   })
   .flat()
 
