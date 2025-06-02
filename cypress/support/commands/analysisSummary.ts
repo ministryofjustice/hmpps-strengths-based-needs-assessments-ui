@@ -8,12 +8,7 @@ export const getAnalysisSummary = (question: string) => {
 }
 
 export const clickChangeAnalysis = (subject: JQuery) => {
-  cy.wrap(subject)
-    .find('> .analysis-summary__row > .analysis-summary__action > a')
-    .should('be.visible')
-    .and('have.length', 1)
-    .and('contain.text', 'Change')
-    .click()
+  cy.wrap(subject).find('.govuk-link').should('be.visible').and('have.length', 1).and('contain.text', 'Change').click()
 }
 
 export const getAnalysisAnswer = (subject: JQuery, answer: string) => {

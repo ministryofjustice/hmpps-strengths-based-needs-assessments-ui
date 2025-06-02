@@ -8,6 +8,7 @@ describe('Origin: /drug-use', () => {
     drugUseHistory: '/drug-use-history',
     summary: '/drug-use-summary',
     analysis: '/drug-use-analysis',
+    practitionerAnalysisSummary: '/drug-use-summary#practitioner-analysis',
   }
 
   const sectionName = 'Drug use'
@@ -32,6 +33,29 @@ describe('Origin: /drug-use', () => {
 
     // TODO when this part is done
     // testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+
+    it(`No drug use routes to "${destinations.practitionerAnalysisSummary}"`, () => {
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.summary)
+      cy.assertResumeUrlIs(sectionName, destinations.summary)
+      cy.visitStep(destinations.practitionerAnalysisSummary)
+      cy.get('.govuk-fieldset').should('not.contain', 'Does Sam seem motivated to stop or reduce their drug use?')
+      cy.getQuestion("Are there any strengths or protective factors related to Sam's drug use?")
+        .getRadio('No')
+        .clickLabel()
+      cy.getQuestion("Is Sam's drug use linked to risk of serious harm?").getRadio('No').clickLabel()
+      cy.getQuestion("Is Sam's drug use linked to risk of reoffending?").getRadio('No').clickLabel()
+
+      cy.markAsComplete()
+
+      cy.get('.analysis-summary__heading').should(
+        'not.contain',
+        'Does Sam seem motivated to stop or reduce their drug use?',
+      )
+    })
   })
 
   describe(`Destination: ${destinations.landingPage}`, () => {
@@ -127,6 +151,24 @@ describe('Origin: /drug-use', () => {
       cy.assertStepUrlIs(destinations.summary)
       cy.get('.govuk-back-link').should('not.exist')
       cy.assertResumeUrlIs(sectionName, destinations.summary)
+    })
+  })
+
+  describe(`Destination: ${destinations.practitionerAnalysisSummary}`, () => {
+    it(`routes to ${destinations.practitionerAnalysisSummary} if YES is selected`, () => {
+      cy.visitStep(destinations.practitionerAnalysisSummary)
+      cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?')
+        .getRadio('Motivated to stop or reduce')
+        .clickLabel()
+      cy.getQuestion("Are there any strengths or protective factors related to Sam's drug use?")
+        .getRadio('No')
+        .clickLabel()
+      cy.getQuestion("Is Sam's drug use linked to risk of serious harm?").getRadio('No').clickLabel()
+      cy.getQuestion("Is Sam's drug use linked to risk of reoffending?").getRadio('No').clickLabel()
+
+      cy.markAsComplete()
+
+      cy.get('.analysis-summary__heading').contains('Does Sam seem motivated to stop or reduce their drug use?')
     })
   })
 })
