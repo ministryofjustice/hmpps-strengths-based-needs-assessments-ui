@@ -145,7 +145,7 @@ describe('Origin: /drug-use', () => {
 
       cy.markAsComplete()
 
-      cy.get('.analysis-summary__label').contains('Does Sam seem motivated to stop or reduce their drug use?')
+      cy.get('.analysis-summary__heading').contains('Does Sam seem motivated to stop or reduce their drug use?')
     })
   })
 })

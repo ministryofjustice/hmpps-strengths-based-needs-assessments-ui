@@ -3,26 +3,24 @@
   width: 80%;
 }
 
-.analysis-summary {
+.analysis-summary__item {
   display: flex;
   justify-content: space-between;
   margin-bottom: govuk-spacing(3);
-
-     &__row {
-      @include govuk-clearfix;
-    }
-     &__label {
-       @include govuk-font(19, 'bold');
-    }
-
-     &__action {
-      float: right;
-      text-align: right;
-    }
-    &__answer {
-      @include govuk-font(19);
-    }
 }
+
+.analysis-summary__row {
+  @include govuk-clearfix;
+}
+.analysis-summary__heading {
+  float: left;
+}
+
+.analysis-summary__action {
+  float: right;
+  text-align: right;
+}
+
 #practitioner-analysis form {
   @extend .govuk-\!-width-three-quarters
 }

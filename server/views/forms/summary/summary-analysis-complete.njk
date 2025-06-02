@@ -1,9 +1,9 @@
 {% extends "../summary.njk" %}
 
 {% macro renderAnalysisSummaryRow(label, field, yesDetailsField, noDetailsField, link) %}
-  <article class="analysis-summary">
+  <article class="analysis-summary__item">
     <div class="govuk-grid-column-one-third analysis-summary__row">
-      <div class="analysis-summary__label">
+      <div class="analysis-summary__heading">
         <h2 class="govuk-heading-m full-width">{{ label }}</h2>
       </div>
     </div>
@@ -17,9 +17,8 @@
               {% else %}
                 {% set detailsAnswer = noDetailsField.value %}
               {% endif %}
-
               <li class="summary-details-list">
-                <span class="analysis-summary__answer">{{ option.text }}</span>
+                <span class="analysis__answer">{{ option.text }}</span>
                 <p class="analysis__answer--secondary">{{ detailsAnswer | nl2br | safe }}</p>
               </li>
             {% endif %}
@@ -43,6 +42,7 @@
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}
   {% set changeLink = options.section + '-summary#practitioner-analysis' %}
+  {% set sectionString = options.section | replace("-", " ") %}
 
   <section>
     {% if section == 'drug_use' and answers.drug_use == 'YES' %}
@@ -55,21 +55,21 @@
       ) }}
     {% endif %}
     {{ renderAnalysisSummaryRow(
-      "Are there any strength or protective factors related to " + subjectDetails.givenName + "'s drug use?",
+      "Are there any strengths or protective factors related to " + subjectDetails.givenName + "'s " + sectionString +"?",
       fields[section + "_practitioner_analysis_strengths_or_protective_factors"],
       fields[section + "_practitioner_analysis_strengths_or_protective_factors_yes_details"],
       fields[section + "_practitioner_analysis_strengths_or_protective_factors_no_details"],
       changeLink
     ) }}
     {{ renderAnalysisSummaryRow(
-      "Is "+ subjectDetails.givenName +"'s drug use linked to risk of serious harm?",
+      "Is "+ subjectDetails.givenName +"'s " + sectionString +" linked to risk of serious harm?",
       fields[section + "_practitioner_analysis_risk_of_serious_harm"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_yes_details"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_no_details"],
       changeLink
     ) }}
     {{ renderAnalysisSummaryRow(
-      "Is "+ subjectDetails.givenName +"'s drug use linked to risk of reoffending?",
+      "Is "+ subjectDetails.givenName +"'s " + sectionString +" linked to risk of reoffending?",
       fields[section + "_practitioner_analysis_risk_of_reoffending"],
       fields[section + "_practitioner_analysis_risk_of_reoffending_yes_details"],
       fields[section + "_practitioner_analysis_risk_of_reoffending_no_details"],
