@@ -34,7 +34,7 @@ describe('Origin: /drug-use', () => {
     // TODO when this part is done
     // testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
 
-    it.only(`No drug use routes to "${destinations.practitionerAnalysisSummary}"`, () => {
+    it(`No drug use routes to "${destinations.practitionerAnalysisSummary}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
@@ -51,7 +51,10 @@ describe('Origin: /drug-use', () => {
 
       cy.markAsComplete()
 
-      cy.get('.analysis-summary__heading').should('not.contain', 'Does Sam seem motivated to stop or reduce their drug use?')
+      cy.get('.analysis-summary__heading').should(
+        'not.contain',
+        'Does Sam seem motivated to stop or reduce their drug use?',
+      )
     })
   })
 
