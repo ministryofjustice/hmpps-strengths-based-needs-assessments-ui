@@ -32,20 +32,12 @@ const drugsReasonsForUse: FormWizard.Field = {
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
   transform(state): FormWizard.Field {
-    let fieldText = this.text
-
-    if (
-      Object.entries(state.answers)
-        .filter(([key]) => key.startsWith('drug_last_used_'))
-        .map(([_, answer]) => answer)
-        .every(answer => answer === 'MORE_THAN_SIX')
-    ) {
-      fieldText = fieldText.replace('does', 'did')
-    }
+    const usedInTheLastSixMonths = addDrugs.drugLastUsedFields.some(field => state.answers[field.code] === 'LAST_SIX')
 
     return {
       ...this,
-      text: fieldText,
+      // TODO validation message should be updated to reflect the change in tense if usedInTheLastSixMonths
+      text: usedInTheLastSixMonths ? this.text : this.text.replace('does', 'did'),
     }
   },
 }
@@ -102,7 +94,7 @@ const drugsAffectedTheirLife: FormWizard.Field = {
     },
     {
       text: 'Links to offending',
-      value: 'BEHAVIOUR',
+      value: 'LINKS_TO_OFFENDING',
       kind: 'option',
     },
     {

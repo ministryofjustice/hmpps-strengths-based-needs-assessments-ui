@@ -78,7 +78,12 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
-      next: stepUrls.drugUseHistory,
+      next: [
+        drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
+          nextWhen(lastUsedField, 'LAST_SIX', stepUrls.drugUseHistory),
+        ),
+        stepUrls.drugUseHistoryAllMoreThanSix,
+      ].flat(),
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
@@ -94,7 +99,12 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
-      next: stepUrls.drugUseHistory,
+      next: [
+        drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
+          nextWhen(lastUsedField, 'LAST_SIX', stepUrls.drugUseHistory),
+        ),
+        stepUrls.drugUseHistoryAllMoreThanSix,
+      ].flat(),
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

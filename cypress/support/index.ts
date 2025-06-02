@@ -1,7 +1,6 @@
 import { markAsComplete, saveAndContinue } from './commands/assessment'
 import {
   assertBackLinkIs,
-  assertDrugQuestionGroupUrl,
   assertQuestionUrl,
   assertResumeUrlIs,
   assertSectionIs,
@@ -35,17 +34,14 @@ import {
   enterDate,
   enterText,
   getCheckbox,
-  getDrugQuestion,
   getFollowingDetails,
   getQuestion,
   getRadio,
   hasCheckboxes,
   hasDate,
-  hasDrugQuestionGroups,
   hasHint,
   hasLimit,
   hasNoValidationError,
-  hasQuestionsForDrug,
   hasRadios,
   hasText,
   hasTitle,
@@ -131,7 +127,6 @@ declare global {
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
       assertQuestionUrl(question: string): Chainable
-      assertDrugQuestionGroupUrl(drug: string): Chainable
 
       // option
       isChecked(): Chainable
@@ -156,9 +151,6 @@ declare global {
 
       // question
       getQuestion(title: string): Chainable
-      getDrugQuestion(drug: string, title: string): Chainable
-      hasDrugQuestionGroups(count: number): Chainable
-      hasQuestionsForDrug(drug: string, count: number): Chainable
       hasTitle(title: string): Chainable
       isQuestionNumber(position: number): Chainable
       hasHint(...hints: string[]): Chainable
@@ -231,7 +223,6 @@ Cypress.Commands.add('assertBackLinkIs', assertBackLinkIs)
 Cypress.Commands.add('assertStepUrlIs', assertStepUrlIs)
 Cypress.Commands.add('assertStepUrlIsNot', assertStepUrlIsNot)
 Cypress.Commands.add('assertQuestionUrl', assertQuestionUrl)
-Cypress.Commands.add('assertDrugQuestionGroupUrl', assertDrugQuestionGroupUrl)
 
 // option
 Cypress.Commands.add('isChecked', { prevSubject: true }, isChecked)
@@ -256,9 +247,6 @@ Cypress.Commands.add('hasAutosaveEnabled', hasAutosaveEnabled)
 
 // question
 Cypress.Commands.add('getQuestion', getQuestion)
-Cypress.Commands.add('getDrugQuestion', getDrugQuestion)
-Cypress.Commands.add('hasDrugQuestionGroups', hasDrugQuestionGroups)
-Cypress.Commands.add('hasQuestionsForDrug', hasQuestionsForDrug)
 Cypress.Commands.add('hasTitle', { prevSubject: true }, hasTitle)
 Cypress.Commands.add('isQuestionNumber', { prevSubject: true }, isQuestionNumber)
 Cypress.Commands.add('hasHint', { prevSubject: true }, hasHint)

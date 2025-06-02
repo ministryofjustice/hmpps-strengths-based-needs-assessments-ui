@@ -10,35 +10,6 @@ export const getQuestion = (title: string) => {
     .closest('fieldset, .govuk-form-group')
 }
 
-export const getDrugQuestion = (drug: string, title: string) => {
-  return cy
-    .get(`form > .drug > h2`)
-    .contains(drug)
-    .should('have.length', 1)
-    .parent()
-    .find('> .form-group > fieldset > legend, > .govuk-form-group > label')
-    .contains(title)
-    .should('be.visible')
-    .and('have.length', 1)
-    .closest('fieldset, .govuk-form-group')
-}
-
-export const hasDrugQuestionGroups = (count: number) => {
-  cy.get(`form > .drug`).should('be.visible').and('have.length', count)
-  return cy
-}
-
-export const hasQuestionsForDrug = (drug: string, count: number) => {
-  cy.get(`form > .drug > h2`)
-    .contains(drug)
-    .should('have.length', 1)
-    .parent()
-    .find('> .form-group > fieldset > legend, > .govuk-form-group > label')
-    .should('be.visible')
-    .and('have.length', count)
-  return cy
-}
-
 export const hasTitle = (subject: JQuery, title: string) => {
   cy.wrap(subject)
     .find('> legend, > label')
