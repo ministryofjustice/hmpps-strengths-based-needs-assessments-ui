@@ -7,6 +7,7 @@ export const getLabelClassFor = (size: string) => (type: FieldType) =>
   type === FieldType.CheckBox || type === FieldType.Radio || type === FieldType.Date
     ? `govuk-fieldset__legend--${size}`
     : `govuk-label--${size}`
+export const getLargeLabelClassFor = getLabelClassFor('l')
 export const getMediumLabelClassFor = getLabelClassFor('m')
 export const getSmallLabelClassFor = getLabelClassFor('s')
 
@@ -45,9 +46,12 @@ export function validateValidDate(value: string) {
   return !value || value === '' ? true : date.isValid
 }
 
-export function requiredWhenValidator(field: string, requiredValue: string) {
+type FieldScope = 'step' | 'assessment'
+
+export function requiredWhenValidator(field: string, scope: FieldScope, requiredValue: string) {
   return function validatedRequiredWhen(value: string = '') {
-    const dependentFieldAnswer = this.values[field]
+    const dependentFieldAnswer =
+      scope === 'assessment' && 'sessionModel' in this ? this.sessionModel.attributes[field] : this.values[field]
 
     const answeredWithRequiredValue = Array.isArray(dependentFieldAnswer)
       ? dependentFieldAnswer.includes(requiredValue)

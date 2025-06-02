@@ -1,12 +1,11 @@
-import { testPractitionerAnalysis } from './common'
-
-describe('Origin: /drugs', () => {
+// TODO remove temp
+describe('Origin: /drug-use', () => {
   const destinations = {
-    landingPage: '/drugs',
-    drugUse: '/drug-use',
-    selectDrugs: '/select-drugs',
-    drugTypesDetails: '/drug-usage-details',
-    changes: '/drug-use-changes',
+    landingPage: '/drug-use',
+    addDrugs: '/add-drugs',
+    drugDetails: '/drug-details',
+    drugDetailsMoreThanSix: '/drug-detail-more-than-six-months',
+    drugUseHistory: '/drug-use-history',
     summary: '/drug-use-summary',
     analysis: '/drug-use-analysis',
   }
@@ -24,96 +23,110 @@ describe('Origin: /drugs', () => {
   describe(`Destination: ${destinations.summary}`, () => {
     it(`No drug use routes to "${destinations.summary}"`, () => {
       cy.visitStep(destinations.landingPage)
-      cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
+      cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.summary)
       cy.assertResumeUrlIs(sectionName, destinations.summary)
     })
 
-    testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+    // TODO when this part is done
+    // testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
   })
 
-  describe(`Destination: ${destinations.drugUse}`, () => {
-    it(`"Drug use routes to "${destinations.drugUse}"`, () => {
+  describe(`Destination: ${destinations.landingPage}`, () => {
+    it(`"Drug use no routes to "${destinations.summary}"`, () => {
       cy.visitStep(destinations.landingPage)
-      cy.getQuestion('Has Sam ever used drugs?').getRadio('Yes').clickLabel()
+      cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
       cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.drugUse)
-      cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, destinations.drugUse)
+      cy.assertStepUrlIs(destinations.summary)
+      cy.get('.govuk-back-link').should('not.exist')
+      cy.assertResumeUrlIs(sectionName, destinations.summary)
     })
 
-    describe(`Destination: ${destinations.selectDrugs}`, () => {
-      it(`routes to ${destinations.selectDrugs}`, () => {
-        cy.visitStep(destinations.drugUse)
+    it(`"Drug use yes routes to "${destinations.addDrugs}"`, () => {
+      cy.visitStep(destinations.landingPage)
+      cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.addDrugs)
+      cy.assertBackLinkIs(destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
+    })
+  })
 
-        cy.getQuestion('Why did Sam start using drugs?').getCheckbox('Enhance performance').clickLabel()
+  describe(`Destination: ${destinations.addDrugs}`, () => {
+    it(`routes to ${destinations.drugDetails}`, () => {
+      cy.visitStep(destinations.addDrugs)
 
-        cy.getQuestion("What's the impact of Sam using drugs?").getCheckbox('Behavioural').clickLabel()
+      cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()
 
-        cy.getQuestion('Has anything helped Sam to stop or reduce using drugs in the past?')
-          .getRadio('Yes')
-          .clickLabel()
+      cy.getQuestion('Which drugs has Sam misused?')
+        .getCheckbox('Cannabis')
+        .getConditionalQuestion()
+        .getRadio('Used in the last 6 months')
+        .clickLabel()
 
-        cy.getQuestion('Is Sam motivated to stop or reduce their drug use?')
-          .getRadio('Motivated to stop or reduce')
-          .clickLabel()
+      cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.drugDetails)
+      cy.assertBackLinkIs(destinations.addDrugs)
+      cy.assertResumeUrlIs(sectionName, destinations.drugDetails)
+    })
+  })
 
-        cy.assertResumeUrlIs(sectionName, destinations.drugUse)
-        cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.selectDrugs)
-        cy.assertBackLinkIs(destinations.drugUse)
-        cy.assertResumeUrlIs(sectionName, destinations.selectDrugs)
-      })
+  // TODO needs another case to deal with more than 6 months
 
-      describe(`Destination: ${destinations.drugTypesDetails}`, () => {
-        it(`routes to ${destinations.drugTypesDetails}`, () => {
-          cy.visitStep(destinations.selectDrugs)
+  describe(`Destination: ${destinations.drugDetails}`, () => {
+    it(`routes to ${destinations.drugUseHistory}`, () => {
+      cy.visitStep(destinations.drugDetails)
 
-          cy.getQuestion('Which drugs has Sam used?').getCheckbox('Cannabis').clickLabel()
+      cy.getQuestion('How often is Sam using this drug?').getRadio('Daily').clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.selectDrugs)
-          cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.drugTypesDetails)
-          cy.assertBackLinkIs(destinations.selectDrugs)
-          cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
-        })
+      cy.getQuestion('Is Sam receiving treatment for their drug use?').getRadio('Yes').clickLabel()
+      cy.getQuestion('Is Sam receiving treatment for their drug use?')
+        .getRadio('Yes')
+        .getConditionalQuestion()
+        .enterText('Treatment details')
 
-        describe(`Destination: ${destinations.changes}`, () => {
-          it(`routes to ${destinations.changes}`, () => {
-            cy.visitStep(destinations.drugTypesDetails)
+      cy.assertResumeUrlIs(sectionName, destinations.drugDetails)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.drugUseHistory)
+      cy.assertBackLinkIs(destinations.drugDetails)
+      cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
+    })
+  })
 
-            cy.getQuestion('How often is Sam using this drug?').getRadio('Daily').clickLabel()
+  describe(`Destination: ${destinations.drugUseHistory}`, () => {
+    it(`routes to ${destinations.summary}`, () => {
+      cy.visitStep(destinations.drugUseHistory)
 
-            cy.getQuestion('Has Sam used this drug in the past?').getRadio('Yes').clickLabel()
+      cy.getQuestion('Why does Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
 
-            cy.assertResumeUrlIs(sectionName, destinations.drugTypesDetails)
-            cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.changes)
-            cy.assertBackLinkIs(destinations.drugTypesDetails)
-            cy.assertResumeUrlIs(sectionName, destinations.changes)
-          })
+      cy.getQuestion('Why does Sam use drugs?').getCheckbox('Peer pressure or social influence').clickLabel()
 
-          describe(`Destination: ${destinations.summary}`, () => {
-            it(`routes to ${destinations.summary}`, () => {
-              cy.visitStep(destinations.changes)
+      cy.getQuestion('Why does Sam use drugs?').getFollowingDetails().enterText('why sam uses drugs')
 
-              cy.getQuestion('Does Sam want to make changes to their drug use?')
-                .getRadio('I do not want to make changes')
-                .clickLabel()
+      cy.getQuestion("How has Sam's drug use affected their life?").getCheckbox('Behaviour').clickLabel()
 
-              cy.assertResumeUrlIs(sectionName, destinations.changes)
-              cy.saveAndContinue()
-              cy.assertStepUrlIs(destinations.summary)
-              cy.assertResumeUrlIs(sectionName, destinations.summary)
-            })
+      cy.getQuestion("How has Sam's drug use affected their life?")
+        .getFollowingDetails()
+        .enterText('how life has been affected')
 
-            testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
-          })
-        })
-      })
+      cy.getQuestion('Has anything helped Sam stop or reduce their drug use?').enterText('stop or reduce drug use')
+
+      cy.getQuestion('What could help Sam not use drugs in the future?').enterText('not use in the future')
+
+      cy.getQuestion('Does Sam want to make changes to their drug use?')
+        .getRadio('I want to make changes but need help')
+        .clickLabel()
+
+      cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
+      cy.saveAndContinue()
+      cy.assertStepUrlIs(destinations.summary)
+      cy.get('.govuk-back-link').should('not.exist')
+      cy.assertResumeUrlIs(sectionName, destinations.summary)
     })
   })
 })

@@ -5,7 +5,11 @@ export const visitSection = (name: string) => {
 
 export const assertSectionIs = (name: string) => {
   cy.get(`.side-navigation li.moj-side-navigation__item--active`).should('have.length', 1).and('contain.text', name)
-  cy.get(`h2`).should('contain.text', name)
+
+  // for some sections the name is in the caption, in others the h2
+  cy.get('.section-heading__heading')
+    .contains(new RegExp(`^${name}$`))
+    .should('be.visible')
 }
 
 export const visitStep = (path: string) => {
@@ -15,6 +19,7 @@ export const visitStep = (path: string) => {
 export const assertResumeUrlIs = (section: string, path: string) => {
   cy.intercept({ query: { action: 'resume' } }).as('resumeRequest')
   cy.visitSection(section)
+  cy.log(`asserting resume url is ${path}`)
   cy.wait('@resumeRequest')
     .its('response')
     .then(() => cy.assertStepUrlIs(path))
@@ -30,6 +35,7 @@ export const assertBackLinkIs = (path: string) => {
 }
 
 export const assertStepUrlIs = (path: string) => {
+  cy.log(`asserting step url is ${path}`)
   return cy
     .location()
     .should(url => expect(url.pathname.endsWith(path), `${url.pathname} should end with ${path}`).to.be.true)

@@ -2,24 +2,30 @@ import sections, { SectionConfig } from '../config/sections'
 import { nextWhen, setFieldToCompleteWhenValid, setFieldToIncomplete } from './common'
 import drugsUseFields from '../fields/drug-use'
 import templates from '../config/templates'
+import { drugsList } from '../fields/drug-use/drugs'
 
 const section = sections.drugsUse
-// TODO: remove `temp` part when we've removed the old Drugs section
 const stepUrls = {
-  drugUse: 'temp-drug-use',
-  addDrugs: 'temp-add-drugs',
-  drugsDetail: 'temp-drug-detail',
-  drugUseHistory: 'temp-drug-use-history',
+  drugUse: 'drug-use',
+  addDrugs: 'add-drugs',
+  drugDetails: 'drug-details',
+  drugDetailsInjected: 'drug-details-injected',
+  drugDetailsMoreThanSix: 'drug-details-more-than-six-months',
+  drugDetailsMoreThanSixInjected: 'drug-details-more-than-six-months-injected',
+  drugUseHistory: 'drug-use-history',
 
-  summary: 'temp-drug-use-summary',
-  analysis: 'temp-drug-use-analysis',
+  summary: 'drug-use-summary',
+  analysis: 'drug-use-analysis',
 }
+
+const sectionHeading = 'Drug use background'
 
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
       url: stepUrls.drugUse,
+      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUse.drugUse,
         drugsUseFields.isUserSubmitted(stepUrls.drugUse),
@@ -29,37 +35,102 @@ const sectionConfig: SectionConfig = {
         nextWhen(drugsUseFields.drugUse.drugUse, 'YES', stepUrls.addDrugs),
         nextWhen(drugsUseFields.drugUse.drugUse, 'NO', stepUrls.summary),
       ],
-      navigationOrder: 10,
+      navigationOrder: 4,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.addDrugs,
+      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.addDrugs.selectMisusedDrugs,
         drugsUseFields.addDrugs.otherDrugNameField,
-        drugsUseFields.addDrugs.drugUsageAmphetamines,
-        drugsUseFields.addDrugs.drugUsageBenzodiazepines,
-        drugsUseFields.addDrugs.drugUsageCannabis,
-        drugsUseFields.addDrugs.drugUsageCocaine,
-        drugsUseFields.addDrugs.drugUsageCrack,
-        drugsUseFields.addDrugs.drugUsageEcstasy,
-        drugsUseFields.addDrugs.drugUsageHallucinogenics,
-        drugsUseFields.addDrugs.drugUsageHeroin,
-        drugsUseFields.addDrugs.drugUsageMethadoneNotPrescribed,
-        drugsUseFields.addDrugs.drugUsageMisusedPrescribedDrugs,
-        drugsUseFields.addDrugs.drugUsageOtherOpiates,
-        drugsUseFields.addDrugs.drugUsageSolvents,
-        drugsUseFields.addDrugs.drugUsageSteroids,
-        drugsUseFields.addDrugs.drugUsageSpice,
-        drugsUseFields.addDrugs.drugUsageOtherDrug,
+        drugsUseFields.addDrugs.drugLastUsedFields,
         drugsUseFields.isUserSubmitted(stepUrls.addDrugs),
         drugsUseFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.drugsDetail,
+      next: [
+        nextWhen(
+          drugsUseFields.addDrugs.selectMisusedDrugs,
+          drugsList.filter(it => it.injectable).map(it => it.value),
+          [
+            drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
+              nextWhen(lastUsedField, 'MORE_THAN_SIX', stepUrls.drugDetailsMoreThanSixInjected),
+            ),
+            stepUrls.drugDetailsInjected,
+          ].flat(),
+        ),
+        drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
+          nextWhen(lastUsedField, 'MORE_THAN_SIX', stepUrls.drugDetailsMoreThanSix),
+        ),
+        stepUrls.drugDetails,
+      ].flat(),
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugDetails,
+      fields: [
+        drugsUseFields.drugDetails.usedLastSixMonths,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatment,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetails),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      template: templates.drugUsageNew,
+      next: stepUrls.drugUseHistory,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugDetailsInjected,
+      fields: [
+        drugsUseFields.drugDetails.usedLastSixMonths,
+        drugsUseFields.drugDetails.injectedDrugs,
+        drugsUseFields.drugDetails.injectedDrugsWhen,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatment,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetailsInjected),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      template: templates.drugUsageNew,
+      next: stepUrls.drugUseHistory,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugDetailsMoreThanSix,
+      fields: [
+        drugsUseFields.drugDetails.usedLastSixMonths,
+        drugsUseFields.drugDetails.notUsedInTheLastSixMonths,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatment,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSix),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      template: templates.drugUsageNew,
+      next: stepUrls.drugUseHistory,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.drugDetailsMoreThanSixInjected,
+      fields: [
+        drugsUseFields.drugDetails.usedLastSixMonths,
+        drugsUseFields.drugDetails.notUsedInTheLastSixMonths,
+        drugsUseFields.drugDetails.injectedDrugs,
+        drugsUseFields.drugDetails.injectedDrugsWhen,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatment,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
+        drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSixInjected),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      template: templates.drugUsageNew,
+      next: stepUrls.drugUseHistory,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.drugUseHistory,
+      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUseHistory.drugsReasonsForUse,
         drugsUseFields.drugUseHistory.drugsReasonsForUseDetails,
@@ -83,9 +154,11 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.summary,
+      pageCaption: 'Drug use',
+      pageHeading: 'Practitioner analysis',
       fields: [
+        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop,
         drugsUseFields.practitionerAnalysis(),
-        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop, // TODO: Figure out how to make this conditional
         drugsUseFields.isUserSubmitted(stepUrls.summary),
         drugsUseFields.sectionComplete(),
       ].flat(),

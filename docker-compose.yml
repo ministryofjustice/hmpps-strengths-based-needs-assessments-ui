@@ -17,7 +17,7 @@ services:
       - /var/lib/postgresql
 
   hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:latest
+    image: quay.io/hmpps/hmpps-auth:2025-05-02.28494.105ac61
     networks:
       - hmpps
     healthcheck:
@@ -114,7 +114,8 @@ services:
       APP_STRATEGIES_PLAN: false
 
   san-api:
-    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:latest
+    # TODO: API is temporarily pinned to a version without any Drug mappings
+    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:2025-05-19.4.e7d3eb4
     networks:
       - hmpps
     depends_on:
