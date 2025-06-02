@@ -17,6 +17,7 @@ import {
   urlSafe,
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
+import generateDrugsSummary from './nunjucks.drugsSummary'
 import getAnalysisSummaryFields from './nunjucks.analysisSummaryFields'
 import FieldsFactory from '../../app/form/v1_0/fields/common/fieldsFactory'
 import maintenanceMessage from './maintenanceMessage'
@@ -79,6 +80,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('outdent', outdent)
 
   njkEnv.addGlobal('getSummaryFields', getSummaryFields)
+
+  njkEnv.addGlobal('generateDrugsSummary', generateDrugsSummary)
 
   njkEnv.addFilter('display', display)
 

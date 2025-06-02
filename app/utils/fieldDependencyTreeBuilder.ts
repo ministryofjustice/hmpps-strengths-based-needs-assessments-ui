@@ -97,7 +97,12 @@ export class FieldDependencyTreeBuilder {
     Converts FormWizard fields to Field objects and adds them to the dependency tree
    */
   protected toStepFields(stepPath: string) {
-    return (fields: Field[], field: FormWizard.Field): Field[] => {
+    return (fields: Field[], fieldToAdd: FormWizard.Field): Field[] => {
+      const field = {
+        ...fieldToAdd,
+        text: fieldToAdd.summary?.text ? fieldToAdd.summary.text : fieldToAdd.text,
+      }
+
       if (field.dependent) {
         this.addNestedField(field, fields, stepPath)
         return fields
