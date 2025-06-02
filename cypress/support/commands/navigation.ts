@@ -52,9 +52,3 @@ export const assertQuestionUrl = (question: string) => {
     cy.location('hash').should('satisfy', (id: string) => q.find(id).length === 1)
   })
 }
-
-export const assertDrugQuestionGroupUrl = (drug: string) => {
-  return cy.location().then(url => {
-    cy.get('form').children(url.hash).should('be.visible').and('have.length', 1).children('h2').contains(drug)
-  })
-}

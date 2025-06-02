@@ -31,6 +31,20 @@ const drugsReasonsForUse: FormWizard.Field = {
     { text: 'Other', value: 'OTHER', kind: 'option' },
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  transform(state): FormWizard.Field {
+    const usedInTheLastSixMonths = addDrugs.drugLastUsedFields.some(field => state.answers[field.code] === 'LAST_SIX')
+
+    if (usedInTheLastSixMonths) return this
+
+    return {
+      ...this,
+      text: this.text.replace('does', 'did'),
+      validate: this.validate.map((it: FormWizard.Validate) => ({
+        ...it,
+        message: 'type' in it && it.type === ValidationType.Required ? it.message.replace('use', 'used') : it.message,
+      })),
+    }
+  },
 }
 
 const drugsReasonsForUseDetails: FormWizard.Field = {
@@ -85,7 +99,7 @@ const drugsAffectedTheirLife: FormWizard.Field = {
     },
     {
       text: 'Links to offending',
-      value: 'BEHAVIOUR',
+      value: 'LINKS_TO_OFFENDING',
       kind: 'option',
     },
     {

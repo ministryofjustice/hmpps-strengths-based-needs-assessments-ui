@@ -65,7 +65,8 @@ export class FieldDependencyTreeBuilder {
   }
 
   /*
-    Resolves the next step given a `next` FormWizard step criteria
+    Resolves the next step given a `next` FormWizard step criteria.
+    Explicitly doesn't support CallbackCondition.
    */
   protected resolveNextStep(next: FormWizard.Step.NextStep): FormWizard.Step.NextStep {
     if (next === undefined || typeof next === 'string') {
