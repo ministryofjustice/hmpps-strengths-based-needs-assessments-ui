@@ -42,7 +42,7 @@
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}
   {% set changeLink = options.section + '-summary#practitioner-analysis' %}
-  {% set sectionString = options.section | replace("-", " ") %}
+  {% set pageTitle = options.pageTitle | lower %}
 
   <section>
     {% if section == 'drug_use' and answers.drug_use == 'YES' %}
@@ -55,21 +55,21 @@
       ) }}
     {% endif %}
     {{ renderAnalysisSummaryRow(
-      "Are there any strengths or protective factors related to " + subjectDetails.givenName + "'s " + sectionString +"?",
+      "Are there any strengths or protective factors related to " + subjectDetails.givenName + "'s " + pageTitle +"?",
       fields[section + "_practitioner_analysis_strengths_or_protective_factors"],
       fields[section + "_practitioner_analysis_strengths_or_protective_factors_yes_details"],
       fields[section + "_practitioner_analysis_strengths_or_protective_factors_no_details"],
       changeLink
     ) }}
     {{ renderAnalysisSummaryRow(
-      "Is "+ subjectDetails.givenName +"'s " + sectionString +" linked to risk of serious harm?",
+      "Is "+ subjectDetails.givenName +"'s " + pageTitle +" linked to risk of serious harm?",
       fields[section + "_practitioner_analysis_risk_of_serious_harm"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_yes_details"],
       fields[section + "_practitioner_analysis_risk_of_serious_harm_no_details"],
       changeLink
     ) }}
     {{ renderAnalysisSummaryRow(
-      "Is "+ subjectDetails.givenName +"'s " + sectionString +" linked to risk of reoffending?",
+      "Is "+ subjectDetails.givenName +"'s " + pageTitle +" linked to risk of reoffending?",
       fields[section + "_practitioner_analysis_risk_of_reoffending"],
       fields[section + "_practitioner_analysis_risk_of_reoffending_yes_details"],
       fields[section + "_practitioner_analysis_risk_of_reoffending_no_details"],

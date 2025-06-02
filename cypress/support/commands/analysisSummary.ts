@@ -9,7 +9,7 @@ export const getAnalysisSummary = (question: string) => {
 
 export const clickChangeAnalysis = (subject: JQuery) => {
   cy.wrap(subject)
-    .find('> .analysis-summary__row > .analysis-summary__action > a')
+    .find('.govuk-link')
     .should('be.visible')
     .and('have.length', 1)
     .and('contain.text', 'Change')
