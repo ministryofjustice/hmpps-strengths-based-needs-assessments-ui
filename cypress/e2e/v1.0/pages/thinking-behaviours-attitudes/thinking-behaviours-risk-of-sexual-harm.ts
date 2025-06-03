@@ -61,6 +61,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
+    cy.hasFeedbackLink()
   })
 
   questions.forEach((questionTest, index) => {

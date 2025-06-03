@@ -71,6 +71,7 @@ beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
+  cy.hasFeedbackLink()
 })
 
 testPractitionerAnalysis(summaryPage, '/thinking-behaviours-attitudes-analysis', 'thinking, behaviours and attitudes')

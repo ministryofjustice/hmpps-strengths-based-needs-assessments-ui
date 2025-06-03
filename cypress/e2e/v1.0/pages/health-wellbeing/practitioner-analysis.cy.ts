@@ -35,6 +35,7 @@ beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
+  cy.hasFeedbackLink()
 })
 
 testPractitionerAnalysis(summaryPage, '/health-wellbeing-analysis', 'health and wellbeing')

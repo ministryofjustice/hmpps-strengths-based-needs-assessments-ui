@@ -100,4 +100,5 @@ export default {
     end: Number(get('MAINTENANCE_END_TIMESTAMP_SECONDS', 0)),
     unplanned: get('MAINTENANCE_UNPLANNED', 'false') === 'true',
   },
+  feedbackUrl: get('FEEDBACK_URL', null),
 }

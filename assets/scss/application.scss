@@ -15,6 +15,7 @@ $govuk-breakpoints: (
 @import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
 
 @import './components/header-bar';
+@import './components/user-feedback';
 @import './components/offender-details';
 @import './components/drugs';
 @import './components/form';
