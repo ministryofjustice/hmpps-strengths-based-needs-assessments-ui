@@ -3,5 +3,10 @@
   margin-bottom: 15px;
   &__banner {
     border-bottom: none;
+
+  }
+
+  &__link:visited {
+    color: $govuk-link-colour;
   }
 }
