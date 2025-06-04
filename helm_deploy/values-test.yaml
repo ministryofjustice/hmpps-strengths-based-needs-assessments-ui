@@ -5,7 +5,7 @@ generic-service:
   replicaCount: 2
 
   ingress:
-    hosts: 
+    hosts:
       - strengths-based-needs-test.hmpps.service.justice.gov.uk
       - strengths-based-needs-assessments-test.hmpps.service.justice.gov.uk
 
@@ -16,6 +16,10 @@ generic-service:
     SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-test.svc.cluster.local"
     HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service-test.hmpps.service.justice.gov.uk"
     OASYS_URL: "https://arns-oastub-test.hmpps.service.justice.gov.uk/"
+
+  namespace_secrets:
+    hmpps-strengths-based-needs-assessments-ui-feedback-url:
+      FEEDBACK_URL: "FEEDBACK_URL"
 
   allowlist:
     capita-dev: 51.104.16.30/31
