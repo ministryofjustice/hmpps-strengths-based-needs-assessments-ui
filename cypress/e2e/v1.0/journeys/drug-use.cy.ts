@@ -115,7 +115,9 @@ describe('Origin: /drug-use', () => {
               cy.assertStepUrlIs(destinations.summary)
               cy.get('.govuk-back-link').should('not.exist')
               cy.assertResumeUrlIs(sectionName, destinations.summary)
+            })
 
+            describe(`Test Practitioner Analysis`, () => {
               testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis, true)
             })
           })
@@ -170,7 +172,9 @@ describe('Origin: /drug-use', () => {
               cy.assertStepUrlIs(destinations.summary)
               cy.get('.govuk-back-link').should('not.exist')
               cy.assertResumeUrlIs(sectionName, destinations.summary)
+            })
 
+            describe(`Test Practitioner Analysis`, () => {
               testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis, true)
             })
           })
