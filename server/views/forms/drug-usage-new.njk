@@ -18,7 +18,7 @@
 
 {% set showLastSixMonths = false %}
 {% set lastSixMonths %}
-  <div>
+  <div class="drugs-section">
     <h3 class="govuk-heading-m">Used in the last 6 months</h3>
     {{ govukDetails({
       summaryText: 'How to record frequency',
@@ -53,6 +53,7 @@
 
 {% set showMoreThanSixMonths = false %}
 {% set moreThanSixMonths %}
+  <div class="drugs-section">
     <h3 class="govuk-heading-m">Not used in the last 6 months</h3>
     {% set drugsNotUsedList = [] %}
 
@@ -66,12 +67,13 @@
         {% endfor %}
       {% endif %}
     {% endfor %}
+  </div>
 
-    {{ govukInsetText({
-      text: [subjectDetails.givenName, " used ", drugsNotUsedList | join(", "), " more than 6 months ago."] | join
-    }) }}
+  {{ govukInsetText({
+    text: [subjectDetails.givenName, " used ", drugsNotUsedList | join(", "), " more than 6 months ago."] | join
+  }) }}
 
-    {{ renderQuestion(options.fields["not_used_in_last_six_months_details"], errors) }}
+  {{ renderQuestion(options.fields["not_used_in_last_six_months_details"], errors) }}
 {% endset %}
 
 {% block formContent %}

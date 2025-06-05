@@ -52,3 +52,9 @@ export const assertQuestionUrl = (question: string) => {
     cy.location('hash').should('satisfy', (id: string) => q.find(id).length === 1)
   })
 }
+
+export const assertDrugQuestionUrl = (drug: string, question) => {
+  cy.getDrugQuestion(drug, question).then(q => {
+    cy.location('hash').should('satisfy', (id: string) => q.find(id).length === 1)
+  })
+}

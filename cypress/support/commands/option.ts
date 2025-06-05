@@ -42,6 +42,16 @@ export const hasConditionalQuestion = (subject: JQuery, expect: boolean = true) 
   return cy.wrap(subject)
 }
 
+export const hasDisabledConditionalQuestion = (subject: JQuery) => {
+  cy.wrap(subject)
+    .next('.govuk-radios__conditional:visible, .govuk-checkboxes__conditional:visible')
+    .should('have.length', 1)
+    .find('> .hidden-conditional > fieldset')
+    .should('have.length', 1)
+    .and('not.be.visible')
+  return cy.wrap(subject)
+}
+
 export const getConditionalQuestion = (subject: JQuery) => {
   return cy
     .wrap(subject)

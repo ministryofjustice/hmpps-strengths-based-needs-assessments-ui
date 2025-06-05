@@ -86,6 +86,10 @@ const injectableDrugsOptions: Array<FormWizard.Field.Option> = drugsList
 const injectedDrugs: FormWizard.Field = {
   text: 'Which drugs has [subject] injected?',
   code: 'drugs_injected',
+  hint: {
+    kind: 'text',
+    text: 'Select all that apply.'
+  },
   type: FieldType.CheckBox,
   multiple: true,
   validate: [{ type: ValidationType.Required, message: `Select which drugs they've injected, or select 'None'` }],
@@ -132,7 +136,7 @@ const injectedDrugsWhen: Array<FormWizard.Field> = drugsList
   .filter(it => it.injectable)
   .map(drug => ({
     text: `When has [subject] injected this drug?`,
-    hint: { text: 'Select one or both', kind: 'text' },
+    hint: { text: 'Select one or both.', kind: 'text' },
     code: fieldCodeWith('drugs_injected', drug.value),
     type: FieldType.CheckBox,
     multiple: true,
