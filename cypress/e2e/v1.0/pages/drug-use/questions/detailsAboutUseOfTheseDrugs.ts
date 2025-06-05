@@ -7,7 +7,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it(`displays and validates the question`, () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('For example, how often they used these drugs, when they stopped using, and if their use was an issue.')
+        .hasHint(
+          'For example, how often they used these drugs, when they stopped using, and if their use was an issue.',
+        )
         .hasLimit(config.characterLimit.default)
 
       cy.saveAndContinue()

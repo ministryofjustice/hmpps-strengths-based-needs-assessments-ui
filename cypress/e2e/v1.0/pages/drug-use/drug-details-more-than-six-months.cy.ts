@@ -1,8 +1,7 @@
 import { Fixture } from '../../../../support/commands/fixture'
-import { drugName, drugs } from './common/drugs'
+import { drugs } from './common/drugs'
 import receivingTreatment from './questions/receivingTreatment'
-import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
-import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs';
+import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs'
 
 describe('/drug-details-more-than-six-months', () => {
   const stepUrl = '/drug-details-more-than-six-months'
@@ -17,9 +16,17 @@ describe('/drug-details-more-than-six-months', () => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
         cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getNthConditionalQuestion(0).enterText('Cake')
-        cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getNthConditionalQuestion(1).getRadio('Used more than 6 months ago').clickLabel()
+        cy.getQuestion('Which drugs has Sam misused?')
+          .getCheckbox(drug)
+          .getNthConditionalQuestion(1)
+          .getRadio('Used more than 6 months ago')
+          .clickLabel()
       } else {
-        cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getConditionalQuestion().getRadio('Used more than 6 months ago').clickLabel()
+        cy.getQuestion('Which drugs has Sam misused?')
+          .getCheckbox(drug)
+          .getConditionalQuestion()
+          .getRadio('Used more than 6 months ago')
+          .clickLabel()
       }
     })
     cy.saveAndContinue()
@@ -59,7 +66,11 @@ describe('/drug-details-more-than-six-months', () => {
     const usedRecently = usedDrugs.pop()
 
     cy.visitStep('/add-drugs')
-    cy.getQuestion('Which drugs has Sam misused?').getCheckbox(usedRecently).getConditionalQuestion().getRadio('Used in the last 6 months').clickLabel()
+    cy.getQuestion('Which drugs has Sam misused?')
+      .getCheckbox(usedRecently)
+      .getConditionalQuestion()
+      .getRadio('Used in the last 6 months')
+      .clickLabel()
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)

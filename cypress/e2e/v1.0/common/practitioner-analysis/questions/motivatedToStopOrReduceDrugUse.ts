@@ -1,4 +1,4 @@
-export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
+export default (summaryPage: string, analysisCompletePage: string, positionNumber: number) => {
   const question = `Does Sam seem motivated to stop or reduce their drug use?`
   const summaryQuestion = question
 
@@ -22,10 +22,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
       it(`analysis summary page displays "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false).clickLabel()
         cy.markAsComplete()
-        cy.getQuestion(question)
-          .hasNoValidationError()
-          .getRadio(option)
-          .hasConditionalQuestion(false)
+        cy.getQuestion(question).hasNoValidationError().getRadio(option).hasConditionalQuestion(false)
         cy.visitStep(analysisCompletePage)
         cy.get('#tab_practitioner-analysis').click()
         cy.getAnalysisSummary(summaryQuestion).getAnalysisAnswer(option).hasNoSecondaryAnswer()

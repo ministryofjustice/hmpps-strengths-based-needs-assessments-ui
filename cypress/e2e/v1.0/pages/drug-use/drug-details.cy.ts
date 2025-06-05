@@ -16,9 +16,17 @@ describe('/drug-details', () => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
         cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getNthConditionalQuestion(0).enterText('Cake')
-        cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getNthConditionalQuestion(1).getRadio('Used in the last 6 months').clickLabel()
+        cy.getQuestion('Which drugs has Sam misused?')
+          .getCheckbox(drug)
+          .getNthConditionalQuestion(1)
+          .getRadio('Used in the last 6 months')
+          .clickLabel()
       } else {
-        cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getConditionalQuestion().getRadio('Used in the last 6 months').clickLabel()
+        cy.getQuestion('Which drugs has Sam misused?')
+          .getCheckbox(drug)
+          .getConditionalQuestion()
+          .getRadio('Used in the last 6 months')
+          .clickLabel()
       }
     })
     cy.saveAndContinue()

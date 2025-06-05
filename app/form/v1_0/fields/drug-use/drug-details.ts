@@ -88,7 +88,7 @@ const injectedDrugs: FormWizard.Field = {
   code: 'drugs_injected',
   hint: {
     kind: 'text',
-    text: 'Select all that apply.'
+    text: 'Select all that apply.',
   },
   type: FieldType.CheckBox,
   multiple: true,

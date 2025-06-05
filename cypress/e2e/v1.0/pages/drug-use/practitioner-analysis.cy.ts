@@ -35,7 +35,11 @@ describe(`Sam has misused drugs`, () => {
     cy.saveAndContinue()
 
     cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()
-    cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').getConditionalQuestion().getRadio('Used more than 6 months ago').clickLabel()
+    cy.getQuestion('Which drugs has Sam misused?')
+      .getCheckbox('Cannabis')
+      .getConditionalQuestion()
+      .getRadio('Used more than 6 months ago')
+      .clickLabel()
     cy.saveAndContinue()
 
     cy.getQuestion(`Give details about Sam's use of these drugs`).enterText('Test')
@@ -64,5 +68,5 @@ describe(`Sam has misused drugs`, () => {
     cy.assertQuestionCount(4)
   })
 
-  motivatedToStopOrReduceDrugUse(summaryPage, '/drug-use-analysis', 1, 'drug use')
+  motivatedToStopOrReduceDrugUse(summaryPage, '/drug-use-analysis', 1)
 })

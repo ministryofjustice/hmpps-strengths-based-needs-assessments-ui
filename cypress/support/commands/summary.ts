@@ -23,15 +23,13 @@ export const getDrugSummaryCard = (drug: string, lastUsed: string) => {
 }
 
 export const hasCardItems = (subject: JQuery, count: number) => {
-  cy.wrap(subject)
-    .find('.govuk-summary-list__key')
-    .should('be.visible')
-    .and('have.length', count)
+  cy.wrap(subject).find('.govuk-summary-list__key').should('be.visible').and('have.length', count)
   return cy.wrap(subject)
 }
 
 export const getCardItem = (subject: JQuery, key: string) => {
-  return cy.wrap(subject)
+  return cy
+    .wrap(subject)
     .find('.govuk-summary-list__key')
     .contains(key)
     .should('be.visible')
@@ -39,13 +37,9 @@ export const getCardItem = (subject: JQuery, key: string) => {
     .parent()
 }
 
-export const hasCardItemAnswers = (subject: JQuery, ...answers: string[])=> {
+export const hasCardItemAnswers = (subject: JQuery, ...answers: string[]) => {
   answers.forEach(answer => {
-    cy.wrap(subject)
-      .find('.govuk-summary-list__value')
-      .contains(answer)
-      .should('be.visible')
-      .and('have.length', 1)
+    cy.wrap(subject).find('.govuk-summary-list__value').contains(answer).should('be.visible').and('have.length', 1)
   })
   cy.wrap(subject)
     .find('.govuk-summary-list__value > br')
@@ -77,7 +71,11 @@ export const clickChange = (subject: JQuery) => {
 }
 
 export const changeDrug = (subject: JQuery) => {
-  cy.wrap(subject).find('> .govuk-summary-card__title-wrapper a:contains(Change)').should('be.visible').and('have.length', 1).click()
+  cy.wrap(subject)
+    .find('> .govuk-summary-card__title-wrapper a:contains(Change)')
+    .should('be.visible')
+    .and('have.length', 1)
+    .click()
 }
 
 export const getAnswer = (subject: JQuery, answer: string) => {

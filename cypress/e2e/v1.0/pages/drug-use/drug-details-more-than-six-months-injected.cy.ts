@@ -1,7 +1,6 @@
 import { Fixture } from '../../../../support/commands/fixture'
-import { drugName, drugs } from './common/drugs'
+import { drugs } from './common/drugs'
 import receivingTreatment from './questions/receivingTreatment'
-import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
 import whichDrugsInjected from './questions/whichDrugsInjected'
 import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs'
 
@@ -13,13 +12,21 @@ describe('/drug-details-more-than-six-months-injected', () => {
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
     cy.visitSection('Drug use')
-    drugs.forEach(({name: drug}) => {
+    drugs.forEach(({ name: drug }) => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
         cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getNthConditionalQuestion(0).enterText('Cake')
-        cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getNthConditionalQuestion(1).getRadio('Used more than 6 months ago').clickLabel()
+        cy.getQuestion('Which drugs has Sam misused?')
+          .getCheckbox(drug)
+          .getNthConditionalQuestion(1)
+          .getRadio('Used more than 6 months ago')
+          .clickLabel()
       } else {
-        cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getConditionalQuestion().getRadio('Used more than 6 months ago').clickLabel()
+        cy.getQuestion('Which drugs has Sam misused?')
+          .getCheckbox(drug)
+          .getConditionalQuestion()
+          .getRadio('Used more than 6 months ago')
+          .clickLabel()
       }
     })
     cy.saveAndContinue()
