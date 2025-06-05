@@ -235,6 +235,7 @@ declare module 'hmpo-form-wizard' {
 
     interface RenderedStep extends BaseStep {
       pageTitle: string
+      navigationTitle?: string
       section: string
       fields?: Fields
     }
