@@ -2,6 +2,8 @@ import { Fixture } from '../../../../support/commands/fixture'
 import { drugs } from './common/drugs'
 import receivingTreatment from './questions/receivingTreatment'
 import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs'
+import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
+import testPastUseDrugsList from './common/testPastUseDrugsList'
 
 describe('/drug-details-more-than-six-months', () => {
   const stepUrl = '/drug-details-more-than-six-months'
@@ -55,37 +57,39 @@ describe('/drug-details-more-than-six-months', () => {
     questionTest(stepUrl, summaryPage, index + 1)
   })
 
-  it('pulls the list of drugs used more than 6 months ago', () => {
-    const previouslyUsed = usedDrugs.join(', ')
-
-    cy.get('form > .govuk-inset-text')
-      .contains(`Sam used ${previouslyUsed} more than 6 months ago.`)
-      .should('have.length', 1)
-      .and('be.visible')
-
-    const usedRecently = usedDrugs.pop()
-
-    cy.visitStep('/add-drugs')
-    cy.getQuestion('Which drugs has Sam misused?')
-      .getCheckbox(usedRecently)
-      .getConditionalQuestion()
-      .getRadio('Used in the last 6 months')
-      .clickLabel()
-    cy.saveAndContinue()
-
-    cy.assertStepUrlIs(stepUrl)
-
-    const nowUsed = usedDrugs.join(', ')
-
-    cy.get('form > .govuk-inset-text')
-      .contains(`Sam used ${nowUsed} more than 6 months ago.`)
-      .should('have.length', 1)
-      .and('be.visible')
-
-    expect(previouslyUsed).not.to.eq(nowUsed)
-  })
+  testPastUseDrugsList(usedDrugs, stepUrl)
 
   it('Should have no accessibility violations', () => {
     cy.checkAccessibility()
+  })
+
+  usedDrugs.forEach(drug => {
+    describe(`${drug} was used in the last 6 months`, () => {
+      beforeEach(() => {
+        cy.visitStep('/add-drugs')
+        if (drug === 'Other') {
+          cy.getQuestion('Which drugs has Sam misused?')
+            .getCheckbox(drug)
+            .getNthConditionalQuestion(1)
+            .getRadio('Used in the last 6 months')
+            .clickLabel()
+        } else {
+          cy.getQuestion('Which drugs has Sam misused?')
+            .getCheckbox(drug)
+            .getConditionalQuestion()
+            .getRadio('Used in the last 6 months')
+            .clickLabel()
+        }
+        cy.saveAndContinue()
+
+        cy.assertStepUrlIs(stepUrl)
+        cy.hasSubheading('Not used in the last 6 months', true)
+        cy.hasSubheading('Used in the last 6 months', true)
+        cy.hasDrugQuestionGroups(1)
+        cy.hasQuestionsForDrug(drug, 2)
+      })
+
+      drugUsedInTheLastSixMonths(drug, false, stepUrl, summaryPage)
+    })
   })
 })

@@ -1,8 +1,10 @@
 import { Fixture } from '../../../../support/commands/fixture'
-import { drugs } from './common/drugs'
+import { drugName, drugs } from './common/drugs'
 import receivingTreatment from './questions/receivingTreatment'
 import whichDrugsInjected from './questions/whichDrugsInjected'
 import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs'
+import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
+import testPastUseDrugsList from './common/testPastUseDrugsList'
 
 describe('/drug-details-more-than-six-months-injected', () => {
   const stepUrl = '/drug-details-more-than-six-months-injected'
@@ -55,7 +57,42 @@ describe('/drug-details-more-than-six-months-injected', () => {
     questionTest(stepUrl, summaryPage, index + 1)
   })
 
+  testPastUseDrugsList(
+    drugs.map(drug => drugName(drug.name)),
+    stepUrl,
+  )
+
   it('Should have no accessibility violations', () => {
     cy.checkAccessibility()
+  })
+
+  drugs.forEach(({ name: drug, injectable }) => {
+    describe(`${drug} was used in the last 6 months`, () => {
+      beforeEach(() => {
+        cy.visitStep('/add-drugs')
+        if (drug === 'Other') {
+          cy.getQuestion('Which drugs has Sam misused?')
+            .getCheckbox(drug)
+            .getNthConditionalQuestion(1)
+            .getRadio('Used in the last 6 months')
+            .clickLabel()
+        } else {
+          cy.getQuestion('Which drugs has Sam misused?')
+            .getCheckbox(drug)
+            .getConditionalQuestion()
+            .getRadio('Used in the last 6 months')
+            .clickLabel()
+        }
+        cy.saveAndContinue()
+
+        cy.assertStepUrlIs(stepUrl)
+        cy.hasSubheading('Not used in the last 6 months', true)
+        cy.hasSubheading('Used in the last 6 months', true)
+        cy.hasDrugQuestionGroups(1)
+        cy.hasQuestionsForDrug(drugName(drug), 2)
+      })
+
+      drugUsedInTheLastSixMonths(drug, injectable, stepUrl, summaryPage)
+    })
   })
 })
