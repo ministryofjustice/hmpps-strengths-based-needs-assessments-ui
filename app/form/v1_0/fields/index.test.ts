@@ -1,8 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import buildFields, { toFormWizardFields } from './index'
-import { SectionConfig } from '../config/sections'
 import { utils } from './common'
+import { SectionConfig } from '../../common/section';
 
 describe('fields/index.ts', () => {
   describe('toFormWizardFields', () => {

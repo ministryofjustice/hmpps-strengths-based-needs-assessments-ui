@@ -5,6 +5,8 @@ import sections from '../config/sections'
 import { dependentOn, yesNoOptions } from './common/utils'
 import characterLimits from '../config/characterLimits'
 
+const stepUrls = sections.offenceAnalysis.stepUrls
+
 class OffenceAnalysisFieldsFactory extends FieldsFactory {
   offenceAnalysisDescriptionOfOffence: FormWizard.Field = {
     text: 'Enter a brief description of the current index offence(s)',
@@ -427,10 +429,10 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         this.offenceAnalysisVictimRace,
       ],
       subject: 'victim',
-      createUrl: 'offence-analysis-victim/create',
-      updateUrl: 'offence-analysis-victim/edit',
-      deleteUrl: 'offence-analysis-victim/delete',
-      summaryUrl: 'offence-analysis-victim-details',
+      createUrl: stepUrls.offenceAnalysisVictimCreate,
+      updateUrl: stepUrls.offenceAnalysisVictimUpdate,
+      deleteUrl: stepUrls.offenceAnalysisVictimDelete,
+      summaryUrl: stepUrls.offenceAnalysisVictimsSummary,
     },
     labelClasses: utils.getMediumLabelClassFor(FieldType.Collection),
     summary: { displayAlways: true },

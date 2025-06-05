@@ -2,22 +2,13 @@ import type { Request, Response } from 'express'
 import * as express from 'express'
 import FormWizard from 'hmpo-form-wizard'
 
+import { Section } from '../form/common/section';
+import { Form, FormOptions, formVersions } from '../form';
+
 type FormWizardRouter = {
   metaData: FormOptions
   router: express.Router
   configRouter: express.Router
-}
-
-export type FormOptions = {
-  version: string
-  active: boolean
-  defaultFormatters: Array<string | FormWizard.Formatter>
-}
-
-export type Form = {
-  fields: FormWizard.Fields
-  steps: FormWizard.Steps
-  options: FormOptions
 }
 
 const getLatestVersionFrom = (formRouters: FormWizardRouter[] = []): FormWizardRouter | null =>
@@ -25,6 +16,9 @@ const getLatestVersionFrom = (formRouters: FormWizardRouter[] = []): FormWizardR
     (latest, it) => (!latest || (it.metaData.active && it.metaData.version > latest.metaData.version) ? it : latest),
     null,
   )
+
+export const getSections = (formVersion: string): Record<string, Section> =>
+  formVersions[formVersion].sections
 
 const removeQueryParamsFrom = (urlWithParams: string) => {
   const [url] = urlWithParams.split('?')
@@ -36,30 +30,58 @@ interface NavigationItem {
   section: string
   label: string
   active: boolean
+  subNavigation?: Array<NavigationItem>
 }
-
-export const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
-  Object.entries(steps).find(([_path, step]) => step.section === sectionName && step.isLastStep)[0]
 
 export const createNavigation = (
   baseUrl: string,
+  sections: Record<string, Section>,
   steps: FormWizard.Steps,
-  currentSection: string,
+  stepUrl: string,
   isInEditMode: boolean,
 ): Array<NavigationItem> => {
-  return Object.entries(steps)
-    .filter(([_path, config]) => config.navigationOrder)
-    .sort(([_pathA, configA], [_pathB, configB]) => configA.navigationOrder - configB.navigationOrder)
-    .map(([path, config]) => {
-      const url = isInEditMode ? `${path}?action=resume` : getLastStepOfSection(steps, config.section)
-
+  return Object.values(sections)
+    .map(section => {
+      const url = isInEditMode ? `${getFirstStepOfSection(section)}?action=resume` : getLastStepOfSection(section)
       return {
-        url: `${baseUrl}/${url.slice(1)}`,
-        section: config.section,
-        label: config.pageTitle,
-        active: config.section === currentSection,
+        url: `${baseUrl}/${url}`,
+        section: section.code,
+        label: section.title,
+        active: isSectionActive(stepUrl, section),
+        subNavigation: section.subSections ? createNavigation(baseUrl, section.subSections, steps, stepUrl, isInEditMode) : null,
       }
     })
+}
+
+const isSectionActive = (stepUrl: string, section: Section): boolean =>
+  Object.values(section.stepUrls || []).some(it => it === stepUrl) || Object.values(section.subSections || []).some(it => isSectionActive(stepUrl, it))
+
+export const getFirstStepOfSection = (section: Section): string =>
+  section.stepUrls ? Object.values(section.stepUrls).at(0) : getFirstStepOfSection(Object.values(section.subSections).at(0))
+
+export const getLastStepOfSection = (section: Section): string =>
+  section.stepUrls ? Object.values(section.stepUrls).at(-1) : getLastStepOfSection(Object.values(section.subSections).at(-1))
+
+export const findSectionByCode = (code: string, sections: Record<string, Section>): Section | null => {
+  for (const section of Object.values(sections)) {
+    if (section.code === code) return section
+    if (section.subSections) {
+      const found = findSectionByCode(code, section.subSections)
+      if (found) return found
+    }
+  }
+  return null
+}
+
+export const findSectionByStepUrl = (stepUrl: string, sections: Record<string, Section>): Section | null => {
+  for (const section of Object.values(sections)) {
+    if (Object.values(section.stepUrls || []).some(it => it === stepUrl)) return section
+    if (section.subSections) {
+      const found = findSectionByStepUrl(stepUrl, section.subSections)
+      if (found) return found
+    }
+  }
+  return null
 }
 
 type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -124,6 +146,7 @@ const setupForm = (form: Form): FormWizardRouter => {
       FormWizard(form.steps, form.fields, {
         name: `Assessment:${form.options.version}`,
         entryPoint: true,
+        sections: form.sections,
         defaultFormatters: form.options.defaultFormatters,
       }),
     )

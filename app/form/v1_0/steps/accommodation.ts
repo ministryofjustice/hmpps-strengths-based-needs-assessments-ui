@@ -1,19 +1,12 @@
 import FormWizard from 'hmpo-form-wizard'
 import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import accommodationFields from '../fields/accommodation'
-import sections, { SectionConfig } from '../config/sections'
+import sections from '../config/sections'
 import templates from '../config/templates'
+import { SectionConfig } from '../../common/section';
 
 const section = sections.accommodation
-const stepUrls = {
-  currentAccommodation: 'current-accommodation',
-  settledAccommodation: 'settled-accommodation',
-  temporaryAccommodation: 'temporary-accommodation',
-  temporaryAccommodationCasAp: 'temporary-accommodation-cas-ap',
-  noAccommodation: 'no-accommodation',
-  summary: 'accommodation-summary',
-  analysis: 'accommodation-analysis',
-}
+const stepUrls = section.stepUrls
 
 const accommodationTypeGroup: FormWizard.Field[] = [
   accommodationFields.currentAccommodation,
@@ -77,7 +70,6 @@ const sectionConfig: SectionConfig = {
         ]),
         nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
       ],
-      navigationOrder: 1,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
