@@ -130,6 +130,7 @@ declare module 'hmpo-form-wizard' {
         hint?: { text: string } | { html: string }
         behaviour?: string
         kind: 'option'
+        attributes?: Record<string, unknown>
         summary?: {
           displayFn?: (text: string, value: string) => string
         }
@@ -189,10 +190,11 @@ declare module 'hmpo-form-wizard' {
       formGroupClasses?: string
       classes?: string
       summary?: {
+        text?: string
         displayFn?: (value: string) => string
         displayAlways?: boolean
       }
-      transform?: (CookieSessionObject) => FormWizard.Field
+      transform?: (state: { session: CookieSessionObject; answers: FormWizard.Answers }) => FormWizard.Field
     }
 
     interface Fields {
@@ -211,6 +213,8 @@ declare module 'hmpo-form-wizard' {
     type SecondaryAction = { text: string; url: string }
 
     interface BaseStep {
+      pageHeading?: string
+      pageCaption?: string
       pageSubHeading?: string
       reset?: boolean
       entryPoint?: boolean

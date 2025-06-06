@@ -6,7 +6,7 @@ import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { SessionData } from '../../server/services/strengthsBasedNeedsService'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { validateCollectionField } from '../utils/validation'
-import { combineDateFields } from '../utils/field.utils'
+import { combineDateFields, withStateAwareTransform } from '../utils/field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import { defaultName } from '../../server/utils/azureAppInsights'
 
@@ -46,6 +46,18 @@ class BaseController extends FormWizard.Controller {
   }
 
   async process(req: FormWizard.Request, res: Response, next: NextFunction) {
+    const fieldsWithStateAwareTransforms = Object.values(req.form.options.fields).map(
+      withStateAwareTransform(req.session, req.form.persistedAnswers),
+    )
+
+    req.form.options.fields = Object.keys(req.form.options.fields).reduce(
+      (acc, key, i) => ({
+        ...acc,
+        [key]: fieldsWithStateAwareTransforms[i],
+      }),
+      {},
+    )
+
     req.form.values = combineDateFields(req.body, req.form.values)
 
     const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(req.form.options.fields))

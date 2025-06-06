@@ -97,8 +97,23 @@
             {% if options.pageSubHeading %}
               <p class="page-sub-heading">{{ options.pageSubHeading }}</p>
             {% endif %}
+
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
-            <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
+
+            <!-- Two implementations - One nests the caption in the h1, one does not. Nested caption will be read out by screen reader with the h1. -->
+            {% if options.pageHeading and options.pageCaption %}
+                <h2 class="govuk-heading-l">
+                    <span class="govuk-caption-l">{{ options.pageCaption }}</span>
+                    {{ options.pageHeading }}
+                </h2>
+            {% elseif options.pageHeading %}
+                <span class="govuk-caption-l">{{ options.pageTitle }}</span>
+                <h2 class="govuk-heading-l">
+                    {{ options.pageHeading }}
+                </h2>
+            {% else %}
+                <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
+            {% endif %}
           </div>
           {% if sectionProgress[options.section] %}
             <div class="section-heading__status">

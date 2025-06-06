@@ -1,98 +1,48 @@
-{%- macro renderDrugsTable(summaryField, user) -%}
-  <div class="govuk-summary-list__row summary-list__row summary-list__row--drugs">
-    <dt class="govuk-summary-list__key summary-list__key summary-list__key--drugs">
-      <span class="summary__label">{{ summaryField.field.text }}</span>
-    </dt>
-    {% if user | isInEditMode %}
-    <dd class="govuk-summary-list__actions summary-list__actions govuk-!-padding-right-0 govuk-!-padding-bottom-0">
-      <a class="govuk-link" href="{{ summaryField.changeLink }}">
-        Change<span class="govuk-visually-hidden">value for {{ summaryField.field.text }}</span>
-      </a>
-    </dd>
+{% from "./rendering-macros.njk" import renderTopLevelField %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{%- macro renderDrugsSummary(drugUseField, sessionData, summaryFields) -%}
+  {{ renderTopLevelField(drugUseField, sessionData) }}
+
+  {% set drugsSummary = generateDrugsSummary(summaryFields.singleFields, sessionData.user) %}
+
+  {% set hasUsedDrugs = false %}
+  {% for answer in drugUseField.answers %}
+    {% if answer.value == 'YES' %}
+      {% set hasUsedDrugs = true %}
     {% endif %}
-    <dd class="govuk-summary-list__value summary-list__value summary-list__value--drugs">
-      <table class="govuk-table drugs-summary-table">
-        <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Drug</th>
-          <th scope="col" class="govuk-table__header">Currently</th>
-          <th scope="col" class="govuk-table__header">Previously</th>
-          <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
-        </tr>
-        </thead>
+  {% endfor %}
 
-        {% for drug in summaryField.answers %}
+  {% if drugsSummary.usedInTheLastSix | length %}
+    <div id="last-six-months">
+      <h3 class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</h3>
+      {% for card in drugsSummary.usedInTheLastSix %}
+        {{ govukSummaryList(card) }}
+      {% endfor %}
+    </div>
+  {% endif %}
 
-          {% set drugName = drug.text | safe %}
-          {% set changeLink = "drug-usage-details#" + drugName | lower | urlSafe %}
+  {% if drugsSummary.notUsedInTheLastSix | length %}
+    <div id="not-last-six-months">
+      <h3 class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</h3>
+      {% for card in drugsSummary.notUsedInTheLastSix %}
+        {{ govukSummaryList(card) }}
+      {% endfor %}
+    </div>
+  {% endif %}
 
-          {% set frequency = null %}
-          {% set previously = null %}
-          {% set currentlyInjecting = null %}
-          {% set previouslyInjecting = null %}
-          {% set currentlyTreated = null %}
-          {% set previouslyTreated = null %}
+  {% if drugsSummary.otherFields | length %}
+    <div class="drugs-summary__other-fields">
+      <dl class="govuk-summary-list summary-list">
+      {% for otherField in drugsSummary.otherFields %}
+        {{ renderTopLevelField(otherField, sessionData) }}
+      {% endfor %}
+      </dl>
+    </div>
+  {% endif %}
 
-          {% for drugUsage in drug.nestedFields %}
-            {% for drugUsageAnswer in drugUsage.answers %}
+  {% if hasUsedDrugs %}
+    <h3 class="govuk-heading-m drugs-summary__subheading">More information</h3>
+  {% endif %}
 
-              {% switch true %}
-                {% case drugUsage.field.code | startsWith("drug_usage_") %}
-                  {% set frequency = drugUsageAnswer.text %}
-                {% case drugUsage.field.code | startsWith("past_drug_usage_") %}
-                  {% set previously = drugUsageAnswer.text %}
-                {% case drugUsage.field.code == "drug_use_type_other_drug_details" %}
-                  {% set drugName = drugUsageAnswer.text | safe %}
-              {% endswitch %}
-
-              {% for drugUsageDetails in drugUsageAnswer.nestedFields %}
-                {% for drugUsageDetailsAnswer in drugUsageDetails.answers %}
-                  {% switch true %}
-                    {% case drugUsageDetails.field.code | startsWith("injecting_drug_") %}
-                      {% set currentlyInjecting = drugUsageDetailsAnswer.text %}
-                    {% case drugUsageDetails.field.code | startsWith("past_injecting_drug_") %}
-                      {% set previouslyInjecting = drugUsageDetailsAnswer.text %}
-                    {% case drugUsageDetails.field.code | startsWith("drug_usage_treatment_") %}
-                      {% set currentlyTreated = drugUsageDetailsAnswer.text %}
-                    {% case drugUsageDetails.field.code | startsWith("past_drug_usage_treatment_") %}
-                      {% set previouslyTreated = drugUsageDetailsAnswer.text %}
-                  {% endswitch %}
-                {% endfor %}
-              {% endfor %}
-
-            {% endfor %}
-          {% endfor %}
-
-          <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">{{ drugName }}</th>
-              <td class="govuk-table__cell">{{ frequency | default("N/A", true) }}</td>
-              <td class="govuk-table__cell">{{ previously | default("N/A", true) }}</td>
-              <td class="govuk-table__cell summary-list__actions">
-                {% if user | isInEditMode %}
-                  <a href="{{ changeLink }}" class="govuk-link">Change</a>
-                {% endif %}
-              </td>
-            </tr>
-            {% if currentlyInjecting or previouslyInjecting %}
-              <tr class="govuk-table__row govuk-!-font-size-16">
-                <th scope="row" class="govuk-table__header">Injected</th>
-                <td class="govuk-table__cell">{{ currentlyInjecting | default("N/A", true) }}</td>
-                <td class="govuk-table__cell">{{ previouslyInjecting | default("N/A", true) }}</td>
-                <td class="govuk-table__cell"></td>
-              </tr>
-            {% endif %}
-            {% if currentlyTreated or previouslyTreated %}
-              <tr class="govuk-table__row govuk-!-font-size-16">
-                <th scope="row" class="govuk-table__header">Receiving treatment</th>
-                <td class="govuk-table__cell">{{ currentlyTreated | default("N/A", true) }}</td>
-                <td class="govuk-table__cell">{{ previouslyTreated | default("N/A", true) }}</td>
-                <td class="govuk-table__cell"></td>
-              </tr>
-            {% endif %}
-          </tbody>
-        {% endfor %}
-      </table>
-    </dd>
-  </div>
 {%- endmacro -%}

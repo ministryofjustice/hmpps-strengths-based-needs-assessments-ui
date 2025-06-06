@@ -1,5 +1,10 @@
 // eslint-disable-next-line import/prefer-default-export
-export const testPractitionerAnalysis = (sectionName: string, origin: string, destination: string) => {
+export const testPractitionerAnalysis = (
+  sectionName: string,
+  origin: string,
+  destination: string,
+  conditionalFlag: boolean,
+) => {
   describe(`Destination: ${destination}`, () => {
     it(`routes to ${destination}`, () => {
       cy.visitStep(origin)
@@ -17,6 +22,10 @@ export const testPractitionerAnalysis = (sectionName: string, origin: string, de
       ).forEach(question => {
         cy.getQuestion(question).getRadio('No').clickLabel()
       })
+
+      if (sectionName === 'Drug use' && conditionalFlag) {
+        cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
+      }
 
       cy.assertResumeUrlIs(sectionName, origin)
       cy.get('#tab_practitioner-analysis').click()

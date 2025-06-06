@@ -8,19 +8,43 @@ export const getSummary = (question: string) => {
     .parent()
 }
 
-export const getDrugSummary = (drug: string) => {
+export const getDrugSummaryCard = (drug: string, lastUsed: string) => {
   return cy
-    .get(
-      '#summary > form > .govuk-summary-list > .govuk-summary-list__row > .govuk-summary-list__key > .summary__label',
-    )
-    .contains('Which drugs has Sam used?')
+    .get('.drugs-summary__subheading')
+    .contains(lastUsed)
     .should('be.visible')
     .and('have.length', 1)
     .parent()
-    .siblings()
-    .last()
-    .find(`tbody th:contains(${drug})`)
-    .parents('tbody')
+    .find('.govuk-summary-card__title')
+    .contains(drug)
+    .should('be.visible')
+    .and('have.length', 1)
+    .parents('.govuk-summary-card')
+}
+
+export const hasCardItems = (subject: JQuery, count: number) => {
+  cy.wrap(subject).find('.govuk-summary-list__key').should('be.visible').and('have.length', count)
+  return cy.wrap(subject)
+}
+
+export const getCardItem = (subject: JQuery, key: string) => {
+  return cy
+    .wrap(subject)
+    .find('.govuk-summary-list__key')
+    .contains(key)
+    .should('be.visible')
+    .and('have.length', 1)
+    .parent()
+}
+
+export const hasCardItemAnswers = (subject: JQuery, ...answers: string[]) => {
+  answers.forEach(answer => {
+    cy.wrap(subject).find('.govuk-summary-list__value').contains(answer).should('be.visible').and('have.length', 1)
+  })
+  cy.wrap(subject)
+    .find('.govuk-summary-list__value > br')
+    .should('have.length', answers.length - 1)
+  return cy.wrap(subject)
 }
 
 export const getCollectionEntry = (subject: string, id: number) => {
@@ -37,61 +61,6 @@ export const hasCollectionEntries = (subject: string, count: number) => {
     })
 }
 
-export const hasFrequency = (subject: JQuery, answer: string) => {
-  cy.wrap(subject)
-    .find('> tr:nth-child(1) > td:nth-child(2)')
-    .contains(answer)
-    .should('be.visible')
-    .and('have.length', 1)
-  return cy.wrap(subject)
-}
-
-export const hasPreviousUse = (subject: JQuery, answer: string) => {
-  cy.wrap(subject)
-    .find('> tr:nth-child(1) > td:nth-child(3)')
-    .contains(answer)
-    .should('be.visible')
-    .and('have.length', 1)
-  return cy.wrap(subject)
-}
-
-export const hasReceivingTreatmentCurrently = (subject: JQuery, answer: string) => {
-  cy.wrap(subject)
-    .find('th:contains(Receiving treatment)')
-    .next()
-    .contains(answer)
-    .should('be.visible')
-    .and('have.length', 1)
-  return cy.wrap(subject)
-}
-
-export const hasReceivingTreatmentPreviously = (subject: JQuery, answer: string) => {
-  cy.wrap(subject)
-    .find('th:contains(Receiving treatment)')
-    .next()
-    .next()
-    .contains(answer)
-    .should('be.visible')
-    .and('have.length', 1)
-  return cy.wrap(subject)
-}
-
-export const hasInjectedCurrently = (subject: JQuery, answer: string) => {
-  cy.wrap(subject).find('th:contains(Injected)').next().contains(answer).should('be.visible').and('have.length', 1)
-  return cy.wrap(subject)
-}
-
-export const hasInjectedPreviously = (subject: JQuery, answer: string) => {
-  cy.wrap(subject)
-    .find('th:contains(Injected)')
-    .next()
-    .next()
-    .contains(answer)
-    .should('be.visible')
-    .and('have.length', 1)
-  return cy.wrap(subject)
-}
-
 export const clickChange = (subject: JQuery) => {
   cy.wrap(subject)
     .find('> .govuk-summary-list__actions > a, a.change-entry')
@@ -101,8 +70,12 @@ export const clickChange = (subject: JQuery) => {
     .click()
 }
 
-export const changeDrugUsage = (subject: JQuery) => {
-  cy.wrap(subject).find('a:contains(Change)').should('be.visible').and('have.length', 1).click()
+export const changeDrug = (subject: JQuery) => {
+  cy.wrap(subject)
+    .find('> .govuk-summary-card__title-wrapper a:contains(Change)')
+    .should('be.visible')
+    .and('have.length', 1)
+    .click()
 }
 
 export const getAnswer = (subject: JQuery, answer: string) => {

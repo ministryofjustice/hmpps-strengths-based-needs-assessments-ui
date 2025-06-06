@@ -1,12 +1,13 @@
-import everUsedDrugs from './questions/everUsedDrugs'
+import { Fixture } from '../../../../support/commands/fixture'
+import whichDrugs from './questions/whichDrugs'
 
-describe('/drugs', () => {
-  const stepUrl = '/drugs'
+describe('/add-drugs', () => {
+  const stepUrl = '/add-drugs'
   const summaryPage = '/drug-use-summary'
-  const questions = [everUsedDrugs]
+  const questions = [whichDrugs]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.loadFixture(Fixture.DrugUser).enterAssessment()
     cy.visitSection('Drug use')
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Drug use', stepUrl)

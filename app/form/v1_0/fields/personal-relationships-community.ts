@@ -31,7 +31,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
       { text: 'Yes, children that visit them regularly', value: 'YES_CHILDREN_VISITING', kind: 'option' },
       { text: "No, there are no children in [subject]'s life", value: 'NO_CHILDREN', kind: 'option' },
     ],
-    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getLargeLabelClassFor(FieldType.CheckBox),
   }
 
   personalRelationshipsCommunityLivingWithChildrenDetails: FormWizard.Field = FieldsFactory.detailsField({
@@ -81,7 +81,7 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
       { text: 'Friends', value: 'FRIENDS', kind: 'option' },
       { text: 'Other', value: 'OTHER', kind: 'option' },
     ],
-    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+    labelClasses: utils.getLargeLabelClassFor(FieldType.CheckBox),
   }
 
   personalRelationshipsCommunityImportantPeoplePartnerDetails: FormWizard.Field = FieldsFactory.detailsField({

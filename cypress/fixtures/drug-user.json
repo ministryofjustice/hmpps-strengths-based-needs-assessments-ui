@@ -1,18 +1,18 @@
 {
   "metaData": {
-    "uuid": "d35e2aac-c326-49c3-bd60-ae4dfd111d56",
-    "createdAt": "2025-03-06T15:04:15.703976",
-    "versionUuid": "e4b9bf9f-039d-4fe0-8ac2-3215ea74b6b7",
+    "uuid": "af040eb4-f928-45c2-a90c-a7ac5a518488",
+    "createdAt": "2025-06-05T17:46:39.893702",
+    "versionUuid": "e8ec4854-0a05-4c14-b791-0a75645f40f6",
     "versionNumber": 0,
-    "versionCreatedAt": "2025-03-06T15:04:15.703999",
-    "versionUpdatedAt": "2025-03-06T15:04:24.798689",
+    "versionCreatedAt": "2025-06-05T17:46:39.893741",
+    "versionUpdatedAt": "2025-06-05T17:46:41.90121",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
   "assessment": {
     "drug_use": {
       "type": "RADIO",
-      "description": "Has [subject] ever used drugs?",
+      "description": "Has [subject] ever misused drugs?",
       "options": [
         {
           "value": "YES",
@@ -25,92 +25,6 @@
       ],
       "value": "YES",
       "values": null,
-      "collection": null
-    },
-    "drug_use_impact": {
-      "type": "CHECKBOX",
-      "description": "What's the impact of [subject] using drugs?",
-      "options": [
-        {
-          "value": "BEHAVIOURAL",
-          "text": "Behavioural"
-        },
-        {
-          "value": "COMMUNITY",
-          "text": "Community"
-        },
-        {
-          "value": "FINANCES",
-          "text": "Finances"
-        },
-        {
-          "value": "LINKS_TO_REOFFENDING",
-          "text": "Links to offending"
-        },
-        {
-          "value": "PHYSICAL_OR_MENTAL_HEALTH",
-          "text": "Physical or mental health"
-        },
-        {
-          "value": "RELATIONSHIPS",
-          "text": "Relationships"
-        },
-        {
-          "value": "OTHER",
-          "text": "Other"
-        }
-      ],
-      "value": null,
-      "values": [
-        "BEHAVIOURAL"
-      ],
-      "collection": null
-    },
-    "drug_use_reasons": {
-      "type": "CHECKBOX",
-      "description": "Why did [subject] start using drugs?",
-      "options": [
-        {
-          "value": "CULTURAL_OR_RELIGIOUS",
-          "text": "Cultural or religious practices"
-        },
-        {
-          "value": "CURIOSITY_OR_EXPERIMENTATION",
-          "text": "Curiosity or experimentation"
-        },
-        {
-          "value": "ENHANCE_PERFORMANCE",
-          "text": "Enhance performance"
-        },
-        {
-          "value": "ESCAPISM_OR_AVOIDANCE",
-          "text": "Escapism or avoidance"
-        },
-        {
-          "value": "MANAGING_EMOTIONAL_ISSUES",
-          "text": "Manage stress or emotional issues"
-        },
-        {
-          "value": "PEER_PRESSURE",
-          "text": "Peer pressure or social influence"
-        },
-        {
-          "value": "RECREATION_PLEASURE",
-          "text": "Recreation or pleasure"
-        },
-        {
-          "value": "SELF_MEDICATION",
-          "text": "Self-medication for pain"
-        },
-        {
-          "value": "OTHER",
-          "text": "Other"
-        }
-      ],
-      "value": null,
-      "values": [
-        "ENHANCE_PERFORMANCE"
-      ],
       "collection": null
     },
     "assessment_complete": {
@@ -144,65 +58,6 @@
         }
       ],
       "value": "NO",
-      "values": null,
-      "collection": null
-    },
-    "motivated_stopping_drug_use": {
-      "type": "RADIO",
-      "description": "Is [subject] motivated to stop or reduce their drug use?",
-      "options": [
-        {
-          "value": "MOTIVATED",
-          "text": "Motivated to stop or reduce"
-        },
-        {
-          "value": "SOME_MOTIVATION",
-          "text": "Shows some motivation to stop or reduce"
-        },
-        {
-          "value": "NO_MOTIVATION",
-          "text": "Does not show motivation to stop or reduce"
-        },
-        {
-          "value": "UNKNOWN",
-          "text": "Unknown"
-        }
-      ],
-      "value": "UNKNOWN",
-      "values": null,
-      "collection": null
-    },
-    "reducing_or_stopping_drug_use": {
-      "type": "RADIO",
-      "description": "Has anything helped [subject] to stop or reduce using drugs in the past?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "NO",
-      "values": null,
-      "collection": null
-    },
-    "drug_use_is_drugs_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -255,7 +110,7 @@
     "o7-5": null,
     "o8-1": "YES",
     "o8-4": "0",
-    "o8-5": "M",
+    "o8-5": null,
     "o8-6": "0",
     "o8-8": null,
     "o9-1": null,
@@ -281,7 +136,6 @@
     "o12-3": null,
     "o12-4": null,
     "o12-9": null,
-    "o13-1": null,
     "o2-11": null,
     "o2-12": null,
     "o2-13": null,

@@ -1,0 +1,104 @@
+{% extends "./default.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% from "components/question/macro.njk" import renderQuestion %}
+
+{% set pageTitleClass = "govuk-body-l govuk-!-margin-0" %}
+
+{%- macro getDrugName(option) -%}
+  {%- if option.value === "OTHER_DRUG" -%}
+    {{- options.allFields["other_drug_name"].value | default("Other drug") | safe -}}
+  {%- else -%}
+    {{- option.text -}}
+  {%- endif -%}
+{%- endmacro -%}
+
+{% set showLastSixMonths = false %}
+{% set lastSixMonths %}
+  <div class="drugs-section">
+    <h3 class="govuk-heading-m">Used in the last 6 months</h3>
+    {{ govukDetails({
+      summaryText: 'How to record frequency',
+      html: '<strong>Daily</strong>: uses every day or most days.<br>
+        <strong>Weekly</strong>: uses once or more a week but not daily (for example, every Friday and Saturday night).<br>
+        <strong>Monthly</strong>: uses once or more a month but not every week.<br>
+        <strong>Occasionally</strong>: uses less than once a month.'
+    }) }}
+
+    {% for option in options.allFields["select_misused_drugs"].options %}
+      {% if option.checked %}
+        {% for lastUsed in options.allFields[["drug_last_used_", option.value | lower] | join].options %}
+          {% if lastUsed.checked and lastUsed.value === "LAST_SIX" %}
+            {% set showLastSixMonths = true %}
+
+            <div class="drug" id="{{ option.text | lower | urlSafe }}">
+              <h4 class="govuk-heading-m">{{ getDrugName(option) }}</h4>
+
+              {% set frequencyFieldCode = ["how_often_used_last_six_months_", option.value | lower] | join %}
+              {{ renderQuestion(options.fields[frequencyFieldCode], errors) }}
+              {{ renderQuestion(options.fields[[frequencyFieldCode, '_details'] | join], errors) }}
+
+              <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            </div>
+
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endset %}
+
+{% set showMoreThanSixMonths = false %}
+{% set moreThanSixMonths %}
+  <div class="drugs-section">
+    <h3 class="govuk-heading-m">Not used in the last 6 months</h3>
+    {% set drugsNotUsedList = [] %}
+
+    {% for option in options.allFields["select_misused_drugs"].options %}
+      {% if option.checked %}
+        {% for lastUsed in options.allFields[["drug_last_used_", option.value | lower] | join].options %}
+          {% if lastUsed.checked and lastUsed.value === "MORE_THAN_SIX" %}
+            {% set showMoreThanSixMonths = true %}
+            {% set drugsNotUsedList = (drugsNotUsedList.push(getDrugName(option)), drugsNotUsedList) %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {{ govukInsetText({
+    text: [subjectDetails.givenName, " used ", drugsNotUsedList | join(", "), " more than 6 months ago."] | join
+  }) }}
+
+  {{ renderQuestion(options.fields["not_used_in_last_six_months_details"], errors) }}
+{% endset %}
+
+{% block formContent %}
+  <div class="section-heading">
+    <div class="section-heading__heading">
+      <h2 class="govuk-heading-l">Drug use background</h2>
+    </div>
+  </div>
+  <form id="form" method="post" action="{{ action }}" data-autosave="true">
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+
+    {% if showLastSixMonths %}{{ lastSixMonths | safe }}{% endif %}
+    {% if showMoreThanSixMonths %}{{ moreThanSixMonths | safe }}{% endif %}
+    {{ renderQuestion(options.fields["drugs_injected"], errors) }}
+    {{ renderQuestion(options.fields["drugs_is_receiving_treatment"], errors) }}
+    {{ renderQuestion(options.fields["drugs_is_receiving_treatment_yes_details"], errors) }}
+    {{ renderQuestion(options.fields["drugs_is_receiving_treatment_no_details"], errors) }}
+
+    <div class="questiongroup-action-buttons">
+      {{ govukButton({
+        text: buttonText | default('Save and continue'),
+        classes: 'govuk-!-margin-bottom-3 govuk-!-margin-right-1',
+        name: getUserSubmittedField(form.fields),
+        value: 'YES'
+      }) }}
+    </div>
+  </form>
+{% endblock %}

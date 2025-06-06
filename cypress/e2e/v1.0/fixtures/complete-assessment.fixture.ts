@@ -107,7 +107,7 @@ describe('Generate fixture for complete assessment', () => {
     const section = 'Drug use'
 
     cy.visitSection(section)
-    cy.getQuestion('Has Sam ever used drugs?').getRadio('No').clickLabel()
+    cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)

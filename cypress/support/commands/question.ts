@@ -2,7 +2,19 @@
 
 export const getQuestion = (title: string) => {
   return cy
-    .get(`form > .form-group, form > .drug > .form-group`)
+    .get(`form > .form-group, .drug > .form-group`)
+    .find('> fieldset > legend, > .govuk-form-group > label')
+    .contains(title)
+    .should('be.visible')
+    .and('have.length', 1)
+    .closest('fieldset, .govuk-form-group')
+}
+
+export const getNextQuestion = (subject: JQuery, title: string) => {
+  return cy
+    .wrap(subject)
+    .parent('.form-group')
+    .next('.form-group')
     .find('> fieldset > legend, > .govuk-form-group > label')
     .contains(title)
     .should('be.visible')
@@ -12,11 +24,11 @@ export const getQuestion = (title: string) => {
 
 export const getDrugQuestion = (drug: string, title: string) => {
   return cy
-    .get(`form > .drug > h2`)
+    .get(`form > .drugs-section > .drug > h4`)
     .contains(drug)
     .should('have.length', 1)
     .parent()
-    .find('> .form-group > fieldset > legend, > .govuk-form-group > label')
+    .find('> .form-group > fieldset > legend, > .form-group > .govuk-form-group > label, > .govuk-form-group > label')
     .contains(title)
     .should('be.visible')
     .and('have.length', 1)
@@ -24,16 +36,26 @@ export const getDrugQuestion = (drug: string, title: string) => {
 }
 
 export const hasDrugQuestionGroups = (count: number) => {
-  cy.get(`form > .drug`).should('be.visible').and('have.length', count)
+  if (count === 0) {
+    cy.hasSubheading('Used in the last 6 months', false)
+    return cy
+  }
+  cy.get(`form > .drugs-section > h3`)
+    .contains('Used in the last 6 months')
+    .should('be.visible')
+    .and('have.length', 1)
+    .siblings('.drug')
+    .should('be.visible')
+    .and('have.length', count)
   return cy
 }
 
 export const hasQuestionsForDrug = (drug: string, count: number) => {
-  cy.get(`form > .drug > h2`)
+  cy.get(`form > .drugs-section > .drug > h4`)
     .contains(drug)
     .should('have.length', 1)
     .parent()
-    .find('> .form-group > fieldset > legend, > .govuk-form-group > label')
+    .find('> .form-group > fieldset > legend, > .form-group > .govuk-form-group > label, > .govuk-form-group > label')
     .should('be.visible')
     .and('have.length', count)
   return cy
@@ -125,6 +147,10 @@ export const getCheckbox = (subject: JQuery, label: string) => {
     .parent()
 }
 
+export const getFollowingDetails = (subject: JQuery) => {
+  return cy.wrap(subject).parent().find('+ .form-group').should('have.length', 1)
+}
+
 export const hasRadios = (subject: JQuery, options: string[]) => {
   cy.wrap(subject)
     .find('> .govuk-radios > :not(.govuk-radios__conditional):visible')
@@ -166,6 +192,15 @@ export const hasCheckboxes = (subject: JQuery, options: string[]) => {
         .isNotChecked()
     }
   })
+  return cy.wrap(subject)
+}
+
+export const hasHiddenCheckbox = (subject: JQuery, label: string) => {
+  cy.wrap(subject)
+    .find('> .govuk-checkboxes > .govuk-checkboxes__item > label')
+    .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
+    .should('have.length', 1)
+    .and('not.be.visible')
   return cy.wrap(subject)
 }
 

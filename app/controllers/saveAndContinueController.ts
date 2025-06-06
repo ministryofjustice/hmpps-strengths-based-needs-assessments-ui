@@ -113,12 +113,13 @@ class SaveAndContinueController extends BaseController {
     try {
       const subjectDetails = req.session.subjectDetails as HandoverSubject
       const sessionData = req.session.sessionData as SessionData
+      const answers: FormWizard.Answers = req.form.persistedAnswers
 
       res.locals = {
         ...res.locals,
         ...req.form.options.locals,
-        answers: req.form.persistedAnswers,
-        values: req.form.persistedAnswers,
+        answers,
+        values: answers,
         placeholderValues: {
           subject: subjectDetails.givenName,
           alcohol_units: this.calculateUnitsForGender(req.session.subjectDetails.gender),
@@ -134,11 +135,11 @@ class SaveAndContinueController extends BaseController {
         coreTelemetryData: req.telemetry,
       }
 
-      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(res.locals.values))
+      const fieldsWithMappedAnswers = Object.values(req.form.options.allFields).map(withValuesFrom(answers))
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )
-      const fieldsWithStateAwareTransform = fieldsWithReplacements.map(withStateAwareTransform(req.session))
+      const fieldsWithStateAwareTransform = fieldsWithReplacements.map(withStateAwareTransform(req.session, answers))
       const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithStateAwareTransform, {
         action: res.locals.action,
         errors: res.locals.errors,
@@ -155,19 +156,25 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
-  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
-    const subsectionIsComplete =
-      (answers: FormWizard.Answers = {}) =>
-      (fieldCode: string) =>
-        answers[fieldCode] === 'YES'
-    const checkProgress =
-      (answers: FormWizard.Answers) =>
-      (sectionProgress: Progress, { sectionName, fieldCodes }: SectionCompleteRule): Progress => ({
-        ...sectionProgress,
-        [sectionName]: fieldCodes.every(subsectionIsComplete(answers)),
-      })
+  checkProgress(answers: FormWizard.Answers) {
+    return function fn(progress: Progress, rule: SectionCompleteRule): Progress {
+      const updatedProgress = { ...progress }
+      let allFieldsComplete = true
 
-    return sectionCompleteRules.reduce(checkProgress(formAnswers), {})
+      for (const code of rule.fieldCodes) {
+        if (answers[code] !== 'YES') {
+          allFieldsComplete = false
+          break
+        }
+      }
+
+      updatedProgress[rule.sectionName] = allFieldsComplete
+      return updatedProgress
+    }
+  }
+
+  getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
+    return sectionCompleteRules.reduce(this.checkProgress(formAnswers), {})
   }
 
   checkAssessmentComplete(progress: Progress): boolean {
@@ -232,6 +239,12 @@ class SaveAndContinueController extends BaseController {
     }
 
     const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answersToPersist, options)
+
+    // remove answers from the session model
+    // because FormWizard uses it for page routing logic
+    answersToRemove.forEach(fieldCode => {
+      req.sessionModel.set(fieldCode, null)
+    })
 
     req.form.values = {
       ...answersToPersist,

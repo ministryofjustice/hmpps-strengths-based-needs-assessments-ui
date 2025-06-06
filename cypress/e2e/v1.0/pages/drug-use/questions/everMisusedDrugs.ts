@@ -1,5 +1,5 @@
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Has Sam ever used drugs?'
+  const question = 'Has Sam ever misused drugs?'
 
   describe(question, () => {
     const options = ['Yes', 'No']
@@ -7,13 +7,13 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     it('displays and validates the question', () => {
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
-        .hasHint('This refers to the misuse of prescription drugs as well as the use of illegal drugs.')
+        .hasHint('This includes illegal and prescription drugs.')
         .hasRadios(options)
 
       cy.saveAndContinue()
 
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError('Select if they have ever used drugs')
+      cy.getQuestion(question).hasValidationError(`Select if they've ever misused drugs`)
 
       cy.checkAccessibility()
     })

@@ -1,18 +1,18 @@
 {
   "metaData": {
-    "uuid": "0fc32f45-c49d-4431-831a-747ffa45d79d",
-    "createdAt": "2025-03-06T15:02:20.400607",
-    "versionUuid": "08faaffa-76ab-4a10-9d5b-2ca8fcf74676",
+    "uuid": "470bbf02-3f7f-479d-9868-24684a7ab775",
+    "createdAt": "2025-06-05T17:46:07.389672",
+    "versionUuid": "9769ec4d-1da5-45e1-9bc1-71ae6f4a6481",
     "versionNumber": 0,
-    "versionCreatedAt": "2025-03-06T15:02:20.404064",
-    "versionUpdatedAt": "2025-03-06T15:04:08.633007",
+    "versionCreatedAt": "2025-06-05T17:46:07.389992",
+    "versionUpdatedAt": "2025-06-05T17:46:38.234015",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
   "assessment": {
     "drug_use": {
       "type": "RADIO",
-      "description": "Has [subject] ever used drugs?",
+      "description": "Has [subject] ever misused drugs?",
       "options": [
         {
           "value": "YES",
@@ -903,23 +903,6 @@
       "values": null,
       "collection": null
     },
-    "drug_use_is_drugs_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "offence_analysis_risk_no_details": {
       "type": "TEXT_AREA",
       "description": "Give details",
@@ -1181,6 +1164,23 @@
         }
       ],
       "value": "NO",
+      "values": null,
+      "collection": null
+    },
+    "drug_use_is_drug_use_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -1597,10 +1597,6 @@
         {
           "value": "UNKNOWN",
           "text": "Unknown"
-        },
-        {
-          "value": "SKIP",
-          "text": "Skip this question for now"
         }
       ],
       "value": "NO",
@@ -2834,7 +2830,7 @@
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
-      "description": "Is [subject]'s thinking, behaviours and attitudes linked to risk of reoffending?",
+      "description": "Are [subject]'s thinking, behaviours and attitudes linked to risk of reoffending?",
       "options": [
         {
           "value": "YES",
@@ -2859,7 +2855,7 @@
     },
     "thinking_behaviours_attitudes_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
-      "description": "Is [subject]'s thinking, behaviours and attitudes linked to risk of serious harm?",
+      "description": "Are [subject]'s thinking, behaviours and attitudes linked to risk of serious harm?",
       "options": [
         {
           "value": "YES",
@@ -3230,7 +3226,7 @@
     "o7-5": "1",
     "o8-1": "NO",
     "o8-4": "0",
-    "o8-5": "M",
+    "o8-5": null,
     "o8-6": "0",
     "o8-8": null,
     "o9-1": "0",
@@ -3256,7 +3252,6 @@
     "o12-3": "1",
     "o12-4": "1",
     "o12-9": "1",
-    "o13-1": "NO",
     "o2-11": "NO",
     "o2-12": "¯&#x5C;_(ツ)_&#x2F;¯",
     "o2-13": "NO",

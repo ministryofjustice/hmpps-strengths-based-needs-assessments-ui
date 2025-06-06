@@ -4,12 +4,13 @@
 }
 
 .analysis-summary__item {
-  margin-bottom: govuk-spacing(3)
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: govuk-spacing(3);
 }
 
 .analysis-summary__row {
   @include govuk-clearfix;
-  width: 100%;
 }
 .analysis-summary__heading {
   float: left;

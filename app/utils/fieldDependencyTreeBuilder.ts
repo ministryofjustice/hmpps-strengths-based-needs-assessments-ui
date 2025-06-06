@@ -65,7 +65,8 @@ export class FieldDependencyTreeBuilder {
   }
 
   /*
-    Resolves the next step given a `next` FormWizard step criteria
+    Resolves the next step given a `next` FormWizard step criteria.
+    Explicitly doesn't support CallbackCondition.
    */
   protected resolveNextStep(next: FormWizard.Step.NextStep): FormWizard.Step.NextStep {
     if (next === undefined || typeof next === 'string') {
@@ -74,8 +75,11 @@ export class FieldDependencyTreeBuilder {
 
     if (hasProperty(next, 'field') && hasProperty(next, 'value')) {
       const con = next as FormWizard.Step.FieldValueCondition
-      const conditionMet = (condition: string | string[]) => (value: string) =>
-        Array.isArray(condition) ? condition.includes(value) : condition === value
+      const conditionMet = (condition: string | string[]) => (value: string | string[]) => {
+        const cond = Array.isArray(condition) ? condition : [condition]
+        const val = Array.isArray(value) ? value : [value]
+        return val.some(valToCheck => cond.includes(valToCheck))
+      }
       return this.getAnswers(con.field)?.some(conditionMet(con.value)) ? this.resolveNextStep(con.next) : undefined
     }
 
@@ -94,7 +98,12 @@ export class FieldDependencyTreeBuilder {
     Converts FormWizard fields to Field objects and adds them to the dependency tree
    */
   protected toStepFields(stepPath: string) {
-    return (fields: Field[], field: FormWizard.Field): Field[] => {
+    return (fields: Field[], fieldToAdd: FormWizard.Field): Field[] => {
+      const field = {
+        ...fieldToAdd,
+        text: fieldToAdd.summary?.text ? fieldToAdd.summary.text : fieldToAdd.text,
+      }
+
       if (field.dependent) {
         this.addNestedField(field, fields, stepPath)
         return fields

@@ -26,7 +26,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).hasValidationError('Select if they want to make changes to their drug use')
       cy.checkAccessibility()
     })
-    Array.of(
+    ;[
       'I have already made positive changes and want to maintain them',
       'I am actively making changes',
       'I want to make changes and know how to',
@@ -34,7 +34,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'I am thinking about making changes',
       'I do not want to make changes',
       'I do not want to answer',
-    ).forEach(option => {
+    ].forEach(option => {
       it(`conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 
@@ -46,9 +46,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .hasLimit(config.characterLimit.default)
 
         cy.saveAndContinue()
-        cy.assertStepUrlIs(summaryPage)
-        cy.visitStep(stepUrl)
-
         cy.getQuestion(question)
           .hasNoValidationError()
           .getRadio(option)
@@ -59,8 +56,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.checkAccessibility()
 
         cy.saveAndContinue()
-        cy.assertStepUrlIs(summaryPage)
-
+        cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasSecondaryAnswer('some text')
         cy.checkAccessibility()
         cy.getSummary(question).clickChange()
@@ -69,15 +65,16 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getRadio(option).isChecked().getConditionalQuestion().hasText('some text')
       })
     })
-    Array.of('Sam is not present', 'Not applicable').forEach(option => {
+    ;['Sam is not present', 'Not applicable'].forEach(option => {
       it(`no conditional field is displayed for "${option}"`, () => {
         cy.getQuestion(question).getRadio(option).hasHint(null).hasConditionalQuestion(false).clickLabel()
 
         cy.getQuestion(question).getRadio(option).hasConditionalQuestion(false)
 
         cy.saveAndContinue()
-        cy.assertStepUrlIs(summaryPage)
+        cy.getQuestion(question).hasNoValidationError()
 
+        cy.visitStep(summaryPage)
         cy.getSummary(question).getAnswer(option).hasNoSecondaryAnswer()
         cy.checkAccessibility()
         cy.getSummary(question).clickChange()
