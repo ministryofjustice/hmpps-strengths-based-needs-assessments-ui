@@ -147,7 +147,6 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
       const isInjectedAnswer = injectedField?.answers?.find(it => it.value === drug.value)
       const isInjected = isInjectedAnswer !== undefined
       const isNotInjected = !isInjected && injectedField?.answers?.length > 0
-      const isNotInjectedText = isNotInjected ? 'No' : ''
       const injectedWhen =
         isInjectedAnswer === undefined
           ? []
@@ -155,16 +154,22 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
               .filter(it => it.field.code === `drugs_injected_${drug.value.toLowerCase()}`)
               .flatMap(it => it.answers.map(answer => answer.text))
 
-      if (isMoreThanSix && injectedWhen.length === 0) {
+      if (isInjected && isMoreThanSix && injectedWhen.length === 0) {
         injectedWhen.push('More than 6 months ago')
       }
+
+      const injectedHtmlValue = [
+        ...(isInjected ? ['Yes'] : []),
+        ...(isNotInjected ? ['No'] : []),
+        ...injectedWhen,
+      ].join('<br>')
 
       drugCard.rows.push({
         key: {
           text: 'Injected',
         },
         value: {
-          html: `${isInjected ? 'Yes' : isNotInjectedText}<br>${injectedWhen.join('<br>')}`,
+          html: injectedHtmlValue,
         },
         actions: {
           items:

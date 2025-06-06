@@ -14,17 +14,21 @@
   {% endfor %}
 
   {% if drugsSummary.usedInTheLastSix | length %}
-    <h3 class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</h3>
-    {% for card in drugsSummary.usedInTheLastSix %}
-      {{ govukSummaryList(card) }}
-    {% endfor %}
+    <div id="last-six-months">
+      <h3 class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</h3>
+      {% for card in drugsSummary.usedInTheLastSix %}
+        {{ govukSummaryList(card) }}
+      {% endfor %}
+    </div>
   {% endif %}
 
   {% if drugsSummary.notUsedInTheLastSix | length %}
-    <h3 class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</h3>
-    {% for card in drugsSummary.notUsedInTheLastSix %}
-      {{ govukSummaryList(card) }}
-    {% endfor %}
+    <div id="not-last-six-months">
+      <h3 class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</h3>
+      {% for card in drugsSummary.notUsedInTheLastSix %}
+        {{ govukSummaryList(card) }}
+      {% endfor %}
+    </div>
   {% endif %}
 
   {% if drugsSummary.otherFields | length %}

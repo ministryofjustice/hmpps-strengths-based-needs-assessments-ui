@@ -20,10 +20,6 @@ describe('Generate fixture for complete assessment', () => {
     const sectionNameLowerCase = sectionName.toLowerCase()
     const subjectPrefix = sectionName.endsWith('s') ? 'Are' : 'Is'
 
-    if (sectionName === 'Drug use') {
-      cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
-    }
-
     Array.of(
       `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
       `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of serious harm?`,

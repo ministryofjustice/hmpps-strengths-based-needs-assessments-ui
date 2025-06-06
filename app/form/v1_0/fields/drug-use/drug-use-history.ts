@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { FieldsFactory, utils } from '../common'
+import { utils } from '../common'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 import characterLimits from '../../config/characterLimits'
@@ -173,70 +173,6 @@ const drugsWhatCouldHelpNotUseDrugsInFuture: FormWizard.Field = {
   labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
 }
 
-const drugsWantToMakeChangesToDrugUse: FormWizard.Field = {
-  text: 'Does [subject] want to make changes to their drug use?',
-  hint: { text: '[subject] must answer this question.', kind: 'text' },
-  code: 'drugs_want_to_make_changes_to_drug_use',
-  type: FieldType.Radio,
-  validate: [
-    {
-      type: ValidationType.Required,
-      message: 'Select if they want to make changes to their drug use',
-    },
-  ],
-  options: [
-    {
-      text: 'I have already made positive changes and want to maintain them',
-      value: 'POSITIVE_CHANGES',
-      kind: 'option',
-    },
-    { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
-    { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES_KNOW_HOW', kind: 'option' },
-    { text: 'I want to make changes but need help', value: 'WANT_TO_MAKE_CHANGES_NEED_HELP', kind: 'option' },
-    { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_CHANGES', kind: 'option' },
-    { text: 'I do not want to make changes', value: 'DO_NOT_WANT_CHANGES', kind: 'option' },
-    { text: 'I do not want to answer', value: 'DO_NOT_WANT_TO_ANSWER', kind: 'option' },
-    { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
-    { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
-  ],
-  labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
-}
-
-const drugsWantToMakeChangesToDrugUseDetailsPositiveChanges = FieldsFactory.detailsField({
-  parentField: drugsWantToMakeChangesToDrugUse,
-  dependentValue: 'POSITIVE_CHANGES',
-})
-
-const drugsWantToMakeChangesToDrugUseDetailsMakingChanges = FieldsFactory.detailsField({
-  parentField: drugsWantToMakeChangesToDrugUse,
-  dependentValue: 'MAKING_CHANGES',
-})
-
-const drugsWantToMakeChangesToDrugUseDetailsWantToMakeChanges = FieldsFactory.detailsField({
-  parentField: drugsWantToMakeChangesToDrugUse,
-  dependentValue: 'WANT_TO_MAKE_CHANGES_KNOW_HOW',
-})
-
-const drugsWantToMakeChangesToDrugUseDetailsWantToMakeChangesHelp = FieldsFactory.detailsField({
-  parentField: drugsWantToMakeChangesToDrugUse,
-  dependentValue: 'WANT_TO_MAKE_CHANGES_NEED_HELP',
-})
-
-const drugsWantToMakeChangesToDrugUseDetailsThinkingAboutChanges = FieldsFactory.detailsField({
-  parentField: drugsWantToMakeChangesToDrugUse,
-  dependentValue: 'THINKING_ABOUT_CHANGES',
-})
-
-const drugsWantToMakeChangesToDrugUseDetailsDoNotWantChanges = FieldsFactory.detailsField({
-  parentField: drugsWantToMakeChangesToDrugUse,
-  dependentValue: 'DO_NOT_WANT_CHANGES',
-})
-
-const drugsWantToMakeChangesToDrugUseDetailsDoNotWantToAnswer = FieldsFactory.detailsField({
-  parentField: drugsWantToMakeChangesToDrugUse,
-  dependentValue: 'DO_NOT_WANT_TO_ANSWER',
-})
-
 export default {
   drugsReasonsForUse,
   drugsReasonsForUseDetails,
@@ -244,12 +180,4 @@ export default {
   drugsAffectedTheirLifeDetails,
   drugsAnythingHelpedStopOrReduceUse,
   drugsWhatCouldHelpNotUseDrugsInFuture,
-  drugsWantToMakeChangesToDrugUse,
-  drugsWantToMakeChangesToDrugUseDetailsPositiveChanges,
-  drugsWantToMakeChangesToDrugUseDetailsMakingChanges,
-  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChanges,
-  drugsWantToMakeChangesToDrugUseDetailsWantToMakeChangesHelp,
-  drugsWantToMakeChangesToDrugUseDetailsThinkingAboutChanges,
-  drugsWantToMakeChangesToDrugUseDetailsDoNotWantChanges,
-  drugsWantToMakeChangesToDrugUseDetailsDoNotWantToAnswer,
 }

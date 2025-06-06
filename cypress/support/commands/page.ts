@@ -58,3 +58,11 @@ export const hasFeedbackLink = () => {
 
   cy.go('back')
 }
+
+export const hasSubheading = (subheading: string, expected: boolean) => {
+  if (expected) {
+    cy.get('form h3').contains(subheading).should('have.length', 1).and('be.visible')
+  } else {
+    cy.get('form h3').contains(subheading).should('not.exist')
+  }
+}

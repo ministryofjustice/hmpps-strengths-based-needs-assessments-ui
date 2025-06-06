@@ -10,6 +10,57 @@ export const getQuestion = (title: string) => {
     .closest('fieldset, .govuk-form-group')
 }
 
+export const getNextQuestion = (subject: JQuery, title: string) => {
+  return cy
+    .wrap(subject)
+    .parent('.form-group')
+    .next('.form-group')
+    .find('> fieldset > legend, > .govuk-form-group > label')
+    .contains(title)
+    .should('be.visible')
+    .and('have.length', 1)
+    .closest('fieldset, .govuk-form-group')
+}
+
+export const getDrugQuestion = (drug: string, title: string) => {
+  return cy
+    .get(`form > .drugs-section > .drug > h4`)
+    .contains(drug)
+    .should('have.length', 1)
+    .parent()
+    .find('> .form-group > fieldset > legend, > .form-group > .govuk-form-group > label, > .govuk-form-group > label')
+    .contains(title)
+    .should('be.visible')
+    .and('have.length', 1)
+    .closest('fieldset, .govuk-form-group')
+}
+
+export const hasDrugQuestionGroups = (count: number) => {
+  if (count === 0) {
+    cy.hasSubheading('Used in the last 6 months', false)
+    return cy
+  }
+  cy.get(`form > .drugs-section > h3`)
+    .contains('Used in the last 6 months')
+    .should('be.visible')
+    .and('have.length', 1)
+    .siblings('.drug')
+    .should('be.visible')
+    .and('have.length', count)
+  return cy
+}
+
+export const hasQuestionsForDrug = (drug: string, count: number) => {
+  cy.get(`form > .drugs-section > .drug > h4`)
+    .contains(drug)
+    .should('have.length', 1)
+    .parent()
+    .find('> .form-group > fieldset > legend, > .form-group > .govuk-form-group > label, > .govuk-form-group > label')
+    .should('be.visible')
+    .and('have.length', count)
+  return cy
+}
+
 export const hasTitle = (subject: JQuery, title: string) => {
   cy.wrap(subject)
     .find('> legend, > label')
@@ -141,6 +192,15 @@ export const hasCheckboxes = (subject: JQuery, options: string[]) => {
         .isNotChecked()
     }
   })
+  return cy.wrap(subject)
+}
+
+export const hasHiddenCheckbox = (subject: JQuery, label: string) => {
+  cy.wrap(subject)
+    .find('> .govuk-checkboxes > .govuk-checkboxes__item > label')
+    .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
+    .should('have.length', 1)
+    .and('not.be.visible')
   return cy.wrap(subject)
 }
 
