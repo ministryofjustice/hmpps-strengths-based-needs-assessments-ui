@@ -11,7 +11,7 @@ describe('/drug-use-history', () => {
   const summaryPage = '/drug-use-summary'
   const questions = [
     whyUseDrugs(true),
-    whyUseDrugsDetails,
+    whyUseDrugsDetails(true),
     howDrugsAffectedTheirLife,
     howDrugsAffectedTheirLifeDetails,
     helpedToStopOrReduce,

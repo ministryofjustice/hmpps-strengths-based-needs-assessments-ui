@@ -12,7 +12,7 @@ describe('/drug-use-history-more-than-six-months', () => {
   const summaryPage = '/drug-use-summary'
   const questions = [
     whyUseDrugs(false),
-    whyUseDrugsDetails,
+    whyUseDrugsDetails(false),
     howDrugsAffectedTheirLife,
     howDrugsAffectedTheirLifeDetails,
     helpedToStopOrReduce,

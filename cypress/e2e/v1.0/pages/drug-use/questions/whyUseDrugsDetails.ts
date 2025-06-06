@@ -1,9 +1,9 @@
 import config from '../../../../../support/config'
 
-export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const mainQuestion = 'Why does Sam use drugs?'
+export default (currentUse: boolean) => (stepUrl: string, summaryPage: string, positionNumber: number) => {
+  const mainQuestion = currentUse ? 'Why does Sam use drugs?' : 'Why did Sam use drugs?'
   const question = 'Give details (optional)'
-  const summaryQuestion = 'Details on why Sam uses drugs'
+  const summaryQuestion = 'Details on why Sam used drugs'
 
   describe(question, () => {
     it(`displays the optional question`, () => {
