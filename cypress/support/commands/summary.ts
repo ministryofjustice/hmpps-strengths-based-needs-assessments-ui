@@ -14,7 +14,7 @@ export const getDrugSummaryCard = (drug: string, lastUsed: string) => {
     .contains(lastUsed)
     .should('be.visible')
     .and('have.length', 1)
-    .parent()
+    .parents('.drugs-summary__drug-cards')
     .find('.govuk-summary-card__title')
     .contains(drug)
     .should('be.visible')
@@ -72,7 +72,7 @@ export const clickChange = (subject: JQuery) => {
 
 export const changeDrug = (subject: JQuery) => {
   cy.wrap(subject)
-    .find('> .govuk-summary-card__title-wrapper a:contains(Change)')
+    .find('.govuk-summary-card__title-wrapper a:contains(Change)')
     .should('be.visible')
     .and('have.length', 1)
     .click()
