@@ -114,8 +114,7 @@ services:
       APP_STRATEGIES_PLAN: false
 
   san-api:
-    # TODO: API is temporarily pinned to a version without any Drug mappings
-    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:2025-05-19.4.e7d3eb4
+    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:latest
     networks:
       - hmpps
     depends_on:
