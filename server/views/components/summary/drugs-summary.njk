@@ -14,35 +14,49 @@
   {% endfor %}
 
   {% if drugsSummary.usedInTheLastSix | length %}
-    <div id="last-six-months">
-      <h3 class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</h3>
-      {% for card in drugsSummary.usedInTheLastSix %}
-        {{ govukSummaryList(card) }}
-      {% endfor %}
+    <div class="drugs-summary__drug-cards">
+      <dt>
+        <h3 class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</h3>
+      </dt>
+      <dd class="govuk-!-margin-left-0">
+        {% for card in drugsSummary.usedInTheLastSix %}
+          {{ govukSummaryList(card) }}
+        {% endfor %}
+      </dd>
     </div>
   {% endif %}
 
   {% if drugsSummary.notUsedInTheLastSix | length %}
-    <div id="not-last-six-months">
-      <h3 class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</h3>
-      {% for card in drugsSummary.notUsedInTheLastSix %}
-        {{ govukSummaryList(card) }}
-      {% endfor %}
+    <div class="drugs-summary__drug-cards">
+      <dt>
+        <h3 class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</h3>
+      </dt>
+      <dd class="govuk-!-margin-left-0">
+        {% for card in drugsSummary.notUsedInTheLastSix %}
+          {{ govukSummaryList(card) }}
+        {% endfor %}
+      </dd>
     </div>
   {% endif %}
 
   {% if drugsSummary.otherFields | length %}
     <div class="drugs-summary__other-fields">
-      <dl class="govuk-summary-list summary-list">
-      {% for otherField in drugsSummary.otherFields %}
-        {{ renderTopLevelField(otherField, sessionData) }}
-      {% endfor %}
-      </dl>
+      <dd class="govuk-!-margin-left-0">
+        <dl class="govuk-summary-list summary-list">
+          {% for otherField in drugsSummary.otherFields %}
+            {{ renderTopLevelField(otherField, sessionData) }}
+          {% endfor %}
+        </dl>
+      </dd>
     </div>
   {% endif %}
 
   {% if hasUsedDrugs %}
-    <h3 class="govuk-heading-m drugs-summary__subheading">More information</h3>
+    <div class="drugs-summary__more-information">
+      <dt>
+        <h3 class="govuk-heading-m drugs-summary__subheading">More information</h3>
+      </dt>
+    </div>
   {% endif %}
 
 {%- endmacro -%}

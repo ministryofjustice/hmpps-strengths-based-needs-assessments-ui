@@ -16,8 +16,7 @@ export const checkAccessibility = (injectAxe: boolean = true) => {
       ],
     })
   }
-  const skipFailures = true // TODO: remove
-  cy.checkA11y(null, null, logViolations, skipFailures)
+  cy.checkA11y(null, null, logViolations)
 }
 
 const logViolations = (violations: Result[]) => {
