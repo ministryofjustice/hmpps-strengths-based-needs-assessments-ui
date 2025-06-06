@@ -22,7 +22,9 @@ export default (currentUse: boolean) => (stepUrl: string, summaryPage: string, p
 
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
-      cy.getQuestion(question).hasValidationError(currentUse ? 'Select why they use drugs' : 'Select why they used drugs')
+      cy.getQuestion(question).hasValidationError(
+        currentUse ? 'Select why they use drugs' : 'Select why they used drugs',
+      )
       cy.checkAccessibility()
     })
 

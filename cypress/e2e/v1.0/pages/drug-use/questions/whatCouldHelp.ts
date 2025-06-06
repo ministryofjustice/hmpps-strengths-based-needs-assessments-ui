@@ -5,10 +5,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
   describe(question, () => {
     it(`displays the optional question`, () => {
-      cy.getQuestion(question)
-        .isQuestionNumber(positionNumber)
-        .hasHint(null)
-        .hasLimit(config.characterLimit.default)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasLimit(config.characterLimit.default)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasNoValidationError().enterText('Some text')
