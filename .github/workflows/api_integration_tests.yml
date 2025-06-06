@@ -35,7 +35,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ministryofjustice/hmpps-strengths-based-needs-assessments-api
-          ref: drug-use-redesign-base # TODO remove this once the new mappings are merged into main
           path: api-test
 
       - name: Stand up the latest API in dev mode
