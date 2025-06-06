@@ -10,6 +10,18 @@ export const getQuestion = (title: string) => {
     .closest('fieldset, .govuk-form-group')
 }
 
+export const getNextQuestion = (subject: JQuery, title: string) => {
+  return cy
+    .wrap(subject)
+    .parent('.form-group')
+    .next('.form-group')
+    .find('> fieldset > legend, > .govuk-form-group > label')
+    .contains(title)
+    .should('be.visible')
+    .and('have.length', 1)
+    .closest('fieldset, .govuk-form-group')
+}
+
 export const getDrugQuestion = (drug: string, title: string) => {
   return cy
     .get(`form > .drugs-section > .drug > h4`)

@@ -40,6 +40,7 @@ import {
   getCheckbox,
   getDrugQuestion,
   getFollowingDetails,
+  getNextQuestion,
   getQuestion,
   getRadio,
   hasCheckboxes,
@@ -160,6 +161,7 @@ declare global {
 
       // question
       getQuestion(title: string): Chainable
+      getNextQuestion(title: string): Chainable
       getDrugQuestion(drug: string, title: string): Chainable
       hasDrugQuestionGroups(count: number): Chainable
       hasQuestionsForDrug(drug: string, count: number): Chainable
@@ -267,6 +269,7 @@ Cypress.Commands.add('hasSubheading', hasSubheading)
 
 // question
 Cypress.Commands.add('getQuestion', getQuestion)
+Cypress.Commands.add('getNextQuestion', { prevSubject: true }, getNextQuestion)
 Cypress.Commands.add('getDrugQuestion', getDrugQuestion)
 Cypress.Commands.add('hasDrugQuestionGroups', hasDrugQuestionGroups)
 Cypress.Commands.add('hasQuestionsForDrug', hasQuestionsForDrug)
