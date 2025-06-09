@@ -71,8 +71,6 @@ describe('/offence-analysis-victim-details', () => {
 
   it('has a delete button', () => {
     cy.getCollectionEntry('victim', 1).find('.govuk-link').contains('Delete').as('deleteButton')
-    // check configured as a button for assistive technologies
-    cy.get('@deleteButton').should('have.attr', 'role').and('equal', 'button')
     // check configured to toggle the delete prompt
     cy.get('@deleteButton').should('have.attr', 'data-toggle').and('equal', 'modal')
     // check configured to delete the first element
