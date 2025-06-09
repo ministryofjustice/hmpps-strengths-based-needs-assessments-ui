@@ -60,6 +60,12 @@ describe('/offence-analysis-victim/delete/:entryId', () => {
     })
   })
 
+  it('selects the delete button using the keyboard', () => {
+    cy.getCollectionEntry('victim', 1).find('.govuk-link').contains('Change').focus()
+    cy.press(Cypress.Keyboard.Keys.TAB)
+    cy.focused().should('have.attr', 'data-toggle', 'modal')
+  })
+
   it('deletes the assessment entry', () => {
     cy.getCollectionEntry('victim', 1).find('.govuk-link').contains('Delete').click()
 
