@@ -80,6 +80,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         value: 'WEAPON',
         kind: 'option',
       },
+      utils.orDivider,
       {
         text: 'None',
         value: 'NONE',

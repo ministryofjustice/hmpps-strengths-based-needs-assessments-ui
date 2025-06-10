@@ -13,6 +13,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Victim targeted',
       'Violence, or threat of violence or coercion',
       'Weapon',
+      null,
       'None',
     ]
 
@@ -90,7 +91,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
     it('selecting "None" deselects other options', () => {
       options
-        .filter(it => it !== 'None')
+        .filter(it => it && it !== 'None')
         .forEach(option => {
           cy.getQuestion(question).getCheckbox(option).clickLabel()
 
@@ -100,7 +101,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question).getCheckbox('None').clickLabel()
 
       options
-        .filter(it => it !== 'None')
+        .filter(it => it && it !== 'None')
         .forEach(option => {
           cy.getQuestion(question).getCheckbox(option).isNotChecked()
         })
@@ -110,7 +111,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
     it('selecting "None" then selecting other options deselects "None"', () => {
       options
-        .filter(it => it !== 'None')
+        .filter(it => it && it !== 'None')
         .forEach(option => {
           cy.getQuestion(question).getCheckbox('None').clickLabel()
 
