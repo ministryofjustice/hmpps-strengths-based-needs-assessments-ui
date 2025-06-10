@@ -13,6 +13,7 @@ import { assessmentComplete } from '../fields'
 import { fieldCodesFrom, SanStep } from './common'
 import { Section, SectionConfig } from '../config/sections'
 import templates from '../config/templates'
+import ViewVersionListController from '../../../controllers/viewVersionListController'
 
 export const sectionConfigs: SectionConfig[] = [
   {
@@ -25,6 +26,19 @@ export const sectionConfigs: SectionConfig[] = [
         url: 'print-preview',
         controller: SaveAndContinueController,
         template: templates.printPreview,
+      },
+    ],
+  },
+  {
+    section: {
+      title: 'Previous versions',
+      code: 'previous-versions',
+    },
+    steps: [
+      {
+        url: 'previous-versions',
+        controller: ViewVersionListController,
+        template: templates.previousVersions,
       },
     ],
   },
