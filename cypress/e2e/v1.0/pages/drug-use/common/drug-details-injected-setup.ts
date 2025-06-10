@@ -1,9 +1,13 @@
 import { Fixture } from '../../../../../support/commands/fixture'
 import { drugName, drugs } from './drugs'
+import whichDrugsInjected from '../questions/whichDrugsInjected'
+import receivingTreatment from '../questions/receivingTreatment'
 
+export const stepUrl = '/drug-details-injected'
 export const summaryPage = '/drug-use-summary'
+export const questions = [whichDrugsInjected(true), receivingTreatment(true)]
 
-export const drugDetailsInjectedBefore = (stepUrl, questions) => () => {
+export const drugDetailsInjectedBefore = () => () => {
   cy.loadFixture(Fixture.DrugUser).enterAssessment()
   cy.visitSection('Drug use')
 
@@ -43,7 +47,7 @@ export const drugDetailsInjectedBefore = (stepUrl, questions) => () => {
   cy.captureAssessment()
 }
 
-export const drugDetailsInjectedBeforeEach = stepUrl => () => {
+export const drugDetailsInjectedBeforeEach = () => () => {
   cy.cloneCapturedAssessment().enterAssessment()
   cy.visitSection('Drug use')
   cy.assertStepUrlIs(stepUrl)
