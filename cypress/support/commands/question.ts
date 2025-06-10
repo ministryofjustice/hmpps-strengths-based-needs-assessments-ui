@@ -138,13 +138,16 @@ export const getRadio = (subject: JQuery, label: string) => {
 }
 
 export const getCheckbox = (subject: JQuery, label: string) => {
-  return cy
-    .wrap(subject)
-    .find('> .govuk-checkboxes > .govuk-checkboxes__item:visible > label')
-    .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
-    .should('be.visible')
-    .and('have.length', 1)
-    .parent()
+  if (label) {
+    return cy
+      .wrap(subject)
+      .find('> .govuk-checkboxes > .govuk-checkboxes__item:visible > label')
+      .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
+      .should('be.visible')
+      .and('have.length', 1)
+      .parent()
+  }
+  return cy.wrap(subject)
 }
 
 export const getFollowingDetails = (subject: JQuery) => {
