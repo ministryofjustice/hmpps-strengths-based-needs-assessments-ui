@@ -24,6 +24,7 @@ export default defineConfig({
     specPattern: ['cypress/e2e/**/*.cy.ts', 'cypress/e2e/**/*.fixture.ts'],
     supportFile: 'cypress/support/index.ts',
     testIsolation: true,
+    experimentalRunAllSpecs: true,
     setupNodeEvents(on, config) {
       cypressSplit(on, config)
 
