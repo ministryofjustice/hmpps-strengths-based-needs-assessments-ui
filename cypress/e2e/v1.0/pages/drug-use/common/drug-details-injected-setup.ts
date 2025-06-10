@@ -43,9 +43,8 @@ export const drugDetailsInjectedBefore = (stepUrl, questions) => () => {
   cy.captureAssessment()
 }
 
-export const drugDetailsInjectedBeforeEach = (stepUrl) => () => {
+export const drugDetailsInjectedBeforeEach = stepUrl => () => {
   cy.cloneCapturedAssessment().enterAssessment()
   cy.visitSection('Drug use')
   cy.assertStepUrlIs(stepUrl)
 }
-
