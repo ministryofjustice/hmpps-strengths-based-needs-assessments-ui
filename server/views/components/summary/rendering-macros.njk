@@ -24,10 +24,10 @@
               </a>
             </div>
             <div>
-              <div role="button" class="govuk-link" data-toggle="modal" data-target="delete-{{ loop.index }}">
+              <button class="govuk-link govuk-link--no-visited-state" data-toggle="modal" data-target="delete-{{ loop.index }}">
                 Delete<span class="govuk-visually-hidden">value for {{ loop.index | ordinalWordFromNumber }}
                   {{ summary.field.collection.subject }}</span>
-              </div>
+              </button>
 
               {% set modalId = ["delete-", loop.index] | join %}
               {% set formAction = [summary.field.collection.deleteUrl, "/", loop.index - 1] | join %}
