@@ -6,7 +6,7 @@ describe('assessment print preview', () => {
   })
 
   it('all answers are visible', () => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
 
     cy.get('.offender-details__bottom .print-link').should('contain.text', 'Print').click()
     cy.assertStepUrlIs('print-preview')

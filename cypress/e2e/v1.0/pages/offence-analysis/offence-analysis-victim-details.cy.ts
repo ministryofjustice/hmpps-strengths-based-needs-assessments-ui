@@ -21,7 +21,7 @@ describe('/offence-analysis-victim-details', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitSection('Offence analysis')
 
     cy.getQuestion('Enter a brief description of the current index offence(s)').enterText('¯\\_(ツ)_/¯')
@@ -47,7 +47,7 @@ describe('/offence-analysis-victim-details', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment()
+    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(1)
 

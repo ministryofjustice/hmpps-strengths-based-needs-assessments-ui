@@ -6,7 +6,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
   const questions = [riskOfSexualHarm]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitSection('Thinking, behaviours and attitudes')
     cy.getQuestion('Is Sam aware of the consequences of their actions?')
       .getRadio('Yes, is aware of the consequences of their actions')

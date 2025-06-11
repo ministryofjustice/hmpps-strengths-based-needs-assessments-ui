@@ -21,7 +21,7 @@ describe('/drug-use-history-more-than-six-months', () => {
   ]
 
   before(() => {
-    cy.loadFixture(Fixture.DrugUser).enterAssessment()
+    cy.loadFixture(Fixture.DrugUser).enterAssessment().completePrivacyDeclaration()
 
     cy.visitSection('Drug use')
     cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()

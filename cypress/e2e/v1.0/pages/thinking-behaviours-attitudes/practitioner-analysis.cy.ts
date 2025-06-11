@@ -3,7 +3,7 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 const summaryPage = '/thinking-behaviours-attitudes-summary'
 
 before(() => {
-  cy.createAssessment().enterAssessment()
+  cy.createAssessment().enterAssessment().completePrivacyDeclaration()
 
   cy.visitSection('Thinking, behaviours and attitudes')
   cy.getQuestion('Is Sam aware of the consequences of their actions?')
@@ -68,7 +68,7 @@ before(() => {
 })
 
 beforeEach(() => {
-  cy.cloneCapturedAssessment().enterAssessment()
+  cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()

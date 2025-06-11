@@ -6,7 +6,7 @@ describe('/drug-use', () => {
   const questions = [everMisusedDrugs]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitSection('Drug use')
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Drug use', stepUrl)

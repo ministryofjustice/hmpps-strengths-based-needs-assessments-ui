@@ -20,7 +20,7 @@ describe('/never-employed', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Currently unavailable for work').clickLabel()
     cy.getQuestion("What is Sam's current employment status?")
@@ -35,7 +35,7 @@ describe('/never-employed', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment()
+    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

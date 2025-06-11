@@ -16,7 +16,7 @@ describe('Origin: /alcohol', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
   })
 
   describe(`Destination: ${destinations.summary}`, () => {

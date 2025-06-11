@@ -6,7 +6,7 @@ describe('/alcohol', () => {
   const questions = [alcoholUse]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitStep(stepUrl)
     cy.assertSectionIs('Alcohol use')
     cy.assertQuestionCount(questions.length)

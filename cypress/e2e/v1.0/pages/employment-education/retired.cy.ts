@@ -20,7 +20,7 @@ describe('/retired', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
     cy.saveAndContinue()
@@ -30,7 +30,7 @@ describe('/retired', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment()
+    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

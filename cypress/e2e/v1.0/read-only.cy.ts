@@ -5,7 +5,7 @@ describe('read-only mode', () => {
   before(() => {
     cy.loadFixture(Fixture.CompleteAssessment)
     cy.lockAssessment()
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
     cy.sectionMarkedAsComplete('Finance')
     cy.visitStep('/finance')
     cy.getQuestion('Does Sam want to make changes to their finances?')
@@ -36,7 +36,7 @@ describe('read-only mode', () => {
   })
 
   it('part-complete assessment is accessed in read-only mode', () => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
     cy.sectionMarkedAsComplete('Drug use')
 
     cy.visitSection('Drug use')
@@ -58,6 +58,9 @@ describe('read-only mode', () => {
 
     Array.of(AccessMode.READ_ONLY, AccessMode.READ_WRITE).forEach(accessMode => {
       cy.enterAssessment(accessMode)
+      if (accessMode === AccessMode.READ_WRITE) {
+          cy.completePrivacyDeclaration()
+      }
       cy.sectionMarkedAsComplete('Finance')
       cy.visitSection('Finance')
       cy.get('html').contains('This is the latest version').should('not.exist')

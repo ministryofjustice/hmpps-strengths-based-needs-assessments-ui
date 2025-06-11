@@ -3,7 +3,7 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 const summaryPage = '/employment-education-summary'
 
 before(() => {
-  cy.createAssessment().enterAssessment()
+  cy.createAssessment().enterAssessment().completePrivacyDeclaration()
 
   cy.visitSection('Employment and education')
   cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
@@ -36,7 +36,7 @@ before(() => {
 })
 
 beforeEach(() => {
-  cy.cloneCapturedAssessment().enterAssessment()
+  cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()

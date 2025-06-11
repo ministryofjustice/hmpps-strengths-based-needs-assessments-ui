@@ -4,7 +4,7 @@ describe('Auto save', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
   })
 
   it('automatically saves form data when navigating between sections', () => {

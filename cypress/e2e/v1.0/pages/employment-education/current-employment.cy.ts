@@ -6,7 +6,7 @@ describe('/current-employment', () => {
   const questions = [employmentStatus]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.assertResumeUrlIs('Employment and education', stepUrl)
     cy.visitStep(stepUrl)
     cy.assertSectionIs('Employment and education')

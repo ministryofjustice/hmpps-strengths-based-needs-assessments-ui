@@ -18,7 +18,7 @@ describe('Origin: /current-employment', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
   })
 
   describe(`Destination: ${destinations.employed}`, () => {

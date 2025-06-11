@@ -6,7 +6,7 @@ describe('/current-accommodation', () => {
   const questions = [accommodationStatus]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Accommodation', stepUrl)
     cy.assertSectionIs('Accommodation')

@@ -19,7 +19,7 @@ describe('Origin: /drug-use', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
   })
 
   describe(`Destination: ${destinations.summary}`, () => {

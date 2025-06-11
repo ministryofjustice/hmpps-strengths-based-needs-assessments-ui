@@ -3,7 +3,7 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 const summaryPage = '/health-wellbeing-summary'
 
 before(() => {
-  cy.createAssessment().enterAssessment()
+  cy.createAssessment().enterAssessment().completePrivacyDeclaration()
 
   cy.visitSection('Health and wellbeing')
   cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
@@ -32,7 +32,7 @@ before(() => {
 })
 
 beforeEach(() => {
-  cy.cloneCapturedAssessment().enterAssessment()
+  cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()

@@ -15,7 +15,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
   describe('SAN value is NO', () => {
     beforeEach(() => {
       cy.loadFixture(Fixture.CompleteAssessment)
-      cy.enterAssessment()
+      cy.enterAssessment().completePrivacyDeclaration()
       cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.visitSection(sectionName)
@@ -56,7 +56,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
   describe('SAN value is YES', () => {
     before(() => {
       cy.loadFixture(Fixture.CompleteAssessment)
-      cy.enterAssessment()
+      cy.enterAssessment().completePrivacyDeclaration()
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).getRadio('Yes').clickLabel()
       cy.saveAndContinue()

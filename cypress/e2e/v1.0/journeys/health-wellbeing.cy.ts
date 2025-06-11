@@ -18,7 +18,7 @@ describe('Origin: /health-wellbeing', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
   })
 
   describe(`Destination: ${destinations.physicalMentalHealth}`, () => {

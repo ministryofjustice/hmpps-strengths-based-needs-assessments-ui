@@ -17,7 +17,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().completePrivacyDeclaration()
   })
 
   describe(`Destination: ${destinations.personalRelationships}`, () => {

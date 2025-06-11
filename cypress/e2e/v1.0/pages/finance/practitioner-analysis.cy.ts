@@ -3,7 +3,7 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 const summaryPage = '/finance-summary'
 
 before(() => {
-  cy.createAssessment().enterAssessment()
+  cy.createAssessment().enterAssessment().completePrivacyDeclaration()
 
   cy.visitSection('Finance')
   cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('No money').clickLabel()
@@ -23,7 +23,7 @@ before(() => {
 })
 
 beforeEach(() => {
-  cy.cloneCapturedAssessment().enterAssessment()
+  cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()

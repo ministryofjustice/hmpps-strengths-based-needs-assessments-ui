@@ -16,7 +16,7 @@ describe('/offence-analysis', () => {
   ]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitSection('Offence analysis')
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Offence analysis', stepUrl)

@@ -9,7 +9,7 @@ describe('/no-accommodation', () => {
   const questions = [noAccommodationReason, pastAccommodationDetails, suitableAccommodationPlanned, wantToMakeChanges]
 
   before(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('No accommodation').clickLabel()
@@ -28,7 +28,7 @@ describe('/no-accommodation', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment()
+    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

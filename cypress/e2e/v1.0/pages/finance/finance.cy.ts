@@ -11,7 +11,7 @@ describe('/finance', () => {
   const questions = [financeSource, bankAccount, managingMoney, gambling, debt, wantToMakeChanges]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
     cy.visitSection('Finances')
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Finances', stepUrl)
