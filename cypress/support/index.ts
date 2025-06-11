@@ -35,6 +35,7 @@ import {
   sectionNotMarkedAsComplete,
 } from './commands/page'
 import {
+  completePrivacyDeclaration,
   enterDate,
   enterText,
   getCheckbox,
@@ -108,6 +109,9 @@ declare global {
       enterAssessment(accessMode?: AccessMode, assessmentContextOverride?: AssessmentContext): Chainable
       lockAssessment(): Chainable
       softDeleteAssessment(versionFrom: number): Chainable
+
+      // Data Privacy Declaration
+      completePrivacyDeclaration(): Chainable
 
       // analysis summary
       getAnalysisSummary(question: string): Chainable
@@ -216,6 +220,9 @@ Cypress.Commands.add('cloneCapturedAssessment', cloneCapturedAssessment)
 Cypress.Commands.add('enterAssessment', enterAssessment)
 Cypress.Commands.add('lockAssessment', lockAssessment)
 Cypress.Commands.add('softDeleteAssessment', softDeleteAssessment)
+
+// Data Privacy Declaration
+Cypress.Commands.add('completePrivacyDeclaration', completePrivacyDeclaration)
 
 // analysis summary
 Cypress.Commands.add('getAnalysisSummary', getAnalysisSummary)

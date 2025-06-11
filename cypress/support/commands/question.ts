@@ -277,3 +277,16 @@ export const hasDate = (subject: JQuery, date: string) => {
 export const selectOption = (subject: JQuery, option: string) => {
   return cy.wrap(subject).get('select').select(option).parent()
 }
+
+export const completePrivacyDeclaration = () => {
+  return cy
+    .get('.govuk-checkboxes input[type="checkbox"]')
+    .first()
+    .then($checkbox => {
+      if (!$checkbox.is(':checked')) {
+        cy.wrap($checkbox).click()
+      }
+    })
+    .get('button[name="action"][value="confirm"]')
+    .click()
+}

@@ -13,8 +13,24 @@ import { assessmentComplete } from '../fields'
 import { fieldCodesFrom, SanStep } from './common'
 import { Section, SectionConfig } from '../config/sections'
 import templates from '../config/templates'
+import dataPrivacyController from '../../../controllers/dataPrivacyController'
+import privacyScreenFields from '../fields/privacy-screen'
 
 export const sectionConfigs: SectionConfig[] = [
+  {
+    section: {
+      title: '', // not used
+      code: 'data-privacy',
+    },
+    steps: [
+      {
+        url: 'close-anything-not-needed-before-appointment',
+        controller: dataPrivacyController,
+        template: templates.dataPrivacy,
+        fields: [privacyScreenFields.privacyScreenDeclaration()],
+      },
+    ],
+  },
   {
     section: {
       title: 'Print preview',

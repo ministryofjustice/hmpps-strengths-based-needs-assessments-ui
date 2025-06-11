@@ -13,7 +13,7 @@ import { assessmentComplete } from '../form/v1_0/fields'
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
 
-const editModeLandingPage = 'current-accommodation'
+const editModeLandingPage = 'close-anything-not-needed-before-appointment'
 const readOnlyModeLandingPage = 'accommodation-analysis'
 
 const startController = async (req: Request, res: Response, next: NextFunction) => {
@@ -41,7 +41,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
       }
       return isReadOnly(contextData.principal)
         ? res.redirect(`/form/${versionUrl}/${readOnlyModeLandingPage}`)
-        : res.redirect(`/form/${versionUrl}/${editModeLandingPage}?action=resume`)
+        : res.redirect(`/form/${versionUrl}/${editModeLandingPage}`)
     })
   } catch {
     next(new Error('Unable to start assessment'))
