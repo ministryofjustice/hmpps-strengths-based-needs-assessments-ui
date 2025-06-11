@@ -59,7 +59,7 @@ describe('read-only mode', () => {
     Array.of(AccessMode.READ_ONLY, AccessMode.READ_WRITE).forEach(accessMode => {
       cy.enterAssessment(accessMode)
       if (accessMode === AccessMode.READ_WRITE) {
-          cy.completePrivacyDeclaration()
+        cy.completePrivacyDeclaration()
       }
       cy.sectionMarkedAsComplete('Finance')
       cy.visitSection('Finance')
