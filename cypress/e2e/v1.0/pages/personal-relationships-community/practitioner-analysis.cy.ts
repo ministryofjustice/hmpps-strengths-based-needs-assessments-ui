@@ -3,7 +3,7 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 const summaryPage = '/personal-relationships-community-summary'
 
 before(() => {
-  cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+  cy.createAssessment().enterAssessment()
 
   cy.visitSection('Personal relationships and community')
   cy.getQuestion("Are there any children in Sam's life?")
@@ -36,7 +36,7 @@ before(() => {
 })
 
 beforeEach(() => {
-  cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
+  cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()

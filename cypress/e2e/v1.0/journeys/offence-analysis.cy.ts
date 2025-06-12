@@ -18,7 +18,7 @@ describe('Origin: /offence-analysis', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
   })
 
   describe(`Destination: ${destinations.involvedParties}`, () => {

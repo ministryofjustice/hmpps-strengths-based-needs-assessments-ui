@@ -5,7 +5,7 @@ const summaryPage = '/drug-use-summary'
 
 describe(`Sam hasn't misused drugs`, () => {
   before(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
 
     cy.visitSection('Drug use')
     cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()

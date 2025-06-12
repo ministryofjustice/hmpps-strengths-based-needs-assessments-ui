@@ -5,7 +5,7 @@ describe('read-only mode', () => {
   before(() => {
     cy.loadFixture(Fixture.CompleteAssessment)
     cy.lockAssessment()
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
     cy.sectionMarkedAsComplete('Finance')
     cy.visitStep('/finance')
     cy.getQuestion('Does Sam want to make changes to their finances?')
@@ -20,7 +20,7 @@ describe('read-only mode', () => {
   })
 
   it('latest assessment version is accessed in read-only mode', () => {
-    cy.enterAssessment(AccessMode.READ_ONLY)
+    cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
     cy.sectionNotMarkedAsComplete('Finance')
     cy.visitSection('Finance')
     cy.getSummary('Does Sam want to make changes to their finances?')
@@ -29,14 +29,14 @@ describe('read-only mode', () => {
   })
 
   it('previous assessment version is accessed in read-only mode', () => {
-    cy.enterAssessment(AccessMode.READ_ONLY, { assessmentVersion: 0 })
+    cy.enterAssessment(AccessMode.READ_ONLY, { assessmentVersion: 0 }, false)
     cy.sectionMarkedAsComplete('Finance')
     cy.visitSection('Finance')
     cy.get('html').contains('This is the latest version').should('not.exist')
   })
 
   it('part-complete assessment is accessed in read-only mode', () => {
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
     cy.sectionMarkedAsComplete('Drug use')
 
     cy.visitSection('Drug use')
@@ -47,7 +47,7 @@ describe('read-only mode', () => {
     cy.sectionNotMarkedAsComplete('Drug use')
     cy.assertResumeUrlIs('Drug use', '/add-drugs')
 
-    cy.enterAssessment(AccessMode.READ_ONLY)
+    cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
     cy.sectionNotMarkedAsComplete('Drug use')
     cy.visitSection('Drug use')
     cy.assertStepUrlIs('/drug-use-analysis')
@@ -57,9 +57,11 @@ describe('read-only mode', () => {
     cy.softDeleteAssessment(1)
 
     Array.of(AccessMode.READ_ONLY, AccessMode.READ_WRITE).forEach(accessMode => {
-      cy.enterAssessment(accessMode)
+
       if (accessMode === AccessMode.READ_WRITE) {
-        cy.completePrivacyDeclaration()
+        cy.enterAssessment(accessMode)
+      }else{
+        cy.enterAssessment(accessMode, {}, false)
       }
       cy.sectionMarkedAsComplete('Finance')
       cy.visitSection('Finance')

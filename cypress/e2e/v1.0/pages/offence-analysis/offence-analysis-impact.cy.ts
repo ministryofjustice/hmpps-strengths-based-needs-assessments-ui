@@ -20,7 +20,7 @@ describe('/offence-analysis-impact', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Offence analysis')
 
     cy.getQuestion('Enter a brief description of the current index offence(s)').enterText('¯\\_(ツ)_/¯')
@@ -50,7 +50,7 @@ describe('/offence-analysis-impact', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

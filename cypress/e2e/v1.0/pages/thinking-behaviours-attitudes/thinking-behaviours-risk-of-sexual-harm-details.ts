@@ -8,7 +8,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
   const questions = [sexualPreoccupation, offenceRelatedSexualInterest, emotionalIntimacy]
 
   before(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Thinking, behaviours and attitudes')
     cy.getQuestion('Is Sam aware of the consequences of their actions?')
       .getRadio('Yes, is aware of the consequences of their actions')
@@ -73,7 +73,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

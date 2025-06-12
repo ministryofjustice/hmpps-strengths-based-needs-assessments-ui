@@ -12,7 +12,7 @@ describe('/drug-details-more-than-six-months-injected', () => {
   const questions = [detailsAboutUseOfTheseDrugs, whichDrugsInjected(false), receivingTreatment(false)]
 
   before(() => {
-    cy.loadFixture(Fixture.DrugUser).enterAssessment().completePrivacyDeclaration()
+    cy.loadFixture(Fixture.DrugUser).enterAssessment()
     cy.visitSection('Drug use')
     drugs.forEach(({ name: drug }) => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()

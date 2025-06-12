@@ -6,7 +6,7 @@ describe('/personal-relationships-children-information', () => {
   const questions = [childrenInformation]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Personal relationships and community')
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)

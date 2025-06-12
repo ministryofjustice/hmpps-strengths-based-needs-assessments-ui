@@ -22,7 +22,7 @@ describe('/personal-relationships-community', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Personal relationships and community')
     cy.getQuestion("Are there any children in Sam's life?")
       .getCheckbox("No, there are no children in Sam's life")
@@ -36,7 +36,7 @@ describe('/personal-relationships-community', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

@@ -4,7 +4,7 @@ describe('Accessibility statement', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
   })
 
   it('is accessible', () => {

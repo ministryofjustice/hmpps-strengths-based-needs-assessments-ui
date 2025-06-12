@@ -6,7 +6,7 @@ describe('Generate fixture for complete assessment', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
   })
 
   after(() => {

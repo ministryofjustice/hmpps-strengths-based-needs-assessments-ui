@@ -14,7 +14,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
   })
 
   describe(`Destination: ${destinations.riskOfSexualHarm}`, () => {

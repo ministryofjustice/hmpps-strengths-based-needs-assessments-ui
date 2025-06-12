@@ -18,7 +18,7 @@ describe('Origin: /current-accommodation', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
   })
 
   describe(`Destination: ${destinations.settled}`, () => {

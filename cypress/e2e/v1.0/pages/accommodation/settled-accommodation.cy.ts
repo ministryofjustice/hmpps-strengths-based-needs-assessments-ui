@@ -9,7 +9,7 @@ describe('/settled-accommodation', () => {
   const questions = [livingWith, suitableAccommodationLocation, suitableAccommodation, wantToMakeChanges]
 
   before(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
@@ -28,7 +28,7 @@ describe('/settled-accommodation', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

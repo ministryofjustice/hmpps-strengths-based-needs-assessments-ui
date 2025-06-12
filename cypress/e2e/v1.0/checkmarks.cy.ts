@@ -3,7 +3,7 @@ import { Fixture } from '../../support/commands/fixture'
 describe('assessment complete checkmarks', () => {
   beforeEach(() => {
     cy.loadFixture(Fixture.CompleteAssessment)
-    cy.enterAssessment().completePrivacyDeclaration()
+    cy.enterAssessment()
   })
 
   const sections = [

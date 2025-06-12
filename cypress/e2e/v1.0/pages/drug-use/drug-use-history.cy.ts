@@ -19,7 +19,7 @@ describe('/drug-use-history', () => {
   ]
 
   before(() => {
-    cy.loadFixture(Fixture.DrugUser).enterAssessment().completePrivacyDeclaration()
+    cy.loadFixture(Fixture.DrugUser).enterAssessment()
 
     cy.visitSection('Drug use')
     cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()

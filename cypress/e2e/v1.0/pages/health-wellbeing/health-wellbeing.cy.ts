@@ -7,7 +7,7 @@ describe('/health-wellbeing', () => {
   const questions = [physicalHealthCondition, mentalHealthCondition]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Health and wellbeing')
     cy.assertStepUrlIs(stepUrl)
     cy.assertResumeUrlIs('Health and wellbeing', stepUrl)

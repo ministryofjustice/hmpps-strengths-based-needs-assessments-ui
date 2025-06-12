@@ -3,7 +3,7 @@ import testPractitionerAnalysis from '../../common/practitioner-analysis/testPra
 const summaryPage = '/accommodation-summary'
 
 before(() => {
-  cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+  cy.createAssessment().enterAssessment()
 
   cy.visitSection('Accommodation')
   cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
@@ -25,7 +25,7 @@ before(() => {
 })
 
 beforeEach(() => {
-  cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
+  cy.cloneCapturedAssessment().enterAssessment()
   cy.visitStep(summaryPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()

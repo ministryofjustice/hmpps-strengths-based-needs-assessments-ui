@@ -26,7 +26,7 @@ describe('/health-wellbeing', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Health and wellbeing')
 
     cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
@@ -41,7 +41,7 @@ describe('/health-wellbeing', () => {
   })
 
   beforeEach(() => {
-    cy.cloneCapturedAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.cloneCapturedAssessment().enterAssessment()
     cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

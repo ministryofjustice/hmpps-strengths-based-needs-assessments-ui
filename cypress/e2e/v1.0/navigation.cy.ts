@@ -14,12 +14,12 @@ describe('navigation', () => {
 
     before(() => {
       cy.createAssessment()
-      cy.enterAssessment().completePrivacyDeclaration()
+      cy.enterAssessment()
       cy.hasFeedbackLink()
     })
 
     beforeEach(() => {
-      cy.enterAssessment().completePrivacyDeclaration()
+      cy.enterAssessment()
       cy.get('.side-navigation li.moj-side-navigation__item').should('have.length', sections.length)
     })
 

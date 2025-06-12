@@ -10,7 +10,7 @@ describe('/drug-details-injected', () => {
   const questions = [whichDrugsInjected(true), receivingTreatment(true)]
 
   before(() => {
-    cy.loadFixture(Fixture.DrugUser).enterAssessment().completePrivacyDeclaration()
+    cy.loadFixture(Fixture.DrugUser).enterAssessment()
     cy.visitSection('Drug use')
     drugs.forEach(({ name: drug }) => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()

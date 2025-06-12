@@ -36,7 +36,7 @@ describe('/thinking-behaviours-attitudes', () => {
   ]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment().completePrivacyDeclaration()
+    cy.createAssessment().enterAssessment()
     cy.visitSection('Thinking, behaviours and attitudes')
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)
