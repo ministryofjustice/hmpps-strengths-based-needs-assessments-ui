@@ -38,16 +38,6 @@ class DataPrivacyController extends BaseController {
       return next(error)
     }
   }
-
-  async successHandler(req: FormWizard.Request, res: Response, next: NextFunction) {
-    try {
-      const sessionData = req.session.sessionData as SessionData
-      const versionUrl = sessionData.formVersion.replace(/\./g, '/')
-      return res.redirect(`/form/${versionUrl}/current-accommodation?action=resume`)
-    } catch (error) {
-      return next(error)
-    }
-  }
 }
 
 export default DataPrivacyController

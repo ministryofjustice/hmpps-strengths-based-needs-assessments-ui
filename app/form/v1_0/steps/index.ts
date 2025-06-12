@@ -28,6 +28,7 @@ export const sectionConfigs: SectionConfig[] = [
         controller: dataPrivacyController,
         template: templates.dataPrivacy,
         fields: [privacyScreenFields.privacyScreenDeclaration()],
+        next: 'current-accommodation?action=resume',
       },
     ],
   },
