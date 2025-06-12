@@ -138,13 +138,16 @@ export const getRadio = (subject: JQuery, label: string) => {
 }
 
 export const getCheckbox = (subject: JQuery, label: string) => {
-  return cy
-    .wrap(subject)
-    .find('> .govuk-checkboxes > .govuk-checkboxes__item:visible > label')
-    .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
-    .should('be.visible')
-    .and('have.length', 1)
-    .parent()
+  if (label) {
+    return cy
+      .wrap(subject)
+      .find('> .govuk-checkboxes > .govuk-checkboxes__item:visible > label')
+      .contains(new RegExp(`^\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`))
+      .should('be.visible')
+      .and('have.length', 1)
+      .parent()
+  }
+  return cy.wrap(subject)
 }
 
 export const getFollowingDetails = (subject: JQuery) => {
@@ -273,4 +276,17 @@ export const hasDate = (subject: JQuery, date: string) => {
 
 export const selectOption = (subject: JQuery, option: string) => {
   return cy.wrap(subject).get('select').select(option).parent()
+}
+
+export const completePrivacyDeclaration = () => {
+  return cy
+    .get('.govuk-checkboxes input[type="checkbox"]')
+    .first()
+    .then($checkbox => {
+      if (!$checkbox.is(':checked')) {
+        cy.wrap($checkbox).click()
+      }
+    })
+    .get('button[name="action"][value="confirm"]')
+    .click()
 }

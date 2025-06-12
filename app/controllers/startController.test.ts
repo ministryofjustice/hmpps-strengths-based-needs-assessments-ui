@@ -48,6 +48,6 @@ describe('startController', () => {
     await startController(mockReq, mockRes, mockNext)
 
     expect(saveMock).toHaveBeenCalled()
-    expect(mockRes.redirect).toHaveBeenCalledWith('/form/1/0/current-accommodation?action=resume')
+    expect(mockRes.redirect).toHaveBeenCalledWith('/form/1/0/close-anything-not-needed-before-appointment')
   })
 })
