@@ -1,6 +1,9 @@
-{% extends "../partials/layout.njk" %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../partials/heading.njk" import renderSectionHeading %}
+{% extends "../partials/layout.njk" %}
+
 
 
 {% block pageTitle %}
@@ -24,8 +27,47 @@
           attributes: { "data-browser-back": "" }
           }) }}
         </div>
-        <p>Check versions of {{subjectDetails.givenName}}'s current assessment and plan. The links will open in a new tab.</p>
+        <p>Check versions of {{ subjectDetails.givenName }}'s current assessment and plan. The links will open in a new tab.</p>
       </div>
+      <div class="govuk-grid-column-three-quarters">
+          {% set tableRows = [] %}
+          {% for version in assessmentVersions %}
+            {# TODO: need to replace href with real links #}
+            {% set assessmentLink = '<a href="#1" class="govuk-link" rel="noreferrer noopener" target="_blank">View (opens in new tab)</a>' %}
+            {% set sentencePlanLink = '<a href="#2" class="govuk-link" rel="noreferrer noopener" target="_blank">View (opens in new tab)</a>' %}
+            {% set row = [
+              {
+                html: ( version.updatedAt | formatDateForDisplay ) ~ '<br>Assessment updated'
+              },
+              {
+                html: assessmentLink
+              },
+              {
+                html: sentencePlanLink
+              }
+            ]
+            %}
+            {% set tableRows = tableRows.concat([row]) %}
+          {% endfor %}
+
+          {{ govukTable({
+              captionClasses: "govuk-table__caption--m",
+              firstCellIsHeader: false,
+              head: [
+                {
+                  text: "Date and what was updated"
+                },
+                {
+                  text: "Assessment"
+                },
+                {
+                  text: "Sentence plan"
+                }
+              ],
+              rows: tableRows
+            })
+          }}
+        </div>
     </div>
     {{ super() }}
   </div>
