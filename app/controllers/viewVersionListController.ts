@@ -7,7 +7,7 @@ export default class ViewVersionListController extends SaveAndContinueController
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionData
-      res.locals.assessmentVersions = this.apiService.fetchAssessmentVersions(sessionData.assessmentId)
+      res.locals.assessmentVersions = await this.apiService.fetchAssessmentVersions(sessionData.assessmentId)
       await super.locals(req, res, next)
     } catch (error) {
       next(error)
