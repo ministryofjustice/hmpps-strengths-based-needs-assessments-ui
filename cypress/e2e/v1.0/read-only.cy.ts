@@ -57,10 +57,9 @@ describe('read-only mode', () => {
     cy.softDeleteAssessment(1)
 
     Array.of(AccessMode.READ_ONLY, AccessMode.READ_WRITE).forEach(accessMode => {
-
       if (accessMode === AccessMode.READ_WRITE) {
         cy.enterAssessment(accessMode)
-      }else{
+      } else {
         cy.enterAssessment(accessMode, {}, false)
       }
       cy.sectionMarkedAsComplete('Finance')

@@ -106,7 +106,11 @@ declare global {
       createAssessment(): Chainable
       captureAssessment(): Chainable
       cloneCapturedAssessment(): Chainable
-      enterAssessment(accessMode?: AccessMode, assessmentContextOverride?: AssessmentContext, completePrivacyDeclaration?: Boolean): Chainable
+      enterAssessment(
+        accessMode?: AccessMode,
+        assessmentContextOverride?: AssessmentContext,
+        completePrivacyDeclaration?: boolean,
+      ): Chainable
       lockAssessment(): Chainable
       softDeleteAssessment(versionFrom: number): Chainable
 
