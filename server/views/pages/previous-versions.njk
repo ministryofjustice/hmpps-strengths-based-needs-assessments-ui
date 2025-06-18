@@ -33,8 +33,8 @@
           {% set tableRows = [] %}
           {% for version in assessmentVersions %}
             {# TODO: need to replace href with real links #}
-            {% set assessmentLink = '<a href="#1" class="govuk-link" rel="noreferrer noopener" target="_blank">View (opens in new tab)</a>' %}
-            {% set sentencePlanLink = '<a href="#2" class="govuk-link" rel="noreferrer noopener" target="_blank">View (opens in new tab)</a>' %}
+            {% set assessmentLink = '<a href="#1" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>' %}
+            {% set sentencePlanLink = '<a href="#2" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>' %}
             {% set row = [
               {
                 html: ( version.updatedAt | formatDateForDisplay ) ~ '<br>Assessment updated'
