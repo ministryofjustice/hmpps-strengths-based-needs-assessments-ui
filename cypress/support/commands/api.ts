@@ -57,6 +57,7 @@ export const getApiToken = () => {
 export const enterAssessment = (
   accessMode: AccessMode = AccessMode.READ_WRITE,
   assessmentContextOverride: AssessmentContext = {},
+  completePrivacyDeclaration: boolean = true,
 ) => {
   const assessment: AssessmentContext = {
     ...env('last_assessment'),
@@ -110,6 +111,9 @@ export const enterAssessment = (
     },
   )
   cy.visit('start', { retryOnNetworkFailure: false })
+  if (completePrivacyDeclaration) {
+    cy.completePrivacyDeclaration()
+  }
 }
 
 export const createAssessment = (data = null) => {

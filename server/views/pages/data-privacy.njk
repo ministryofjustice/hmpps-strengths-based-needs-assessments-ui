@@ -1,0 +1,48 @@
+{% extends "../forms/layout.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block content %}
+  {{ super() }}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+  <h1 class="govuk-heading-l">{{ privacyField.text }}</h1>
+
+  <form id="confirm-privacy-form" method="POST" novalidate>
+    <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+
+    <p class="govuk-body">For example, Outlook, Teams or NDelius.</p>
+    <p class="govuk-body">You must do this to avoid sharing sensitive information.</p>
+
+    {{ govukCheckboxes({
+      idPrefix: "privacy_screen_declaration",
+      name: "privacy_screen_declaration",
+      errorMessage: {
+        text: errors["privacy_screen_declaration"].message
+      } if errors["privacy_screen_declaration"] else false,
+      items: [
+        {
+          value: "AGREE",
+          text: privacyField.options[0].text,
+          checked: values["privacy_screen_declaration"] == "AGREE"
+        }
+      ]
+    }) }}
+
+    <div class="govuk-button-group">
+      {{ govukButton({
+        text: "Confirm",
+        name: "action",
+        value: "confirm"
+      }) }}
+      <a class="govuk-!-display-none-print govuk-link--no-visited-state" href="{{ oasysUrl }}">Return to OASys</a>
+    </div>
+  </form>
+  </div>
+</div>
+
+{% endblock %}

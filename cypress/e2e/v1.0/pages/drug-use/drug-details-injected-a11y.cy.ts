@@ -3,15 +3,13 @@ import {
   drugDetailsInjectedBeforeEach,
   questions,
   stepUrl,
-  summaryPage,
 } from './common/drug-details-injected-setup'
 
-describe('/drug-details-injected questions', () => {
+describe('/drug-details-injected accessibility', () => {
   before(drugDetailsInjectedBefore(stepUrl, questions))
   beforeEach(drugDetailsInjectedBeforeEach(stepUrl))
 
-  // verifies the behaviour of questions
-  questions.forEach((questionTest, index) => {
-    questionTest(stepUrl, summaryPage, index + 1)
+  it('Should have no accessibility violations', () => {
+    cy.checkAccessibility()
   })
 })
