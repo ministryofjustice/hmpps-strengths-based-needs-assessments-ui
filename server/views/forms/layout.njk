@@ -42,7 +42,9 @@
               <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
             {% endif %}
           </dl>
-          <a href="print-preview" class="govuk-link print-link">Print</a>
+          {% if not isPrivacyScreen %}
+            <a href="print-preview" class="govuk-link print-link">Print</a>
+          {% endif %}
         </span>
       </div>
     </div>
@@ -51,15 +53,10 @@
         <span class="offender-details__bottom">
           <h3 class="govuk-heading-m">{{ subjectDetails.givenName }}
             {{ subjectDetails.familyName }}</h3>
-          {% if not isPrivacyScreen %}
-            <a href="print-preview" class="govuk-link print-link">Print</a>
-          {% endif %}
         </span>
       </div>
-    </div>
-    <div class="govuk-grid-row">
       {% if not isPrivacyScreen %}
-        <div class="govuk-grid-column-full">
+        <div class="govuk-grid-column-one-half">
           <div class="form-header">
             <div class="form-header__actions">
               {{ govukButton({
@@ -73,13 +70,13 @@
               }) }}
             </div>
           </div>
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
         </div>
       {% else %}
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full govuk-!-margin-top-1">
           <a class="govuk-back-link govuk-!-margin-bottom-5" href="{{ oasysUrl }}">Back</a>
       {% endif %}
     </div>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
+
     {% block notification %}{% endblock %}
     <div class="govuk-grid-row">
      {% if not isPrivacyScreen %}
@@ -162,3 +159,4 @@
 {% block footer %}
   {% include "../partials/footer.njk" %}
 {% endblock %}
+  </div>
