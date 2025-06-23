@@ -5,6 +5,10 @@
 
 {% set mainClasses = "app-container govuk-body" %}
 
+{% block pageTitle %}
+  {{ options.pageHeading }} - {{ pageTitle | default(applicationName) }}
+{% endblock %}
+
 {% block header %}
   {% if deploymentName %}
     <div class="custom-deployment-banner">
@@ -38,17 +42,19 @@
               <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
             {% endif %}
           </dl>
-        </span>
-        <span class="offender-details__bottom">
-          <h3 class="govuk-heading-m">{{ subjectDetails.givenName }}
-            {{ subjectDetails.familyName }}</h3>
           <a href="print-preview" class="govuk-link print-link">Print</a>
         </span>
-        <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
       </div>
     </div>
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
+      <div class="govuk-grid-column-one-half offender-details">
+        <span class="offender-details__bottom">
+          <h3 class="govuk-heading-m">{{ subjectDetails.givenName }}
+            {{ subjectDetails.familyName }}</h3>
+        </span>
+      </div>
+        <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
+      <div class="govuk-grid-column-one-half">
         <div class="form-header">
           <div class="form-header__actions">
             {{ govukButton({
@@ -61,8 +67,12 @@
               }
             }) }}
           </div>
-          <h1 class="govuk-heading-l form-header__title">Strengths and needs</h1>
         </div>
+      </div>
+    </div>
+  </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
       </div>
     </div>
@@ -76,7 +86,10 @@
                 <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
                   <span class="section-label">{{ link.label }}</span>
                   {% if sectionProgress[link.section] %}
-                    <span class="section-complete">✓</span>
+                    <span class="section-complete">
+                      ✓
+{#                    <span class="govuk-visually-hidden">{{ link.section }}Section complete</span>#}
+                    </span>
                   {% endif %}
                 </a>
               </li>
@@ -100,20 +113,28 @@
 
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
 
-            <!-- Two implementations - One nests the caption in the h1, one does not. Nested caption will be read out by screen reader with the h1. -->
-            {% if options.pageHeading and options.pageCaption %}
-                <h2 class="govuk-heading-l">
-                    <span class="govuk-caption-l">{{ options.pageCaption }}</span>
-                    {{ options.pageHeading }}
-                </h2>
-            {% elseif options.pageHeading %}
-                <span class="govuk-caption-l">{{ options.pageTitle }}</span>
-                <h2 class="govuk-heading-l">
-                    {{ options.pageHeading }}
-                </h2>
+            {% if 'summary' in options.url %}
+              <span class="govuk-caption-l">{{ options.pageHeading }}</span>
+              <h2 class="govuk-heading-l">Summary</h2>
+            {% elseif 'analysis' in options.url %}
+              <span class="govuk-caption-l">Practitioner analysis</span>
+              <h2 class="govuk-heading-l">Summary</h2>
             {% else %}
-                <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
+                {% if options.pageHeading and options.pageCaption %}
+                    <h2 class="govuk-heading-l">
+                        <span class="govuk-caption-l">{{ options.pageCaption }}</span>
+                        {{ options.pageHeading }}
+                    </h2>
+                {% elseif options.pageHeading %}
+                    <span class="govuk-caption-l">{{ options.pageTitle }}</span>
+                    <h2 class="govuk-heading-l">
+                        {{ options.pageHeading }}
+                    </h2>
+                {% else %}
+                  <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
+                  {% endif  %}
             {% endif %}
+
           </div>
           {% if sectionProgress[options.section] %}
             <div class="section-heading__status">
@@ -128,7 +149,6 @@
         {% block formContent %}{% endblock %}
       </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block footer %}
