@@ -196,6 +196,7 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
+  // returns whether each section is complete or not
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
       req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [

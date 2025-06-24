@@ -232,10 +232,20 @@ export class FieldDependencyTreeBuilder {
     return typeof fieldAnswer[0] === 'string' ? (fieldAnswer as string[]) : null
   }
 
+  /**
+   * Retrieves the initial step for the current section.
+   *
+   * This method searches through the steps defined in the `options.steps` object
+   * and finds the first step that has a `navigationOrder` property and belongs
+   * to the section specified in `options.section`.
+   *
+   * @returns {[string, FormWizard.RenderedStep] | []} - A tuple containing the path
+   * and the step object if a matching step is found, or an empty array if no match is found.
+   */
   protected getInitialStep() {
     return (
       Object.entries(this.options.steps).find(
-        ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
+        ([_, step]) => step.navigationOrder && step.section === this.options.section,
       ) || []
     )
   }
