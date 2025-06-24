@@ -119,11 +119,10 @@
             {% if 'summary' in options.url %}
               <span class="govuk-caption-l">{{ options.pageHeading }}</span>
               <h2 class="govuk-heading-l">Summary</h2>
-            {% elseif 'analysis' in options.url %}
+            {% elseif 'analysis' in options.url and 'offence' not in options.url %}
               <span class="govuk-caption-l">Practitioner analysis</span>
               <h2 class="govuk-heading-l">Summary</h2>
-            {% else %}
-                {% if options.pageHeading and options.pageCaption %}
+                {% elseif options.pageHeading and options.pageCaption %}
                     <h2 class="govuk-heading-l">
                         <span class="govuk-caption-l">{{ options.pageCaption }}</span>
                         {{ options.pageHeading }}
@@ -135,9 +134,7 @@
                     </h2>
                 {% else %}
                   <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
-                  {% endif  %}
             {% endif %}
-
           </div>
           {% if not isPrivacyScreen %}
           {% if sectionProgress[options.section] %}
