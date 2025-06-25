@@ -14,7 +14,6 @@ const stepUrls = {
   drugDetailsMoreThanSixInjected: 'drug-details-more-than-six-months-injected',
   drugUseHistory: 'drug-use-history',
   drugUseHistoryAllMoreThanSix: 'drug-use-history-more-than-six-months',
-
   summary: 'drug-use-summary',
   analysis: 'drug-use-analysis',
 }
@@ -185,7 +184,7 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.summary,
       pageCaption: 'Drug use',
-      pageHeading: 'Practitioner analysis',
+      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop,
         drugsUseFields.practitionerAnalysis(),
