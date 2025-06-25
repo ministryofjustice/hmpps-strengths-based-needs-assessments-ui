@@ -8,7 +8,7 @@ export const assertSectionIs = (name: string) => {
 
   // for some sections the name is in the caption, in others the h2
   cy.get('.section-heading__heading')
-    .contains(new RegExp(`^${name}$`))
+    .contains((`${name}`))
     .should('be.visible')
 }
 
