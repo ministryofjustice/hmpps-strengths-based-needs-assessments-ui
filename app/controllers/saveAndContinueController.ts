@@ -20,6 +20,7 @@ import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
 import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
+import CoordinatorApiService from '../../server/services/CoordinatorService'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -27,10 +28,13 @@ export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<strin
 class SaveAndContinueController extends BaseController {
   apiService: StrengthsBasedNeedsAssessmentsApiService
 
+  coordinatorService: CoordinatorApiService
+
   constructor(options: unknown) {
     super(options)
 
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
+    this.coordinatorService = new CoordinatorApiService()
   }
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
