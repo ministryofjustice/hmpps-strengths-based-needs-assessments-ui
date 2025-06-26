@@ -18,7 +18,7 @@
     </span>
     <span class="offender-details__bottom">
       <h3 class="govuk-heading-m">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h3>
-      {% if form.section != "previous-versions" %}
+      {% if form.section != "previous-versions" and not isPrivacyScreen %}
         <ul>
           <a href="previous-versions" class="govuk-link print-link">View Previous Versions</a>
           <a href="print-preview" class="govuk-link print-link">Print</a>
