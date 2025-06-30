@@ -116,7 +116,6 @@
 
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
                   <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
-            {% endif %}
           </div>
           {% if not isPrivacyScreen %}
           {% if sectionProgress[options.section] %}
