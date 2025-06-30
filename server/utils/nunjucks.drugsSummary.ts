@@ -1,7 +1,5 @@
 import { Field } from '../../app/utils/fieldDependencyTreeBuilder'
 import { drugsList } from '../../app/form/v1_0/fields/drug-use/drugs'
-import { HandoverPrincipal } from '../services/arnsHandoverService'
-import { isInEditMode } from './nunjucks.utils'
 
 interface Actions {
   items: {
@@ -36,7 +34,7 @@ type DrugsSummary = {
   otherFields: Field[]
 }
 
-export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary => {
+export default (summaryFields: Field[], isInEditMode: boolean): DrugsSummary => {
   const usedInTheLastSix: DrugCard[] = []
   const notUsedInTheLastSix: DrugCard[] = []
   const selectDrugsField = summaryFields.find(it => it.field.code === 'select_misused_drugs')
@@ -59,7 +57,7 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
               : drug.text,
         },
         actions: {
-          items: isInEditMode(user)
+          items: isInEditMode
             ? [
                 {
                   href: selectDrugsField.changeLink,
@@ -79,7 +77,7 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
           },
           actions: {
             items:
-              isInEditMode(user) && lastUsedField
+              isInEditMode && lastUsedField
                 ? [
                     {
                       href: lastUsedField.changeLink,
@@ -109,7 +107,7 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
           },
           actions: {
             items:
-              isInEditMode(user) && howOftenUsedField
+              isInEditMode && howOftenUsedField
                 ? [
                     {
                       href: howOftenUsedField.changeLink,
@@ -128,7 +126,7 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
           },
           actions: {
             items:
-              isInEditMode(user) && howOftenUsedField
+              isInEditMode && howOftenUsedField
                 ? [
                     {
                       href: `${howOftenUsedField.changeLink}_details`,
@@ -173,7 +171,7 @@ export default (summaryFields: Field[], user: HandoverPrincipal): DrugsSummary =
         },
         actions: {
           items:
-            isInEditMode(user) && injectedField
+            isInEditMode && injectedField
               ? [
                   {
                     href: injectedField.changeLink,

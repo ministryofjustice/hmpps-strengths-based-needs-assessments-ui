@@ -63,7 +63,7 @@
 
       {% endfor %}
 
-      {% if sessionData.user | isInEditMode %}
+      {% if isInEditMode %}
         <div class="questiongroup-action-buttons">
           {{ govukButton({
             text: buttonText | default('Save and continue'),

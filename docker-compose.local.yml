@@ -9,7 +9,7 @@ services:
 
   san-ui:
     depends_on:
-      - hmpps-auth-proxy
+      - forward-proxy
     environment:
       FEEDBACK_URL: http://localhost:9092
     ports:
@@ -27,7 +27,7 @@ services:
     ports:
       - "7072:3000"
 
-  hmpps-auth-proxy:
+  forward-proxy:
     image: nginx:latest
     depends_on:
       - hmpps-auth

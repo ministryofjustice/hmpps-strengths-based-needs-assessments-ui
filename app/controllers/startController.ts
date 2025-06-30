@@ -40,8 +40,8 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
         return next(error)
       }
       return isReadOnly(contextData.principal)
-        ? res.redirect(`/form/${versionUrl}/${readOnlyModeLandingPage}`)
-        : res.redirect(`/form/${versionUrl}/${editModeLandingPage}`)
+        ? res.redirect(`/form/${versionUrl}/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
+        : res.redirect(`/form/${versionUrl}/edit/${assessment.metaData.uuid}/${editModeLandingPage}`)
     })
   } catch {
     next(new Error('Unable to start assessment'))

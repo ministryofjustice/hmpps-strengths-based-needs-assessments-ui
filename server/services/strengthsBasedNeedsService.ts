@@ -90,6 +90,11 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
     return responseBody as AssessmentResponse
   }
 
+  async fetchAssessmentVersion(versionUuid: string): Promise<AssessmentResponse> {
+    const client = await this.getRestClient()
+    return client.get<AssessmentResponse>({ path: `/assessment/version/${versionUuid}` })
+  }
+
   async updateAnswers(assessmentId: string, requestBody: UpdateAnswersDto) {
     const client = await this.getRestClient()
     await client.post({ path: `/assessment/${assessmentId}/answers`, data: requestBody })

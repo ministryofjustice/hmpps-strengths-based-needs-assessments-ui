@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 import * as express from 'express'
 import FormWizard from 'hmpo-form-wizard'
+import HttpError from '../../server/errors/httpError'
 
 type FormWizardRouter = {
   metaData: FormOptions
@@ -107,7 +108,7 @@ function checkFormIntegrity(form: Form) {
 }
 
 const setupForm = (form: Form): FormWizardRouter => {
-  const router = express.Router()
+  const router = express.Router({ mergeParams: true })
   const configRouter = express.Router()
 
   if (form.options.active === true) {
@@ -119,6 +120,12 @@ const setupForm = (form: Form): FormWizardRouter => {
     })
 
     checkFormIntegrity(form)
+
+    router.use((req, _res, next) => {
+      const isValidMode = /^(view|edit)$/.test(req.params.mode)
+      if (!isValidMode) throw new HttpError(req, 404)
+      next()
+    })
 
     router.use(
       FormWizard(form.steps, form.fields, {
@@ -133,7 +140,7 @@ const setupForm = (form: Form): FormWizardRouter => {
 }
 
 export default class FormRouterBuilder {
-  formRouter?: express.Router = express.Router()
+  formRouter?: express.Router = express.Router({ mergeParams: true })
 
   formConfigRouter?: express.Router = express.Router()
 
@@ -142,7 +149,7 @@ export default class FormRouterBuilder {
       .filter((formRouter: FormWizardRouter) => formRouter.metaData.active)
       .forEach(formRouter => {
         const [majorVersion, minorVersion] = formRouter.metaData.version.split('.')
-        this.formRouter.use(`/${majorVersion}/${minorVersion}`, formRouter.router)
+        this.formRouter.use(`/${majorVersion}/${minorVersion}/:mode/:uuid`, formRouter.router)
         this.formConfigRouter.use(`/${majorVersion}/${minorVersion}`, formRouter.configRouter)
       })
     if (latest) {
