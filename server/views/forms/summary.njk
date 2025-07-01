@@ -3,7 +3,7 @@
 {% from "components/summary/macro.njk" import renderSummaryFields %}
 
 {% block pageTitle %}
-  {{ options.pageTitle }} Summary - {{ pageTitle | default(applicationName) }}
+  {{ options.pageHeading }} Summary - {{ pageTitle | default(applicationName) }}
 {% endblock %}
 
 {% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers}) %}

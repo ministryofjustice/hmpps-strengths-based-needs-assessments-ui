@@ -6,7 +6,11 @@
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block pageTitle %}
-  {{ options.pageHeading }} - {{ pageTitle | default(applicationName) }}
+  {% if options.pageHeading %}
+    {{ options.pageHeading }} - {{ pageTitle | default(applicationName) }}
+  {% else %}
+    {{ options.pageTitle }} - {{ pageTitle | default(applicationName) }}
+  {% endif %}
 {% endblock %}
 
 {% block header %}
