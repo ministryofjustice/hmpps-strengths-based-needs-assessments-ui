@@ -1,5 +1,5 @@
-import FormWizard from 'hmpo-form-wizard'
 import { HandoverPrincipal } from '../services/arnsHandoverService'
+import { Request } from 'express'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -25,5 +25,5 @@ export const initialiseName = (fullName?: string): string | null => {
   return `${array[0][0]}. ${array.reverse()[0]}`
 }
 
-export const isInEditMode = (user: HandoverPrincipal, req: FormWizard.Request) =>
+export const isInEditMode = (user: HandoverPrincipal, req: Request) =>
   user.accessMode === 'READ_WRITE' && req.params.mode === 'edit'

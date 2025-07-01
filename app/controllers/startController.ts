@@ -5,10 +5,12 @@ import StrengthsBasedNeedsAssessmentsApiService, {
   userDetailsFromSession,
 } from '../../server/services/strengthsBasedNeedsService'
 import ArnsHandoverService, { HandoverSubject } from '../../server/services/arnsHandoverService'
-import { createAnswerDto, isReadOnly } from './saveAndContinue.utils'
+import { createAnswerDto } from './saveAndContinue.utils'
 import thinkingBehavioursFields from '../form/v1_0/fields/thinking-behaviours-attitudes'
 import { stepUrls } from '../form/v1_0/steps/thinking-behaviours-attitudes'
 import { assessmentComplete } from '../form/v1_0/fields'
+import ForbiddenError from '../../server/errors/forbiddenError';
+import { isInEditMode } from '../../server/utils/utils';
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
@@ -21,7 +23,15 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     const accessToken = res.locals.user.token
     const contextData = await arnsHandoverService.getContextData(accessToken)
 
-    const assessment = await apiService.fetchAssessment(contextData.assessmentContext.assessmentId)
+    const versionUuid = req.params.uuid
+    const assessment = versionUuid
+      ? await apiService.fetchAssessmentVersion(versionUuid)
+      : await apiService.fetchAssessment(contextData.assessmentContext.assessmentId)
+
+    if (assessment.metaData.uuid !== contextData.assessmentContext.assessmentId) {
+      return next(new ForbiddenError(req))
+    }
+
     const versionUrl = assessment.metaData.formVersion.replace(/\./g, '/')
 
     req.session.sessionData = {
@@ -32,16 +42,18 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     }
     req.session.subjectDetails = contextData.subject
 
-    if (!isReadOnly(contextData.principal))
+    const inEditMode = isInEditMode(contextData.principal, req)
+
+    if (inEditMode)
       await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
 
     req.session.save(error => {
       if (error) {
         return next(error)
       }
-      return isReadOnly(contextData.principal)
-        ? res.redirect(`/form/${versionUrl}/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
-        : res.redirect(`/form/${versionUrl}/edit/${assessment.metaData.uuid}/${editModeLandingPage}`)
+      return inEditMode
+        ? res.redirect(`/form/${versionUrl}/edit/${assessment.metaData.uuid}/${editModeLandingPage}`)
+        : res.redirect(`/form/${versionUrl}/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
     })
   } catch {
     next(new Error('Unable to start assessment'))

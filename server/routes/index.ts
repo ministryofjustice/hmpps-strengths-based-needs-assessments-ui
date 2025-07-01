@@ -13,6 +13,7 @@ export default function routes(): Router {
   router.use('/form', app.formRouter)
   router.use('/config', app.formConfigRouter)
   router.use('/start', startController)
+  router.use('/start/:uuid', startController)
 
   get('/', (req, res, next) => {
     res.render('pages/index')
