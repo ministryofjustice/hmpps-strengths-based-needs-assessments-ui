@@ -81,12 +81,14 @@
           <ul class="moj-side-navigation__list">
             {% for link in form.navigation %}
               <li class="moj-side-navigation__item{% if link.active %} moj-side-navigation__item--active{% endif %}">
-                <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
-                  <span class="section-label">{{ link.label }}</span>
+                {{  link.label }}
                   {% if sectionProgress[link.section] %}
                     <span class="section-complete">✓</span>
                   {% endif %}
-                </a>
+                <ul>
+                  <li><a href="{{ link.url }}">{{ link.label }} background</a></li>
+                  <li><a href="{{ link.section }}-analysis">{{ link.label }} analysis</a></li>
+                </ul>
               </li>
             {% endfor %}
           </ul>

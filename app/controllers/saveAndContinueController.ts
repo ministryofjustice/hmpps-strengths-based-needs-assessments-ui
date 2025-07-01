@@ -20,6 +20,7 @@ import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import ForbiddenError from '../../server/errors/forbiddenError'
 import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
+import { createSectionProgressRules } from '../utils/formRouterBuilder'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
@@ -61,7 +62,7 @@ class SaveAndContinueController extends BaseController {
         const pageNavigation = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getPageNavigation()
+        ).getPageNavigation(true, 'accommodation-analysis')
 
         const getBackLinkFromTrail = (currentStep: string, stepsTaken: string[]) => {
           const currentStepIndex = stepsTaken.indexOf(currentStep)
@@ -70,6 +71,42 @@ class SaveAndContinueController extends BaseController {
         }
 
         res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
+
+
+        /**
+         * Routing when the section is complete works differently to normal.
+         * The side navigation routes the user to the summary page or the analysis page.
+         * From the summary page we can route to either the analysis page or a question page.
+         * From the analysis page we need to able to route to the the analysis incomplete page so we can change our answers.
+         * We don't use `pageNavigation.isSectionComplete` here because it is not accurate.
+         */
+        const isSectionComplete = this.getAssessmentProgress(
+          req.form.persistedAnswers,
+          createSectionProgressRules(req.form.options.steps),
+        )[req.form.options.section]
+
+        if (isSectionComplete) {
+          if (req.query.action === 'resume') {
+            if (req.route.path.endsWith('-analysis')) {
+              // return res.redirect(
+              //   `${req.baseUrl}/${pageNavigation.stepsTaken.find(it => it.endsWith('-analysis'))}`,
+              // )
+              // return res.redirect(`${pageNavigation.url}?action=resume`)
+              // TODO no good here because it skips the telemetry below
+              return await super.configure(req, res, next)
+            }
+            return res.redirect(`${req.baseUrl}/${pageNavigation.stepsTaken.find(it => it.endsWith('-summary'))}`)
+          }
+
+          // second loop through dropping through to here, which is not in the steps list and so we end up at `undefined`
+
+          if (req.url.endsWith('-analysis')) {
+            // TODO make sure there's a value in the array before redirecting
+            return res.redirect(
+              `${req.baseUrl}/${pageNavigation.stepsTaken.find(it => it.endsWith('-analysis-complete'))}`,
+            )
+          }
+        }
 
         if (req.query.action === 'resume') {
           const currentPageToComplete = pageNavigation.url
@@ -199,7 +236,7 @@ class SaveAndContinueController extends BaseController {
   // returns whether each section is complete or not
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
-      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
+      (req.form.options.sectionProgressRules ?? []).map(({ fieldCode, conditionFn }) => [
         fieldCode,
         conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO',
       ]),
@@ -241,10 +278,9 @@ class SaveAndContinueController extends BaseController {
 
     const { answersToAdd, answersToRemove } = buildRequestBody(req.form.options, answersToPersist, options)
 
-    // remove answers from the session model
-    // because FormWizard uses it for page routing logic
+    // remove answers from the session model because FormWizard uses it for page routing logic
     answersToRemove.forEach(fieldCode => {
-      req.sessionModel.set(fieldCode, null)
+       req.sessionModel.set(fieldCode, null)
     })
 
     req.form.values = {
@@ -261,7 +297,7 @@ class SaveAndContinueController extends BaseController {
 
     await this.apiService.updateAnswers(assessmentId, {
       answersToAdd,
-      answersToRemove,
+      answersToRemove: [],
       userDetails: userDetailsFromSession(req.session.sessionData as SessionData),
     })
   }

@@ -72,6 +72,8 @@ export const buildRequestBody = (
   answers: FormWizard.Answers,
   options: { removeOrphanAnswers?: boolean } = {},
 ): UpdateAnswersDto => {
+  // I think relevantFields is just all fields in this section minus practitioner analysis?
+  // no PA because there is no route to it from summary
   const relevantFields = new FieldDependencyTreeBuilder(formOptions, answers).buildAndFlatten()
   const { removeOrphanAnswers = true } = options
 
@@ -79,7 +81,7 @@ export const buildRequestBody = (
     .filter(step => step.section === formOptions.section)
     .reduce((acc: string[], step) => [...acc, ...Object.values(step.fields).map(f => f.code)], [])
 
-  return {
+  const updateAnswersDto: UpdateAnswersDto = {
     answersToAdd: relevantFields
       .filter(it => Object.keys(formOptions.fields).includes(it.field.id) && it.field.type !== FieldType.Collection)
       .map(it => it.field)
@@ -96,6 +98,8 @@ export const buildRequestBody = (
       type: 'SAN',
     },
   }
+
+  return updateAnswersDto
 }
 
 export const flattenAnswers = (answers: Record<string, AnswerDto>): FormWizard.Answers =>

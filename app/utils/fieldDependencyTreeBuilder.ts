@@ -250,7 +250,17 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
+  /**
+   * This method calculates the next step URL, the steps taken so far, and whether
+   * the section is complete based on the user's answers and validation results.
+   *
+   * @returns {{ url: string; stepsTaken: string[]; isSectionComplete: boolean }} -
+   * An object containing:
+   * - `url`: The URL of the next step to navigate to.
+   * - `stepsTaken`: An array of step URLs that have been traversed.
+   * - `isSectionComplete`: A boolean indicating whether the section is complete.
+   */
+  getPageNavigation(overrideNextStep?: boolean, overrideNextStepUrl?: string): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
@@ -272,11 +282,18 @@ export class FieldDependencyTreeBuilder {
           })
           return err !== null
         })
+      // TODO I think this is a simplified version of what happens in getAssessmentProgress in saveAndContinueController.ts
+      // Because of this, it gives a different answer to the sectionProgress set in saveAndContinueController.getValues()
+      // A whole bunch of code like that needs splitting out in Section and Step service classes I think.
       const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
       if (hasErrors || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
         isSectionComplete = false
         break
       }
+
+      // if (stepUrl === 'accommodation-analysis') {
+      //   break
+      // }
     }
 
     if (steps.length < 2) {
@@ -290,8 +307,13 @@ export class FieldDependencyTreeBuilder {
     const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
     const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
+    const shouldGoToPenultimate = nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO'
+    const url = shouldGoToPenultimate ? penultimateStepUrl : nextStep
+
+    // const url = nextStep
+
     return {
-      url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
+      url,
       stepsTaken,
       isSectionComplete,
     }

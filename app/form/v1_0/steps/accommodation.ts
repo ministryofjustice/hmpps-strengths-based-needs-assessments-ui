@@ -13,6 +13,7 @@ const stepUrls = {
   noAccommodation: 'no-accommodation',
   summary: 'accommodation-summary',
   analysis: 'accommodation-analysis',
+  analysisComplete: 'accommodation-analysis-complete',
 }
 
 const accommodationTypeGroup: FormWizard.Field[] = [
@@ -134,17 +135,23 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.summary,
-      fields: [
-        accommodationFields.practitionerAnalysis(),
-        accommodationFields.isUserSubmitted(stepUrls.summary),
-        accommodationFields.sectionComplete(),
-      ].flat(),
-      next: `${stepUrls.analysis}#practitioner-analysis`,
-      template: templates.analysisIncomplete,
-      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      next: stepUrls.analysis,
+      template: templates.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.analysis,
+      fields: [
+        accommodationFields.practitionerAnalysis(),
+        accommodationFields.isUserSubmitted(stepUrls.analysis),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      template: templates.analysisIncomplete,
+      next: stepUrls.analysisComplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
       template: templates.analysisComplete,
     },
   ],

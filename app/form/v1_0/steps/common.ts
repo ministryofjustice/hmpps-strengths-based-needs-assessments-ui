@@ -6,10 +6,16 @@ export interface SanStep extends FormWizard.BaseStep {
   fields?: FormWizard.Field[]
 }
 
-export const setFieldToCompleteWhenValid = (fieldCode: string) => ({
-  fieldCode,
-  conditionFn: (passedValidation: boolean) => passedValidation,
-})
+export function conditionFn(passedValidation: boolean) {
+  return passedValidation
+}
+
+export function setFieldToCompleteWhenValid(fieldCode: string) {
+  return {
+    fieldCode,
+    conditionFn,
+  }
+}
 
 export const setFieldToIncomplete = (fieldCode: string) => ({ fieldCode, conditionFn: () => false })
 

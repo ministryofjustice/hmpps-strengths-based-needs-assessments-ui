@@ -1,6 +1,7 @@
 export default {
-  analysisComplete: 'forms/summary/summary-analysis-complete',
-  analysisIncomplete: 'forms/summary/summary-analysis-incomplete',
+  analysisComplete: 'forms/summary/analysis-complete',
+  analysisIncomplete: 'forms/summary/analysis-incomplete',
+  summary: 'forms/summary',
   drugUsage: 'forms/drug-usage',
   drugUsageNew: 'forms/drug-usage-new',
   printPreview: 'pages/print-preview',

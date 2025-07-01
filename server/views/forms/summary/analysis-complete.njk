@@ -1,4 +1,11 @@
-{% extends "../summary.njk" %}
+{% extends "../layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/question/macro.njk" import renderQuestion %}
+{% from "components/summary/macro.njk" import renderSummaryFields %}
+
+{% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+{% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
+{% set sectionComplete = sectionProgress[options.section] %}
 
 {% macro renderAnalysisSummaryRow(field, yesDetailsField, noDetailsField, link) %}
   <article class="analysis-summary__item">
@@ -35,14 +42,17 @@
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 {% endmacro %}
 
-
 {% block backLink %}{% endblock %}
 
-{% block analysisPanel %}
-  {% set section = options.section | replace("-", "_") %}
-  {% set fields = options.allFields %}
-  {% set changeLink = options.section + '-summary#practitioner-analysis' %}
+{% set section = options.section | replace("-", "_") %}
+{% set fields = options.allFields %}
+{% set changeLink = options.section + '-analysis?action=resume' %}
 
+{% block formContent %}
+<h1>Analysis complete page</h1>
+
+{% if sectionComplete %}
+<div class="govuk-grid-column-full summary__panel" id="practitioner-analysis">
   <section>
     {% if section == 'drug_use' and answers.drug_use == 'YES' %}
       {{ renderAnalysisSummaryRow(
@@ -71,4 +81,8 @@
       changeLink
     ) }}
   </section>
+{% endif %}
+
+
+</div>
 {% endblock %}
