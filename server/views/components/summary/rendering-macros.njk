@@ -15,7 +15,7 @@
           {{ loop.index | ordinalWordFromNumber | capitalize }}
           {{ summary.field.collection.subject }}
         </h3>
-        {% if sessionData.user | isInEditMode %}
+        {% if isInEditMode %}
           <div class="collection-summary-list__actions">
             <div>
               <a class="govuk-link change-entry" href="{{ summary.field.collection.updateUrl }}/{{ loop.index - 1 }}">
@@ -101,7 +101,7 @@
 
       </ul>
     </dd>
-    {% if sessionData.user | isInEditMode %}
+    {% if isInEditMode %}
       <dd class="govuk-summary-list__actions summary-list__actions">
         <a class="govuk-link" href="{{ summary.changeLink }}">
           Change<span class="govuk-visually-hidden">value for {{ summary.field.text }}</span>

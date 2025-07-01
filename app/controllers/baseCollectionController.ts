@@ -4,17 +4,14 @@ import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import { createAnswerDTOs, flattenAnswers } from './saveAndContinue.utils'
-import StrengthsBasedNeedsAssessmentsApiService, {
-  SessionData,
-  userDetailsFromSession,
-} from '../../server/services/strengthsBasedNeedsService'
+import { SessionData, userDetailsFromSession } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
-import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { Progress } from './saveAndContinueController'
-import ForbiddenError from '../../server/errors/forbiddenError'
+
+import { isInEditMode } from '../../server/utils/utils'
 
 enum CollectionAction {
   Create,
@@ -30,15 +27,7 @@ abstract class BaseCollectionController extends BaseController {
     return (req: FormWizard.Request) => (req.form.persistedAnswers[field.code] || []).length === 0
   }
 
-  private apiService: StrengthsBasedNeedsAssessmentsApiService
-
   abstract readonly field: FormWizard.Field
-
-  constructor(options: unknown) {
-    super(options)
-
-    this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
-  }
 
   private getFormAction(path: string): CollectionAction {
     if (path.startsWith(`/${this.field.collection.createUrl}`)) {
@@ -105,17 +94,9 @@ abstract class BaseCollectionController extends BaseController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionData
-
-      if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
-        return next(new ForbiddenError(req))
-      }
+      const assessment = await this.fetchAssessment(req, sessionData)
 
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
-
-      const assessment = isInEditMode(sessionData.user)
-        ? await this.apiService.fetchAssessment(sessionData.assessmentId)
-        : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
-
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
 
       const entryId = Number.parseInt(req.params.entryId, 10)
@@ -184,6 +165,7 @@ abstract class BaseCollectionController extends BaseController {
         },
         sessionData,
         subjectDetails,
+        isInEditMode: isInEditMode(sessionData.user, req),
         form: { ...res.locals.form, section: req.form.options.section, steps: req.form.options.steps },
       }
 
