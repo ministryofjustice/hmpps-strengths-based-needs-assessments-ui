@@ -30,21 +30,31 @@
       <div class="govuk-grid-column-three-quarters">
           {% set tableRows = [] %}
           {% for date, versionsOnDate in previousVersions.versions %}
-            {% set assessmentLink %}
-              <a href="#1" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
-            {% endset %}
-            {% set sentencePlanLink %}
-              <a href="#2" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
-            {% endset %}
+            {% set assessmentLinks = [] %}
+            {% for version in versionsOnDate.assessmentVersions %}
+              {% set link %}
+                <a href="/form/view/{{ version.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
+              {% endset %}
+              {% set assessmentLinks = assessmentLinks.concat(link) %}
+            {% endfor %}
+
+            {% set sentencePlanLinks = [] %}
+            {% for version in versionsOnDate.planVersions %}
+              {% set link %}
+                <a href="/form/view/{{ version.uuid }}" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
+              {% endset %}
+              {% set sentencePlanLinks = sentencePlanLinks.concat(link) %}
+            {% endfor %}
+
             {% set row = [
               {
                 html: date | formatDateForDisplay ~ '<br>' ~ versionsOnDate.description
               },
               {
-                html: assessmentLink
+                html: assessmentLinks | join('<br>')
               },
               {
-                html: sentencePlanLink
+                html: sentencePlanLinks | join('<br>')
               }
             ]
             %}

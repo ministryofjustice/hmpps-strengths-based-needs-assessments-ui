@@ -3,7 +3,7 @@ import * as express from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import HttpError from '../../server/errors/httpError'
 
-type FormWizardRouter = {
+export type FormWizardRouter = {
   metaData: FormOptions
   router: express.Router
   configRouter: express.Router
@@ -140,16 +140,16 @@ const setupForm = (form: Form): FormWizardRouter => {
 }
 
 export default class FormRouterBuilder {
-  formRouter?: express.Router = express.Router({ mergeParams: true })
-
+  formRouters: Record<string, FormWizardRouter>
   formConfigRouter?: express.Router = express.Router()
 
-  constructor(routers: FormWizardRouter[], latest: FormWizardRouter) {
-    routers
+  constructor(routers: Record<string, FormWizardRouter>, latest: FormWizardRouter) {
+    this.formRouters = routers
+
+    Object.values(routers)
       .filter((formRouter: FormWizardRouter) => formRouter.metaData.active)
       .forEach(formRouter => {
         const [majorVersion, minorVersion] = formRouter.metaData.version.split('.')
-        this.formRouter.use(`/${majorVersion}/${minorVersion}/:mode/:uuid`, formRouter.router)
         this.formConfigRouter.use(`/${majorVersion}/${minorVersion}`, formRouter.configRouter)
       })
     if (latest) {
@@ -158,7 +158,7 @@ export default class FormRouterBuilder {
   }
 
   static configure(...formVersions: Form[]) {
-    const formRouters: FormWizardRouter[] = formVersions.map(form => setupForm(form))
-    return new FormRouterBuilder(formRouters, getLatestVersionFrom(formRouters))
+    const formRouters: Record<string, FormWizardRouter> = Object.fromEntries(formVersions.map(form => [form.options.version, setupForm(form)]))
+    return new FormRouterBuilder(formRouters, getLatestVersionFrom(Object.values(formRouters)))
   }
 }

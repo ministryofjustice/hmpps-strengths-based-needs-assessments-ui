@@ -9,8 +9,7 @@ import { createAnswerDto } from './saveAndContinue.utils'
 import thinkingBehavioursFields from '../form/v1_0/fields/thinking-behaviours-attitudes'
 import { stepUrls } from '../form/v1_0/steps/thinking-behaviours-attitudes'
 import { assessmentComplete } from '../form/v1_0/fields'
-import ForbiddenError from '../../server/errors/forbiddenError';
-import { isInEditMode } from '../../server/utils/utils';
+import ForbiddenError from '../../server/errors/forbiddenError'
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
@@ -32,17 +31,14 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
       return next(new ForbiddenError(req))
     }
 
-    const versionUrl = assessment.metaData.formVersion.replace(/\./g, '/')
-
     req.session.sessionData = {
       ...contextData.assessmentContext,
       user: contextData.principal,
       handoverSessionId: contextData.handoverSessionId,
-      formVersion: assessment.metaData.formVersion,
     }
     req.session.subjectDetails = contextData.subject
 
-    const inEditMode = isInEditMode(contextData.principal, req)
+    const inEditMode = contextData.principal.accessMode === 'READ_WRITE' && !versionUuid
 
     if (inEditMode)
       await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
@@ -52,8 +48,8 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
         return next(error)
       }
       return inEditMode
-        ? res.redirect(`/form/${versionUrl}/edit/${assessment.metaData.uuid}/${editModeLandingPage}`)
-        : res.redirect(`/form/${versionUrl}/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
+        ? res.redirect(`/form/edit/${assessment.metaData.uuid}/${editModeLandingPage}`)
+        : res.redirect(`/form/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
     })
   } catch {
     next(new Error('Unable to start assessment'))

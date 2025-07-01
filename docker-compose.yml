@@ -89,7 +89,7 @@ services:
       - ./docker/healthcheck.js:/app/docker/healthcheck.js
 
   coordinator-api:
-    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:latest
+    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:2025-06-26.8.2eb8e7a
     networks:
       - hmpps
     depends_on:

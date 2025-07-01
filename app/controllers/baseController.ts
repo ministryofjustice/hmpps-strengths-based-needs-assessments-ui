@@ -50,14 +50,8 @@ class BaseController extends FormWizard.Controller {
   }
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const { fields, section, steps, name } = req.form.options
+    const { fields, section, steps } = req.form.options
     const sessionData = req.session.sessionData as SessionData
-
-    const reqFormVersion = name.split(':')[1].replace('.', '/')
-    const sessionFormVersion = sessionData.formVersion.replace('.', '/')
-    if (reqFormVersion !== sessionFormVersion) {
-      return res.redirect(req.originalUrl.replace(reqFormVersion, sessionFormVersion))
-    }
 
     res.locals.form = {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
