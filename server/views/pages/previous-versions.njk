@@ -4,8 +4,6 @@
 {% from "../partials/heading.njk" import renderSectionHeading %}
 {% extends "../partials/layout.njk" %}
 
-
-
 {% block pageTitle %}
   {{ pageTitle }}
 {% endblock %}
@@ -31,13 +29,16 @@
       </div>
       <div class="govuk-grid-column-three-quarters">
           {% set tableRows = [] %}
-          {% for version in assessmentVersions %}
-            {# TODO: need to replace href with real links #}
-            {% set assessmentLink = '<a href="#1" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>' %}
-            {% set sentencePlanLink = '<a href="#2" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>' %}
+          {% for date, versionsOnDate in previousVersions.versions %}
+            {% set assessmentLink %}
+              <a href="#1" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
+            {% endset %}
+            {% set sentencePlanLink %}
+              <a href="#2" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
+            {% endset %}
             {% set row = [
               {
-                html: ( version.updatedAt | formatDateForDisplay ) ~ '<br>Assessment updated'
+                html: date | formatDateForDisplay ~ '<br>' ~ versionsOnDate.description
               },
               {
                 html: assessmentLink
