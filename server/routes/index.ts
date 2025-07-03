@@ -10,9 +10,10 @@ export default function routes(): Router {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
   const app = new App()
-  router.use('/form', app.formRouter)
+  router.use('/form/:mode/:uuid', app.getFormWizardRouter())
+  router.use(App.errorHandler)
   router.use('/config', app.formConfigRouter)
-  router.use('/start', startController)
+  router.use('/start', startController) // viewing or editing the latest version
 
   get('/', (req, res, next) => {
     res.render('pages/index')

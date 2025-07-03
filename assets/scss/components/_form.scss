@@ -92,3 +92,9 @@
     grid-area: 1 / 1 / 2 / 2;
   }
 }
+
+.back-link{
+  &--previous-versions{
+    margin-top: govuk-spacing(-5);
+  }
+}

@@ -8,7 +8,6 @@ import {
   displayDateForToday,
   getMaxCharacterCount,
   getRenderedFields,
-  isInEditMode,
   outdent,
   practitionerAnalysisStarted,
   setProp,
@@ -92,8 +91,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('setProp', setProp)
 
   njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
-
-  njkEnv.addFilter('isInEditMode', isInEditMode)
 
   njkEnv.addGlobal('practitionerAnalysisStarted', practitionerAnalysisStarted)
 

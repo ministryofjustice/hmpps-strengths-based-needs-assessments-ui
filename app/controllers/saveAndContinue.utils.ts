@@ -118,5 +118,3 @@ export const flattenAnswers = (answers: Record<string, AnswerDto>): FormWizard.A
       [key]: data,
     }
   }, {})
-
-export const isReadOnly = (user: HandoverPrincipal) => user.accessMode === 'READ_ONLY'

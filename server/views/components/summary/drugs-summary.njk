@@ -4,7 +4,7 @@
 {%- macro renderDrugsSummary(drugUseField, sessionData, summaryFields) -%}
   {{ renderTopLevelField(drugUseField, sessionData) }}
 
-  {% set drugsSummary = generateDrugsSummary(summaryFields.singleFields, sessionData.user) %}
+  {% set drugsSummary = generateDrugsSummary(summaryFields.singleFields, isInEditMode) %}
 
   {% set hasUsedDrugs = false %}
   {% for answer in drugUseField.answers %}
