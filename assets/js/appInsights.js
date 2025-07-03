@@ -65,4 +65,6 @@ document.initialiseTelemetry = (
   document.addEventListener('paste', (e) => {
     ['textarea', 'text'].includes(e.target.type) && trackEvent('USER_PASTE', { QUESTION_CODE: e.target.name })
   })
+
+  window.addEventListener('afterprint', (e) => trackEvent('USER_PRINT'))
 }
