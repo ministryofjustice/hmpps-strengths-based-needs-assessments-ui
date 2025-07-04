@@ -17,6 +17,7 @@ const stepUrls = {
 
   summary: 'drug-use-summary',
   analysis: 'drug-use-analysis',
+  analysisComplete: 'drug-use-analysis-complete',
 }
 
 const sectionHeading = 'Drug use background'
@@ -184,20 +185,24 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.summary,
-      pageCaption: 'Drug use',
-      pageHeading: 'Practitioner analysis',
-      fields: [
-        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop,
-        drugsUseFields.practitionerAnalysis(),
-        drugsUseFields.isUserSubmitted(stepUrls.summary),
-        drugsUseFields.sectionComplete(),
-      ].flat(),
-      next: `${stepUrls.analysis}#practitioner-analysis`,
-      template: templates.analysisIncomplete,
-      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      next: stepUrls.analysis,
+      template: templates.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.analysis,
+      fields: [
+        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop,
+        drugsUseFields.practitionerAnalysis(),
+        drugsUseFields.isUserSubmitted(stepUrls.analysis),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      template: templates.analysisIncomplete,
+      next: stepUrls.analysisComplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
       template: templates.analysisComplete,
     },
   ],
