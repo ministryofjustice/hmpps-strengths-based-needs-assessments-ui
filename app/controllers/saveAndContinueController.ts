@@ -88,11 +88,8 @@ class SaveAndContinueController extends BaseController {
         if (isSectionComplete) {
           if (req.query.action === 'resume') {
             if (req.route.path.endsWith('-analysis')) {
-              // return res.redirect(
-              //   `${req.baseUrl}/${pageNavigation.stepsTaken.find(it => it.endsWith('-analysis'))}`,
-              // )
-              // return res.redirect(`${pageNavigation.url}?action=resume`)
-              // TODO no good here because it skips the telemetry below
+              // TODO all of these redirect lines need instead to be assigned to a variable so the redirect can happen after telemetry is sent
+              // then use fallthrough to super.configure(req, res, next)
               return await super.configure(req, res, next)
             }
             return res.redirect(`${req.baseUrl}/${pageNavigation.stepsTaken.find(it => it.endsWith('-summary'))}`)
@@ -231,6 +228,7 @@ class SaveAndContinueController extends BaseController {
       )
       res.locals.sectionProgress = sectionProgress
       res.locals.assessmentIsComplete = this.checkAssessmentComplete(sectionProgress)
+      res.locals.isReadyToBeMarkedAsComplete = true
 
       return super.getValues(req, res, next)
     } catch (error) {
