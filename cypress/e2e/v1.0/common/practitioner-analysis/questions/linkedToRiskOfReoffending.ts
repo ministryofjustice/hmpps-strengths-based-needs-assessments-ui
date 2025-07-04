@@ -43,7 +43,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasLimit(config.characterLimit.c1000)
-        .hasValidationError('Enter details')
+        .hasValidationError('Give details on the risk of reoffending')
         .enterText('some  details\n  new line<script>')
       cy.checkAccessibility()
       cy.markAsComplete()
