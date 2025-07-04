@@ -44,7 +44,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
       await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
     }
 
-    return req.session.save(error => {
+    req.session.save(error => {
       if (error) {
         return next(error)
       }
