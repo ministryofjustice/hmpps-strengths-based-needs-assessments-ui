@@ -12,6 +12,7 @@ const stepUrls = {
   neverEmployed: 'never-employed',
   summary: 'employment-education-summary',
   analysis: 'employment-education-analysis',
+  analysisComplete: 'employment-education-analysis-complete',
 }
 
 const employmentStatusGroup = [
@@ -124,17 +125,23 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.summary,
-      fields: [
-        employmentEducationFields.practitionerAnalysis(),
-        employmentEducationFields.isUserSubmitted(stepUrls.summary),
-        employmentEducationFields.sectionComplete(),
-      ].flat(),
       next: stepUrls.analysis,
-      template: templates.analysisIncomplete,
-      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      template: templates.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
       url: stepUrls.analysis,
+      fields: [
+        employmentEducationFields.practitionerAnalysis(),
+        employmentEducationFields.isUserSubmitted(stepUrls.analysis),
+        employmentEducationFields.sectionComplete(),
+      ].flat(),
+      template: templates.analysisIncomplete,
+      next: stepUrls.analysisComplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysisComplete,
       template: templates.analysisComplete,
     },
   ],
