@@ -141,6 +141,7 @@ const setupForm = (form: Form): FormWizardRouter => {
 
 export default class FormRouterBuilder {
   formRouters: Record<string, FormWizardRouter>
+
   formConfigRouter?: express.Router = express.Router()
 
   constructor(routers: Record<string, FormWizardRouter>, latest: FormWizardRouter) {
@@ -158,7 +159,9 @@ export default class FormRouterBuilder {
   }
 
   static configure(...formVersions: Form[]) {
-    const formRouters: Record<string, FormWizardRouter> = Object.fromEntries(formVersions.map(form => [form.options.version, setupForm(form)]))
+    const formRouters: Record<string, FormWizardRouter> = Object.fromEntries(
+      formVersions.map(form => [form.options.version, setupForm(form)]),
+    )
     return new FormRouterBuilder(formRouters, getLatestVersionFrom(Object.values(formRouters)))
   }
 }

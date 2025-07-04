@@ -1,5 +1,5 @@
-import { HandoverPrincipal } from '../services/arnsHandoverService'
 import { Request } from 'express'
+import { HandoverPrincipal } from '../services/arnsHandoverService'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word

@@ -15,6 +15,7 @@ export default class App {
   protected apiService: StrengthsBasedNeedsAssessmentsApiService
 
   formRouters: Record<string, FormWizardRouter>
+
   formConfigRouter: Router
 
   static errorHandler(error: FormWizardError, req: FormWizard.Request, res: Response, next: NextFunction) {
@@ -53,7 +54,7 @@ export default class App {
         throw new ForbiddenError(req)
       }
 
-      res.locals = {...res.locals, assessment}
+      res.locals = { ...res.locals, assessment }
 
       if (!this.formRouters[assessment.metaData.formVersion]) {
         throw new Error(`Form Router not found for version ${assessment.metaData.formVersion}`)

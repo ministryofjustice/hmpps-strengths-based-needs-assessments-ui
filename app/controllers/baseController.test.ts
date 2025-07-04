@@ -4,25 +4,27 @@ import BaseController from './baseController'
 
 describe('BaseController.configure', () => {
   it('redirects to the correct form version when session form version does not match request form version', async () => {
-    const mockReq = {
+    const req = {
       form: {
-        options: { name: 'form:1.0' },
+        options: { name: 'form:1.0', fields: {}, steps: {} },
       },
       session: {
-        sessionData: { formVersion: '2.0' },
+        sessionData: { formVersion: '2.0', user: { accessMode: 'READ_WRITE' } },
       },
+      params: { mode: 'edit' },
       originalUrl: '/form/1/0/step',
-    } as FormWizard.Request
+    } as unknown as FormWizard.Request
 
-    const mockRes = {
+    const res = {
       redirect: jest.fn(),
+      locals: {},
     } as unknown as Response
 
-    const mockNext = jest.fn()
+    const next = jest.fn()
 
     const controller: BaseController = new BaseController({ route: '/' })
-    await controller.configure(mockReq, mockRes, mockNext)
+    await controller.configure(req, res, next)
 
-    expect(mockRes.redirect).toHaveBeenCalledWith('/form/2/0/step')
+    expect(res.redirect).toHaveBeenCalledWith('/form/2/0/step')
   })
 })

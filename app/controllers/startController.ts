@@ -40,10 +40,11 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
 
     const inEditMode = contextData.principal.accessMode === 'READ_WRITE' && !versionUuid
 
-    if (inEditMode)
+    if (inEditMode) {
       await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
+    }
 
-    req.session.save(error => {
+    return req.session.save(error => {
       if (error) {
         return next(error)
       }
