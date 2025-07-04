@@ -45,7 +45,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .getConditionalQuestion()
         .hasTitle('Give details')
         .hasLimit(config.characterLimit.c1425)
-        .hasValidationError(`Give details on strengths or protective factors related to their ${sectionName}`) //turn this into a call for the message
+        .hasValidationError(`Give details on strengths or protective factors related to their ${sectionName}`)
         .enterText('some  details\n  new line<script>')
       cy.checkAccessibility()
       cy.markAsComplete()
