@@ -62,7 +62,7 @@ class SaveAndContinueController extends BaseController {
         const pageNavigation = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,
-        ).getPageNavigation(true, 'accommodation-analysis')
+        ).getPageNavigation()
 
         const getBackLinkFromTrail = (currentStep: string, stepsTaken: string[]) => {
           const currentStepIndex = stepsTaken.indexOf(currentStep)
