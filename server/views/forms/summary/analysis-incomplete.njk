@@ -15,6 +15,10 @@
       {% endif %}
     {% endfor %}
 
+    <!--
+    Needs a new field to be passed in `isReadyToBeMarkedAsComplete` to use as the conditional here.
+    This needs to be generated from the fieldDependencyTreeBuilder by checking all the steps where isLastStep is not true and the nextStep is not x_section_complete
+    -->
     <div class="questiongroup-action-buttons">
       {{ govukButton({
         text: buttonText | default("Mark as complete"),

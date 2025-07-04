@@ -210,6 +210,11 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
+  /**
+   * Loop through the sectionCompleteRules and check if each section is complete.
+   * i.e. check if each x_section_complete field is set to 'YES'.
+   * `Progress` contains a Record of section names and whether they are complete or not in true/false.
+   */
   getAssessmentProgress(formAnswers: FormWizard.Answers, sectionCompleteRules: SectionCompleteRule[]): Progress {
     return sectionCompleteRules.reduce(this.checkProgress(formAnswers), {})
   }

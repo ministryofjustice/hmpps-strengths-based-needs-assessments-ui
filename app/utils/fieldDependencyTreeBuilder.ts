@@ -252,7 +252,7 @@ export class FieldDependencyTreeBuilder {
 
   /**
    * This method calculates the next step URL, the steps taken so far, and whether
-   * the section is complete based on the user's answers and validation results.
+   * the section is complete based on some default conditions - it does **not** process the section complete rules.
    *
    * @returns {{ url: string; stepsTaken: string[]; isSectionComplete: boolean }} -
    * An object containing:
@@ -260,7 +260,7 @@ export class FieldDependencyTreeBuilder {
    * - `stepsTaken`: An array of step URLs that have been traversed.
    * - `isSectionComplete`: A boolean indicating whether the section is complete.
    */
-  getPageNavigation(overrideNextStep?: boolean, overrideNextStepUrl?: string): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
+  getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
@@ -282,6 +282,7 @@ export class FieldDependencyTreeBuilder {
           })
           return err !== null
         })
+
       // TODO I think this is a simplified version of what happens in getAssessmentProgress in saveAndContinueController.ts
       // Because of this, it gives a different answer to the sectionProgress set in saveAndContinueController.getValues()
       // A whole bunch of code like that needs splitting out in Section and Step service classes I think.
@@ -290,10 +291,6 @@ export class FieldDependencyTreeBuilder {
         isSectionComplete = false
         break
       }
-
-      // if (stepUrl === 'accommodation-analysis') {
-      //   break
-      // }
     }
 
     if (steps.length < 2) {
