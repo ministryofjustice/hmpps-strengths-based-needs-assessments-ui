@@ -165,6 +165,7 @@ export default abstract class FieldsFactory {
       FieldsFactory.detailsField({
         parentField: strengthsOrProtectiveFactorsField,
         dependentValue: 'YES',
+        requiredMessage: `Give details on strengths or protective factors related to their ${sectionDisplayName}`,
         required: true,
         maxChars: characterLimits.c1425,
       }),
@@ -177,6 +178,7 @@ export default abstract class FieldsFactory {
       FieldsFactory.detailsField({
         parentField: riskOfSeriousHarmField,
         dependentValue: 'YES',
+        requiredMessage: 'Give details on the risk of serious harm',
         required: true,
         maxChars: characterLimits.c1425,
       }),
@@ -189,6 +191,7 @@ export default abstract class FieldsFactory {
       FieldsFactory.detailsField({
         parentField: riskOfReoffendingField,
         dependentValue: 'YES',
+        requiredMessage: 'Give details on the risk of reoffending',
         required: true,
         maxChars: characterLimits.c1000,
       }),
