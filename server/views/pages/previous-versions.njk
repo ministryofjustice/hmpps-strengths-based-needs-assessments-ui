@@ -25,36 +25,22 @@
           attributes: { "data-browser-back": "" }
           }) }}
         </div>
-        <p>Check versions of {{ subjectDetails.givenName }}'s current assessment and plan. The links will open in a new tab.</p>
+        <p>Check versions of {{ subjectDetails.givenName }}'s current assessment. The links will open in a new tab.</p>
       </div>
       <div class="govuk-grid-column-three-quarters">
           {% set tableRows = [] %}
           {% for date, versionsOnDate in previousVersions.versions %}
-            {% set assessmentLinks = [] %}
-            {% for version in versionsOnDate.assessmentVersions %}
-              {% set link %}
-                <a href="/form/view/{{ version.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
-              {% endset %}
-              {% set assessmentLinks = assessmentLinks.concat(link) %}
-            {% endfor %}
-
-            {% set sentencePlanLinks = [] %}
-            {% for version in versionsOnDate.planVersions %}
-              {% set link %}
-                <a href="/form/view/{{ version.uuid }}" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden">(opens in new tab)</span></a>
-              {% endset %}
-              {% set sentencePlanLinks = sentencePlanLinks.concat(link) %}
-            {% endfor %}
+            {% set lastVersionOfTheDay = versionsOnDate.assessmentVersions | first %}
+            {% set assessmentVersionLink %}
+              <a href="/form/view/{{ lastVersionOfTheDay.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ lastVersionOfTheDay.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
+            {% endset %}
 
             {% set row = [
               {
-                html: date | formatDateForDisplay ~ '<br>' ~ versionsOnDate.description
+                html: date | formatDateForDisplay
               },
               {
-                html: assessmentLinks | join('<br>')
-              },
-              {
-                html: sentencePlanLinks | join('<br>')
+                html: assessmentVersionLink
               }
             ]
             %}
@@ -66,13 +52,10 @@
               firstCellIsHeader: false,
               head: [
                 {
-                  text: "Date and what was updated"
+                  text: "Date"
                 },
                 {
                   text: "Assessment"
-                },
-                {
-                  text: "Sentence plan"
                 }
               ],
               rows: tableRows
