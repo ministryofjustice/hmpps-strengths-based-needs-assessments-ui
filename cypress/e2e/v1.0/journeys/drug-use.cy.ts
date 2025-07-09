@@ -39,6 +39,32 @@ describe('Origin: /drug-use', () => {
     cy.enterAssessment()
   })
 
+  function testDrugUseHistory() {
+    cy.getQuestion('Why does Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
+
+    cy.getQuestion('Why does Sam use drugs?').getCheckbox('Peer pressure or social influence').clickLabel()
+
+    cy.getQuestion('Why does Sam use drugs?').getFollowingDetails().enterText('why sam uses drugs')
+
+    cy.getQuestion("How has Sam's drug use affected their life?").getCheckbox('Behaviour').clickLabel()
+
+    cy.getQuestion("How has Sam's drug use affected their life?")
+      .getFollowingDetails()
+      .enterText('how life has been affected')
+
+    cy.getQuestion('Has anything helped Sam stop or reduce their drug use?').enterText('stop or reduce drug use')
+
+    cy.getQuestion('Does Sam want to make changes to their drug use?')
+      .getRadio('I want to make changes but need help')
+      .clickLabel()
+
+    cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
+    cy.saveAndContinue()
+    cy.assertStepUrlIs(destinations.summary)
+    cy.get('.govuk-back-link').should('not.exist')
+    cy.assertResumeUrlIs(sectionName, destinations.summary)
+  }
+
   describe('No to drug use', () => {
     describe(`Destination: ${destinations.summary}`, () => {
       it(`No drug use routes to "${destinations.summary}"`, () => {
@@ -121,33 +147,7 @@ describe('Origin: /drug-use', () => {
           it(`routes to ${destinations.summary}`, () => {
             cy.visitStep(destinations.drugUseHistory)
 
-            // TODO extract this into common function
-
-            cy.getQuestion('Why does Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
-
-            cy.getQuestion('Why does Sam use drugs?').getCheckbox('Peer pressure or social influence').clickLabel()
-
-            cy.getQuestion('Why does Sam use drugs?').getFollowingDetails().enterText('why sam uses drugs')
-
-            cy.getQuestion("How has Sam's drug use affected their life?").getCheckbox('Behaviour').clickLabel()
-
-            cy.getQuestion("How has Sam's drug use affected their life?")
-              .getFollowingDetails()
-              .enterText('how life has been affected')
-
-            cy.getQuestion('Has anything helped Sam stop or reduce their drug use?').enterText(
-              'stop or reduce drug use',
-            )
-
-            cy.getQuestion('Does Sam want to make changes to their drug use?')
-              .getRadio('I want to make changes but need help')
-              .clickLabel()
-
-            cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
-            cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.summary)
-            cy.get('.govuk-back-link').should('not.exist')
-            cy.assertResumeUrlIs(sectionName, destinations.summary)
+            testDrugUseHistory()
           })
 
           describe(`Test Practitioner Analysis`, () => {
@@ -218,33 +218,7 @@ describe('Origin: /drug-use', () => {
           it(`routes to ${destinations.summary}`, () => {
             cy.visitStep(destinations.drugUseHistory)
 
-            // TODO extract this into common function
-
-            cy.getQuestion('Why does Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
-
-            cy.getQuestion('Why does Sam use drugs?').getCheckbox('Peer pressure or social influence').clickLabel()
-
-            cy.getQuestion('Why does Sam use drugs?').getFollowingDetails().enterText('why sam uses drugs')
-
-            cy.getQuestion("How has Sam's drug use affected their life?").getCheckbox('Behaviour').clickLabel()
-
-            cy.getQuestion("How has Sam's drug use affected their life?")
-              .getFollowingDetails()
-              .enterText('how life has been affected')
-
-            cy.getQuestion('Has anything helped Sam stop or reduce their drug use?').enterText(
-              'stop or reduce drug use',
-            )
-
-            cy.getQuestion('Does Sam want to make changes to their drug use?')
-              .getRadio('I want to make changes but need help')
-              .clickLabel()
-
-            cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
-            cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.summary)
-            cy.get('.govuk-back-link').should('not.exist')
-            cy.assertResumeUrlIs(sectionName, destinations.summary)
+            testDrugUseHistory()
           })
 
           describe(`Test Practitioner Analysis`, () => {
