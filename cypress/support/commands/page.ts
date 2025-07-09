@@ -14,7 +14,8 @@ export const sectionMarkedAsComplete = (section: string) => {
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
     .parent()
-    .find('.govuk-visually-hidden').should('have.text', 'Section complete')
+    .find('.govuk-visually-hidden')
+    .should('have.text', 'Section complete')
 }
 
 export const sectionNotMarkedAsComplete = (section: string) => {
