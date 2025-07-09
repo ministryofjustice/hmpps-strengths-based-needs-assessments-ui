@@ -11,7 +11,7 @@ export const drugsList: Array<Drug> = [
   { value: 'COCAINE', text: 'Cocaine', injectable: true },
   { value: 'CRACK', text: 'Crack cocaine', injectable: true },
   { value: 'ECSTASY', text: 'Ecstasy (MDMA)', injectable: false },
-  { value: 'HALLUCINOGENICS', text: 'Hallucinogenics (including ketamine)', injectable: false },
+  { value: 'HALLUCINOGENICS', text: 'Hallucinogens', injectable: false },
   { value: 'HEROIN', text: 'Heroin', injectable: true },
   { value: 'METHADONE_NOT_PRESCRIBED', text: 'Methadone (not prescribed)', injectable: true },
   { value: 'MISUSED_PRESCRIBED_DRUGS', text: 'Prescribed drugs', injectable: true },
