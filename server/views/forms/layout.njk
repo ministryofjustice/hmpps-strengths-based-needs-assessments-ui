@@ -2,6 +2,7 @@
 {%- from "govuk/components/error-summary/macro.njk" import govukErrorSummary -%}
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
 {%- from "moj/components/banner/macro.njk" import mojBanner -%}
+{%- from "moj/components/alert/macro.njk" import mojAlert -%}
 {% from "../partials/heading.njk" import renderSectionHeading %}
 
 
@@ -24,8 +25,8 @@
   <div class="govuk-width-container">
     {% include "../partials/feedback.njk" %}
     {% include "../partials/offenderDetails.njk" %}
-    {{ renderSectionHeading("Strengths and needs") }}
     {% block notification %}{% endblock %}
+    {{ renderSectionHeading("Strengths and needs") }}
     <div class="govuk-grid-row">
      {% if not isPrivacyScreen %}
       <div class="govuk-grid-column-one-quarter">

@@ -20,6 +20,19 @@
     </div>
   </div>
   {% endif %}
+
+  {% if not isInEditMode %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {{ mojAlert({
+        variant: "information",
+        title: "Assessment version date",
+        dismissible: false,
+        html: '<span class="moj-alert__heading">This version is from ' ~ assessment.metaData.versionUpdatedAt | formatDateForDisplay ~ '</span>'})
+      }}
+    </div>
+  </div>
+  {% endif %}
 {% endblock %}
 
 {% block formContent %}
