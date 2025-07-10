@@ -1,6 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
-import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
+import { FieldType, ValidationType } from '../../server/@types/hmpo-form-wizard/enums'
 import {
+  addAriaRequiredAttributeToRequiredFields,
   combineDateFields,
   formatForNunjucks,
   whereSelectable,
@@ -199,6 +200,86 @@ describe('field.utils', () => {
       expect(result).toEqual({
         date: '',
       })
+    })
+  })
+
+  describe('addAriaRequiredAttributeToRequiredFields', () => {
+    it('adds aria-required attribute to all options except dividers and NONE values', () => {
+      const field = {
+        text: 'Sample text',
+        code: 'sample_code',
+        type: 'radio',
+        validate: [{ type: ValidationType.Required, message: 'Validation error message' }],
+        options: [
+          { text: 'option0', kind: 'option', value: 'SETTLED' } as FormWizard.Field.Option,
+          { kind: 'divider', divider: 'or' } as FormWizard.Field.Divider,
+          { text: 'option2', kind: 'option', value: 'NONE' } as FormWizard.Field.Option,
+        ],
+      }
+
+      const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
+
+      // eslint-disable-next-line array-callback-return
+      modifiedField.options.map((option: FormWizard.Field.Option) => {
+        if (option.kind === 'option' && option.value !== 'NONE') {
+          expect(option.attributes['aria-required']).toEqual(true)
+        } else {
+          expect(option.attributes).toBeUndefined()
+        }
+      })
+    })
+
+    it('preserves existing attributes while adding aria-required', () => {
+      const field = {
+        text: 'Sample text',
+        code: 'sample_code',
+        type: 'radio',
+        validate: [{ type: ValidationType.Required, message: 'Validation error message' }],
+        options: [
+          {
+            text: 'option0',
+            kind: 'option',
+            value: 'SETTLED',
+            attributes: { existing: 'value' },
+          } as FormWizard.Field.Option,
+        ],
+      }
+
+      const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
+
+      expect((modifiedField.options[0] as FormWizard.Field.Option).attributes).toEqual({
+        existing: 'value',
+        'aria-required': true,
+      })
+    })
+
+    it('handles fields with no attributes gracefully', () => {
+      const field = {
+        text: 'Sample text',
+        code: 'sample_code',
+        type: 'radio',
+        validate: [{ type: ValidationType.Required, message: 'Validation error message' }],
+        options: [{ text: 'option0', kind: 'option', value: 'SETTLED' } as FormWizard.Field.Option],
+      }
+
+      const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
+
+      expect((modifiedField.options[0] as FormWizard.Field.Option).attributes).toEqual({
+        'aria-required': true,
+      })
+    })
+
+    it('does not modify attributes of field without ValidationType.Required', () => {
+      const field = {
+        text: 'Sample text',
+        code: 'sample_code',
+        type: 'radio',
+        options: [{ text: 'option0', kind: 'option', value: 'SETTLED' } as FormWizard.Field.Option],
+      }
+
+      const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
+
+      expect((modifiedField.options[0] as FormWizard.Field.Option).attributes).toBeUndefined()
     })
   })
 })
