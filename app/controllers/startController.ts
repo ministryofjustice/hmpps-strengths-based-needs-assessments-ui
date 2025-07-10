@@ -44,7 +44,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
       await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
     }
 
-    req.session.save(error => {
+    return req.session.save(error => {
       if (error) {
         return next(error)
       }
@@ -53,7 +53,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
         : res.redirect(`/form/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
     })
   } catch {
-    next(new Error('Unable to start assessment'))
+    return next(new Error('Unable to start assessment'))
   }
 }
 
