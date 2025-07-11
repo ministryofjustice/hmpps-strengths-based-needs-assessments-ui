@@ -219,8 +219,7 @@ describe('field.utils', () => {
 
       const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
 
-      // eslint-disable-next-line array-callback-return
-      modifiedField.options.map((option: FormWizard.Field.Option) => {
+      modifiedField.options.forEach((option: FormWizard.Field.Option) => {
         if (option.kind === 'option' && option.value !== 'NONE') {
           expect(option.attributes['aria-required']).toEqual(true)
         } else {
