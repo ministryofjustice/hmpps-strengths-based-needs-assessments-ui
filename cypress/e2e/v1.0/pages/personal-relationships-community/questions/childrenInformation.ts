@@ -8,6 +8,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       'Yes, children that live with them',
       'Yes, children that do not live with them',
       'Yes, children that visit them regularly',
+      null,
       "No, there are no children in Sam's life",
     ]
 
@@ -67,6 +68,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('Some text')
       })
     })
+
     it(`no conditional field is displayed for "No, there are no children in Sam's life"`, () => {
       cy.getQuestion(question)
         .getCheckbox("No, there are no children in Sam's life")
@@ -82,6 +84,36 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.assertStepUrlIs(stepUrl)
       cy.assertQuestionUrl(question)
       cy.getQuestion(question).getCheckbox("No, there are no children in Sam's life").isChecked()
+    })
+
+    it('selecting "No" deselects other options', () => {
+      conditionalOptions.forEach(([option, _]) => {
+        cy.getQuestion(question).getCheckbox(option).clickLabel()
+        cy.getQuestion(question).getCheckbox(option).isChecked()
+      })
+
+      cy.getQuestion(question).getCheckbox(options.at(-1)).clickLabel()
+
+      conditionalOptions.forEach(([option, _]) => {
+        cy.getQuestion(question).getCheckbox(option).isNotChecked()
+      })
+
+      cy.checkAccessibility()
+    })
+
+    it('selecting "No" then selecting other options deselects "No"', () => {
+      conditionalOptions.forEach(([option, _]) => {
+        cy.getQuestion(question).getCheckbox(options.at(-1)).clickLabel()
+
+        cy.getQuestion(question).getCheckbox(options.at(-1)).isChecked()
+
+        cy.getQuestion(question).getCheckbox(option).clickLabel()
+
+        cy.getQuestion(question).getCheckbox(option).isChecked()
+
+        cy.getQuestion(question).getCheckbox(options.at(-1)).isNotChecked()
+      })
+      cy.checkAccessibility()
     })
   })
 }
