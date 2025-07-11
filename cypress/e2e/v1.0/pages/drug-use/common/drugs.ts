@@ -10,7 +10,7 @@ export const drugs: DrugData[] = [
   { name: 'Cocaine', injectable: true },
   { name: 'Crack cocaine', injectable: true },
   { name: 'Ecstasy (MDMA)', injectable: false },
-  { name: 'Hallucinogenics (including ketamine)', injectable: false },
+  { name: 'Hallucinogens', injectable: false },
   { name: 'Heroin', injectable: true },
   { name: 'Methadone (not prescribed)', injectable: true },
   { name: 'Prescribed drugs', injectable: true },

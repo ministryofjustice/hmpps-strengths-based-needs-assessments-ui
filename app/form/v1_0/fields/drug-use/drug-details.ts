@@ -24,7 +24,7 @@ const usedLastSixMonths: Array<FormWizard.Field> = drugsList
       validate: [
         {
           type: ValidationType.Required,
-          message: 'Select how often they have used this drug',
+          message: "Select how often they're using this drug",
         },
       ],
       options: ['Daily', 'Weekly', 'Monthly', 'Occasionally'].map(it => ({

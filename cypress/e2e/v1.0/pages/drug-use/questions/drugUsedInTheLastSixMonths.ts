@@ -15,7 +15,7 @@ export default (drug: string, injectable: boolean, stepUrl: string, summaryPage:
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getDrugQuestion(drugName(drug), frequencyQuestion).hasValidationError(
-        'Select how often they have used this drug',
+        "Select how often they're using this drug",
       )
       cy.checkAccessibility()
     })
