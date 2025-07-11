@@ -3,6 +3,7 @@ import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-w
 import { FieldsFactory, utils } from './common'
 import sections from '../config/sections'
 import characterLimits from '../config/characterLimits'
+import { orDivider } from './common/utils'
 
 const childrenInformationHint = `
 <p class="govuk-hint">This refers to any children (under 18 years) [subject] has regular contact with, even if they do not have parental responsibility.</p>
@@ -29,7 +30,13 @@ class PersonalRelationshipsFieldsFactory extends FieldsFactory {
         kind: 'option',
       },
       { text: 'Yes, children that visit them regularly', value: 'YES_CHILDREN_VISITING', kind: 'option' },
-      { text: "No, there are no children in [subject]'s life", value: 'NO_CHILDREN', kind: 'option' },
+      orDivider,
+      {
+        text: "No, there are no children in [subject]'s life",
+        value: 'NO_CHILDREN',
+        kind: 'option',
+        behaviour: 'exclusive',
+      },
     ],
     labelClasses: utils.getLargeLabelClassFor(FieldType.CheckBox),
   }
