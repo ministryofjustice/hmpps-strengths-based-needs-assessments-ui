@@ -15,7 +15,7 @@
           {{ loop.index | ordinalWordFromNumber | capitalize }}
           {{ summary.field.collection.subject }}
         </h3>
-        {% if sessionData.user | isInEditMode %}
+        {% if isInEditMode %}
           <div class="collection-summary-list__actions">
             <div>
               <a class="govuk-link change-entry" href="{{ summary.field.collection.updateUrl }}/{{ loop.index - 1 }}">
@@ -84,7 +84,7 @@
   {% endfor %}
 {%- endmacro -%}
 
-{%- macro renderTopLevelField(summary, sessionData) -%}
+{%- macro renderTopLevelField(summary, sessionData, isInEditMode) -%}
   <div class="govuk-summary-list__row summary-list__row">
     <dt class="govuk-summary-list__key summary-list__key">
       <span class="summary__label">{{ summary.field.text }}</span>
@@ -101,7 +101,7 @@
 
       </ul>
     </dd>
-    {% if sessionData.user | isInEditMode %}
+    {% if isInEditMode %}
       <dd class="govuk-summary-list__actions summary-list__actions">
         <a class="govuk-link" href="{{ summary.changeLink }}">
           Change<span class="govuk-visually-hidden">value for {{ summary.field.text }}</span>

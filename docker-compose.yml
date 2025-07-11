@@ -89,7 +89,7 @@ services:
       - ./docker/healthcheck.js:/app/docker/healthcheck.js
 
   coordinator-api:
-    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:latest
+    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:2025-06-26.8.2eb8e7a
     networks:
       - hmpps
     depends_on:
@@ -166,6 +166,7 @@ services:
       HANDOVER_CLIENT_SECRET: san-secret
       SESSION_SECRET: sessionsecret
       SBNA_API_URL: http://san-api:8080
+      COORDINATOR_API_URL: http://coordinator-api:8080
       INGRESS_URL: http://localhost:3000
       HTTPS: false
       NODE_ENV: development

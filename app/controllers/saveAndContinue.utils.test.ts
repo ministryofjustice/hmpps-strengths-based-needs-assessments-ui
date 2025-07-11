@@ -1,7 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import { AnswerDto } from '../../server/services/strengthsBasedNeedsService'
 import { Field, FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
-import { buildRequestBody, flattenAnswers, isReadOnly, toAnswerDtoOption } from './saveAndContinue.utils'
+import { buildRequestBody, flattenAnswers, toAnswerDtoOption } from './saveAndContinue.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 
 jest.mock('../utils/fieldDependencyTreeBuilder')
@@ -169,26 +169,6 @@ describe('saveAndContinue.utils', () => {
           checked: true,
         }),
       ).toEqual({ value: 'FOO', text: 'Foo' })
-    })
-  })
-
-  describe('isReadOnly', () => {
-    it('returns true when the user is in read-only mode', () => {
-      expect(
-        isReadOnly({
-          identifier: 'TEST_USER',
-          displayName: 'Test user',
-          accessMode: 'READ_ONLY',
-        }),
-      ).toEqual(true)
-
-      expect(
-        isReadOnly({
-          identifier: 'TEST_USER',
-          displayName: 'Test user',
-          accessMode: 'READ_WRITE',
-        }),
-      ).toEqual(false)
     })
   })
 })

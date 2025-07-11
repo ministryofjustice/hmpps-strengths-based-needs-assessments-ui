@@ -31,6 +31,10 @@ To install dependencies locally, run:
 
 `make dev-update`
 
+This application patches dependencies, to ensure they're **patched in the Docker image** run:
+
+`make dev-build`
+
 To start the UI in development mode with live-reload enabled, run:
 
 `make dev-up`

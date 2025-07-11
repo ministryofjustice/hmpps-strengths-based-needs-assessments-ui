@@ -30,7 +30,8 @@ describe('Auto save', () => {
 
     cy.hasAutosaveEnabled()
 
-    cy.intercept('POST', '/form/1/0/current-accommodation?jsonResponse=true').as('post')
+    const { assessmentId } = Cypress.env('last_assessment')
+    cy.intercept('POST', `/form/edit/${assessmentId}/current-accommodation?jsonResponse=true`).as('post')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
 

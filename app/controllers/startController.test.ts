@@ -1,53 +1,76 @@
 import { NextFunction, Request, Response } from 'express'
 import startController from './startController'
-import { AssessmentResponse } from '../../server/services/strengthsBasedNeedsService'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  AssessmentResponse,
+} from '../../server/services/strengthsBasedNeedsService'
+import ArnsHandoverService from '../../server/services/arnsHandoverService'
 
-jest.mock('./saveAndContinue.utils', () => ({
-  isReadOnly: jest.fn(() => false),
-}))
+jest.mock('../../server/services/strengthsBasedNeedsService')
 
-jest.mock('../../server/services/strengthsBasedNeedsService', () => {
-  return jest.fn().mockImplementation(() => ({
-    fetchAssessment: jest.fn().mockResolvedValue({
-      assessment: {},
-      metaData: { formVersion: '1.0' },
-    } as AssessmentResponse),
-  }))
-})
-
-jest.mock('../../server/services/arnsHandoverService', () => {
-  return jest.fn().mockImplementation(() => ({
-    getContextData: jest.fn().mockResolvedValue({
-      assessmentContext: { assessmentId: 'mockAssessmentId' },
-      principal: { accessMode: 'READ_WRITE' },
-      handoverSessionId: 'mockSessionId',
-      subject: {},
-    }),
-  }))
-})
+jest.mock('../../server/services/arnsHandoverService')
 
 describe('startController', () => {
-  const saveMock = jest.fn(cb => cb())
-
-  const sessionMock = {
-    save: saveMock,
+  const session = {
+    save: jest.fn(),
   }
 
-  const mockReq = {
-    session: sessionMock,
+  const req = {
+    session,
+    params: {},
   } as unknown as Request
 
-  const mockRes = {
+  const res = {
     locals: { user: { token: 'mockToken' } },
     redirect: jest.fn(),
   } as unknown as Response
 
-  const mockNext = jest.fn() as NextFunction
+  const next = jest.fn() as NextFunction
+
+  const assessmentUUID = crypto.randomUUID()
+  const assessmentVersionUUID = crypto.randomUUID()
+
+  beforeEach(() => {
+    ;(ArnsHandoverService.prototype.getContextData as jest.Mock).mockReset()
+    ;(StrengthsBasedNeedsAssessmentsApiService.prototype.fetchAssessment as jest.Mock).mockResolvedValue({
+      assessment: {},
+      metaData: { formVersion: '1.0', uuid: assessmentUUID },
+    } as AssessmentResponse)
+    ;(StrengthsBasedNeedsAssessmentsApiService.prototype.fetchAssessmentVersion as jest.Mock).mockResolvedValue({
+      assessment: {},
+      metaData: { formVersion: '1.0', uuid: assessmentUUID, versionUuid: assessmentVersionUUID },
+    } as AssessmentResponse)
+
+    res.redirect = jest.fn()
+    session.save = jest.fn(cb => cb())
+  })
 
   it('redirects to the edit mode landing page when user is not in read-only mode', async () => {
-    await startController(mockReq, mockRes, mockNext)
+    ;(ArnsHandoverService.prototype.getContextData as jest.Mock).mockResolvedValue({
+      assessmentContext: { assessmentId: assessmentUUID },
+      principal: { accessMode: 'READ_WRITE' },
+      handoverSessionId: 'mockSessionId',
+      subject: {},
+    })
 
-    expect(saveMock).toHaveBeenCalled()
-    expect(mockRes.redirect).toHaveBeenCalledWith('/form/1/0/close-anything-not-needed-before-appointment')
+    await startController(req, res, next)
+
+    expect(session.save).toHaveBeenCalled()
+    expect(res.redirect).toHaveBeenCalledWith(
+      `/form/edit/${assessmentUUID}/close-anything-not-needed-before-appointment`,
+    )
+  })
+
+  it('redirects to the view mode landing page when user is in read-only mode', async () => {
+    ;(ArnsHandoverService.prototype.getContextData as jest.Mock).mockResolvedValue({
+      assessmentContext: { assessmentId: assessmentUUID },
+      principal: { accessMode: 'READ_ONLY' },
+      handoverSessionId: 'mockSessionId',
+      subject: {},
+    })
+
+    await startController({ ...req, params: { uuid: assessmentVersionUUID } } as unknown as Request, res, next)
+
+    expect(session.save).toHaveBeenCalled()
+    expect(res.redirect).toHaveBeenCalledWith(`/form/view/${assessmentVersionUUID}/accommodation-analysis`)
   })
 })
