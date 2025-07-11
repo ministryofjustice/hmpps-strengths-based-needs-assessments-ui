@@ -32,7 +32,7 @@ const removeQueryParamsFrom = (urlWithParams: string) => {
   return url
 }
 
-interface NavigationItem {
+export interface NavigationItem {
   url: string
   section: string
   label: string
@@ -63,7 +63,7 @@ export const createNavigation = (
     })
 }
 
-type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
+export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 export const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
   const sectionRules: Record<string, string[]> = Object.values(steps)
