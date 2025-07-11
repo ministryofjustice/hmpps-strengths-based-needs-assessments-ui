@@ -10,11 +10,11 @@
       {% case 'not_used_in_last_six_months_details' %}
       {% case 'drugs_injected' %}
       {% default %}
-        {{ renderTopLevelField(summary, sessionData) }}
+        {{ renderTopLevelField(summary, sessionData, isInEditMode) }}
     {% endswitch %}
   </dl>
 {% endfor %}
 
 {% for collectionSummary in summaryFields.collectionFields %}
-  {{ renderCollection(collectionSummary, sessionData, errors) }}
+  {{ renderCollection(collectionSummary, sessionData, errors, isInEditMode) }}
 {% endfor %}

@@ -36,7 +36,7 @@
                 {{ field.text }}
               </legend>
               {% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers, collectionOnly: true}) %}
-              {{ renderSummaryFields(summaryFields, sessionData, errors) }}
+              {{ renderSummaryFields(summaryFields, sessionData, errors, isInEditMode) }}
             </fieldset>
           </div>
 

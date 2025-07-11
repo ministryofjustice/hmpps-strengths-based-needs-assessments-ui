@@ -58,7 +58,7 @@
     <div class="govuk-tabs__panel summary__panel" id="summary">
       <form id="form" method="post">
         <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-        {{ renderSummaryFields(summaryFields, sessionData) }}
+        {{ renderSummaryFields(summaryFields, sessionData, errors, isInEditMode) }}
       </form>
     {% if shouldShowAnalaysis %}
       <div class="questiongroup-action-buttons summary-action-buttons">

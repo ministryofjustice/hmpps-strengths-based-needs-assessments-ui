@@ -2,7 +2,7 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {%- macro renderDrugsSummary(drugUseField, sessionData, summaryFields) -%}
-  {{ renderTopLevelField(drugUseField, sessionData) }}
+  {{ renderTopLevelField(drugUseField, sessionData, isInEditMode) }}
 
   {% set drugsSummary = generateDrugsSummary(summaryFields.singleFields, isInEditMode) %}
 
@@ -44,7 +44,7 @@
       <dd class="govuk-!-margin-left-0">
         <dl class="govuk-summary-list summary-list">
           {% for otherField in drugsSummary.otherFields %}
-            {{ renderTopLevelField(otherField, sessionData) }}
+            {{ renderTopLevelField(otherField, sessionData, isInEditMode) }}
           {% endfor %}
         </dl>
       </dd>
