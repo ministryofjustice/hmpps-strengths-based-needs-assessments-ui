@@ -8,8 +8,10 @@ export const sectionMarkedAsComplete = (section: string) => {
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
     .parent()
-    .find('.section-complete')
-    .should('be.visible')
+    .within(() => {
+      cy.get('.section-complete').should('be.visible')
+      cy.get('.govuk-visually-hidden').should('have.text', 'Section complete')
+    })
 }
 
 export const sectionNotMarkedAsComplete = (section: string) => {
