@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import nunjucks from 'nunjucks'
-import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
+import { FieldType, ValidationType } from '../../server/@types/hmpo-form-wizard/enums'
 import CookieSessionObject = CookieSessionInterfaces.CookieSessionObject
 
 export const whereSelectable = (o: FormWizard.Field.Option | FormWizard.Field.Divider): o is FormWizard.Field.Option =>
@@ -232,3 +232,25 @@ export const dependencyMet = (field: FormWizard.Field, answers: FormWizard.Answe
 }
 
 export const isPractitionerAnalysisField = (field: string) => field.includes('_practitioner_analysis_')
+
+export const addAriaRequiredAttributeToRequiredFields = () => (field: FormWizard.Field) => {
+  // Only add aria-required if the field has a required validator
+  const hasRequiredValidator = field.validate?.some(v => 'type' in v && v?.type === ValidationType.Required) || false
+
+  if (!hasRequiredValidator) return field
+
+  const modifiedField = { ...field }
+
+  modifiedField.options = (field.options || []).map(option => {
+    if (option.kind === 'divider' || option.value === 'NONE') return option
+    return {
+      ...option,
+      attributes: {
+        ...(option.attributes || {}),
+        'aria-required': true,
+      },
+    }
+  })
+
+  return modifiedField
+}
