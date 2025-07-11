@@ -59,6 +59,8 @@ e2e-fixtures: get-cypress ## Runs all *.fixture.ts test files to generate JSON f
 
 clean: ## Stops and removes all project containers. Deletes local build/cache directories.
 	docker compose down
+	docker images -q --filter=reference="ghcr.io/ministryofjustice/*:local" | xargs -r docker rmi
+	docker volume ls -qf "dangling=true" | xargs -r docker volume rm
 	rm -rf dist node_modules test_results
 
 update: ## Downloads the latest versions of container images.
