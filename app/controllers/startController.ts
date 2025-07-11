@@ -28,7 +28,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
       : await apiService.fetchAssessment(contextData.assessmentContext.assessmentId)
 
     if (assessment.metaData.uuid !== contextData.assessmentContext.assessmentId) {
-      return next(new ForbiddenError(req))
+      throw new ForbiddenError(req)
     }
 
     req.session.sessionData = {
@@ -44,16 +44,18 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
       await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)
     }
 
-    return req.session.save(error => {
+    req.session.save(error => {
       if (error) {
-        return next(error)
+        throw error
       }
-      return inEditMode
-        ? res.redirect(`/form/edit/${assessment.metaData.uuid}/${editModeLandingPage}`)
-        : res.redirect(`/form/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
+      if (inEditMode) {
+        res.redirect(`/form/edit/${assessment.metaData.uuid}/${editModeLandingPage}`)
+      } else {
+        res.redirect(`/form/view/${assessment.metaData.versionUuid}/${readOnlyModeLandingPage}`)
+      }
     })
   } catch {
-    return next(new Error('Unable to start assessment'))
+    next(new Error('Unable to start assessment'))
   }
 }
 
