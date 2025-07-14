@@ -107,7 +107,6 @@ class SaveAndContinueController extends BaseController {
         },
         sessionData,
         subjectDetails,
-        isInEditMode: isInEditMode(sessionData.user, req),
         form: {
           ...res.locals.form,
           section: req.form.options.section,

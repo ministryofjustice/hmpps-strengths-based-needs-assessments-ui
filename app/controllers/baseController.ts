@@ -138,7 +138,12 @@ class BaseController extends FormWizard.Controller {
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
-    return super.locals(req, res, next)
+    const sessionData = req.session.sessionData as SessionData
+    res.locals = {
+      ...res.locals,
+      isInEditMode: isInEditMode(sessionData.user, req),
+    }
+    await super.locals(req, res, next)
   }
 }
 
