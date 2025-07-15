@@ -28,14 +28,11 @@ describe('startController', () => {
 
   const assessmentUUID = crypto.randomUUID()
   const assessmentVersionUUID = crypto.randomUUID()
+  const fetchAssessment = StrengthsBasedNeedsAssessmentsApiService.prototype.fetchAssessment as jest.Mock
 
   beforeEach(() => {
     ;(ArnsHandoverService.prototype.getContextData as jest.Mock).mockReset()
-    ;(StrengthsBasedNeedsAssessmentsApiService.prototype.fetchAssessment as jest.Mock).mockResolvedValue({
-      assessment: {},
-      metaData: { formVersion: '1.0', uuid: assessmentUUID },
-    } as AssessmentResponse)
-    ;(StrengthsBasedNeedsAssessmentsApiService.prototype.fetchAssessmentVersion as jest.Mock).mockResolvedValue({
+    fetchAssessment.mockReset().mockResolvedValue({
       assessment: {},
       metaData: { formVersion: '1.0', uuid: assessmentUUID, versionUuid: assessmentVersionUUID },
     } as AssessmentResponse)
@@ -58,19 +55,21 @@ describe('startController', () => {
     expect(res.redirect).toHaveBeenCalledWith(
       `/form/edit/${assessmentUUID}/close-anything-not-needed-before-appointment`,
     )
+    expect(fetchAssessment).toHaveBeenCalledWith(assessmentUUID, undefined)
   })
 
   it('redirects to the view mode landing page when user is in read-only mode', async () => {
     ;(ArnsHandoverService.prototype.getContextData as jest.Mock).mockResolvedValue({
-      assessmentContext: { assessmentId: assessmentUUID },
+      assessmentContext: { assessmentId: assessmentUUID, assessmentVersion: 3 },
       principal: { accessMode: 'READ_ONLY' },
       handoverSessionId: 'mockSessionId',
       subject: {},
     })
 
-    await startController({ ...req, params: { uuid: assessmentVersionUUID } } as unknown as Request, res, next)
+    await startController(req, res, next)
 
     expect(session.save).toHaveBeenCalled()
     expect(res.redirect).toHaveBeenCalledWith(`/form/view/${assessmentVersionUUID}/accommodation-analysis`)
+    expect(fetchAssessment).toHaveBeenCalledWith(assessmentUUID, 3)
   })
 })
