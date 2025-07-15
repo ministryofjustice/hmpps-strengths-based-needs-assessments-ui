@@ -10,6 +10,12 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
     it('displays and validates the question', () => {
       cy.getQuestion(question)
+        .getRadio(options.settled)
+        .get('.govuk-radios__input')
+        .first()
+        .should('have.attr', 'aria-required')
+
+      cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
         .hasRadios([options.settled, options.temporary, options.noAccommodation])
 

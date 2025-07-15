@@ -5,6 +5,7 @@ import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
 import { SessionData, userDetailsFromSession } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import {
+  addAriaRequiredAttributeToRequiredFields,
   compileConditionalFields,
   fieldsById,
   withPlaceholdersFrom,
@@ -120,7 +121,11 @@ class SaveAndContinueController extends BaseController {
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )
-      const fieldsWithStateAwareTransform = fieldsWithReplacements.map(withStateAwareTransform(req.session, answers))
+      const fieldsWithRequiredAttributes = fieldsWithReplacements.map(addAriaRequiredAttributeToRequiredFields())
+
+      const fieldsWithStateAwareTransform = fieldsWithRequiredAttributes.map(
+        withStateAwareTransform(req.session, answers),
+      )
       const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithStateAwareTransform, {
         action: res.locals.action,
         errors: res.locals.errors,
