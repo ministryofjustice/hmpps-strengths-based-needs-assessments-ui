@@ -1,6 +1,6 @@
 {% extends "./layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "components/summary/macro.njk" import renderSummaryFields %}
+{% from "components/summary/macro.njk" import renderSummaryFields with context %}
 
 {% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers}) %}
 {% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
@@ -58,7 +58,7 @@
     <div class="govuk-tabs__panel summary__panel" id="summary">
       <form id="form" method="post">
         <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
-        {{ renderSummaryFields(summaryFields, sessionData, errors, isInEditMode) }}
+        {{ renderSummaryFields(summaryFields) }}
       </form>
     {% if shouldShowAnalaysis %}
       <div class="questiongroup-action-buttons summary-action-buttons">

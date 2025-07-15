@@ -22,10 +22,10 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     const accessToken = res.locals.user.token
     const contextData = await arnsHandoverService.getContextData(accessToken)
 
-    const versionUuid = req.params.uuid
-    const assessment = versionUuid
-      ? await apiService.fetchAssessmentVersion(versionUuid)
-      : await apiService.fetchAssessment(contextData.assessmentContext.assessmentId)
+    const assessment = await apiService.fetchAssessment(
+      contextData.assessmentContext.assessmentId,
+      contextData.assessmentContext.assessmentVersion
+    )
 
     if (assessment.metaData.uuid !== contextData.assessmentContext.assessmentId) {
       throw new ForbiddenError(req)
@@ -38,7 +38,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     }
     req.session.subjectDetails = contextData.subject
 
-    const inEditMode = contextData.principal.accessMode === 'READ_WRITE' && !versionUuid
+    const inEditMode = contextData.principal.accessMode === 'READ_WRITE'
 
     if (inEditMode) {
       await setSexuallyMotivatedOffenceHistory(assessment, contextData.subject, req.session.sessionData as SessionData)

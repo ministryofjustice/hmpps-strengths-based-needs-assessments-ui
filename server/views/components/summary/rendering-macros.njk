@@ -1,7 +1,7 @@
 {% from "../modal.njk" import renderModal %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{%- macro renderCollection(summary, sessionData, errors) -%}
+{%- macro renderCollection(summary) -%}
   {% set collectionErrors = errors[summary.field.code].messageGroup | default({}) %}
   {% for entry in summary.answers %}
     {% set entryErrorKey = ["entry-", loop.index0] | join %}
@@ -70,7 +70,7 @@
   {% endfor %}
 {%- endmacro -%}
 
-{%- macro renderCollectionValidationErrors(summaryField, errors) -%}
+{%- macro renderCollectionValidationErrors(summaryField) -%}
   {% if errors[summaryField.field.code] %}
     <p class="govuk-error-message">
       <span class="govuk-visually-hidden">Error:</span>
@@ -79,12 +79,12 @@
   {% endif %}
   {% for answer in summaryField.answers %}
     {% for nestedField in answer.nestedFields %}
-      {{ renderCollectionValidationErrors(nestedField, errors) }}
+      {{ renderCollectionValidationErrors(nestedField) }}
     {% endfor %}
   {% endfor %}
 {%- endmacro -%}
 
-{%- macro renderTopLevelField(summary, sessionData, isInEditMode) -%}
+{%- macro renderTopLevelField(summary) -%}
   <div class="govuk-summary-list__row summary-list__row">
     <dt class="govuk-summary-list__key summary-list__key">
       <span class="summary__label">{{ summary.field.text }}</span>
@@ -120,7 +120,7 @@
         {% for answer in summaryField.answers %}
           <li class="summary-details-list">
             <span class="summary__answer--secondary">{{ answer | display | safe }}</span>
-            {{ renderNestedFields(answer.nestedFields, fieldError.messageGroup) }}
+            {{ renderNestedFields(answer.nestedFields) }}
           </li>
         {% endfor %}
       </ul>

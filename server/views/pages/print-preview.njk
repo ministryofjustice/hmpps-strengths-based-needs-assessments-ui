@@ -1,6 +1,6 @@
 {% extends "print-layout.njk" %}
 {% from "components/moj-crest/macro.njk" import renderMojCrest %}
-{% from "components/summary/macro.njk" import renderSummaryFields %}
+{% from "components/summary/macro.njk" import renderSummaryFields with context %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 
@@ -85,13 +85,13 @@
           {% if sectionStarted %}
             <div class="summary-section">
               <h3 class="govuk-heading-m summary-section-header__subtitle">Summary</h3>
-              {{ renderSummaryFields(summaryFields, sessionData, isInEditMode) }}
+              {{ renderSummaryFields(summaryFields) }}
             </div>
             {% set analysisSummaryFields = getAnalysisSummaryFields({section: section.code, allFields: options.allFields, steps: options.steps, answers: answers}) %}
             {% if analysisSummaryFields.singleFields.length > 0 %}
               <div class="summary-section">
                 <h3 class="govuk-heading-m summary-section-header__subtitle">Practitioner analysis</h3>
-                {{ renderSummaryFields(analysisSummaryFields, sessionData, errors, isInEditMode) }}
+                {{ renderSummaryFields(analysisSummaryFields) }}
               </div>
             {% endif %}
           {% endif %}
