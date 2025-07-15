@@ -24,7 +24,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
 
     const assessment = await apiService.fetchAssessment(
       contextData.assessmentContext.assessmentId,
-      contextData.assessmentContext.assessmentVersion
+      contextData.assessmentContext.assessmentVersion,
     )
 
     if (assessment.metaData.uuid !== contextData.assessmentContext.assessmentId) {
