@@ -23,7 +23,7 @@ services:
     ports:
       - "9090:9090"
 
-  oasys-ui:
+  oastub:
     ports:
       - "7072:3000"
 
