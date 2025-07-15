@@ -19,7 +19,7 @@ type VersionsOnDate = {
   planVersions: VersionDetails[]
 }
 
-type VersionsResponse = {
+export type VersionsResponse = {
   versions: Record<string, VersionsOnDate>
 }
 

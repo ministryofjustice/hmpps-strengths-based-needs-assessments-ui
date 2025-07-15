@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import SaveAndContinueController from './saveAndContinueController'
 import { SessionData } from '../../server/services/strengthsBasedNeedsService'
-import CoordinatorApiService from '../../server/services/CoordinatorService'
+import CoordinatorApiService from '../../server/services/coordinatorService'
 
 export default class ViewVersionListController extends SaveAndContinueController {
   protected coordinatorService: CoordinatorApiService
