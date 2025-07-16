@@ -1,70 +1,48 @@
-import { Fixture } from '../../support/commands/fixture'
-import { AccessMode } from '../../support/commands/api'
-
-describe('read-only mode', () => {
+describe('previous versions page', () => {
   before(() => {
-    cy.loadFixture(Fixture.CompleteAssessment)
-    cy.lockAssessment()
+    cy.createAssessmentWithVersions(5)
+  })
+
+  beforeEach(() => {
     cy.enterAssessment()
-    cy.sectionMarkedAsComplete('Finance')
-    cy.visitStep('/finance')
-    cy.getQuestion('Does Sam want to make changes to their finances?')
-      .getRadio('I am actively making changes')
-      .clickLabel()
-    cy.getQuestion('Does Sam want to make changes to their finances?')
-      .getRadio('I am actively making changes')
-      .getConditionalQuestion()
-      .enterText('This is the latest version')
-    cy.saveAndContinue()
-    cy.sectionNotMarkedAsComplete('Finance')
   })
 
-  it('latest assessment version is accessed in read-only mode', () => {
-    cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
-    cy.sectionNotMarkedAsComplete('Finance')
-    cy.visitSection('Finance')
-    cy.getSummary('Does Sam want to make changes to their finances?')
-      .getAnswer('I am actively making changes')
-      .hasSecondaryAnswer('This is the latest version')
-  })
+  it('lists all previous versions', () => {
+    cy.get('.offender-details__bottom [data-previous-versions-link]')
+      .should('contain.text', 'View Previous Versions')
+      .click()
+    cy.assertStepUrlIs('previous-versions')
+    cy.get('p')
+      .contains(`Check versions of Sam's current assessment. The links will open in a new tab.`)
+      .should('be.visible')
+      .and('have.length', 1)
+    cy.get('.govuk-table').should('be.visible').and('have.length', 1)
+    cy.get('thead th').should('have.length', 2)
+    cy.get('thead th').eq(0).should('contain.text', 'Date')
+    cy.get('thead th').eq(1).should('contain.text', 'Assessment')
 
-  it('previous assessment version is accessed in read-only mode', () => {
-    cy.enterAssessment(AccessMode.READ_ONLY, { assessmentVersion: 0 }, false)
-    cy.sectionMarkedAsComplete('Finance')
-    cy.visitSection('Finance')
-    cy.get('html').contains('This is the latest version').should('not.exist')
-  })
+    cy.get('tbody tr').should('have.length', 5)
+    cy.get('tbody tr').each((_el, index) => {
+      const columns = `tbody tr:nth-child(${index + 1}) td`
+      cy.get(columns).should('have.length', 2)
 
-  it('part-complete assessment is accessed in read-only mode', () => {
-    cy.enterAssessment()
-    cy.sectionMarkedAsComplete('Drug use')
+      const today = new Date()
+      const expectedDate = new Date(today.setDate(today.getDate() - index)).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
+      cy.get(columns).eq(0).should('contain.text', expectedDate)
+      cy.get(columns).eq(1).find('a').should('contain.text', 'View').as('view-link')
 
-    cy.visitSection('Drug use')
-    cy.getSummary('Has Sam ever misused drugs?').clickChange()
-    cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
-    cy.saveAndContinue()
+      cy.get('@view-link').should('have.attr', 'target').and('equal', '_blank')
+      cy.get('@view-link').invoke('attr', 'target', '_self').click()
+      cy.assertStepUrlIsNot('previous-versions')
 
-    cy.sectionNotMarkedAsComplete('Drug use')
-    cy.assertResumeUrlIs('Drug use', '/add-drugs')
+      cy.get('.moj-alert--information').contains(`This version is from ${expectedDate}`)
 
-    cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
-    cy.sectionNotMarkedAsComplete('Drug use')
-    cy.visitSection('Drug use')
-    cy.assertStepUrlIs('/drug-use-analysis')
-  })
-
-  it('latest version is no longer accessible when soft-deleted', () => {
-    cy.softDeleteAssessment(1)
-
-    Array.of(AccessMode.READ_ONLY, AccessMode.READ_WRITE).forEach(accessMode => {
-      if (accessMode === AccessMode.READ_WRITE) {
-        cy.enterAssessment(accessMode)
-      } else {
-        cy.enterAssessment(accessMode, {}, false)
-      }
-      cy.sectionMarkedAsComplete('Finance')
-      cy.visitSection('Finance')
-      cy.get('html').contains('This is the latest version').should('not.exist')
+      cy.go('back')
+      cy.assertStepUrlIs('previous-versions')
     })
   })
 })

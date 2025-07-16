@@ -39,6 +39,7 @@ describe('read-only mode', () => {
       year: 'numeric',
     })
     cy.get('.moj-alert--information').contains(`This version is from ${today}`)
+    cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
 
   it('part-complete assessment is accessed in read-only mode', () => {
@@ -63,6 +64,7 @@ describe('read-only mode', () => {
       year: 'numeric',
     })
     cy.get('.moj-alert--information').contains(`This version is from ${today}`)
+    cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
 
   it('latest version is no longer accessible when soft-deleted', () => {
