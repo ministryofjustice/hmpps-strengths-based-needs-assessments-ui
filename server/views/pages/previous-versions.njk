@@ -29,15 +29,14 @@
       </div>
       <div class="govuk-grid-column-three-quarters">
           {% set tableRows = [] %}
-          {% for date, versionsOnDate in previousVersions.versions %}
-            {% set lastVersionOfTheDay = versionsOnDate.assessmentVersions | first %}
+          {% for version in previousVersions %}
             {% set assessmentVersionLink %}
-              <a href="/form/view/{{ lastVersionOfTheDay.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ lastVersionOfTheDay.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
+              <a href="/form/view/{{ version.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
             {% endset %}
 
             {% set row = [
               {
-                html: date | formatDateForDisplay
+                html: version.updatedAt | formatDateForDisplay
               },
               {
                 html: assessmentVersionLink
