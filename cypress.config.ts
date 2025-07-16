@@ -37,12 +37,12 @@ export default defineConfig({
         },
 
         async runDBQuery(sql: string) {
-          const client = new Client({ connectionString: 'postgres://root:dev@localhost:5432/postgres' });
+          const client = new Client({ connectionString: 'postgres://root:dev@localhost:5432/postgres' })
           await client.connect()
           const res = await client.query(sql)
           await client.end()
           return res.rows
-        }
+        },
       })
 
       return config
