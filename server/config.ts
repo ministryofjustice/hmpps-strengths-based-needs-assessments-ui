@@ -88,6 +88,14 @@ export default {
       clientId: get('HANDOVER_CLIENT_ID', 'clientid', requiredInProduction),
       clientSecret: get('HANDOVER_CLIENT_SECRET', 'clientsecret', requiredInProduction),
     },
+    coordinatorApi: {
+      url: get('COORDINATOR_API_URL', 'http://localhost:8080', requiredInProduction),
+      timeout: {
+        response: Number(get('COORDINATOR_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('COORDINATOR_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('COORDINATOR_API_TIMEOUT_RESPONSE', 10000))),
+    },
     appInsights: {
       connectionString: get('APPLICATIONINSIGHTS_CONNECTION_STRING', null, requiredInProduction),
     },

@@ -1,5 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
-import { createNavigation, createSectionProgressRules, getStepFrom } from './formRouterBuilder'
+import { Request } from 'express'
+import { createNavigation, createSectionProgressRules, getStepFrom, isInEditMode } from './formRouterBuilder'
+import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
 describe('common/utils/formRouterBuilder', () => {
   describe('getStepFrom', () => {
@@ -132,6 +134,47 @@ describe('common/utils/formRouterBuilder', () => {
         { active: true, label: steps['/bar']?.pageTitle, section: steps['/bar']?.section, url: '/form/1/0/bar/2' },
         { active: false, label: steps['/baz']?.pageTitle, section: steps['/baz']?.section, url: '/form/1/0/baz' },
       ])
+    })
+  })
+
+  describe('isInEditMode', () => {
+    it('returns false when the user is in read-only mode', () => {
+      expect(
+        isInEditMode(
+          {
+            identifier: 'TEST_USER',
+            displayName: 'Test user',
+            accessMode: 'READ_ONLY',
+          } as HandoverPrincipal,
+          { params: { mode: 'view' } } as unknown as Request,
+        ),
+      ).toEqual(false)
+    })
+
+    it('returns false when the user has edit permissions but is in view mode', () => {
+      expect(
+        isInEditMode(
+          {
+            identifier: 'TEST_USER',
+            displayName: 'Test user',
+            accessMode: 'READ_WRITE',
+          } as HandoverPrincipal,
+          { params: { mode: 'view' } } as unknown as Request,
+        ),
+      ).toEqual(false)
+    })
+
+    it('returns true when the user is in edit mode', () => {
+      expect(
+        isInEditMode(
+          {
+            identifier: 'TEST_USER',
+            displayName: 'Test user',
+            accessMode: 'READ_WRITE',
+          } as HandoverPrincipal,
+          { params: { mode: 'edit' } } as unknown as Request,
+        ),
+      ).toEqual(true)
     })
   })
 })

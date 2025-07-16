@@ -1,4 +1,8 @@
 services:
+  postgres:
+    ports:
+      - "5432:5432"
+
   coordinator-api:
     ports:
       - "8070:8080"
@@ -9,7 +13,7 @@ services:
 
   san-ui:
     depends_on:
-      - hmpps-auth-proxy
+      - forward-proxy
     environment:
       FEEDBACK_URL: http://localhost:9092
     ports:
@@ -23,11 +27,11 @@ services:
     ports:
       - "9090:9090"
 
-  oasys-ui:
+  oastub:
     ports:
       - "7072:3000"
 
-  hmpps-auth-proxy:
+  forward-proxy:
     image: nginx:latest
     depends_on:
       - hmpps-auth
@@ -39,4 +43,4 @@ services:
       - "9092:9092"
       - "7071:7071"
     volumes:
-      - ./hmpps-auth-proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./forward-proxy/nginx.conf:/etc/nginx/nginx.conf

@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
+import { Client } from 'pg'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -33,6 +34,14 @@ export default defineConfig({
           // eslint-disable-next-line no-console
           console.table(message)
           return null
+        },
+
+        async runDBQuery(sql: string) {
+          const client = new Client({ connectionString: 'postgres://root:dev@localhost:5432/postgres' })
+          await client.connect()
+          const res = await client.query(sql)
+          await client.end()
+          return res.rows
         },
       })
 

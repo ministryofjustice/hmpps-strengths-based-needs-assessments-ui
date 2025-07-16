@@ -60,7 +60,7 @@ services:
       CLIENT_SAN_OAUTH_REDIRECT_URI: http://localhost:3000/sign-in/callback
       CLIENT_SAN_HANDOVER_REDIRECT_URI: http://localhost:3000/sign-in
 
-  oasys-ui:
+  oastub:
     image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-oastub-ui:latest
     networks:
       - hmpps
@@ -143,7 +143,7 @@ services:
      - hmpps-auth
      - san-api
      - arns-handover
-     - oasys-ui
+     - oastub
     healthcheck:
       test: [ "CMD", "node", "./docker/healthcheck.js" ]
       interval: 5s
@@ -166,6 +166,7 @@ services:
       HANDOVER_CLIENT_SECRET: san-secret
       SESSION_SECRET: sessionsecret
       SBNA_API_URL: http://san-api:8080
+      COORDINATOR_API_URL: http://coordinator-api:8080
       INGRESS_URL: http://localhost:3000
       HTTPS: false
       NODE_ENV: development

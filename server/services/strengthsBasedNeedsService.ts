@@ -49,6 +49,14 @@ export interface AssessmentResponse {
   metaData: AssessmentMetaData
 }
 
+export type AssessmentVersionsResponse = Array<{
+  uuid: string
+  createdAt: string
+  updatedAt: string
+  tag: string
+  versionNumber: number
+}>
+
 export interface UpdateAnswersDto extends Record<string, unknown> {
   answersToAdd: AnswerDTOs
   answersToRemove: string[]
@@ -88,6 +96,11 @@ export default class StrengthsBasedNeedsAssessmentsApiService {
 
     const responseBody = await client.get(requestOptions)
     return responseBody as AssessmentResponse
+  }
+
+  async fetchAssessmentVersion(versionUuid: string): Promise<AssessmentResponse> {
+    const client = await this.getRestClient()
+    return client.get<AssessmentResponse>({ path: `/assessment/version/${versionUuid}` })
   }
 
   async updateAnswers(assessmentId: string, requestBody: UpdateAnswersDto) {
