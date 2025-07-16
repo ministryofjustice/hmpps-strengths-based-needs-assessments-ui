@@ -1,10 +1,9 @@
 import { type Response, NextFunction, Router } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import { HTTPError } from 'superagent'
-import FormRouterBuilder, { FormWizardRouter } from './utils/formRouterBuilder'
+import FormRouterBuilder, { FormWizardRouter, isInEditMode } from './utils/formRouterBuilder'
 import V1_0 from './form/v1_0'
 import StrengthsBasedNeedsAssessmentsApiService, { SessionData } from '../server/services/strengthsBasedNeedsService'
-import { isInEditMode } from '../server/utils/utils'
 import ForbiddenError from '../server/errors/forbiddenError'
 
 interface FormWizardError extends HTTPError {

@@ -17,7 +17,7 @@ import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
 import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
 
-import { isInEditMode } from '../../server/utils/utils'
+import { isInEditMode } from '../utils/formRouterBuilder'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }

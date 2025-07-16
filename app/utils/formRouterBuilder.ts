@@ -1,7 +1,8 @@
-import type { Request, Response } from 'express'
 import * as express from 'express'
+import { Request, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import HttpError from '../../server/errors/httpError'
+import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
 export type FormWizardRouter = {
   metaData: FormOptions
@@ -165,3 +166,6 @@ export default class FormRouterBuilder {
     return new FormRouterBuilder(formRouters, getLatestVersionFrom(Object.values(formRouters)))
   }
 }
+
+export const isInEditMode = (user: HandoverPrincipal, req: Request) =>
+  user.accessMode === 'READ_WRITE' && req.params.mode === 'edit'

@@ -11,7 +11,7 @@ import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { Progress } from './saveAndContinueController'
 
-import { isInEditMode } from '../../server/utils/utils'
+import { isInEditMode } from '../utils/formRouterBuilder'
 
 enum CollectionAction {
   Create,

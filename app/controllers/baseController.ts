@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import config from '../../server/config'
-import { createNavigation, createSectionProgressRules } from '../utils/formRouterBuilder'
+import { createNavigation, createSectionProgressRules, isInEditMode } from '../utils/formRouterBuilder'
 import StrengthsBasedNeedsAssessmentsApiService, {
   AssessmentResponse,
   SessionData,
@@ -12,8 +12,6 @@ import { combineDateFields, withStateAwareTransform } from '../utils/field.utils
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import { defaultName } from '../../server/utils/azureAppInsights'
 import ForbiddenError from '../../server/errors/forbiddenError'
-
-import { isInEditMode } from '../../server/utils/utils'
 
 class BaseController extends FormWizard.Controller {
   protected apiService: StrengthsBasedNeedsAssessmentsApiService
