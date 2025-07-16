@@ -92,8 +92,8 @@
                 <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
                   <span class="section-label">{{ link.label }}</span>
                   {% if sectionProgress[link.section] %}
-                    <span class="section-complete">
-                      ✓
+                    <span class="section-complete">✓
+                    <span class="govuk-visually-hidden">Section complete</span>
                     </span>
                   {% endif %}
                 </a>
