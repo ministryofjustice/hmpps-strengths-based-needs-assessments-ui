@@ -21,13 +21,13 @@ describe('previous versions page', () => {
     cy.get('thead th').eq(0).should('contain.text', 'Date')
     cy.get('thead th').eq(1).should('contain.text', 'Assessment')
 
-    cy.get('tbody tr').should('have.length', 5)
+    cy.get('tbody tr').should('have.length', 4)
     cy.get('tbody tr').each((_el, index) => {
       const columns = `tbody tr:nth-child(${index + 1}) td`
       cy.get(columns).should('have.length', 2)
 
       const today = new Date()
-      const expectedDate = new Date(today.setDate(today.getDate() - index)).toLocaleDateString('en-GB', {
+      const expectedDate = new Date(today.setDate(today.getDate() - index - 1)).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',

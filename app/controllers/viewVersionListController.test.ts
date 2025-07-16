@@ -1,17 +1,19 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import ViewVersionListController from './viewVersionListController'
-import CoordinatorApiService, { VersionsResponse } from '../../server/services/coordinatorService'
-import { SessionData } from '../../server/services/strengthsBasedNeedsService'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  SessionData,
+  AssessmentVersionsResponse,
+} from '../../server/services/strengthsBasedNeedsService'
 
-jest.mock('../../server/services/coordinatorService')
+jest.mock('../../server/services/strengthsBasedNeedsService')
 
 describe('ViewVersionListController', () => {
-  const mockFetchAssessmentAndPlanVersions = jest.fn()
+  const mockFetchAssessmentVersions = jest.fn()
 
   beforeEach(() => {
-    ;(CoordinatorApiService as jest.Mock).mockImplementation(() => ({
-      fetchAssessmentAndPlanVersions: mockFetchAssessmentAndPlanVersions,
+    ;(StrengthsBasedNeedsAssessmentsApiService as jest.Mock).mockImplementation(() => ({
+      fetchAssessmentVersions: mockFetchAssessmentVersions,
     }))
   })
 
@@ -20,53 +22,40 @@ describe('ViewVersionListController', () => {
   })
 
   describe('viewVersionListController.locals', () => {
-    it('should fetch assessment and plan versions and sets values in locals correctly.', async () => {
+    it('should fetch assessment versions and sets values in locals correctly.', async () => {
       const mockAssessmentUuid = crypto.randomUUID()
-      const mockVersionsResponse: VersionsResponse = {
-        versions: {
-          '2025-07-03': {
-            description: 'Test description',
-            assessmentVersions: [
-              {
-                uuid: crypto.randomUUID(),
-                version: 2,
-                createdAt: '2025-07-03T10:00:00Z',
-                updatedAt: '2025-07-03T11:00:00Z',
-                status: 'Assessment change status 2',
-                entityType: 'ASSESSMENT',
-              },
-              {
-                uuid: crypto.randomUUID(),
-                version: 1,
-                createdAt: '2025-07-03T09:00:00Z',
-                updatedAt: '2025-07-03T09:30:00Z',
-                status: 'Assessment change status 1',
-                entityType: 'ASSESSMENT',
-              },
-            ],
-            planVersions: [
-              {
-                uuid: crypto.randomUUID(),
-                version: 2,
-                createdAt: '2025-07-03T07:00:00Z',
-                updatedAt: '2025-07-03T07:30:00Z',
-                status: 'Plan change status 2',
-                entityType: 'PLAN',
-              },
-              {
-                uuid: crypto.randomUUID(),
-                version: 1,
-                createdAt: '2025-07-03T06:00:00Z',
-                updatedAt: '2025-07-03T06:30:00Z',
-                status: 'Plan change status 1',
-                entityType: 'PLAN',
-              },
-            ],
-          },
+      const mockVersionsResponse: AssessmentVersionsResponse = [
+        {
+          uuid: 'fb92fa0a-31a4-44d3-8cd2-e45a57671c8d',
+          versionNumber: 3,
+          createdAt: '2025-07-04T10:00:00Z',
+          updatedAt: '2025-07-04T11:00:00Z',
+          tag: 'Assessment change status 2',
         },
-      }
+        {
+          uuid: 'ad4b8d05-12a3-4556-a4ed-4fc65bb6dd25',
+          versionNumber: 2,
+          createdAt: '2025-07-03T10:00:00Z',
+          updatedAt: '2025-07-03T11:00:00Z',
+          tag: 'Assessment change status 2',
+        },
+        {
+          uuid: '7597b07b-8bcc-4250-93eb-31614d7c6516',
+          versionNumber: 1,
+          createdAt: '2025-07-03T09:00:00Z',
+          updatedAt: '2025-07-03T09:30:00Z',
+          tag: 'Assessment change status 1',
+        },
+        {
+          uuid: '82c1af99-0efb-44f1-ae64-0e3506e3ab5f',
+          versionNumber: 0,
+          createdAt: '2025-07-02T09:00:00Z',
+          updatedAt: '2025-07-02T09:30:00Z',
+          tag: 'Assessment change status 1',
+        },
+      ]
 
-      mockFetchAssessmentAndPlanVersions.mockResolvedValue(mockVersionsResponse)
+      mockFetchAssessmentVersions.mockResolvedValue(mockVersionsResponse)
 
       const req = {
         session: {
@@ -84,14 +73,31 @@ describe('ViewVersionListController', () => {
 
       await controller.locals(req, res, next)
 
-      expect(mockFetchAssessmentAndPlanVersions).toHaveBeenCalledWith(mockAssessmentUuid)
-      expect(res.locals.previousVersions).toEqual(mockVersionsResponse)
+      expect(mockFetchAssessmentVersions).toHaveBeenCalledWith(mockAssessmentUuid)
+
+      const expectedVersions: AssessmentVersionsResponse = [
+        {
+          uuid: 'ad4b8d05-12a3-4556-a4ed-4fc65bb6dd25',
+          versionNumber: 2,
+          createdAt: '2025-07-03T10:00:00Z',
+          updatedAt: '2025-07-03T11:00:00Z',
+          tag: 'Assessment change status 2',
+        },
+        {
+          uuid: '82c1af99-0efb-44f1-ae64-0e3506e3ab5f',
+          versionNumber: 0,
+          createdAt: '2025-07-02T09:00:00Z',
+          updatedAt: '2025-07-02T09:30:00Z',
+          tag: 'Assessment change status 1',
+        },
+      ]
+      expect(res.locals.previousVersions).toEqual(expectedVersions)
     })
 
     it('should pass API errors to next', async () => {
       const mockError = new Error('TEST API error')
 
-      mockFetchAssessmentAndPlanVersions.mockRejectedValue(mockError)
+      mockFetchAssessmentVersions.mockRejectedValue(mockError)
 
       const req = {
         session: {
