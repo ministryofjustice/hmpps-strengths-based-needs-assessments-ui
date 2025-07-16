@@ -25,7 +25,14 @@ jest.mock('../../server/utils/azureAppInsights', () => ({
   defaultName: jest.fn(() => 'default_name'),
 }))
 
-jest.mock('../utils/formRouterBuilder')
+jest.mock('../utils/formRouterBuilder', () => {
+  const actual = jest.requireActual('../utils/formRouterBuilder')
+
+  return {
+    ...(jest.createMockFromModule('../utils/formRouterBuilder') as Record<string, unknown>),
+    isInEditMode: actual.isInEditMode,
+  }
+})
 
 describe('BaseController.configure', () => {
   const mockedNavigation: NavigationItem[] = [
