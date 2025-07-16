@@ -7,10 +7,10 @@
 
     & {
       & dd, & dt {
-        @include govuk-font(16);
         margin-left: 0;
+        @include govuk-font(16);
       }
-      
+
       & * dd {
         border-right: 1px solid gray;
 

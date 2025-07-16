@@ -2,7 +2,7 @@
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
-import { initialiseName } from './utils'
+
 import {
   display,
   displayDateForToday,
@@ -58,8 +58,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
       express: app,
     },
   )
-
-  njkEnv.addFilter('initialiseName', initialiseName)
 
   njkEnv.addGlobal('getCsrf', function getCsrf() {
     const v = this.getVariables()
