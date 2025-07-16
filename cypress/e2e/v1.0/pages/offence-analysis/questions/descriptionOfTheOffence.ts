@@ -6,6 +6,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
   describe(question, () => {
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasLimit(config.characterLimit.c4000)
+      cy.getQuestion(question).get('textarea').should('have.attr', 'aria-required')
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError('Enter details').enterText('some text')
