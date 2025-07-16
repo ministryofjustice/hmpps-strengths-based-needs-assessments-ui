@@ -10,7 +10,7 @@ $govuk-breakpoints: (
   desktop: 769px
 );
 
-@import "govuk-frontend/dist/govuk/all";
+@import "govuk-frontend/dist/govuk/index";
 @import "@ministryofjustice/frontend/moj/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
 
