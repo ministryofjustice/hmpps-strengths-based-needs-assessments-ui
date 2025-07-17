@@ -3,7 +3,6 @@ import { AnswerDto, AnswerDTOs, UpdateAnswersDto } from '../../server/services/s
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { dependencyMet, whereSelectable } from '../utils/field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
-import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
 export const toAnswerDtoOption = ({ value, text }: FormWizard.Field.Option) => ({ value, text })
 
@@ -118,5 +117,3 @@ export const flattenAnswers = (answers: Record<string, AnswerDto>): FormWizard.A
       [key]: data,
     }
   }, {})
-
-export const isReadOnly = (user: HandoverPrincipal) => user.accessMode === 'READ_ONLY'
