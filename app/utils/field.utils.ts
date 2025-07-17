@@ -245,12 +245,15 @@ export const addAriaRequiredAttributeToRequiredFields = () => (field: FormWizard
 
   if (modifiedField.options) {
     modifiedField.options = modifiedField.options.map(option =>
-      option.kind === 'divider' || option.value === 'NONE'
+      option.kind === 'divider'
         ? option
-        : { ...option, attributes: { ...(option.attributes || {}), 'aria-required': true } },
+        : {
+            ...option,
+            attributes: { ...option.attributes, 'aria-required': true },
+          },
     )
   } else {
-    modifiedField.attributes = { ...(field.attributes || {}), 'aria-required': true }
+    modifiedField.attributes = { ...field.attributes, 'aria-required': true }
   }
 
   return modifiedField
