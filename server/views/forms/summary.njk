@@ -2,6 +2,10 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "components/summary/macro.njk" import renderSummaryFields with context %}
 
+{% block pageTitle %}
+  {{ options.pageHeading }} Summary - {{ pageTitle | default(applicationName) }}
+{% endblock %}
+
 {% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers}) %}
 {% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
 {% set sectionComplete = sectionProgress[options.section] %}

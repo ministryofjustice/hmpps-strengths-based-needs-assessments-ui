@@ -8,7 +8,7 @@ describe('previous versions page', () => {
   })
 
   it('lists all previous versions', () => {
-    cy.get('.offender-details__bottom [data-previous-versions-link]')
+    cy.get('.offender-details__top [data-previous-versions-link]')
       .should('contain.text', 'View Previous Versions')
       .click()
     cy.assertStepUrlIs('previous-versions')
