@@ -1,9 +1,8 @@
 import FormWizard from 'hmpo-form-wizard'
 import { utils } from '../common'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
-
 import characterLimits from '../../config/characterLimits'
-import { fieldCodeWith } from '../common/utils'
+import { fieldCodeWith } from '../common/fieldUtils'
 import addDrugs from './add-drugs'
 import { HandoverSubject } from '../../../../../server/services/arnsHandoverService'
 

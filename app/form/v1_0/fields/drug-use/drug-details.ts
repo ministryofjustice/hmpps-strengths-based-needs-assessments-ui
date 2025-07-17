@@ -8,7 +8,7 @@ import {
   getSmallLabelClassFor,
   requiredWhenValidator,
   yesNoOptions,
-} from '../common/utils'
+} from '../common/fieldUtils'
 import addDrugs, { drugLastUsedField } from './add-drugs'
 import { drugsList } from './drugs'
 import characterLimits from '../../config/characterLimits'

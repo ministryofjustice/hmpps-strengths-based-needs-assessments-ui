@@ -2,7 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
-import { dependentOn } from './common/utils'
+import { dependentOn } from './common/fieldUtils'
 
 const createDebtType = (fieldCode: string, dependentField: FormWizard.Field, option: string): FormWizard.Field => ({
   text: ' ',

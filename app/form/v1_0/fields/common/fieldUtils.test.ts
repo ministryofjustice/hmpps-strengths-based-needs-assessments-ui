@@ -5,7 +5,7 @@ import {
   getMediumLabelClassFor,
   getSmallLabelClassFor,
   validateMaxLength,
-} from './utils'
+} from './fieldUtils'
 import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 
 describe('fields/common', () => {
