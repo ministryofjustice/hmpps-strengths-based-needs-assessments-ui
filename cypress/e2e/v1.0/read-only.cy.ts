@@ -33,6 +33,13 @@ describe('read-only mode', () => {
     cy.sectionMarkedAsComplete('Finance')
     cy.visitSection('Finance')
     cy.get('html').contains('This is the latest version').should('not.exist')
+    const today = new Date().toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    cy.get('.moj-alert--information').contains(`This version is from ${today}`)
+    cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
 
   it('part-complete assessment is accessed in read-only mode', () => {
@@ -51,6 +58,13 @@ describe('read-only mode', () => {
     cy.sectionNotMarkedAsComplete('Drug use')
     cy.visitSection('Drug use')
     cy.assertStepUrlIs('/drug-use-analysis')
+    const today = new Date().toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    cy.get('.moj-alert--information').contains(`This version is from ${today}`)
+    cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
 
   it('latest version is no longer accessible when soft-deleted', () => {

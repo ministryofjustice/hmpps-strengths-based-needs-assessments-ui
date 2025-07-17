@@ -1,25 +1,55 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import config from '../../server/config'
-import { createNavigation, createSectionProgressRules } from '../utils/formRouterBuilder'
-import { isInEditMode } from '../../server/utils/nunjucks.utils'
-import { SessionData } from '../../server/services/strengthsBasedNeedsService'
+import { createNavigation, createSectionProgressRules, isInEditMode } from '../utils/formRouterBuilder'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  AssessmentResponse,
+  SessionData,
+} from '../../server/services/strengthsBasedNeedsService'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { validateCollectionField } from '../utils/validation'
 import { combineDateFields, withStateAwareTransform } from '../utils/field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import { defaultName } from '../../server/utils/azureAppInsights'
+import ForbiddenError from '../../server/errors/forbiddenError'
 
 class BaseController extends FormWizard.Controller {
-  async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
-    const { fields, section, steps, name } = req.form.options
-    const sessionData = req.session.sessionData as SessionData
+  protected apiService: StrengthsBasedNeedsAssessmentsApiService
 
-    const reqFormVersion = name.split(':')[1].replace('.', '/')
-    const sessionFormVersion = sessionData.formVersion.replace('.', '/')
-    if (reqFormVersion !== sessionFormVersion) {
-      return res.redirect(req.originalUrl.replace(reqFormVersion, sessionFormVersion))
+  constructor(options: unknown) {
+    super(options)
+
+    this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
+  }
+
+  async fetchAssessment(req: FormWizard.Request, sessionData: SessionData): Promise<AssessmentResponse> {
+    const isViewOnly = !isInEditMode(sessionData.user, req)
+
+    const forbiddenWhen = [
+      isViewOnly && req.method !== 'GET',
+      isViewOnly && req.params.mode !== 'view',
+      req.params.mode === 'edit' && req.params.uuid !== sessionData.assessmentId,
+    ]
+
+    if (forbiddenWhen.some(isForbidden => isForbidden)) {
+      throw new ForbiddenError(req)
     }
+
+    const assessment =
+      req.params.mode === 'edit'
+        ? await this.apiService.fetchAssessment(req.params.uuid)
+        : await this.apiService.fetchAssessmentVersion(req.params.uuid)
+
+    if (req.params.mode === 'view' && assessment.metaData.uuid !== sessionData.assessmentId) {
+      throw new ForbiddenError(req)
+    }
+
+    return assessment
+  }
+
+  async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
+    const { fields, section, steps } = req.form.options
+    const sessionData = req.session.sessionData as SessionData
 
     res.locals.form = {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
@@ -27,7 +57,7 @@ class BaseController extends FormWizard.Controller {
         req.baseUrl,
         steps as unknown as FormWizard.Steps,
         section,
-        isInEditMode(sessionData.user),
+        isInEditMode(sessionData.user, req),
       ),
       sectionProgressRules: createSectionProgressRules(steps as unknown as FormWizard.Steps),
     }
@@ -106,7 +136,12 @@ class BaseController extends FormWizard.Controller {
   }
 
   async locals(req: FormWizard.Request, res: Response, next: NextFunction) {
-    return super.locals(req, res, next)
+    const sessionData = req.session.sessionData as SessionData
+    res.locals = {
+      ...res.locals,
+      isInEditMode: isInEditMode(sessionData.user, req),
+    }
+    await super.locals(req, res, next)
   }
 }
 

@@ -24,3 +24,16 @@ index 9df8023..6c115de 100644
          default:
              return val === condition.value;
          }
+diff --git a/node_modules/hmpo-form-wizard/lib/wizard.js b/node_modules/hmpo-form-wizard/lib/wizard.js
+index a601592..443dd9c 100644
+--- a/node_modules/hmpo-form-wizard/lib/wizard.js
++++ b/node_modules/hmpo-form-wizard/lib/wizard.js
+@@ -8,7 +8,7 @@ let uniqueWizardId = 0;
+ 
+ let wizard = function (steps, fields, wizardOptions) {
+     // create a wizard router
+-    let app = express.Router();
++    let app = express.Router({ mergeParams: true });
+ 
+     // prevent potentially conflicting session namespaces
+     wizardOptions = wizardOptions || {};

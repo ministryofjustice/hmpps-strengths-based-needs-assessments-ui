@@ -2,10 +2,7 @@ import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import BaseController from './baseController'
 import { buildRequestBody, flattenAnswers } from './saveAndContinue.utils'
-import StrengthsBasedNeedsAssessmentsApiService, {
-  SessionData,
-  userDetailsFromSession,
-} from '../../server/services/strengthsBasedNeedsService'
+import { SessionData, userDetailsFromSession } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import {
   addAriaRequiredAttributeToRequiredFields,
@@ -16,38 +13,22 @@ import {
   withValuesFrom,
 } from '../utils/field.utils'
 import { Gender } from '../../server/@types/hmpo-form-wizard/enums'
-import { isInEditMode } from '../../server/utils/nunjucks.utils'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import sectionConfig from '../form/v1_0/config/sections'
-import ForbiddenError from '../../server/errors/forbiddenError'
 import { sendTelemetryEventForValidationError } from '../../server/services/telemetryService'
+
+import { isInEditMode } from '../utils/formRouterBuilder'
 
 export type Progress = Record<string, boolean>
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 class SaveAndContinueController extends BaseController {
-  apiService: StrengthsBasedNeedsAssessmentsApiService
-
-  constructor(options: unknown) {
-    super(options)
-
-    this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
-  }
-
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionData
-
-      if (!isInEditMode(sessionData.user) && req.method !== 'GET') {
-        return next(new ForbiddenError(req))
-      }
+      const assessment = await this.fetchAssessment(req, sessionData)
 
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
-
-      const assessment = isInEditMode(sessionData.user)
-        ? await this.apiService.fetchAssessment(sessionData.assessmentId)
-        : await this.apiService.fetchAssessment(sessionData.assessmentId, sessionData.assessmentVersion)
-
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)
 
       const withFieldIds = (others: FormWizard.Fields, [key, field]: [string, FormWizard.Field]) => ({
@@ -58,7 +39,7 @@ class SaveAndContinueController extends BaseController {
       req.form.options.fields = Object.entries(req.form.options.fields).reduce(withFieldIds, {})
       req.form.options.allFields = Object.entries(req.form.options.allFields).reduce(withFieldIds, {})
 
-      if (req.method === 'GET' && isInEditMode(sessionData.user)) {
+      if (req.method === 'GET' && isInEditMode(sessionData.user, req)) {
         const pageNavigation = new FieldDependencyTreeBuilder(
           req.form.options,
           req.form.persistedAnswers,

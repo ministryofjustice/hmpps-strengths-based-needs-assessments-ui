@@ -1,20 +1,20 @@
-{% from "./drugs-summary.njk" import renderDrugsSummary %}
-{% from "./rendering-macros.njk" import renderTopLevelField, renderCollection %}
+{% from "./drugs-summary.njk" import renderDrugsSummary with context %}
+{% from "./rendering-macros.njk" import renderTopLevelField, renderCollection with context %}
 
 {% for summary in summaryFields.singleFields %}
   <dl class="govuk-summary-list summary-list">
     {% switch summary.field.code %}
       {% case 'drug_use' %}
-        {{ renderDrugsSummary(summary, sessionData, summaryFields) }}
+        {{ renderDrugsSummary(summary, summaryFields) }}
       {% case 'select_misused_drugs' %}
       {% case 'not_used_in_last_six_months_details' %}
       {% case 'drugs_injected' %}
       {% default %}
-        {{ renderTopLevelField(summary, sessionData) }}
+        {{ renderTopLevelField(summary) }}
     {% endswitch %}
   </dl>
 {% endfor %}
 
 {% for collectionSummary in summaryFields.collectionFields %}
-  {{ renderCollection(collectionSummary, sessionData, errors) }}
+  {{ renderCollection(collectionSummary) }}
 {% endfor %}
