@@ -32,60 +32,8 @@
 {% block content %}
   <div class="govuk-width-container">
     {% include "../partials/feedback.njk" %}
-{% include "../partials/offenderDetails.njk" %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full offender-details">
-        <span class="offender-details__top">
-          <dl>
-            {% if subjectDetails.crn %}
-              <dt>CRN:</dt>
-              <dd>{{ subjectDetails.crn }}</dd>
-            {% endif %}
-            {% if subjectDetails.pnc %}
-              <dt>PNC:</dt>
-              <dd>{{ subjectDetails.pnc }}</dd>
-            {% endif %}
-            {% if subjectDetails.dateOfBirth %}
-              <dt>Date of birth:</dt>
-              <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
-            {% endif %}
-          </dl>
-          {% if not isPrivacyScreen %}
-            <a href="print-preview" class="print-link">View all answers</a>
-          {% endif %}
-        </span>
-      </div>
-    </div>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-half offender-details">
-        <span class="offender-details__bottom">
-          <h1 class="govuk-heading-m">{{ subjectDetails.givenName }}
-            {{ subjectDetails.familyName }}</h1>
-        </span>
-      </div>
-      {% if not isPrivacyScreen %}
-        <div class="govuk-grid-column-one-half">
-          <div class="form-header">
-            <div class="form-header__actions">
-              {{ govukButton({
-                id: "return-to-oasys",
-                text: "Return to OASys",
-                classes: "" if assessmentIsComplete else "govuk-button--secondary",
-                href: user.returnUrl | default("?defaultReturnUrlGoesHere"),
-                attributes: {
-                  "data-ai-id": "return-to-oasys"
-                }
-              }) }}
-            </div>
-          </div>
-        </div>
-      {% else %}
-          <a class="govuk-back-link govuk-!-margin-bottom-5" href="{{ oasysUrl }}">Back</a>
-      {% endif %}
-    </div>
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
+    {% include "../partials/offenderDetails.njk" %}
     {% block notification %}{% endblock %}
-    {{ renderSectionHeading("Strengths and needs") }}
     <div class="govuk-grid-row">
      {% if not isPrivacyScreen %}
       <div class="govuk-grid-column-one-quarter">

@@ -15,13 +15,10 @@
           <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
         {% endif %}
       </dl>
-    </span>
-    <span class="offender-details__bottom">
-      <h3 class="govuk-heading-m">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h3>
       {% if form.section != "previous-versions" and not isPrivacyScreen %}
         <ul>
            {% if isInEditMode %}
-              <li>
+             <li>
                 <a href="previous-versions" class="govuk-link" data-previous-versions-link>View Previous Versions</a>
               </li>
            {% endif %}
@@ -31,8 +28,35 @@
         </ul>
       {% endif %}
     </span>
-    <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
   </div>
 </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half offender-details">
+    <span class="offender-details__bottom">
+      <h1 class="govuk-heading-m">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h1>
+    </span>
+  </div>
+      {% if not isPrivacyScreen %}
+        <div class="govuk-grid-column-one-half">
+          <div class="form-header">
+             <div class="form-header__actions">
+               {{ govukButton({
+                 id: "return-to-oasys",
+                 text: "Return to OASys",
+                 classes: "" if assessmentIsComplete else "govuk-button--secondary",
+                 href: user.returnUrl | default("?defaultReturnUrlGoesHere"),
+                 attributes: {
+                   "data-ai-id": "return-to-oasys"
+                 }
+               }) }}
+             </div>
+           </div>
+         </div>
+      {% else %}
+        <a class="govuk-back-link govuk-!-margin-bottom-5" href="{{ oasysUrl }}">Back</a>
+      {% endif %}
+  <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
+</div>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
 
 
