@@ -13,7 +13,8 @@ export const assertSectionIs = (name: string) => {
 }
 
 export const visitStep = (path: string) => {
-  return cy.visit(`/form/1/0${path}`, { retryOnNetworkFailure: false })
+  const { assessmentId } = Cypress.env('last_assessment')
+  return cy.visit(`/form/edit/${assessmentId}${path}`, { retryOnNetworkFailure: false })
 }
 
 export const assertResumeUrlIs = (section: string, path: string) => {

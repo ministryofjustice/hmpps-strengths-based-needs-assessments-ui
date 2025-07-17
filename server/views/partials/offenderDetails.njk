@@ -1,0 +1,38 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full offender-details">
+    <span class="offender-details__top">
+      <dl>
+        {% if subjectDetails.crn %}
+          <dt>CRN:</dt>
+          <dd>{{ subjectDetails.crn }}</dd>
+        {% endif %}
+        {% if subjectDetails.pnc %}
+          <dt>PNC:</dt>
+          <dd>{{ subjectDetails.pnc }}</dd>
+        {% endif %}
+        {% if subjectDetails.dateOfBirth %}
+          <dt>Date of birth:</dt>
+          <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
+        {% endif %}
+      </dl>
+    </span>
+    <span class="offender-details__bottom">
+      <h3 class="govuk-heading-m">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h3>
+      {% if form.section != "previous-versions" and not isPrivacyScreen %}
+        <ul>
+           {% if isInEditMode %}
+              <li>
+                <a href="previous-versions" class="govuk-link" data-previous-versions-link>View Previous Versions</a>
+              </li>
+           {% endif %}
+          <li>
+            <a href="print-preview" class="govuk-link" data-print-link>View all answers</a>
+          </li>
+        </ul>
+      {% endif %}
+    </span>
+    <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
+  </div>
+</div>
+
+

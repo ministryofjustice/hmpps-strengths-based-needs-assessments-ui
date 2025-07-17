@@ -1,0 +1,31 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{%- macro renderSectionHeading(title ) -%}
+
+
+  <div class="govuk-grid-row">
+    {% if not isPrivacyScreen %}
+      <div class="govuk-grid-column-full">
+        <div class="form-header">
+          <div class="form-header__actions">
+            {{ govukButton({
+              id: "return-to-oasys",
+              text: "Return to OASys",
+              classes: "" if assessmentIsComplete else "govuk-button--secondary",
+              href: user.returnUrl | default("?defaultReturnUrlGoesHere"),
+              attributes: {
+                "data-ai-id": "return-to-oasys"
+              }
+            }) }}
+          </div>
+          <h1 class="govuk-heading-l form-header__title">{{title}}</h1>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
+      </div>
+    {% else %}
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full govuk-!-margin-top-1">
+      <a class="govuk-back-link govuk-!-margin-bottom-5" href="{{ oasysUrl }}">Back</a>
+    {% endif %}
+  </div>
+
+{%- endmacro -%}

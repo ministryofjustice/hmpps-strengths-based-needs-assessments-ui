@@ -217,3 +217,43 @@ export const softDeleteAssessment = (versionFrom: number) =>
       expect(lockResponse.isOkStatusCode).to.eq(true)
     })
   })
+
+export const createAssessmentWithVersions = (numberOfVersions: number) => {
+  const createVersions = (max: number, assessment: AssessmentContext, apiToken: string) => {
+    if (max <= 0) {
+      return cy.task(
+        'runDBQuery',
+        `UPDATE strengthsbasedneedsapi.assessments_versions
+          SET
+            created_at = created_at - ((${numberOfVersions} - version_number - 1) || ' days')::INTERVAL,
+            updated_at = updated_at - ((${numberOfVersions} - version_number - 1) || ' days')::INTERVAL
+          WHERE assessment_uuid = '${assessment.assessmentId}';`,
+      )
+    }
+    return cy.lockAssessment().then(() => {
+      cy.request({
+        url: `${env('SBNA_API_URL')}/assessment/${assessment.assessmentId}/answers`,
+        method: 'POST',
+        auth: { bearer: apiToken },
+        body: {
+          answersToAdd: {},
+          userDetails: {
+            id: 'cypress',
+            name: 'Cypress User',
+            type: 'SAN',
+          },
+        },
+        retryOnNetworkFailure: false,
+      }).then(() => {
+        createVersions(max - 1, assessment, apiToken)
+      })
+    })
+  }
+
+  cy.createAssessment().then(() => {
+    if (numberOfVersions <= 1) return
+    getApiToken().then(apiToken => {
+      createVersions(numberOfVersions - 1, env('last_assessment'), apiToken)
+    })
+  })
+}

@@ -1,6 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
 import { DateTime } from 'luxon'
-import { HandoverPrincipal } from '../services/arnsHandoverService'
 import { FieldAnswer } from '../../app/utils/fieldDependencyTreeBuilder'
 import characterLimits from '../../app/form/v1_0/config/characterLimits'
 
@@ -24,8 +23,6 @@ export const displayDateForToday = (today: DateTime = DateTime.now()) => {
 export const urlSafe = (text: string) => text.replace(/[|&;$%@"<>()+,]/g, '').replace(/\s+/g, '-')
 
 export const startsWith = (subject: string, startWith: string) => subject.startsWith(startWith)
-
-export const isInEditMode = (user: HandoverPrincipal) => user.accessMode === 'READ_WRITE'
 
 export const outdent = (str: string, count: number) =>
   str
