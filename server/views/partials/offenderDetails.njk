@@ -21,8 +21,8 @@
         <ul>
            {% if isInEditMode %}
              <li>
-                <a href="previous-versions" class="govuk-link" data-previous-versions-link>View Previous Versions</a>
-              </li>
+                <a href="previous-versions" class="govuk-link govuk-link--no-visited-state" data-previous-versions-link>View previous versions</a>
+             </li>
            {% endif %}
           <li>
             <a href="print-preview" class="govuk-link" data-print-link>View all answers</a>
@@ -37,6 +37,11 @@
     <span class="offender-details__bottom">
       <h1 class="govuk-heading-m">{{ subjectDetails.givenName }} {{ subjectDetails.familyName }}</h1>
     </span>
+    {% if pageTitle == "Previous versions" %}
+      <span>
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-3 form-header__title">Previous versions</h2>
+      </span>
+    {% endif %}
   </div>
       {% if not isPrivacyScreen %}
         <div class="govuk-grid-column-one-half">
@@ -52,8 +57,8 @@
                  }
                }) }}
              </div>
-           </div>
-         </div>
+          </div>
+        </div>
       {% else %}
         <a class="govuk-back-link govuk-!-margin-bottom-5" href="{{ oasysUrl }}">Back</a>
       {% endif %}

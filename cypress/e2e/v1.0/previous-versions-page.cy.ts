@@ -1,15 +1,9 @@
 describe('previous versions page', () => {
-  before(() => {
-    cy.createAssessmentWithVersions(5)
-  })
-
-  beforeEach(() => {
-    cy.enterAssessment()
-  })
-
   it('lists all previous versions', () => {
+    cy.createAssessmentWithVersions(5)
+    cy.enterAssessment()
     cy.get('.offender-details__top [data-previous-versions-link]')
-      .should('contain.text', 'View Previous Versions')
+      .should('contain.text', 'View previous versions')
       .click()
     cy.assertStepUrlIs('previous-versions')
     cy.get('p')
@@ -44,5 +38,17 @@ describe('previous versions page', () => {
       cy.go('back')
       cy.assertStepUrlIs('previous-versions')
     })
+  })
+
+  it('displays no previous versions message when there are no versions', () => {
+    cy.createAssessmentWithVersions(1)
+    cy.enterAssessment()
+
+    cy.get('.offender-details__top [data-previous-versions-link]')
+      .should('contain.text', 'View previous versions')
+      .click()
+    cy.assertStepUrlIs('previous-versions')
+    cy.get('.govuk-table').should('not.exist')
+    cy.contains('p', `There are no previous versions of Sam's assessment yet.`).should('be.visible')
   })
 })

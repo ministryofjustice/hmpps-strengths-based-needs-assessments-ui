@@ -54,6 +54,9 @@ export const sectionConfigs: SectionConfig[] = [
     steps: [
       {
         url: 'previous-versions',
+        locals: {
+          pageTitle: 'Previous versions',
+        },
         controller: ViewVersionListController,
         template: templates.previousVersions,
       },
