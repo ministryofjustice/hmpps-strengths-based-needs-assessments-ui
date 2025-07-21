@@ -1,11 +1,10 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-{% from "../partials/heading.njk" import renderSectionHeading with context %}
 {% extends "../partials/layout.njk" %}
 
 {% block pageTitle %}
-  {{ pageTitle }}
+  {{ pageTitle }} - {{ applicationName }}
 {% endblock %}
 
 {% block header %}
@@ -24,9 +23,14 @@
           attributes: { "data-browser-back": "" }
           }) }}
         </div>
-        <p>Check versions of {{ subjectDetails.givenName }}'s current assessment. The links will open in a new tab.</p>
       </div>
-      <div class="govuk-grid-column-three-quarters">
+
+      {% if previousVersions and previousVersions.length > 0 %}
+        <div class="govuk-grid-column-full">
+          <p>Check versions of {{ subjectDetails.givenName }}'s current assessment. The links will open in a new tab.</p>
+        </div>
+
+        <div class="govuk-grid-column-three-quarters">
           {% set tableRows = [] %}
           {% for version in previousVersions %}
             {% set assessmentVersionLink %}
@@ -60,6 +64,11 @@
             })
           }}
         </div>
+      {% else %}
+        <div class="govuk-grid-column-full">
+          <p class="govuk-body govuk-!-margin-top-3 govuk-!-margin-left-2 govuk-!-margin-bottom-8">There are no previous versions of {{ subjectDetails.givenName }}'s assessment yet.</p>
+        </div>
+      {% endif %}
     </div>
     {{ super() }}
   </div>
