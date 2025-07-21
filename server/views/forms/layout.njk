@@ -8,6 +8,14 @@
 
 {% set mainClasses = "app-container govuk-body" %}
 
+{% block pageTitle %}
+  {% if options.pageHeading %}
+    {{ options.pageHeading }} - {{ pageTitle | default(applicationName) }}
+  {% else %}
+    {{ options.pageTitle }} - {{ pageTitle | default(applicationName) }}
+  {% endif %}
+{% endblock %}
+
 {% block header %}
   {% if deploymentName %}
     <div class="custom-deployment-banner">
@@ -26,7 +34,6 @@
     {% include "../partials/feedback.njk" %}
     {% include "../partials/offenderDetails.njk" %}
     {% block notification %}{% endblock %}
-    {{ renderSectionHeading("Strengths and needs") }}
     <div class="govuk-grid-row">
      {% if not isPrivacyScreen %}
       <div class="govuk-grid-column-one-quarter">
@@ -63,21 +70,7 @@
             {% endif %}
 
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
-
-            <!-- Two implementations - One nests the caption in the h1, one does not. Nested caption will be read out by screen reader with the h1. -->
-            {% if options.pageHeading and options.pageCaption %}
-                <h2 class="govuk-heading-l">
-                    <span class="govuk-caption-l">{{ options.pageCaption }}</span>
-                    {{ options.pageHeading }}
-                </h2>
-            {% elseif options.pageHeading %}
-                <span class="govuk-caption-l">{{ options.pageTitle }}</span>
-                <h2 class="govuk-heading-l">
-                    {{ options.pageHeading }}
-                </h2>
-            {% else %}
-                <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
-            {% endif %}
+                  <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
           </div>
           {% if not isPrivacyScreen %}
             {% if sectionProgress[options.section] %}
@@ -94,9 +87,9 @@
         {% block formContent %}{% endblock %}
       </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block footer %}
   {% include "../partials/footer.njk" %}
 {% endblock %}
+  </div>

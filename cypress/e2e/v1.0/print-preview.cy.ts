@@ -7,8 +7,7 @@ describe('assessment print preview', () => {
 
   it('all answers are visible', () => {
     cy.enterAssessment()
-
-    cy.get('.offender-details__bottom [data-print-link]').should('contain.text', 'View all answers').click()
+    cy.get('.offender-details__top [data-print-link]').should('contain.text', 'View all answers').click()
     cy.assertStepUrlIs('print-preview')
 
     cy.get('h1').should('contain.text', `Sam's strengths and needs`)
