@@ -2,7 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
-import { dependentOn } from './common/utils'
+import { dependentOn } from './common/fieldUtils'
 
 const alcoholUnitsHint = `
 <details class="govuk-details" data-module="govuk-details">
@@ -12,7 +12,7 @@ const alcoholUnitsHint = `
     </span>
   </summary>
   <div class="govuk-details__text">
-    <table class="govuk-table">    
+    <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header govuk-!-width-one-half">Type of drink</th>

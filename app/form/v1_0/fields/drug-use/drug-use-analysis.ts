@@ -1,7 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 import { utils } from '../common'
-import { dependentOn, requiredWhenValidator } from '../common/utils'
+import { dependentOn, requiredWhenValidator } from '../common/fieldUtils'
 import drugUse from './drug-use'
 
 const drugsPractitionerAnalysisMotivatedToStop: FormWizard.Field = {
