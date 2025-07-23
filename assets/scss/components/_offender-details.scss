@@ -7,10 +7,10 @@
 
     & {
       & dd, & dt {
-        @include govuk-font(16);
         margin-left: 0;
+        @include govuk-font(16);
       }
-      
+
       & * dd {
         border-right: 1px solid gray;
 
@@ -43,6 +43,16 @@
 
     margin: 0;
     padding: 0 govuk-spacing(1);
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    & .govuk-link {
+      text-align: right;
+    }
   }
 
   &__bottom {

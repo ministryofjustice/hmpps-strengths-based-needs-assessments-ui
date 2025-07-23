@@ -13,7 +13,6 @@ declare module 'hmpo-form-wizard' {
     interface FormOptions {
       allFields: { [key: string]: Field }
       journeyName: string
-      section: string
       sectionProgressRules: Array<SectionProgressRule>
       fields: Fields
       steps: RenderedSteps
@@ -189,6 +188,7 @@ declare module 'hmpo-form-wizard' {
       labelClasses?: string
       formGroupClasses?: string
       classes?: string
+      attributes?: Record<string, unknown>
       summary?: {
         text?: string
         displayFn?: (value: string) => string

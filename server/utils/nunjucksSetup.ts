@@ -2,13 +2,12 @@
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
-import { initialiseName } from './utils'
+
 import {
   display,
   displayDateForToday,
   getMaxCharacterCount,
   getRenderedFields,
-  isInEditMode,
   outdent,
   practitionerAnalysisStarted,
   setProp,
@@ -60,8 +59,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     },
   )
 
-  njkEnv.addFilter('initialiseName', initialiseName)
-
   njkEnv.addGlobal('getCsrf', function getCsrf() {
     const v = this.getVariables()
     return v?.['csrf-token'] || ''
@@ -92,8 +89,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('setProp', setProp)
 
   njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
-
-  njkEnv.addFilter('isInEditMode', isInEditMode)
 
   njkEnv.addGlobal('practitionerAnalysisStarted', practitionerAnalysisStarted)
 

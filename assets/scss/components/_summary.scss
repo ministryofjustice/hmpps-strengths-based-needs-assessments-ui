@@ -11,8 +11,8 @@ $small-font: 12px;
 
 .drugs-summary {
   &__subheading {
-    @include govuk-font(27, 'bold');
     margin-top: govuk-spacing(6);
+    @include govuk-font(27, 'bold');
   }
 
   &__other-fields {
@@ -68,13 +68,13 @@ $small-font: 12px;
 .summary {
   &__panel {
     border: none !important;
-    padding: govuk-spacing(6) 0px !important;
+    padding: govuk-spacing(6) 0 !important;
   }
 
   &__label {
-    @include govuk-font(19, 'bold');
     margin-bottom: govuk-spacing(2);
     display: block;
+    @include govuk-font(19, 'bold');
 
     @media print {
       font-size: $small-font;

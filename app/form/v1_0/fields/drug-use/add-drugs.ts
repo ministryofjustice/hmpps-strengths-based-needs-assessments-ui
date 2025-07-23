@@ -2,7 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { utils } from '../common'
 import { FieldType, ValidationType } from '../../../../../server/@types/hmpo-form-wizard/enums'
 import characterLimits from '../../config/characterLimits'
-import { dependentOn } from '../common/utils'
+import { dependentOn } from '../common/fieldUtils'
 
 import { Drug, drugsList } from './drugs'
 

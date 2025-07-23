@@ -26,7 +26,7 @@
         </ul>
       </div>
     </div>
-    {% if sessionData.user | isInEditMode %}
+    {% if isInEditMode %}
       <div class="govuk-grid-column-one-third analysis-summary__action">
         <a class="govuk-link" href="{{ link }}">Change<span class="govuk-visually-hidden"> value for {{ label }}</span></a>
       </div>

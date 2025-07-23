@@ -204,7 +204,44 @@ describe('field.utils', () => {
   })
 
   describe('addAriaRequiredAttributeToRequiredFields', () => {
-    it('adds aria-required attribute to all options except dividers and NONE values', () => {
+    it('adds aria-required attribute to single field type', () => {
+      const field = {
+        text: 'Sample text',
+        code: 'sample_code',
+        type: 'Text',
+        validate: [{ type: ValidationType.Required, message: 'Validation error message' }],
+      }
+
+      const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
+      expect(modifiedField.attributes['aria-required']).toEqual(true)
+    })
+
+    it('does not add attributes to single field without ValidationType.Required', () => {
+      const field = {
+        text: 'Sample text',
+        code: 'sample_code',
+        type: 'Text',
+        validate: [{ type: ValidationType.Date, message: 'Validation error message' }],
+      }
+
+      const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
+      expect(modifiedField.attributes).toBeUndefined()
+    })
+
+    it('does not modify attributes of single field without ValidationType.Required', () => {
+      const field = {
+        text: 'Sample text',
+        code: 'sample_code',
+        type: 'Text',
+        attributes: { existing: 'value' },
+        validate: [{ type: ValidationType.Date, message: 'Validation error message' }],
+      }
+
+      const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
+      expect(modifiedField.attributes['aria-required']).toBeUndefined()
+    })
+
+    it('adds aria-required attribute to all options except dividers', () => {
       const field = {
         text: 'Sample text',
         code: 'sample_code',
@@ -213,14 +250,14 @@ describe('field.utils', () => {
         options: [
           { text: 'option0', kind: 'option', value: 'SETTLED' } as FormWizard.Field.Option,
           { kind: 'divider', divider: 'or' } as FormWizard.Field.Divider,
-          { text: 'option2', kind: 'option', value: 'NONE' } as FormWizard.Field.Option,
+          { text: 'option2', kind: 'option', value: 'SOMETHING_ELSE' } as FormWizard.Field.Option,
         ],
       }
 
       const modifiedField = addAriaRequiredAttributeToRequiredFields()(field)
 
       modifiedField.options.forEach((option: FormWizard.Field.Option) => {
-        if (option.kind === 'option' && option.value !== 'NONE') {
+        if (option.kind === 'option') {
           expect(option.attributes['aria-required']).toEqual(true)
         } else {
           expect(option.attributes).toBeUndefined()

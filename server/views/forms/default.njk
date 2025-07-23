@@ -22,7 +22,7 @@
         {% set field = options.fields[fieldCode] %}
 
         {% if field.type === "COLLECTION" %}
-          {% from "components/summary/macro.njk" import renderSummaryFields %}
+          {% from "components/summary/macro.njk" import renderSummaryFields with context %}
 
           {% if fieldsOnThisPage.length == 1 %}
             {% set labelClasses = "govuk-fieldset__legend--l" %}
@@ -36,7 +36,7 @@
                 {{ field.text }}
               </legend>
               {% set summaryFields = getSummaryFields({section: options.section, allFields: options.allFields, steps: options.steps, answers: answers, collectionOnly: true}) %}
-              {{ renderSummaryFields(summaryFields, sessionData, errors) }}
+              {{ renderSummaryFields(summaryFields) }}
             </fieldset>
           </div>
 
@@ -63,7 +63,7 @@
 
       {% endfor %}
 
-      {% if sessionData.user | isInEditMode %}
+      {% if isInEditMode %}
         <div class="questiongroup-action-buttons">
           {{ govukButton({
             text: buttonText | default('Save and continue'),

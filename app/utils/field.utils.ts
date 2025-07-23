@@ -233,6 +233,8 @@ export const dependencyMet = (field: FormWizard.Field, answers: FormWizard.Answe
 
 export const isPractitionerAnalysisField = (field: string) => field.includes('_practitioner_analysis_')
 
+// Adds aria-required attribute to fields that have a Required validator.
+// Either adds it to the field itself or to each option in a checkbox/radio field.
 export const addAriaRequiredAttributeToRequiredFields = () => (field: FormWizard.Field) => {
   // Only add aria-required if the field has a required validator
   const hasRequiredValidator = field.validate?.some(v => 'type' in v && v?.type === ValidationType.Required) || false
@@ -241,16 +243,18 @@ export const addAriaRequiredAttributeToRequiredFields = () => (field: FormWizard
 
   const modifiedField = { ...field }
 
-  modifiedField.options = (field.options || []).map(option => {
-    if (option.kind === 'divider' || option.value === 'NONE') return option
-    return {
-      ...option,
-      attributes: {
-        ...(option.attributes || {}),
-        'aria-required': true,
-      },
-    }
-  })
+  if (modifiedField.options) {
+    modifiedField.options = modifiedField.options.map(option =>
+      option.kind === 'divider'
+        ? option
+        : {
+            ...option,
+            attributes: { ...option.attributes, 'aria-required': true },
+          },
+    )
+  } else {
+    modifiedField.attributes = { ...field.attributes, 'aria-required': true }
+  }
 
   return modifiedField
 }

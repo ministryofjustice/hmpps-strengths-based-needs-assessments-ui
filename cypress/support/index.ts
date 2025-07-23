@@ -89,6 +89,7 @@ import {
   captureAssessment,
   cloneCapturedAssessment,
   createAssessment,
+  createAssessmentWithVersions,
   enterAssessment,
   lockAssessment,
   softDeleteAssessment,
@@ -104,6 +105,7 @@ declare global {
 
       // API
       createAssessment(): Chainable
+      createAssessmentWithVersions(numberOfVersions: number): Chainable
       captureAssessment(): Chainable
       cloneCapturedAssessment(): Chainable
       enterAssessment(
@@ -219,6 +221,7 @@ Cypress.Commands.add('checkAccessibility', checkAccessibility)
 
 // API
 Cypress.Commands.add('createAssessment', createAssessment)
+Cypress.Commands.add('createAssessmentWithVersions', createAssessmentWithVersions)
 Cypress.Commands.add('captureAssessment', captureAssessment)
 Cypress.Commands.add('cloneCapturedAssessment', cloneCapturedAssessment)
 Cypress.Commands.add('enterAssessment', enterAssessment)

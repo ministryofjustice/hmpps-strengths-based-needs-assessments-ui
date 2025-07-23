@@ -2,8 +2,17 @@
 {%- from "govuk/components/error-summary/macro.njk" import govukErrorSummary -%}
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
 {%- from "moj/components/banner/macro.njk" import mojBanner -%}
+{%- from "moj/components/alert/macro.njk" import mojAlert -%}
 
 {% set mainClasses = "app-container govuk-body" %}
+
+{% block pageTitle %}
+  {% if options.pageHeading %}
+    {{ options.pageHeading }} - {{ pageTitle | default(applicationName) }}
+  {% else %}
+    {{ options.pageTitle }} - {{ pageTitle | default(applicationName) }}
+  {% endif %}
+{% endblock %}
 
 {% block header %}
   {% if deploymentName %}
@@ -21,58 +30,7 @@
 {% block content %}
   <div class="govuk-width-container">
     {% include "../partials/feedback.njk" %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full offender-details">
-        <span class="offender-details__top">
-          <dl>
-            {% if subjectDetails.crn %}
-              <dt>CRN:</dt>
-              <dd>{{ subjectDetails.crn }}</dd>
-            {% endif %}
-            {% if subjectDetails.pnc %}
-              <dt>PNC:</dt>
-              <dd>{{ subjectDetails.pnc }}</dd>
-            {% endif %}
-            {% if subjectDetails.dateOfBirth %}
-              <dt>Date of birth:</dt>
-              <dd>{{ subjectDetails.dateOfBirth | formatDateForDisplay }}</dd>
-            {% endif %}
-          </dl>
-        </span>
-        <span class="offender-details__bottom">
-          <h3 class="govuk-heading-m">{{ subjectDetails.givenName }}
-            {{ subjectDetails.familyName }}</h3>
-          {% if not isPrivacyScreen %}
-            <a href="print-preview" class="govuk-link print-link">View all answers</a>
-          {% endif %}
-        </span>
-        <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
-      </div>
-    </div>
-    <div class="govuk-grid-row">
-      {% if not isPrivacyScreen %}
-        <div class="govuk-grid-column-full">
-          <div class="form-header">
-            <div class="form-header__actions">
-              {{ govukButton({
-                id: "return-to-oasys",
-                text: "Return to OASys",
-                classes: "" if assessmentIsComplete else "govuk-button--secondary",
-                href: user.returnUrl | default("?defaultReturnUrlGoesHere"),
-                attributes: {
-                  "data-ai-id": "return-to-oasys"
-                }
-              }) }}
-            </div>
-            <h1 class="govuk-heading-l form-header__title">Strengths and needs</h1>
-          </div>
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
-        </div>
-      {% else %}
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full govuk-!-margin-top-1">
-          <a class="govuk-back-link govuk-!-margin-bottom-5" href="{{ oasysUrl }}">Back</a>
-      {% endif %}
-    </div>
+    {% include "../partials/offenderDetails.njk" %}
     {% block notification %}{% endblock %}
     <div class="govuk-grid-row">
      {% if not isPrivacyScreen %}
@@ -84,7 +42,9 @@
                 <a href="{{ link.url }}"{% if link.active %} aria-current="location"{% endif %}>
                   <span class="section-label">{{ link.label }}</span>
                   {% if sectionProgress[link.section] %}
-                    <span class="section-complete">✓</span>
+                    <span class="section-complete">✓
+                    <span class="govuk-visually-hidden">Section complete</span>
+                    </span>
                   {% endif %}
                 </a>
               </li>
@@ -108,40 +68,26 @@
             {% endif %}
 
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
-
-            <!-- Two implementations - One nests the caption in the h1, one does not. Nested caption will be read out by screen reader with the h1. -->
-            {% if options.pageHeading and options.pageCaption %}
-                <h2 class="govuk-heading-l">
-                    <span class="govuk-caption-l">{{ options.pageCaption }}</span>
-                    {{ options.pageHeading }}
-                </h2>
-            {% elseif options.pageHeading %}
-                <span class="govuk-caption-l">{{ options.pageTitle }}</span>
-                <h2 class="govuk-heading-l">
-                    {{ options.pageHeading }}
-                </h2>
-            {% else %}
-                <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
-            {% endif %}
+                  <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
           </div>
           {% if not isPrivacyScreen %}
-          {% if sectionProgress[options.section] %}
-            <div class="section-heading__status">
-              {{ govukTag({ text: "Complete" }) }}
-            </div>
-          {% else %}
-            <div class="section-heading__status">
-              {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
-            </div>
-          {% endif %}
+            {% if sectionProgress[options.section] %}
+              <div class="section-heading__status">
+                {{ govukTag({ text: "Complete" }) }}
+              </div>
+            {% else %}
+              <div class="section-heading__status">
+                {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
+              </div>
+            {% endif %}
           {% endif %}
         </div>
         {% block formContent %}{% endblock %}
       </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block footer %}
   {% include "../partials/footer.njk" %}
 {% endblock %}
+  </div>

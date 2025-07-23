@@ -1,8 +1,10 @@
-import type { Request, Response } from 'express'
 import * as express from 'express'
+import { Request, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
+import HttpError from '../../server/errors/httpError'
+import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
-type FormWizardRouter = {
+export type FormWizardRouter = {
   metaData: FormOptions
   router: express.Router
   configRouter: express.Router
@@ -31,7 +33,7 @@ const removeQueryParamsFrom = (urlWithParams: string) => {
   return url
 }
 
-interface NavigationItem {
+export interface NavigationItem {
   url: string
   section: string
   label: string
@@ -62,7 +64,7 @@ export const createNavigation = (
     })
 }
 
-type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
+export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 export const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
   const sectionRules: Record<string, string[]> = Object.values(steps)
@@ -107,7 +109,7 @@ function checkFormIntegrity(form: Form) {
 }
 
 const setupForm = (form: Form): FormWizardRouter => {
-  const router = express.Router()
+  const router = express.Router({ mergeParams: true })
   const configRouter = express.Router()
 
   if (form.options.active === true) {
@@ -119,6 +121,12 @@ const setupForm = (form: Form): FormWizardRouter => {
     })
 
     checkFormIntegrity(form)
+
+    router.use((req, _res, next) => {
+      const isValidMode = /^(view|edit)$/.test(req.params.mode)
+      if (!isValidMode) throw new HttpError(req, 404)
+      next()
+    })
 
     router.use(
       FormWizard(form.steps, form.fields, {
@@ -133,16 +141,17 @@ const setupForm = (form: Form): FormWizardRouter => {
 }
 
 export default class FormRouterBuilder {
-  formRouter?: express.Router = express.Router()
+  formRouters: Record<string, FormWizardRouter>
 
   formConfigRouter?: express.Router = express.Router()
 
-  constructor(routers: FormWizardRouter[], latest: FormWizardRouter) {
-    routers
+  constructor(routers: Record<string, FormWizardRouter>, latest: FormWizardRouter) {
+    this.formRouters = routers
+
+    Object.values(routers)
       .filter((formRouter: FormWizardRouter) => formRouter.metaData.active)
       .forEach(formRouter => {
         const [majorVersion, minorVersion] = formRouter.metaData.version.split('.')
-        this.formRouter.use(`/${majorVersion}/${minorVersion}`, formRouter.router)
         this.formConfigRouter.use(`/${majorVersion}/${minorVersion}`, formRouter.configRouter)
       })
     if (latest) {
@@ -151,7 +160,12 @@ export default class FormRouterBuilder {
   }
 
   static configure(...formVersions: Form[]) {
-    const formRouters: FormWizardRouter[] = formVersions.map(form => setupForm(form))
-    return new FormRouterBuilder(formRouters, getLatestVersionFrom(formRouters))
+    const formRouters: Record<string, FormWizardRouter> = Object.fromEntries(
+      formVersions.map(form => [form.options.version, setupForm(form)]),
+    )
+    return new FormRouterBuilder(formRouters, getLatestVersionFrom(Object.values(formRouters)))
   }
 }
+
+export const isInEditMode = (user: HandoverPrincipal, req: Request) =>
+  user.accessMode === 'READ_WRITE' && req.params.mode === 'edit'
