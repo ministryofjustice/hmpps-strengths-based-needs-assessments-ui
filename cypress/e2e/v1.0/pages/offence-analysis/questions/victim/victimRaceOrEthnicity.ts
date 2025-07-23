@@ -27,6 +27,12 @@ const testCreate = (createUrl: string, editUrl: string, positionNumber: number) 
       cy.assertStepUrlIs(createUrl)
 
       cy.getQuestion(question).isQuestionNumber(positionNumber)
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .get('select')
+        .first()
+        .should('have.attr', 'aria-required')
+
       cy.saveAndContinue()
       cy.getQuestion(question).hasValidationError("Select the victim's ethnicity")
       cy.checkAccessibility()
