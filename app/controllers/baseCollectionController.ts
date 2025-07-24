@@ -6,7 +6,13 @@ import BaseController from './baseController'
 import { createAnswerDTOs, flattenAnswers } from './saveAndContinue.utils'
 import { SessionData, userDetailsFromSession } from '../../server/services/strengthsBasedNeedsService'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
-import { compileConditionalFields, fieldsById, withPlaceholdersFrom, withValuesFrom } from '../utils/field.utils'
+import {
+  addAriaRequiredAttributeToRequiredFields,
+  compileConditionalFields,
+  fieldsById,
+  withPlaceholdersFrom,
+  withValuesFrom,
+} from '../utils/field.utils'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { FieldDependencyTreeBuilder } from '../utils/fieldDependencyTreeBuilder'
 import { Progress } from './saveAndContinueController'
@@ -173,7 +179,8 @@ abstract class BaseCollectionController extends BaseController {
       const fieldsWithReplacements = fieldsWithMappedAnswers.map(
         withPlaceholdersFrom(res.locals.placeholderValues || {}),
       )
-      const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithReplacements, {
+      const fieldsWithRequiredAttributes = fieldsWithReplacements.map(addAriaRequiredAttributeToRequiredFields())
+      const fieldsWithRenderedConditionals = compileConditionalFields(fieldsWithRequiredAttributes, {
         action: res.locals.action,
         errors: res.locals.errors,
       })

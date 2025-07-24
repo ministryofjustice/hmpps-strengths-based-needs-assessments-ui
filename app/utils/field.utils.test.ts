@@ -245,7 +245,7 @@ describe('field.utils', () => {
       const field = {
         text: 'Sample text',
         code: 'sample_code',
-        type: 'radio',
+        type: 'RADIO',
         validate: [{ type: ValidationType.Required, message: 'Validation error message' }],
         options: [
           { text: 'option0', kind: 'option', value: 'SETTLED' } as FormWizard.Field.Option,
@@ -269,7 +269,7 @@ describe('field.utils', () => {
       const field = {
         text: 'Sample text',
         code: 'sample_code',
-        type: 'radio',
+        type: 'RADIO',
         validate: [{ type: ValidationType.Required, message: 'Validation error message' }],
         options: [
           {
@@ -293,7 +293,7 @@ describe('field.utils', () => {
       const field = {
         text: 'Sample text',
         code: 'sample_code',
-        type: 'radio',
+        type: 'RADIO',
         validate: [{ type: ValidationType.Required, message: 'Validation error message' }],
         options: [{ text: 'option0', kind: 'option', value: 'SETTLED' } as FormWizard.Field.Option],
       }
@@ -309,7 +309,7 @@ describe('field.utils', () => {
       const field = {
         text: 'Sample text',
         code: 'sample_code',
-        type: 'radio',
+        type: 'RADIO',
         options: [{ text: 'option0', kind: 'option', value: 'SETTLED' } as FormWizard.Field.Option],
       }
 
