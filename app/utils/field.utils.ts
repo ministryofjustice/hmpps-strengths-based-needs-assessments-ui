@@ -243,7 +243,7 @@ export const addAriaRequiredAttributeToRequiredFields = () => (field: FormWizard
 
   const modifiedField = { ...field }
 
-  if (modifiedField.options) {
+  if ((field.type === 'RADIO' || field.type === 'CHECKBOX') && modifiedField.options) {
     modifiedField.options = modifiedField.options.map(option =>
       option.kind === 'divider'
         ? option

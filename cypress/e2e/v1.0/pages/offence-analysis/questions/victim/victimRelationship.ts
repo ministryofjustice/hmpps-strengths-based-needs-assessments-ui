@@ -16,6 +16,12 @@ const testCreate = (createUrl: string, editUrl: string, positionNumber: number) 
       cy.assertStepUrlIs(createUrl)
 
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
+      cy.getQuestion(question)
+        .isQuestionNumber(positionNumber)
+        .get('.govuk-radios__input')
+        .first()
+        .should('have.attr', 'aria-required')
+
       cy.saveAndContinue()
       cy.getQuestion(question).hasValidationError('Select who the victim is')
       cy.checkAccessibility()
