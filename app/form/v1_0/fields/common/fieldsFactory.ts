@@ -24,6 +24,7 @@ type DetailsFieldOptions = {
   maxChars?: number
   textHint?: string
   htmlHint?: string
+  displayInline?: boolean
 }
 
 export default abstract class FieldsFactory {

@@ -97,6 +97,15 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     required: true,
   })
 
+  weaponDetailsField: FormWizard.Field = FieldsFactory.detailsField({
+    displayInline: true,
+    parentField: this.offenceAnalysisElements,
+    dependentValue: 'WEAPON',
+    required: false,
+    maxChars: 200,
+    text: 'What was the weapon?',
+  })
+
   offenceAnalysisReason: FormWizard.Field = {
     text: 'Why did the current index offence(s) happen?',
     code: 'offence_analysis_reason',
