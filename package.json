@@ -177,9 +177,6 @@
     "typescript": "^5.8.2"
   },
   "overrides": {
-    "csurf": {
-      "cookie": "1.0.2"
-    },
     "cypress-axe": {
       "cypress": "^14.2.0"
     },
