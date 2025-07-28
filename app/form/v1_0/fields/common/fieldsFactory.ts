@@ -24,7 +24,6 @@ type DetailsFieldOptions = {
   maxChars?: number
   textHint?: string
   htmlHint?: string
-  displayInline?: boolean
 }
 
 export default abstract class FieldsFactory {
@@ -68,6 +67,10 @@ export default abstract class FieldsFactory {
           message: `Details must be ${maxChars} characters or less`,
         },
       ].filter(Boolean),
+    }
+    if (options.dependentValue === 'WEAPON') {
+      field.type = FieldType.Text
+      field.validate[0].message = `Weapon must be ${maxChars} characters or less`
     }
     if (options.dependentValue) {
       field.dependent = dependentOn(options.parentField, options.dependentValue)
