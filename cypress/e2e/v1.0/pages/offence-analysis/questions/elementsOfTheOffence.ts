@@ -91,8 +91,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     //   })
     // })
 
-    Array.of('Weapon').forEach(option => {
-      it(`conditional field is displayed for "${option}"`, () => {
+    it(`conditional inline text field is displayed for "Weapon"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
         cy.getQuestion(question)
