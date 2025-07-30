@@ -99,7 +99,9 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           .getCheckbox(option)
           .getConditionalQuestion()
           .hasTitle('What was the weapon?')
-          .enterText('This text will be over 200 characters long.This text will be over 200 characters long.This text will be over 200 characters long.This text will be over 200 characters long.This text will be over 200 characters long.')
+          .enterText(
+            'This text will be over 200 characters long.This text will be over 200 characters long.This text will be over 200 characters long.This text will be over 200 characters long.This text will be over 200 characters long.',
+          )
           .hasHint(null)
 
         cy.saveAndContinue()
