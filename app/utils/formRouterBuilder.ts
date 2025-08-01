@@ -1,7 +1,6 @@
 import * as express from 'express'
 import { Request, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
-import HttpError from '../../server/errors/httpError'
 import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
 export type FormWizardRouter = {
