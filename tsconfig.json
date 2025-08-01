@@ -17,6 +17,6 @@
     "typeRoots": ["./server/@types", "./node_modules/@types"],
     "ignoreDeprecations": "5.0",
   },
-  "exclude": ["node_modules", "assets/**/*.js", "cypress", "dist", "cypress.config.ts", "esbuild", "eslint.config.mjs"],
+  "exclude": ["node_modules", "assets/**/*.js", "cypress", "dist", "cypress.config.ts", "esbuild", "eslint.config.mjs", "coverage"],
   "include": ["**/*.js", "**/*.ts"],
 }
