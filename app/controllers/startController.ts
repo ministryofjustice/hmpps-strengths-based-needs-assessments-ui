@@ -14,7 +14,7 @@ import ForbiddenError from '../../server/errors/forbiddenError'
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
 
-const editModeLandingPage = 'close-anything-not-needed-before-appointment'
+const editModeLandingPage = 'close-any-other-applications-before-appointment'
 const readOnlyModeLandingPage = 'accommodation-analysis'
 
 const startController = async (req: Request, res: Response, next: NextFunction) => {

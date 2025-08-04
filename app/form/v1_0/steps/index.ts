@@ -25,7 +25,7 @@ export const sectionConfigs: SectionConfig[] = [
     },
     steps: [
       {
-        url: 'close-anything-not-needed-before-appointment',
+        url: 'close-any-other-applications-before-appointment',
         controller: dataPrivacyController,
         template: templates.dataPrivacy,
         fields: [privacyScreenFields.privacyScreenDeclaration()],
