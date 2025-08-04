@@ -66,10 +66,14 @@
   float: left;
 }
 
-.form-header_hr {
-  margin-top: govuk-spacing(-4);
+.form-header__hr {
+  margin-top: govuk-spacing(1);
+  margin-bottom: govuk-spacing(6);
 }
 
+#return-to-oasys {
+  margin-bottom: 0;
+}
 .grow-wrap {
   display: grid;
 
