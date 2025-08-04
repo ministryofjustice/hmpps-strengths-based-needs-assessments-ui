@@ -64,7 +64,7 @@ describe('read-only mode', () => {
     cy.sectionNotMarkedAsComplete('Drug use')
     cy.visitSection('Drug use')
     cy.assertStepUrlIs('/drug-use-analysis')
-    
+
     const today = new Date()
     const day = today.getDate()
     const month = today.toLocaleDateString('en-GB', { month: 'long' })
