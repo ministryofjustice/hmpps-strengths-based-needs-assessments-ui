@@ -26,8 +26,8 @@ describe('dataPrivacyController', () => {
       const mockNext = jest.fn()
 
       const controller = new DataPrivacyController({
-        route: '/form/1/0/close-anything-not-needed-before-appointment',
-        name: 'close-anything-not-needed-before-appointment',
+        route: '/form/1/0/close-any-other-applications-before-appointment',
+        name: 'close-any-other-applications-before-appointment',
         template: 'form/pages/data-privacy',
       })
 
