@@ -28,6 +28,14 @@ describe('read-only mode', () => {
       .hasSecondaryAnswer('This is the latest version')
   })
 
+  it('previous assessment version is accessed in read-only mode', () => {
+    cy.enterAssessment(AccessMode.READ_ONLY, { assessmentVersion: 0 }, false)
+    cy.sectionMarkedAsComplete('Finance')
+    cy.visitSection('Finance')
+    cy.get('html').contains('This is the latest version').should('not.exist')
+    cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
+  })
+
   it('part-complete assessment is accessed in read-only mode', () => {
     cy.enterAssessment()
     cy.sectionMarkedAsComplete('Drug use')
