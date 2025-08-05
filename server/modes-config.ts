@@ -1,17 +1,23 @@
-import { ModesConfig } from './@types/mode-config'
+export interface ModeConfig {
+  showReturnToOasysButton: boolean
+  showVersionFromDateBanner: boolean
+}
 
-// eslint-disable-next-line import/prefer-default-export
-export const modesConfig: ModesConfig = {
-  view: {
+export interface ModesConfig {
+  [key: string]: ModeConfig
+}
+
+export const modesConfig: ModesConfig = Object.freeze({
+  view: Object.freeze({
     showReturnToOasysButton: true,
     showVersionFromDateBanner: false,
-  },
-  edit: {
+  }),
+  edit: Object.freeze({
     showReturnToOasysButton: true,
     showVersionFromDateBanner: false,
-  },
-  'view-historic': {
+  }),
+  'view-historic': Object.freeze({
     showReturnToOasysButton: false,
     showVersionFromDateBanner: true,
-  },
-}
+  }),
+})
