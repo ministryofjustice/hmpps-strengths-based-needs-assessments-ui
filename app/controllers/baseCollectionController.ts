@@ -100,7 +100,7 @@ abstract class BaseCollectionController extends BaseController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
       const sessionData = req.session.sessionData as SessionData
-      const assessment = await this.fetchAssessment(req, sessionData)
+      const assessment = await this.fetchAssessment(req)
 
       res.locals.user = { ...res.locals.user, ...sessionData.user, username: sessionData.user.displayName }
       req.form.persistedAnswers = flattenAnswers(assessment.assessment)

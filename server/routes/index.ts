@@ -4,13 +4,14 @@ import asyncMiddleware from '../middleware/asyncMiddleware'
 import App from '../../app'
 import startController from '../../app/controllers/startController'
 import config from '../config'
+import { validateMode } from '../middleware/validateMode'
 
 export default function routes(): Router {
   const router = Router()
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
   const app = new App()
-  router.use('/form/:mode/:uuid', app.getFormWizardRouter())
+  router.use('/form/:mode/:uuid', validateMode, app.getFormWizardRouter())
   router.use(App.errorHandler)
   router.use('/config', app.formConfigRouter)
   router.use('/start', startController) // viewing or editing the latest version
