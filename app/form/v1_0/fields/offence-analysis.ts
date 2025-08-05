@@ -97,7 +97,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     required: true,
   })
 
-  weaponDetailsField: FormWizard.Field = FieldsFactory.detailsField({
+  weaponDetailsField: FormWizard.Field = FieldsFactory.weaponDetailsField({
     parentField: this.offenceAnalysisElements,
     dependentValue: 'WEAPON',
     required: false,

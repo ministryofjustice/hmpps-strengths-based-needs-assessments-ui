@@ -60,37 +60,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-    // Array.of('Weapon').forEach(option => {
-    //   it(`conditional field is displayed for "${option}"`, () => {
-    //     cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
-    //
-    //     cy.getQuestion(question)
-    //       .getCheckbox(option)
-    //       .getNthConditionalQuestion(0)
-    //       .hasHint('')
-    //       .hasNoValidationError()
-    //       .hasText('')
-    //     cy.getQuestion(question)
-    //       .getCheckbox(option)
-    //       .getNthConditionalQuestion(1)
-    //       .hasHint(null)
-    //       .hasNoValidationError()
-    //     cy.saveAndContinue()
-    //
-    //     cy.assertStepUrlIs(stepUrl)
-    //     cy.getQuestion(question)
-    //       .getCheckbox(option)
-    //       .getNthConditionalQuestion(0)
-    //       .hasValidationError(`Enter which other option they've misused`)
-    //     cy.getQuestion(question)
-    //       .getCheckbox(option)
-    //       .getNthConditionalQuestion(1)
-    //       .hasValidationError(`Select when they last used this drug`)
-    //
-    //     cy.checkAccessibility()
-    //   })
-    // })
-
+  Array.of('Weapon').forEach(option => {
     it(`conditional inline text field is displayed for "Weapon"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
@@ -124,7 +94,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertQuestionUrl(question)
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('some text')
       })
-    })
+  })
 
     Array.of(
       'Arson',
