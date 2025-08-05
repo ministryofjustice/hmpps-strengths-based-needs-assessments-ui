@@ -1,23 +1,23 @@
 export interface ModeConfig {
-  showReturnToOasysButton: boolean
-  showVersionFromDateBanner: boolean
+  readonly showReturnToOasysButton: boolean
+  readonly showVersionFromDateBanner: boolean
 }
 
 export interface ModesConfig {
-  [key: string]: ModeConfig
+  readonly [key: string]: ModeConfig
 }
 
-export const modesConfig: ModesConfig = Object.freeze({
-  view: Object.freeze({
+export const modesConfig: ModesConfig = {
+  view: {
     showReturnToOasysButton: true,
     showVersionFromDateBanner: false,
-  }),
-  edit: Object.freeze({
+  },
+  edit: {
     showReturnToOasysButton: true,
     showVersionFromDateBanner: false,
-  }),
-  'view-historic': Object.freeze({
+  },
+  'view-historic': {
     showReturnToOasysButton: false,
     showVersionFromDateBanner: true,
-  }),
-})
+  },
+}
