@@ -8,6 +8,9 @@ describe('Data privacy declaration', () => {
 
   it('renders the page correctly', () => {
     cy.enterAssessment(AccessMode.READ_WRITE, {}, false)
+    cy.get('title').contains(
+      'Remember to close any other applications before starting an appointment - Strengths and needs',
+    )
     cy.get('.govuk-heading-l').contains(
       'Remember to close any other applications before starting an appointment with Sam',
     )

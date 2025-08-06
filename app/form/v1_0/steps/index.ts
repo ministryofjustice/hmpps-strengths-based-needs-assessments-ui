@@ -20,7 +20,7 @@ import privacyScreenFields from '../fields/privacy-screen'
 export const sectionConfigs: SectionConfig[] = [
   {
     section: {
-      title: '', // not used
+      title: 'Remember to close any other applications before starting an appointment',
       code: 'data-privacy',
     },
     steps: [
