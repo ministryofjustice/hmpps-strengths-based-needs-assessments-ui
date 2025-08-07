@@ -45,27 +45,26 @@
   </div>
   {% if not isPrivacyScreen and showReturnToOasysButton %}
     <div class="govuk-grid-column-one-half">
-      <div class="form-header">
-         <div class="form-header__actions">
-             {{ govukButton({
-               id: "return-to-oasys",
-               text: "Return to OASys",
-               classes: "" if assessmentIsComplete else "govuk-button--secondary",
-               href: user.returnUrl | default("?defaultReturnUrlGoesHere"),
-               attributes: {
-                 "data-ai-id": "return-to-oasys"
-               }
-             }) }}
-         </div>
+      <div class="form-header govuk-!-margin-bottom-0">
+        <div class="form-header__actions">
+          {{ govukButton({
+            id: "return-to-oasys",
+            text: "Return to OASys",
+            classes: "" if assessmentIsComplete else "govuk-button--secondary",
+            href: user.returnUrl | default("?defaultReturnUrlGoesHere"),
+            attributes: {
+              "data-ai-id": "return-to-oasys"
+            }
+          }) }}
+        </div>
       </div>
     </div>
-  {% elif isPrivacyScreen%}
-    <a class="govuk-back-link" href="{{ oasysUrl }}">Back</a>
   {% endif %}
   <div id="assessment-info" class="govuk-visually-hidden" data-assessment-id="{{ sessionData.assessmentId }}"></div>
 </div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <hr class="govuk-section-break govuk-section-break--visible form-header__hr">
-  </div>
-</div>
+{% if isPrivacyScreen %}
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full govuk-!-margin-top-0 govuk-!-margin-bottom-3">
+  <a class="govuk-back-link govuk-!-margin-bottom-5 govuk-!-margin-top-0" href="{{ oasysUrl }}">Back</a>
+{% else %}
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible form-header_hr govuk-grid-column-full">
+{% endif %}
