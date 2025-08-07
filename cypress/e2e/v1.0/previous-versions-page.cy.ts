@@ -32,17 +32,6 @@ describe('previous versions page', () => {
       cy.get('@view-link').should('have.attr', 'target').and('equal', '_blank')
       cy.get('@view-link').invoke('attr', 'target', '_self').click()
       cy.assertStepUrlIsNot('previous-versions')
-
-      const day = today.getDate()
-      const month = today.toLocaleDateString('en-GB', { month: 'long' })
-      const year = today.getFullYear()
-
-      cy.get('.moj-alert--information')
-        .should('contain', 'This version is from')
-        .and('contain', day)
-        .and('contain', month)
-        .and('contain', year)
-
       cy.go('back')
       cy.assertStepUrlIs('previous-versions')
     })

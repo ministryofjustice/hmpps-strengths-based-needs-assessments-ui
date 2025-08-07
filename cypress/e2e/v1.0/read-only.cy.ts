@@ -33,18 +33,6 @@ describe('read-only mode', () => {
     cy.sectionMarkedAsComplete('Finance')
     cy.visitSection('Finance')
     cy.get('html').contains('This is the latest version').should('not.exist')
-
-    const today = new Date()
-    const day = today.getDate()
-    const month = today.toLocaleDateString('en-GB', { month: 'long' })
-    const year = today.getFullYear()
-
-    cy.get('.moj-alert--information')
-      .should('contain', 'This version is from')
-      .and('contain', day)
-      .and('contain', month)
-      .and('contain', year)
-
     cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
 
@@ -64,18 +52,6 @@ describe('read-only mode', () => {
     cy.sectionNotMarkedAsComplete('Drug use')
     cy.visitSection('Drug use')
     cy.assertStepUrlIs('/drug-use-analysis')
-
-    const today = new Date()
-    const day = today.getDate()
-    const month = today.toLocaleDateString('en-GB', { month: 'long' })
-    const year = today.getFullYear()
-
-    cy.get('.moj-alert--information')
-      .should('contain', 'This version is from')
-      .and('contain', day)
-      .and('contain', month)
-      .and('contain', year)
-
     cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
 

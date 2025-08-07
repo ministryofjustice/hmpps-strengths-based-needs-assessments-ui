@@ -11,7 +11,7 @@ import { validateCollectionField } from '../utils/validation'
 import { combineDateFields, withStateAwareTransform } from '../utils/field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import { defaultName } from '../../server/utils/azureAppInsights'
-import ForbiddenError from '../../server/errors/forbiddenError'
+import { assessmentOrForbidden } from '../utils/assessmentOrForbidden'
 
 class BaseController extends FormWizard.Controller {
   protected apiService: StrengthsBasedNeedsAssessmentsApiService
@@ -22,29 +22,8 @@ class BaseController extends FormWizard.Controller {
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
   }
 
-  async fetchAssessment(req: FormWizard.Request, sessionData: SessionData): Promise<AssessmentResponse> {
-    const isViewOnly = !isInEditMode(sessionData.user, req)
-
-    const forbiddenWhen = [
-      isViewOnly && req.method !== 'GET',
-      isViewOnly && req.params.mode !== 'view',
-      req.params.mode === 'edit' && req.params.uuid !== sessionData.assessmentId,
-    ]
-
-    if (forbiddenWhen.some(isForbidden => isForbidden)) {
-      throw new ForbiddenError(req)
-    }
-
-    const assessment =
-      req.params.mode === 'edit'
-        ? await this.apiService.fetchAssessment(req.params.uuid)
-        : await this.apiService.fetchAssessmentVersion(req.params.uuid)
-
-    if (req.params.mode === 'view' && assessment.metaData.uuid !== sessionData.assessmentId) {
-      throw new ForbiddenError(req)
-    }
-
-    return assessment
+  async fetchAssessment(req: FormWizard.Request): Promise<AssessmentResponse> {
+    return assessmentOrForbidden(req, this.apiService)
   }
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
