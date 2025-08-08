@@ -26,7 +26,12 @@ export const unescape = (input: string) =>
     .replace(/&#x5C;/g, '\\')
     .replace(/&#96;/g, '`')
 
-export const formatDateForDisplay = (value: string, dateFormat = 'd MMMM y'): string => {
+export enum DateFormats {
+  DEFAULT = 'd MMMM y',
+  JUST_YEAR = 'yyyy',
+}
+
+export const formatDateForDisplay = (value: string, dateFormat: DateFormats = DateFormats.DEFAULT): string => {
   if (!value) {
     return null
   }
