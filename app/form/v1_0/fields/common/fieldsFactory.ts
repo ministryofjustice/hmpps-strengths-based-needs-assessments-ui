@@ -80,6 +80,36 @@ export default abstract class FieldsFactory {
     return field
   }
 
+  static weaponDetailsField(options: DetailsFieldOptions): FormWizard.Field {
+    const maxChars = options.maxChars ? options.maxChars : characterLimits.default
+    const field: FormWizard.Field = {
+      text: (options.text ? options.text : 'Give details') + (options.required ? '' : ' (optional)'),
+      code: fieldCodeWith(
+        ...[options.parentField.code, options.dependentValue?.toLowerCase(), 'details'].filter(it => it),
+      ),
+      type: FieldType.TextArea,
+      validate: [
+        options.required
+          ? {
+            type: ValidationType.Required,
+            message: options.requiredMessage ? options.requiredMessage : 'Enter details',
+          }
+          : null,
+        {
+          type: 'validateMaxLength',
+          fn: validateMaxLength,
+          arguments: [maxChars],
+          message: `Details must be ${maxChars} characters or less`,
+        },
+      ].filter(Boolean),
+    }
+    if (options.dependentValue === 'WEAPON') {
+      field.type = FieldType.Text
+      field.validate[0].message = `Weapon must be ${maxChars} characters or less`
+    }
+    return field
+  }
+
   isUserSubmitted(step: string): FormWizard.Field {
     const stepCode = step.replace(/-/g, '_').replace(/\//g, '')
     return {

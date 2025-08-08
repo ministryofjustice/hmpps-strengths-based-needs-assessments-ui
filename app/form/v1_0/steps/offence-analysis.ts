@@ -47,6 +47,7 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.offenceAnalysisDescriptionOfOffence,
         offenceAnalysisFields.offenceAnalysisElements,
         offenceAnalysisFields.victimTargetedDetails,
+        offenceAnalysisFields.weaponDetailsField,
         offenceAnalysisFields.offenceAnalysisReason,
         offenceAnalysisFields.offenceAnalysisMotivation,
         offenceAnalysisFields.otherOffenceMotivationDetails,
