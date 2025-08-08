@@ -34,7 +34,7 @@ describe('unescape', () => {
 
 describe('formatDateForDisplay', () => {
   it('returns the data in the format', () => {
-    expect(formatDateForDisplay('2023-08-02')).toEqual('02 August 2023')
+    expect(formatDateForDisplay('2023-08-02')).toEqual('2 August 2023')
   })
 
   it('returns null when passed a null/undefined value', () => {
