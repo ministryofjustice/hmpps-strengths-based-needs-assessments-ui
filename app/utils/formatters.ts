@@ -32,7 +32,7 @@ export const formatDateForDisplay = (value: string): string => {
   }
 
   const date = DateTime.fromISO(value)
-  return date.isValid ? date.toFormat('dd MMMM y') : null
+  return date.isValid ? date.toFormat('d MMMM y') : null
 }
 
 export const ordinalWordFromNumber = (n: number): string => {
