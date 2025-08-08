@@ -10,13 +10,11 @@ describe('view-historic mode from previous versions page', () => {
     cy.get('@view-link').invoke('attr', 'target', '_self').click()
 
     const today = new Date()
-    today.setDate(today.getDate() - 1)
-
-    const day = String(today.getDate()).padStart(2, '0')
-    const month = today.toLocaleDateString('en-GB', { month: 'long' })
-    const year = today.getFullYear()
-
-    const expectedDate = `${day} ${month} ${year}`
+    const expectedDate = new Date(today.setDate(today.getDate() - 1)).toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
 
     cy.get('.moj-alert--information').contains(`This version is from ${expectedDate}`)
     cy.contains('.govuk-button', 'Return to OASys').should('not.exist')

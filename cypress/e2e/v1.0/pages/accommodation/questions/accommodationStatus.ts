@@ -224,7 +224,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
           cy.visitStep(summaryPage)
           cy.getSummary(question)
             .getAnswer(options.temporary)
-            .hasSecondaryAnswer(typeOfTemporaryAccommodation, 'Expected end date: 01 January 2050')
+            .hasSecondaryAnswer(typeOfTemporaryAccommodation, 'Expected end date: 1 January 2050')
           cy.checkAccessibility()
           cy.getSummary(question).clickChange()
           cy.assertStepUrlIs(stepUrl)

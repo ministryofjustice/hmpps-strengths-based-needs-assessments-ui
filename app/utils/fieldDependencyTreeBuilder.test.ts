@@ -283,7 +283,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
     it('should return date field answer', () => {
       textField.type = FieldType.Date
       const sut = builderWithAnswer('q2', '1970-01-01')
-      const expected: FieldAnswer[] = [{ text: '01 January 1970', value: '01 January 1970', nestedFields: [] }]
+      const expected: FieldAnswer[] = [{ text: '1 January 1970', value: '1 January 1970', nestedFields: [] }]
       expect(sut.getFieldAnswers(textField)).toEqual(expected)
     })
 
