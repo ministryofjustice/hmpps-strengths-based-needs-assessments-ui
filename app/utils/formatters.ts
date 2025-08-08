@@ -26,13 +26,13 @@ export const unescape = (input: string) =>
     .replace(/&#x5C;/g, '\\')
     .replace(/&#96;/g, '`')
 
-export const formatDateForDisplay = (value: string): string => {
+export const formatDateForDisplay = (value: string, dateFormat = 'd MMMM y'): string => {
   if (!value) {
     return null
   }
 
   const date = DateTime.fromISO(value)
-  return date.isValid ? date.toFormat('d MMMM y') : null
+  return date.isValid ? date.toFormat(dateFormat) : null
 }
 
 export const ordinalWordFromNumber = (n: number): string => {
