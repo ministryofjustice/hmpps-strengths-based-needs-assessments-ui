@@ -60,8 +60,8 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       })
     })
 
-  Array.of('Weapon').forEach(option => {
-    it(`conditional inline text field is displayed for "Weapon"`, () => {
+    Array.of('Weapon').forEach(option => {
+      it(`conditional inline text field is displayed for "Weapon"`, () => {
         cy.getQuestion(question).getCheckbox(option).hasConditionalQuestion(false).clickLabel()
 
         cy.getQuestion(question)
@@ -94,7 +94,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
         cy.assertQuestionUrl(question)
         cy.getQuestion(question).getCheckbox(option).isChecked().getConditionalQuestion().hasText('some text')
       })
-  })
+    })
 
     Array.of(
       'Arson',
