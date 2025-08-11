@@ -114,7 +114,6 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
         message: `Weapon must be ${characterLimits.c200} characters or less`,
       },
     ],
-    labelClasses: utils.visuallyHidden,
   }
 
   offenceAnalysisReason: FormWizard.Field = {
