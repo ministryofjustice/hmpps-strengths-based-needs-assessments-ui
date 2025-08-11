@@ -1,7 +1,6 @@
 import * as express from 'express'
 import { Request, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
-import HttpError from '../../server/errors/httpError'
 import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
 export type FormWizardRouter = {
@@ -121,12 +120,6 @@ const setupForm = (form: Form): FormWizardRouter => {
     })
 
     checkFormIntegrity(form)
-
-    router.use((req, _res, next) => {
-      const isValidMode = /^(view|edit)$/.test(req.params.mode)
-      if (!isValidMode) throw new HttpError(req, 404)
-      next()
-    })
 
     router.use(
       FormWizard(form.steps, form.fields, {

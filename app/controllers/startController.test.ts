@@ -53,7 +53,7 @@ describe('startController', () => {
 
     expect(session.save).toHaveBeenCalled()
     expect(res.redirect).toHaveBeenCalledWith(
-      `/form/edit/${assessmentUUID}/close-anything-not-needed-before-appointment`,
+      `/form/edit/${assessmentUUID}/close-any-other-applications-before-appointment`,
     )
     expect(fetchAssessment).toHaveBeenCalledWith(assessmentUUID, undefined)
   })

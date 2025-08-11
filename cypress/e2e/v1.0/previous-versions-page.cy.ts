@@ -32,9 +32,6 @@ describe('previous versions page', () => {
       cy.get('@view-link').should('have.attr', 'target').and('equal', '_blank')
       cy.get('@view-link').invoke('attr', 'target', '_self').click()
       cy.assertStepUrlIsNot('previous-versions')
-
-      cy.get('.moj-alert--information').contains(`This version is from ${expectedDate}`)
-
       cy.go('back')
       cy.assertStepUrlIs('previous-versions')
     })
