@@ -80,18 +80,6 @@ export default abstract class FieldsFactory {
     return field
   }
 
-  // This is mostly the same as the detailsField above, but with a different validation message
-  static weaponDetailsField(options: DetailsFieldOptions): FormWizard.Field {
-    const field = this.detailsField(options)
-    const maxLengthRule = field.validate.find(v => 'type' in v && v.type === 'validateMaxLength')
-
-    if (maxLengthRule) {
-      const maxChars = options.maxChars ?? characterLimits.default
-      maxLengthRule.message = `Weapon must be ${maxChars} characters or less`
-    }
-    return field
-  }
-
   isUserSubmitted(step: string): FormWizard.Field {
     const stepCode = step.replace(/-/g, '_').replace(/\//g, '')
     return {

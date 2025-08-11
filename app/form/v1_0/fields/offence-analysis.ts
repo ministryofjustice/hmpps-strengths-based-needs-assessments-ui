@@ -97,13 +97,25 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     required: true,
   })
 
-  weaponDetailsField: FormWizard.Field = FieldsFactory.weaponDetailsField({
-    parentField: this.offenceAnalysisElements,
-    dependentValue: 'WEAPON',
-    required: false,
-    maxChars: 200,
+  weaponDetailsField: FormWizard.Field = {
     text: 'What was the weapon?',
-  })
+    code: 'other_drug_name',
+    type: FieldType.Text,
+    dependent: {
+      field: 'offence_analysis_elements',
+      value: 'WEAPON',
+      displayInline: true,
+    },
+    validate: [
+      {
+        type: 'validateMaxLength',
+        fn: utils.validateMaxLength,
+        arguments: [characterLimits.c200],
+        message: `Weapon must be ${characterLimits.c200} characters or less`,
+      },
+    ],
+    labelClasses: utils.visuallyHidden,
+  }
 
   offenceAnalysisReason: FormWizard.Field = {
     text: 'Why did the current index offence(s) happen?',
