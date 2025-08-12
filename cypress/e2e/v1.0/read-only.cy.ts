@@ -21,6 +21,7 @@ describe('read-only mode', () => {
 
   it('latest assessment version is accessed in read-only mode', () => {
     cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
+    cy.get('.offender-details__top [data-previous-versions-link]').should('contain.text', 'View previous versions')
     cy.sectionNotMarkedAsComplete('Finance')
     cy.visitSection('Finance')
     cy.getSummary('Does Sam want to make changes to their finances?')
