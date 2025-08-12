@@ -18,5 +18,6 @@ describe('view-historic mode from previous versions page', () => {
 
     cy.get('.moj-alert--information').contains(`This version is from ${expectedDate}`)
     cy.contains('.govuk-button', 'Return to OASys').should('not.exist')
+    cy.get('.offender-details__top [data-previous-versions-link]').should('not.exist')
   })
 })
