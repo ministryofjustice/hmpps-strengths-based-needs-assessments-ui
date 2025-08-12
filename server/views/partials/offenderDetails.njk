@@ -19,7 +19,7 @@
       </dl>
       {% if form.section != "previous-versions" and not isPrivacyScreen %}
         <ul>
-           {% if isInEditMode %}
+           {% if showPreviousVersionsLink %}
              <li>
                 <a href="previous-versions" class="govuk-link govuk-link--no-visited-state" data-previous-versions-link>View previous versions</a>
              </li>
