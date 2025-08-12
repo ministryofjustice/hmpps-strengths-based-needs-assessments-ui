@@ -98,7 +98,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   })
 
   weaponDetailsField: FormWizard.Field = {
-    text: 'What was the weapon?',
+    text: 'What was the weapon? (optional)',
     code: 'offence_weapon_details',
     type: FieldType.Text,
     dependent: {
