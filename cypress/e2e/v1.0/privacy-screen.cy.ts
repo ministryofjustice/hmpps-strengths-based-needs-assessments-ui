@@ -16,7 +16,7 @@ describe('Data privacy declaration', () => {
     )
     cy.get('.govuk-body').contains('For example, Outlook, Teams or NDelius.')
     cy.get('.govuk-body').contains('You must do this to avoid sharing sensitive information.')
-    cy.get('.govuk-body').contains('You should not let Sam use your device either.')
+    cy.get('.govuk-body').contains('You must not let Sam use your device either.')
     cy.get('.govuk-checkboxes').contains("I confirm I'll close any other applications before starting an appointment")
     cy.get('button[name="action"][value="confirm"]').contains('Confirm')
     cy.contains('a.govuk-link--no-visited-state', 'Return to OASys')
