@@ -37,6 +37,7 @@
 
   {% if drugsSummary.otherFields | length %}
     <div class="drugs-summary__other-fields">
+      <dt><!-- empty tag to allow the <dl> to be valid HTML --></dt>
       <dd class="govuk-!-margin-left-0">
         <dl class="govuk-summary-list summary-list">
           {% for otherField in drugsSummary.otherFields %}
@@ -50,6 +51,7 @@
   {% if hasUsedDrugs %}
     <div class="drugs-summary__more-information">
       <dt class="govuk-heading-m drugs-summary__subheading">More information</dt>
+      <dd><!-- empty tag to allow the <dl> to be valid HTML --></dd>
     </div>
   {% endif %}
 
