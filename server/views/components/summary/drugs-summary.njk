@@ -15,9 +15,7 @@
 
   {% if drugsSummary.usedInTheLastSix | length %}
     <div class="drugs-summary__drug-cards">
-      <dt>
-        <h3 class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</h3>
-      </dt>
+      <dt class="govuk-heading-m drugs-summary__subheading">Used in the last 6 months</dt>
       <dd class="govuk-!-margin-left-0">
         {% for card in drugsSummary.usedInTheLastSix %}
           {{ govukSummaryList(card) }}
@@ -28,9 +26,7 @@
 
   {% if drugsSummary.notUsedInTheLastSix | length %}
     <div class="drugs-summary__drug-cards">
-      <dt>
-        <h3 class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</h3>
-      </dt>
+      <dt class="govuk-heading-m drugs-summary__subheading">Not used in the last 6 months</dt>
       <dd class="govuk-!-margin-left-0">
         {% for card in drugsSummary.notUsedInTheLastSix %}
           {{ govukSummaryList(card) }}
@@ -53,9 +49,7 @@
 
   {% if hasUsedDrugs %}
     <div class="drugs-summary__more-information">
-      <dt>
-        <h3 class="govuk-heading-m drugs-summary__subheading">More information</h3>
-      </dt>
+      <dt class="govuk-heading-m drugs-summary__subheading">More information</dt>
     </div>
   {% endif %}
 
