@@ -73,6 +73,27 @@ const notUsedInTheLastSixMonths: FormWizard.Field = {
     },
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  transform(state): FormWizard.Field {
+    const onlyOneDrugSelected = state.answers.select_misused_drugs.length === 1
+
+    if (!onlyOneDrugSelected) return this
+
+    return {
+      ...this,
+      text: this.text.replace('these drugs', 'this drug'),
+      hint: {
+        kind: 'text',
+        text: this.hint.text.replace('these drugs', 'this drug'),
+      },
+      validate: this.validate.map((it: FormWizard.Validate) => ({
+        ...it,
+        message:
+          'type' in it && it.type === ValidationType.Required
+            ? it.message.replace('these drugs', 'this drug')
+            : it.message,
+      })),
+    }
+  },
 }
 
 const injectableDrugsOptions: Array<FormWizard.Field.Option> = drugsList

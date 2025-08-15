@@ -264,7 +264,7 @@ describe('Origin: /drug-use', () => {
         it(`routes to ${destinations.drugUseHistoryAllMoreThanSix}`, () => {
           cy.visitStep(destinations.drugDetailsMoreThanSix)
 
-          cy.getQuestion("Give details about Sam's use of these drugs").enterText('Details about drug use')
+          cy.getQuestion("Give details about Sam's use of this drug").enterText('Details about drug use')
 
           cy.getQuestion('Has Sam ever received treatment for their drug use?').getRadio('No').clickLabel()
 
@@ -355,7 +355,7 @@ describe('Origin: /drug-use', () => {
         it(`routes to ${destinations.drugUseHistoryAllMoreThanSix}`, () => {
           cy.visitStep(destinations.drugDetailsMoreThanSixInjected)
 
-          cy.getQuestion("Give details about Sam's use of these drugs").enterText('Details about drug use')
+          cy.getQuestion("Give details about Sam's use of this drug").enterText('Details about drug use')
 
           cy.getQuestion('Which drugs has Sam injected?').getCheckbox('Cocaine').clickLabel()
 
