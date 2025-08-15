@@ -5,7 +5,7 @@
 {% block backLink %}{% endblock %}
 
 {% block analysisPanel %}
-  <form id="form" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
+  <form id="summaryAnalysis" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in getRenderedFields(form.fields, options) %}
       {% if not (field == 'drugs_practitioner_analysis_motivated_to_stop' and answers.drug_use == 'NO') %}
