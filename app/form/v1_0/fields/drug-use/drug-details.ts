@@ -74,7 +74,7 @@ const notUsedInTheLastSixMonths: FormWizard.Field = {
   ],
   labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   transform(state): FormWizard.Field {
-    const onlyOneDrugSelected = state.answers.select_misused_drugs.length === 1
+    const onlyOneDrugSelected = state.answers?.select_misused_drugs?.length === 1
 
     if (!onlyOneDrugSelected) return this
 
