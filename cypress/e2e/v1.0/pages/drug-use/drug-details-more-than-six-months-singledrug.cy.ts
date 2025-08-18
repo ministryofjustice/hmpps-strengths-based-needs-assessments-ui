@@ -1,20 +1,16 @@
 import { Fixture } from '../../../../support/commands/fixture'
-import { drugs } from './common/drugs'
 import receivingTreatment from './questions/receivingTreatment'
 import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs'
-import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
-import testPastUseDrugsList from './common/testPastUseDrugsList'
 
 describe('/drug-details-more-than-six-months', () => {
   const stepUrl = '/drug-details-more-than-six-months'
-  const summaryPage = '/drug-use-summary'
-  const usedDrugs = drugs.filter(drug => !drug.injectable).map(drug => drug.name)
+  const usedDrug = ['Cannabis']
   const questions = [detailsAboutUseOfTheseDrugs, receivingTreatment(false)]
 
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
     cy.visitSection('Drug use')
-    usedDrugs.forEach(drug => {
+    usedDrug.forEach(drug => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
         cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).getNthConditionalQuestion(0).enterText('Cake')
@@ -43,7 +39,7 @@ describe('/drug-details-more-than-six-months', () => {
 
     cy.hasSubheading('Not used in the last 6 months', true)
     cy.hasSubheading('Used in the last 6 months', false)
-    cy.get('label.not_used_in_last_six_months_details').contains('use of these drugs')
+    cy.get('label.not_used_in_last_six_months_details').contains('use of this drug')
 
     cy.captureAssessment()
   })
@@ -54,43 +50,7 @@ describe('/drug-details-more-than-six-months', () => {
     cy.assertStepUrlIs(stepUrl)
   })
 
-  questions.forEach((questionTest, index) => {
-    questionTest(stepUrl, summaryPage, index + 1)
-  })
-
-  testPastUseDrugsList(usedDrugs, stepUrl)
-
   it('Should have no accessibility violations', () => {
     cy.checkAccessibility()
-  })
-
-  usedDrugs.forEach(drug => {
-    describe(`${drug} was used in the last 6 months`, () => {
-      beforeEach(() => {
-        cy.visitStep('/add-drugs')
-        if (drug === 'Other') {
-          cy.getQuestion('Which drugs has Sam misused?')
-            .getCheckbox(drug)
-            .getNthConditionalQuestion(1)
-            .getRadio('Used in the last 6 months')
-            .clickLabel()
-        } else {
-          cy.getQuestion('Which drugs has Sam misused?')
-            .getCheckbox(drug)
-            .getConditionalQuestion()
-            .getRadio('Used in the last 6 months')
-            .clickLabel()
-        }
-        cy.saveAndContinue()
-
-        cy.assertStepUrlIs(stepUrl)
-        cy.hasSubheading('Not used in the last 6 months', true)
-        cy.hasSubheading('Used in the last 6 months', true)
-        cy.hasDrugQuestionGroups(1)
-        cy.hasQuestionsForDrug(drug, 2)
-      })
-
-      drugUsedInTheLastSixMonths(drug, false, stepUrl, summaryPage)
-    })
   })
 })

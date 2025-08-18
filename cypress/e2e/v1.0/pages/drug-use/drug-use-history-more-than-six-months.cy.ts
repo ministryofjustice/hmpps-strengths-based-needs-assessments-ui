@@ -32,7 +32,7 @@ describe('/drug-use-history-more-than-six-months', () => {
       .clickLabel()
     cy.saveAndContinue()
 
-    cy.getQuestion(`Give details about Sam's use of these drugs`).enterText('Test')
+    cy.getQuestion(`Give details about Sam's use of this drug`).enterText('Test')
     cy.getQuestion('Has Sam ever received treatment for their drug use?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 
