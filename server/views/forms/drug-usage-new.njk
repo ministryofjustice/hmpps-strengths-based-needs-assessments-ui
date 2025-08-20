@@ -70,7 +70,7 @@
   </div>
 
   {{ govukInsetText({
-    text: [subjectDetails.givenName, " used ", drugsNotUsedList | join(", "), " more than 6 months ago."] | join
+    text: [subjectDetails.givenName, " used ", drugsNotUsedList | join(", ") | lower, " more than 6 months ago."] | join
   }) }}
 
   {{ renderQuestion(options.fields["not_used_in_last_six_months_details"], errors) }}
