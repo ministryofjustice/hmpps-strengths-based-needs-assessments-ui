@@ -62,7 +62,7 @@
         {% for lastUsed in options.allFields[["drug_last_used_", option.value | lower] | join].options %}
           {% if lastUsed.checked and lastUsed.value === "MORE_THAN_SIX" %}
             {% set showMoreThanSixMonths = true %}
-            {% set drugsNotUsedList = (drugsNotUsedList.push(getDrugName(option)), drugsNotUsedList) %}
+            {% set drugsNotUsedList = (drugsNotUsedList.push(getDrugName(option) | lower), drugsNotUsedList) %}
           {% endif %}
         {% endfor %}
       {% endif %}
@@ -70,7 +70,7 @@
   </div>
 
   {{ govukInsetText({
-    text: [subjectDetails.givenName, " used ", drugsNotUsedList | join(", "), " more than 6 months ago."] | join
+    text: [subjectDetails.givenName, " used ", drugsNotUsedList | join(", ") | lower, " more than 6 months ago."] | join
   }) }}
 
   {{ renderQuestion(options.fields["not_used_in_last_six_months_details"], errors) }}
