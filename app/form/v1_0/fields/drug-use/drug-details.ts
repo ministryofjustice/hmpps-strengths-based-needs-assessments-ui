@@ -85,7 +85,7 @@ const notUsedInTheLastSixMonths: FormWizard.Field = {
       text: this.text.replace('use of these drugs', `${drugName} use`),
       hint: {
         kind: 'text',
-        text: this.hint.text.replace('these drugs', 'this drug'),
+        text: this.hint.text.replace('these drugs', 'this drug').replace('their use', 'it was'),
       },
       validate: this.validate.map((it: FormWizard.Validate) => ({
         ...it,
