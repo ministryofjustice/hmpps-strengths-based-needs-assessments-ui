@@ -62,7 +62,7 @@
         {% for lastUsed in options.allFields[["drug_last_used_", option.value | lower] | join].options %}
           {% if lastUsed.checked and lastUsed.value === "MORE_THAN_SIX" %}
             {% set showMoreThanSixMonths = true %}
-            {% set drugsNotUsedList = (drugsNotUsedList.push(getDrugName(option)), drugsNotUsedList) %}
+            {% set drugsNotUsedList = (drugsNotUsedList.push(getDrugName(option) | lower), drugsNotUsedList) %}
           {% endif %}
         {% endfor %}
       {% endif %}

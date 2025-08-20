@@ -42,7 +42,7 @@ describe(`Sam has misused drugs`, () => {
       .clickLabel()
     cy.saveAndContinue()
 
-    cy.getQuestion(`Give details about Sam's use of this drug`).enterText('Test')
+    cy.getQuestion(`Give details about Sam's Cannabis use`).enterText('Test')
     cy.getQuestion('Has Sam ever received treatment for their drug use?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 

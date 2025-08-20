@@ -1,6 +1,6 @@
 export default (usedDrugs: string[], stepUrl: string) => {
   it('pulls the list of drugs used more than 6 months ago', () => {
-    const previouslyUsed = usedDrugs.join(', ')
+    const previouslyUsed = usedDrugs.map(drug => drug.toLowerCase()).join(', ')
 
     cy.get('form > .govuk-inset-text')
       .contains(`Sam used ${previouslyUsed} more than 6 months ago.`)
@@ -28,7 +28,7 @@ export default (usedDrugs: string[], stepUrl: string) => {
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
 
-    const nowUsed = usedDrugs.join(', ')
+    const nowUsed = usedDrugs.map(drug => drug.toLowerCase()).join(', ')
 
     cy.get('form > .govuk-inset-text')
       .contains(`Sam used ${nowUsed} more than 6 months ago.`)
