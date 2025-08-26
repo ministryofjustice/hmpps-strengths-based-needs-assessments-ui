@@ -8,7 +8,10 @@ export interface SectionConfig {
 export interface Section {
   title: string
   code: string
+  url?: string
   sectionCompleteField?: string
+  stepUrls?: Record<string, string>
+  subsections?: Record<string, Section>
 }
 
 export default {
@@ -16,6 +19,30 @@ export default {
     title: 'Accommodation',
     code: 'accommodation',
     sectionCompleteField: 'accommodation_section_complete',
+    subsections: {
+      background: {
+        title: 'Accommodation background',
+        code: 'accommodation-background',
+        sectionCompleteField: 'accommodation_background_section_complete',
+        stepUrls: {
+          currentAccommodation: 'current-accommodation',
+          settledAccommodation: 'settled-accommodation',
+          temporaryAccommodation: 'temporary-accommodation',
+          temporaryAccommodationCasAp: 'temporary-accommodation-cas-ap',
+          noAccommodation: 'no-accommodation',
+          backgroundSummary: 'accommodation-background-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'accommodation-practitioner-analysis',
+        sectionCompleteField: 'accommodation_practitioner_analysis_section_complete',
+        stepUrls: {
+          analysis: 'accommodation-analysis',
+          analysisSummary: 'accommodation-analysis-summary',
+        },
+      },
+    },
   },
   employmentEducation: {
     title: 'Employment and education',

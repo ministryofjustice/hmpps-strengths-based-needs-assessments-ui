@@ -5,15 +5,8 @@ import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.accommodation
-const stepUrls = {
-  currentAccommodation: 'current-accommodation',
-  settledAccommodation: 'settled-accommodation',
-  temporaryAccommodation: 'temporary-accommodation',
-  temporaryAccommodationCasAp: 'temporary-accommodation-cas-ap',
-  noAccommodation: 'no-accommodation',
-  summary: 'accommodation-summary',
-  analysis: 'accommodation-analysis',
-}
+const sectionBackground = section.subsections.background
+const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
 
 const accommodationTypeGroup: FormWizard.Field[] = [
   accommodationFields.currentAccommodation,
@@ -62,90 +55,117 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: stepUrls.currentAccommodation,
+      url: sectionBackground.stepUrls.currentAccommodation,
       fields: [
         accommodationTypeGroup,
-        accommodationFields.isUserSubmitted(stepUrls.currentAccommodation),
+        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.currentAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
       next: [
-        nextWhen(accommodationFields.currentAccommodation, 'SETTLED', stepUrls.settledAccommodation),
+        nextWhen(accommodationFields.currentAccommodation, 'SETTLED', sectionBackground.stepUrls.settledAccommodation),
         nextWhen(accommodationFields.currentAccommodation, 'TEMPORARY', [
-          nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'SHORT_TERM', stepUrls.temporaryAccommodation),
-          nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'IMMIGRATION', stepUrls.temporaryAccommodation),
-          stepUrls.temporaryAccommodationCasAp,
+          nextWhen(
+            accommodationFields.typeOfTemporaryAccommodation,
+            'SHORT_TERM',
+            sectionBackground.stepUrls.temporaryAccommodation,
+          ),
+          nextWhen(
+            accommodationFields.typeOfTemporaryAccommodation,
+            'IMMIGRATION',
+            sectionBackground.stepUrls.temporaryAccommodation,
+          ),
+          sectionBackground.stepUrls.temporaryAccommodationCasAp,
         ]),
-        nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
+        nextWhen(
+          accommodationFields.currentAccommodation,
+          'NO_ACCOMMODATION',
+          sectionBackground.stepUrls.noAccommodation,
+        ),
       ],
       navigationOrder: 1,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.settledAccommodation,
+      url: sectionBackground.stepUrls.settledAccommodation,
       fields: [
         livingWithGroup,
         suitableLocationGroup,
         suitableAccommodationGroup,
         accommodationFields.wantToMakeChanges(),
-        accommodationFields.isUserSubmitted(stepUrls.settledAccommodation),
+        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.settledAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.temporaryAccommodation,
+      url: sectionBackground.stepUrls.temporaryAccommodation,
       fields: [
         livingWithGroup,
         suitableLocationGroup,
         suitableAccommodationGroup,
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),
-        accommodationFields.isUserSubmitted(stepUrls.temporaryAccommodation),
+        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.temporaryAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.temporaryAccommodationCasAp,
+      url: sectionBackground.stepUrls.temporaryAccommodationCasAp,
       fields: [
         suitableLocationGroup,
         suitableAccommodationGroup,
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),
-        accommodationFields.isUserSubmitted(stepUrls.temporaryAccommodationCasAp),
+        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.temporaryAccommodationCasAp),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.noAccommodation,
+      url: sectionBackground.stepUrls.noAccommodation,
       fields: [
         noAccommodationGroup,
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),
-        accommodationFields.isUserSubmitted(stepUrls.noAccommodation),
+        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.noAccommodation),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.summary,
+      url: sectionBackground.stepUrls.backgroundSummary,
+      fields: [
+        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.backgroundSummary),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: sectionPractitionerAnalysis.stepUrls.analysis,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
+    },
+    {
+      url: sectionPractitionerAnalysis.stepUrls.analysis,
       fields: [
         accommodationFields.practitionerAnalysis(),
-        accommodationFields.isUserSubmitted(stepUrls.summary),
+        accommodationFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysis),
         accommodationFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysis}#practitioner-analysis`,
+      next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
       template: templates.analysisIncomplete,
-      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      sectionProgressRules: [setFieldToIncomplete(sectionPractitionerAnalysis.sectionCompleteField)],
     },
     {
-      url: stepUrls.analysis,
+      url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
+      fields: [
+        accommodationFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysisSummary),
+        accommodationFields.sectionComplete(),
+      ].flat(),
       template: templates.analysisComplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField)],
     },
   ],
 }
