@@ -39,7 +39,7 @@ describe('/drug-details-more-than-six-months', () => {
 
     cy.hasSubheading('Not used in the last 6 months', true)
     cy.hasSubheading('Used in the last 6 months', false)
-    cy.get('label.not_used_in_last_six_months_details').contains('use of this drug')
+    cy.get('label.not_used_in_last_six_months_details').contains('cannabis use')
 
     cy.captureAssessment()
   })
