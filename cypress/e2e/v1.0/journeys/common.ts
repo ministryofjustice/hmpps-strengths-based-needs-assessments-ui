@@ -9,7 +9,8 @@ export const testPractitionerAnalysis = (
     it(`routes to ${destination}`, () => {
       cy.visitStep(origin)
 
-      cy.get('#tab_practitioner-analysis').click()
+      // cy.get('#tab_practitioner-analysis').click()
+      cy.get('a').contains('Go to practitioner analysis').click()
       cy.get('#practitioner-analysis').should('be.visible')
 
       const sectionNameLowerCase = sectionName.toLowerCase()

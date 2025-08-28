@@ -2,10 +2,11 @@ import livingWith from './questions/livingWith'
 import suitableAccommodation from './questions/suitableAccommodation'
 import suitableAccommodationLocation from './questions/suitableAccommodationLocation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
 describe('/settled-accommodation', () => {
   const stepUrl = '/settled-accommodation'
-  const summaryPage = '/accommodation-summary'
+  const summaryPage = `/${sections.accommodation.subsections.background.stepUrls.backgroundSummary}`
   const questions = [livingWith, suitableAccommodationLocation, suitableAccommodation, wantToMakeChanges]
 
   before(() => {

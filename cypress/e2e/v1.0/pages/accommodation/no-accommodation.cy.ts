@@ -2,10 +2,11 @@ import noAccommodationReason from './questions/noAccommodationReason'
 import pastAccommodationDetails from './questions/pastAccommodationDetails'
 import suitableAccommodationPlanned from './questions/suitableAccommodationPlanned'
 import wantToMakeChanges from './questions/wantToMakeChanges'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
 describe('/no-accommodation', () => {
   const stepUrl = '/no-accommodation'
-  const summaryPage = '/accommodation-summary'
+  const summaryPage = `/${sections.accommodation.subsections.background.stepUrls.backgroundSummary}`
   const questions = [noAccommodationReason, pastAccommodationDetails, suitableAccommodationPlanned, wantToMakeChanges]
 
   before(() => {

@@ -41,7 +41,7 @@
 {% block analysisPanel %}
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}
-  {% set changeLink = options.section + '-summary#practitioner-analysis' %}
+  {% set changeLink = options.section + '-analysis#practitioner-analysis' %}
 
   <section>
     {% if section == 'drug_use' and answers.drug_use == 'YES' %}

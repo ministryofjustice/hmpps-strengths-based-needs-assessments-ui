@@ -2,8 +2,8 @@ import linkedToRiskOfSeriousHarm from './questions/linkedToRiskOfSeriousHarm'
 import linkedToRiskOfReoffending from './questions/linkedToRiskOfReoffending'
 import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFactors'
 
-export default (summaryPage: string, analysisCompletePage: string, sectionName: string) => {
-  describe(`${summaryPage} - Practitioner Analysis`, () => {
+export default (analysisPage: string, analysisCompletePage: string, sectionName: string) => {
+  describe(`${analysisPage} - Practitioner Analysis`, () => {
     it('can navigate to the Practitioner Analysis tab', () => {
       cy.get('.govuk-tabs__list-item--selected #tab_summary').should('be.visible')
       cy.get('#summary').should('be.visible')
@@ -33,7 +33,7 @@ export default (summaryPage: string, analysisCompletePage: string, sectionName: 
 
       questions.forEach((questionTest, index) => {
         // skip the "Give details" questions, as they are tested within the main question tests
-        questionTest(summaryPage, analysisCompletePage, index + 1, sectionName)
+        questionTest(analysisPage, analysisCompletePage, index + 1, sectionName)
       })
     })
   })

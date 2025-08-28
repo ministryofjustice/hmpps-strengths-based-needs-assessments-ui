@@ -1,6 +1,9 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
-const summaryPage = '/accommodation-summary'
+const backgroundSummaryPage = `/${sections.accommodation.subsections.background.stepUrls.backgroundSummary}`
+const analysisPage = `/${sections.accommodation.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.accommodation.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
 
 before(() => {
   cy.createAssessment().enterAssessment()
@@ -20,15 +23,15 @@ before(() => {
   cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
   cy.saveAndContinue()
 
-  cy.assertResumeUrlIs('Accommodation', summaryPage)
+  cy.assertResumeUrlIs('Accommodation', backgroundSummaryPage)
   cy.captureAssessment()
 })
 
 beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
-  cy.visitStep(summaryPage)
+  cy.visitStep(analysisPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
 })
 
-testPractitionerAnalysis(summaryPage, '/accommodation-analysis', 'accommodation')
+testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'accommodation')

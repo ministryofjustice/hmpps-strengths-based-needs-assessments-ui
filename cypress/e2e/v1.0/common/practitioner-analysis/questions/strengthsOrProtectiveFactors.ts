@@ -1,6 +1,6 @@
 import config from '../../../../../support/config'
 
-export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
+export default (analysisPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
   const question = `Are there any strengths or protective factors related to Sam's ${sectionName}?`
   const summaryQuestion = question
 
@@ -13,7 +13,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .hasHint('Include any strategies, people or support networks that helped.')
         .hasRadios(options)
       cy.markAsComplete()
-      cy.assertStepUrlIs(summaryPage)
+      cy.assertStepUrlIs(analysisPage)
       cy.getQuestion(question).hasValidationError('Select if there are any strengths or protective factors')
       cy.checkAccessibility()
     })
@@ -33,7 +33,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
       cy.getAnalysisSummary(summaryQuestion).getAnalysisAnswer('No').hasNoSecondaryAnswer()
       cy.checkAccessibility()
       cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
-      cy.assertStepUrlIs(summaryPage)
+      cy.assertStepUrlIs(analysisPage)
     })
 
     it('"Give details" is required when selecting "Yes"', () => {
@@ -62,7 +62,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         .hasSecondaryAnalysisAnswer('some  details', '  new line<script>')
       cy.checkAccessibility()
       cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
-      cy.assertStepUrlIs(summaryPage)
+      cy.assertStepUrlIs(analysisPage)
       cy.getQuestion(question)
         .getRadio('Yes')
         .isChecked()

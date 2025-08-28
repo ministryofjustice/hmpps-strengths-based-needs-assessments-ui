@@ -6,6 +6,8 @@ export interface SanStep extends FormWizard.BaseStep {
   fields?: FormWizard.Field[]
 }
 
+// TODO maybe rename this to `createFieldValidationConfig` because this function does not actually
+// set the field to complete - it returns a field and a function for doing that.
 export const setFieldToCompleteWhenValid = (fieldCode: string) => ({
   fieldCode,
   conditionFn: (passedValidation: boolean) => passedValidation,

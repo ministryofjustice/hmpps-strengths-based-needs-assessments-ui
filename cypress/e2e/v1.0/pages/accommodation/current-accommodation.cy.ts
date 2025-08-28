@@ -1,8 +1,9 @@
 import accommodationStatus from './questions/accommodationStatus'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
 describe('/current-accommodation', () => {
   const stepUrl = '/current-accommodation'
-  const summaryPage = '/accommodation-summary'
+  const summaryPage = `/${sections.accommodation.subsections.background.stepUrls.backgroundSummary}`
   const questions = [accommodationStatus]
 
   beforeEach(() => {
