@@ -59,7 +59,7 @@ const sectionConfig: SectionConfig = {
       fields: [
         accommodationTypeGroup,
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.currentAccommodation),
-        accommodationFields.sectionComplete(),
+        accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: [
         nextWhen(accommodationFields.currentAccommodation, 'SETTLED', sectionBackground.stepUrls.settledAccommodation),
@@ -83,7 +83,10 @@ const sectionConfig: SectionConfig = {
         ),
       ],
       navigationOrder: 1,
-      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
+      sectionProgressRules: [
+        setFieldToIncomplete(section.sectionCompleteField),
+        setFieldToIncomplete(sectionBackground.sectionCompleteField),
+      ],
     },
     {
       url: sectionBackground.stepUrls.settledAccommodation,
@@ -93,7 +96,7 @@ const sectionConfig: SectionConfig = {
         suitableAccommodationGroup,
         accommodationFields.wantToMakeChanges(),
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.settledAccommodation),
-        accommodationFields.sectionComplete(),
+        accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
       sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
@@ -107,7 +110,7 @@ const sectionConfig: SectionConfig = {
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.temporaryAccommodation),
-        accommodationFields.sectionComplete(),
+        accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
       sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
@@ -120,7 +123,7 @@ const sectionConfig: SectionConfig = {
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.temporaryAccommodationCasAp),
-        accommodationFields.sectionComplete(),
+        accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
       sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
@@ -132,7 +135,7 @@ const sectionConfig: SectionConfig = {
         suitableHousingPlannedGroup,
         accommodationFields.wantToMakeChanges(),
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.noAccommodation),
-        accommodationFields.sectionComplete(),
+        accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
       sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
@@ -141,7 +144,7 @@ const sectionConfig: SectionConfig = {
       url: sectionBackground.stepUrls.backgroundSummary,
       fields: [
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.backgroundSummary),
-        accommodationFields.sectionComplete(),
+        accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionPractitionerAnalysis.stepUrls.analysis,
       template: templates.analysisIncomplete,
@@ -150,8 +153,9 @@ const sectionConfig: SectionConfig = {
     {
       url: sectionPractitionerAnalysis.stepUrls.analysis,
       fields: [
-        accommodationFields.practitionerAnalysis(),
         accommodationFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysis),
+        accommodationFields.practitionerAnalysis(),
+        accommodationFields.practitionerAnalysisSectionComplete(),
         accommodationFields.sectionComplete(),
       ].flat(),
       next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
@@ -162,7 +166,7 @@ const sectionConfig: SectionConfig = {
       url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
       fields: [
         accommodationFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysisSummary),
-        accommodationFields.sectionComplete(),
+        accommodationFields.practitionerAnalysisSectionComplete(),
       ].flat(),
       template: templates.analysisComplete,
       sectionProgressRules: [setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField)],

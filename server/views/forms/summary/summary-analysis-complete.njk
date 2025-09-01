@@ -42,7 +42,9 @@
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}
   {% set changeLink = options.section + '-analysis#practitioner-analysis' %}
-
+  <h1>summary-analysis-complete.njk</h1>
+  !!<pre>{{ answers | dump(2) }}</pre>!!
+  <hr>
   <section>
     {% if section == 'drug_use' and answers.drug_use == 'YES' %}
       {{ renderAnalysisSummaryRow(

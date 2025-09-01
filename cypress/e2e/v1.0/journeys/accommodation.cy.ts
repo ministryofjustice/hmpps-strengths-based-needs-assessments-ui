@@ -25,6 +25,7 @@ describe('Origin: /current-accommodation', () => {
   describe(`Destination: ${destinations.settled}`, () => {
     const typeOfAccommodation = 'Settled'
 
+    // TODO uncomment the below - just commented out to run faster locally for now.
     Array.of(
       'Homeowner',
       // 'Living with friends or family',
