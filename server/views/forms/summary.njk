@@ -65,13 +65,18 @@
         {{ renderSummaryFields(summaryFields) }}
       </form>
     {% if shouldShowAnalaysis %}
+      !!<pre>{{ answers | dump(2) }}</pre>!!
+      <form id="form" method="post" action="{{ action }}#practitioner-analysis" data-autosave="{{ "true" if options.autosave !== false else "false" }}">
+        <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
       <div class="questiongroup-action-buttons summary-action-buttons">
         {{ govukButton({
           text: "Go to practitioner analysis",
-          classes: "govuk-button--secondary govuk-!-margin-bottom-3",
-          href: "accommodation-analysis#practitioner-analysis"
+          classes: "govuk-!-margin-bottom-3",
+          name: getUserSubmittedField(form.fields),
+          value: 'YES'
         }) }}
       </div>
+    </form>
     {% endif %}
     </div>
     {% if shouldShowAnalaysis %}

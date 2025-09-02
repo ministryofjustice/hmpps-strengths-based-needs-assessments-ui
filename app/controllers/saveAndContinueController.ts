@@ -142,6 +142,7 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
+  // checks whether each section in the asssessment has been completed yet
   checkProgress(answers: FormWizard.Answers) {
     return function fn(progress: Progress, rule: SectionCompleteRule): Progress {
       const updatedProgress = { ...progress }

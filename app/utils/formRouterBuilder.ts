@@ -66,6 +66,8 @@ export const createNavigation = (
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 export const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
+
+  // turn all steps into a tuple of `[sectionName, fieldCodes]` for each section
   const sectionRules: Record<string, string[]> = Object.values(steps)
     .map((step): [string, Array<string>] => [step.section, (step.sectionProgressRules || []).map(it => it.fieldCode)])
     .filter(([sectionName]) => sectionName !== 'none')
@@ -77,6 +79,7 @@ export const createSectionProgressRules = (steps: FormWizard.Steps): Array<Secti
       {} as Record<string, string[]>,
     )
 
+  // running sectionRules through Set removes the duplicate fieldCodes
   return Object.entries(sectionRules).map(([sectionName, fieldCodes]) => ({
     sectionName,
     fieldCodes: [...new Set(fieldCodes)],

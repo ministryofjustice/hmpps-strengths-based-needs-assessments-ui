@@ -160,16 +160,14 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
       template: templates.analysisIncomplete,
-      sectionProgressRules: [setFieldToIncomplete(sectionPractitionerAnalysis.sectionCompleteField)],
+      sectionProgressRules: [
+        setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
+        setFieldToCompleteWhenValid(section.sectionCompleteField),
+      ],
     },
     {
       url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
-      fields: [
-        accommodationFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysisSummary),
-        accommodationFields.practitionerAnalysisSectionComplete(),
-      ].flat(),
       template: templates.analysisComplete,
-      sectionProgressRules: [setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField)],
     },
   ],
 }
