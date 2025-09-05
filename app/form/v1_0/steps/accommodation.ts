@@ -1,12 +1,14 @@
 import FormWizard from 'hmpo-form-wizard'
-import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen, SanStep } from './common'
 import accommodationFields from '../fields/accommodation'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.accommodation
 const stepUrls = {
+  startAccommodation: 'start-accommodation',
   currentAccommodation: 'current-accommodation',
+  currentAccommodationPrison: 'current-accommodation-prison',
   settledAccommodation: 'settled-accommodation',
   temporaryAccommodation: 'temporary-accommodation',
   temporaryAccommodationCasAp: 'temporary-accommodation-cas-ap',
@@ -62,6 +64,17 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      url: stepUrls.startAccommodation,
+      next: [
+          nextWhen(accommodationFields.pathway, 'COMMUNITY', stepUrls.currentAccommodation),
+          nextWhen(accommodationFields.pathway, 'PRISON', stepUrls.currentAccommodationPrison),
+        stepUrls.currentAccommodation,
+      ],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      navigationOrder: 1,
+      skip: true,
+    } as SanStep,
+    {
       url: stepUrls.currentAccommodation,
       fields: [
         accommodationTypeGroup,
@@ -77,7 +90,24 @@ const sectionConfig: SectionConfig = {
         ]),
         nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
       ],
-      navigationOrder: 1,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.currentAccommodationPrison,
+      fields: [
+        accommodationTypeGroup,
+        accommodationFields.isUserSubmitted(stepUrls.currentAccommodationPrison),
+        accommodationFields.sectionComplete(),
+      ].flat(),
+      next: [
+        nextWhen(accommodationFields.currentAccommodation, 'SETTLED', stepUrls.settledAccommodation),
+        nextWhen(accommodationFields.currentAccommodation, 'TEMPORARY', [
+          nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'SHORT_TERM', stepUrls.temporaryAccommodation),
+          nextWhen(accommodationFields.typeOfTemporaryAccommodation, 'IMMIGRATION', stepUrls.temporaryAccommodation),
+          stepUrls.temporaryAccommodationCasAp,
+        ]),
+        nextWhen(accommodationFields.currentAccommodation, 'NO_ACCOMMODATION', stepUrls.noAccommodation),
+      ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

@@ -25,6 +25,7 @@ export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<strin
 class SaveAndContinueController extends BaseController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
+      req.body = req.body || {}
       const sessionData = req.session.sessionData as SessionData
       const assessment = await this.fetchAssessment(req)
 
@@ -53,7 +54,7 @@ class SaveAndContinueController extends BaseController {
 
         res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
 
-        if (req.query.action === 'resume') {
+        if (req.query.action === 'resume' || req.path === '/start-accommodation') {
           const currentPageToComplete = pageNavigation.url
           if (req.url !== `/${currentPageToComplete}`) {
             return res.redirect(currentPageToComplete)

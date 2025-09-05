@@ -49,6 +49,17 @@ export function livingWithValidator() {
 const endDateSummaryDisplay = (value: string) => `Expected end date:\n${formatDateForDisplay(value) || 'Not provided'}`
 
 class AccommodationFieldsFactory extends FieldsFactory {
+  pathway: FormWizard.Field = {
+    text: 'pathway',
+    code: 'pathway',
+    type: FieldType.Text,
+    options: [
+      { text: 'COMMUNITY', value: 'COMMUNITY', kind: 'option' },
+      { text: 'PRISON', value: 'PRISON', kind: 'option' },
+    ],
+    hidden: true,
+  }
+
   currentAccommodation: FormWizard.Field = {
     text: 'What type of accommodation does [subject] currently have?',
     code: 'current_accommodation',
