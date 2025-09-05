@@ -25,6 +25,7 @@ export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<strin
 class SaveAndContinueController extends BaseController {
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
     try {
+      req.body = req.body || {}
       const sessionData = req.session.sessionData as SessionData
       const assessment = await this.fetchAssessment(req)
 
