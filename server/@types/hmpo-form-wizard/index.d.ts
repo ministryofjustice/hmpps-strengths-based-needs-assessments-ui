@@ -229,6 +229,7 @@ declare module 'hmpo-form-wizard' {
       secondaryActions?: SecondaryAction[]
       autosave?: boolean
       isLastStep?: boolean
+      skip?: boolean
     }
 
     interface Step extends BaseStep {

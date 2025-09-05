@@ -73,7 +73,7 @@ const sectionConfig: SectionConfig = {
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
       navigationOrder: 1,
       skip: true,
-    } as SanStep,
+    },
     {
       url: stepUrls.currentAccommodation,
       fields: [
