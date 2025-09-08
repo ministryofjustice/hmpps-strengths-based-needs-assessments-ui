@@ -5,6 +5,7 @@ import { isPractitionerAnalysisField } from '../../app/utils/field.utils'
 
 export interface GetSummaryFieldsOptions {
   section: string
+  route: string
   allFields: Record<string, FormWizard.Field>
   steps: FormWizard.RenderedSteps
   answers: FormWizard.Answers

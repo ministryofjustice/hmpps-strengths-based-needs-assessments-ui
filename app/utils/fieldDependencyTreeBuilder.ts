@@ -2,7 +2,7 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { dependencyMet, isPractitionerAnalysisField, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
-import sections from '../form/v1_0/config/sections'
+import sections, { Section } from '../form/v1_0/config/sections'
 import { validateField } from './validation'
 import { formatDateForDisplay } from './formatters'
 
@@ -69,7 +69,11 @@ export class FieldDependencyTreeBuilder {
     Explicitly doesn't support CallbackCondition.
    */
   protected resolveNextStep(next: FormWizard.Step.NextStep): FormWizard.Step.NextStep {
-    if (next === undefined || typeof next === 'string') {
+    if (next === undefined) {
+      return undefined
+    }
+
+    if (typeof next === 'string') {
       return next
     }
 
@@ -240,8 +244,44 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
+  protected findSubsectionByRoute(section: Section, route: string): Section | undefined {
+    if (!section?.subsections) {
+      return undefined
+    }
+
+    const normalizedRoute = route?.substring(1);
+
+    return (
+      Object.entries(section.subsections).find(([, subsection]) => {
+        const stepUrls = subsection.stepUrls || {}
+        return Object.values(stepUrls).includes(normalizedRoute)
+      })?.[1] || null
+    )
+  }
+
+  // find out which subsection the current URL is in and then return the first step in that subsection
+  protected getInitialStepForSubsection() {
+    // @ts-ignore
+    const section = sections[this.options.section]
+
+    const foundSubsection = this.findSubsectionByRoute(section, this.options.route)
+
+    // Get all the step URLs for this subsection
+    const subsectionStepUrls = Object.values(foundSubsection?.stepUrls || {})
+
+    // Find the step in sectionConfig.steps that has initialStepInSection=true
+    // and its URL is one of the subsection's step URLs
+    const initialStep = Object.entries(this.options.steps).find(
+      ([path, step]) => step.initialStepInSection === true && subsectionStepUrls.includes(step.route.substring(1))
+    )
+
+    return initialStep || []
+  }
+
   getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
-    const [initialStepPath, initialStep] = this.getInitialStep()
+    const [initialStepPath, initialStep] = this.getInitialStepForSubsection()
+
+    // const [pipInitialStepPath, pipInitialStep] = this.getInitialStep()
 
     let nextStep = initialStepPath
     const stepsTaken = []
@@ -262,7 +302,9 @@ export class FieldDependencyTreeBuilder {
           })
           return err !== null
         })
+
       const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
+
       if (hasErrors || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
         isSectionComplete = false
         break
@@ -288,7 +330,9 @@ export class FieldDependencyTreeBuilder {
   }
 
   build(): Field[] {
-    const [initialStepPath, initialStep] = this.getInitialStep()
+    const [initialStepPath, initialStep] = this.getInitialStepForSubsection()
+
+    // const [pipInitialStepPath, pipInitialStep] = this.getInitialStep()
 
     return this.getSteps(initialStep, initialStepPath).reduce(
       (fields: Field[], [stepPath, step]) =>

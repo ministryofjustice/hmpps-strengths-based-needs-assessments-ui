@@ -4,6 +4,7 @@ export interface SanStep extends FormWizard.BaseStep {
   url: string
   pageTitle?: string
   fields?: FormWizard.Field[]
+  initialStepInSection?: boolean
 }
 
 // TODO maybe rename this to `createFieldValidationConfig` because this function does not actually

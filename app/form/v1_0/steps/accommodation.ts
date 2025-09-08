@@ -83,6 +83,7 @@ const sectionConfig: SectionConfig = {
         ),
       ],
       navigationOrder: 1,
+      initialStepInSection: true,
       sectionProgressRules: [
         setFieldToIncomplete(section.sectionCompleteField),
         setFieldToIncomplete(sectionBackground.sectionCompleteField),
@@ -99,7 +100,7 @@ const sectionConfig: SectionConfig = {
         accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
-      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
       url: sectionBackground.stepUrls.temporaryAccommodation,
@@ -113,7 +114,7 @@ const sectionConfig: SectionConfig = {
         accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
-      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
       url: sectionBackground.stepUrls.temporaryAccommodationCasAp,
@@ -126,7 +127,7 @@ const sectionConfig: SectionConfig = {
         accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
-      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
       url: sectionBackground.stepUrls.noAccommodation,
@@ -138,17 +139,14 @@ const sectionConfig: SectionConfig = {
         accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
-      sectionProgressRules: [setFieldToIncomplete(sectionBackground.sectionCompleteField)],
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
       url: sectionBackground.stepUrls.backgroundSummary,
       fields: [
-        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.backgroundSummary),
         accommodationFields.backgroundSectionComplete(),
       ].flat(),
-      next: sectionPractitionerAnalysis.stepUrls.analysis,
       template: templates.analysisIncomplete,
-      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
       url: sectionPractitionerAnalysis.stepUrls.analysis,
