@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen, SanStep } from './common'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import accommodationFields from '../fields/accommodation'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'

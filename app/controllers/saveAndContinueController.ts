@@ -54,7 +54,7 @@ class SaveAndContinueController extends BaseController {
 
         res.locals.generatedBackLink = getBackLinkFromTrail(req.url.slice(1), pageNavigation.stepsTaken)
 
-        if (req.query.action === 'resume' || req.path === '/start-accommodation') {
+        if (req.query.action === 'resume') {
           const currentPageToComplete = pageNavigation.url
           if (req.url !== `/${currentPageToComplete}`) {
             return res.redirect(currentPageToComplete)

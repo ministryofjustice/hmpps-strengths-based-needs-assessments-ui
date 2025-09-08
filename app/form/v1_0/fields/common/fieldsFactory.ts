@@ -209,4 +209,15 @@ export default abstract class FieldsFactory {
       }),
     ]
   }
+
+  pathway: FormWizard.Field = {
+    text: 'pathway',
+    code: 'pathway',
+    type: FieldType.Text,
+    options: [
+      { text: 'COMMUNITY', value: 'COMMUNITY', kind: 'option' },
+      { text: 'PRISON', value: 'PRISON', kind: 'option' },
+    ],
+    hidden: true,
+  }
 }
