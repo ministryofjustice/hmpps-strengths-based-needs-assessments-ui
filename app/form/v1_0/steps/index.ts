@@ -6,11 +6,11 @@ import drugUseSection from './drug-use'
 import alcoholSection from './alcohol'
 import employmentEducationSection from './employment-education'
 import healthAndWellbeingSection from './health-wellbeing'
-import thinkingBehavioursAttitudeSection, { stepUrls } from './thinking-behaviours-attitudes'
+import thinkingBehavioursAttitudeSection from './thinking-behaviours-attitudes'
 import personalRelationshipsAndCommunitySection from './personal-relationships-community'
 import offenceAnalysisSection from './offence-analysis'
 import { assessmentComplete } from '../fields'
-import { fieldCodesFrom, nextWhen, SanStep } from './common'
+import { fieldCodesFrom, SanStep } from './common'
 import { Section, SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 import ViewVersionListController from '../../../controllers/viewVersionListController'
@@ -29,11 +29,6 @@ export const sectionConfigs: SectionConfig[] = [
         controller: dataPrivacyController,
         template: templates.dataPrivacy,
         fields: [privacyScreenFields.privacyScreenDeclaration()],
-        //next: [
-        //   nextWhen(accommodationFields.pathway, 'COMMUNITY', 'current-accommodation?action=resume'),
-        //   nextWhen(accommodationFields.pathway, 'PRISON', 'current-accommodation-prison?action=resume'),
-        //   'current-accommodation?action=resume',
-        // ],
         next: `start-accommodation?action=resume`,
       },
     ],
