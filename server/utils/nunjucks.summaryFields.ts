@@ -1,18 +1,24 @@
 import FormWizard from 'hmpo-form-wizard'
-import { FieldDependencyTreeBuilder } from '../../app/utils/fieldDependencyTreeBuilder'
+import { Options, FieldDependencyTreeBuilder } from '../../app/utils/fieldDependencyTreeBuilder'
 import { isNonRenderedField } from './nunjucks.utils'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 import { isPractitionerAnalysisField } from '../../app/utils/field.utils'
 
-export interface GetSummaryFieldsOptions {
-  section: string
-  route: string
-  allFields: Record<string, FormWizard.Field>
-  steps: FormWizard.RenderedSteps
+export interface GetSummaryFieldsOptions extends Options {
   answers: FormWizard.Answers
   collectionOnly?: boolean
 }
 
+/**
+ * Generates an object containing grouped summary fields based on the provided options.
+ *
+ * @param {Object} options - Configuration options for determining which fields to include.
+ * @param {boolean} [options.collectionOnly] - Flag to include only fields of type `Collection`.
+ * @param {Object} [options.answers] - Answers provided to the form, used to check which fields have values.
+ * @returns {Object} - An object containing grouped fields:
+ *                      - `singleFields`: Fields that are not part of a collection.
+ *                      - `collectionFields`: Fields that belong to a collection.
+ */
 export default (options: GetSummaryFieldsOptions) => {
   const builder = new FieldDependencyTreeBuilder(options, options.answers)
 

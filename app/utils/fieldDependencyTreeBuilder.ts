@@ -8,6 +8,7 @@ import { formatDateForDisplay } from './formatters'
 
 export interface Options {
   section: string
+  route?: string
   allFields: Record<string, FormWizard.Field>
   steps: FormWizard.RenderedSteps
 }
@@ -261,8 +262,7 @@ export class FieldDependencyTreeBuilder {
 
   // find out which subsection the current URL is in and then return the first step in that subsection
   protected getInitialStepForSubsection() {
-    // @ts-ignore
-    const section = sections[this.options.section]
+    const section = sections[this.options.section as keyof typeof sections]
 
     const foundSubsection = this.findSubsectionByRoute(section, this.options.route)
 
@@ -281,7 +281,13 @@ export class FieldDependencyTreeBuilder {
   getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStepForSubsection()
 
-    // const [pipInitialStepPath, pipInitialStep] = this.getInitialStep()
+    if (!initialStepPath || !initialStep) {
+      return {
+        url: '',
+        stepsTaken: [],
+        isSectionComplete: false
+      }
+    }
 
     let nextStep = initialStepPath
     const stepsTaken = []
@@ -319,7 +325,7 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
+    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section as keyof typeof sections) || {}
     const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
     return {

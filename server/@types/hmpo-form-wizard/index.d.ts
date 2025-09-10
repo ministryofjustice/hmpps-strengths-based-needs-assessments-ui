@@ -238,6 +238,8 @@ declare module 'hmpo-form-wizard' {
     }
 
     interface RenderedStep extends BaseStep {
+      initialStepInSection?: boolean
+      route?: string
       pageTitle: string
       section: string
       fields?: Fields

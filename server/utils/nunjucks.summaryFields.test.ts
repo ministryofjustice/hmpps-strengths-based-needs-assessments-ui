@@ -47,6 +47,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
 
     const options: GetSummaryFieldsOptions = {
       section: 'test',
+      route: 'route',
       steps: {
         '/step1': {
           pageTitle: 'page 1',

@@ -15,6 +15,10 @@ class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
     return super.resolveNextStep(next)
   }
 
+  getInitialStepForSubsection() {
+    return super.getInitialStepForSubsection()
+  }
+
   toStepFields(stepPath: string): (fields: Field[], field: FormWizard.Field) => Field[] {
     return super.toStepFields(stepPath)
   }
@@ -34,18 +38,27 @@ class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
 
 describe('app/utils/fieldDependencyTreeBuilder', () => {
   const builderWithAnswer = (field: string, value: string | string[]): TestableFieldDependencyTreeBuilder =>
-    new TestableFieldDependencyTreeBuilder({} as FormWizard.FormOptions, {
-      [field]: value,
-    })
+    new TestableFieldDependencyTreeBuilder(
+      {
+        section: 'test',
+        allFields: {},
+        steps: {},
+      },
+      {
+        [field]: value,
+      },
+    )
 
   const builderWithStep = (stepPath: string, step: FormWizard.RenderedStep): TestableFieldDependencyTreeBuilder =>
     new TestableFieldDependencyTreeBuilder(
       {
         section: step.section,
+        route: step.route,
+        allFields: {},
         steps: {
           [stepPath]: step,
         },
-      } as FormWizard.FormOptions,
+      },
       {},
     )
 
@@ -574,6 +587,65 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
     })
   })
 
+  // really we should be mocking the `sections` imported by fieldDependencyTreeBuilder but I can't make it work
+  describe('getInitialStepForSubsection', () => {
+    it('should return an empty array when section is not found', () => {
+
+      const options: FormWizard.FormOptions = {
+        section: 'sectionB',
+        route: '/does-not-matter',
+        steps: {},
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {})
+      expect(sut.getInitialStepForSubsection()).toEqual([])
+    })
+
+    it('should return an empty array when subsection is not found', () => {
+
+      const options: FormWizard.FormOptions = {
+        section: 'accommodation',
+        route: '/non-existent-route',
+        steps: {},
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {})
+      expect(sut.getInitialStepForSubsection()).toEqual([])
+    })
+
+    it('should return an empty array when no valid initial step exists in the subsection', () => {
+      const options: FormWizard.FormOptions = {
+        section: 'accommodation',
+        route: '/current-accommodation',
+        steps: {
+          '/current-accommodation': { route: '/step-1', initialStepInSection: false },
+          '/no-accommodation': { route: '/step-2', initialStepInSection: false },
+        },
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {})
+      expect(sut.getInitialStepForSubsection()).toEqual([])
+    })
+
+    it('should return the correct initial step for a valid subsection', () => {
+      const options: FormWizard.FormOptions = {
+        section: 'accommodation',
+        route: '/current-accommodation',
+        steps: {
+          '/step-1': { route: '/step-1', initialStepInSection: false },
+          '/current-accommodation': { route: '/current-accommodation', initialStepInSection: true },
+        },
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {})
+      expect(sut.getInitialStepForSubsection()).toEqual(['/current-accommodation', options.steps['/current-accommodation']])
+    })
+  })
+
   describe('getPageNavigation', () => {
     it('returns both the next step to complete along with a breadcrumb trail', () => {
       const fields: FormWizard.Fields = {
@@ -603,6 +675,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
 
       const options: FormWizard.FormOptions = {
         section: 'test',
+        route: 'test-route',
         steps: {
           '/step-1': {
             pageTitle: 'Step 1',
