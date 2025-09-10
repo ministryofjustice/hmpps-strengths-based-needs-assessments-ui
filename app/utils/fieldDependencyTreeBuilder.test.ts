@@ -37,6 +37,23 @@ class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
 }
 
 describe('app/utils/fieldDependencyTreeBuilder', () => {
+  const mockSections = {
+    testSection: {
+      title: 'Test Section',
+      code: 'testSection',
+      subsections: {
+        subSectionA: {
+          title: 'Test Subsection',
+          code: 'test-sub',
+          stepUrls: {
+            step1: 'step-1',
+            step2: 'step-2',
+          },
+        },
+      },
+    },
+  }
+
   const builderWithAnswer = (field: string, value: string | string[]): TestableFieldDependencyTreeBuilder =>
     new TestableFieldDependencyTreeBuilder(
       {
@@ -443,23 +460,6 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   })
 
   describe('build', () => {
-    const mockSections = {
-      testSection: {
-        title: 'Test Section',
-        code: 'testSection',
-        subsections: {
-          subSectionA: {
-            title: 'Test Subsection',
-            code: 'test-sub',
-            stepUrls: {
-              step1: 'step-1',
-              step2: 'step-2',
-            },
-          },
-        },
-      },
-    }
-
     // TODO I think this is passing for the wrong reason. Update test data.
     it('should return empty array when no starting step is found in config', () => {
       const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
@@ -536,11 +536,14 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       }
 
       const options: FormWizard.FormOptions = {
-        section: 'test',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
-          '/step1': {
+          '/step-1': {
+            initialStepInSection: true,
+            route: '/step-1',
             pageTitle: 'page 1',
-            section: 'test',
+            section: 'testSection',
             navigationOrder: 1,
             fields: {
               q1: fields.q1,
@@ -562,7 +565,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       const expected: Field[] = [
         {
           field: options.allFields.q1,
-          changeLink: 'step1#q1',
+          changeLink: 'step-1#q1',
           answers: [
             {
               text: 'foo',
@@ -570,7 +573,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
               nestedFields: [
                 {
                   field: options.allFields.q2,
-                  changeLink: 'step1#q2',
+                  changeLink: 'step-1#q2',
                   answers: [
                     {
                       text: 'bar',
@@ -585,7 +588,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
         },
         {
           field: options.allFields.q2,
-          changeLink: 'step1#q2',
+          changeLink: 'step-1#q2',
           answers: [
             {
               text: 'bar',
@@ -597,7 +600,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       ]
 
       const filterFn = jest.fn((field: FormWizard.Field) => field.code !== 'q3')
-      const sut = new TestableFieldDependencyTreeBuilder(options, answers).setStepFieldsFilterFn(filterFn)
+      const sut = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).setStepFieldsFilterFn(filterFn)
 
       expect(sut.buildAndFlatten()).toEqual(expected)
 
@@ -611,23 +614,6 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   // Really we should be using a jest mock for `sections` imported by fieldDependencyTreeBuilder
   // but I can't make it work so added an override to the FieldDependencyTreeBuilder constructor instead.
   describe('getInitialStepForSubsection', () => {
-    const mockSections = {
-      testSection: {
-        title: 'Test Section',
-        code: 'testSection',
-        subsections: {
-          subSectionA: {
-            title: 'Test Subsection',
-            code: 'test-sub',
-            stepUrls: {
-              step1: 'step-1',
-              step2: 'step-2',
-            },
-          },
-        },
-      },
-    }
-
     it('should return an empty array when section is not found', () => {
       const options: FormWizard.FormOptions = {
         section: 'notTestSection',
