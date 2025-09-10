@@ -3,6 +3,7 @@ import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
 import { dependentOn } from './common/fieldUtils'
+import { HandoverSubject } from '../../../../server/services/arnsHandoverService'
 
 const createDebtType = (fieldCode: string, dependentField: FormWizard.Field, option: string): FormWizard.Field => ({
   text: ' ',
@@ -25,7 +26,15 @@ const typeOfDebtDetailsOptions = [
 
 class FinanceFieldsFactory extends FieldsFactory {
   financeIncome: FormWizard.Field = {
-    text: 'Where does [subject] currently get their money from? ',
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      const subject = state.session.subjectDetails as HandoverSubject
+      return {
+        ...this,
+        text: `${pathway === 'PRISON' ? 'Where did' : 'Where does'} ${subject.givenName} currently get their money from${pathway === 'PRISON' ? ' before custody' : ''}?`,
+      }
+    },
+    text: '',
     code: 'finance_income',
     hint: { text: 'Select all that apply.', kind: 'text' },
     type: FieldType.CheckBox,
@@ -71,7 +80,15 @@ class FinanceFieldsFactory extends FieldsFactory {
     .map(FieldsFactory.detailsFieldWith({ parentField: this.financeIncome }))
 
   familyOrFriendsDetails: FormWizard.Field = {
-    text: 'Is [subject] over reliant on family or friends for money?',
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      const subject = state.session.subjectDetails as HandoverSubject
+      return {
+        ...this,
+        text: `${pathway === 'PRISON' ? 'Was' : 'Is'} ${subject.givenName} ${pathway === 'PRISON' ? 'overreliant' : 'over reliant'} on family or friends for money?`,
+      }
+    },
+    text: '',
     code: 'family_or_friends_details',
     type: FieldType.Radio,
     validate: [
@@ -99,6 +116,35 @@ class FinanceFieldsFactory extends FieldsFactory {
     ],
     dependent: dependentOn(this.financeIncome, 'FAMILY_OR_FRIENDS'),
   }
+
+  financeIncomeInCustody: FormWizard.Field = {
+    text: 'Where does [subject] get their money from in custody? ',
+    code: 'finance_income_in_custody',
+    hint: { text: 'Select all that apply.', kind: 'text' },
+    type: FieldType.CheckBox,
+    multiple: true,
+    validate: [
+      {
+        type: ValidationType.Required,
+        message: "Select where they currently get their money from, or select 'No money'",
+      },
+    ],
+    options: [
+      { text: 'Employment', value: 'EMPLOYMENT', kind: 'option' },
+      { text: 'Family or friends', value: 'FAMILY_OR_FRIENDS', kind: 'option' },
+      { text: 'Private pension', value: 'PRIVATE_PENSION', kind: 'option' },
+      { text: 'Unemployment pay', value: 'UNEMPLOYMENT_PAY', kind: 'option' },
+      { text: 'Other', value: 'OTHER', kind: 'option' },
+      { text: 'Unknown', value: 'UNKNOWN', kind: 'option', behaviour: 'exclusive' },
+      utils.orDivider,
+      { text: 'No money', value: 'NO_MONEY', kind: 'option', behaviour: 'exclusive' },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.CheckBox),
+  }
+
+  financeIncomeInCustodyDetails: FormWizard.Field[] = this.financeIncomeInCustody.options
+    .filter(it => it.kind === 'option' && ['NO_MONEY', 'OTHER'].includes(it.value))
+    .map(FieldsFactory.detailsFieldWith({ parentField: this.financeIncomeInCustody }))
 
   financeBankAccount: FormWizard.Field = {
     text: 'Does [subject] have their own bank account?',

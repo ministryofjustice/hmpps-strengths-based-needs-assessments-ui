@@ -66,8 +66,8 @@ const sectionConfig: SectionConfig = {
     {
       url: stepUrls.startAccommodation,
       next: [
-          nextWhen(accommodationFields.pathway, 'COMMUNITY', stepUrls.currentAccommodation),
-          nextWhen(accommodationFields.pathway, 'PRISON', stepUrls.currentAccommodationPrison),
+        nextWhen(accommodationFields.pathway, 'COMMUNITY', stepUrls.currentAccommodation),
+        nextWhen(accommodationFields.pathway, 'PRISON', stepUrls.currentAccommodationPrison),
         stepUrls.currentAccommodation,
       ],
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],

@@ -173,6 +173,45 @@
       ],
       "collection": null
     },
+    "financeIncomeInCustody": {
+      "type": "CHECKBOX",
+      "description": "Where does [subject] get their money from in custody? ",
+      "options": [
+        {
+          "value": "EMPLOYMENT",
+          "text": "Employment"
+        },
+        {
+          "value": "FAMILY_OR_FRIENDS",
+          "text": "Family or friends"
+        },
+        {
+          "value": "PRIVATE_PENSION",
+          "text": "Private pension"
+        },
+        {
+          "value": "UNEMPLOYMENT_PAY",
+          "text": "Unemployment pay"
+        },
+        {
+          "value": "OTHER",
+          "text": "Other"
+        },
+        {
+          "value": "UNKNOWN",
+          "text": "Unknown"
+        },
+        {
+          "value": "NO_MONEY",
+          "text": "No money"
+        }
+      ],
+      "value": null,
+      "values": [
+        "PRIVATE_PENSION"
+      ],
+      "collection": null
+    },
     "finance_changes": {
       "type": "RADIO",
       "description": "Does [subject] want to make changes to their finances?",
