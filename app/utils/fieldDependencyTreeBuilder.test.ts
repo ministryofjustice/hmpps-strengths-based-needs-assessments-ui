@@ -443,6 +443,24 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   })
 
   describe('build', () => {
+    const mockSections = {
+      testSection: {
+        title: 'Test Section',
+        code: 'testSection',
+        subsections: {
+          subSectionA: {
+            title: 'Test Subsection',
+            code: 'test-sub',
+            stepUrls: {
+              step1: 'step-1',
+              step2: 'step-2',
+            },
+          },
+        },
+      },
+    }
+
+    // TODO I think this is passing for the wrong reason. Update test data.
     it('should return empty array when no starting step is found in config', () => {
       const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
       expect(sut.build()).toEqual([])
@@ -455,12 +473,14 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       }
 
       const options: FormWizard.FormOptions = {
-        section: 'accommodation',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
-          '/current-accommodation': {
-            route: '/current-accommodation',
+          '/step-1': {
+            initialStepInSection: true,
+            route: '/step-1',
             pageTitle: 'page 1',
-            section: 'test',
+            section: 'testSection',
             navigationOrder: 1,
             fields: {
               q1: fields.q1,
@@ -480,7 +500,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       const expected: Field[] = [
         {
           field: options.allFields.q1,
-          changeLink: 'step1#q1',
+          changeLink: 'step-1#q1',
           answers: [
             {
               text: 'foo',
@@ -492,7 +512,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       ]
 
       const filterFn = jest.fn((field: FormWizard.Field) => field.code === 'q1')
-      const sut = new TestableFieldDependencyTreeBuilder(options, answers).setStepFieldsFilterFn(filterFn)
+      const sut = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).setStepFieldsFilterFn(filterFn)
 
       expect(sut.build()).toEqual(expected)
 
