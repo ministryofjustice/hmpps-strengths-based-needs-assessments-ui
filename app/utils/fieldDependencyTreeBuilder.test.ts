@@ -697,12 +697,14 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       }
 
       const options: FormWizard.FormOptions = {
-        section: 'test',
-        route: 'test-route',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
           '/step-1': {
+            route: '/step-1',
             pageTitle: 'Step 1',
-            section: 'test',
+            section: 'testSection',
+            initialStepInSection: true,
             navigationOrder: 1,
             fields: {
               q1: fields.q1,
@@ -711,16 +713,18 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
             next: [{ field: 'q2', value: 'baz', next: 'step-3' }, 'step-2'],
           },
           '/step-2': {
+            route: '/step-2',
             pageTitle: 'Step 2',
-            section: 'test',
+            section: 'testSection',
             fields: {
               q3: fields.q3,
             },
             next: ['step-3'],
           },
           '/step-3': {
+            route: '/step-3',
             pageTitle: 'Step 3',
-            section: 'test',
+            section: 'testSection',
             fields: {},
             next: [],
           },
@@ -733,7 +737,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
         q2: 'bar',
       }
 
-      const result = new TestableFieldDependencyTreeBuilder(options, answers).getPageNavigation()
+      const result = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).getPageNavigation()
 
       expect(result).toEqual({
         url: 'step-2',
