@@ -34,13 +34,16 @@ export class FieldDependencyTreeBuilder {
 
   private readonly answers: FormWizard.Answers
 
+  private readonly sections: Record<string, Section>
+
   private answersOverride: FormWizard.Answers = null
 
   private stepFieldsFilterFn: StepFieldsFilterFn = () => true
 
-  constructor(options: Options, answers: FormWizard.Answers) {
+  constructor(options: Options, answers: FormWizard.Answers, sectionsConfig?: Record<string, Section>) {
     this.options = options
     this.answers = answers
+    this.sections = sectionsConfig ?? sections
   }
 
   setStepFieldsFilterFn(filterFn: StepFieldsFilterFn) {
@@ -260,9 +263,12 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
-  // find out which subsection the current URL is in and then return the first step in that subsection
+  /*
+   * Find out which subsection the current URL is in and then return the first step
+   * in that subsection.
+   */
   protected getInitialStepForSubsection() {
-    const section = sections[this.options.section as keyof typeof sections]
+    const section = this.sections[this.options.section as keyof typeof this.sections]
 
     const foundSubsection = this.findSubsectionByRoute(section, this.options.route)
 
@@ -335,10 +341,18 @@ export class FieldDependencyTreeBuilder {
     }
   }
 
+  /**
+   * Creates and returns an array of Field objects by processing all steps
+   * within a subsection. It applies filtering and transformation rules based on step paths and
+   * the provided options.
+   *
+   */
   build(): Field[] {
     const [initialStepPath, initialStep] = this.getInitialStepForSubsection()
 
-    // const [pipInitialStepPath, pipInitialStep] = this.getInitialStep()
+    if (!initialStepPath || !initialStep) {
+      return []
+    }
 
     return this.getSteps(initialStep, initialStepPath).reduce(
       (fields: Field[], [stepPath, step]) =>
@@ -350,6 +364,11 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
+  /**
+   * Builds a list of fields and flattens nested fields from answers into a single array.
+   *
+   * @return {Field[]} An array of fields, including nested fields from answers, flattened.
+   */
   buildAndFlatten(): Field[] {
     const reducer = (acc: Field[], field: Field): Field[] => [
       ...acc,

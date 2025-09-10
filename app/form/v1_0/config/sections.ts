@@ -84,4 +84,4 @@ export default {
     code: 'offence-analysis',
     sectionCompleteField: 'offence_analysis_section_complete',
   },
-}
+} as const satisfies Record<string, Section>

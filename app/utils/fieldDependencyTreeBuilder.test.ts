@@ -455,9 +455,10 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       }
 
       const options: FormWizard.FormOptions = {
-        section: 'test',
+        section: 'accommodation',
         steps: {
-          '/step1': {
+          '/current-accommodation': {
+            route: '/current-accommodation',
             pageTitle: 'page 1',
             section: 'test',
             navigationOrder: 1,
@@ -587,62 +588,78 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
     })
   })
 
-  // really we should be mocking the `sections` imported by fieldDependencyTreeBuilder but I can't make it work
+  // Really we should be using a jest mock for `sections` imported by fieldDependencyTreeBuilder
+  // but I can't make it work so added an override to the FieldDependencyTreeBuilder constructor instead.
   describe('getInitialStepForSubsection', () => {
-    it('should return an empty array when section is not found', () => {
+    const mockSections = {
+      testSection: {
+        title: 'Test Section',
+        code: 'testSection',
+        subsections: {
+          subSectionA: {
+            title: 'Test Subsection',
+            code: 'test-sub',
+            stepUrls: {
+              step1: 'step-1',
+              step2: 'step-2',
+            },
+          },
+        },
+      },
+    }
 
+    it('should return an empty array when section is not found', () => {
       const options: FormWizard.FormOptions = {
-        section: 'sectionB',
+        section: 'notTestSection',
         route: '/does-not-matter',
         steps: {},
         allFields: {},
       } as unknown as FormWizard.FormOptions
 
-      const sut = new TestableFieldDependencyTreeBuilder(options, {})
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
       expect(sut.getInitialStepForSubsection()).toEqual([])
     })
 
     it('should return an empty array when subsection is not found', () => {
-
       const options: FormWizard.FormOptions = {
-        section: 'accommodation',
+        section: 'testSection',
         route: '/non-existent-route',
         steps: {},
         allFields: {},
       } as unknown as FormWizard.FormOptions
 
-      const sut = new TestableFieldDependencyTreeBuilder(options, {})
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
       expect(sut.getInitialStepForSubsection()).toEqual([])
     })
 
     it('should return an empty array when no valid initial step exists in the subsection', () => {
       const options: FormWizard.FormOptions = {
-        section: 'accommodation',
-        route: '/current-accommodation',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
-          '/current-accommodation': { route: '/step-1', initialStepInSection: false },
-          '/no-accommodation': { route: '/step-2', initialStepInSection: false },
+          '/step-1': { route: '/step-1', initialStepInSection: false },
+          '/step-2': { route: '/step-2', initialStepInSection: false },
         },
         allFields: {},
       } as unknown as FormWizard.FormOptions
 
-      const sut = new TestableFieldDependencyTreeBuilder(options, {})
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
       expect(sut.getInitialStepForSubsection()).toEqual([])
     })
 
     it('should return the correct initial step for a valid subsection', () => {
       const options: FormWizard.FormOptions = {
-        section: 'accommodation',
-        route: '/current-accommodation',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
-          '/step-1': { route: '/step-1', initialStepInSection: false },
-          '/current-accommodation': { route: '/current-accommodation', initialStepInSection: true },
+          '/step-2': { route: '/step-2', initialStepInSection: false },
+          '/step-1': { route: '/step-1', initialStepInSection: true },
         },
         allFields: {},
       } as unknown as FormWizard.FormOptions
 
-      const sut = new TestableFieldDependencyTreeBuilder(options, {})
-      expect(sut.getInitialStepForSubsection()).toEqual(['/current-accommodation', options.steps['/current-accommodation']])
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
+      expect(sut.getInitialStepForSubsection()).toEqual(['/step-1', options.steps['/step-1']])
     })
   })
 
