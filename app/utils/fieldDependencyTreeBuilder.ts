@@ -253,7 +253,7 @@ export class FieldDependencyTreeBuilder {
       return undefined
     }
 
-    const normalizedRoute = route?.substring(1);
+    const normalizedRoute = route?.substring(1)
 
     return (
       Object.entries(section.subsections).find(([, subsection]) => {
@@ -261,6 +261,14 @@ export class FieldDependencyTreeBuilder {
         return Object.values(stepUrls).includes(normalizedRoute)
       })?.[1] || null
     )
+  }
+
+  protected isInitialStepInSubsection(step: FormWizard.RenderedStep, validUrls: string[]): boolean {
+    if (!step?.initialStepInSection || !step?.route) {
+      return false
+    }
+    const normalizedStepRoute = step.route.substring(1)
+    return validUrls.includes(normalizedStepRoute)
   }
 
   /*
@@ -277,8 +285,8 @@ export class FieldDependencyTreeBuilder {
 
     // Find the step in sectionConfig.steps that has initialStepInSection=true
     // and its URL is one of the subsection's step URLs
-    const initialStep = Object.entries(this.options.steps).find(
-      ([path, step]) => step.initialStepInSection === true && subsectionStepUrls.includes(step.route.substring(1))
+    const initialStep = Object.entries(this.options.steps).find(([_, step]) =>
+      this.isInitialStepInSubsection(step, subsectionStepUrls),
     )
 
     return initialStep || []
@@ -291,7 +299,7 @@ export class FieldDependencyTreeBuilder {
       return {
         url: '',
         stepsTaken: [],
-        isSectionComplete: false
+        isSectionComplete: false,
       }
     }
 
@@ -331,7 +339,8 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section as keyof typeof sections) || {}
+    const { sectionCompleteField } =
+      Object.values(sections).find(it => it.code === (this.options.section as keyof typeof sections)) || {}
     const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
     return {

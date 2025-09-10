@@ -5,6 +5,23 @@ import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 describe('server/utils/nunjucks.summaryFields', () => {
   it('should return relevant fields and remove "section complete" and "practitioner analysis" questions', () => {
+    const sectionConfig = {
+      testSection: {
+        title: 'Test Section',
+        code: 'testSection',
+        subsections: {
+          subSectionA: {
+            title: 'Test Subsection',
+            code: 'test-sub',
+            stepUrls: {
+              step1: 'step-1',
+              step2: 'step-2',
+            },
+          },
+        },
+      },
+    }
+
     const fields: FormWizard.Fields = {
       q1: { id: 'q1', text: 'Q1', code: 'q1', type: FieldType.Text },
       q2_id: {
@@ -46,12 +63,14 @@ describe('server/utils/nunjucks.summaryFields', () => {
     }
 
     const options: GetSummaryFieldsOptions = {
-      section: 'test',
-      route: 'route',
+      section: 'testSection',
+      route: '/step-1',
       steps: {
-        '/step1': {
+        '/step-1': {
+          initialStepInSection: true,
+          route: '/step-1',
           pageTitle: 'page 1',
-          section: 'test',
+          section: 'testSection',
           navigationOrder: 1,
           fields: {
             q1: fields.q1,
@@ -59,19 +78,21 @@ describe('server/utils/nunjucks.summaryFields', () => {
             step1_section_complete: fields.step1_section_complete,
             step1_practitioner_analysis_q1: fields.step1_practitioner_analysis_q1,
           },
-          next: 'step2',
+          next: 'step-2',
         },
-        '/step2': {
+        '/step-2': {
+          route: '/step-2',
           pageTitle: 'page 2',
-          section: 'test',
+          section: 'testSection',
           fields: {
             q3: fields.q3,
             step2_section_complete: fields.step2_section_complete,
             step2_practitioner_analysis_q3: fields.step2_practitioner_analysis_q3,
           },
-          next: 'step3',
+          next: 'step-3',
         },
-        '/step3': {
+        '/step-3': {
+          route: '/step-3',
           pageTitle: 'page 3',
           section: 'none',
           fields: {
@@ -92,7 +113,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
       singleFields: [
         {
           field: options.allFields.q1,
-          changeLink: 'step1#q1',
+          changeLink: 'step-1#q1',
           answers: [
             {
               text: 'foo',
@@ -103,7 +124,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
         },
         {
           field: options.allFields.q2_id,
-          changeLink: 'step1#q2_id',
+          changeLink: 'step-1#q2_id',
           answers: [
             {
               text: 'Foo',
@@ -116,7 +137,7 @@ describe('server/utils/nunjucks.summaryFields', () => {
               nestedFields: [
                 {
                   field: options.allFields.q3,
-                  changeLink: 'step2#q3',
+                  changeLink: 'step-2#q3',
                   answers: [
                     {
                       text: 'baz',
@@ -133,6 +154,6 @@ describe('server/utils/nunjucks.summaryFields', () => {
       collectionFields: [] as Field[],
     }
 
-    expect(summaryFields(options)).toEqual(expected)
+    expect(summaryFields(options, sectionConfig)).toEqual(expected)
   })
 })
