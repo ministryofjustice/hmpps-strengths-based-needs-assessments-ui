@@ -3,6 +3,7 @@ import { createAssessment, fetchAssessment } from './api'
 export const enum Fixture {
   CompleteAssessment = 'complete-assessment',
   DrugUser = 'drug-user',
+  PrisonPathway = 'prison-pathway',
 }
 
 export const saveAsFixture = (fixture: Fixture) =>

@@ -2,8 +2,9 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
 import sections from '../config/sections'
-import { dependentOn } from './common/fieldUtils'
+import { dependentOn, getMediumLabelClassFor, orDivider } from './common/fieldUtils'
 import characterLimits from '../config/characterLimits'
+import { HandoverSubject } from '../../../../server/services/arnsHandoverService'
 
 const hasBeenEmployedBeforeOptions: FormWizard.Field.Options = [
   {
@@ -35,6 +36,11 @@ const createExperienceOfFields = (label: string, subject: string, prefix?: strin
 
   const parentField: FormWizard.Field = {
     text: label,
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      const prisonHintText = `This includes any ${subject} in custody.`
+      return pathway === 'PRISON' ? { ...this, hint: { text: prisonHintText } } : this
+    },
     code: parentFieldCode,
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: createErrorForExperienceOfFields(subject, prefix) }],
@@ -61,6 +67,21 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     ],
   }
 
+  employmentStatusPrison: FormWizard.Field = {
+    text: "What was [subject]'s employment status before custody?",
+    code: 'employment_status_prison',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select one option' }],
+    options: [
+      { text: 'Employed', value: 'EMPLOYED', kind: 'option' },
+      { text: 'Self-employed', value: 'SELF_EMPLOYED', kind: 'option' },
+      { text: 'Retired', value: 'RETIRED', kind: 'option' },
+      { text: 'Unavailable for work', value: 'UNAVAILABLE_FOR_WORK', kind: 'option' },
+      { text: 'Unemployed - actively looking for work', value: 'UNEMPLOYED_LOOKING_FOR_WORK', kind: 'option' },
+      { text: 'Unemployed - not actively looking for work', value: 'UNEMPLOYED_NOT_LOOKING_FOR_WORK', kind: 'option' },
+    ],
+  }
+
   employmentType: FormWizard.Field = {
     text: 'What is the type of employment?',
     code: 'employment_type',
@@ -73,6 +94,21 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
       { text: 'Apprenticeship', value: 'APPRENTICESHIP', kind: 'option' },
     ],
     dependent: dependentOn(this.employmentStatus, 'EMPLOYED'),
+    labelClasses: utils.visuallyHidden,
+  }
+
+  employmentTypePrison: FormWizard.Field = {
+    text: 'What is the type of employment?',
+    code: 'employment_type_prison',
+    type: FieldType.Radio,
+    validate: [{ type: ValidationType.Required, message: 'Select one option' }],
+    options: [
+      { text: 'Full-time', value: 'FULL_TIME', kind: 'option' },
+      { text: 'Part-time', value: 'PART_TIME', kind: 'option' },
+      { text: 'Temporary or casual', value: 'TEMPORARY_OR_CASUAL', kind: 'option' },
+      { text: 'Apprenticeship', value: 'APPRENTICESHIP', kind: 'option' },
+    ],
+    dependent: dependentOn(this.employmentStatusPrison, 'EMPLOYED'),
     labelClasses: utils.visuallyHidden,
   }
 
@@ -90,10 +126,22 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     dependent: dependentOn(this.employmentStatus, 'CURRENTLY_UNAVAILABLE_FOR_WORK'),
   }
 
+  hasBeenEmployedUnavailableForWorkPrison: FormWizard.Field = {
+    ...this.hasBeenEmployedPrototype,
+    id: 'has_been_employed_unavailable_for_work_prison',
+    dependent: dependentOn(this.employmentStatusPrison, 'UNAVAILABLE_FOR_WORK'),
+  }
+
   hasBeenEmployedActivelySeeking: FormWizard.Field = {
     ...this.hasBeenEmployedPrototype,
     id: 'has_been_employed_actively_seeking',
     dependent: dependentOn(this.employmentStatus, 'UNEMPLOYED_LOOKING_FOR_WORK'),
+  }
+
+  hasBeenEmployedActivelySeekingPrison: FormWizard.Field = {
+    ...this.hasBeenEmployedPrototype,
+    id: 'has_been_employed_actively_seeking_prison',
+    dependent: dependentOn(this.employmentStatusPrison, 'UNEMPLOYED_LOOKING_FOR_WORK'),
   }
 
   hasBeenEmployedNotActivelySeeking: FormWizard.Field = {
@@ -102,17 +150,40 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     dependent: dependentOn(this.employmentStatus, 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'),
   }
 
+  hasBeenEmployedNotActivelySeekingPrison: FormWizard.Field = {
+    ...this.hasBeenEmployedPrototype,
+    id: 'has_been_employed_not_actively_seeking_prison',
+    dependent: dependentOn(this.employmentStatusPrison, 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'),
+  }
+
   employmentArea: FormWizard.Field = {
-    text: 'What job sector does [subject] work in? (optional)',
+    text: 'What job sector does [subject] work in? (optional)?',
     code: 'employment_area',
     type: FieldType.TextArea,
     validate: [],
     labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
   }
 
+  employmentAreaPrison: FormWizard.Field = {
+    text: 'What job sector did [subject] work in (optional)?',
+    code: 'employment_area_prison',
+    type: FieldType.TextArea,
+    validate: [],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.TextArea),
+  }
+
   employmentHistory: FormWizard.Field = {
-    text: "What is [subject]'s employment history?",
-    hint: { text: 'Include their current employment.', kind: 'text' },
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      const subject = state.session.subjectDetails as HandoverSubject
+      const communityQuestion = `What is ${subject.givenName}'s employment history?`
+      const prisonQuestion = `What was ${subject.givenName}'s employment history before custody?`
+      const communityHintText = 'Include their current employment.'
+      return pathway === 'PRISON'
+        ? { ...this, text: prisonQuestion }
+        : { ...this, text: communityQuestion, hint: { text: communityHintText } }
+    },
+    text: '',
     code: 'employment_history',
     type: FieldType.Radio,
     validate: [{ type: ValidationType.Required, message: 'Select their employment history' }],
@@ -173,6 +244,12 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
 
   educationHighestLevelCompleted: FormWizard.Field = {
     text: 'Select the highest level of academic qualification [subject] has completed',
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      return pathway === 'PRISON'
+        ? { ...this, hint: { text: 'This includes any qualifications completed in custody.' } }
+        : this
+    },
     code: 'education_highest_level_completed',
     type: FieldType.Radio,
     validate: [
@@ -242,6 +319,12 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
 
   educationProfessionalOrVocationalQualifications: FormWizard.Field = {
     text: 'Does [subject] have any professional or vocational qualifications?',
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      return pathway === 'PRISON'
+        ? { ...this, hint: { text: 'This includes any qualifications completed in custody.' } }
+        : this
+    },
     code: 'education_professional_or_vocational_qualifications',
     type: FieldType.Radio,
     validate: [
@@ -265,6 +348,10 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
 
   educationTransferableSkills: FormWizard.Field = {
     text: 'Does [subject] have any skills that could help them in a job or to get a job?',
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      return pathway === 'PRISON' ? { ...this, hint: { text: 'This includes any skills gained in custody.' } } : this
+    },
     code: 'education_transferable_skills',
     type: FieldType.Radio,
     validate: [
@@ -375,6 +462,51 @@ class EmploymentEducationFieldsFactory extends FieldsFactory {
     "What is [subject]'s experience of education?",
     'education',
   )
+
+  override wantToMakeChanges(): Array<FormWizard.Field> {
+    const makeChangesOptionsWithDetails: Array<FormWizard.Field.Option> = [
+      { text: 'I have already made positive changes and want to maintain them', value: 'MADE_CHANGES', kind: 'option' },
+      { text: 'I am actively making changes', value: 'MAKING_CHANGES', kind: 'option' },
+      { text: 'I want to make changes and know how to', value: 'WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I want to make changes but need help', value: 'NEEDS_HELP_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I am thinking about making changes', value: 'THINKING_ABOUT_MAKING_CHANGES', kind: 'option' },
+      { text: 'I do not want to make changes', value: 'DOES_NOT_WANT_TO_MAKE_CHANGES', kind: 'option' },
+      { text: 'I do not want to answer', value: 'DOES_NOT_WANT_TO_ANSWER', kind: 'option' },
+    ]
+
+    const parentField: FormWizard.Field = {
+      text: `Does [subject] want to make changes to their employment and education?`,
+      transform(state): FormWizard.Field {
+        const pathway = state.answers.pathway as string
+        const subject = state.session.subjectDetails as HandoverSubject
+        const communityHintText = `${subject.givenName} must answer this question.`
+        const prisonHintText = `${subject.givenName} must answer this question. This includes any employment and education in custody.`
+        return {
+          ...this,
+          hint: {
+            text: `${pathway === 'PRISON' ? prisonHintText : communityHintText}`,
+          },
+        }
+      },
+      code: `${this.fieldPrefix}_changes`,
+      type: FieldType.Radio,
+      validate: [
+        {
+          type: ValidationType.Required,
+          message: `Select if they want to make changes to their employment and education?`,
+        },
+      ],
+      options: [
+        ...makeChangesOptionsWithDetails,
+        orDivider,
+        { text: '[subject] is not present', value: 'NOT_PRESENT', kind: 'option' },
+        { text: 'Not applicable', value: 'NOT_APPLICABLE', kind: 'option' },
+      ],
+      labelClasses: getMediumLabelClassFor(FieldType.Radio),
+    }
+
+    return [parentField, ...makeChangesOptionsWithDetails.map(FieldsFactory.detailsFieldWith({ parentField }))]
+  }
 }
 
 export default new EmploymentEducationFieldsFactory(sections.employmentEducation)
