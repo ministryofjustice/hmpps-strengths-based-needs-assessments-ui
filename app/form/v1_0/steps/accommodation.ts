@@ -82,7 +82,6 @@ const sectionConfig: SectionConfig = {
           sectionBackground.stepUrls.noAccommodation,
         ),
       ],
-      navigationOrder: 1,
       initialStepInSection: true,
       sectionProgressRules: [
         setFieldToIncomplete(section.sectionCompleteField),

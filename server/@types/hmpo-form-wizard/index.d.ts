@@ -221,7 +221,6 @@ declare module 'hmpo-form-wizard' {
       template?: string
       next?: FormWizard.Step.NextStep
       controller?: typeof FormWizard.Controller
-      navigationOrder?: number
       backLink?: string
       sectionProgressRules?: Array<SectionProgressRule>
       noPost?: boolean

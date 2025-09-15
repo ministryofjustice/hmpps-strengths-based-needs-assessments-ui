@@ -25,5 +25,12 @@ export default function routes(): Router {
     res.render('pages/accessibility-statement')
   })
 
+  get('/:sectionName/sections', async (req, res, next) => {
+    res.locals.feedbackUrl = config.feedbackUrl
+    res.locals.sectionName = req.params.sectionName
+    res.render('pages/accessibility-statement')
+  })
+
+
   return router
 }

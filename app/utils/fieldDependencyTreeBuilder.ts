@@ -240,14 +240,6 @@ export class FieldDependencyTreeBuilder {
     return typeof fieldAnswer[0] === 'string' ? (fieldAnswer as string[]) : null
   }
 
-  protected getInitialStep() {
-    return (
-      Object.entries(this.options.steps).find(
-        ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
-      ) || []
-    )
-  }
-
   protected findSubsectionByRoute(section: Section, route: string): Section | undefined {
     if (!section?.subsections) {
       return undefined

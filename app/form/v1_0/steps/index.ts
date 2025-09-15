@@ -22,6 +22,7 @@ export const sectionConfigs: SectionConfig[] = [
     section: {
       title: 'Remember to close any other applications before starting an appointment',
       code: 'data-privacy',
+      navigationOrder: -1,
     },
     steps: [
       {
@@ -37,6 +38,7 @@ export const sectionConfigs: SectionConfig[] = [
     section: {
       title: 'Print preview',
       code: 'print-preview',
+      navigationOrder: -1,
     },
     steps: [
       {
@@ -50,6 +52,7 @@ export const sectionConfigs: SectionConfig[] = [
     section: {
       title: 'Previous versions',
       code: 'previous-versions',
+      navigationOrder: -1,
     },
     steps: [
       {
@@ -90,7 +93,9 @@ export default function buildSteps(): FormWizard.Steps {
   const stepsReducer =
     (sectionConfig: SectionConfig) => (allSectionSteps: FormWizard.Steps, step: SanStep, i: number, a: SanStep[]) =>
       toSteps({ ...step, isLastStep: i === a.length - 1 }, sectionConfig.section, allSectionSteps)
+
   const toSectionSteps = (allSteps: FormWizard.Steps, sectionConfig: SectionConfig) =>
     sectionConfig.steps.reduce(stepsReducer(sectionConfig), allSteps)
+
   return sectionConfigs.reduce(toSectionSteps, {})
 }

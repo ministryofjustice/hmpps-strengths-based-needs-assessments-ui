@@ -32,6 +32,7 @@
     {% include "../partials/feedback.njk" %}
     {% include "../partials/offenderDetails.njk" %}
     {% block notification %}{% endblock %}
+    <pre>{{ sectionProgress | dump(2) }}</pre>
     <div class="govuk-grid-row">
      {% if not isPrivacyScreen %}
       <div class="govuk-grid-column-one-quarter">
@@ -43,10 +44,17 @@
                   <span class="section-label">{{ link.label }}</span>
                   {% if sectionProgress[link.section] %}
                     <span class="section-complete">✓
-                    <span class="govuk-visually-hidden">Section complete</span>
+                      <span class="govuk-visually-hidden">Section complete</span>
                     </span>
                   {% endif %}
                 </a>
+                {% if link.active and link.subsections %}
+                  <ul>
+                    {% for subsection in link.subsections %}
+                      <li><a href="{{ subsection.url }}">{{ subsection.title }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
               </li>
             {% endfor %}
           </ul>

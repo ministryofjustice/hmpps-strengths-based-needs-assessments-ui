@@ -2,6 +2,7 @@ import * as express from 'express'
 import { Request, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
+import { Section } from '../form/v1_0/config/sections'
 
 export type FormWizardRouter = {
   metaData: FormOptions
@@ -37,28 +38,69 @@ export interface NavigationItem {
   section: string
   label: string
   active: boolean
+  subsections?: Array<{
+    title: string
+    code: string
+  }>
 }
 
 export const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
   Object.entries(steps).find(([_path, step]) => step.section === sectionName && step.isLastStep)[0]
 
+export const getLastStepOfSubsection = (
+  sections: Record<string, Section>,
+  sectionName: string,
+  subsectionName: string,
+) => {
+  const section: Section = sections[sectionName as keyof typeof sections]
+  const subsection = section?.subsections?.[subsectionName]
+
+  if (!subsection?.stepUrls) {
+    return undefined
+  }
+
+  const stepUrlValues = Object.values(subsection.stepUrls)
+
+  // The isLastStep flag in app/form/v1_0/steps/index.ts is just set like this, so instead of iterating through
+  // and matching url value to steps[route] and checking for this property, just get it.
+  const lastStepOfSubsection = stepUrlValues[stepUrlValues.length - 1]
+
+  return lastStepOfSubsection
+}
+
+/**
+ * Builds the sidebar navigation object for rendering at the frontend.
+ *
+ */
 export const createNavigation = (
   baseUrl: string,
-  steps: FormWizard.Steps,
+  sections: Record<string, Section>,
   currentSection: string,
   isInEditMode: boolean,
 ): Array<NavigationItem> => {
-  return Object.entries(steps)
-    .filter(([_path, config]) => config.navigationOrder)
-    .sort(([_pathA, configA], [_pathB, configB]) => configA.navigationOrder - configB.navigationOrder)
-    .map(([path, config]) => {
-      const url = isInEditMode ? `${path}?action=resume` : getLastStepOfSection(steps, config.section)
+  return Object.entries(sections)
+    .filter(([_, section]) => section.navigationOrder)
+    .sort(([_keyA, sectionA], [_keyB, sectionB]) => sectionA.navigationOrder - sectionB.navigationOrder)
+    .map(([_key, section]) => {
+      const subsections = section.subsections
+        ? Object.entries(section.subsections)
+            .sort(([, subsectionA], [, subsectionB]) => subsectionA.navigationOrder - subsectionB.navigationOrder)
+            .map(([subsectionKey, subsection]) => ({
+              title: subsection.title,
+              code: subsection.code,
+              url: isInEditMode
+                ? `${section.code}?action=resume`
+                : `${baseUrl}/${getLastStepOfSubsection(sections, currentSection, subsectionKey)}`,
+            }))
+        : undefined
 
       return {
-        url: `${baseUrl}/${url.slice(1)}`,
-        section: config.section,
-        label: config.pageTitle,
-        active: config.section === currentSection,
+        url: `/${section.code}/sections`,
+        code: section.code,
+        section: section.code,
+        label: section.title,
+        active: section.code === currentSection,
+        subsections,
       }
     })
 }
@@ -66,7 +108,6 @@ export const createNavigation = (
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
 
 export const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
-
   // turn all steps into a tuple of `[sectionName, fieldCodes]` for each section
   const sectionRules: Record<string, string[]> = Object.values(steps)
     .map((step): [string, Array<string>] => [step.section, (step.sectionProgressRules || []).map(it => it.fieldCode)])
