@@ -8,6 +8,7 @@ import {
   NavigationItem,
   SectionCompleteRule,
 } from '../utils/formRouterBuilder'
+import sections, { Section } from '../form/v1_0/config/sections'
 
 jest.mock('../../server/config', () => {
   const actual = jest.requireActual('../../server/config')
@@ -99,8 +100,9 @@ describe('BaseController.configure', () => {
 
     expect(createNavigation as jest.Mock).toHaveBeenCalledWith(
       req.baseUrl,
-      req.form.options.steps,
+      sections, // TODO sections should be injected rather than use the hardcoded file :/
       req.form.options.section,
+      req.form.options.steps,
       true,
     )
     expect(createSectionProgressRules as jest.Mock).toHaveBeenCalledWith(req.form.options.steps)

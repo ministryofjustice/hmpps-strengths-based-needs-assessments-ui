@@ -55,6 +55,15 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      url: 'accommodation-tasks',
+      template: templates.sectionTasks,
+      fields: [
+        accommodationTypeGroup,
+        accommodationFields.isUserSubmitted(sectionBackground.stepUrls.currentAccommodation),
+        accommodationFields.backgroundSectionComplete(),
+      ].flat(),
+    },
+    {
       url: sectionBackground.stepUrls.currentAccommodation,
       fields: [
         accommodationTypeGroup,
@@ -142,9 +151,7 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: sectionBackground.stepUrls.backgroundSummary,
-      fields: [
-        accommodationFields.backgroundSectionComplete(),
-      ].flat(),
+      fields: [accommodationFields.backgroundSectionComplete()].flat(),
       template: templates.analysisIncomplete,
     },
     {
@@ -157,6 +164,7 @@ const sectionConfig: SectionConfig = {
       ].flat(),
       next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
       template: templates.analysisIncomplete,
+      initialStepInSection: true,
       sectionProgressRules: [
         setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
         setFieldToCompleteWhenValid(section.sectionCompleteField),

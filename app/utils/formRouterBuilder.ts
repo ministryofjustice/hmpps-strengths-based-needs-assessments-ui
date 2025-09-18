@@ -47,7 +47,7 @@ export interface NavigationItem {
 export const getLastStepOfSection = (steps: FormWizard.Steps, sectionName: string) =>
   Object.entries(steps).find(([_path, step]) => step.section === sectionName && step.isLastStep)[0]
 
-export const getLastStepOfSubsection = (
+export const getLastStepUrlForSubsection = (
   sections: Record<string, Section>,
   sectionName: string,
   subsectionName: string,
@@ -63,9 +63,38 @@ export const getLastStepOfSubsection = (
 
   // The isLastStep flag in app/form/v1_0/steps/index.ts is just set like this, so instead of iterating through
   // and matching url value to steps[route] and checking for this property, just get it.
-  const lastStepOfSubsection = stepUrlValues[stepUrlValues.length - 1]
+  return stepUrlValues[stepUrlValues.length - 1]
+}
 
-  return lastStepOfSubsection
+function createNavigationItem(
+  section: Section,
+  isInEditMode: boolean,
+  baseUrl: string,
+  sections: Record<string, Section>,
+  sectionKey: string,
+  steps: FormWizard.RenderedSteps,
+  currentSection: string,
+) {
+  const subsections = section.subsections
+    ? Object.entries(section.subsections)
+        .sort(([, subsectionA], [, subsectionB]) => subsectionA.navigationOrder - subsectionB.navigationOrder)
+        .map(([subsectionKey, subsection]) => ({
+          title: subsection.title,
+          code: subsection.code,
+          url: isInEditMode
+            ? `${baseUrl}/${getInitialStepUrlForSubsection(sections, sectionKey, subsectionKey, steps)}?action=resume`
+            : `${baseUrl}/${getLastStepUrlForSubsection(sections, currentSection, subsectionKey)}`,
+        }))
+    : undefined
+
+  return {
+    url: `${baseUrl}/${section.code}-tasks`, // TODO this seems yikes. any better way?
+    code: section.code,
+    section: section.code,
+    label: section.title,
+    active: section.code === currentSection,
+    subsections,
+  }
 }
 
 /**
@@ -75,37 +104,47 @@ export const getLastStepOfSubsection = (
 export const createNavigation = (
   baseUrl: string,
   sections: Record<string, Section>,
-  currentSection: string,
+  currentSectionName: string,
+  steps: FormWizard.RenderedSteps,
   isInEditMode: boolean,
 ): Array<NavigationItem> => {
   return Object.entries(sections)
-    .filter(([_, section]) => section.navigationOrder)
-    .sort(([_keyA, sectionA], [_keyB, sectionB]) => sectionA.navigationOrder - sectionB.navigationOrder)
-    .map(([_key, section]) => {
-      const subsections = section.subsections
-        ? Object.entries(section.subsections)
-            .sort(([, subsectionA], [, subsectionB]) => subsectionA.navigationOrder - subsectionB.navigationOrder)
-            .map(([subsectionKey, subsection]) => ({
-              title: subsection.title,
-              code: subsection.code,
-              url: isInEditMode
-                ? `${section.code}?action=resume`
-                : `${baseUrl}/${getLastStepOfSubsection(sections, currentSection, subsectionKey)}`,
-            }))
-        : undefined
-
-      return {
-        url: `/${section.code}/sections`,
-        code: section.code,
-        section: section.code,
-        label: section.title,
-        active: section.code === currentSection,
-        subsections,
-      }
+    .filter(([_, section]) => section.navigationOrder) // only choose sections which have a navigation order
+    .sort(([_keyA, sectionA], [_keyB, sectionB]) => sectionA.navigationOrder - sectionB.navigationOrder) // put in descending order
+    .map(([sectionKey, section]) => {
+      // now generate the full tree of sections and subsections
+      return createNavigationItem(section, isInEditMode, baseUrl, sections, sectionKey, steps, currentSectionName)
     })
 }
 
 export type SectionCompleteRule = { sectionName: string; fieldCodes: Array<string> }
+
+/*
+ * TODO: this is mostly duplicated in fieldDependencyTreeBuilder as getInitialStepUrlForSubsection. Solve.
+ *
+ * Find out which subsection the current URL is in and then return the first step
+ * in that subsection.
+ */
+export const getInitialStepUrlForSubsection = (
+  sections: Record<string, Section>,
+  sectionName: string,
+  subsectionName: string,
+  steps: FormWizard.RenderedSteps,
+): string => {
+  const section = sections[sectionName as keyof typeof sections]
+
+  const subsection = section?.subsections?.[subsectionName]
+
+  // Get all the step URLs for this subsection
+  const subsectionStepUrls = Object.values(subsection?.stepUrls || {})
+
+  // loop over steps and find the one with initialStepInSection=true and make sure its URL value is in the subsectionStepUrls array
+  const initialStep = Object.entries(steps).find(
+    ([stepUrl, step]) => step.initialStepInSection === true && subsectionStepUrls.includes(stepUrl.substring(1)),
+  )
+
+  return initialStep?.[1].route.substring(1) || subsectionStepUrls[0] // fallback to the first url in the subsection array
+}
 
 export const createSectionProgressRules = (steps: FormWizard.Steps): Array<SectionCompleteRule> => {
   // turn all steps into a tuple of `[sectionName, fieldCodes]` for each section

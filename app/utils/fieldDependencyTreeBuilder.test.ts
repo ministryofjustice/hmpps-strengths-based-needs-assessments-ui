@@ -30,10 +30,6 @@ class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
   getFieldAnswers(field: FormWizard.Field): FieldAnswer[] {
     return super.getFieldAnswers(field)
   }
-
-  getInitialStep() {
-    return super.getInitialStep()
-  }
 }
 
 describe('app/utils/fieldDependencyTreeBuilder', () => {
@@ -41,10 +37,12 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
     testSection: {
       title: 'Test Section',
       code: 'testSection',
+      navigationOrder: 1,
       subsections: {
         subSectionA: {
           title: 'Test Subsection',
           code: 'test-sub',
+          navigationOrder: 1,
           stepUrls: {
             step1: 'step-1',
             step2: 'step-2',

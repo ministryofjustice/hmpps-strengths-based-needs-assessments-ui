@@ -6,4 +6,5 @@ export default {
   printPreview: 'pages/print-preview',
   previousVersions: 'pages/previous-versions',
   dataPrivacy: 'pages/data-privacy',
+  sectionTasks: 'pages/section-tasks',
 }

@@ -1,0 +1,24 @@
+{% extends "../forms/layout.njk" %}
+
+{% block formContent %}
+  {% for link in form.navigation %}
+    {% if link.active and link.subsections %}
+      <ul>
+        {% for subsection in link.subsections %}
+          <li>
+            <a href="{{ subsection.url }}">{{ subsection.title }}</a>
+            {% if sectionProgress[options.section] %}
+              <div class="section-heading__status">
+                {{ govukTag({ text: "Complete" }) }}
+              </div>
+            {% else %}
+              <div class="section-heading__status">
+                {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

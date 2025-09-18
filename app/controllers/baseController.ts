@@ -37,6 +37,7 @@ class BaseController extends FormWizard.Controller {
         req.baseUrl,
         sections,
         section,
+        steps,
         isInEditMode(sessionData.user, req),
       ),
       sectionProgressRules: createSectionProgressRules(steps as unknown as FormWizard.Steps),
