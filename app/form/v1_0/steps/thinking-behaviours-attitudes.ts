@@ -40,7 +40,6 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 8,
       next: stepUrls.riskOfSexualHarm,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },

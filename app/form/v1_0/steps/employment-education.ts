@@ -66,7 +66,6 @@ const sectionConfig: SectionConfig = {
           ],
         ),
       ],
-      navigationOrder: 2,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

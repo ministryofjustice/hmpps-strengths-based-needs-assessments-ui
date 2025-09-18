@@ -47,7 +47,6 @@ const sectionConfig: SectionConfig = {
         nextWhen(alcoholFields.alcoholUse, 'YES_NOT_IN_LAST_THREE_MONTHS', stepUrls.alcoholUseLessThreeMonths),
         nextWhen(alcoholFields.alcoholUse, 'NO', stepUrls.summary),
       ],
-      navigationOrder: 5,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {

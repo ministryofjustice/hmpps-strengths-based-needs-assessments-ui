@@ -53,7 +53,6 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.isUserSubmitted(stepUrls.healthWellbeing),
         healthWellbeingFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 6,
       next: [
         nextWhen(healthWellbeingFields.healthWellbeingPhysicalHealthCondition, 'YES', [
           nextWhen(

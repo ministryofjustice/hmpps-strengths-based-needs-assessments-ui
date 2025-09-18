@@ -38,7 +38,6 @@ const sectionConfig: SectionConfig = {
         financeFields.isUserSubmitted(stepUrls.finance),
         financeFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 3,
       next: stepUrls.summary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },

@@ -35,7 +35,6 @@ const sectionConfig: SectionConfig = {
         nextWhen(drugsUseFields.drugUse.drugUse, 'YES', stepUrls.addDrugs),
         nextWhen(drugsUseFields.drugUse.drugUse, 'NO', stepUrls.summary),
       ],
-      navigationOrder: 4,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
