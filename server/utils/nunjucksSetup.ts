@@ -14,6 +14,7 @@ import {
   startsWith,
   toErrorSummary,
   urlSafe,
+  safeStringify,
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
 import generateDrugsSummary from './nunjucks.drugsSummary'
@@ -97,4 +98,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('displayDateForToday', displayDateForToday)
 
   njkEnv.addGlobal('getMaintenanceMessage', maintenanceMessage)
+
+  njkEnv.addFilter('safeStringify', safeStringify)
 }

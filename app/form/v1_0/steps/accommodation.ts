@@ -152,7 +152,8 @@ const sectionConfig: SectionConfig = {
     {
       url: sectionBackground.stepUrls.backgroundSummary,
       fields: [accommodationFields.backgroundSectionComplete()].flat(),
-      template: templates.analysisIncomplete,
+      template: templates.backgroundSummary,
+      pageTitle: 'Accommodation background summary',
     },
     {
       url: sectionPractitionerAnalysis.stepUrls.analysis,

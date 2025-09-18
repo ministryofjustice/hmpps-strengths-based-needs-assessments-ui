@@ -1,13 +1,12 @@
-{% extends "../summary.njk" %}
+{% extends "../layout.njk" %}
 {% from "components/question/macro.njk" import renderQuestion %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block backLink %}{% endblock %}
 
-{% block analysisPanel %}
-  <h1>summary-analysis-incomplete.njk</h1>
-  !!<pre>{{ answers | dump(2) }}</pre>!!
-  <form id="summaryAnalysis" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
+{% block formContent %}
+{#  !!<pre>{{ answers | dump(2) }}</pre>!!#}
+  <form id="summaryAnalysis" method="post" action="{{ action }}" data-autosave="true">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in getRenderedFields(form.fields, options) %}
       {% if not (field == 'drugs_practitioner_analysis_motivated_to_stop' and answers.drug_use == 'NO') %}

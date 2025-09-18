@@ -1,10 +1,10 @@
 export default {
-  analysisComplete: 'forms/summary/summary-analysis-complete',
-  analysisIncomplete: 'forms/summary/summary-analysis-incomplete',
-  drugUsage: 'forms/drug-usage',
+  sectionTasks: 'pages/section-tasks',
   drugUsageNew: 'forms/drug-usage-new',
   printPreview: 'pages/print-preview',
   previousVersions: 'pages/previous-versions',
   dataPrivacy: 'pages/data-privacy',
-  sectionTasks: 'pages/section-tasks',
+  backgroundSummary: 'forms/summary/summary-background',
+  analysisComplete: 'forms/summary/summary-analysis-complete',
+  analysisIncomplete: 'forms/summary/summary-analysis-incomplete',
 }

@@ -52,3 +52,21 @@ export const setProp = (obj: any, prop: string, value: any) => ({ ...obj, [prop]
 
 export const display = (answer: FieldAnswer): string =>
   answer.html ? answer.html : answer.text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2')
+
+// Helper function to handle circular references
+export const safeStringify = (obj: never) => {
+  const seen = new WeakSet()
+  return JSON.stringify(
+    obj,
+    (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return '[Circular Reference]'
+        }
+        seen.add(value)
+      }
+      return value
+    },
+    2,
+  )
+}

@@ -1,4 +1,4 @@
-{% extends "../summary.njk" %}
+{% extends "../layout.njk" %}
 
 {% macro renderAnalysisSummaryRow(field, yesDetailsField, noDetailsField, link) %}
   <article class="analysis-summary__item">
@@ -38,12 +38,11 @@
 
 {% block backLink %}{% endblock %}
 
-{% block analysisPanel %}
+{% block formContent %}
   {% set section = options.section | replace("-", "_") %}
   {% set fields = options.allFields %}
-  {% set changeLink = options.section + '-analysis#practitioner-analysis' %}
-  <h1>summary-analysis-complete.njk</h1>
-  !!<pre>{{ answers | dump(2) }}</pre>!!
+  {% set changeLink = options.section + '-analysis' %}
+{#  !!<pre>{{ answers | dump(2) }}</pre>!!#}
   <hr>
   <section>
     {% if section == 'drug_use' and answers.drug_use == 'YES' %}

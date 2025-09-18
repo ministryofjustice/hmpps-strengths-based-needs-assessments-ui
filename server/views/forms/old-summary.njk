@@ -20,7 +20,7 @@
   {% if not isInEditMode and sectionStarted and not sectionComplete %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      {{ mojBanner({ type: "information", text: "This section is incomplete" }) }}
+      {{ mojBanner({ type: "information", text: "This section is incomplete3" }) }}
     </div>
   </div>
   {% endif %}
@@ -85,6 +85,6 @@
     {% endif %}
   </div>
 {% else %}
-  <p class="govuk-body">This section is incomplete</p>
+  <p class="govuk-body">This section is incomplete4</p>
 {% endif %}
 {% endblock %}
