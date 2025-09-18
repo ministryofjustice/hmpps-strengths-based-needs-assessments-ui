@@ -1,10 +1,10 @@
 import qualifications from './questions/qualifications'
 import skills from './questions/skills'
-import difficulties from './questions/difficulties'
 import levelOfEducation from './questions/levelOfEducation'
 import experienceOfEducation from './questions/experienceOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 import { Fixture } from '../../../../../support/commands/fixture'
+import difficulties from '../../employment-education/questions/difficulties'
 
 describe('/never-employed-prison', () => {
   const stepUrl = '/never-employed-prison'
