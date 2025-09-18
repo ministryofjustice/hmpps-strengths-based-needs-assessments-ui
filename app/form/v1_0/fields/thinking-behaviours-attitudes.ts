@@ -1,7 +1,7 @@
 import FormWizard from 'hmpo-form-wizard'
 import { FieldsFactory, utils } from './common'
 import { FieldType, ValidationType } from '../../../../server/@types/hmpo-form-wizard/enums'
-import sections from '../config/sections'
+import sections, {Section} from '../config/sections'
 import { HandoverSubject } from '../../../../server/services/arnsHandoverService'
 
 const sexualHarmWarningText = `
@@ -217,7 +217,7 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
     labelClasses: utils.getLargeLabelClassFor(FieldType.Radio),
     transform(state): FormWizard.Field {
       const subjectDetails = state.session.subjectDetails as HandoverSubject
-      return {
+      return <FormWizard.Field> {
         ...this,
         hint: subjectDetails.sexuallyMotivatedOffenceHistory === 'NO' ? this.hint : null,
         options: this.options.map((option: FormWizard.Field.Option) =>
@@ -423,7 +423,15 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
   }
 
   thinkingBehavioursAttitudesPositiveAttitude: FormWizard.Field = {
-    text: 'Does [subject] have a positive attitude towards any criminal justice staff they have come into contact with?',
+    transform(state): FormWizard.Field {
+      const pathway = state.answers.pathway as string
+      const subject = state.session.subjectDetails as HandoverSubject
+      return <FormWizard.Field> {
+        ...this,
+        text: `Does ${subject.givenName} ${pathway === 'PRISON' ? 'generally' : ''} have a positive attitude towards any criminal justice staff they ${pathway === 'COMMUNITY' ? 'have' : ''} come into contact with?`,
+      }
+    },
+    text: '',
     code: 'thinking_behaviours_attitudes_positive_attitude',
     type: FieldType.Radio,
     validate: [
@@ -511,6 +519,33 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
     labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
   }
 
+  thinkingBehavioursAttitudesPrisonSentence: FormWizard.Field = {
+    text: 'Does [subject] accept their prison sentence?',
+    code: 'thinking_behaviours_attitudes_prison_sentence',
+    type: FieldType.Radio,
+    validate: [
+      { type: ValidationType.Required, message: 'Select if they accept their prison sentence' },
+    ],
+    options: [
+      {
+        text: 'Accepts their sentence and has responded well to prison rules in the past',
+        value: 'YES_PRISON_SENTENCE',
+        kind: 'option',
+      },
+      {
+        text: 'Unsure about their sentence and has put minimum effort into following prison rules in the past',
+        value: 'UNSURE_PRISON_SENTENCE',
+        kind: 'option',
+      },
+      {
+        text: 'Not prepared to accept their sentence and has failed to follow prison rules in the past',
+        value: 'NO_PRISON_SENTENCE',
+        kind: 'option',
+      },
+    ],
+    labelClasses: utils.getMediumLabelClassFor(FieldType.Radio),
+  }
+
   thinkingBehavioursAttitudesCriminalBehaviour: FormWizard.Field = {
     text: 'Does [subject] support or excuse criminal behaviour?',
     code: 'thinking_behaviours_attitudes_criminal_behaviour',
@@ -537,4 +572,5 @@ class ThinkingBehavioursFieldsFactory extends FieldsFactory {
   }
 }
 
-export default new ThinkingBehavioursFieldsFactory(sections.thinkingBehaviours)
+export default new ThinkingBehavioursFieldsFactory(<Section> sections.thinkingBehaviours)
+

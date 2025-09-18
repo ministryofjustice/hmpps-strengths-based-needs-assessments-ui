@@ -6,41 +6,88 @@ import templates from '../config/templates'
 const section = sections.thinkingBehaviours
 
 export const stepUrls = {
+  startThinkingBehaviours: 'start-thinking-behaviours',
   thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
+  thinkingBehavioursAttitudesPrison: 'thinking-behaviours-attitudes-prison',
   riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
   riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
   summary: 'thinking-behaviours-attitudes-summary',
   analysis: 'thinking-behaviours-attitudes-analysis',
 }
 
+const baseThinkingBehavioursGroup = [
+  thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesStableBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesOffendingActivities,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressure,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureYesDetails,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureSomeDetails,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureNoDetails,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesProblemSolving,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeoplesViews,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesManipulativePredatoryBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesTemperManagement,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesViolenceControllingBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesImpulsiveBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPositiveAttitude, // Community/TB/11
+  thinkingBehavioursFields.thinkingBehavioursAttitudesHostileOrientation,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesSupervision, // Community/TB/13
+  thinkingBehavioursFields.thinkingBehavioursAttitudesCriminalBehaviour,
+].flat()
+
+const baseThinkingBehavioursPrisonGroup = [
+  thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesStableBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesOffendingActivities,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressure,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureYesDetails,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureSomeDetails,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureNoDetails,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesProblemSolving,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPeoplesViews,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesManipulativePredatoryBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesTemperManagement,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesViolenceControllingBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesImpulsiveBehaviour,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPositiveAttitude, // Prison/TB/11
+  thinkingBehavioursFields.thinkingBehavioursAttitudesHostileOrientation,
+  thinkingBehavioursFields.thinkingBehavioursAttitudesPrisonSentence, // Prison/TB/13
+  thinkingBehavioursFields.thinkingBehavioursAttitudesCriminalBehaviour,
+].flat()
+
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
+      url: stepUrls.startThinkingBehaviours,
+      next: [
+        nextWhen(thinkingBehavioursFields.pathway, 'COMMUNITY', stepUrls.thinkingBehavioursAttitudes),
+        nextWhen(thinkingBehavioursFields.pathway, 'PRISON', stepUrls.thinkingBehavioursAttitudesPrison),
+        stepUrls.thinkingBehavioursAttitudes,
+      ],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      navigationOrder: 8,
+      skip: true,
+    },
+    {
       url: stepUrls.thinkingBehavioursAttitudes,
       fields: [
-        thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesStableBehaviour,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesOffendingActivities,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressure,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureYesDetails,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureSomeDetails,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesPeerPressureNoDetails,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesProblemSolving,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesPeoplesViews,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesManipulativePredatoryBehaviour,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesTemperManagement,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesViolenceControllingBehaviour,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesImpulsiveBehaviour,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesPositiveAttitude,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesHostileOrientation,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesSupervision,
-        thinkingBehavioursFields.thinkingBehavioursAttitudesCriminalBehaviour,
+        baseThinkingBehavioursGroup,
         thinkingBehavioursFields.wantToMakeChanges(),
         thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      navigationOrder: 8,
+      next: stepUrls.riskOfSexualHarm,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.thinkingBehavioursAttitudesPrison,
+      fields: [
+        baseThinkingBehavioursPrisonGroup,
+        thinkingBehavioursFields.wantToMakeChanges(),
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudesPrison),
+        thinkingBehavioursFields.sectionComplete(),
+      ].flat(),
       next: stepUrls.riskOfSexualHarm,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
