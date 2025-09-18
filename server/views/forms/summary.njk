@@ -6,8 +6,6 @@
   {{ options.pageHeading }} Summary - {{ pageTitle | default(applicationName) }}
 {% endblock %}
 
-<!-- TODO monday morning - something on this page is failing. starting commenting stuff out! -->
-
 {% set summaryFields = getSummaryFields({section: options.section, route: options.route, allFields: options.allFields, steps: options.steps, answers: answers}) %}
 {% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
 {% set sectionComplete = sectionProgress[options.section] %}
@@ -43,11 +41,6 @@
 
 {% block formContent %}
 {% if sectionStarted %}
-  <pre>
-    {{ summaryFields | dump(2) }}
-    {{ sectionProgress[options.section] | dump(2) }}
-    !!{{  options.route }}!!
-  </pre>
   <div class="govuk-tabs" data-module="govuk-tabs">
     <h2 class="govuk-tabs__title">
       Content
