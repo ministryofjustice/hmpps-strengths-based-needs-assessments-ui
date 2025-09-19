@@ -461,7 +461,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
     // TODO I think this is passing for the wrong reason. Update test data.
     it('should return empty array when no starting step is found in config', () => {
       const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
-      expect(sut.build()).toEqual([])
+      expect(sut.getAllFieldsInSectionFromSteps()).toEqual([])
     })
 
     it('should return relevant fields with filter function applied', () => {
@@ -512,7 +512,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       const filterFn = jest.fn((field: FormWizard.Field) => field.code === 'q1')
       const sut = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).setStepFieldsFilterFn(filterFn)
 
-      expect(sut.build()).toEqual(expected)
+      expect(sut.getAllFieldsInSectionFromSteps()).toEqual(expected)
 
       expect(filterFn).toHaveBeenCalledTimes(2)
       expect(filterFn.mock.calls[0][0]).toEqual(fields.q1)
@@ -523,7 +523,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   describe('buildAndFlatten', () => {
     it('should return empty array when no starting step is found in config', () => {
       const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
-      expect(sut.buildAndFlatten()).toEqual([])
+      expect(sut.getAllNestedFieldsInSectionFromSteps()).toEqual([])
     })
 
     it('should return relevant fields with filter function applied', () => {
@@ -600,7 +600,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       const filterFn = jest.fn((field: FormWizard.Field) => field.code !== 'q3')
       const sut = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).setStepFieldsFilterFn(filterFn)
 
-      expect(sut.buildAndFlatten()).toEqual(expected)
+      expect(sut.getAllNestedFieldsInSectionFromSteps()).toEqual(expected)
 
       expect(filterFn).toHaveBeenCalledTimes(3)
       expect(filterFn.mock.calls[0][0]).toEqual(fields.q1)

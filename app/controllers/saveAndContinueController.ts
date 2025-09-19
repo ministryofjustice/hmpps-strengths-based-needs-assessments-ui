@@ -243,6 +243,7 @@ class SaveAndContinueController extends BaseController {
         {},
       ),
     }
+
     res.locals.values = req.form.values
 
     await this.apiService.updateAnswers(assessmentId, {

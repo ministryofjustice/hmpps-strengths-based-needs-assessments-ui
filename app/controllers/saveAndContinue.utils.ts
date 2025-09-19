@@ -71,7 +71,7 @@ export const buildRequestBody = (
   answers: FormWizard.Answers,
   options: { removeOrphanAnswers?: boolean } = {},
 ): UpdateAnswersDto => {
-  const relevantFields = new FieldDependencyTreeBuilder(formOptions, answers).buildAndFlatten()
+  const relevantFields = new FieldDependencyTreeBuilder(formOptions, answers).getAllNestedFieldsInSectionFromSteps()
   const { removeOrphanAnswers = true } = options
 
   const sectionFields = Object.values(formOptions.steps)

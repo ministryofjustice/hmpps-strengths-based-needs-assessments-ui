@@ -14,7 +14,7 @@ export interface GetSummaryFieldsOptions extends Options {
  * Generates an object containing grouped summary fields based on the provided options.
  *
  * @param {Object} options - Configuration options for determining which fields to include.
- * @param {Object} sections - Configuration for overriding the default section configuration.
+ * @param {Object} sectionsConfig - Configuration for overriding the default section configuration.
  * @param {boolean} [options.collectionOnly] - Flag to include only fields of type `Collection`.
  * @param {Object} [options.answers] - Answers provided to the form, used to check which fields have values.
  * @returns {Object} - An object containing grouped fields:
@@ -39,7 +39,7 @@ export default (options: GetSummaryFieldsOptions, sectionsConfig?: Record<string
       ? isCollection(field)
       : !isNonRenderedField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(field)
 
-  const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).build()
+  const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).getAllFieldsInSectionFromSteps()
 
   // append collection fields at the end of the array
   return {

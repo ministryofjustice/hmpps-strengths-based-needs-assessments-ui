@@ -30,8 +30,8 @@
 {% endblock %}
 
 {% block formContent %}
+{#  <pre>{{  answers | dump(2) }}</pre>#}
   {% if sectionStarted %}
-{#    <pre>{{  options.steps | safeStringify }}</pre>#}
     {{ renderSummaryFields(summaryFields) }}
     <div class="questiongroup-action-buttons">
       <a href="{{ options.section }}-analysis?action=resume" class="govuk-button govuk-link--no-visited-state">Go to practitioner analysis</a>

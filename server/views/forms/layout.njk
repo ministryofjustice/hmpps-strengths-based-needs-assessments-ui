@@ -29,6 +29,7 @@
 
 {% block content %}
   <div class="govuk-width-container">
+{#    <pre>{{ answers | dump(2) }}</pre>#}
     {% include "../partials/feedback.njk" %}
     {% include "../partials/offenderDetails.njk" %}
     {% block notification %}{% endblock %}

@@ -342,27 +342,42 @@ export class FieldDependencyTreeBuilder {
     }
   }
 
+  getInitialStepsForSubsections(): [string, FormWizard.RenderedStep][] {
+    const section = this.sections[this.options.section as keyof typeof this.sections]
+    if (!section?.subsections) {
+      return []
+    }
+
+    return Object.entries(this.options.steps)
+      .filter(([_, step]) => step.section === this.options.section && step.initialStepInSection === true)
+      .map(([path, step]) => [path.substring(1), step]);
+  }
+
   /**
    * Creates and returns an array of Field objects by processing all steps
    * within a subsection. It applies filtering and transformation rules based on step paths and
    * the provided options.
    *
    */
-  build(): Field[] {
-    const [initialStepPath, initialStep] = this.getInitialStepForSubsection()
+  getAllFieldsInSectionFromSteps(): Field[] {
+    const initialStepsForSubsections = this.getInitialStepsForSubsections()
 
-    if (!initialStepPath || !initialStep) {
+    if (initialStepsForSubsections.length === 0) {
       return []
     }
 
-    return this.getSteps(initialStep, initialStepPath).reduce(
-      (fields: Field[], [stepPath, step]) =>
-        Object.keys(step.fields)
-          .map(fieldId => this.options.allFields[fieldId])
-          .filter(this.stepFieldsFilterFn)
-          .reduce(this.toStepFields(stepPath), fields),
-      [],
-    )
+    return initialStepsForSubsections
+      .map(([stepPath, step]) =>
+        this.getSteps(step, `/${stepPath}`).reduce(
+          (fields: Field[], [currentStepPath, currentStep]) =>
+            Object.keys(currentStep.fields)
+              .map(fieldId => this.options.allFields[fieldId])
+              .filter(this.stepFieldsFilterFn)
+              .reduce(this.toStepFields(currentStepPath), fields),
+          [],
+        )
+      )
+      .flat()
   }
 
   /**
@@ -370,12 +385,12 @@ export class FieldDependencyTreeBuilder {
    *
    * @return {Field[]} An array of fields, including nested fields from answers, flattened.
    */
-  buildAndFlatten(): Field[] {
+  getAllNestedFieldsInSectionFromSteps(): Field[] {
     const reducer = (acc: Field[], field: Field): Field[] => [
       ...acc,
       field,
       ...field.answers.flatMap(answer => answer.nestedFields.reduce(reducer, [])),
     ]
-    return this.build().reduce(reducer, [])
+    return this.getAllFieldsInSectionFromSteps().reduce(reducer, [])
   }
 }

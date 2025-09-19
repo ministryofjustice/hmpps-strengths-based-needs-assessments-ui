@@ -26,7 +26,7 @@ export default (options: GetSummaryFieldsOptions) => {
   const stepFieldsFilterFn = (field: FormWizard.Field) =>
     !isNonRenderedField(field.id) && isPractitionerAnalysisField(field.id) && isDisplayable(field)
 
-  const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).build()
+  const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).getAllFieldsInSectionFromSteps()
 
   return {
     singleFields: allFields.filter(f => !f.field.collection),
