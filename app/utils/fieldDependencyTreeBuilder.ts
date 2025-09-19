@@ -350,7 +350,7 @@ export class FieldDependencyTreeBuilder {
 
     return Object.entries(this.options.steps)
       .filter(([_, step]) => step.section === this.options.section && step.initialStepInSection === true)
-      .map(([path, step]) => [path.substring(1), step]);
+      .map(([path, step]) => [path.substring(1), step])
   }
 
   /**
@@ -375,7 +375,7 @@ export class FieldDependencyTreeBuilder {
               .filter(this.stepFieldsFilterFn)
               .reduce(this.toStepFields(currentStepPath), fields),
           [],
-        )
+        ),
       )
       .flat()
   }

@@ -1,6 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
 import { Request } from 'express'
-import { createNavigation, createSectionProgressRules, getStepFrom, isInEditMode } from './formRouterBuilder'
+import { createSectionProgressRules, getStepFrom, isInEditMode } from './formRouterBuilder'
 import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
 
 describe('common/utils/formRouterBuilder', () => {
@@ -77,62 +77,62 @@ describe('common/utils/formRouterBuilder', () => {
     })
   })
 
-  describe('createNavigation', () => {
-    const steps: FormWizard.Steps = {
-      '/foo': {
-        pageTitle: 'Foo step',
-        section: 'foo',
-        isLastStep: true,
-      },
-      '/baz': {
-        pageTitle: 'Baz step',
-        section: 'baz',
-        isLastStep: true,
-      },
-      '/bar/2': {
-        pageTitle: 'Bar summary',
-        section: 'bar',
-        isLastStep: true,
-      },
-      '/bar': {
-        pageTitle: 'Bar step',
-        section: 'bar',
-      },
-    }
-
-    // it('returns an array of navigation items from step config', () => {
-    //   const userInEditMode = createNavigation('/form/1/0', steps, 'bar', true)
-    //
-    //   expect(userInEditMode).toEqual([
-    //     {
-    //       active: false,
-    //       label: steps['/foo']?.pageTitle,
-    //       section: steps['/foo']?.section,
-    //       url: '/form/1/0/foo?action=resume',
-    //     },
-    //     {
-    //       active: true,
-    //       label: steps['/bar']?.pageTitle,
-    //       section: steps['/bar']?.section,
-    //       url: '/form/1/0/bar?action=resume',
-    //     },
-    //     {
-    //       active: false,
-    //       label: steps['/baz']?.pageTitle,
-    //       section: steps['/baz']?.section,
-    //       url: '/form/1/0/baz?action=resume',
-    //     },
-    //   ])
-    //
-    //   const userInReadOnlyMode = createNavigation('/form/1/0', steps, 'bar', false)
-    //
-    //   expect(userInReadOnlyMode).toEqual([
-    //     { active: false, label: steps['/foo']?.pageTitle, section: steps['/foo']?.section, url: '/form/1/0/foo' },
-    //     { active: true, label: steps['/bar']?.pageTitle, section: steps['/bar']?.section, url: '/form/1/0/bar/2' },
-    //     { active: false, label: steps['/baz']?.pageTitle, section: steps['/baz']?.section, url: '/form/1/0/baz' },
-    //   ])
-    // })
-  })
+  // describe('createNavigation', () => {
+  //   const steps: FormWizard.Steps = {
+  //     '/foo': {
+  //       pageTitle: 'Foo step',
+  //       section: 'foo',
+  //       isLastStep: true,
+  //     },
+  //     '/baz': {
+  //       pageTitle: 'Baz step',
+  //       section: 'baz',
+  //       isLastStep: true,
+  //     },
+  //     '/bar/2': {
+  //       pageTitle: 'Bar summary',
+  //       section: 'bar',
+  //       isLastStep: true,
+  //     },
+  //     '/bar': {
+  //       pageTitle: 'Bar step',
+  //       section: 'bar',
+  //     },
+  //   }
+  //
+  //   it('returns an array of navigation items from step config', () => {
+  //     const userInEditMode = createNavigation('/form/1/0', steps, 'bar', true)
+  //
+  //     expect(userInEditMode).toEqual([
+  //       {
+  //         active: false,
+  //         label: steps['/foo']?.pageTitle,
+  //         section: steps['/foo']?.section,
+  //         url: '/form/1/0/foo?action=resume',
+  //       },
+  //       {
+  //         active: true,
+  //         label: steps['/bar']?.pageTitle,
+  //         section: steps['/bar']?.section,
+  //         url: '/form/1/0/bar?action=resume',
+  //       },
+  //       {
+  //         active: false,
+  //         label: steps['/baz']?.pageTitle,
+  //         section: steps['/baz']?.section,
+  //         url: '/form/1/0/baz?action=resume',
+  //       },
+  //     ])
+  //
+  //     const userInReadOnlyMode = createNavigation('/form/1/0', steps, 'bar', false)
+  //
+  //     expect(userInReadOnlyMode).toEqual([
+  //       { active: false, label: steps['/foo']?.pageTitle, section: steps['/foo']?.section, url: '/form/1/0/foo' },
+  //       { active: true, label: steps['/bar']?.pageTitle, section: steps['/bar']?.section, url: '/form/1/0/bar/2' },
+  //       { active: false, label: steps['/baz']?.pageTitle, section: steps['/baz']?.section, url: '/form/1/0/baz' },
+  //     ])
+  //   })
+  // })
 
   describe('isInEditMode', () => {
     it('returns false when the user is in read-only mode', () => {

@@ -8,7 +8,7 @@ import {
   NavigationItem,
   SectionCompleteRule,
 } from '../utils/formRouterBuilder'
-import sections, { Section } from '../form/v1_0/config/sections'
+import sections from '../form/v1_0/config/sections'
 
 jest.mock('../../server/config', () => {
   const actual = jest.requireActual('../../server/config')
