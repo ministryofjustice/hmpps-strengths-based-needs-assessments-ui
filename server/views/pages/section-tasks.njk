@@ -7,7 +7,7 @@
         {% for subsection in link.subsections %}
           <li>
             <a href="{{ subsection.url }}">{{ subsection.title }}</a>
-            {% if sectionProgress[options.section] %}
+            {% if answers[subsection.code | replace('-', '_') ~ '_section_complete'] == 'YES'%}
               <div class="section-heading__status">
                 {{ govukTag({ text: "Complete" }) }}
               </div>
