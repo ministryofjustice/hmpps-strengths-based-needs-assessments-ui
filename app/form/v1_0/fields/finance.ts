@@ -29,10 +29,9 @@ class FinanceFieldsFactory extends FieldsFactory {
     transform(state): FormWizard.Field {
       const pathway = state.answers.pathway as string
       const subject = state.session.subjectDetails as HandoverSubject
-      return {
-        ...this,
-        text: `${pathway === 'PRISON' ? 'Where did' : 'Where does'} ${subject.givenName} currently get their money from${pathway === 'PRISON' ? ' before custody' : ''}?`,
-      }
+      const communityQuestion = `Where does ${subject.givenName} currently get their money from?`
+      const prisonQuestion = `Where did ${subject.givenName} get their money from before custody?`
+      return pathway === 'PRISON' ? { ...this, text: prisonQuestion } : { ...this, text: communityQuestion }
     },
     text: '',
     code: 'finance_income',
@@ -83,9 +82,11 @@ class FinanceFieldsFactory extends FieldsFactory {
     transform(state): FormWizard.Field {
       const pathway = state.answers.pathway as string
       const subject = state.session.subjectDetails as HandoverSubject
+      const communityQuestion = `Is ${subject.givenName} over reliant on family or friends for money?`
+      const prisonQuestion = `Was ${subject.givenName} overreliant on family or friends for money?`
       return {
         ...this,
-        text: `${pathway === 'PRISON' ? 'Was' : 'Is'} ${subject.givenName} ${pathway === 'PRISON' ? 'overreliant' : 'over reliant'} on family or friends for money?`,
+        text: `${pathway === 'PRISON' ? prisonQuestion : communityQuestion}`,
       }
     },
     text: '',
