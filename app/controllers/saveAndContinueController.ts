@@ -183,12 +183,28 @@ class SaveAndContinueController extends BaseController {
     }
   }
 
+  /**
+   * Applies the sectionProgressRules defined in the steps config to the form answers and returns the answers
+   * for each field in that config as YES or NO.
+   *
+   * Do not set the _practitioner_analysis_section_complete or _section_complete to YES
+   * unless the _background_complete is already YES
+   *
+   * TODO Do we need to reset the PA to be NO if there are changes to other questions when the PA is already YES?
+   * */
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
-      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => [
-        fieldCode,
-        conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO',
-      ]),
+      req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => {
+        if (
+          (fieldCode === `${req.form.options.section}_section_complete` ||
+            fieldCode === `${req.form.options.section}_practitioner_analysis_section_complete`) &&
+          (!req.form.persistedAnswers.accommodation_background_section_complete ||
+            req.form.persistedAnswers.accommodation_background_section_complete === 'NO')
+        ) {
+          return [fieldCode, 'NO']
+        }
+        return [fieldCode, conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO']
+      }),
     )
 
     return {

@@ -10,7 +10,7 @@
   {% if not isInEditMode and sectionStarted and not sectionComplete %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        {{ mojBanner({ type: "information", text: "This section is incomplete1" }) }}
+        {{ mojBanner({ type: "information", text: "This section is incomplete" }) }}
       </div>
     </div>
   {% endif %}
@@ -30,11 +30,10 @@
 {% endblock %}
 
 {% block formContent %}
-{#  <pre>{{  answers | dump(2) }}</pre>#}
   {% if sectionStarted %}
     {{ renderSummaryFields(summaryFields) }}
     <div class="questiongroup-action-buttons">
-      <a href="{{ options.section }}-analysis?action=resume" class="govuk-button govuk-link--no-visited-state">Go to practitioner analysis</a>
+      <a href="{{ options.section }}-analysis?action=resume" class="govuk-button govuk-link--no-visited-state">Continue to practitioner analysis</a>
     </div>
   {% else %}
     <p class="govuk-body">This section is incomplete2</p>

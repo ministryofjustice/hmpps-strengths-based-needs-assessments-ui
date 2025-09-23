@@ -164,7 +164,7 @@ const sectionConfig: SectionConfig = {
         accommodationFields.sectionComplete(),
       ].flat(),
       next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
-      template: templates.analysisIncomplete,
+      template: templates.analysis,
       initialStepInSection: true,
       sectionProgressRules: [
         setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
@@ -173,7 +173,7 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
-      template: templates.analysisComplete,
+      template: templates.analysisSummary,
     },
   ],
 }

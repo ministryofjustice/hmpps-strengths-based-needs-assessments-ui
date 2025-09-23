@@ -142,12 +142,12 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.sectionComplete(),
       ].flat(),
       next: `${stepUrls.analysis}#practitioner-analysis`,
-      template: templates.analysisIncomplete,
+      template: templates.analysis,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
       url: stepUrls.analysis,
-      template: templates.analysisComplete,
+      template: templates.analysisSummary,
     },
   ],
 }

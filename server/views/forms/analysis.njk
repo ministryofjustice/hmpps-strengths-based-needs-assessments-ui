@@ -1,11 +1,18 @@
-{% extends "../layout.njk" %}
+{% extends "./layout.njk" %}
 {% from "components/question/macro.njk" import renderQuestion %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% block backLink %}{% endblock %}
 
 {% block formContent %}
-{#  !!<pre>{{ answers | dump(2) }}</pre>!!#}
+  {{ section.code }}
+  {% if not answers[options.section ~ '_background_section_complete'] %}
+    {{ govukNotificationBanner({
+      text: 'Oh no, background has not been completed yet!'
+    }) }}
+  {% endif %}
+
   <form id="summaryAnalysis" method="post" action="{{ action }}" data-autosave="true">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in getRenderedFields(form.fields, options) %}
@@ -14,9 +21,15 @@
       {% endif %}
     {% endfor %}
 
+    {% if answers[options.section ~ '_background_section_complete'] == 'YES' %}
+      {% set buttonText = 'Mark as complete' %}
+    {% else %}
+      {% set buttonText = 'Save and continue' %}
+    {% endif %}
+
     <div class="questiongroup-action-buttons">
       {{ govukButton({
-        text: buttonText | default("Mark as complete"),
+        text: buttonText,
         classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1",
         name: getUserSubmittedField(form.fields),
         value: 'YES'

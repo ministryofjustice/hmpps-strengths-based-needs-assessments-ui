@@ -5,6 +5,6 @@ export default {
   previousVersions: 'pages/previous-versions',
   dataPrivacy: 'pages/data-privacy',
   backgroundSummary: 'forms/summary/summary-background',
-  analysisComplete: 'forms/summary/summary-analysis-complete',
-  analysisIncomplete: 'forms/summary/summary-analysis-incomplete',
+  analysis: 'forms/analysis',
+  analysisSummary: 'forms/summary/summary-analysis-complete',
 }

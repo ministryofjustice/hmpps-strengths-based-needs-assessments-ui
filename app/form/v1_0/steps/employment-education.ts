@@ -129,12 +129,12 @@ const sectionConfig: SectionConfig = {
         employmentEducationFields.sectionComplete(),
       ].flat(),
       next: stepUrls.analysis,
-      template: templates.analysisIncomplete,
+      template: templates.analysis,
       sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
     },
     {
       url: stepUrls.analysis,
-      template: templates.analysisComplete,
+      template: templates.analysisSummary,
     },
   ],
 }
