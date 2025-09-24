@@ -1,7 +1,7 @@
 import config from '../../../../../support/config'
 
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Was Sam the leader in regard to committing the current index offence(s)?'
+  const question = 'Was Sam the leader of the current index offence(s)'
 
   describe(question, () => {
     const options = ['Yes', 'No']

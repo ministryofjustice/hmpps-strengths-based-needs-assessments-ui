@@ -8,7 +8,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
       cy.getQuestion(question)
         .isQuestionNumber(positionNumber)
         .hasHint(
-          'Analyse whether the current index offence(s) are part of a wider pattern of offending and identify any established or emerging themes. It is not necessary to list all previous convictions here.',
+          'Analyse whether the current index offence(s) is (or are) part of a wider pattern of offending and identify any established or emerging themes. You do not need to list all previous convictions.',
         )
         .hasLimit(config.characterLimit.c4000)
       cy.markAsComplete()

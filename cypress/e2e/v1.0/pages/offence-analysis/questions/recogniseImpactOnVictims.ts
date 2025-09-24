@@ -1,7 +1,7 @@
 import config from '../../../../../support/config'
 
 export default (stepUrl: string, summaryPage: string, positionNumber: number) => {
-  const question = 'Does Sam recognise the impact or consequences on the victims or others and the wider community?'
+  const question = 'Does Sam recognise the impact on the victims or wider community?'
 
   describe(question, () => {
     const options = ['Yes', 'No']
