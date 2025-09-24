@@ -683,7 +683,7 @@
     },
     "offence_analysis_escalation": {
       "type": "RADIO",
-      "description": "Is the current index offence(s) an escalation in seriousness from previous offending?",
+      "description": "Is there an escalation in seriousness from previous offending?",
       "options": [
         {
           "value": "YES",
@@ -1152,7 +1152,7 @@
     },
     "offence_analysis_impact_on_victims": {
       "type": "RADIO",
-      "description": "Does [subject] recognise the impact or consequences on the victims or others and the wider community?",
+      "description": "Does [subject] recognise the impact on the victims or wider community?",
       "options": [
         {
           "value": "YES",

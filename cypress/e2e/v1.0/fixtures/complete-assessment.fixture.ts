@@ -274,14 +274,10 @@ describe('Generate fixture for complete assessment', () => {
       .clickLabel()
     cy.saveAndContinue()
 
-    cy.getQuestion('Does Sam recognise the impact or consequences on the victims or others and the wider community?')
-      .getRadio('No')
-      .clickLabel()
+    cy.getQuestion('Does Sam recognise the impact on the victims or wider community?').getRadio('No').clickLabel()
     cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
     cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
-    cy.getQuestion('Is the current index offence(s) an escalation in seriousness from previous offending?')
-      .getRadio('No')
-      .clickLabel()
+    cy.getQuestion('Is there an escalation in seriousness from previous offending?').getRadio('No').clickLabel()
     cy.getQuestion(
       'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     )

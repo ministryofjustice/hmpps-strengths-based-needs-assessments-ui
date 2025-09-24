@@ -66,13 +66,13 @@ describe('Origin: /offence-analysis', () => {
           cy.visitStep(destinations.impact)
 
           cy.getQuestion(
-            'Does Sam recognise the impact or consequences on the victims or others and the wider community?',
+            'Does Sam recognise the impact on the victims or wider community?',
           )
             .getRadio('No')
             .clickLabel()
           cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
           cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
-          cy.getQuestion('Is the current index offence(s) an escalation in seriousness from previous offending?')
+          cy.getQuestion('Is there an escalation in seriousness from previous offending?')
             .getRadio('No')
             .clickLabel()
           cy.getQuestion(
@@ -111,7 +111,7 @@ describe('Origin: /offence-analysis', () => {
 
           cy.assertStepUrlIs(destinations.impactOthersInvolved)
           cy.currentSectionNotMarkedAsComplete(sectionName)
-          cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
+          cy.getQuestion('Was Sam the leader of the current index offence(s)')
             .getRadio('No')
             .clickLabel()
           cy.markAsComplete()
@@ -142,17 +142,17 @@ describe('Origin: /offence-analysis', () => {
       it(`Routes to "${destinations.summary}"`, () => {
         cy.visitStep(destinations.impactOthersInvolved)
 
-        cy.getQuestion('Was Sam the leader in regard to committing the current index offence(s)?')
+        cy.getQuestion('Was Sam the leader of the current index offence(s)')
           .getRadio('No')
           .clickLabel()
         cy.getQuestion(
-          'Does Sam recognise the impact or consequences on the victims or others and the wider community?',
+          'Does Sam recognise the impact on the victims or wider community?',
         )
           .getRadio('No')
           .clickLabel()
         cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
         cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
-        cy.getQuestion('Is the current index offence(s) an escalation in seriousness from previous offending?')
+        cy.getQuestion('Is there an escalation in seriousness from previous offending?')
           .getRadio('No')
           .clickLabel()
         cy.getQuestion(
