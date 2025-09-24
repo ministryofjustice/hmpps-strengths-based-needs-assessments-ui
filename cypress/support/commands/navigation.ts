@@ -15,9 +15,9 @@ export const visitStep = (path: string) => {
   return cy.visit(`/form/edit/${assessmentId}${path}`, { retryOnNetworkFailure: false })
 }
 
-export const assertResumeUrlIs = (section: string, path: string) => {
+export const assertResumeUrlIs = (section: string, subsectionName: string, path: string) => {
   cy.intercept({ query: { action: 'resume' } }).as('resumeRequest')
-  cy.visitSection(section)
+  cy.visitSection(section).enterSubsection(subsectionName)
   cy.log(`asserting resume url is ${path}`)
   cy.wait('@resumeRequest')
     .its('response')

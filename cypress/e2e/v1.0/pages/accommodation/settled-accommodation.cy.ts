@@ -10,7 +10,7 @@ describe('/settled-accommodation', () => {
   const questions = [livingWith, suitableAccommodationLocation, suitableAccommodation, wantToMakeChanges]
 
   before(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().enterBackgroundSubsection()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
@@ -23,7 +23,7 @@ describe('/settled-accommodation', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Accommodation', stepUrl)
+    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
 
     cy.captureAssessment()
   })

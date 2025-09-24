@@ -7,9 +7,12 @@ describe('/current-accommodation', () => {
   const questions = [accommodationStatus]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Accommodation', stepUrl)
+  })
+
+  it('Should set the resume URL correctly', () => {
+    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
     cy.assertSectionIs('Accommodation')
     cy.assertQuestionCount(1)
     cy.hasAutosaveEnabled()

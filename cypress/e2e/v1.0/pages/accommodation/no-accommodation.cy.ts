@@ -10,7 +10,7 @@ describe('/no-accommodation', () => {
   const questions = [noAccommodationReason, pastAccommodationDetails, suitableAccommodationPlanned, wantToMakeChanges]
 
   before(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().enterBackgroundSubsection()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('No accommodation').clickLabel()
@@ -23,7 +23,7 @@ describe('/no-accommodation', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Accommodation', stepUrl)
+    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
 
     cy.captureAssessment()
   })

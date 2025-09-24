@@ -15,7 +15,7 @@ describe('/temporary-accommodation-cas-ap', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment()
+    cy.createAssessment().enterAssessment().enterBackgroundSubsection()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Temporary').clickLabel()
@@ -28,7 +28,7 @@ describe('/temporary-accommodation-cas-ap', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Accommodation', stepUrl)
+    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
 
     cy.captureAssessment()
   })

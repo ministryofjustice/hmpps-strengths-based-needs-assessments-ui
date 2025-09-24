@@ -4,30 +4,10 @@ import strengthsOrProtectiveFactors from './questions/strengthsOrProtectiveFacto
 
 export default (analysisPage: string, analysisCompletePage: string, sectionName: string) => {
   describe(`${analysisPage} - Practitioner Analysis`, () => {
-    it('can navigate to the Practitioner Analysis tab', () => {
-      cy.get('.govuk-tabs__list-item--selected #tab_summary').should('be.visible')
-      cy.get('#summary').should('be.visible')
-
-      cy.get('.govuk-tabs__list-item--selected #tab_practitioner-analysis').should('not.exist')
-      cy.get('#practitioner-analysis').should('exist').and('not.be.visible')
-
-      cy.get('#tab_practitioner-analysis').click()
-
-      cy.get('.govuk-tabs__list-item--selected #tab_summary').should('not.exist')
-      cy.get('#summary').should('exist').and('not.be.visible')
-
-      cy.get('.govuk-tabs__list-item--selected #tab_practitioner-analysis').should('be.visible')
-      cy.get('#practitioner-analysis').should('be.visible')
-
-      cy.checkAccessibility()
-    })
-
     describe('questions are displayed and validated', () => {
       const questions = [strengthsOrProtectiveFactors, linkedToRiskOfSeriousHarm, linkedToRiskOfReoffending]
 
       beforeEach(() => {
-        cy.get('#tab_practitioner-analysis').click()
-        cy.get('#practitioner-analysis').should('be.visible')
         cy.assertQuestionCount(questions.length)
       })
 

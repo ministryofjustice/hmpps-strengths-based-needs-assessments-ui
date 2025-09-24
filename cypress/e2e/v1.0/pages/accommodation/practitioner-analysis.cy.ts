@@ -8,7 +8,7 @@ const analysisSummaryPage = `/${sections.accommodation.subsections.practitionerA
 before(() => {
   cy.createAssessment().enterAssessment()
 
-  cy.visitSection('Accommodation')
+  cy.visitSection('Accommodation').enterBackgroundSubsection()
   cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
   cy.getQuestion('What type of accommodation does Sam currently have?')
     .getRadio('Settled')
@@ -23,7 +23,7 @@ before(() => {
   cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
   cy.saveAndContinue()
 
-  cy.assertResumeUrlIs('Accommodation', backgroundSummaryPage)
+  cy.assertResumeUrlIs('Accommodation', 'Accommodation background', backgroundSummaryPage)
   cy.captureAssessment()
 })
 

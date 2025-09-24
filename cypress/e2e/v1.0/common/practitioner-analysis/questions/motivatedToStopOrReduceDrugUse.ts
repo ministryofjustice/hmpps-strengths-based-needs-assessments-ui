@@ -24,7 +24,6 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         cy.markAsComplete()
         cy.getQuestion(question).hasNoValidationError().getRadio(option).hasConditionalQuestion(false)
         cy.visitStep(analysisCompletePage)
-        cy.get('#tab_practitioner-analysis').click()
         cy.getAnalysisSummary(summaryQuestion).getAnalysisAnswer(option).hasNoSecondaryAnswer()
         cy.checkAccessibility()
         cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
