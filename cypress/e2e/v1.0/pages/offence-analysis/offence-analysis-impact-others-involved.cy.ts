@@ -14,11 +14,11 @@ describe('/offence-analysis-impact', () => {
     whoWasTheLeader,
     recogniseImpactOnVictims,
     acceptResponsibility,
+    patternsOfOffending,
     escalationInSeriousness,
+    linkedToRiskOfSeriousHarm,
     perpetratorOfDomesticAbuse,
     victimOfDomesticAbuse,
-    patternsOfOffending,
-    linkedToRiskOfSeriousHarm,
   ]
 
   before(() => {

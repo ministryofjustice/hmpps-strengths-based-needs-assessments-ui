@@ -12,11 +12,11 @@ describe('/offence-analysis-impact', () => {
   const questions = [
     recogniseImpactOnVictims,
     acceptResponsibility,
+    patternsOfOffending,
     escalationInSeriousness,
+    linkedToRiskOfSeriousHarm,
     perpetratorOfDomesticAbuse,
     victimOfDomesticAbuse,
-    patternsOfOffending,
-    linkedToRiskOfSeriousHarm,
   ]
 
   before(() => {
