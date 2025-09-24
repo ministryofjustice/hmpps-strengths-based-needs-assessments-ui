@@ -1,5 +1,7 @@
 {% extends "../forms/layout.njk" %}
 
+{% set isTasksScreen = true %}
+
 {% block formContent %}
   {% for link in form.navigation %}
     {% if link.active and link.subsections %}

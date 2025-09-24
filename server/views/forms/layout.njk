@@ -29,7 +29,6 @@
 
 {% block content %}
   <div class="govuk-width-container">
-{#    <pre>{{ answers | dump(2) }}</pre>#}
     {% include "../partials/feedback.njk" %}
     {% include "../partials/offenderDetails.njk" %}
     {% block notification %}{% endblock %}
@@ -76,11 +75,11 @@
             {% endif %}
 
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
-                  {% if not isPrivacyScreen %}
-                      <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
-                  {% endif %}
+            {% if not isPrivacyScreen %}
+                <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
+            {% endif %}
           </div>
-          {% if not isPrivacyScreen %}
+          {% if not isPrivacyScreen and not isTasksScreen %}
             {% if sectionProgress[options.section] %}
               <div class="section-heading__status">
                 {{ govukTag({ text: "Complete" }) }}
