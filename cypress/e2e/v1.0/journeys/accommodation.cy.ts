@@ -13,13 +13,15 @@ describe('Origin: /current-accommodation', () => {
   }
 
   const sectionName = 'Accommodation'
+  const backgroundSubsectionName = 'Accommodation background'
+  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().enterBackgroundSubsection()
   })
 
   describe(`Destination: ${destinations.settled}`, () => {
@@ -45,11 +47,11 @@ describe('Origin: /current-accommodation', () => {
           .getRadio(typeOfSettledAccommodation)
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.settled)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, destinations.settled)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.settled)
       })
     })
 
@@ -65,13 +67,18 @@ describe('Origin: /current-accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.settled)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.settled)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.backgroundSummary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 
@@ -90,11 +97,11 @@ describe('Origin: /current-accommodation', () => {
           .getRadio(typeOfTemporaryAccommodation)
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.temporary)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, destinations.temporary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.temporary)
       })
     })
 
@@ -112,10 +119,10 @@ describe('Origin: /current-accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.temporary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.temporary)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
       testPractitionerAnalysis(sectionName, destinations.backgroundSummary, destinations.analysis)
@@ -141,11 +148,11 @@ describe('Origin: /current-accommodation', () => {
           .getRadio(typeOfTemporaryAccommodation)
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.temporaryCasAp)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, destinations.temporaryCasAp)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.temporaryCasAp)
       })
     })
 
@@ -161,10 +168,10 @@ describe('Origin: /current-accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.temporaryCasAp)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.temporaryCasAp)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
       testPractitionerAnalysis(sectionName, destinations.backgroundSummary, destinations.analysis)
@@ -189,11 +196,11 @@ describe('Origin: /current-accommodation', () => {
             .getRadio(typeOfNoAccommodation)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.noAccommodation)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.noAccommodation)
         })
       },
     )
@@ -208,10 +215,10 @@ describe('Origin: /current-accommodation', () => {
 
         cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.noAccommodation)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.noAccommodation)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
       testPractitionerAnalysis(sectionName, destinations.backgroundSummary, destinations.analysis)

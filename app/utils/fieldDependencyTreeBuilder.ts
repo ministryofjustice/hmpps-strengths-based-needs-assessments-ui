@@ -284,6 +284,15 @@ export class FieldDependencyTreeBuilder {
     return initialStep || []
   }
 
+  /**
+   * Determines the navigation details for a specific page or subsection.
+   * Evaluates the completeness of sections, captures the steps taken, and determines the next navigable step.
+   *
+   * @return {Object} An object containing:
+   * - `url` {string}: The URL of the next navigable step.
+   * - `stepsTaken` {string[]}: An array of URLs representing the steps taken so far.
+   * - `isSectionComplete` {boolean}: A boolean indicating whether the entire section is marked as complete.
+   */
   getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
     const [initialStepPath, initialStep] = this.getInitialStepForSubsection()
 

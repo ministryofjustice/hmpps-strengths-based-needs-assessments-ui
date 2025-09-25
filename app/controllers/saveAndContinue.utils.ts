@@ -78,6 +78,8 @@ export const buildRequestBody = (
     .filter(step => step.section === formOptions.section)
     .reduce((acc: string[], step) => [...acc, ...Object.values(step.fields).map(f => f.code)], [])
 
+  // TODO Once intended behaviour is confirmed then exclude any section_complete markers from the relevant fields filter
+
   return {
     answersToAdd: relevantFields
       .filter(it => Object.keys(formOptions.fields).includes(it.field.id) && it.field.type !== FieldType.Collection)

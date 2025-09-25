@@ -2,16 +2,15 @@
 export const testPractitionerAnalysis = (
   sectionName: string,
   origin: string,
+  destinationSubsection: string,
   destination: string,
-  conditionalFlag: boolean,
+  conditionalFlag?: boolean,
 ) => {
   describe(`Destination: ${destination}`, () => {
     it(`routes to ${destination}`, () => {
       cy.visitStep(origin)
 
-      // cy.get('#tab_practitioner-analysis').click()
-      cy.get('a').contains('Go to practitioner analysis').click()
-      cy.get('#practitioner-analysis').should('be.visible')
+      cy.get('a').contains('Continue to practitioner analysis').click()
 
       const sectionNameLowerCase = sectionName.toLowerCase()
       const subjectPrefix = sectionNameLowerCase.endsWith('s') ? 'Are' : 'Is'
@@ -28,27 +27,21 @@ export const testPractitionerAnalysis = (
         cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
       }
 
-      cy.assertResumeUrlIs(sectionName, origin)
-      cy.get('#tab_practitioner-analysis').click()
-      cy.get('#practitioner-analysis').should('be.visible')
-
       cy.markAsComplete()
 
       cy.assertStepUrlIs(destination)
-      cy.get('#practitioner-analysis').should('be.visible')
-      cy.assertResumeUrlIs(sectionName, destination)
+      cy.assertResumeUrlIs(sectionName, destinationSubsection, destination)
       cy.currentSectionMarkedAsComplete(sectionName)
 
-      // Check editing the practitioner analysis removes the complete status
-      cy.get('#tab_summary').click()
-      cy.get('#summary').should('be.visible')
-
-      cy.get('#summary .govuk-summary-list__actions .govuk-link').filter(':contains(Change)').last().click()
-
+      // Check editing a background question removes the complete status
+      cy.visitStep(origin)
+      cy.get('.govuk-summary-list__actions .govuk-link').filter(':contains(Change)').last().click()
       cy.saveAndContinue()
-
       cy.assertStepUrlIs(origin)
+
       cy.currentSectionNotMarkedAsComplete(sectionName)
+
+      // return to PA and mark as complete
       cy.get('#tab_practitioner-analysis').click()
       cy.get('#practitioner-analysis').should('be.visible')
       cy.markAsComplete()

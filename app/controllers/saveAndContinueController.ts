@@ -190,7 +190,6 @@ class SaveAndContinueController extends BaseController {
    * Do not set the _practitioner_analysis_section_complete or _section_complete to YES
    * unless the _background_complete is already YES
    *
-   * TODO Do we need to reset the PA to be NO if there are changes to other questions when the PA is already YES?
    * */
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
@@ -203,6 +202,7 @@ class SaveAndContinueController extends BaseController {
         ) {
           return [fieldCode, 'NO']
         }
+
         return [fieldCode, conditionFn(isSectionComplete, req.form.values) ? 'YES' : 'NO']
       }),
     )
