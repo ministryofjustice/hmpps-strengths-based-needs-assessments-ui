@@ -7,7 +7,6 @@
 
 {% block formContent %}
   {% set section = options.section | replace("-", "_") %}
-  {{ section }}
   {% if answers[section ~ '_background_section_complete'] != "YES" %}
     {{ govukNotificationBanner({
       text: 'Oh no, background has not been completed yet!'

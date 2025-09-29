@@ -108,17 +108,46 @@ export default {
       },
     },
   },
-  alcohol: {
-    title: 'Alcohol use',
-    code: 'alcohol-use',
-    sectionCompleteField: 'alcohol_use_section_complete',
-    navigationOrder: 5,
-  },
   drugsUse: {
     title: 'Drug use',
     code: 'drug-use',
     sectionCompleteField: 'drug_use_section_complete',
     navigationOrder: 4,
+    subsections: {
+      background: {
+        title: 'Drug use background',
+        code: 'drug-use-background',
+        sectionCompleteField: 'drug_use_background_section_complete',
+        navigationOrder: 1,
+        stepUrls: {
+          drugUse: 'drug-use',
+          addDrugs: 'add-drugs',
+          drugDetails: 'drug-details',
+          drugDetailsInjected: 'drug-details-injected',
+          drugDetailsMoreThanSix: 'drug-details-more-than-six-months',
+          drugDetailsMoreThanSixInjected: 'drug-details-more-than-six-months-injected',
+          drugUseHistory: 'drug-use-history',
+          drugUseHistoryAllMoreThanSix: 'drug-use-history-more-than-six-months',
+          backgroundSummary: 'drug-use-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'drug-use-practitioner-analysis',
+        sectionCompleteField: 'drug_use_practitioner_analysis_section_complete',
+        navigationOrder: 2,
+        stepUrls: {
+          analysis: 'drug-use-analysis',
+          analysisSummary: 'drug-use-analysis-summary',
+        },
+      },
+    },
+  },
+  alcohol: {
+    title: 'Alcohol use',
+    code: 'alcohol-use',
+    sectionCompleteField: 'alcohol_use_section_complete',
+    navigationOrder: 5,
   },
   healthWellbeing: {
     title: 'Health and wellbeing',
