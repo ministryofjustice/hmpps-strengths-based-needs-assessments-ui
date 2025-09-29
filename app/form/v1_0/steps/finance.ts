@@ -1,8 +1,7 @@
-import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import { setFieldToCompleteWhenValid } from './common'
 import financeFields from '../fields/finance'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
-import employmentEducationFields from '../fields/employment-education'
 
 const section = sections.finance
 const sectionBackground = section.subsections.background
