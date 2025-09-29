@@ -326,6 +326,8 @@ export class FieldDependencyTreeBuilder {
 
       const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
 
+      // In particular this sets the section to incomplete when the autosave in the page is triggered, since it does not
+      // send the userSubmittedField value.
       if (hasErrors || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
         isSectionComplete = false
         break

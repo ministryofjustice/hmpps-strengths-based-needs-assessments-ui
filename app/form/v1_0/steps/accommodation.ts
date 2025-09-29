@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
+import { setFieldToCompleteWhenValid, nextWhen } from './common'
 import accommodationFields from '../fields/accommodation'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
@@ -87,10 +87,7 @@ const sectionConfig: SectionConfig = {
         ),
       ],
       initialStepInSection: true,
-      sectionProgressRules: [
-        setFieldToIncomplete(section.sectionCompleteField),
-        setFieldToIncomplete(sectionBackground.sectionCompleteField),
-      ],
+      sectionProgressRules: [],
     },
     {
       url: sectionBackground.stepUrls.settledAccommodation,
