@@ -6,8 +6,9 @@
 {% block backLink %}{% endblock %}
 
 {% block formContent %}
-  {{ section.code }}
-  {% if not answers[options.section ~ '_background_section_complete'] %}
+  {% set section = options.section | replace("-", "_") %}
+  {{ section }}
+  {% if answers[section ~ '_background_section_complete'] != "YES" %}
     {{ govukNotificationBanner({
       text: 'Oh no, background has not been completed yet!'
     }) }}
@@ -21,7 +22,7 @@
       {% endif %}
     {% endfor %}
 
-    {% if answers[options.section ~ '_background_section_complete'] == 'YES' %}
+    {% if answers[section ~ '_background_section_complete'] == 'YES' %}
       {% set buttonText = 'Mark as complete' %}
     {% else %}
       {% set buttonText = 'Save and continue' %}

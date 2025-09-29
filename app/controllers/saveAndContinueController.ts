@@ -197,8 +197,8 @@ class SaveAndContinueController extends BaseController {
         if (
           (fieldCode === `${req.form.options.section}_section_complete` ||
             fieldCode === `${req.form.options.section}_practitioner_analysis_section_complete`) &&
-          (!req.form.persistedAnswers.accommodation_background_section_complete ||
-            req.form.persistedAnswers.accommodation_background_section_complete === 'NO')
+          (!req.form.persistedAnswers[`${req.form.options.section}_background_section_complete`] ||
+            req.form.persistedAnswers[`${req.form.options.section}_background_section_complete`] === 'NO')
         ) {
           return [fieldCode, 'NO']
         }

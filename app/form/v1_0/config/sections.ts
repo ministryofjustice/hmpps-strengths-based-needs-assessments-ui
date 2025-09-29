@@ -53,6 +53,32 @@ export default {
     code: 'employment-education',
     sectionCompleteField: 'employment_education_section_complete',
     navigationOrder: 2,
+    subsections: {
+      background: {
+        title: 'Employment and education background',
+        code: 'employment-education-background',
+        sectionCompleteField: 'employment_education_background_section_complete',
+        navigationOrder: 1,
+        stepUrls: {
+          currentEmployment: 'current-employment',
+          employed: 'employed',
+          retired: 'retired',
+          employedBefore: 'employed-before',
+          neverEmployed: 'never-employed',
+          backgroundSummary: 'employment-education-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'employment-education-practitioner-analysis',
+        sectionCompleteField: 'employment_education_practitioner_analysis_section_complete',
+        navigationOrder: 2,
+        stepUrls: {
+          analysis: 'employment-education-analysis',
+          analysisSummary: 'employment-education-analysis-summary',
+        },
+      },
+    },
   },
   finance: {
     title: 'Finances',

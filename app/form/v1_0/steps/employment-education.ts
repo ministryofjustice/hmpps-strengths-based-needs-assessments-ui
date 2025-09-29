@@ -1,18 +1,11 @@
-import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
+import { setFieldToCompleteWhenValid, nextWhen } from './common'
 import employmentEducationFields from '../fields/employment-education'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.employmentEducation
-const stepUrls = {
-  currentEmployment: 'current-employment',
-  employed: 'employed',
-  retired: 'retired',
-  employedBefore: 'employed-before',
-  neverEmployed: 'never-employed',
-  summary: 'employment-education-summary',
-  analysis: 'employment-education-analysis',
-}
+const sectionBackground = section.subsections.background
+const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
 
 const employmentStatusGroup = [
   employmentEducationFields.employmentStatus,
@@ -47,29 +40,41 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: stepUrls.currentEmployment,
+      url: 'employment-education-tasks',
+      template: templates.sectionTasks,
+    },
+    {
+      initialStepInSection: true,
+      url: sectionBackground.stepUrls.currentEmployment,
       fields: [
         employmentStatusGroup,
-        employmentEducationFields.isUserSubmitted(stepUrls.currentEmployment),
-        employmentEducationFields.sectionComplete(),
+        employmentEducationFields.isUserSubmitted(sectionBackground.stepUrls.currentEmployment),
       ].flat(),
       next: [
-        nextWhen(employmentEducationFields.employmentStatus, 'EMPLOYED', stepUrls.employed),
-        nextWhen(employmentEducationFields.employmentStatus, 'SELF_EMPLOYED', stepUrls.employed),
-        nextWhen(employmentEducationFields.employmentStatus, 'RETIRED', stepUrls.retired),
+        nextWhen(employmentEducationFields.employmentStatus, 'EMPLOYED', sectionBackground.stepUrls.employed),
+        nextWhen(employmentEducationFields.employmentStatus, 'SELF_EMPLOYED', sectionBackground.stepUrls.employed),
+        nextWhen(employmentEducationFields.employmentStatus, 'RETIRED', sectionBackground.stepUrls.retired),
         nextWhen(
           employmentEducationFields.employmentStatus,
           ['CURRENTLY_UNAVAILABLE_FOR_WORK', 'UNEMPLOYED_LOOKING_FOR_WORK', 'UNEMPLOYED_NOT_LOOKING_FOR_WORK'],
           [
-            nextWhen(employmentEducationFields.hasBeenEmployedPrototype, 'YES', stepUrls.employedBefore),
-            nextWhen(employmentEducationFields.hasBeenEmployedPrototype, 'NO', stepUrls.neverEmployed),
+            nextWhen(
+              employmentEducationFields.hasBeenEmployedPrototype,
+              'YES',
+              sectionBackground.stepUrls.employedBefore,
+            ),
+            nextWhen(
+              employmentEducationFields.hasBeenEmployedPrototype,
+              'NO',
+              sectionBackground.stepUrls.neverEmployed,
+            ),
           ],
         ),
       ],
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [],
     },
     {
-      url: stepUrls.employed,
+      url: sectionBackground.stepUrls.employed,
       fields: [
         employmentGroup,
         employmentHistoryGroup,
@@ -77,63 +82,73 @@ const sectionConfig: SectionConfig = {
         employmentEducationFields.experienceOfEmploymentGroup,
         employmentEducationFields.experienceOfEducationGroup,
         employmentEducationFields.wantToMakeChanges(),
-        employmentEducationFields.isUserSubmitted(stepUrls.employed),
-        employmentEducationFields.sectionComplete(),
+        employmentEducationFields.isUserSubmitted(sectionBackground.stepUrls.employed),
+        employmentEducationFields.backgroundSectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.retired,
+      url: sectionBackground.stepUrls.retired,
       fields: [
         employmentHistoryGroup,
         educationGroup,
         employmentEducationFields.wantToMakeChanges(),
-        employmentEducationFields.isUserSubmitted(stepUrls.retired),
-        employmentEducationFields.sectionComplete(),
+        employmentEducationFields.isUserSubmitted(sectionBackground.stepUrls.retired),
+        employmentEducationFields.backgroundSectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.employedBefore,
+      url: sectionBackground.stepUrls.employedBefore,
       fields: [
         employmentHistoryGroup,
         educationGroup,
         employmentEducationFields.experienceOfEmploymentGroup,
         employmentEducationFields.experienceOfEducationGroup,
         employmentEducationFields.wantToMakeChanges(),
-        employmentEducationFields.isUserSubmitted(stepUrls.employedBefore),
-        employmentEducationFields.sectionComplete(),
+        employmentEducationFields.isUserSubmitted(sectionBackground.stepUrls.employedBefore),
+        employmentEducationFields.backgroundSectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.neverEmployed,
+      url: sectionBackground.stepUrls.neverEmployed,
       fields: [
         educationGroup,
         employmentEducationFields.experienceOfEducationGroup,
         employmentEducationFields.wantToMakeChanges(),
-        employmentEducationFields.isUserSubmitted(stepUrls.neverEmployed),
-        employmentEducationFields.sectionComplete(),
+        employmentEducationFields.isUserSubmitted(sectionBackground.stepUrls.neverEmployed),
+        employmentEducationFields.backgroundSectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.summary,
+      url: sectionBackground.stepUrls.backgroundSummary,
+      template: templates.backgroundSummary,
+      pageTitle: `${sectionBackground.title} summary`,
+    },
+    {
+      url: sectionPractitionerAnalysis.stepUrls.analysis,
       fields: [
+        employmentEducationFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysis),
         employmentEducationFields.practitionerAnalysis(),
-        employmentEducationFields.isUserSubmitted(stepUrls.summary),
+        employmentEducationFields.practitionerAnalysisSectionComplete(),
         employmentEducationFields.sectionComplete(),
       ].flat(),
-      next: stepUrls.analysis,
+      next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
       template: templates.analysis,
-      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      initialStepInSection: true,
+      sectionProgressRules: [
+        setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
+        setFieldToCompleteWhenValid(section.sectionCompleteField),
+      ],
     },
     {
-      url: stepUrls.analysis,
+      url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
       template: templates.analysisSummary,
     },
   ],

@@ -268,7 +268,7 @@ export class FieldDependencyTreeBuilder {
    * in that subsection.
    */
   protected getInitialStepForSubsection() {
-    const section = this.sections[this.options.section as keyof typeof this.sections]
+    const section = Object.values(this.sections).find(s => s.code === this.options.section)
 
     const foundSubsection = this.findSubsectionByRoute(section, this.options.route)
 
@@ -352,7 +352,7 @@ export class FieldDependencyTreeBuilder {
   }
 
   getInitialStepsForSubsections(): [string, FormWizard.RenderedStep][] {
-    const section = this.sections[this.options.section as keyof typeof this.sections]
+    const section = Object.values(this.sections).find(s => s.code === this.options.section)
     if (!section?.subsections) {
       return []
     }
