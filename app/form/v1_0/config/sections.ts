@@ -85,6 +85,28 @@ export default {
     code: 'finance',
     sectionCompleteField: 'finance_section_complete',
     navigationOrder: 3,
+    subsections: {
+      background: {
+        title: 'Finances background',
+        code: 'finance-background',
+        sectionCompleteField: 'finance_background_section_complete',
+        navigationOrder: 1,
+        stepUrls: {
+          finance: 'finance',
+          backgroundSummary: 'finance-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'finance-practitioner-analysis',
+        sectionCompleteField: 'finance_practitioner_analysis_section_complete',
+        navigationOrder: 2,
+        stepUrls: {
+          analysis: 'finance-analysis',
+          analysisSummary: 'finance-analysis-summary',
+        },
+      },
+    },
   },
   alcohol: {
     title: 'Alcohol use',
