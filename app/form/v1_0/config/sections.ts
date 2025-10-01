@@ -241,6 +241,30 @@ export default {
     code: 'thinking-behaviours-attitudes',
     sectionCompleteField: 'thinking_behaviours_attitudes_section_complete',
     navigationOrder: 8,
+    subsections: {
+      background: {
+        title: 'Thinking, behaviours and attitudes background',
+        code: 'thinking-behaviours-attitudes-background',
+        sectionCompleteField: 'thinking_behaviours_attitudes_background_section_complete',
+        navigationOrder: 1,
+        stepUrls: {
+          thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
+          riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
+          riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
+          backgroundSummary: 'thinking-behaviours-attitudes-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'thinking-behaviours-attitudes-practitioner-analysis',
+        sectionCompleteField: 'thinking_behaviours_attitudes_practitioner_analysis_section_complete',
+        navigationOrder: 2,
+        stepUrls: {
+          analysis: 'thinking-behaviours-attitudes-analysis',
+          analysisSummary: 'thinking-behaviours-attitudes-analysis-summary',
+        },
+      },
+    },
   },
   offenceAnalysis: {
     title: 'Offence analysis',
