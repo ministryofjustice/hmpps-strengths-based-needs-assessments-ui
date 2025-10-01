@@ -60,6 +60,7 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: sectionBackground.stepUrls.currentAccommodation,
+      initialStepInSection: true,
       fields: [
         accommodationTypeGroup,
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.currentAccommodation),
@@ -86,7 +87,6 @@ const sectionConfig: SectionConfig = {
           sectionBackground.stepUrls.noAccommodation,
         ),
       ],
-      initialStepInSection: true,
       sectionProgressRules: [],
     },
     {

@@ -148,6 +148,30 @@ export default {
     code: 'alcohol-use',
     sectionCompleteField: 'alcohol_use_section_complete',
     navigationOrder: 5,
+    subsections: {
+      background: {
+        title: 'Alcohol use background',
+        code: 'alcohol-use-background',
+        sectionCompleteField: 'alcohol_use_background_section_complete',
+        navigationOrder: 1,
+        stepUrls: {
+          alcohol: 'alcohol',
+          alcoholUseLastThreeMonths: 'alcohol-use-last-three-months',
+          alcoholUseLessThreeMonths: 'alcohol-use-less-three-months',
+          backgroundSummary: 'alcohol-use-background-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'alcohol-use-practitioner-analysis',
+        sectionCompleteField: 'alcohol_use_practitioner_analysis_section_complete',
+        navigationOrder: 2,
+        stepUrls: {
+          analysis: 'alcohol-use-analysis',
+          analysisSummary: 'alcohol-use-analysis-summary',
+        },
+      },
+    },
   },
   healthWellbeing: {
     title: 'Health and wellbeing',
