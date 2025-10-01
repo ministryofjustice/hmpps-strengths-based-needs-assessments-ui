@@ -75,20 +75,27 @@ function createNavigationItem(
   steps: FormWizard.RenderedSteps,
   currentSection: string,
 ) {
-  const subsections = section.subsections
-    ? Object.entries(section.subsections)
-        .sort(([, subsectionA], [, subsectionB]) => subsectionA.navigationOrder - subsectionB.navigationOrder)
-        .map(([subsectionKey, subsection]) => ({
-          title: subsection.title,
-          code: subsection.code,
-          url: isInEditMode
-            ? `${baseUrl}/${getInitialStepUrlForSubsection(sections, sectionKey, subsectionKey, steps)}?action=resume`
-            : `${baseUrl}/${getLastStepUrlForSubsection(sections, currentSection, subsectionKey)}`,
-        }))
-    : undefined
+  let url = `${baseUrl}/${section.code}`
+  let subsections
+
+  if (section.subsections) {
+    subsections = section.subsections
+      ? Object.entries(section.subsections)
+          .sort(([, subsectionA], [, subsectionB]) => subsectionA.navigationOrder - subsectionB.navigationOrder)
+          .map(([subsectionKey, subsection]) => ({
+            title: subsection.title,
+            code: subsection.code,
+            url: isInEditMode
+              ? `${baseUrl}/${getInitialStepUrlForSubsection(sections, sectionKey, subsectionKey, steps)}?action=resume`
+              : `${baseUrl}/${getLastStepUrlForSubsection(sections, currentSection, subsectionKey)}`,
+          }))
+      : undefined
+
+    url = `${baseUrl}/${section.code}-tasks`
+  }
 
   return {
-    url: `${baseUrl}/${section.code}-tasks`, // TODO this seems yikes. any better way?
+    url,
     code: section.code,
     section: section.code,
     label: section.title,
