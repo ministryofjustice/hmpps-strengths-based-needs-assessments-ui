@@ -25,17 +25,17 @@ const offenceAnalysisImpactGroup: FormWizard.Field[] = [
   offenceAnalysisFields.offenceAnalysisImpactOnVictimsDetails,
   offenceAnalysisFields.offenceAnalysisAcceptResponsibility,
   offenceAnalysisFields.offenceAnalysisAcceptResponsibilityDetails,
-  offenceAnalysisFields.offenceAnalysisPatternsOfOffending,
   offenceAnalysisFields.offenceAnalysisEscalation,
   offenceAnalysisFields.offenceAnalysisEscalationDetails,
-  offenceAnalysisFields.offenceAnalysisRisk,
-  offenceAnalysisFields.offenceAnalysisRiskDetails,
   offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuse,
   offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuseType,
   offenceAnalysisFields.offenceAnalysisPerpetratorOfDomesticAbuseTypeDetails,
   offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuse,
   offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseType,
   offenceAnalysisFields.offenceAnalysisVictimOfDomesticAbuseTypeDetails,
+  offenceAnalysisFields.offenceAnalysisPatternsOfOffending,
+  offenceAnalysisFields.offenceAnalysisRisk,
+  offenceAnalysisFields.offenceAnalysisRiskDetails,
 ].flat()
 
 const sectionConfig: SectionConfig = {

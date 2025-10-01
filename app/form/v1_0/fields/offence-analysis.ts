@@ -517,7 +517,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisLeader: FormWizard.Field = {
-    text: 'Was [subject] the leader in regard to committing the current index offence(s)?',
+    text: 'Was [subject] the leader of the current index offence(s)',
     code: 'offence_analysis_leader',
     type: FieldType.Radio,
     validate: [
@@ -544,7 +544,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   })
 
   offenceAnalysisImpactOnVictims: FormWizard.Field = {
-    text: 'Does [subject] recognise the impact or consequences on the victims or others and the wider community?',
+    text: 'Does [subject] recognise the impact on the victims or wider community?',
     code: 'offence_analysis_impact_on_victims',
     type: FieldType.Radio,
     validate: [
@@ -588,7 +588,7 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
     text: 'What are the patterns of offending?',
     code: 'offence_analysis_patterns_of_offending',
     hint: {
-      text: 'Analyse whether the current index offence(s) are part of a wider pattern of offending and identify any established or emerging themes. It is not necessary to list all previous convictions here.',
+      text: 'Analyse whether the current index offence(s) is (or are) part of a wider pattern of offending and identify any established or emerging themes. You do not need to list all previous convictions.',
       kind: 'text',
     },
     type: FieldType.TextArea,
@@ -605,13 +605,13 @@ class OffenceAnalysisFieldsFactory extends FieldsFactory {
   }
 
   offenceAnalysisEscalation: FormWizard.Field = {
-    text: 'Is the current index offence(s) an escalation in seriousness from previous offending?',
+    text: 'Is there an escalation in seriousness from previous offending?',
     code: 'offence_analysis_escalation',
     type: FieldType.Radio,
     validate: [
       {
         type: ValidationType.Required,
-        message: `Select if the current offence(s) are an escalation in seriousness from previous offending`,
+        message: 'Select if the current offence(s) are an escalation in seriousness from previous offending',
       },
     ],
     options: [
