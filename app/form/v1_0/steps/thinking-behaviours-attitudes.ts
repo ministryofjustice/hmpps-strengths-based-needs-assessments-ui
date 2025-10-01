@@ -70,7 +70,7 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.thinkingBehavioursAttitudesOffenceRelatedSexualInterest,
         thinkingBehavioursFields.thinkingBehavioursAttitudesEmotionalIntimacy,
         thinkingBehavioursFields.isUserSubmitted(sectionBackground.stepUrls.riskOfSexualHarmDetails),
-        thinkingBehavioursFields.sectionComplete(),
+        thinkingBehavioursFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.backgroundSummary,
       sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
