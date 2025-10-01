@@ -178,6 +178,32 @@ export default {
     code: 'health-wellbeing',
     sectionCompleteField: 'health_wellbeing_section_complete',
     navigationOrder: 6,
+    subsections: {
+      background: {
+        title: 'Health and wellbeing background',
+        code: 'health-wellbeing-background',
+        sectionCompleteField: 'health_wellbeing_background_section_complete',
+        navigationOrder: 1,
+        stepUrls: {
+          healthWellbeing: 'health-wellbeing',
+          physicalMentalHealth: 'physical-mental-health',
+          physicalHealth: 'physical-health',
+          mentalHealth: 'mental-health',
+          noPhysicalMentalHealth: 'no-physical-mental-health',
+          backgroundSummary: 'drug-use-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'health-wellbeing-practitioner-analysis',
+        sectionCompleteField: 'health_wellbeing_practitioner_analysis_section_complete',
+        navigationOrder: 2,
+        stepUrls: {
+          analysis: 'health-wellbeing-analysis',
+          analysisSummary: 'health-wellbeing-analysis-summary',
+        },
+      },
+    },
   },
   personalRelationships: {
     title: 'Personal relationships and community',
