@@ -113,7 +113,7 @@ export class FieldDependencyTreeBuilder {
       }
 
       if (field.dependent) {
-        this.addNestedField(field, fields, stepPath)
+        this.addNestedField(field, fields, stepPath) // this call modifies the value of the `fields` object
         return fields
       }
 
@@ -275,7 +275,7 @@ export class FieldDependencyTreeBuilder {
     // Get all the step URLs for this subsection
     const subsectionStepUrls = Object.values(foundSubsection?.stepUrls || {})
 
-    // Find the step in sectionConfig.steps that has initialStepInSection=true
+    // Find the step in sectionConfig.steps that has initialStepInSection=true,
     // and its URL is one of the subsection's step URLs
     const initialStep = Object.entries(this.options.steps).find(([_, step]) =>
       this.isInitialStepInSubsection(step, subsectionStepUrls),

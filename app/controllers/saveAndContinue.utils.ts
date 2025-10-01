@@ -71,6 +71,7 @@ export const buildRequestBody = (
   answers: FormWizard.Answers,
   options: { removeOrphanAnswers?: boolean } = {},
 ): UpdateAnswersDto => {
+  // probably need to get all fields in all subsections, so need to parse two trees, not just one.
   const relevantFields = new FieldDependencyTreeBuilder(formOptions, answers).getAllNestedFieldsInSectionFromSteps()
   const { removeOrphanAnswers = true } = options
 
