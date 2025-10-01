@@ -1,18 +1,12 @@
 import FormWizard from 'hmpo-form-wizard'
-import { setFieldToIncomplete, setFieldToCompleteWhenValid, contains } from './common'
+import { setFieldToCompleteWhenValid, contains } from './common'
 import personalRelationshipsFields from '../fields/personal-relationships-community'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.personalRelationships
-const stepUrls = {
-  personalRelationshipsChildrenInfo: 'personal-relationships-children-information',
-  personalRelationships: 'personal-relationships',
-  personalRelationshipsChildren: 'personal-relationships-children',
-  personalRelationshipsCommunity: 'personal-relationships-community',
-  summary: 'personal-relationships-community-summary',
-  analysis: 'personal-relationships-community-analysis',
-}
+const sectionBackground = section.subsections.background
+const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
 
 const personalRelationshipsCommunityFieldsGroup: Array<FormWizard.Field> = [
   personalRelationshipsFields.personalRelationshipsCommunityFamilyRelationship,
@@ -48,20 +42,25 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: stepUrls.personalRelationshipsChildrenInfo,
+      url: 'personal-relationships-community-tasks',
+      template: templates.sectionTasks,
+    },
+    {
+      url: sectionBackground.stepUrls.personalRelationshipsChildrenInfo,
+      initialStepInSection: true,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityChildrenInformation,
         personalRelationshipsFields.personalRelationshipsCommunityLivingWithChildrenDetails,
         personalRelationshipsFields.personalRelationshipsCommunityNotLivingWithChildrenDetails,
         personalRelationshipsFields.personalRelationshipsCommunityVisitingChildrenDetails,
-        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildrenInfo),
-        personalRelationshipsFields.sectionComplete(),
+        personalRelationshipsFields.isUserSubmitted(sectionBackground.stepUrls.personalRelationshipsChildrenInfo),
+        personalRelationshipsFields.backgroundSectionComplete(),
       ].flat(),
-      next: stepUrls.personalRelationships,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.personalRelationships,
+      sectionProgressRules: [],
     },
     {
-      url: stepUrls.personalRelationships,
+      url: sectionBackground.stepUrls.personalRelationships,
       fields: [
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeople,
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeoplePartnerDetails,
@@ -70,22 +69,22 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeopleFamilyDetails,
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeopleFriendsDetails,
         personalRelationshipsFields.personalRelationshipsCommunityImportantPeopleOtherDetails,
-        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationships),
-        personalRelationshipsFields.sectionComplete(),
+        personalRelationshipsFields.isUserSubmitted(sectionBackground.stepUrls.personalRelationships),
+        personalRelationshipsFields.backgroundSectionComplete(),
       ].flat(),
       next: [
         {
           field: personalRelationshipsFields.personalRelationshipsCommunityImportantPeople.code,
           op: contains,
           value: 'CHILD_PARENTAL_RESPONSIBILITIES',
-          next: stepUrls.personalRelationshipsChildren,
+          next: sectionBackground.stepUrls.personalRelationshipsChildren,
         },
-        stepUrls.personalRelationshipsCommunity,
+        sectionBackground.stepUrls.personalRelationshipsCommunity,
       ],
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [],
     },
     {
-      url: stepUrls.personalRelationshipsChildren,
+      url: sectionBackground.stepUrls.personalRelationshipsChildren,
       fields: [
         currentRelationshipStatusFieldsGroup,
         intimateRelationshipFieldsGroup,
@@ -95,38 +94,47 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.personalRelationshipsCommunityBadParentalResponsibilitiesDetails,
         personalRelationshipsCommunityFieldsGroup,
         personalRelationshipsFields.wantToMakeChanges(),
-        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsCommunity),
-        personalRelationshipsFields.sectionComplete(),
+        personalRelationshipsFields.isUserSubmitted(sectionBackground.stepUrls.personalRelationshipsCommunity),
+        personalRelationshipsFields.backgroundSectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.personalRelationshipsCommunity,
+      url: sectionBackground.stepUrls.personalRelationshipsCommunity,
       fields: [
         currentRelationshipStatusFieldsGroup,
         intimateRelationshipFieldsGroup,
         personalRelationshipsCommunityFieldsGroup,
         personalRelationshipsFields.wantToMakeChanges(),
-        personalRelationshipsFields.isUserSubmitted(stepUrls.personalRelationshipsChildren),
-        personalRelationshipsFields.sectionComplete(),
+        personalRelationshipsFields.isUserSubmitted(sectionBackground.stepUrls.personalRelationshipsChildren),
+        personalRelationshipsFields.backgroundSectionComplete(),
       ].flat(),
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.summary,
-      fields: [
-        personalRelationshipsFields.practitionerAnalysis(),
-        personalRelationshipsFields.isUserSubmitted(stepUrls.summary),
-        personalRelationshipsFields.sectionComplete(),
-      ].flat(),
-      next: `${stepUrls.analysis}#practitioner-analysis`,
+      url: sectionBackground.stepUrls.backgroundSummary,
+      template: templates.backgroundSummary,
+    },
+    {
+      url: sectionPractitionerAnalysis.stepUrls.analysis,
+      initialStepInSection: true,
       template: templates.analysis,
-      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      fields: [
+        personalRelationshipsFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysis),
+        personalRelationshipsFields.practitionerAnalysis(),
+        personalRelationshipsFields.practitionerAnalysisSectionComplete(),
+        personalRelationshipsFields.sectionComplete(),
+      ].flat(),
+      next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
+      sectionProgressRules: [
+        setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
+        setFieldToCompleteWhenValid(section.sectionCompleteField),
+      ],
     },
     {
-      url: stepUrls.analysis,
+      url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
       template: templates.analysisSummary,
     },
   ],

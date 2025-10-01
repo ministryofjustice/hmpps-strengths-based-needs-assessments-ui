@@ -210,6 +210,31 @@ export default {
     code: 'personal-relationships-community',
     sectionCompleteField: 'personal_relationships_community_section_complete',
     navigationOrder: 7,
+    subsections: {
+      background: {
+        title: 'Personal relationships and community background',
+        code: 'personal-relationships-community-background',
+        sectionCompleteField: 'personal_relationships_community_background_section_complete',
+        navigationOrder: 1,
+        stepUrls: {
+          personalRelationshipsChildrenInfo: 'personal-relationships-children-information',
+          personalRelationships: 'personal-relationships',
+          personalRelationshipsChildren: 'personal-relationships-children',
+          personalRelationshipsCommunity: 'personal-relationships-community',
+          backgroundSummary: 'personal-relationships-community-summary',
+        },
+      },
+      practitionerAnalysis: {
+        title: 'Practitioner analysis',
+        code: 'personal-relationships-community-practitioner-analysis',
+        sectionCompleteField: 'personal_relationships_community_practitioner_analysis_section_complete',
+        navigationOrder: 2,
+        stepUrls: {
+          analysis: 'personal-relationships-community-analysis',
+          analysisSummary: 'personal-relationships-community-analysis-summary',
+        },
+      },
+    },
   },
   thinkingBehaviours: {
     title: 'Thinking, behaviours and attitudes',
