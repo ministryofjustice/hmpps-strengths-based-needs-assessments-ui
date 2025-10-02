@@ -263,12 +263,26 @@ export class FieldDependencyTreeBuilder {
     return validUrls.includes(normalizedStepRoute)
   }
 
+  protected getInitialStep() {
+    return (
+      Object.entries(this.options.steps).find(
+        ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
+      ) || []
+    )
+  }
+
   /*
    * Find out which subsection the current URL is in and then return the first step
    * in that subsection.
    */
   protected getInitialStepForSubsection() {
     const section = Object.values(this.sections).find(s => s.code === this.options.section)
+
+    const sectionHasSubsections = section && 'subsections' in section
+
+    if (!sectionHasSubsections) {
+      return this.getInitialStep()
+    }
 
     const foundSubsection = this.findSubsectionByRoute(section, this.options.route)
 

@@ -187,18 +187,25 @@ class SaveAndContinueController extends BaseController {
    * Applies the sectionProgressRules defined in the steps config to the form answers and returns the answers
    * for each field in that config as YES or NO.
    *
-   * Do not set the _practitioner_analysis_section_complete or _section_complete to YES
+   * When there are subsections, do not set the _practitioner_analysis_section_complete or _section_complete to YES
    * unless the _background_complete is already YES
    *
    * */
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
+    const sectionCode = req.form.options.section.replace('-', '_')
+
+    const section = Object.values(sectionConfig).find(s => s.code === req.form.options.section)
+
+    const sectionHasSubsections = section && 'subsections' in section
+
     const sectionProgressFields: FormWizard.Answers = Object.fromEntries(
       req.form.options.sectionProgressRules?.map(({ fieldCode, conditionFn }) => {
         if (
-          (fieldCode === `${req.form.options.section}_section_complete` ||
-            fieldCode === `${req.form.options.section}_practitioner_analysis_section_complete`) &&
-          (!req.form.persistedAnswers[`${req.form.options.section}_background_section_complete`] ||
-            req.form.persistedAnswers[`${req.form.options.section}_background_section_complete`] === 'NO')
+          sectionHasSubsections &&
+          (fieldCode === `${sectionCode}_section_complete` ||
+            fieldCode === `${sectionCode}_practitioner_analysis_section_complete`) &&
+          (!req.form.persistedAnswers[`${sectionCode}_background_section_complete`] ||
+            req.form.persistedAnswers[`${sectionCode}_background_section_complete`] === 'NO')
         ) {
           return [fieldCode, 'NO']
         }
