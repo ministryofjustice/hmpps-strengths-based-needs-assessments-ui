@@ -32,9 +32,11 @@
 {% block formContent %}
   {% if sectionStarted %}
     {{ renderSummaryFields(summaryFields) }}
-    <div class="questiongroup-action-buttons">
-      <a href="{{ options.section }}-analysis?action=resume" class="govuk-button govuk-link--no-visited-state">Continue to practitioner analysis</a>
-    </div>
+    {% if not hideAnalysis %}
+      <div class="questiongroup-action-buttons">
+        <a href="{{ options.section }}-analysis?action=resume" class="govuk-button govuk-link--no-visited-state">Continue to practitioner analysis</a>
+      </div>
+    {% endif %}
   {% else %}
     <p class="govuk-body">This section is incomplete2</p>
   {% endif %}

@@ -356,7 +356,11 @@ export class FieldDependencyTreeBuilder {
   getInitialStepsForSubsections(): [string, FormWizard.RenderedStep][] {
     const section = Object.values(this.sections).find(s => s.code === this.options.section)
     if (!section?.subsections) {
-      return []
+      return [
+        Object.entries(this.options.steps).find(
+          ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
+        ),
+      ]
     }
 
     return Object.entries(this.options.steps)

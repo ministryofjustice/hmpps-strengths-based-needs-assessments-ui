@@ -174,7 +174,7 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.summary,
-      template: templates.analysisSummary,
+      template: templates.backgroundSummary,
       locals: { hideAnalysis: true },
     },
   ].flat(),
