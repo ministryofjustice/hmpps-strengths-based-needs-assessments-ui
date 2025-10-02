@@ -360,7 +360,7 @@ export class FieldDependencyTreeBuilder {
         Object.entries(this.options.steps).find(
           ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
         ),
-      ]
+      ].filter(Boolean)
     }
 
     return Object.entries(this.options.steps)

@@ -458,7 +458,6 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   })
 
   describe('build', () => {
-    // TODO I think this is passing for the wrong reason. Update test data.
     it('should return empty array when no starting step is found in config', () => {
       const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
       expect(sut.getAllFieldsInSectionFromSteps()).toEqual([])
