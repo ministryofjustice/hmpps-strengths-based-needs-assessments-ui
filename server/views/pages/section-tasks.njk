@@ -5,6 +5,12 @@
 {% block formContent %}
   {% for link in form.navigation %}
     {% if link.active and link.subsections %}
+      {% if answers[section ~ '_background_section_complete'] != "YES" or answers[section ~ '_practitioner_analysis_section_complete'] != "YES"%}
+        {{ govukNotificationBanner({
+          text: 'You will need to finish both parts to mark the section as complete.'
+        }) }}
+      {% endif %}
+
       <ul>
         {% for subsection in link.subsections %}
           <li>

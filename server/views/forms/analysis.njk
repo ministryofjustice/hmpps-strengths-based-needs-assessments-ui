@@ -9,7 +9,7 @@
   {% set section = options.section | replace("-", "_") %}
   {% if answers[section ~ '_background_section_complete'] != "YES" %}
     {{ govukNotificationBanner({
-      text: 'Oh no, background has not been completed yet!'
+      text: 'You will need to finish ' ~ options.pageTitle ~ ' background to mark the section as complete.'
     }) }}
   {% endif %}
 
