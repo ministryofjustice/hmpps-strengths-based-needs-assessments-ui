@@ -192,7 +192,7 @@ class SaveAndContinueController extends BaseController {
    *
    * */
   getSectionProgressAnswers(req: FormWizard.Request, isSectionComplete: boolean): FormWizard.Answers {
-    const sectionCode = req.form.options.section.replace('-', '_')
+    const sectionCode = req.form.options.section?.replace('-', '_')
 
     const section = Object.values(sectionConfig).find(s => s.code === req.form.options.section)
 
