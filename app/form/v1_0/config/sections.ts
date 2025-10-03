@@ -190,7 +190,7 @@ export default {
           physicalHealth: 'physical-health',
           mentalHealth: 'mental-health',
           noPhysicalMentalHealth: 'no-physical-mental-health',
-          backgroundSummary: 'drug-use-summary',
+          backgroundSummary: 'health-wellbeing-summary',
         },
       },
       practitionerAnalysis: {
