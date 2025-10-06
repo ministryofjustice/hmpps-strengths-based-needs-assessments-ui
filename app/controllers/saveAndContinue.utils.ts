@@ -71,15 +71,12 @@ export const buildRequestBody = (
   answers: FormWizard.Answers,
   options: { removeOrphanAnswers?: boolean } = {},
 ): UpdateAnswersDto => {
-  // probably need to get all fields in all subsections, so need to parse two trees, not just one.
   const relevantFields = new FieldDependencyTreeBuilder(formOptions, answers).getAllNestedFieldsInSectionFromSteps()
   const { removeOrphanAnswers = true } = options
 
   const sectionFields = Object.values(formOptions.steps)
     .filter(step => step.section === formOptions.section)
     .reduce((acc: string[], step) => [...acc, ...Object.values(step.fields).map(f => f.code)], [])
-
-  // TODO Once intended behaviour is confirmed then exclude any section_complete markers from the relevant fields filter
 
   return {
     answersToAdd: relevantFields

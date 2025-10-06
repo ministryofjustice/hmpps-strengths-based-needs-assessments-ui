@@ -1,5 +1,5 @@
 import sections, { SectionConfig } from '../config/sections'
-import { nextWhen, setFieldToCompleteWhenValid } from './common'
+import { nextWhen, setFieldToCompleteWhenValid, setFieldToIncomplete } from './common'
 import drugsUseFields from '../fields/drug-use'
 import templates from '../config/templates'
 import { drugsList } from '../fields/drug-use/drugs'
@@ -25,12 +25,16 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.drugUse.drugUse,
         drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugUse),
         drugsUseFields.backgroundSectionComplete(),
+        drugsUseFields.practitionerAnalysisSectionComplete(),
       ].flat(),
       next: [
         nextWhen(drugsUseFields.drugUse.drugUse, 'YES', sectionBackground.stepUrls.addDrugs),
         nextWhen(drugsUseFields.drugUse.drugUse, 'NO', sectionBackground.stepUrls.backgroundSummary),
       ],
-      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
+      sectionProgressRules: [
+        setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField),
+        setFieldToIncomplete(sectionPractitionerAnalysis.sectionCompleteField),
+      ],
     },
     {
       url: sectionBackground.stepUrls.addDrugs,
