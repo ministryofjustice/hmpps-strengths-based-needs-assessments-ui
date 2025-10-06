@@ -83,7 +83,6 @@ jobs:
           publish-summary: false
           browser: edge
         env:
-          SPEC: ${{ inputs.spec-file-patterns }}
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
           SPLIT_FILE: 'timings.json'

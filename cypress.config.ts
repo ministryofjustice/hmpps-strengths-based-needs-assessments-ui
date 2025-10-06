@@ -23,7 +23,7 @@ export default defineConfig({
     // You may want to clean this up later by importing these.
     baseUrl: 'http://localhost:3000',
 
-    specPattern: ['cypress/e2e/**/*.cy.ts', 'cypress/e2e/**/*.fixture.ts', '!cypress/e2e/v1.0/journeys/**'],
+    specPattern: ['cypress/e2e/**/*.cy.ts', 'cypress/e2e/**/*.fixture.ts', '!cypress/e2e/v1.0/journeys/**/*.cy.ts'],
     supportFile: 'cypress/support/index.ts',
     testIsolation: true,
     experimentalRunAllSpecs: true,
