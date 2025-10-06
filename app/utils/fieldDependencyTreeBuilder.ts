@@ -395,18 +395,17 @@ export class FieldDependencyTreeBuilder {
       return []
     }
 
-    return initialStepsForSubsections
-      .map(([stepPath, step]) =>
-        this.getSteps(step, `/${stepPath}`).reduce(
-          (fields: Field[], [currentStepPath, currentStep]) =>
-            Object.keys(currentStep.fields)
-              .map(fieldId => this.options.allFields[fieldId])
-              .filter(this.stepFieldsFilterFn)
-              .reduce(this.toStepFields(currentStepPath), fields),
-          [],
-        ),
-      )
-      .flat()
+    // Combine all steps from all initial subsection steps
+    const allSteps = initialStepsForSubsections.flatMap(([stepPath, step]) => this.getSteps(step, `/${stepPath}`))
+
+    return allSteps.reduce(
+      (fields: Field[], [currentStepPath, currentStep]) =>
+        Object.keys(currentStep.fields)
+          .map(fieldId => this.options.allFields[fieldId])
+          .filter(this.stepFieldsFilterFn)
+          .reduce(this.toStepFields(currentStepPath), fields),
+      [],
+    )
   }
 
   /**
