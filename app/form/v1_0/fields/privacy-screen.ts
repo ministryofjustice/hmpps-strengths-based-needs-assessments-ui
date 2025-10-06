@@ -9,12 +9,12 @@ export const privacyScreenDeclaration = (): FormWizard.Field => ({
   validate: [
     {
       type: ValidationType.Required,
-      message: "Confirm you'll close any other applications before starting an appointment",
+      message: "Confirm you'll do this before starting an appointment",
     },
   ],
   options: [
     {
-      text: "I confirm I'll close any other applications before starting an appointment",
+      text: "I confirm I'll do this before starting an appointment",
       value: 'AGREE',
       kind: 'option',
     },

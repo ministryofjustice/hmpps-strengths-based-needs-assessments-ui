@@ -14,10 +14,12 @@ describe('Data privacy declaration', () => {
     cy.get('.govuk-heading-l').contains(
       'Remember to close any other applications before starting an appointment with Sam',
     )
-    cy.get('.govuk-body').contains('For example, Outlook, Teams or NDelius.')
-    cy.get('.govuk-body').contains('You must do this to avoid sharing sensitive information.')
-    cy.get('.govuk-body').contains('You must not let Sam use your device either.')
-    cy.get('.govuk-checkboxes').contains("I confirm I'll close any other applications before starting an appointment")
+    cy.get('.govuk-body').contains(
+      "You must also close other people's assessments or plans if you have them open in other tabs.",
+    )
+    cy.get('.govuk-body').contains('Do not let Sam use your device either.')
+    cy.get('.govuk-body').contains('This is to avoid sharing sensitive information.')
+    cy.get('.govuk-checkboxes').contains("I confirm I'll do this before starting an appointment")
     cy.get('button[name="action"][value="confirm"]').contains('Confirm')
     cy.contains('a.govuk-link--no-visited-state', 'Return to OASys')
       .should('have.attr', 'href')
@@ -28,13 +30,10 @@ describe('Data privacy declaration', () => {
     cy.enterAssessment(AccessMode.READ_WRITE, {}, false)
     cy.get('button[name="action"][value="confirm"]').click()
     cy.url().should('include', '/close-any-other-applications-before-appointment')
-    cy.get('.govuk-error-summary').should(
-      'contain',
-      "Confirm you'll close any other applications before starting an appointment",
-    )
+    cy.get('.govuk-error-summary').should('contain', "Confirm you'll do this before starting an appointment")
     cy.get('#privacy_screen_declaration-error').should(
       'contain',
-      "Confirm you'll close any other applications before starting an appointment",
+      "Confirm you'll do this before starting an appointment",
     )
   })
 

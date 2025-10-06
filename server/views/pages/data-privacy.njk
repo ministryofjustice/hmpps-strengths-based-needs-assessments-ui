@@ -8,16 +8,17 @@
   {{ super() }}
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-three-quarters">
 
   <h1 class="govuk-heading-l">{{ privacyField.text }}</h1>
 
   <form id="confirm-privacy-form" method="POST" novalidate>
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
 
-    <p class="govuk-body">For example, Outlook, Teams or NDelius.</p>
-    <p class="govuk-body">You must do this to avoid sharing sensitive information.</p>
-    <p class="govuk-body">You must not let {{ placeholderValues.subject }} use your device either.</p>
+       <p class="govuk-body">For example, Outlook, Teams or NDelius.</p>
+       <p class="govuk-body">You must also close other people's assessments or plans if you have them open in other tabs.</p>
+       <p class="govuk-body">Do not let {{ placeholderValues.subject }} use your device either.</p>
+       <p class="govuk-body">This is to avoid sharing sensitive information.</p>
 
     {{ govukCheckboxes({
       idPrefix: "privacy_screen_declaration",
