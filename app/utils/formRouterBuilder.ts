@@ -66,6 +66,14 @@ export const getLastStepUrlForSubsection = (
   return stepUrlValues[stepUrlValues.length - 1]
 }
 
+function isCurrentRouteInSubsection(currentRoute: string, subsection: Section): boolean {
+  if (!subsection?.stepUrls) {
+    return false
+  }
+  const stepUrls = Object.values(subsection.stepUrls)
+  return stepUrls.some(url => url === currentRoute.substring(1))
+}
+
 function createNavigationItem(
   section: Section,
   isInEditMode: boolean,
@@ -74,6 +82,7 @@ function createNavigationItem(
   sectionKey: string,
   steps: FormWizard.RenderedSteps,
   currentSection: string,
+  currentRoute: string,
 ) {
   let url = `${baseUrl}/${section.code}`
   let subsections
@@ -88,6 +97,7 @@ function createNavigationItem(
             url: isInEditMode
               ? `${baseUrl}/${getInitialStepUrlForSubsection(sections, sectionKey, subsectionKey, steps)}?action=resume`
               : `${baseUrl}/${getLastStepUrlForSubsection(sections, currentSection, subsectionKey)}`,
+            active: isCurrentRouteInSubsection(currentRoute, subsection),
           }))
       : undefined
 
@@ -113,6 +123,7 @@ export const createNavigation = (
   sections: Record<string, Section>,
   currentSectionName: string,
   steps: FormWizard.RenderedSteps,
+  currentRoute: string,
   isInEditMode: boolean,
 ): Array<NavigationItem> => {
   return Object.entries(sections)
@@ -120,7 +131,16 @@ export const createNavigation = (
     .sort(([_keyA, sectionA], [_keyB, sectionB]) => sectionA.navigationOrder - sectionB.navigationOrder) // put in descending order
     .map(([sectionKey, section]) => {
       // now generate the full tree of sections and subsections
-      return createNavigationItem(section, isInEditMode, baseUrl, sections, sectionKey, steps, currentSectionName)
+      return createNavigationItem(
+        section,
+        isInEditMode,
+        baseUrl,
+        sections,
+        sectionKey,
+        steps,
+        currentSectionName,
+        currentRoute,
+      )
     })
 }
 

@@ -19,6 +19,7 @@ declare module 'hmpo-form-wizard' {
       locals: Record<string, boolean | string>
       section: string
       name: string
+      route: string
     }
 
     export interface CoreTelemetryData {
