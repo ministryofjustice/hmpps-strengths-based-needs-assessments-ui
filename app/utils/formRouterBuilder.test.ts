@@ -128,21 +128,21 @@ describe('common/utils/formRouterBuilder', () => {
           code: 'foo-section',
           label: sections.foo?.title,
           section: sections.foo?.code,
-          url: '/form/1/0/foo-section',
+          url: '/form/1/0/foo-section?action=resume',
         },
         {
           active: true,
           code: 'bar-section',
           label: sections.bar?.title,
           section: sections.bar?.code,
-          url: '/form/1/0/bar-section',
+          url: '/form/1/0/bar-section?action=resume',
         },
         {
           active: false,
           code: 'baz-section',
           label: sections.baz?.title,
           section: sections.baz?.code,
-          url: '/form/1/0/baz-section',
+          url: '/form/1/0/baz-section?action=resume',
         },
       ])
 
