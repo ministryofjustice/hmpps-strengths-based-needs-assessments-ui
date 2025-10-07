@@ -79,7 +79,7 @@ describe('common/utils/formRouterBuilder', () => {
   })
 
   describe('createNavigation', () => {
-    const steps: FormWizard.Steps = {
+    const steps: FormWizard.RenderedSteps = {
       '/foo': {
         pageTitle: 'Foo step',
         section: 'foo',
