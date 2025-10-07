@@ -84,7 +84,7 @@ function createNavigationItem(
   currentSection: string,
   currentRoute: string,
 ) {
-  let url = `${baseUrl}/${section.code}`
+  let url = `${baseUrl}/${section.code}?action=resume`
   let subsections
 
   if (section.subsections) {
