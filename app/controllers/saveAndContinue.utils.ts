@@ -74,6 +74,7 @@ export const buildRequestBody = (
   const relevantFields = new FieldDependencyTreeBuilder(formOptions, answers).getAllNestedFieldsInSectionFromSteps()
   const { removeOrphanAnswers = true } = options
 
+  // get all the codes for the steps in this section
   const sectionFields = Object.values(formOptions.steps)
     .filter(step => step.section === formOptions.section)
     .reduce((acc: string[], step) => [...acc, ...Object.values(step.fields).map(f => f.code)], [])
