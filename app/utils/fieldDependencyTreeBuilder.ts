@@ -61,7 +61,7 @@ export class FieldDependencyTreeBuilder {
     acc: [string, FormWizard.RenderedStep][] = [],
   ): [string, FormWizard.RenderedStep][] {
     if (step === undefined || step.section !== this.options.section) return acc
-    acc.push([path.replace(/^\//, ''), step])
+    acc.push([path.replace(/^\/+/, ''), step])
     const nextStep = this.resolveNextStep(step.next) as string
     if (nextStep === undefined) return acc
     const nextStepPath = `/${nextStep.split('#')[0]}`
