@@ -30,19 +30,6 @@ export const outdent = (str: string, count: number) =>
     .map(it => (it.startsWith(' '.repeat(count)) ? it.substring(count) : it))
     .join('\n')
 
-export const practitionerAnalysisStarted = (
-  options: FormWizard.FormOptions,
-  answers: Record<string, string | string[]>,
-) =>
-  Object.values(options.steps)
-    .filter(step => step.section === options.section)
-    .flatMap(step => Object.values(step.fields || {}).map(field => field.code))
-    .filter(
-      (fieldCode, index, self) =>
-        fieldCode.match(/^.*_practitioner_analysis_.*$/gi) && self.indexOf(fieldCode) === index,
-    )
-    .some(fieldCode => answers[fieldCode])
-
 export const getMaxCharacterCount = (field: FormWizard.Field) =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   field.validate?.find(rule => (<any>rule).type === 'validateMaxLength')?.arguments[0] || characterLimits.default

@@ -9,7 +9,6 @@ import {
   getMaxCharacterCount,
   getRenderedFields,
   outdent,
-  practitionerAnalysisStarted,
   setProp,
   startsWith,
   toErrorSummary,
@@ -90,8 +89,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('setProp', setProp)
 
   njkEnv.addFilter('formatDateForDisplay', formatDateForDisplay)
-
-  njkEnv.addGlobal('practitionerAnalysisStarted', practitionerAnalysisStarted)
 
   njkEnv.addFilter('ordinalWordFromNumber', ordinalWordFromNumber)
 
