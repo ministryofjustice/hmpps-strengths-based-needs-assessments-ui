@@ -15,7 +15,7 @@ declare module 'hmpo-form-wizard' {
       journeyName: string
       sectionProgressRules: Array<SectionProgressRule>
       fields: Fields
-      steps: Steps
+      steps: RenderedSteps
       locals: Record<string, boolean | string>
       section: string
       name: string
