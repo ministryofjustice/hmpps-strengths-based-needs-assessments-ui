@@ -80,7 +80,7 @@ function createNavigationItem(
   baseUrl: string,
   sections: Record<string, Section>,
   sectionKey: string,
-  steps: FormWizard.Steps,
+  steps: FormWizard.RenderedSteps,
   currentSection: string,
   currentRoute: string,
 ) {
@@ -122,7 +122,7 @@ export const createNavigation = (
   baseUrl: string,
   sections: Record<string, Section>,
   currentSectionName: string,
-  steps: FormWizard.Steps,
+  steps: FormWizard.RenderedSteps,
   currentRoute: string,
   isInEditMode: boolean,
 ): Array<NavigationItem> => {
@@ -156,7 +156,7 @@ export const getInitialStepUrlForSubsection = (
   sections: Record<string, Section>,
   sectionName: string,
   subsectionName: string,
-  steps: FormWizard.Steps,
+  steps: FormWizard.RenderedSteps,
 ): string => {
   const section = sections[sectionName as keyof typeof sections]
 
