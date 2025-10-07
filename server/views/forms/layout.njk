@@ -50,7 +50,9 @@
                 {% if link.active and link.subsections %}
                   <ul>
                     {% for subsection in link.subsections %}
-                      <li><a href="{{ subsection.url }}">{{ subsection.title }}</a></li>
+                      <li class="moj-side-navigation__item{% if subsection.active %} moj-side-navigation__item--active{% endif %}">
+                        <a href="{{ subsection.url }}"{% if subsection.active %} aria-current="location"{% endif %}>{{ subsection.title }}</a>
+                      </li>
                     {% endfor %}
                   </ul>
                 {% endif %}
