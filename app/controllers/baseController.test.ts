@@ -73,6 +73,7 @@ describe('BaseController.configure', () => {
           } as FormWizard.Fields,
           steps: {},
           section: 'foo_section',
+          route: '/foo_route',
         },
       },
       session: {
@@ -103,6 +104,7 @@ describe('BaseController.configure', () => {
       sections, // TODO sections should be injected rather than use the hardcoded file :/
       req.form.options.section,
       req.form.options.steps,
+      req.form.options.route,
       true,
     )
     expect(createSectionProgressRules as jest.Mock).toHaveBeenCalledWith(req.form.options.steps)
