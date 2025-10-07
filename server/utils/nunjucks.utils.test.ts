@@ -1,6 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
 import { display, toErrorSummary } from './nunjucks.utils'
-import { FieldType } from '../@types/hmpo-form-wizard/enums'
 
 describe('server/utils/nunjucks.utils', () => {
   describe('toErrorSummary', () => {
