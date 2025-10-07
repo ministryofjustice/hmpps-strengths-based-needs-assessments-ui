@@ -7,5 +7,5 @@ export const enterBackgroundSubsection = () => {
 }
 
 export const enterPractitionerAnalysisSubsection = () => {
-  return cy.get('form a').contains('analysis').click()
+  return cy.get('.govuk-grid-column-three-quarters a').contains('analysis').click()
 }
