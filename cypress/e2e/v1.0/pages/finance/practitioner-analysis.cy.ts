@@ -1,11 +1,15 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
-const summaryPage = '/finance-summary'
+const summaryPage = `/${sections.finance.subsections.background.stepUrls.backgroundSummary}`
+const analysisPage = `/${sections.finance.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.finance.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
+
 
 before(() => {
   cy.createAssessment().enterAssessment()
 
-  cy.visitSection('Finance')
+  cy.visitSection('Finance').enterBackgroundSubsection()
   cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('No money').clickLabel()
   cy.getQuestion('Does Sam have their own bank account?').getRadio('Unknown').clickLabel()
   cy.getQuestion('How good is Sam at managing their money?')
@@ -17,16 +21,16 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Finance', summaryPage)
+  cy.assertResumeUrlIs('Finance', 'Finances background', summaryPage)
 
   cy.captureAssessment()
 })
 
 beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
-  cy.visitStep(summaryPage)
+  cy.visitStep(analysisPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
 })
 
-testPractitionerAnalysis(summaryPage, '/finance-analysis', 'finances')
+testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'finances')

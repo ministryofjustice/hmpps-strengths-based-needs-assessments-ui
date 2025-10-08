@@ -1,11 +1,15 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
-const summaryPage = '/employment-education-summary'
+const summaryPage = `/${sections.employmentEducation.subsections.background.stepUrls.backgroundSummary}`
+const analysisPage = `/${sections.employmentEducation.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.employmentEducation.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
+
 
 before(() => {
   cy.createAssessment().enterAssessment()
 
-  cy.visitSection('Employment and education')
+  cy.visitSection('Employment and education').enterBackgroundSubsection()
   cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
   cy.saveAndContinue()
 
@@ -30,16 +34,16 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Employment and education', summaryPage)
+  cy.assertResumeUrlIs('Employment and education', 'Employment and education background', summaryPage)
 
   cy.captureAssessment()
 })
 
 beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
-  cy.visitStep(summaryPage)
+  cy.visitStep(analysisPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
 })
 
-testPractitionerAnalysis(summaryPage, '/employment-education-analysis', 'employment and education')
+testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'employment and education')
