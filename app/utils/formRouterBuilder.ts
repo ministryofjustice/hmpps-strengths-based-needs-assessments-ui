@@ -52,8 +52,8 @@ export const getLastStepUrlForSubsection = (
   sectionName: string,
   subsectionName: string,
 ) => {
-  const section: Section = sections[sectionName as keyof typeof sections]
-  const subsection = section?.subsections?.[subsectionName]
+  const section: Section = sections[sectionName]
+  const subsection: Section = section?.subsections?.[subsectionName]
 
   if (!subsection?.stepUrls) {
     return undefined
@@ -96,7 +96,7 @@ function createNavigationItem(
             code: subsection.code,
             url: isInEditMode
               ? `${baseUrl}/${getInitialStepUrlForSubsection(sections, sectionKey, subsectionKey, steps)}?action=resume`
-              : `${baseUrl}/${getLastStepUrlForSubsection(sections, currentSection, subsectionKey)}`,
+              : `${baseUrl}/${getLastStepUrlForSubsection(sections, sectionKey, subsectionKey)}`,
             active: isCurrentRouteInSubsection(currentRoute, subsection),
           }))
       : undefined
