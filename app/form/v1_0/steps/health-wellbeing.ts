@@ -49,7 +49,6 @@ const sectionConfig: SectionConfig = {
         healthWellbeingFields.healthWellbeingMentalHealthConditionYesOngoingDetails,
         healthWellbeingFields.healthWellbeingMentalHealthConditionYesInThePastDetails,
         healthWellbeingFields.isUserSubmitted(sectionBackground.stepUrls.healthWellbeing),
-        healthWellbeingFields.backgroundSectionComplete(),
       ].flat(),
       next: [
         nextWhen(healthWellbeingFields.healthWellbeingPhysicalHealthCondition, 'YES', [

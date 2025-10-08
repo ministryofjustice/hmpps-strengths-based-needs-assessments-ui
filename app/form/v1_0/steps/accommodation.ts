@@ -64,7 +64,6 @@ const sectionConfig: SectionConfig = {
       fields: [
         accommodationTypeGroup,
         accommodationFields.isUserSubmitted(sectionBackground.stepUrls.currentAccommodation),
-        accommodationFields.backgroundSectionComplete(),
       ].flat(),
       next: [
         nextWhen(accommodationFields.currentAccommodation, 'SETTLED', sectionBackground.stepUrls.settledAccommodation),

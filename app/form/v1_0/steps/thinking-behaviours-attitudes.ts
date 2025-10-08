@@ -37,7 +37,6 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.thinkingBehavioursAttitudesCriminalBehaviour,
         thinkingBehavioursFields.wantToMakeChanges(),
         thinkingBehavioursFields.isUserSubmitted(sectionBackground.stepUrls.thinkingBehavioursAttitudes),
-        thinkingBehavioursFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.riskOfSexualHarm,
       sectionProgressRules: [],

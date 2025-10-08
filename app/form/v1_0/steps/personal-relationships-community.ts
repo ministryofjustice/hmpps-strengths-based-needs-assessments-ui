@@ -54,7 +54,6 @@ const sectionConfig: SectionConfig = {
         personalRelationshipsFields.personalRelationshipsCommunityNotLivingWithChildrenDetails,
         personalRelationshipsFields.personalRelationshipsCommunityVisitingChildrenDetails,
         personalRelationshipsFields.isUserSubmitted(sectionBackground.stepUrls.personalRelationshipsChildrenInfo),
-        personalRelationshipsFields.backgroundSectionComplete(),
       ].flat(),
       next: sectionBackground.stepUrls.personalRelationships,
       sectionProgressRules: [],
