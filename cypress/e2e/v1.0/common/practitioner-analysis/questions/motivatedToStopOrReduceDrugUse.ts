@@ -1,4 +1,4 @@
-export default (summaryPage: string, analysisCompletePage: string, positionNumber: number) => {
+export default (analysisPage: string, analysisCompletePage: string, positionNumber: number) => {
   const question = `Does Sam seem motivated to stop or reduce their drug use?`
   const summaryQuestion = question
 
@@ -13,7 +13,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
     it(`displays and validates the question`, () => {
       cy.getQuestion(question).isQuestionNumber(positionNumber).hasHint(null).hasRadios(options)
       cy.markAsComplete()
-      cy.assertStepUrlIs(summaryPage)
+      cy.assertStepUrlIs(analysisPage)
       cy.getQuestion(question).hasValidationError('Select if they seem motivated to stop or reduce their drug use')
       cy.checkAccessibility()
     })
@@ -27,7 +27,7 @@ export default (summaryPage: string, analysisCompletePage: string, positionNumbe
         cy.getAnalysisSummary(summaryQuestion).getAnalysisAnswer(option).hasNoSecondaryAnswer()
         cy.checkAccessibility()
         cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
-        cy.assertStepUrlIs(summaryPage)
+        cy.assertStepUrlIs(analysisPage)
       })
     })
   })
