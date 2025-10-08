@@ -275,8 +275,13 @@ describe('Generate fixture for complete assessment', () => {
 
     cy.getQuestion('Does Sam recognise the impact on the victims or wider community?').getRadio('No').clickLabel()
     cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
-    cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
     cy.getQuestion('Is there an escalation in seriousness from previous offending?').getRadio('No').clickLabel()
+    cy.getQuestion('Is there evidence that Sam has ever been a perpetrator of domestic abuse?')
+      .getRadio('No')
+      .clickLabel()
+    cy.getQuestion('Is there evidence that Sam has ever been a victim of domestic abuse?').getRadio('No').clickLabel()
+    cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
+
     cy.getQuestion(
       'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     )
@@ -288,10 +293,7 @@ describe('Generate fixture for complete assessment', () => {
       .getRadio('No')
       .getConditionalQuestion()
       .enterText('¯\\_(ツ)_/¯')
-    cy.getQuestion('Is there evidence that Sam has ever been a perpetrator of domestic abuse?')
-      .getRadio('No')
-      .clickLabel()
-    cy.getQuestion('Is there evidence that Sam has ever been a victim of domestic abuse?').getRadio('No').clickLabel()
+
     cy.markAsComplete()
 
     cy.sectionMarkedAsComplete(section)
