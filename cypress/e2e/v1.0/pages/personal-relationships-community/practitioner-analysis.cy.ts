@@ -1,11 +1,15 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
-const summaryPage = '/personal-relationships-community-summary'
+const summaryPage = `/${sections.personalRelationships.subsections.background.stepUrls.backgroundSummary}`
+const analysisPage = `/${sections.personalRelationships.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.personalRelationships.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
+
 
 before(() => {
   cy.createAssessment().enterAssessment()
 
-  cy.visitSection('Personal relationships and community')
+  cy.visitSection('Personal relationships and community').enterBackgroundSubsection()
   cy.getQuestion("Are there any children in Sam's life?")
     .getCheckbox("No, there are no children in Sam's life")
     .clickLabel()
@@ -30,20 +34,20 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Personal relationships and community', summaryPage)
+  cy.assertResumeUrlIs('Personal relationships and community', 'Personal relationships and community', summaryPage)
 
   cy.captureAssessment()
 })
 
 beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
-  cy.visitStep(summaryPage)
+  cy.visitStep(analysisPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
 })
 
 testPractitionerAnalysis(
-  summaryPage,
-  '/personal-relationships-community-analysis',
+  analysisPage,
+  analysisSummaryPage,
   'personal relationships and community',
 )
