@@ -1,24 +1,27 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
-const summaryPage = '/alcohol-use-summary'
+const summaryPage = `/${sections.alcohol.subsections.background.stepUrls.backgroundSummary}`
+const analysisPage = `/${sections.alcohol.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.alcohol.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
 
 before(() => {
   cy.createAssessment().enterAssessment()
 
-  cy.visitSection('Alcohol use')
+  cy.visitSection('Alcohol use').enterBackgroundSubsection()
   cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('No').clickLabel()
   cy.saveAndContinue()
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Alcohol use', summaryPage)
+  cy.assertResumeUrlIs('Alcohol use', 'Alcohol use background', summaryPage)
 
   cy.captureAssessment()
 })
 
 beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
-  cy.visitStep(summaryPage)
+  cy.visitStep(analysisPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
 })
 
-testPractitionerAnalysis(summaryPage, '/alcohol-use-analysis', 'alcohol use')
+testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'alcohol use')

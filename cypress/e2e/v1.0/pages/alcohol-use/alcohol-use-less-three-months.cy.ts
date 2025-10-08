@@ -4,10 +4,11 @@ import pastAlcoholIssues from './questions/alcohol-past-issues'
 import reasonsForUse from './questions/alcohol-reasons-for-use'
 import stoppedOrReducedAlcohol from './questions/alcohol-stopped-or-reduced'
 import wantToMakeChanges from './questions/wantToMakeChanges'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
 describe('/alcohol-use-less-three-months', () => {
   const stepUrl = '/alcohol-use-less-three-months'
-  const summaryPage = '/alcohol-use-summary'
+  const summaryPage = `/${sections.alcohol.subsections.background.stepUrls.backgroundSummary}`
   const questions = [
     evidenceOfBingeDrinking,
     pastAlcoholIssues,
@@ -19,11 +20,11 @@ describe('/alcohol-use-less-three-months', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Alcohol use')
+    cy.visitSection('Alcohol use').enterBackgroundSubsection()
     cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, but not in the last 3 months').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Alcohol use', stepUrl)
+    cy.assertResumeUrlIs('Alcohol use', 'Alcohol use background', stepUrl)
     cy.captureAssessment()
   })
 
