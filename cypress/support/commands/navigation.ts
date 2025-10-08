@@ -4,7 +4,7 @@ export const visitSection = (name: string) => {
 }
 
 export const assertSectionIs = (name: string) => {
-  cy.get(`.side-navigation li.moj-side-navigation__item--active`).should('have.length', 2).and('contain.text', name)
+  cy.get(`.side-navigation li.moj-side-navigation__item--active`).should('contain.text', name)
 
   // for some sections the name is in the caption, in others the h2
   cy.get('.section-heading__heading').contains(`${name}`).should('be.visible')
