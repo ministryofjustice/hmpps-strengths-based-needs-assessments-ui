@@ -50,7 +50,7 @@ describe('/drug-details', () => {
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Drug use')
+    cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
   })
 
