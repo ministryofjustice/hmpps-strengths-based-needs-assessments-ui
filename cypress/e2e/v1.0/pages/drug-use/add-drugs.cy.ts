@@ -8,9 +8,9 @@ describe('/add-drugs', () => {
 
   beforeEach(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
-    cy.visitSection('Drug use')
+    cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Drug use', stepUrl)
+    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

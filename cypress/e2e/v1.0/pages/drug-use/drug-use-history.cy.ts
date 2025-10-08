@@ -21,7 +21,7 @@ describe('/drug-use-history', () => {
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
 
-    cy.visitSection('Drug use')
+    cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()
     cy.getQuestion('Which drugs has Sam misused?')
       .getCheckbox('Cannabis')
@@ -35,7 +35,7 @@ describe('/drug-use-history', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Drug use', stepUrl)
+    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
