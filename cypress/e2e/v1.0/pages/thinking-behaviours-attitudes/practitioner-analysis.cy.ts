@@ -1,11 +1,15 @@
+import sections from '../../../../../app/form/v1_0/config/sections'
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 
-const summaryPage = '/thinking-behaviours-attitudes-summary'
+const summaryPage = `/${sections.thinkingBehaviours.subsections.background.stepUrls.backgroundSummary}`
+const analysisPage = `/${sections.thinkingBehaviours.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.thinkingBehaviours.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
+
 
 before(() => {
   cy.createAssessment().enterAssessment()
 
-  cy.visitSection('Thinking, behaviours and attitudes')
+  cy.visitSection('Thinking, behaviours and attitudes').enterBackgroundSubsection()
   cy.getQuestion('Is Sam aware of the consequences of their actions?')
     .getRadio('Yes, is aware of the consequences of their actions')
     .clickLabel()
@@ -62,16 +66,20 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Thinking, behaviours and attitudes', summaryPage)
+  cy.assertResumeUrlIs(
+    'Thinking, behaviours and attitudes',
+    'Thinking, behaviours and attitudes background',
+    summaryPage,
+  )
 
   cy.captureAssessment()
 })
 
 beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
-  cy.visitStep(summaryPage)
+  cy.visitStep(analysisPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
 })
 
-testPractitionerAnalysis(summaryPage, '/thinking-behaviours-attitudes-analysis', 'thinking, behaviours and attitudes')
+testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'thinking, behaviours and attitudes')

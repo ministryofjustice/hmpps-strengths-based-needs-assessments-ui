@@ -9,7 +9,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Thinking, behaviours and attitudes')
+    cy.visitSection('Thinking, behaviours and attitudes').enterBackgroundSubsection()
     cy.getQuestion('Is Sam aware of the consequences of their actions?')
       .getRadio('Yes, is aware of the consequences of their actions')
       .clickLabel()
@@ -68,7 +68,11 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Thinking, behaviours and attitudes', stepUrl)
+    cy.assertResumeUrlIs(
+      'Thinking, behaviours and attitudes',
+      'Thinking, behaviours and attitudes background',
+      summaryPage,
+    )
     cy.captureAssessment()
   })
 

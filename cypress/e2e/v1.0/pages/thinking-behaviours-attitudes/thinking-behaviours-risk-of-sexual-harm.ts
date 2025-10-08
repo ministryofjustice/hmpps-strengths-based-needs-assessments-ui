@@ -7,7 +7,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Thinking, behaviours and attitudes')
+    cy.visitSection('Thinking, behaviours and attitudes').enterBackgroundSubsection()
     cy.getQuestion('Is Sam aware of the consequences of their actions?')
       .getRadio('Yes, is aware of the consequences of their actions')
       .clickLabel()
