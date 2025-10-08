@@ -5,7 +5,6 @@ const summaryPage = `/${sections.thinkingBehaviours.subsections.background.stepU
 const analysisPage = `/${sections.thinkingBehaviours.subsections.practitionerAnalysis.stepUrls.analysis}`
 const analysisSummaryPage = `/${sections.thinkingBehaviours.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
 
-
 before(() => {
   cy.createAssessment().enterAssessment()
 

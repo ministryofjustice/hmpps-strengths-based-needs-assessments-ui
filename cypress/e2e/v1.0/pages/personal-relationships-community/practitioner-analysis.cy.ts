@@ -5,7 +5,6 @@ const summaryPage = `/${sections.personalRelationships.subsections.background.st
 const analysisPage = `/${sections.personalRelationships.subsections.practitionerAnalysis.stepUrls.analysis}`
 const analysisSummaryPage = `/${sections.personalRelationships.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
 
-
 before(() => {
   cy.createAssessment().enterAssessment()
 
@@ -46,8 +45,4 @@ beforeEach(() => {
   cy.hasFeedbackLink()
 })
 
-testPractitionerAnalysis(
-  analysisPage,
-  analysisSummaryPage,
-  'personal relationships and community',
-)
+testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'personal relationships and community')

@@ -5,7 +5,6 @@ const summaryPage = `/${sections.healthWellbeing.subsections.background.stepUrls
 const analysisPage = `/${sections.healthWellbeing.subsections.practitionerAnalysis.stepUrls.analysis}`
 const analysisSummaryPage = `/${sections.healthWellbeing.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
 
-
 before(() => {
   cy.createAssessment().enterAssessment()
 
