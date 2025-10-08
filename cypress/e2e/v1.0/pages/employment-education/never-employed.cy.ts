@@ -36,7 +36,7 @@ describe('/never-employed', () => {
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitStep(stepUrl).enterBackgroundSubsection()
+    cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
