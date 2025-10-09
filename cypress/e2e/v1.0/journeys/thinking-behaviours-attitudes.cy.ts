@@ -3,11 +3,13 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
     landingPage: '/thinking-behaviours-attitudes',
     riskOfSexualHarm: '/thinking-behaviours-attitudes-risk-of-sexual-harm',
     riskOfSexualHarmDetails: '/thinking-behaviours-attitudes-risk-of-sexual-harm-details',
-    summary: '/thinking-behaviours-attitudes-summary',
+    backgroundSummary: '/thinking-behaviours-attitudes-summary',
     analysis: '/thinking-behaviours-attitudes-analysis',
+    analysisSummary: '/thinking-behaviours-attitudes-analysis-summary',
   }
 
   const sectionName = 'Thinking, behaviours and attitudes'
+  const backgroundSubsectionName = `${sectionName} background`
 
   before(() => {
     cy.createAssessment()
@@ -70,23 +72,23 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
         .getRadio('Sam is not present')
         .clickLabel()
 
-      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.riskOfSexualHarm)
       cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, destinations.riskOfSexualHarm)
+      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.riskOfSexualHarm)
     })
 
-    describe(`Destination: ${destinations.summary}`, () => {
-      it(`"No" routes to "${destinations.summary}"`, () => {
+    describe(`Destination: ${destinations.backgroundSummary}`, () => {
+      it(`"No" routes to "${destinations.backgroundSummary}"`, () => {
         cy.visitStep(destinations.riskOfSexualHarm)
         cy.getQuestion('Are there any concerns that Sam poses a risk of sexual harm to others?')
           .getRadio('No')
           .clickLabel()
 
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.summary)
-        cy.assertResumeUrlIs(sectionName, destinations.summary)
+        cy.assertStepUrlIs(destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
     })
 
@@ -100,21 +102,21 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.riskOfSexualHarmDetails)
         cy.assertBackLinkIs(destinations.riskOfSexualHarm)
-        cy.assertResumeUrlIs(sectionName, destinations.riskOfSexualHarmDetails)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.riskOfSexualHarmDetails)
       })
 
-      describe(`Destination: ${destinations.summary}`, () => {
-        it(`routes to "${destinations.summary}"`, () => {
+      describe(`Destination: ${destinations.backgroundSummary}`, () => {
+        it(`routes to "${destinations.backgroundSummary}"`, () => {
           cy.visitStep(destinations.riskOfSexualHarmDetails)
           cy.getQuestion('Is there evidence Sam shows sexual preoccupation?').getRadio('Unknown').clickLabel()
           cy.getQuestion('Is there evidence Sam has offence-related sexual interests?').getRadio('Unknown').clickLabel()
           cy.getQuestion('Is there evidence Sam finds it easier to seek emotional intimacy with children over adults?')
             .getRadio('Unknown')
             .clickLabel()
-          cy.assertResumeUrlIs(sectionName, destinations.riskOfSexualHarmDetails)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.riskOfSexualHarmDetails)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.summary)
-          cy.assertResumeUrlIs(sectionName, destinations.summary)
+          cy.assertStepUrlIs(destinations.backgroundSummary)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
         })
       })
     })
