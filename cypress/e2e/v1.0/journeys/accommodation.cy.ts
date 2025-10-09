@@ -30,11 +30,11 @@ describe('Origin: /current-accommodation', () => {
     // TODO uncomment the below - just commented out to run faster locally for now.
     Array.of(
       'Homeowner',
-      // 'Living with friends or family',
-      // 'Renting privately',
-      // 'Renting from social, local authority or other',
-      // 'Residential healthcare',
-      // 'Supported accommodation',
+      'Living with friends or family',
+      'Renting privately',
+      'Renting from social, local authority or other',
+      'Residential healthcare',
+      'Supported accommodation',
     ).forEach(typeOfSettledAccommodation => {
       it(`"${typeOfAccommodation}" and "${typeOfSettledAccommodation}" routes to "${destinations.settled}"`, () => {
         cy.visitStep(destinations.landingPage)
