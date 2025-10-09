@@ -125,7 +125,12 @@ describe('Origin: /current-accommodation', () => {
         cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.backgroundSummary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 
@@ -174,7 +179,12 @@ describe('Origin: /current-accommodation', () => {
         cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.backgroundSummary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 
@@ -221,7 +231,12 @@ describe('Origin: /current-accommodation', () => {
         cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.backgroundSummary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 })
