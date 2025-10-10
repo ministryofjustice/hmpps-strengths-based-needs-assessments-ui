@@ -7,8 +7,8 @@ describe('/current-employment', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.assertResumeUrlIs('Employment and education', stepUrl)
-    cy.visitStep(stepUrl)
+    cy.assertResumeUrlIs('Employment and education', 'Employment and education background', stepUrl)
+    cy.visitSection('Employment and education').enterBackgroundSubsection()
     cy.assertSectionIs('Employment and education')
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

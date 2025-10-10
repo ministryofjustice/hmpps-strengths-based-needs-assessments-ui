@@ -27,7 +27,7 @@ describe('/health-wellbeing', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Health and wellbeing')
+    cy.visitSection('Health and wellbeing').enterBackgroundSubsection()
 
     cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
 
@@ -35,14 +35,14 @@ describe('/health-wellbeing', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Health and wellbeing', stepUrl)
+    cy.assertResumeUrlIs('Health and wellbeing', 'Health and wellbeing background', stepUrl)
 
     cy.captureAssessment()
   })
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitStep(stepUrl)
+    cy.visitSection('Health and wellbeing').enterBackgroundSubsection()
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

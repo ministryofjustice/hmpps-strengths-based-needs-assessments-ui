@@ -20,12 +20,12 @@ describe('navigation', () => {
 
     beforeEach(() => {
       cy.enterAssessment()
-      cy.get('.side-navigation li.moj-side-navigation__item').should('have.length', sections.length)
+      cy.get('.side-navigation > ul > li.moj-side-navigation__item').should('have.length', sections.length)
     })
 
     sections.forEach((section, index) => {
       it(`"${section}" section is in position ${index + 1} and can be navigated to`, () => {
-        cy.get('.side-navigation li.moj-side-navigation__item').eq(index).should('contain.text', section)
+        cy.get('.side-navigation > ul > li.moj-side-navigation__item').eq(index).should('contain.text', section)
 
         cy.visitSection(section)
         cy.assertSectionIs(section)

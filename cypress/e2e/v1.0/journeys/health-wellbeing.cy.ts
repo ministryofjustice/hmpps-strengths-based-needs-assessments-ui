@@ -7,11 +7,14 @@ describe('Origin: /health-wellbeing', () => {
     physicalHealth: '/physical-health',
     mentalHealth: '/mental-health',
     noPhysicalMentalHealth: '/no-physical-mental-health',
-    summary: '/health-wellbeing-summary',
+    backgroundSummary: '/health-wellbeing-summary',
     analysis: '/health-wellbeing-analysis',
+    analysisSummary: '/health-wellbeing-analysis-summary',
   }
 
   const sectionName = 'Health and wellbeing'
+  const backgroundSubsectionName = `${sectionName} background`
+  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()
@@ -37,17 +40,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.physicalMentalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, destinations.physicalMentalHealth)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalMentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.summary}`, () => {
-      it(`routes to ${destinations.summary}`, () => {
+    describe(`Destination: ${destinations.backgroundSummary}`, () => {
+      it(`routes to ${destinations.backgroundSummary}`, () => {
         cy.visitStep(destinations.physicalMentalHealth)
 
         cy.getQuestion('Is Sam currently having psychiatric treatment?').getRadio('No').clickLabel()
@@ -72,13 +75,18 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.physicalMentalHealth)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalMentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.summary)
-        cy.assertResumeUrlIs(sectionName, destinations.summary)
+        cy.assertStepUrlIs(destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 
@@ -94,17 +102,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.physicalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, destinations.physicalHealth)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.summary}`, () => {
-      it(`routes to ${destinations.summary}`, () => {
+    describe(`Destination: ${destinations.backgroundSummary}`, () => {
+      it(`routes to ${destinations.backgroundSummary}`, () => {
         cy.visitStep(destinations.physicalHealth)
 
         cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
@@ -127,13 +135,18 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.physicalHealth)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.summary)
-        cy.assertResumeUrlIs(sectionName, destinations.summary)
+        cy.assertStepUrlIs(destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 
@@ -153,17 +166,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.mentalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, destinations.mentalHealth)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.mentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.summary}`, () => {
-      it(`routes to ${destinations.summary}`, () => {
+    describe(`Destination: ${destinations.backgroundSummary}`, () => {
+      it(`routes to ${destinations.backgroundSummary}`, () => {
         cy.visitStep(destinations.mentalHealth)
 
         cy.getQuestion('Is Sam currently having psychiatric treatment?').getRadio('No').clickLabel()
@@ -188,13 +201,18 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.mentalHealth)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.mentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.summary)
-        cy.assertResumeUrlIs(sectionName, destinations.summary)
+        cy.assertStepUrlIs(destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 
@@ -210,17 +228,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.noPhysicalMentalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, destinations.noPhysicalMentalHealth)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.noPhysicalMentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.summary}`, () => {
-      it(`routes to ${destinations.summary}`, () => {
+    describe(`Destination: ${destinations.backgroundSummary}`, () => {
+      it(`routes to ${destinations.backgroundSummary}`, () => {
         cy.visitStep(destinations.noPhysicalMentalHealth)
 
         cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
@@ -243,13 +261,18 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.noPhysicalMentalHealth)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.noPhysicalMentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.summary)
-        cy.assertResumeUrlIs(sectionName, destinations.summary)
+        cy.assertStepUrlIs(destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
-      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+      testPractitionerAnalysis(
+        sectionName,
+        destinations.backgroundSummary,
+        practitionerAnalysisSubsectionName,
+        destinations.analysisSummary,
+      )
     })
   })
 })

@@ -1,11 +1,14 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
-const summaryPage = '/health-wellbeing-summary'
+const summaryPage = `/${sections.healthWellbeing.subsections.background.stepUrls.backgroundSummary}`
+const analysisPage = `/${sections.healthWellbeing.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.healthWellbeing.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
 
 before(() => {
   cy.createAssessment().enterAssessment()
 
-  cy.visitSection('Health and wellbeing')
+  cy.visitSection('Health and wellbeing').enterBackgroundSubsection()
   cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
   cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?').getRadio('No').clickLabel()
   cy.saveAndContinue()
@@ -26,16 +29,16 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Health and wellbeing', summaryPage)
+  cy.assertResumeUrlIs('Health and wellbeing', 'Health and wellbeing background', summaryPage)
 
   cy.captureAssessment()
 })
 
 beforeEach(() => {
   cy.cloneCapturedAssessment().enterAssessment()
-  cy.visitStep(summaryPage)
+  cy.visitStep(analysisPage)
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
 })
 
-testPractitionerAnalysis(summaryPage, '/health-wellbeing-analysis', 'health and wellbeing')
+testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'health and wellbeing')

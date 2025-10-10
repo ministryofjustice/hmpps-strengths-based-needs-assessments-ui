@@ -1,6 +1,6 @@
 export const getAnalysisSummary = (question: string) => {
   return cy
-    .get('#practitioner-analysis > section > article > .analysis-summary__row > .analysis-summary__heading')
+    .get('section > article > .analysis-summary__row > .analysis-summary__heading')
     .contains(question)
     .should('be.visible')
     .and('have.length', 1)

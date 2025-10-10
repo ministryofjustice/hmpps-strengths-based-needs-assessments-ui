@@ -18,7 +18,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
       cy.enterAssessment()
       cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
-      cy.visitSection(sectionName)
+      cy.visitSection(sectionName).enterBackgroundSubsection()
       cy.getSummary(question).getAnswer('No')
     })
 
@@ -68,8 +68,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
         .clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.summary)
-      cy.get('#tab_practitioner-analysis').click()
-      cy.markAsComplete()
+      cy.get('a').contains('Continue to practitioner analysis').click()
       cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.captureAssessment()

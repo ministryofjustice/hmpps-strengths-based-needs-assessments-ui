@@ -4,6 +4,7 @@ export const assertQuestionCount = (count: number) => {
   cy.get('form > .form-group:visible').should('have.length', count)
 }
 
+// TODO rename this to section navigation is marked as complete
 export const sectionMarkedAsComplete = (section: string) => {
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
@@ -14,6 +15,7 @@ export const sectionMarkedAsComplete = (section: string) => {
     })
 }
 
+// TODO rename this to section navigation is not marked as complete
 export const sectionNotMarkedAsComplete = (section: string) => {
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
@@ -22,11 +24,13 @@ export const sectionNotMarkedAsComplete = (section: string) => {
     .should('not.exist')
 }
 
+// TODO rename this to section state tag is complete
 export const currentSectionMarkedAsComplete = (section: string) => {
   cy.get('.section-heading__status > .govuk-tag').should('be.visible').and('contain.text', 'Complete')
   cy.sectionMarkedAsComplete(section)
 }
 
+// TODO rename this to section state tag is not marked as complete
 export const currentSectionNotMarkedAsComplete = (section: string) => {
   cy.get('.section-heading__status > .govuk-tag')
     .should('be.visible')

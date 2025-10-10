@@ -39,11 +39,11 @@ describe('Origin: /offence-analysis', () => {
         .getConditionalQuestion()
         .enterText('Test')
 
-      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, '', destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.involvedParties)
       cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
+      cy.assertResumeUrlIs(sectionName, '', destinations.involvedParties)
     })
 
     describe(`Destination: ${destinations.impact}`, () => {
@@ -54,11 +54,11 @@ describe('Origin: /offence-analysis', () => {
           .getRadio('None')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
+        cy.assertResumeUrlIs(sectionName, '', destinations.involvedParties)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.impact)
         cy.assertBackLinkIs(destinations.involvedParties)
-        cy.assertResumeUrlIs(sectionName, destinations.impact)
+        cy.assertResumeUrlIs(sectionName, '', destinations.impact)
       })
 
       describe(`Destination: ${destinations.summary}`, () => {
@@ -87,13 +87,13 @@ describe('Origin: /offence-analysis', () => {
             .getRadio('No')
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, destinations.impact)
+          cy.assertResumeUrlIs(sectionName, '', destinations.impact)
           cy.markAsComplete()
           cy.assertStepUrlIs(destinations.summary)
-          cy.assertResumeUrlIs(sectionName, destinations.summary)
+          cy.assertResumeUrlIs(sectionName, '', destinations.summary)
           cy.currentSectionMarkedAsComplete(sectionName)
 
-          // checkmark is removed on making a change
+          // checkmark is not removed on making a change
           cy.getSummary(
             'How many other people were involved with committing the current index offence(s)?',
           ).clickChange()
@@ -104,11 +104,6 @@ describe('Origin: /offence-analysis', () => {
           cy.saveAndContinue()
 
           cy.assertStepUrlIs(destinations.impactOthersInvolved)
-          cy.currentSectionNotMarkedAsComplete(sectionName)
-          cy.getQuestion('Was Sam the leader of the current index offence(s)?').getRadio('No').clickLabel()
-          cy.markAsComplete()
-
-          cy.assertStepUrlIs(destinations.summary)
           cy.currentSectionMarkedAsComplete(sectionName)
         })
       })
@@ -123,11 +118,11 @@ describe('Origin: /offence-analysis', () => {
         .getRadio('1')
         .clickLabel()
 
-      cy.assertResumeUrlIs(sectionName, destinations.involvedParties)
+      cy.assertResumeUrlIs(sectionName, '', destinations.involvedParties)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.impactOthersInvolved)
       cy.assertBackLinkIs(destinations.involvedParties)
-      cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
+      cy.assertResumeUrlIs(sectionName, '', destinations.impactOthersInvolved)
     })
 
     describe(`Destination: ${destinations.summary}`, () => {
@@ -157,13 +152,13 @@ describe('Origin: /offence-analysis', () => {
           .getRadio('No')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
+        cy.assertResumeUrlIs(sectionName, '', destinations.impactOthersInvolved)
         cy.markAsComplete()
         cy.assertStepUrlIs(destinations.summary)
-        cy.assertResumeUrlIs(sectionName, destinations.summary)
+        cy.assertResumeUrlIs(sectionName, '', destinations.summary)
         cy.currentSectionMarkedAsComplete(sectionName)
 
-        // checkmark is removed on making a change
+        // checkmark is not removed on making a change
         cy.getSummary('How many other people were involved with committing the current index offence(s)?').clickChange()
         cy.assertStepUrlIs(destinations.involvedParties)
         cy.getQuestion('How many other people were involved with committing the current index offence(s)?')
@@ -172,10 +167,6 @@ describe('Origin: /offence-analysis', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.impactOthersInvolved)
-        cy.currentSectionNotMarkedAsComplete(sectionName)
-        cy.markAsComplete()
-
-        cy.assertStepUrlIs(destinations.summary)
         cy.currentSectionMarkedAsComplete(sectionName)
       })
     })
@@ -187,11 +178,11 @@ describe('Origin: /offence-analysis', () => {
 
       cy.getQuestion('Who was the offence committed against?').getCheckbox('One or more people').clickLabel()
 
-      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, '', destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.victimCreate)
       cy.assertBackLinkIs(destinations.victimsSummary)
-      cy.assertResumeUrlIs(sectionName, destinations.victimsSummary)
+      cy.assertResumeUrlIs(sectionName, '', destinations.victimsSummary)
     })
 
     describe(`Destination: ${destinations.victimsSummary}`, () => {
@@ -207,12 +198,12 @@ describe('Origin: /offence-analysis', () => {
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.victimsSummary)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, destinations.victimsSummary)
+        cy.assertResumeUrlIs(sectionName, '', destinations.victimsSummary)
       })
 
       describe(`Destination: ${destinations.involvedParties}`, () => {
         it(`routes to ${destinations.involvedParties}`, () => {
-          cy.assertResumeUrlIs(sectionName, destinations.victimsSummary)
+          cy.assertResumeUrlIs(sectionName, '', destinations.victimsSummary)
 
           cy.visitStep(destinations.victimsSummary)
           cy.saveAndContinue()
@@ -222,8 +213,6 @@ describe('Origin: /offence-analysis', () => {
 
         describe(`Destination: ${destinations.impactOthersInvolved}`, () => {
           it(`routes to ${destinations.impactOthersInvolved}`, () => {
-            cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
-
             cy.visitStep(destinations.involvedParties)
             cy.saveAndContinue()
             cy.assertStepUrlIs(destinations.impactOthersInvolved)
@@ -232,12 +221,10 @@ describe('Origin: /offence-analysis', () => {
 
           describe(`Destination: ${destinations.summary}`, () => {
             it(`routes to ${destinations.summary}`, () => {
-              cy.assertResumeUrlIs(sectionName, destinations.impactOthersInvolved)
-
               cy.visitStep(destinations.impactOthersInvolved)
               cy.markAsComplete()
               cy.assertStepUrlIs(destinations.summary)
-              cy.assertResumeUrlIs(sectionName, destinations.summary)
+              cy.assertResumeUrlIs(sectionName, '', destinations.summary)
             })
           })
         })

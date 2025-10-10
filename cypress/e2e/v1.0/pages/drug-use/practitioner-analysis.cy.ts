@@ -1,36 +1,39 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 import motivatedToStopOrReduceDrugUse from '../../common/practitioner-analysis/questions/motivatedToStopOrReduceDrugUse'
+import sections from '../../../../../app/form/v1_0/config/sections'
 
 const summaryPage = '/drug-use-summary'
+const analysisPage = `/${sections.drugsUse.subsections.practitionerAnalysis.stepUrls.analysis}`
+const analysisSummaryPage = `/${sections.drugsUse.subsections.practitionerAnalysis.stepUrls.analysisSummary}`
 
 describe(`Sam hasn't misused drugs`, () => {
   before(() => {
     cy.createAssessment().enterAssessment()
 
-    cy.visitSection('Drug use')
+    cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(summaryPage)
-    cy.assertResumeUrlIs('Drug use', summaryPage)
+    cy.assertResumeUrlIs('Drug use', 'Drug use background', summaryPage)
 
     cy.captureAssessment()
   })
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitStep(summaryPage)
+    cy.visitStep(analysisPage)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
   })
 
-  testPractitionerAnalysis(summaryPage, '/drug-use-analysis', 'drug use')
+  testPractitionerAnalysis(analysisPage, analysisSummaryPage, 'drug use')
 })
 
 describe(`Sam has misused drugs`, () => {
   before(() => {
     cy.createAssessment().enterAssessment()
 
-    cy.visitSection('Drug use')
+    cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
     cy.saveAndContinue()
 
@@ -52,21 +55,19 @@ describe(`Sam has misused drugs`, () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(summaryPage)
-    cy.assertResumeUrlIs('Drug use', summaryPage)
+    cy.assertResumeUrlIs('Drug use', 'Drug use background', summaryPage)
 
     cy.captureAssessment()
   })
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitStep(summaryPage)
+    cy.visitStep(analysisPage)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
 
-    cy.get('#tab_practitioner-analysis').click()
-    cy.get('#practitioner-analysis').should('be.visible')
     cy.assertQuestionCount(4)
   })
 
-  motivatedToStopOrReduceDrugUse(summaryPage, '/drug-use-analysis', 1)
+  motivatedToStopOrReduceDrugUse(analysisPage, analysisSummaryPage, 1)
 })

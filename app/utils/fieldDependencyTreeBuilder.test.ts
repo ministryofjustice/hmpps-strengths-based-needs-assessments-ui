@@ -15,6 +15,10 @@ class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
     return super.resolveNextStep(next)
   }
 
+  getInitialStepForSubsection() {
+    return super.getInitialStepForSubsection()
+  }
+
   toStepFields(stepPath: string): (fields: Field[], field: FormWizard.Field) => Field[] {
     return super.toStepFields(stepPath)
   }
@@ -26,26 +30,50 @@ class TestableFieldDependencyTreeBuilder extends FieldDependencyTreeBuilder {
   getFieldAnswers(field: FormWizard.Field): FieldAnswer[] {
     return super.getFieldAnswers(field)
   }
-
-  getInitialStep() {
-    return super.getInitialStep()
-  }
 }
 
 describe('app/utils/fieldDependencyTreeBuilder', () => {
+  const mockSections = {
+    testSection: {
+      title: 'Test Section',
+      code: 'testSection',
+      navigationOrder: 1,
+      subsections: {
+        subSectionA: {
+          title: 'Test Subsection',
+          code: 'test-sub',
+          navigationOrder: 1,
+          stepUrls: {
+            step1: 'step-1',
+            step2: 'step-2',
+          },
+        },
+      },
+    },
+  }
+
   const builderWithAnswer = (field: string, value: string | string[]): TestableFieldDependencyTreeBuilder =>
-    new TestableFieldDependencyTreeBuilder({} as FormWizard.FormOptions, {
-      [field]: value,
-    })
+    new TestableFieldDependencyTreeBuilder(
+      {
+        section: 'test',
+        allFields: {},
+        steps: {},
+      },
+      {
+        [field]: value,
+      },
+    )
 
   const builderWithStep = (stepPath: string, step: FormWizard.RenderedStep): TestableFieldDependencyTreeBuilder =>
     new TestableFieldDependencyTreeBuilder(
       {
         section: step.section,
+        route: step.route,
+        allFields: {},
         steps: {
           [stepPath]: step,
         },
-      } as FormWizard.FormOptions,
+      },
       {},
     )
 
@@ -432,7 +460,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   describe('build', () => {
     it('should return empty array when no starting step is found in config', () => {
       const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
-      expect(sut.build()).toEqual([])
+      expect(sut.getAllFieldsInSectionFromSteps()).toEqual([])
     })
 
     it('should return relevant fields with filter function applied', () => {
@@ -442,11 +470,14 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       }
 
       const options: FormWizard.FormOptions = {
-        section: 'test',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
-          '/step1': {
+          '/step-1': {
+            initialStepInSection: true,
+            route: '/step-1',
             pageTitle: 'page 1',
-            section: 'test',
+            section: 'testSection',
             navigationOrder: 1,
             fields: {
               q1: fields.q1,
@@ -466,7 +497,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       const expected: Field[] = [
         {
           field: options.allFields.q1,
-          changeLink: 'step1#q1',
+          changeLink: 'step-1#q1',
           answers: [
             {
               text: 'foo',
@@ -478,9 +509,9 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       ]
 
       const filterFn = jest.fn((field: FormWizard.Field) => field.code === 'q1')
-      const sut = new TestableFieldDependencyTreeBuilder(options, answers).setStepFieldsFilterFn(filterFn)
+      const sut = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).setStepFieldsFilterFn(filterFn)
 
-      expect(sut.build()).toEqual(expected)
+      expect(sut.getAllFieldsInSectionFromSteps()).toEqual(expected)
 
       expect(filterFn).toHaveBeenCalledTimes(2)
       expect(filterFn.mock.calls[0][0]).toEqual(fields.q1)
@@ -491,7 +522,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
   describe('buildAndFlatten', () => {
     it('should return empty array when no starting step is found in config', () => {
       const sut = builderWithStep('page-1', { pageTitle: 'page 1', section: undefined })
-      expect(sut.buildAndFlatten()).toEqual([])
+      expect(sut.getAllNestedFieldsInSectionFromSteps()).toEqual([])
     })
 
     it('should return relevant fields with filter function applied', () => {
@@ -502,11 +533,14 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       }
 
       const options: FormWizard.FormOptions = {
-        section: 'test',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
-          '/step1': {
+          '/step-1': {
+            initialStepInSection: true,
+            route: '/step-1',
             pageTitle: 'page 1',
-            section: 'test',
+            section: 'testSection',
             navigationOrder: 1,
             fields: {
               q1: fields.q1,
@@ -528,7 +562,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       const expected: Field[] = [
         {
           field: options.allFields.q1,
-          changeLink: 'step1#q1',
+          changeLink: 'step-1#q1',
           answers: [
             {
               text: 'foo',
@@ -536,7 +570,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
               nestedFields: [
                 {
                   field: options.allFields.q2,
-                  changeLink: 'step1#q2',
+                  changeLink: 'step-1#q2',
                   answers: [
                     {
                       text: 'bar',
@@ -551,7 +585,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
         },
         {
           field: options.allFields.q2,
-          changeLink: 'step1#q2',
+          changeLink: 'step-1#q2',
           answers: [
             {
               text: 'bar',
@@ -563,14 +597,72 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       ]
 
       const filterFn = jest.fn((field: FormWizard.Field) => field.code !== 'q3')
-      const sut = new TestableFieldDependencyTreeBuilder(options, answers).setStepFieldsFilterFn(filterFn)
+      const sut = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).setStepFieldsFilterFn(filterFn)
 
-      expect(sut.buildAndFlatten()).toEqual(expected)
+      expect(sut.getAllNestedFieldsInSectionFromSteps()).toEqual(expected)
 
       expect(filterFn).toHaveBeenCalledTimes(3)
       expect(filterFn.mock.calls[0][0]).toEqual(fields.q1)
       expect(filterFn.mock.calls[1][0]).toEqual(fields.q2)
       expect(filterFn.mock.calls[2][0]).toEqual(fields.q3)
+    })
+  })
+
+  // Really we should be using a jest mock for `sections` imported by fieldDependencyTreeBuilder
+  // but I can't make it work so added an override to the FieldDependencyTreeBuilder constructor instead.
+  describe('getInitialStepForSubsection', () => {
+    it('should return an empty array when section is not found', () => {
+      const options: FormWizard.FormOptions = {
+        section: 'notTestSection',
+        route: '/does-not-matter',
+        steps: {},
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
+      expect(sut.getInitialStepForSubsection()).toEqual([])
+    })
+
+    it('should return an empty array when subsection is not found', () => {
+      const options: FormWizard.FormOptions = {
+        section: 'testSection',
+        route: '/non-existent-route',
+        steps: {},
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
+      expect(sut.getInitialStepForSubsection()).toEqual([])
+    })
+
+    it('should return an empty array when no valid initial step exists in the subsection', () => {
+      const options: FormWizard.FormOptions = {
+        section: 'testSection',
+        route: '/step-1',
+        steps: {
+          '/step-1': { route: '/step-1', initialStepInSection: false },
+          '/step-2': { route: '/step-2', initialStepInSection: false },
+        },
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
+      expect(sut.getInitialStepForSubsection()).toEqual([])
+    })
+
+    it('should return the correct initial step for a valid subsection', () => {
+      const options: FormWizard.FormOptions = {
+        section: 'testSection',
+        route: '/step-1',
+        steps: {
+          '/step-2': { route: '/step-2', initialStepInSection: false },
+          '/step-1': { route: '/step-1', initialStepInSection: true },
+        },
+        allFields: {},
+      } as unknown as FormWizard.FormOptions
+
+      const sut = new TestableFieldDependencyTreeBuilder(options, {}, mockSections)
+      expect(sut.getInitialStepForSubsection()).toEqual(['/step-1', options.steps['/step-1']])
     })
   })
 
@@ -602,11 +694,14 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
       }
 
       const options: FormWizard.FormOptions = {
-        section: 'test',
+        section: 'testSection',
+        route: '/step-1',
         steps: {
           '/step-1': {
+            route: '/step-1',
             pageTitle: 'Step 1',
-            section: 'test',
+            section: 'testSection',
+            initialStepInSection: true,
             navigationOrder: 1,
             fields: {
               q1: fields.q1,
@@ -615,16 +710,18 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
             next: [{ field: 'q2', value: 'baz', next: 'step-3' }, 'step-2'],
           },
           '/step-2': {
+            route: '/step-2',
             pageTitle: 'Step 2',
-            section: 'test',
+            section: 'testSection',
             fields: {
               q3: fields.q3,
             },
             next: ['step-3'],
           },
           '/step-3': {
+            route: '/step-3',
             pageTitle: 'Step 3',
-            section: 'test',
+            section: 'testSection',
             fields: {},
             next: [],
           },
@@ -637,7 +734,7 @@ describe('app/utils/fieldDependencyTreeBuilder', () => {
         q2: 'bar',
       }
 
-      const result = new TestableFieldDependencyTreeBuilder(options, answers).getPageNavigation()
+      const result = new TestableFieldDependencyTreeBuilder(options, answers, mockSections).getPageNavigation()
 
       expect(result).toEqual({
         url: 'step-2',

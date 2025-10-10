@@ -2,15 +2,24 @@
 export const testPractitionerAnalysis = (
   sectionName: string,
   origin: string,
+  destinationSubsection: string,
   destination: string,
-  conditionalFlag: boolean,
+  changesDrugUseStateToYes?: boolean,
 ) => {
   describe(`Destination: ${destination}`, () => {
     it(`routes to ${destination}`, () => {
       cy.visitStep(origin)
 
-      cy.get('#tab_practitioner-analysis').click()
-      cy.get('#practitioner-analysis').should('be.visible')
+      cy.get('a').contains('Continue to practitioner analysis').click()
+
+      // If there is a 'Change' link on this page then we are on a summary page, so click it to get back to the questions.
+      // We have to use this convoluted method because if we used `get` to look for the link, the whole test would fail
+      // if it wasn't there.
+      cy.get('body').then($body => {
+        if ($body.find('.analysis-summary__item .govuk-link').length > 0) {
+          cy.get('.analysis-summary__item .govuk-link').filter(':contains(Change)').first().click()
+        }
+      })
 
       const sectionNameLowerCase = sectionName.toLowerCase()
       const subjectPrefix = sectionNameLowerCase.endsWith('s') ? 'Are' : 'Is'
@@ -23,49 +32,28 @@ export const testPractitionerAnalysis = (
         cy.getQuestion(question).getRadio('No').clickLabel()
       })
 
-      if (sectionName === 'Drug use' && conditionalFlag) {
+      if (sectionName === 'Drug use' && changesDrugUseStateToYes) {
         cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
       }
 
-      cy.assertResumeUrlIs(sectionName, origin)
-      cy.get('#tab_practitioner-analysis').click()
-      cy.get('#practitioner-analysis').should('be.visible')
-
       cy.markAsComplete()
 
       cy.assertStepUrlIs(destination)
-      cy.get('#practitioner-analysis').should('be.visible')
-      cy.assertResumeUrlIs(sectionName, destination)
+      cy.assertResumeUrlIs(sectionName, destinationSubsection, destination)
       cy.currentSectionMarkedAsComplete(sectionName)
 
-      // Check editing the practitioner analysis removes the complete status
-      cy.get('#tab_summary').click()
-      cy.get('#summary').should('be.visible')
-
-      cy.get('#summary .govuk-summary-list__actions .govuk-link').filter(':contains(Change)').last().click()
-
+      // Check editing a background question does not remove the complete status
+      cy.visitStep(origin)
+      cy.get('.govuk-summary-list__actions .govuk-link').filter(':contains(Change)').last().click()
       cy.saveAndContinue()
-
       cy.assertStepUrlIs(origin)
-      cy.currentSectionNotMarkedAsComplete(sectionName)
-      cy.get('#tab_practitioner-analysis').click()
-      cy.get('#practitioner-analysis').should('be.visible')
-      cy.markAsComplete()
 
-      cy.assertStepUrlIs(destination)
-      cy.get('#tab_practitioner-analysis').click()
-      cy.get('#practitioner-analysis').should('be.visible')
-      cy.currentSectionMarkedAsComplete(sectionName)
-
-      cy.get('#tab_summary').click()
-      cy.get('#summary').should('be.visible')
-
-      // Check editing questions in the section removes the complete status
-      cy.get('#summary .govuk-summary-list__actions .govuk-link').filter(':contains(Change)').first().click()
-
-      cy.saveAndContinue()
-      cy.visitStep(destination)
-      cy.currentSectionNotMarkedAsComplete(sectionName)
+      // when the first questions in Drug use is changed this marks the section as incomplete
+      if (sectionName === 'Drug use' && !changesDrugUseStateToYes) {
+        cy.currentSectionNotMarkedAsComplete(sectionName)
+      } else {
+        cy.currentSectionMarkedAsComplete(sectionName)
+      }
     })
   })
 }
