@@ -1,0 +1,47 @@
+{% extends "../layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/summary/macro.njk" import renderSummaryFields with context %}
+
+{% set summaryFields = getSummaryFields({section: options.section, route: options.route, allFields: options.allFields, steps: options.steps, answers: answers}) %}
+{% set sectionStarted = summaryFields.singleFields.length > 0 or summaryFields.collectionFields.length > 0 %}
+{% set sectionComplete = sectionProgress[options.section] %}
+
+{% block notification %}
+  {% if not isInEditMode and sectionStarted and not sectionComplete %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        {{ mojBanner({ type: "information", text: "This section is incomplete" }) }}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if showVersionFromDateBanner %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        {{ mojAlert({
+          variant: "information",
+          title: "Assessment version date",
+          dismissible: false,
+          html: '<span class="moj-alert__heading">This version is from ' ~ assessment.metaData.versionUpdatedAt | formatDateForDisplay ~ '</span>'})
+        }}
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block formContent %}
+  {% if sectionStarted %}
+    <form id="form" method="post">
+      <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
+      {{ renderSummaryFields(summaryFields) }}
+    </form>
+    {% if not hideAnalysis %}
+      <div class="questiongroup-action-buttons summary-action-buttons">
+        <a href="{{ options.section }}-analysis?action=resume" class="govuk-button govuk-link--no-visited-state">Continue to practitioner analysis</a>
+      </div>
+    {% endif %}
+  {% else %}
+    <p class="govuk-body">This section has not yet been started</p>
+  {% endif %}
+{% endblock %}
+

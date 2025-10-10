@@ -1,0 +1,33 @@
+{% extends "../forms/layout.njk" %}
+
+{% set isTasksScreen = true %}
+
+{% block formContent %}
+  {% for link in form.navigation %}
+    {% if link.active and link.subsections %}
+      {% set sectionCode = options.section | replace("-", "_") %}
+      {% if answers[sectionCode ~ '_background_section_complete'] != "YES" or answers[sectionCode ~ '_practitioner_analysis_section_complete'] != "YES"%}
+        {{ govukNotificationBanner({
+          text: 'You will need to finish both parts to mark the section as complete.'
+        }) }}
+      {% endif %}
+
+      <ul>
+        {% for subsection in link.subsections %}
+          <li>
+            <a href="{{ subsection.url }}">{{ subsection.title }}</a>
+            {% if answers[subsection.code | replace('-', '_') ~ '_section_complete'] == 'YES'%}
+              <div class="section-heading__status">
+                {{ govukTag({ text: "Complete" }) }}
+              </div>
+            {% else %}
+              <div class="section-heading__status">
+                {{ govukTag({ text: "Incomplete", classes: "govuk-tag--grey" }) }}
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

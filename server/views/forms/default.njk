@@ -7,7 +7,7 @@
 {% block backLink %}
   {%- if backLink or generatedBackLink -%}
     {{ govukBackLink({
-      text: "Back",
+      text: "Previous question",
       href: backLink if backLink else generatedBackLink
     }) }}
   {%- endif -%}
