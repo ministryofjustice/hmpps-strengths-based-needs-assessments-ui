@@ -1,14 +1,11 @@
-import { setFieldToIncomplete, setFieldToCompleteWhenValid } from './common'
+import { setFieldToCompleteWhenValid } from './common'
 import financeFields from '../fields/finance'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.finance
-const stepUrls = {
-  finance: 'finance',
-  summary: 'finance-summary',
-  analysis: 'finance-analysis',
-}
+const sectionBackground = section.subsections.background
+const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
 
 const baseFinanceGroup = [
   financeFields.financeIncome,
@@ -31,31 +28,45 @@ const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: stepUrls.finance,
+      url: 'finance-tasks',
+      template: templates.sectionTasks,
+    },
+    {
+      url: sectionBackground.stepUrls.finance,
+      initialStepInSection: true,
       fields: [
         baseFinanceGroup,
         financeFields.wantToMakeChanges(),
-        financeFields.isUserSubmitted(stepUrls.finance),
-        financeFields.sectionComplete(),
+        financeFields.isUserSubmitted(sectionBackground.stepUrls.finance),
+        financeFields.backgroundSectionComplete(),
       ].flat(),
-      navigationOrder: 3,
-      next: stepUrls.summary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      next: sectionBackground.stepUrls.backgroundSummary,
+      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
     },
     {
-      url: stepUrls.summary,
+      url: sectionBackground.stepUrls.backgroundSummary,
+      template: templates.backgroundSummary,
+      pageTitle: `${sectionBackground.title} summary`,
+    },
+    {
+      url: sectionPractitionerAnalysis.stepUrls.analysis,
+      initialStepInSection: true,
+      template: templates.analysis,
       fields: [
+        financeFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysis),
         financeFields.practitionerAnalysis(),
-        financeFields.isUserSubmitted(stepUrls.summary),
+        financeFields.practitionerAnalysisSectionComplete(),
         financeFields.sectionComplete(),
       ].flat(),
-      next: `${stepUrls.analysis}#practitioner-analysis`,
-      template: templates.analysisIncomplete,
-      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+      next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
+      sectionProgressRules: [
+        setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
+        setFieldToCompleteWhenValid(section.sectionCompleteField),
+      ],
     },
     {
-      url: stepUrls.analysis,
-      template: templates.analysisComplete,
+      url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
+      template: templates.analysisSummary,
     },
   ],
 }
