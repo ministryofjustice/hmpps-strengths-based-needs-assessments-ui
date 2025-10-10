@@ -4,7 +4,7 @@ export const testPractitionerAnalysis = (
   origin: string,
   destinationSubsection: string,
   destination: string,
-  conditionalFlag?: boolean,
+  changesDrugUseStateToYes?: boolean,
 ) => {
   describe(`Destination: ${destination}`, () => {
     it(`routes to ${destination}`, () => {
@@ -32,7 +32,7 @@ export const testPractitionerAnalysis = (
         cy.getQuestion(question).getRadio('No').clickLabel()
       })
 
-      if (sectionName === 'Drug use' && conditionalFlag) {
+      if (sectionName === 'Drug use' && changesDrugUseStateToYes) {
         cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
       }
 
@@ -48,7 +48,12 @@ export const testPractitionerAnalysis = (
       cy.saveAndContinue()
       cy.assertStepUrlIs(origin)
 
-      cy.currentSectionMarkedAsComplete(sectionName)
+      // when the first questions in Drug use is changed this marks the section as incomplete
+      if (sectionName === 'Drug use' && !changesDrugUseStateToYes) {
+        cy.currentSectionNotMarkedAsComplete(sectionName)
+      } else {
+        cy.currentSectionMarkedAsComplete(sectionName)
+      }
     })
   })
 }
