@@ -25,7 +25,7 @@ describe('/offence-analysis-involved-parties', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Offence analysis', stepUrl)
+    cy.assertResumeUrlIs('Offence analysis', '', stepUrl)
 
     cy.captureAssessment()
   })

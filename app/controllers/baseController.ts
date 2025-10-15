@@ -10,6 +10,7 @@ import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { validateCollectionField } from '../utils/validation'
 import { combineDateFields, withStateAwareTransform } from '../utils/field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
+import sections from '../form/v1_0/config/sections'
 import { defaultName } from '../../server/utils/azureAppInsights'
 import { assessmentOrForbidden } from '../utils/assessmentOrForbidden'
 
@@ -34,8 +35,10 @@ class BaseController extends FormWizard.Controller {
       fields: Object.keys(fields)?.filter(fieldCode => !fields[fieldCode]?.dependent?.displayInline),
       navigation: createNavigation(
         req.baseUrl,
-        steps as unknown as FormWizard.Steps,
+        sections,
         section,
+        steps,
+        req.form.options.route,
         isInEditMode(sessionData.user, req),
       ),
       sectionProgressRules: createSectionProgressRules(steps as unknown as FormWizard.Steps),

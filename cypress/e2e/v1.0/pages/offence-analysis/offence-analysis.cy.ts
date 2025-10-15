@@ -19,7 +19,7 @@ describe('/offence-analysis', () => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Offence analysis')
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Offence analysis', stepUrl)
+    cy.assertResumeUrlIs('Offence analysis', '', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

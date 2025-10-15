@@ -6,11 +6,14 @@ describe(`Origin: /personal-relationships-children-information`, () => {
     personalRelationships: '/personal-relationships',
     personalRelationshipsChildren: '/personal-relationships-children',
     personalRelationshipsCommunity: '/personal-relationships-community',
-    summary: '/personal-relationships-community-summary',
+    backgroundSummary: '/personal-relationships-community-summary',
     analysis: '/personal-relationships-community-analysis',
+    analysisSummary: '/personal-relationships-community-analysis-summary',
   }
 
   const sectionName = 'Personal relationships and community'
+  const backgroundSubsectionName = `${sectionName} background`
+  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()
@@ -26,11 +29,11 @@ describe(`Origin: /personal-relationships-children-information`, () => {
       cy.getQuestion("Are there any children in Sam's life?")
         .getCheckbox("No, there are no children in Sam's life")
         .clickLabel()
-      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.personalRelationships)
       cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
+      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.personalRelationships)
     })
 
     describe(`Destination: ${destinations.personalRelationshipsChildren}`, () => {
@@ -39,15 +42,15 @@ describe(`Origin: /personal-relationships-children-information`, () => {
         cy.getQuestion("Who are the important people in Sam's life?")
           .getCheckbox('Their children or anyone they have parenting responsibilities for')
           .clickLabel()
-        cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.personalRelationships)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.personalRelationshipsChildren)
         cy.assertBackLinkIs(destinations.personalRelationships)
-        cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsChildren)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.personalRelationshipsChildren)
       })
 
-      describe(`Destination: ${destinations.summary}`, () => {
-        it(`routes to "${destinations.summary}"`, () => {
+      describe(`Destination: ${destinations.backgroundSummary}`, () => {
+        it(`routes to "${destinations.backgroundSummary}"`, () => {
           cy.visitStep(destinations.personalRelationshipsChildren)
           cy.getQuestion('Is Sam happy with their current relationship status?')
             .getRadio('Has some concerns about their relationship status but is overall happy')
@@ -63,13 +66,18 @@ describe(`Origin: /personal-relationships-children-information`, () => {
           cy.getQuestion('Does Sam want to make changes to their personal relationships and community?')
             .getRadio('Not applicable')
             .clickLabel()
-          cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsChildren)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.personalRelationshipsChildren)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.summary)
-          cy.assertResumeUrlIs(sectionName, destinations.summary)
+          cy.assertStepUrlIs(destinations.backgroundSummary)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
         })
 
-        testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+        testPractitionerAnalysis(
+          sectionName,
+          destinations.backgroundSummary,
+          practitionerAnalysisSubsectionName,
+          destinations.analysisSummary,
+        )
       })
     })
 
@@ -81,15 +89,15 @@ describe(`Origin: /personal-relationships-children-information`, () => {
           .isChecked()
           .clickLabel()
         cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
-        cy.assertResumeUrlIs(sectionName, destinations.personalRelationships)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.personalRelationships)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.personalRelationshipsCommunity)
         cy.assertBackLinkIs(destinations.personalRelationships)
-        cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsCommunity)
+        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.personalRelationshipsCommunity)
       })
 
-      describe(`Destination: ${destinations.summary}`, () => {
-        it(`routes to "${destinations.summary}"`, () => {
+      describe(`Destination: ${destinations.backgroundSummary}`, () => {
+        it(`routes to "${destinations.backgroundSummary}"`, () => {
           cy.visitStep(destinations.personalRelationshipsCommunity)
           cy.getQuestion('Is Sam happy with their current relationship status?')
             .getRadio('Has some concerns about their relationship status but is overall happy')
@@ -104,13 +112,18 @@ describe(`Origin: /personal-relationships-children-information`, () => {
           cy.getQuestion('Does Sam want to make changes to their personal relationships and community?')
             .getRadio('Not applicable')
             .clickLabel()
-          cy.assertResumeUrlIs(sectionName, destinations.personalRelationshipsCommunity)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.personalRelationshipsCommunity)
           cy.saveAndContinue()
-          cy.assertStepUrlIs(destinations.summary)
-          cy.assertResumeUrlIs(sectionName, destinations.summary)
+          cy.assertStepUrlIs(destinations.backgroundSummary)
+          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
         })
 
-        testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
+        testPractitionerAnalysis(
+          sectionName,
+          destinations.backgroundSummary,
+          practitionerAnalysisSubsectionName,
+          destinations.analysisSummary,
+        )
       })
     })
   })

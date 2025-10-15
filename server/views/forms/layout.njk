@@ -43,10 +43,19 @@
                   <span class="section-label">{{ link.label }}</span>
                   {% if sectionProgress[link.section] %}
                     <span class="section-complete">✓
-                    <span class="govuk-visually-hidden">Section complete</span>
+                      <span class="govuk-visually-hidden">Section complete</span>
                     </span>
                   {% endif %}
                 </a>
+                {% if link.active and link.subsections %}
+                  <ul>
+                    {% for subsection in link.subsections %}
+                      <li class="moj-side-navigation__item{% if subsection.active %} moj-side-navigation__item--active{% endif %}">
+                        <a href="{{ subsection.url }}"{% if subsection.active %} aria-current="location"{% endif %}>{{ subsection.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
               </li>
             {% endfor %}
           </ul>
@@ -68,11 +77,11 @@
             {% endif %}
 
             {% set defaultPageTitleClass = "govuk-body-l govuk-!-margin-0" if (getRenderedFields(form.fields, options)).length == 1 else "govuk-heading-l" %}
-                  {% if not isPrivacyScreen %}
-                      <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
-                  {% endif %}
+            {% if not isPrivacyScreen %}
+                <h2 class="{{ pageTitleClass | default(defaultPageTitleClass) }}">{{ options.pageTitle }}</h2>
+            {% endif %}
           </div>
-          {% if not isPrivacyScreen %}
+          {% if not isPrivacyScreen and not isTasksScreen %}
             {% if sectionProgress[options.section] %}
               <div class="section-heading__status">
                 {{ govukTag({ text: "Complete" }) }}

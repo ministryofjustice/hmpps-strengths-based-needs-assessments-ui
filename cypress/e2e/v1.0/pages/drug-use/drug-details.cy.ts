@@ -11,7 +11,7 @@ describe('/drug-details', () => {
 
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
-    cy.visitSection('Drug use')
+    cy.visitSection('Drug use').enterBackgroundSubsection()
     usedDrugs.forEach(drug => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
@@ -40,7 +40,7 @@ describe('/drug-details', () => {
 
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Drug use', stepUrl)
+    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
 
     cy.hasSubheading('Not used in the last 6 months', false)
     cy.hasSubheading('Used in the last 6 months', true)
@@ -50,7 +50,7 @@ describe('/drug-details', () => {
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Drug use')
+    cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
   })
 

@@ -54,7 +54,6 @@ const sectionConfig: SectionConfig = {
         offenceAnalysisFields.offenceAnalysisWhoWasTheOffenceCommittedAgainst,
         offenceAnalysisFields.offenceAnalysisOtherVictimDetails,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysis),
-        offenceAnalysisFields.sectionComplete(),
       ],
       navigationOrder: 9,
       next: [
@@ -74,7 +73,7 @@ const sectionConfig: SectionConfig = {
         },
         stepUrls.offenceAnalysisInvolvedParties,
       ],
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [],
     },
     {
       url: stepUrls.offenceAnalysisVictimCreate,
@@ -82,11 +81,10 @@ const sectionConfig: SectionConfig = {
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
-        offenceAnalysisFields.sectionComplete(),
       ].flat(),
       next: stepUrls.offenceAnalysisVictimsSummary,
       backLink: stepUrls.offenceAnalysisVictimsSummary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [],
       autosave: false,
     },
     {
@@ -95,20 +93,16 @@ const sectionConfig: SectionConfig = {
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.fields,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
-        offenceAnalysisFields.sectionComplete(),
       ].flat(),
       next: stepUrls.offenceAnalysisVictimsSummary,
       backLink: stepUrls.offenceAnalysisVictimsSummary,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [],
       params: '/:entryId',
     },
     {
       url: stepUrls.offenceAnalysisVictimDelete,
       controller: VictimsCollectionController,
-      fields: [
-        offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
-        offenceAnalysisFields.sectionComplete(),
-      ],
+      fields: [offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary)],
       next: stepUrls.offenceAnalysisVictimsSummary,
       backLink: stepUrls.offenceAnalysisVictimsSummary,
       sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
@@ -119,10 +113,9 @@ const sectionConfig: SectionConfig = {
       fields: [
         offenceAnalysisFields.offenceAnalysisVictimsCollection,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisVictimsSummary),
-        offenceAnalysisFields.sectionComplete(),
       ],
       next: stepUrls.offenceAnalysisInvolvedParties,
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [],
       secondaryActions: [
         {
           text: `Add another ${offenceAnalysisFields.offenceAnalysisVictimsCollection.collection.subject}`,
@@ -135,13 +128,12 @@ const sectionConfig: SectionConfig = {
       fields: [
         offenceAnalysisFields.offenceAnalysisHowManyInvolved,
         offenceAnalysisFields.isUserSubmitted(stepUrls.offenceAnalysisInvolvedParties),
-        offenceAnalysisFields.sectionComplete(),
       ],
       next: [
         nextWhen(offenceAnalysisFields.offenceAnalysisHowManyInvolved, 'NONE', stepUrls.offenceAnalysisImpact),
         stepUrls.offenceAnalysisImpactOthersInvolved,
       ],
-      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
+      sectionProgressRules: [],
     },
     {
       url: stepUrls.offenceAnalysisImpact,
@@ -174,7 +166,7 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: stepUrls.summary,
-      template: templates.analysisComplete,
+      template: templates.backgroundSummary,
       locals: { hideAnalysis: true },
     },
   ].flat(),

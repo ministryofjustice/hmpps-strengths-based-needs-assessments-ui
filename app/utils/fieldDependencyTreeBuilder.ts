@@ -2,12 +2,13 @@ import FormWizard from 'hmpo-form-wizard'
 import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
 import { dependencyMet, isPractitionerAnalysisField, whereSelectable } from './field.utils'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
-import sections from '../form/v1_0/config/sections'
+import sections, { Section } from '../form/v1_0/config/sections'
 import { validateField } from './validation'
 import { formatDateForDisplay } from './formatters'
 
 export interface Options {
   section: string
+  route?: string
   allFields: Record<string, FormWizard.Field>
   steps: FormWizard.RenderedSteps
 }
@@ -33,13 +34,16 @@ export class FieldDependencyTreeBuilder {
 
   private readonly answers: FormWizard.Answers
 
+  private readonly sections: Record<string, Section>
+
   private answersOverride: FormWizard.Answers = null
 
   private stepFieldsFilterFn: StepFieldsFilterFn = () => true
 
-  constructor(options: Options, answers: FormWizard.Answers) {
+  constructor(options: Options, answers: FormWizard.Answers, sectionsConfig?: Record<string, Section>) {
     this.options = options
     this.answers = answers
+    this.sections = sectionsConfig ?? sections
   }
 
   setStepFieldsFilterFn(filterFn: StepFieldsFilterFn) {
@@ -57,7 +61,7 @@ export class FieldDependencyTreeBuilder {
     acc: [string, FormWizard.RenderedStep][] = [],
   ): [string, FormWizard.RenderedStep][] {
     if (step === undefined || step.section !== this.options.section) return acc
-    acc.push([path.replace(/^\//, ''), step])
+    acc.push([path.replace(/^\/+/, ''), step])
     const nextStep = this.resolveNextStep(step.next) as string
     if (nextStep === undefined) return acc
     const nextStepPath = `/${nextStep.split('#')[0]}`
@@ -69,7 +73,11 @@ export class FieldDependencyTreeBuilder {
     Explicitly doesn't support CallbackCondition.
    */
   protected resolveNextStep(next: FormWizard.Step.NextStep): FormWizard.Step.NextStep {
-    if (next === undefined || typeof next === 'string') {
+    if (next === undefined) {
+      return undefined
+    }
+
+    if (typeof next === 'string') {
       return next
     }
 
@@ -105,7 +113,7 @@ export class FieldDependencyTreeBuilder {
       }
 
       if (field.dependent) {
-        this.addNestedField(field, fields, stepPath)
+        this.addNestedField(field, fields, stepPath) // this call modifies the value of the `fields` object
         return fields
       }
 
@@ -232,6 +240,29 @@ export class FieldDependencyTreeBuilder {
     return typeof fieldAnswer[0] === 'string' ? (fieldAnswer as string[]) : null
   }
 
+  protected findSubsectionByRoute(section: Section, route: string): Section | undefined {
+    if (!section?.subsections) {
+      return undefined
+    }
+
+    const normalizedRoute = route?.substring(1)
+
+    return (
+      Object.entries(section.subsections).find(([, subsection]) => {
+        const stepUrls = subsection.stepUrls || {}
+        return Object.values(stepUrls).includes(normalizedRoute)
+      })?.[1] || null
+    )
+  }
+
+  protected isInitialStepInSubsection(step: FormWizard.RenderedStep, validUrls: string[]): boolean {
+    if (!step?.initialStepInSection || !step?.route) {
+      return false
+    }
+    const normalizedStepRoute = step.route.substring(1)
+    return validUrls.includes(normalizedStepRoute)
+  }
+
   protected getInitialStep() {
     return (
       Object.entries(this.options.steps).find(
@@ -240,8 +271,52 @@ export class FieldDependencyTreeBuilder {
     )
   }
 
+  /*
+   * Find out which subsection the current URL is in and then return the first step
+   * in that subsection.
+   */
+  protected getInitialStepForSubsection() {
+    const section = Object.values(this.sections).find(s => s.code === this.options.section)
+
+    const sectionHasSubsections = section && 'subsections' in section
+
+    if (!sectionHasSubsections) {
+      return this.getInitialStep()
+    }
+
+    const foundSubsection = this.findSubsectionByRoute(section, this.options.route)
+
+    // Get all the step URLs for this subsection
+    const subsectionStepUrls = Object.values(foundSubsection?.stepUrls || {})
+
+    // Find the step in sectionConfig.steps that has initialStepInSection=true,
+    // and its URL is one of the subsection's step URLs
+    const initialStep = Object.entries(this.options.steps).find(([_, step]) =>
+      this.isInitialStepInSubsection(step, subsectionStepUrls),
+    )
+
+    return initialStep || []
+  }
+
+  /**
+   * Determines the navigation details for a specific page or subsection.
+   * Evaluates the completeness of sections, captures the steps taken, and determines the next navigable step.
+   *
+   * @return {Object} An object containing:
+   * - `url` {string}: The URL of the next navigable step.
+   * - `stepsTaken` {string[]}: An array of URLs representing the steps taken so far.
+   * - `isSectionComplete` {boolean}: A boolean indicating whether the entire section is marked as complete.
+   */
   getPageNavigation(): { url: string; stepsTaken: string[]; isSectionComplete: boolean } {
-    const [initialStepPath, initialStep] = this.getInitialStep()
+    const [initialStepPath, initialStep] = this.getInitialStepForSubsection()
+
+    if (!initialStepPath || !initialStep) {
+      return {
+        url: '',
+        stepsTaken: [],
+        isSectionComplete: false,
+      }
+    }
 
     let nextStep = initialStepPath
     const stepsTaken = []
@@ -262,7 +337,11 @@ export class FieldDependencyTreeBuilder {
           })
           return err !== null
         })
+
       const userSubmittedField = FieldsFactory.getUserSubmittedField(Object.keys(step.fields))
+
+      // In particular this sets the section to incomplete when the autosave in the page is triggered, since it does not
+      // send the userSubmittedField value.
       if (hasErrors || (userSubmittedField && this.answers[userSubmittedField] !== 'YES')) {
         isSectionComplete = false
         break
@@ -277,7 +356,8 @@ export class FieldDependencyTreeBuilder {
       }
     }
 
-    const { sectionCompleteField } = Object.values(sections).find(it => it.code === this.options.section) || {}
+    const { sectionCompleteField } =
+      Object.values(sections).find(it => it.code === (this.options.section as keyof typeof sections)) || {}
     const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
     return {
@@ -287,25 +367,58 @@ export class FieldDependencyTreeBuilder {
     }
   }
 
-  build(): Field[] {
-    const [initialStepPath, initialStep] = this.getInitialStep()
+  getInitialStepsForSubsections(): [string, FormWizard.RenderedStep][] {
+    const section = Object.values(this.sections).find(s => s.code === this.options.section)
+    if (!section?.subsections) {
+      return [
+        Object.entries(this.options.steps).find(
+          ([_, s]) => hasProperty(s, 'navigationOrder') && s.section === this.options.section,
+        ),
+      ].filter(Boolean)
+    }
 
-    return this.getSteps(initialStep, initialStepPath).reduce(
-      (fields: Field[], [stepPath, step]) =>
-        Object.keys(step.fields)
+    return Object.entries(this.options.steps)
+      .filter(([_, step]) => step.section === this.options.section && step.initialStepInSection === true)
+      .map(([path, step]) => [path.substring(1), step])
+  }
+
+  /**
+   * Creates and returns an array of Field objects by processing all steps
+   * within a subsection. It applies filtering and transformation rules based on step paths and
+   * the provided options.
+   *
+   */
+  getAllFieldsInSectionFromSteps(): Field[] {
+    const initialStepsForSubsections = this.getInitialStepsForSubsections()
+
+    if (initialStepsForSubsections.length === 0) {
+      return []
+    }
+
+    // Combine all steps from all initial subsection steps
+    const allSteps = initialStepsForSubsections.flatMap(([stepPath, step]) => this.getSteps(step, `/${stepPath}`))
+
+    return allSteps.reduce(
+      (fields: Field[], [currentStepPath, currentStep]) =>
+        Object.keys(currentStep.fields)
           .map(fieldId => this.options.allFields[fieldId])
           .filter(this.stepFieldsFilterFn)
-          .reduce(this.toStepFields(stepPath), fields),
+          .reduce(this.toStepFields(currentStepPath), fields),
       [],
     )
   }
 
-  buildAndFlatten(): Field[] {
+  /**
+   * Builds a list of fields and flattens nested fields from answers into a single array.
+   *
+   * @return {Field[]} An array of fields, including nested fields from answers, flattened.
+   */
+  getAllNestedFieldsInSectionFromSteps(): Field[] {
     const reducer = (acc: Field[], field: Field): Field[] => [
       ...acc,
       field,
       ...field.answers.flatMap(answer => answer.nestedFields.reduce(reducer, [])),
     ]
-    return this.build().reduce(reducer, [])
+    return this.getAllFieldsInSectionFromSteps().reduce(reducer, [])
   }
 }

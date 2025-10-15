@@ -1,15 +1,32 @@
 {
   "metaData": {
-    "uuid": "d904b608-8802-43b9-97fb-0d562323a1bc",
-    "createdAt": "2025-06-22T19:28:36.31878",
-    "versionUuid": "d44411d0-2a07-4650-9a98-097b5f89f338",
+    "uuid": "c9491f4e-09c2-4890-a903-568f16b10172",
+    "createdAt": "2025-10-08T11:09:23.202572",
+    "versionUuid": "c3bc77f2-36e6-438b-b282-61a4e853bf79",
     "versionNumber": 0,
-    "versionCreatedAt": "2025-06-22T19:28:36.318989",
-    "versionUpdatedAt": "2025-06-22T19:28:38.447744",
+    "versionCreatedAt": "2025-10-08T11:09:23.20885",
+    "versionUpdatedAt": "2025-10-08T11:09:27.011329",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
   "assessment": {
+    "pathway": {
+      "type": "RADIO",
+      "description": "",
+      "options": [
+        {
+          "value": "COMMUNITY",
+          "text": "COMMUNITY"
+        },
+        {
+          "value": "PRISON",
+          "text": "PRISON"
+        }
+      ],
+      "value": "COMMUNITY",
+      "values": null,
+      "collection": null
+    },
     "drug_use": {
       "type": "RADIO",
       "description": "Has [subject] ever misused drugs?",
@@ -44,23 +61,6 @@
       "values": null,
       "collection": null
     },
-    "drug_use_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Drug use section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "NO",
-      "values": null,
-      "collection": null
-    },
     "drug_use_is_drug_use_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
@@ -75,6 +75,40 @@
         }
       ],
       "value": "YES",
+      "values": null,
+      "collection": null
+    },
+    "drug_use_background_section_complete": {
+      "type": "RADIO",
+      "description": "Is the Drug use background section complete?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "NO",
+      "values": null,
+      "collection": null
+    },
+    "drug_use_practitioner_analysis_section_complete": {
+      "type": "RADIO",
+      "description": "Is the Drug use practitioner analysis section complete?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "NO",
       "values": null,
       "collection": null
     }

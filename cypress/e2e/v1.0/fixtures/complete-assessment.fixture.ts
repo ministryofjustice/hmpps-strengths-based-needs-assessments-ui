@@ -6,7 +6,7 @@ describe('Generate fixture for complete assessment', () => {
   })
 
   beforeEach(() => {
-    cy.enterAssessment()
+    cy.enterAssessment().enterBackgroundSubsection()
   })
 
   after(() => {
@@ -14,8 +14,7 @@ describe('Generate fixture for complete assessment', () => {
   })
 
   const completePractitionerAnalysisFor = (sectionName: string) => {
-    cy.get('#tab_practitioner-analysis').click()
-    cy.get('#practitioner-analysis').should('be.visible')
+    cy.get('.summary-action-buttons a').click()
 
     const sectionNameLowerCase = sectionName.toLowerCase()
     const subjectPrefix = sectionName.endsWith('s') ? 'Are' : 'Is'
@@ -34,7 +33,7 @@ describe('Generate fixture for complete assessment', () => {
   it('completes the accommodation section', () => {
     const section = 'Accommodation'
 
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Settled').clickLabel()
     cy.getQuestion('What type of accommodation does Sam currently have?')
       .getRadio('Settled')
@@ -55,7 +54,7 @@ describe('Generate fixture for complete assessment', () => {
 
   it('completes the employment and education section', () => {
     const section = 'Employment and education'
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
     cy.saveAndContinue()
 
@@ -88,7 +87,7 @@ describe('Generate fixture for complete assessment', () => {
   it('completes the finance section', () => {
     const section = 'Finances'
 
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion('Where does Sam currently get their money from?').getCheckbox('Pension').clickLabel()
     cy.getQuestion('Does Sam have their own bank account?').getRadio('No').clickLabel()
     cy.getQuestion('How good is Sam at managing their money?')
@@ -106,7 +105,7 @@ describe('Generate fixture for complete assessment', () => {
   it('completes the drug section', () => {
     const section = 'Drug use'
 
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 
@@ -117,7 +116,7 @@ describe('Generate fixture for complete assessment', () => {
   it('completes the alcohol section', () => {
     const section = 'Alcohol use'
 
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('No').clickLabel()
     cy.saveAndContinue()
 
@@ -128,7 +127,7 @@ describe('Generate fixture for complete assessment', () => {
   it('completes the health and wellbeing section', () => {
     const section = 'Health and wellbeing'
 
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion('Does Sam have any physical health conditions?').getRadio('No').clickLabel()
     cy.getQuestion('Does Sam have any diagnosed or documented mental health problems?').getRadio('No').clickLabel()
     cy.saveAndContinue()
@@ -158,7 +157,7 @@ describe('Generate fixture for complete assessment', () => {
   it('completes the personal relationships and community section', () => {
     const section = 'Personal relationships and community'
 
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion("Are there any children in Sam's life?")
       .getCheckbox("No, there are no children in Sam's life")
       .clickLabel()
@@ -191,7 +190,7 @@ describe('Generate fixture for complete assessment', () => {
   it('completes the thinking, behaviours and attitudes section', () => {
     const section = 'Thinking, behaviours and attitudes'
 
-    cy.visitSection(section)
+    cy.visitSection(section).enterBackgroundSubsection()
     cy.getQuestion('Is Sam aware of the consequences of their actions?')
       .getRadio('Sometimes is aware of the consequences of their actions')
       .clickLabel()
@@ -276,8 +275,13 @@ describe('Generate fixture for complete assessment', () => {
 
     cy.getQuestion('Does Sam recognise the impact on the victims or wider community?').getRadio('No').clickLabel()
     cy.getQuestion('Does Sam accept responsibility for the current index offence(s)?').getRadio('No').clickLabel()
-    cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
     cy.getQuestion('Is there an escalation in seriousness from previous offending?').getRadio('No').clickLabel()
+    cy.getQuestion('Is there evidence that Sam has ever been a perpetrator of domestic abuse?')
+      .getRadio('No')
+      .clickLabel()
+    cy.getQuestion('Is there evidence that Sam has ever been a victim of domestic abuse?').getRadio('No').clickLabel()
+    cy.getQuestion('What are the patterns of offending?').enterText('¯\\_(ツ)_/¯')
+
     cy.getQuestion(
       'Are the current or previous offences linked to risk of serious harm, risks to the individual or other risks?',
     )
@@ -289,10 +293,7 @@ describe('Generate fixture for complete assessment', () => {
       .getRadio('No')
       .getConditionalQuestion()
       .enterText('¯\\_(ツ)_/¯')
-    cy.getQuestion('Is there evidence that Sam has ever been a perpetrator of domestic abuse?')
-      .getRadio('No')
-      .clickLabel()
-    cy.getQuestion('Is there evidence that Sam has ever been a victim of domestic abuse?').getRadio('No').clickLabel()
+
     cy.markAsComplete()
 
     cy.sectionMarkedAsComplete(section)
