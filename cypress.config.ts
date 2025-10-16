@@ -22,6 +22,7 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     baseUrl: 'http://localhost:3000',
+
     specPattern: ['cypress/e2e/**/*.cy.ts', 'cypress/e2e/**/*.fixture.ts'],
     supportFile: 'cypress/support/index.ts',
     testIsolation: true,
