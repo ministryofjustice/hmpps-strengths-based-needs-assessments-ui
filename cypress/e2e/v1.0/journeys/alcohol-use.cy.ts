@@ -11,7 +11,7 @@ describe('Origin: /alcohol', () => {
   }
 
   const sectionName = 'Alcohol use'
-  const backgroundSubsectionName = 'Alcohol use background'
+  const backgroundSubsectionName = 'Assessment'
   const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {

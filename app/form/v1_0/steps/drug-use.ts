@@ -5,8 +5,6 @@ import templates from '../config/templates'
 import { drugsList } from '../fields/drug-use/drugs'
 
 const section = sections.drugsUse
-
-const sectionHeading = 'Drug use background'
 const sectionBackground = section.subsections.background
 const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
 
@@ -20,7 +18,6 @@ const sectionConfig: SectionConfig = {
     {
       url: sectionBackground.stepUrls.drugUse,
       initialStepInSection: true,
-      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUse.drugUse,
         drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugUse),
@@ -38,7 +35,6 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: sectionBackground.stepUrls.addDrugs,
-      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.addDrugs.selectMisusedDrugs,
         drugsUseFields.addDrugs.otherDrugNameField,
@@ -143,7 +139,6 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: sectionBackground.stepUrls.drugUseHistory,
-      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUseHistory.drugsReasonsForUse,
         drugsUseFields.drugUseHistory.drugsReasonsForUseDetails,
@@ -159,7 +154,6 @@ const sectionConfig: SectionConfig = {
     },
     {
       url: sectionBackground.stepUrls.drugUseHistoryAllMoreThanSix,
-      pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUseHistory.drugsReasonsForUse,
         drugsUseFields.drugUseHistory.drugsReasonsForUseDetails,
@@ -177,7 +171,6 @@ const sectionConfig: SectionConfig = {
     {
       url: sectionBackground.stepUrls.backgroundSummary,
       pageCaption: 'Drug use',
-      pageHeading: sectionHeading,
       template: templates.backgroundSummary,
     },
     {

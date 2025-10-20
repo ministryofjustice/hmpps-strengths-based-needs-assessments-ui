@@ -23,7 +23,7 @@ before(() => {
   cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
   cy.saveAndContinue()
 
-  cy.assertResumeUrlIs('Accommodation', 'Accommodation background', backgroundSummaryPage)
+  cy.assertResumeUrlIs('Accommodation', 'Assessment', backgroundSummaryPage)
   cy.captureAssessment()
 })
 

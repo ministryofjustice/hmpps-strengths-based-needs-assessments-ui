@@ -12,7 +12,7 @@ describe(`Origin: /personal-relationships-children-information`, () => {
   }
 
   const sectionName = 'Personal relationships and community'
-  const backgroundSubsectionName = `${sectionName} background`
+  const backgroundSubsectionName = `Assessment`
   const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {

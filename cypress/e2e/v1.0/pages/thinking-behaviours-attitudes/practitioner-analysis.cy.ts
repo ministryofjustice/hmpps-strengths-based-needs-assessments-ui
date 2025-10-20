@@ -65,11 +65,7 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs(
-    'Thinking, behaviours and attitudes',
-    'Thinking, behaviours and attitudes background',
-    summaryPage,
-  )
+  cy.assertResumeUrlIs('Thinking, behaviours and attitudes', 'Assessment', summaryPage)
 
   cy.captureAssessment()
 })

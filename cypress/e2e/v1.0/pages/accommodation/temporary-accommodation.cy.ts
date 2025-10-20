@@ -30,7 +30,7 @@ describe('/temporary-accommodation', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
+    cy.assertResumeUrlIs('Accommodation', 'Assessment', stepUrl)
 
     cy.captureAssessment()
   })

@@ -31,11 +31,7 @@ describe('/personal-relationships-community', () => {
     cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs(
-      'Personal relationships and community',
-      'Personal relationships and community background',
-      stepUrl,
-    )
+    cy.assertResumeUrlIs('Personal relationships and community', 'Assessment', stepUrl)
     cy.captureAssessment()
   })
 

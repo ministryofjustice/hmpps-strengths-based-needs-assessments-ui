@@ -14,7 +14,7 @@ describe(`Sam hasn't misused drugs`, () => {
     cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(summaryPage)
-    cy.assertResumeUrlIs('Drug use', 'Drug use background', summaryPage)
+    cy.assertResumeUrlIs('Drug use', 'Assessment', summaryPage)
 
     cy.captureAssessment()
   })
@@ -55,7 +55,7 @@ describe(`Sam has misused drugs`, () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(summaryPage)
-    cy.assertResumeUrlIs('Drug use', 'Drug use background', summaryPage)
+    cy.assertResumeUrlIs('Drug use', 'Assessment', summaryPage)
 
     cy.captureAssessment()
   })

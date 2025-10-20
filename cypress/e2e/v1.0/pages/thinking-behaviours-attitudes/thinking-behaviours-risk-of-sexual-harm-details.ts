@@ -68,11 +68,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs(
-      'Thinking, behaviours and attitudes',
-      'Thinking, behaviours and attitudes background',
-      summaryPage,
-    )
+    cy.assertResumeUrlIs('Thinking, behaviours and attitudes', 'Assessment', summaryPage)
     cy.captureAssessment()
   })
 

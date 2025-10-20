@@ -12,7 +12,7 @@ describe('/current-accommodation', () => {
   })
 
   it('Should set the resume URL correctly', () => {
-    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
+    cy.assertResumeUrlIs('Accommodation', 'Assessment', stepUrl)
     cy.assertSectionIs('Accommodation')
     cy.assertQuestionCount(1)
     cy.hasAutosaveEnabled()
