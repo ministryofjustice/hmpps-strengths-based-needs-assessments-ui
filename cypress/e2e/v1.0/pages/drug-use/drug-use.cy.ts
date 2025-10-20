@@ -10,7 +10,7 @@ describe('/drug-use', () => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
+    cy.assertResumeUrlIs('Drug use', 'Assessment', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

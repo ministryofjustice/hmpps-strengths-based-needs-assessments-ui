@@ -9,7 +9,7 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
   }
 
   const sectionName = 'Thinking, behaviours and attitudes'
-  const backgroundSubsectionName = `${sectionName} background`
+  const backgroundSubsectionName = `Assessment`
 
   before(() => {
     cy.createAssessment()

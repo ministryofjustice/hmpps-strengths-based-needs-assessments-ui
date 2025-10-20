@@ -3,7 +3,7 @@ export const enterSubsection = (subsectionName: string) => {
 }
 
 export const enterBackgroundSubsection = () => {
-  return cy.get('.govuk-grid-column-three-quarters a').contains('background').click()
+  return cy.get('.govuk-grid-column-three-quarters a').contains('Assessment').click()
 }
 
 export const enterPractitionerAnalysisSubsection = () => {

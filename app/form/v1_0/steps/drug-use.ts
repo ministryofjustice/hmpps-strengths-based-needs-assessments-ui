@@ -6,7 +6,7 @@ import { drugsList } from '../fields/drug-use/drugs'
 
 const section = sections.drugsUse
 
-const sectionHeading = 'Drug use background'
+const sectionHeading = 'Assessment'
 const sectionBackground = section.subsections.background
 const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
 

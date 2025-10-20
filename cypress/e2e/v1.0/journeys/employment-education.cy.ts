@@ -13,7 +13,7 @@ describe('Origin: /current-employment', () => {
   }
 
   const sectionName = 'Employment and education'
-  const backgroundSubsectionName = 'Employment and education background'
+  const backgroundSubsectionName = 'Assessment'
   const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {

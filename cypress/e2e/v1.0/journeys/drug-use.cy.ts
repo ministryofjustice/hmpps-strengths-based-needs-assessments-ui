@@ -31,7 +31,7 @@ describe('Origin: /drug-use', () => {
   }
 
   const sectionName = 'Drug use'
-  const backgroundSubsectionName = `${sectionName} background`
+  const backgroundSubsectionName = `Assessment`
   const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {

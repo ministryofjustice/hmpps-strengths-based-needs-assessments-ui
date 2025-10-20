@@ -13,7 +13,7 @@ describe('/alcohol', () => {
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Alcohol use', 'Alcohol use background', stepUrl)
+    cy.assertResumeUrlIs('Alcohol use', 'Assessment', stepUrl)
   })
 
   questions.forEach((questionTest, index) => {

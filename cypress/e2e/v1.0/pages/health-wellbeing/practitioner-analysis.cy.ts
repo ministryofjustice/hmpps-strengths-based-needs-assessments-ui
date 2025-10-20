@@ -29,7 +29,7 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Health and wellbeing', 'Health and wellbeing background', summaryPage)
+  cy.assertResumeUrlIs('Health and wellbeing', 'Assessment', summaryPage)
 
   cy.captureAssessment()
 })

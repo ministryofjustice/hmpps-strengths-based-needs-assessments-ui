@@ -40,7 +40,7 @@ describe('/drug-details', () => {
 
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
+    cy.assertResumeUrlIs('Drug use', 'Assessment', stepUrl)
 
     cy.hasSubheading('Not used in the last 6 months', false)
     cy.hasSubheading('Used in the last 6 months', true)

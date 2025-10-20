@@ -12,7 +12,7 @@ before(() => {
   cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('No').clickLabel()
   cy.saveAndContinue()
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Alcohol use', 'Alcohol use background', summaryPage)
+  cy.assertResumeUrlIs('Alcohol use', 'Assessment', summaryPage)
 
   cy.captureAssessment()
 })
