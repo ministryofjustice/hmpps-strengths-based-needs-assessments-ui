@@ -2,7 +2,7 @@ import * as express from 'express'
 import { Request } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import { HandoverPrincipal } from '../../server/services/arnsHandoverService'
-import { Form, FormOptions, setupForm } from './formRouter/SetupForm'
+import { Form, FormOptions, setupForm } from './SetupForm'
 
 export type FormWizardRouter = {
   metaData: FormOptions

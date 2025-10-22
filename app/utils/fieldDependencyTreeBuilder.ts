@@ -1,26 +1,13 @@
 import FormWizard from 'hmpo-form-wizard'
 import sections, { Section } from '../form/v1_0/config/sections'
-import StepResolver, { Options } from './fieldDependency/StepResolver'
-import AnswersProvider from './fieldDependency/AnswersProvider'
-import FieldMapper from './fieldDependency/FieldMapper'
+import StepResolver, { Options } from './StepResolver'
+import AnswersProvider, { Field } from './AnswersProvider'
+import FieldMapper from './FieldMapper'
 import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import { validateField } from './validation'
 import { dependencyMet } from './field.utils'
 
-export interface Field {
-  field: FormWizard.Field
-  changeLink: string
-  answers: FieldAnswer[]
-}
-
-export interface FieldAnswer {
-  text: string
-  html?: string
-  value: string
-  nestedFields: Field[]
-}
-
-export class FieldDependencyTreeBuilder {
+export default class FieldDependencyTreeBuilder {
   private readonly options: Options
 
   private readonly answersProvider: AnswersProvider

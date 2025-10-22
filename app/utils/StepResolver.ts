@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { Section } from '../../form/v1_0/config/sections'
+import { Section } from '../form/v1_0/config/sections'
 import AnswersProvider from './AnswersProvider'
 
 export interface Options {

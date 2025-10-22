@@ -1,8 +1,20 @@
 import FormWizard from 'hmpo-form-wizard'
-import { FieldType } from '../../../server/@types/hmpo-form-wizard/enums'
-import { whereSelectable } from '../field.utils'
-import { formatDateForDisplay } from '../formatters'
-import { FieldAnswer } from '../fieldDependencyTreeBuilder'
+import { FieldType } from '../../server/@types/hmpo-form-wizard/enums'
+import { whereSelectable } from './field.utils'
+import { formatDateForDisplay } from './formatters'
+
+export interface Field {
+  field: FormWizard.Field
+  changeLink: string
+  answers: FieldAnswer[]
+}
+
+export interface FieldAnswer {
+  text: string
+  html?: string
+  value: string
+  nestedFields: Field[]
+}
 
 export default class AnswersProvider {
   private readonly answers: FormWizard.Answers

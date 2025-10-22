@@ -1,7 +1,6 @@
 import FormWizard from 'hmpo-form-wizard'
-import AnswersProvider from './AnswersProvider'
-import { isPractitionerAnalysisField } from '../field.utils'
-import { Field } from '../fieldDependencyTreeBuilder'
+import AnswersProvider, { Field } from './AnswersProvider'
+import { isPractitionerAnalysisField } from './field.utils'
 
 export default class FieldMapper {
   private readonly allFields: Record<string, FormWizard.Field>

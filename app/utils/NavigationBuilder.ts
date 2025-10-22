@@ -1,5 +1,5 @@
 import FormWizard from 'hmpo-form-wizard'
-import { Section } from '../../form/v1_0/config/sections'
+import { Section } from '../form/v1_0/config/sections'
 
 export type NavigationItem = {
   url: string
@@ -107,26 +107,6 @@ function createNavigationItem(
     active: section.code === currentSection,
     subsections,
   }
-}
-
-export const createSectionProgressRules = (
-  steps: FormWizard.Steps,
-): Array<{ sectionName: string; fieldCodes: string[] }> => {
-  const sectionRules: Record<string, string[]> = Object.values(steps)
-    .map((step): [string, Array<string>] => [step.section, (step.sectionProgressRules || []).map(it => it.fieldCode)])
-    .filter(([sectionName]) => sectionName !== 'none')
-    .reduce(
-      (sectionsAcc, [sectionName, rules]) => ({
-        ...sectionsAcc,
-        [sectionName]: [...(sectionsAcc[sectionName] || []), ...rules],
-      }),
-      {} as Record<string, string[]>,
-    )
-
-  return Object.entries(sectionRules).map(([sectionName, fieldCodes]) => ({
-    sectionName,
-    fieldCodes: [...new Set(fieldCodes)],
-  }))
 }
 
 export const getStepFrom = (steps: FormWizard.Steps, url: string): FormWizard.Step => steps[removeQueryParamsFrom(url)]
