@@ -23,7 +23,7 @@ describe('assessment complete checkmarks', () => {
 
   it('all checkmarks are visible', () => {
     allSections.forEach(section => {
-      cy.sectionMarkedAsComplete(section)
+      cy.sectionHasCompletionBlueTick(section)
     })
     cy.assessmentMarkedAsComplete()
   })
@@ -39,8 +39,8 @@ describe('assessment complete checkmarks', () => {
 
         cy.get('a:contains(Change)').first().click()
         cy.saveAndContinue()
-        cy.sectionMarkedAsComplete(section)
-        allSections.forEach(s => cy.sectionMarkedAsComplete(s))
+        cy.sectionHasCompletionBlueTick(section)
+        allSections.forEach(s => cy.sectionHasCompletionBlueTick(s))
         cy.assessmentMarkedAsComplete()
       })
     })
@@ -51,8 +51,8 @@ describe('assessment complete checkmarks', () => {
       cy.get('a:contains(Change)').first().click()
       cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
       cy.saveAndContinue()
-      cy.sectionNotMarkedAsComplete(section)
-      allSections.filter(s => s !== section).forEach(s => cy.sectionMarkedAsComplete(s))
+      cy.sectionDoesNotHaveCompletionBlueTick(section)
+      allSections.filter(s => s !== section).forEach(s => cy.sectionHasCompletionBlueTick(s))
       cy.assessmentNotMarkedAsComplete()
     })
   })
