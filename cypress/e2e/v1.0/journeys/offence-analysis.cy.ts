@@ -91,7 +91,7 @@ describe('Origin: /offence-analysis', () => {
           cy.markAsComplete()
           cy.assertStepUrlIs(destinations.summary)
           cy.assertResumeUrlIs(sectionName, '', destinations.summary)
-          cy.currentSectionMarkedAsComplete(sectionName)
+          cy.currentsectionHasCompletionBlueTick(sectionName)
 
           // checkmark is not removed on making a change
           cy.getSummary(
@@ -104,7 +104,7 @@ describe('Origin: /offence-analysis', () => {
           cy.saveAndContinue()
 
           cy.assertStepUrlIs(destinations.impactOthersInvolved)
-          cy.currentSectionMarkedAsComplete(sectionName)
+          cy.currentsectionHasCompletionBlueTick(sectionName)
         })
       })
     })
@@ -156,7 +156,7 @@ describe('Origin: /offence-analysis', () => {
         cy.markAsComplete()
         cy.assertStepUrlIs(destinations.summary)
         cy.assertResumeUrlIs(sectionName, '', destinations.summary)
-        cy.currentSectionMarkedAsComplete(sectionName)
+        cy.currentsectionHasCompletionBlueTick(sectionName)
 
         // checkmark is not removed on making a change
         cy.getSummary('How many other people were involved with committing the current index offence(s)?').clickChange()
@@ -167,7 +167,7 @@ describe('Origin: /offence-analysis', () => {
         cy.saveAndContinue()
 
         cy.assertStepUrlIs(destinations.impactOthersInvolved)
-        cy.currentSectionMarkedAsComplete(sectionName)
+        cy.currentsectionHasCompletionBlueTick(sectionName)
       })
     })
   })

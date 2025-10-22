@@ -5,7 +5,6 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
 
     it(`displays and validates the question`, () => {
       cy.getQuestion(question)
-        // .hasHint('TODO') TODO: add support for HTML hints?
         .isQuestionNumber(positionNumber)
         .hasRadios(options)
       cy.saveAndContinue()
