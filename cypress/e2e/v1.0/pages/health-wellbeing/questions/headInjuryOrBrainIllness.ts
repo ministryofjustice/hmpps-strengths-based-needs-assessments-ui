@@ -4,10 +4,7 @@ export default (stepUrl: string, summaryPage: string, positionNumber: number) =>
     const options = ['Yes', 'No', 'Unknown']
 
     it(`displays and validates the question`, () => {
-      cy.getQuestion(question)
-        // .hasHint('TODO') TODO: add support for HTML hints?
-        .isQuestionNumber(positionNumber)
-        .hasRadios(options)
+      cy.getQuestion(question).isQuestionNumber(positionNumber).hasRadios(options)
       cy.saveAndContinue()
       cy.assertStepUrlIs(stepUrl)
       cy.getQuestion(question).hasValidationError(
