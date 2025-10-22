@@ -40,7 +40,7 @@ export const testPractitionerAnalysis = (
 
       cy.assertStepUrlIs(destination)
       cy.assertResumeUrlIs(sectionName, destinationSubsection, destination)
-      cy.sectionCompleteTagIsComplete(sectionName)
+      cy.sectionHasCompleteTagAndBlueTick(sectionName)
 
       // Check editing a background question does not remove the complete status
       cy.visitStep(origin)
@@ -50,9 +50,9 @@ export const testPractitionerAnalysis = (
 
       // when the first questions in Drug use is changed this marks the section as incomplete
       if (sectionName === 'Drug use' && !changesDrugUseStateToYes) {
-        cy.sectionCompleteTagIsIncomplete(sectionName)
+        cy.sectionCompleteTagIsIncompleteAndNoBlueTick(sectionName)
       } else {
-        cy.sectionCompleteTagIsComplete(sectionName)
+        cy.sectionHasCompleteTagAndBlueTick(sectionName)
       }
     })
   })
