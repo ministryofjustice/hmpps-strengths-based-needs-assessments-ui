@@ -15,7 +15,7 @@ const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 const arnsHandoverService = new ArnsHandoverService()
 
 const editModeLandingPage = 'close-any-other-applications-before-appointment'
-const readOnlyModeLandingPage = 'accommodation-analysis'
+const readOnlyModeLandingPage = 'accommodation-tasks'
 
 const startController = async (req: Request, res: Response, next: NextFunction) => {
   try {

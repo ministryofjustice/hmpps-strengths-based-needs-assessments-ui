@@ -69,7 +69,7 @@ describe('startController', () => {
     await startController(req, res, next)
 
     expect(session.save).toHaveBeenCalled()
-    expect(res.redirect).toHaveBeenCalledWith(`/form/view/${assessmentVersionUUID}/accommodation-analysis`)
+    expect(res.redirect).toHaveBeenCalledWith(`/form/view/${assessmentVersionUUID}/accommodation-tasks`)
     expect(fetchAssessment).toHaveBeenCalledWith(assessmentUUID, 3)
   })
 })
