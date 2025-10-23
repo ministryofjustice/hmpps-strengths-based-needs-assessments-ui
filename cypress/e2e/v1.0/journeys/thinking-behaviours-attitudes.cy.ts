@@ -1,3 +1,5 @@
+import { backgroundSubsectionName } from './common'
+
 describe(`Origin: /thinking-behaviours-attitudes`, () => {
   const destinations = {
     landingPage: '/thinking-behaviours-attitudes',
@@ -9,7 +11,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
   }
 
   const sectionName = 'Thinking, behaviours and attitudes'
-  const backgroundSubsectionName = `Assessment`
 
   before(() => {
     cy.createAssessment()

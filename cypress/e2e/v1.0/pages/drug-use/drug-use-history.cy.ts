@@ -5,6 +5,7 @@ import whyUseDrugs from './questions/whyUseDrugs'
 import howDrugsAffectedTheirLife from './questions/howDrugsAffectedTheirLife'
 import whyUseDrugsDetails from './questions/whyUseDrugsDetails'
 import howDrugsAffectedTheirLifeDetails from './questions/howDrugsAffectedTheirLifeDetails'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/drug-use-history', () => {
   const stepUrl = '/drug-use-history'
@@ -35,7 +36,7 @@ describe('/drug-use-history', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Drug use', 'Assessment', stepUrl)
+    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

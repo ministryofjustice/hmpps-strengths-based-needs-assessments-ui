@@ -7,6 +7,7 @@ import levelOfEducation from './questions/levelOfEducation'
 import experienceOfEmployment from './questions/experienceOfEmployment'
 import experienceOfEducation from './questions/experienceOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/employed-before', () => {
   const stepUrl = '/employed-before'
@@ -34,7 +35,7 @@ describe('/employed-before', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Employment and education', 'Assessment', stepUrl)
+    cy.assertResumeUrlIs('Employment and education', backgroundSubsectionName, stepUrl)
     cy.captureAssessment()
   })
 

@@ -23,7 +23,7 @@ export default {
     navigationOrder: 1,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'accommodation-background',
         sectionCompleteField: 'accommodation_background_section_complete',
         navigationOrder: 1,
@@ -55,7 +55,7 @@ export default {
     navigationOrder: 2,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'employment-education-background',
         sectionCompleteField: 'employment_education_background_section_complete',
         navigationOrder: 1,
@@ -87,7 +87,7 @@ export default {
     navigationOrder: 3,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'finance-background',
         sectionCompleteField: 'finance_background_section_complete',
         navigationOrder: 1,
@@ -115,7 +115,7 @@ export default {
     navigationOrder: 4,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'drug-use-background',
         sectionCompleteField: 'drug_use_background_section_complete',
         navigationOrder: 1,
@@ -150,7 +150,7 @@ export default {
     navigationOrder: 5,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'alcohol-use-background',
         sectionCompleteField: 'alcohol_use_background_section_complete',
         navigationOrder: 1,
@@ -180,7 +180,7 @@ export default {
     navigationOrder: 6,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'health-wellbeing-background',
         sectionCompleteField: 'health_wellbeing_background_section_complete',
         navigationOrder: 1,
@@ -212,7 +212,7 @@ export default {
     navigationOrder: 7,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'personal-relationships-community-background',
         sectionCompleteField: 'personal_relationships_community_background_section_complete',
         navigationOrder: 1,
@@ -243,7 +243,7 @@ export default {
     navigationOrder: 8,
     subsections: {
       background: {
-        title: 'Assessment',
+        title: 'Information',
         code: 'thinking-behaviours-attitudes-background',
         sectionCompleteField: 'thinking_behaviours_attitudes_background_section_complete',
         navigationOrder: 1,

@@ -5,6 +5,7 @@ import otherResponsibilities from './questions/otherResponsibilities'
 import levelOfEducation from './questions/levelOfEducation'
 import experienceOfEducation from './questions/experienceOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/never-employed', () => {
   const stepUrl = '/never-employed'
@@ -30,7 +31,7 @@ describe('/never-employed', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Employment and education', 'Assessment', stepUrl)
+    cy.assertResumeUrlIs('Employment and education', backgroundSubsectionName, stepUrl)
     cy.captureAssessment()
   })
 

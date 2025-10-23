@@ -1,5 +1,6 @@
 import { Fixture } from '../../support/commands/fixture'
 import { AccessMode } from '../../support/commands/api'
+import { backgroundSubsectionName } from './journeys/common'
 
 describe('read-only mode', () => {
   before(() => {
@@ -46,7 +47,7 @@ describe('read-only mode', () => {
     cy.saveAndContinue()
 
     cy.sectionDoesNotHaveCompletionBlueTick('Drug use')
-    cy.assertResumeUrlIs('Drug use', 'Assessment', '/add-drugs')
+    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, '/add-drugs')
 
     cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
     cy.sectionDoesNotHaveCompletionBlueTick('Drug use')

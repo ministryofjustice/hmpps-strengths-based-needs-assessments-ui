@@ -1,5 +1,6 @@
 import { Fixture } from '../../../../support/commands/fixture'
 import whichDrugs from './questions/whichDrugs'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/add-drugs', () => {
   const stepUrl = '/add-drugs'
@@ -10,7 +11,7 @@ describe('/add-drugs', () => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
     cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Drug use', 'Assessment', stepUrl)
+    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

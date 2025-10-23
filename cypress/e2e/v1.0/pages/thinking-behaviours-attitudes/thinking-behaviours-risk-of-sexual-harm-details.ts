@@ -1,6 +1,7 @@
 import emotionalIntimacy from './questions/emotional-intimacy'
 import offenceRelatedSexualInterest from './questions/offence-related-sexual-interest'
 import sexualPreoccupation from './questions/sexual-preoccupation'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/thinking-behaviours-attitudes-sexual-offending', () => {
   const stepUrl = '/thinking-behaviours-attitudes-risk-of-sexual-harm-details'
@@ -68,7 +69,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Thinking, behaviours and attitudes', 'Assessment', summaryPage)
+    cy.assertResumeUrlIs('Thinking, behaviours and attitudes', backgroundSubsectionName, summaryPage)
     cy.captureAssessment()
   })
 
