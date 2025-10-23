@@ -1,4 +1,4 @@
-import { testPractitionerAnalysis } from './common'
+import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
 
 describe('Origin: /current-employment', () => {
   const destinations = {
@@ -13,8 +13,6 @@ describe('Origin: /current-employment', () => {
   }
 
   const sectionName = 'Employment and education'
-  const backgroundSubsectionName = 'Assessment'
-  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()

@@ -4,6 +4,7 @@ import receivingTreatment from './questions/receivingTreatment'
 import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs'
 import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
 import testPastUseDrugsList from './common/testPastUseDrugsList'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/drug-details-more-than-six-months', () => {
   const stepUrl = '/drug-details-more-than-six-months'
@@ -39,7 +40,7 @@ describe('/drug-details-more-than-six-months', () => {
 
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Drug use', 'Assessment', stepUrl)
+    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, stepUrl)
 
     cy.hasSubheading('Not used in the last 6 months', true)
     cy.hasSubheading('Used in the last 6 months', false)

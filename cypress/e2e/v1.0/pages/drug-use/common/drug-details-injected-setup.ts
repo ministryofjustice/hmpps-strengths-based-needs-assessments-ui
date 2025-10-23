@@ -2,6 +2,7 @@ import { Fixture } from '../../../../../support/commands/fixture'
 import { drugName, drugs } from './drugs'
 import whichDrugsInjected from '../questions/whichDrugsInjected'
 import receivingTreatment from '../questions/receivingTreatment'
+import { backgroundSubsectionName } from '../../../journeys/common'
 
 export const stepUrl = '/drug-details-injected'
 export const summaryPage = '/drug-use-summary'
@@ -39,7 +40,7 @@ export const drugDetailsInjectedBefore = () => () => {
 
   cy.hasAutosaveEnabled()
   cy.hasFeedbackLink()
-  cy.assertResumeUrlIs('Drug use', 'Assessment', stepUrl)
+  cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, stepUrl)
 
   cy.hasSubheading('Not used in the last 6 months', false)
   cy.hasSubheading('Used in the last 6 months', true)

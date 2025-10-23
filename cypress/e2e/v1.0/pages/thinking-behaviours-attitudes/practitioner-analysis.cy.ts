@@ -1,5 +1,6 @@
 import sections from '../../../../../app/form/v1_0/config/sections'
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 const summaryPage = `/${sections.thinkingBehaviours.subsections.background.stepUrls.backgroundSummary}`
 const analysisPage = `/${sections.thinkingBehaviours.subsections.practitionerAnalysis.stepUrls.analysis}`
@@ -65,7 +66,7 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Thinking, behaviours and attitudes', 'Assessment', summaryPage)
+  cy.assertResumeUrlIs('Thinking, behaviours and attitudes', backgroundSubsectionName, summaryPage)
 
   cy.captureAssessment()
 })

@@ -1,5 +1,6 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 import sections from '../../../../../app/form/v1_0/config/sections'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 const backgroundSummaryPage = `/${sections.accommodation.subsections.background.stepUrls.backgroundSummary}`
 const analysisPage = `/${sections.accommodation.subsections.practitionerAnalysis.stepUrls.analysis}`
@@ -23,7 +24,7 @@ before(() => {
   cy.getQuestion('Does Sam want to make changes to their accommodation?').getRadio('Not applicable').clickLabel()
   cy.saveAndContinue()
 
-  cy.assertResumeUrlIs('Accommodation', 'Assessment', backgroundSummaryPage)
+  cy.assertResumeUrlIs('Accommodation', backgroundSubsectionName, backgroundSummaryPage)
   cy.captureAssessment()
 })
 

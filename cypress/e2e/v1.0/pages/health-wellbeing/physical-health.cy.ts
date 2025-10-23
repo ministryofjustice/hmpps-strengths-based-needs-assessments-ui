@@ -9,6 +9,7 @@ import selfHarmed from './questions/selfHarmed'
 import suicide from './questions/suicide'
 import treatmentForPhysicalHealthCondition from './questions/treatmentForPhysicalHealthCondition'
 import wantToMakeChanges from './questions/wantToMakeChanges'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/health-wellbeing', () => {
   const stepUrl = '/physical-health'
@@ -37,7 +38,7 @@ describe('/health-wellbeing', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Health and wellbeing', 'Assessment', stepUrl)
+    cy.assertResumeUrlIs('Health and wellbeing', backgroundSubsectionName, stepUrl)
 
     cy.captureAssessment()
   })

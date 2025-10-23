@@ -6,6 +6,7 @@ import childhoodExperience from './questions/childhoodExperience'
 import childhoodBehaviouralProblems from './questions/childhoodBehaviouralProblems'
 import senseOfBelonging from './questions/senseOfBelonging'
 import wantToMakeChanges from './questions/wantToMakeChanges'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/personal-relationships-community', () => {
   const stepUrl = '/personal-relationships-community'
@@ -31,7 +32,7 @@ describe('/personal-relationships-community', () => {
     cy.getQuestion("Who are the important people in Sam's life?").getCheckbox('Friends').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Personal relationships and community', 'Assessment', stepUrl)
+    cy.assertResumeUrlIs('Personal relationships and community', backgroundSubsectionName, stepUrl)
     cy.captureAssessment()
   })
 

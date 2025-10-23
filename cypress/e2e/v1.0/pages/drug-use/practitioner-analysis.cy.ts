@@ -1,6 +1,7 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 import motivatedToStopOrReduceDrugUse from '../../common/practitioner-analysis/questions/motivatedToStopOrReduceDrugUse'
 import sections from '../../../../../app/form/v1_0/config/sections'
+import { backgroundSubsectionName } from '../../journeys/common'
 
 const summaryPage = '/drug-use-summary'
 const analysisPage = `/${sections.drugsUse.subsections.practitionerAnalysis.stepUrls.analysis}`
@@ -14,7 +15,7 @@ describe(`Sam hasn't misused drugs`, () => {
     cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(summaryPage)
-    cy.assertResumeUrlIs('Drug use', 'Assessment', summaryPage)
+    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, summaryPage)
 
     cy.captureAssessment()
   })
@@ -55,7 +56,7 @@ describe(`Sam has misused drugs`, () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(summaryPage)
-    cy.assertResumeUrlIs('Drug use', 'Assessment', summaryPage)
+    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, summaryPage)
 
     cy.captureAssessment()
   })

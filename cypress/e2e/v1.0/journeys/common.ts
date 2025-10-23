@@ -1,4 +1,6 @@
-// eslint-disable-next-line import/prefer-default-export
+export const backgroundSubsectionName = 'Information'
+export const practitionerAnalysisSubsectionName = 'Practitioner analysis'
+
 export const testPractitionerAnalysis = (
   sectionName: string,
   origin: string,
