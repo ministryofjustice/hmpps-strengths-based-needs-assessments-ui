@@ -67,4 +67,16 @@
   <a class="govuk-back-link govuk-!-margin-bottom-5 govuk-!-margin-top-0" href="{{ oasysUrl }}">Back</a>
 {% else %}
   <hr class="govuk-section-break govuk-section-break--visible form-header__hr">
+  {% if showVersionFromDateBanner %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        {{ mojAlert({
+          variant: "information",
+          title: "Assessment version date",
+          dismissible: false,
+          html: '<span class="moj-alert__heading">This version is from ' ~ assessment.metaData.versionUpdatedAt | formatDateForDisplay ~ '</span>'})
+        }}
+      </div>
+    </div>
+  {% endif %}
 {% endif %}
