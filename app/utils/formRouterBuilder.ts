@@ -85,6 +85,12 @@ function createNavigationItem(
   currentRoute: string,
 ) {
   let url = `${baseUrl}/${section.code}?action=resume`
+
+  // For sections with no subsections (e.g. Offence analysis):
+  if (!isInEditMode) {
+    url = `${baseUrl}/${section.code}-summary`
+  }
+
   let subsections
 
   if (section.subsections) {

@@ -72,8 +72,10 @@
     ) }}
   </section>
 
-  <div class="questiongroup-action-buttons">
-    <a href="{{ options.section }}-tasks" class="govuk-button govuk-link--no-visited-state">Continue</a>
-  </div>
+  {% if showContinueButton %}
+    <div class="questiongroup-action-buttons">
+      <a href="{{ options.section }}-tasks" class="govuk-button govuk-link--no-visited-state">Continue</a>
+    </div>
+  {% endif %}
 
 {% endblock %}
