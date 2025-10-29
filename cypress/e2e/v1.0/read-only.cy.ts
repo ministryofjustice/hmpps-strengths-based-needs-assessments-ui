@@ -24,6 +24,7 @@ describe('read-only mode', () => {
     cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
     cy.get('.offender-details__top [data-previous-versions-link]').should('contain.text', 'View previous versions')
     cy.visitSection('Finance').enterBackgroundSubsection()
+    cy.get('.questiongroup-action-buttons').should('not.exist')
     cy.getSummary('Does Sam want to make changes to their finances?')
       .getAnswer('I am actively making changes')
       .hasSecondaryAnswer('This is the latest version')
@@ -54,6 +55,7 @@ describe('read-only mode', () => {
     cy.visitSection('Drug use').enterPractitionerAnalysisSubsection()
     cy.assertStepUrlIs('/drug-use-analysis-summary')
     cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
+    cy.get('.questiongroup-action-buttons').should('not.exist')
   })
 
   it('latest version is no longer accessible when soft-deleted', () => {
