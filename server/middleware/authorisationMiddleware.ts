@@ -20,8 +20,9 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
 
       return next()
     }
+    // view-historic comes from sentence plan. This allows us to redirect to a previous version.
+    req.session.returnTo = req.originalUrl.includes('view-historic') ? '/view-historical-versions' : req.originalUrl
 
-    req.session.returnTo = req.originalUrl
     return res.redirect('/sign-in')
   })
 }
