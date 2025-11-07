@@ -20,7 +20,7 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
 
       return next()
     }
-    // view-historic comes from sentence plan. This allows us to redirect to a previous version.
+    // Requests to /view-historic/ are made from Sentence Plan where we provide links to SAN without needing to match the exact URLs across both applications
     req.session.returnTo = req.originalUrl.includes('view-historic') ? '/view-historical-versions' : req.originalUrl
 
     return res.redirect('/sign-in')
