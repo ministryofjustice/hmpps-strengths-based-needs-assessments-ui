@@ -33,7 +33,7 @@ COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
 COPY --from=build --chown=appuser:appgroup /app/docker ./docker
 COPY --from=build --chown=appuser:appgroup /app/dist ./dist
 RUN npm prune --no-audit --omit=dev
-EXPOSE 3000 3001 9229
+EXPOSE 3000 3001
 ENV NODE_ENV='production'
 USER 2000
 CMD ["npm", "start"]
