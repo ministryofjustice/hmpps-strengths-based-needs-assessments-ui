@@ -361,7 +361,7 @@ export class FieldDependencyTreeBuilder {
     const [[lastStepUrl], [penultimateStepUrl]] = steps.reverse()
 
     return {
-      url: nextStep === lastStepUrl && this.answers[sectionCompleteField] === 'NO' ? penultimateStepUrl : nextStep,
+      url: nextStep,
       stepsTaken,
       isSectionComplete,
     }

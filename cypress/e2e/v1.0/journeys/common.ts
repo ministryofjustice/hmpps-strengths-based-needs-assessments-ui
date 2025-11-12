@@ -1,6 +1,27 @@
 export const backgroundSubsectionName = 'Information'
 export const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
+export const completePractitionerAnalysisBeforeBackground = (sectionName: string, origin: string) => {
+  describe(`Completing PA first does not mark section as complete`, () => {
+    it(`Completing PA`, () => {
+      cy.visitStep(origin)
+      const sectionNameLowerCase = sectionName.toLowerCase()
+      const subjectPrefix = sectionNameLowerCase.endsWith('s') ? 'Are' : 'Is'
+
+      Array.of(
+        `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
+        `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of serious harm?`,
+        `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of reoffending?`,
+      ).forEach(question => {
+        cy.getQuestion(question).getRadio('No').clickLabel()
+      })
+
+      cy.saveAndContinue()
+      cy.sectionCompleteTagIsIncompleteAndNoBlueTick(sectionName)
+    })
+  })
+}
+
 export const testPractitionerAnalysis = (
   sectionName: string,
   origin: string,
