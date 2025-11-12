@@ -1,20 +1,29 @@
 export const backgroundSubsectionName = 'Information'
 export const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
+const fillBackgroundQuestions = (sectionName: string, checkDrugUseMotivation = false) => {
+  const sectionNameLowerCase = sectionName.toLowerCase()
+  const subjectPrefix = sectionNameLowerCase.endsWith('s') ? 'Are' : 'Is'
+
+  Array.of(
+    `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
+    `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of serious harm?`,
+    `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of reoffending?`,
+  ).forEach(question => {
+    cy.getQuestion(question).getRadio('No').clickLabel()
+  })
+
+  if (sectionName === 'Drug use' && checkDrugUseMotivation) {
+    cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
+  }
+}
+
 export const completePractitionerAnalysisBeforeBackground = (sectionName: string, origin: string) => {
   describe(`Completing PA first does not mark section as complete`, () => {
     it(`Completing PA`, () => {
       cy.visitStep(origin)
-      const sectionNameLowerCase = sectionName.toLowerCase()
-      const subjectPrefix = sectionNameLowerCase.endsWith('s') ? 'Are' : 'Is'
 
-      Array.of(
-        `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
-        `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of serious harm?`,
-        `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of reoffending?`,
-      ).forEach(question => {
-        cy.getQuestion(question).getRadio('No').clickLabel()
-      })
+      fillBackgroundQuestions(sectionName, sectionName === 'Drug use')
 
       cy.saveAndContinue()
       cy.sectionCompleteTagIsIncompleteAndNoBlueTick(sectionName)
@@ -44,20 +53,7 @@ export const testPractitionerAnalysis = (
         }
       })
 
-      const sectionNameLowerCase = sectionName.toLowerCase()
-      const subjectPrefix = sectionNameLowerCase.endsWith('s') ? 'Are' : 'Is'
-
-      Array.of(
-        `Are there any strengths or protective factors related to Sam's ${sectionName.toLowerCase()}?`,
-        `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of serious harm?`,
-        `${subjectPrefix} Sam's ${sectionNameLowerCase} linked to risk of reoffending?`,
-      ).forEach(question => {
-        cy.getQuestion(question).getRadio('No').clickLabel()
-      })
-
-      if (sectionName === 'Drug use' && changesDrugUseStateToYes) {
-        cy.getQuestion('Does Sam seem motivated to stop or reduce their drug use?').getRadio('Unknown').clickLabel()
-      }
+      fillBackgroundQuestions(sectionName, changesDrugUseStateToYes)
 
       cy.markAsComplete()
 

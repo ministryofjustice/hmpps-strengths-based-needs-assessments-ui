@@ -27,10 +27,7 @@ describe('Origin: /current-accommodation', () => {
     cy.enterAssessment().enterBackgroundSubsection()
   })
 
-  completePractitionerAnalysisBeforeBackground(
-    sectionName,
-    destinations.analysis,
-  )
+  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe(`Destination: ${destinations.settled}`, () => {
     const typeOfAccommodation = 'Settled'
@@ -76,9 +73,7 @@ describe('Origin: /current-accommodation', () => {
 
         cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.settled)
         cy.saveAndContinue()
-        cy.log("log A")
         cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.log("log B")
         cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
       })
 
