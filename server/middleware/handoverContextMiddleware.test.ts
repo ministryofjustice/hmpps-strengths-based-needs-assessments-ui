@@ -14,9 +14,12 @@ describe('handoverContextMiddleware', () => {
   })
 
   it('should get handover context and call next when accessToken exists', async () => {
+    const assessmentUuid = crypto.randomUUID()
     const req: Request = {
       path: '/some/path',
-      session: {},
+      session: {
+        sessionData: { assessmentId: assessmentUuid },
+      },
     } as Request
 
     const res = {
@@ -24,12 +27,12 @@ describe('handoverContextMiddleware', () => {
       redirect: jest.fn(),
     } as unknown as Response
 
-    mockGetContextData.mockResolvedValue({ some: 'data' })
+    mockGetContextData.mockResolvedValue({ assessmentContext: { assessmentId: assessmentUuid } })
 
     await handoverContextMiddleware()(req, res, next)
 
-    expect(req.session.handoverContext).toEqual({ some: 'data' })
-    expect(next).toHaveBeenCalled()
+    expect(req.session.handoverContext).toEqual({ assessmentContext: { assessmentId: assessmentUuid } })
+    expect(next).toHaveBeenCalledWith()
   })
 
   it('should redirect to /sign-in when accessToken does not exist', async () => {
