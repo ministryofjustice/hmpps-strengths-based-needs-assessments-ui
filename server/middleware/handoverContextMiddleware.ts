@@ -1,4 +1,5 @@
 import type { RequestHandler } from 'express'
+import { SessionData } from 'express-session'
 import ArnsHandoverService from '../services/arnsHandoverService'
 
 import asyncMiddleware from './asyncMiddleware'
@@ -13,8 +14,18 @@ export default function handoverContextMiddleware(): RequestHandler {
     const accessToken = res?.locals?.user?.token
 
     if (accessToken) {
-      req.session.handoverContext = await arnsHandoverService.getContextData(accessToken)
-      return next()
+      try {
+        const handoverContext = await arnsHandoverService.getContextData(accessToken)
+        req.session.handoverContext = handoverContext
+        const sessionData = req.session.sessionData as SessionData
+        req.session.sessionData = {
+          ...sessionData,
+          assessmentId: handoverContext.assessmentContext.assessmentId,
+        } as SessionData
+        return next()
+      } catch (e) {
+        return next(e)
+      }
     }
 
     return res.redirect('/sign-in')
