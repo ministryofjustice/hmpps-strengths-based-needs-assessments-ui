@@ -21,7 +21,12 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
       return next()
     }
 
-    req.session.returnTo = req.originalUrl
+    if (req.originalUrl.includes('view-historic')) {
+      req.session.returnTo = '/view-historical-versions'
+    } else {
+      req.session.returnTo = req.originalUrl
+    }
+
     return res.redirect('/sign-in')
   })
 }
