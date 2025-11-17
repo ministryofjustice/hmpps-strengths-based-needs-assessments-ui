@@ -22,14 +22,7 @@ export const assessmentOrForbidden = async (
     throw new ForbiddenError(req)
   }
 
-  const assessment =
-    req.params.mode === 'edit'
-      ? await apiService.fetchAssessment(req.params.uuid)
-      : await apiService.fetchAssessmentVersion(req.params.uuid)
-
-  if (isModeViewOrViewHistoric && assessment.metaData.uuid !== sessionData.assessmentId) {
-    throw new ForbiddenError(req)
-  }
-
-  return assessment
+  return req.params.mode === 'edit'
+    ? await apiService.fetchAssessment(req.params.uuid)
+    : await apiService.fetchAssessmentVersion(req.params.uuid)
 }
