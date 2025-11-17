@@ -23,6 +23,6 @@ export const assessmentOrForbidden = async (
   }
 
   return req.params.mode === 'edit'
-    ? await apiService.fetchAssessment(req.params.uuid)
-    : await apiService.fetchAssessmentVersion(req.params.uuid)
+    ? apiService.fetchAssessment(req.params.uuid)
+    : apiService.fetchAssessmentVersion(req.params.uuid)
 }
