@@ -29,6 +29,16 @@ export default function setUpAuth(): Router {
     }),
   )
 
+  // Added to support the use case of when the sessionData.assessmentId is different to the requested assessment.metaData.uuid
+  // This happens when a user has viewed an assessment and then tries to view a previous version of a different assessment.
+  router.get(
+    '/form/view-historic/:assessmentVersion/accommodation-tasks',
+    passport.authenticate('oauth2', {
+      successReturnToOrRedirect: '/start',
+      failureRedirect: '/autherror',
+    }),
+  )
+
   const authUrl = config.apis.arnsHandover.url
   const authParameters = `client_id=${config.apis.arnsHandover.clientId}&redirect_uri=${config.domain}`
 

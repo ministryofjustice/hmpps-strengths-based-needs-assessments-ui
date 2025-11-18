@@ -12,6 +12,7 @@ export const assessmentOrForbidden = async (
   const isViewOnly = !isInEditMode(sessionData.user, req)
   const isModeViewOrViewHistoric = ['view', 'view-historic'].includes(req.params.mode)
 
+  // Check to make sure user can access this assessment, and the URL has not been modified since the assessment was loaded.
   const forbiddenWhen = [
     isViewOnly && req.method !== 'GET',
     isViewOnly && !isModeViewOrViewHistoric,
@@ -27,6 +28,7 @@ export const assessmentOrForbidden = async (
       ? await apiService.fetchAssessment(req.params.uuid)
       : await apiService.fetchAssessmentVersion(req.params.uuid)
 
+  // Check if the URL has been modified since the assessment was loaded.
   if (isModeViewOrViewHistoric && assessment.metaData.uuid !== sessionData.assessmentId) {
     throw new ForbiddenError(req)
   }
