@@ -4,7 +4,7 @@ import StrengthsBasedNeedsAssessmentsApiService, {
   SessionData,
   userDetailsFromSession,
 } from '../../server/services/strengthsBasedNeedsService'
-import ArnsHandoverService, { HandoverSubject } from '../../server/services/arnsHandoverService'
+import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import { createAnswerDto } from './saveAndContinue.utils'
 import thinkingBehavioursFields from '../form/v1_0/fields/thinking-behaviours-attitudes'
 import { assessmentComplete } from '../form/v1_0/fields'
@@ -12,15 +12,13 @@ import ForbiddenError from '../../server/errors/forbiddenError'
 import sections from '../form/v1_0/config/sections'
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
-const arnsHandoverService = new ArnsHandoverService()
 
 const editModeLandingPage = 'close-any-other-applications-before-appointment'
 const readOnlyModeLandingPage = 'accommodation-tasks'
 
 const startController = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const accessToken = res.locals.user.token
-    const contextData = await arnsHandoverService.getContextData(accessToken)
+    const contextData = req.session.handoverContext
 
     const assessment = await apiService.fetchAssessment(
       contextData.assessmentContext.assessmentId,
