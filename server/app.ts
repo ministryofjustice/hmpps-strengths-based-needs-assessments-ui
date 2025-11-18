@@ -16,6 +16,7 @@ import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
+import handoverContextMiddleware from './middleware/handoverContextMiddleware'
 
 export default function createApp(): express.Application {
   const app = express()
@@ -33,6 +34,7 @@ export default function createApp(): express.Application {
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
+  app.use(handoverContextMiddleware())
   // disabled CSRF handled by hmpo-form-wizard
   // app.use(setUpCsrf())
   // app.use(setUpCurrentUser())

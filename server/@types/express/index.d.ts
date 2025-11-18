@@ -9,6 +9,7 @@ declare module 'express-session' {
     nowInMinutes: number
     sessionData: unknown
     subjectDetails: HandoverSubject
+    handoverContext: HandoverContextData
   }
 }
 
