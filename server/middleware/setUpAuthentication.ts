@@ -21,12 +21,11 @@ export default function setUpAuth(): Router {
 
   router.get('/sign-in', passport.authenticate('oauth2'))
 
-  router.get(
-    '/sign-in/callback',
+  router.get('/sign-in/callback', (req, res, next) =>
     passport.authenticate('oauth2', {
-      successReturnToOrRedirect: '/start',
+      successReturnToOrRedirect: req.session.previousVersionsRedirect || '/start',
       failureRedirect: '/autherror',
-    }),
+    })(req, res, next),
   )
 
   // Added to support the use case of when the sessionData.assessmentId is different to the requested assessment.metaData.uuid
