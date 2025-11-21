@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-import ArnsHandoverService from '../../server/services/arnsHandoverService'
 import ForbiddenError from '../../server/errors/forbiddenError'
 import StrengthsBasedNeedsAssessmentsApiService from '../../server/services/strengthsBasedNeedsService'
 
