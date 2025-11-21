@@ -1,4 +1,9 @@
-import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
+import {
+  backgroundSubsectionName,
+  completePractitionerAnalysisBeforeBackground,
+  practitionerAnalysisSubsectionName,
+  testPractitionerAnalysis,
+} from './common'
 
 /**
  * "Drug use" has a number of unique routes defined in app/form/v1_0/steps/drug-use.ts
@@ -65,6 +70,8 @@ describe('Origin: /drug-use', () => {
     cy.get('.govuk-back-link').should('not.exist')
     cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
   }
+
+  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe('No to drug use', () => {
     describe(`Destination: ${destinations.backgroundSummary}`, () => {

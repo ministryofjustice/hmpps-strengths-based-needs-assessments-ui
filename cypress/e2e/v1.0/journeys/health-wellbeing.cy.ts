@@ -1,4 +1,9 @@
-import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
+import {
+  backgroundSubsectionName,
+  completePractitionerAnalysisBeforeBackground,
+  practitionerAnalysisSubsectionName,
+  testPractitionerAnalysis,
+} from './common'
 
 describe('Origin: /health-wellbeing', () => {
   const destinations = {
@@ -21,6 +26,8 @@ describe('Origin: /health-wellbeing', () => {
   beforeEach(() => {
     cy.enterAssessment()
   })
+
+  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe(`Destination: ${destinations.physicalMentalHealth}`, () => {
     Array.of('Yes').forEach(physicalHealthCondition => {
