@@ -21,12 +21,6 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
       return next()
     }
 
-    const match = req.originalUrl.match(/view-historic\/([^\/]+)/)
-
-    if (match) {
-      req.session.previousVersionsRedirect = `/view-historical-versions/${match[1]}`
-    }
-
     req.session.returnTo = req.originalUrl
 
     return res.redirect('/sign-in')
