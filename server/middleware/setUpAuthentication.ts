@@ -23,7 +23,7 @@ export default function setUpAuth(): Router {
 
   router.get('/sign-in/callback', (req, res, next) =>
     passport.authenticate('oauth2', {
-      successReturnToOrRedirect: req.session.returnTo || '/start',
+      successReturnToOrRedirect: req.session.previousVersionsRedirect || '/start',
       failureRedirect: '/autherror',
     })(req, res, next),
   )
