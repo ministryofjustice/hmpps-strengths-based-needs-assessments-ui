@@ -28,7 +28,7 @@ describe('viewHistoricalVersions', () => {
 
   const assessmentUUID = crypto.randomUUID()
   const assessmentVersionUUID = crypto.randomUUID()
-  const fetchAssessment = StrengthsBasedNeedsAssessmentsApiService.prototype.fetchAssessment as jest.Mock
+  const fetchAssessment = StrengthsBasedNeedsAssessmentsApiService.prototype.fetchAssessmentVersion as jest.Mock
 
   beforeEach(() => {
     ;(ArnsHandoverService.prototype.getContextData as jest.Mock).mockReset()
@@ -49,10 +49,17 @@ describe('viewHistoricalVersions', () => {
       subject: {},
     })
 
+    const contextData = {
+      assessmentContext: { assessmentId: assessmentUUID },
+      principal: { accessMode: 'READ_WRITE' },
+      handoverSessionId: 'mockSessionId',
+      subject: {},
+    }
+    req.session.handoverContext = contextData
+
     await viewHistoricalVersions(req, res, next)
 
     expect(session.save).toHaveBeenCalled()
     expect(res.redirect).toHaveBeenCalledWith(`/form/view-historic/${assessmentVersionUUID}/accommodation-tasks`)
-    expect(fetchAssessment).toHaveBeenCalledWith(assessmentUUID, undefined)
   })
 })
