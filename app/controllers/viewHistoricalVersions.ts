@@ -4,17 +4,14 @@ import ForbiddenError from '../../server/errors/forbiddenError'
 import StrengthsBasedNeedsAssessmentsApiService from '../../server/services/strengthsBasedNeedsService'
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
-const arnsHandoverService = new ArnsHandoverService()
 
 const viewHistoricalVersions = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const accessToken = res.locals.user.token
-    const contextData = await arnsHandoverService.getContextData(accessToken)
+    const contextData = req.session.handoverContext
 
-    const assessment = await apiService.fetchAssessment(
-      contextData.assessmentContext.assessmentId,
-      contextData.assessmentContext.assessmentVersion,
-    )
+    const { assessmentVersionId } = req.params
+
+    const assessment = await apiService.fetchAssessmentVersion(assessmentVersionId)
 
     if (assessment.metaData.uuid !== contextData.assessmentContext.assessmentId) {
       next(new ForbiddenError(req))

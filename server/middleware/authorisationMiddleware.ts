@@ -21,8 +21,10 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
       return next()
     }
 
-    if (req.originalUrl.includes('view-historic')) {
-      req.session.previousVersionsRedirect = req.originalUrl
+    const match = req.originalUrl.match(/view-historic\/([^\/]+)/)
+
+    if (match) {
+      req.session.previousVersionsRedirect = `/view-historical-versions/${match[1]}`
     }
 
     req.session.returnTo = req.originalUrl
