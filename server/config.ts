@@ -92,7 +92,7 @@ export default {
       connectionString: get('APPLICATIONINSIGHTS_CONNECTION_STRING', null, requiredInProduction),
     },
     coordinatorApi: {
-      url: get('COORDINATOR_API_URL', 'http://localhost:8070'),
+      url: get('COORDINATOR_API_URL', 'http://localhost:8070', requiredInProduction),
       timeout: {
         response: Number(get('COORDINATOR_API_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('COORDINATOR_API_TIMEOUT_DEADLINE', 10000)),
