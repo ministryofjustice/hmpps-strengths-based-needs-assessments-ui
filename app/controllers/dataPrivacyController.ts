@@ -6,7 +6,7 @@ import privacyScreenFields from '../form/v1_0/fields/privacy-screen'
 import { withPlaceholdersFrom } from '../utils/field.utils'
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import config from '../../server/config'
-import ArnsCoordinatorApiService from '../../server/services/arnsCoordinatorService'
+import ArnsCoordinatorApiService from '../../server/services/arnsCoordinatorApiService'
 
 class DataPrivacyController extends BaseController {
   constructor(options: unknown) {
@@ -20,7 +20,15 @@ class DataPrivacyController extends BaseController {
       const subjectDetails = req.session.subjectDetails as HandoverSubject
       const placeholderValues = { subject: subjectDetails.givenName }
 
-      const response = await service.getVersionsByEntityId("")
+      const token = (req.user as any)?.token || res.locals.user?.token
+      const entityUuid = sessionData?.assessmentId || req.session.handoverContext?.assessmentContext?.assessmentId
+
+      if (!token || !entityUuid) {
+        throw new Error(`Missing token or entityUuid (token present: ${Boolean(token)}, entityUuid: ${entityUuid})`)
+      }
+
+      const response = await service.getVersionsByEntityId(token, entityUuid)
+      console.log('versions response', response)
 
       res.render('versions/view', { versions: response })
       res.locals.user = {
