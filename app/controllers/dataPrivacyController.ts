@@ -13,7 +13,6 @@ class DataPrivacyController extends BaseController {
   }
 
   async configure(req: FormWizard.Request, res: Response, next: NextFunction) {
-
     try {
       const sessionData = req.session.sessionData as SessionData
       const subjectDetails = req.session.subjectDetails as HandoverSubject
