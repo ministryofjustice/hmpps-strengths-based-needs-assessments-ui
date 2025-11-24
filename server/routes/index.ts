@@ -5,6 +5,7 @@ import App from '../../app'
 import startController from '../../app/controllers/startController'
 import config from '../config'
 import { validateMode } from '../middleware/validateMode'
+import viewHistoricalVersions from '../../app/controllers/viewHistoricalVersions'
 
 export default function routes(): Router {
   const router = Router()
@@ -15,6 +16,7 @@ export default function routes(): Router {
   router.use(App.errorHandler)
   router.use('/config', app.formConfigRouter)
   router.use('/start', startController) // viewing or editing the latest version
+  router.use('/view-historical-versions/:assessmentVersionId', viewHistoricalVersions) // for viewing previous versions
 
   get('/', (req, res, next) => {
     res.render('pages/index')
