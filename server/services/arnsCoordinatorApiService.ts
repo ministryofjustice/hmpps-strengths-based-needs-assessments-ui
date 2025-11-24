@@ -34,13 +34,13 @@ export default class ArnsCoordinatorApiService {
     this.authClient = getHmppsAuthClient()
   }
 
-  private async restClient(): Promise<RestClient>{
+  private async restClient(): Promise<RestClient> {
     const token = await this.authClient.getSystemClientToken()
     return new RestClient('Coordinator API Client', config.apis.coordinatorApi, token)
   }
 
   async getVersionsByEntityId(entityUuid: string) {
     const client = await this.restClient()
-    return client.get<PreviousVersionsResponse>({ path: `/entity/versions/${entityUuid}`})
+    return client.get<PreviousVersionsResponse>({ path: `/entity/versions/${entityUuid}` })
   }
 }
