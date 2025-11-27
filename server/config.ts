@@ -109,4 +109,5 @@ export default {
     unplanned: get('MAINTENANCE_UNPLANNED', 'false') === 'true',
   },
   feedbackUrl: get('FEEDBACK_URL', null),
+  spUrl: get('SP_URL', 'http://localhost:3001', requiredInProduction),
 }
