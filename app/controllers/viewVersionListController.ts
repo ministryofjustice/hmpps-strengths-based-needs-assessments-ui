@@ -16,7 +16,51 @@ export default class ViewVersionListController extends SaveAndContinueController
           .slice(1),
       )
 
-      res.locals.previousVersions = Object.values(trimmedAllVersions)
+      const planAgreementStatusMap: Record<string, { text: string; classes: string }> = {
+        AGREED: { text: 'Plan Agreed', classes: 'govuk-tag--green' },
+        COULD_NOT_ANSWER: { text: 'Plan Created', classes: 'govuk-tag--blue' },
+        DO_NOT_AGREE: { text: 'Plan Created', classes: 'govuk-tag--blue' },
+        UPDATED_AGREED: { text: 'Plan agreement updated', classes: 'govuk-tag--light-blue' },
+        DRAFT: { text: '', classes: '' },
+      };
+
+      const countersignedStatusMap: Record<string, { text: string; classes: string }> = {
+        COUNTERSIGNED: { text: 'Countersigned', classes: 'govuk-tag--turquoise' },
+        DOUBLE_COUNTERSIGNED: { text: 'Countersigned', classes: 'govuk-tag--turquoise' },
+      };
+
+      const allMappedVersions = Object.values(trimmedAllVersions).map((version: any) => {
+        const planAgreementStatus = version.planVersion?.planAgreementStatus;
+        const status = version.planVersion?.status;
+
+        const planAgreementStatusInfo = planAgreementStatusMap[planAgreementStatus] || { text: '', classes: '' };
+        const countersignedStatusInfo = countersignedStatusMap[status] || { text: '', classes: '' };
+
+        return {
+          planVersion: {
+            uuid: version.planVersion?.uuid,
+            updatedAt: version.planVersion?.updatedAt,
+            status: status,
+            planAgreementStatus: planAgreementStatus,
+
+            planAgreementStatusText: planAgreementStatusInfo.text,
+            planAgreementStatusClass: planAgreementStatusInfo.classes,
+            showPlanAgreementStatus: !!planAgreementStatusInfo.text,
+
+            countersignedStatusText: countersignedStatusInfo.text,
+            countersignedStatusClass: countersignedStatusInfo.classes,
+            showCountersignedStatus: !!countersignedStatusInfo.text,
+          },
+          assessmentVersion: {
+            uuid: version.assessmentVersion?.uuid,
+            updatedAt: version.assessmentVersion?.updatedAt,
+          },
+          description: version.description,
+        };
+      });
+
+      res.locals.countersignedVersions = allMappedVersions;
+      res.locals.previousVersions = allMappedVersions;
 
       await super.locals(req, res, next)
     } catch (error) {
