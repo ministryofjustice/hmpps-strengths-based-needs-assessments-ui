@@ -17,6 +17,7 @@ generic-service:
     HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service-preprod.hmpps.service.justice.gov.uk"
     OASYS_URL: "https://pp.oasys.service.justice.gov.uk"
     COORDINATOR_API_URL: "https://arns-coordinator-api-preprod.hmpps.service.justice.gov.uk"
+    SP_URL: "https://sentence-plan-preprod.hmpps.service.justice.gov.uk"
 
   namespace_secrets:
     hmpps-strengths-based-needs-assessments-ui-feedback-url:

@@ -31,6 +31,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Strengths and needs'
   app.locals.deploymentName = config.deploymentName
+  app.locals.spUrl = config.spUrl
 
   // Cache busting version string
   if (production) {

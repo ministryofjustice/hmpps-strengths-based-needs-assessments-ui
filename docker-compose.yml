@@ -171,6 +171,7 @@ services:
       HTTPS: false
       NODE_ENV: development
       FEEDBACK_URL: http://foo.bar
+      SP_URL: http://localhost:3001
 
   localstack:
     image: localstack/localstack:3
