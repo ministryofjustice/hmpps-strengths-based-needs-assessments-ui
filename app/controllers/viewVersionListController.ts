@@ -60,7 +60,11 @@ export default class ViewVersionListController extends SaveAndContinueController
         }
       })
 
-      res.locals.countersignedVersions = allMappedVersions
+      res.locals.countersignedVersions = allMappedVersions.filter(
+        version => version.planVersion?.status === 'COUNTERSIGNED' ||
+          version.planVersion?.status === 'DOUBLE_COUNTERSIGNED'
+      )
+
       res.locals.previousVersions = allMappedVersions
 
       await super.locals(req, res, next)

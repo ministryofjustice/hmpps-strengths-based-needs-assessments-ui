@@ -93,7 +93,9 @@
 
       {% if previousVersions and previousVersions.length > 0 %}
         <div class="govuk-grid-column-three-quarters">
-          <h2 class="govuk-heading-m govuk-!-margin-top-3">All versions</h2>
+          {% if countersignedVersions and countersignedVersions.length > 0 %}
+            <h2 class="govuk-heading-m govuk-!-margin-top-3">All versions</h2>
+          {% endif %}
 
           {% set tableRows = [] %}
           {% for version in previousVersions %}
