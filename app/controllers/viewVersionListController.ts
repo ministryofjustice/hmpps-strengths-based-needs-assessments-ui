@@ -10,12 +10,13 @@ export default class ViewVersionListController extends SaveAndContinueController
       const sessionData = req.session.sessionData as SessionData
       const versions = await this.service.getVersionsByEntityId(sessionData.assessmentId)
 
-      // remove the latest(current) version from allVersions:
-      const trimmedAllVersions = Object.fromEntries(
-        Object.entries(versions.allVersions)
-          .sort((a, b) => b[0].localeCompare(a[0]))
-          .slice(1),
-      )
+      // Separating the current version from the previous versions
+      const sortedVersions = Object.entries(versions.allVersions).sort((a, b) => b[0].localeCompare(a[0]))
+
+      const [currentVersionEntry, ...previousVersions] = sortedVersions
+      const currentVersion = currentVersionEntry ? currentVersionEntry[1] : null
+
+      const trimmedAllVersions = Object.fromEntries(previousVersions)
 
       const planAgreementStatusMap: Record<string, { text: string; classes: string }> = {
         AGREED: { text: 'Plan Agreed', classes: 'govuk-tag--green' },
@@ -31,16 +32,19 @@ export default class ViewVersionListController extends SaveAndContinueController
       }
 
       const allMappedVersions = Object.values(trimmedAllVersions).map((version: LastVersionsOnDate) => {
-        const planAgreementStatus = version.planVersion?.planAgreementStatus
-        const status = version.planVersion?.status
+        const assessmentVersionData = version.assessmentVersion || currentVersion?.assessmentVersion || null
+        const planVersionData = version.planVersion || currentVersion?.planVersion || null
+
+        const planAgreementStatus = planVersionData?.planAgreementStatus
+        const status = planVersionData?.status
 
         const planAgreementStatusInfo = planAgreementStatusMap[planAgreementStatus] || { text: '', classes: '' }
         const countersignedStatusInfo = countersignedStatusMap[status] || { text: '', classes: '' }
 
         return {
           planVersion: {
-            uuid: version.planVersion?.uuid,
-            updatedAt: version.planVersion?.updatedAt,
+            uuid: planVersionData?.uuid,
+            updatedAt: planVersionData?.updatedAt,
             status,
             planAgreementStatus,
 
@@ -53,8 +57,8 @@ export default class ViewVersionListController extends SaveAndContinueController
             showCountersignedStatus: !!countersignedStatusInfo.text,
           },
           assessmentVersion: {
-            uuid: version.assessmentVersion?.uuid,
-            updatedAt: version.assessmentVersion?.updatedAt,
+            uuid: assessmentVersionData?.uuid,
+            updatedAt: assessmentVersionData?.updatedAt,
           },
           description: version.description,
         }
