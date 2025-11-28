@@ -2,9 +2,9 @@ import config from '../config'
 import RestClient from '../data/restClient'
 import getHmppsAuthClient from '../data/index'
 
-type EntityType = 'ASSESSMENT' | 'PLAN'
+export type EntityType = 'ASSESSMENT' | 'PLAN'
 
-type VersionDetails = {
+export type VersionDetails = {
   uuid: string
   version: number
   createdAt: string
@@ -14,7 +14,7 @@ type VersionDetails = {
   entityType: EntityType
 }
 
-interface LastVersionsOnDate {
+export interface LastVersionsOnDate {
   description: string
   assessmentVersion: VersionDetails
   planVersion: VersionDetails
