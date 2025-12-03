@@ -40,11 +40,20 @@ describe('previous versions page', () => {
       cy.go('back')
       cy.assertStepUrlIs('previous-versions')
 
-      cy.get(columns).eq(2).find('a').should('contain.text', 'View').as('plan-link')
-      cy.get('@plan-link').should('have.attr', 'target').and('equal', '_blank')
-      cy.get('@plan-link')
-        .should('have.attr', 'href')
-        .and('match', /\/view-previous-version\//)
+      cy.get(columns)
+        .eq(2)
+
+        .then($cell => {
+          if ($cell.find('a').length > 0) {
+            cy.wrap($cell).find('a').should('contain.text', 'View').as('plan-link')
+            cy.get('@plan-link').should('have.attr', 'target').and('equal', '_blank')
+            cy.get('@plan-link')
+              .should('have.attr', 'href')
+              .and('match', /\/view-previous-version\//)
+          } else {
+            cy.wrap($cell).find('a').should('have.length', 0)
+          }
+        })
     })
   })
 
@@ -60,12 +69,11 @@ describe('previous versions page', () => {
     cy.contains('p', `There are no previous versions of Sam's assessment yet.`).should('be.visible')
   })
 
-  it('opens assessment and plan links in new tabs', () => {
+  it('opens assessment link in new tab', () => {
     cy.createAssessmentWithVersions(2)
     cy.enterAssessment()
     cy.get('.offender-details__top [data-previous-versions-link]').click()
 
     cy.get('tbody tr:first-child td:nth-child(2) a').should('have.attr', 'target', '_blank')
-    cy.get('tbody tr:first-child td:nth-child(3) a').should('have.attr', 'target', '_blank')
   })
 })

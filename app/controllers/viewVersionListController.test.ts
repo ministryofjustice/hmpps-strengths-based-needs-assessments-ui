@@ -34,7 +34,7 @@ describe('ViewVersionListController.locals', () => {
     jest.clearAllMocks()
   })
 
-  it('fetches versions, maps current and previous versions and sets locals', async () => {
+  it('should fetch versions, maps current and previous versions and set locals correctly', async () => {
     // Given versions keyed by date, latest (2025-07-04) is the current version
     getVersionsByEntityId.mockResolvedValue({
       allVersions: {
