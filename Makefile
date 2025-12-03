@@ -16,7 +16,6 @@ up: ## Starts/restarts the UI in a production container.
 down: ## Stops and removes all containers in the project.
 	docker compose ${LOCAL_COMPOSE_FILES} down
 	make dev-down
-	make test-down
 
 build-ui: ## Builds a production image of the UI.
 	docker compose build san-ui
