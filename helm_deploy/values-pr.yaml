@@ -16,6 +16,8 @@ generic-service:
     HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service-dev.hmpps.service.justice.gov.uk"
     OASYS_URL: "https://arns-oastub-dev.hmpps.service.justice.gov.uk/"
     DEPLOYMENT_NAME: PR-$PR_NUMBER
+    COORDINATOR_API_URL: "https://arns-coordinator-api-dev.hmpps.service.justice.gov.uk"
+    SP_URL: "https://sentence-plan-dev.hmpps.service.justice.gov.uk"
 
 generic-prometheus-alerts:
   targetApplication: $RELEASE_NAME
