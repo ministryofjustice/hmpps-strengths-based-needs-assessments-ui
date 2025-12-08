@@ -5,45 +5,48 @@ import templates from '../config/templates'
 import { drugsList } from '../fields/drug-use/drugs'
 
 const section = sections.drugsUse
+const stepUrls = {
+  drugUse: 'drug-use',
+  addDrugs: 'add-drugs',
+  drugDetails: 'drug-details',
+  drugDetailsInjected: 'drug-details-injected',
+  drugDetailsMoreThanSix: 'drug-details-more-than-six-months',
+  drugDetailsMoreThanSixInjected: 'drug-details-more-than-six-months-injected',
+  drugUseHistory: 'drug-use-history',
+  drugUseHistoryAllMoreThanSix: 'drug-use-history-more-than-six-months',
+  summary: 'drug-use-summary',
+  analysis: 'drug-use-analysis',
+}
 
 const sectionHeading = 'Drug use background'
-const sectionBackground = section.subsections.background
-const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
 
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: 'drug-use-tasks',
-      template: templates.sectionTasks,
-    },
-    {
-      url: sectionBackground.stepUrls.drugUse,
-      initialStepInSection: true,
+      url: stepUrls.drugUse,
       pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUse.drugUse,
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugUse),
-        drugsUseFields.backgroundSectionComplete(),
-        drugsUseFields.practitionerAnalysisSectionComplete(),
+        drugsUseFields.isUserSubmitted(stepUrls.drugUse),
+        drugsUseFields.sectionComplete(),
       ].flat(),
       next: [
-        nextWhen(drugsUseFields.drugUse.drugUse, 'YES', sectionBackground.stepUrls.addDrugs),
-        nextWhen(drugsUseFields.drugUse.drugUse, 'NO', sectionBackground.stepUrls.backgroundSummary),
+        nextWhen(drugsUseFields.drugUse.drugUse, 'YES', stepUrls.addDrugs),
+        nextWhen(drugsUseFields.drugUse.drugUse, 'NO', stepUrls.summary),
       ],
-      sectionProgressRules: [
-        setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField),
-        setFieldToIncomplete(sectionPractitionerAnalysis.sectionCompleteField),
-      ],
+      navigationOrder: 4,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.addDrugs,
+      url: stepUrls.addDrugs,
       pageHeading: sectionHeading,
       fields: [
         drugsUseFields.addDrugs.selectMisusedDrugs,
         drugsUseFields.addDrugs.otherDrugNameField,
         drugsUseFields.addDrugs.drugLastUsedFields,
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.addDrugs),
+        drugsUseFields.isUserSubmitted(stepUrls.addDrugs),
+        drugsUseFields.sectionComplete(),
       ].flat(),
       next: [
         nextWhen(
@@ -51,38 +54,39 @@ const sectionConfig: SectionConfig = {
           drugsList.filter(it => it.injectable).map(it => it.value),
           [
             drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
-              nextWhen(lastUsedField, 'MORE_THAN_SIX', sectionBackground.stepUrls.drugDetailsMoreThanSixInjected),
+              nextWhen(lastUsedField, 'MORE_THAN_SIX', stepUrls.drugDetailsMoreThanSixInjected),
             ),
-            sectionBackground.stepUrls.drugDetailsInjected,
+            stepUrls.drugDetailsInjected,
           ].flat(),
         ),
         drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
-          nextWhen(lastUsedField, 'MORE_THAN_SIX', sectionBackground.stepUrls.drugDetailsMoreThanSix),
+          nextWhen(lastUsedField, 'MORE_THAN_SIX', stepUrls.drugDetailsMoreThanSix),
         ),
-        sectionBackground.stepUrls.drugDetails,
+        stepUrls.drugDetails,
       ].flat(),
-      sectionProgressRules: [],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.drugDetails,
+      url: stepUrls.drugDetails,
       fields: [
         drugsUseFields.drugDetails.usedLastSixMonths,
         drugsUseFields.drugDetails.drugsIsReceivingTreatment,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugDetails),
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetails),
+        drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
       next: [
         drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
-          nextWhen(lastUsedField, 'LAST_SIX', sectionBackground.stepUrls.drugUseHistory),
+          nextWhen(lastUsedField, 'LAST_SIX', stepUrls.drugUseHistory),
         ),
-        sectionBackground.stepUrls.drugUseHistoryAllMoreThanSix,
+        stepUrls.drugUseHistoryAllMoreThanSix,
       ].flat(),
-      sectionProgressRules: [],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.drugDetailsInjected,
+      url: stepUrls.drugDetailsInjected,
       fields: [
         drugsUseFields.drugDetails.usedLastSixMonths,
         drugsUseFields.drugDetails.injectedDrugs,
@@ -90,38 +94,40 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.drugDetails.drugsIsReceivingTreatment,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugDetailsInjected),
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetailsInjected),
+        drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
       next: [
         drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
-          nextWhen(lastUsedField, 'LAST_SIX', sectionBackground.stepUrls.drugUseHistory),
+          nextWhen(lastUsedField, 'LAST_SIX', stepUrls.drugUseHistory),
         ),
-        sectionBackground.stepUrls.drugUseHistoryAllMoreThanSix,
+        stepUrls.drugUseHistoryAllMoreThanSix,
       ].flat(),
-      sectionProgressRules: [],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.drugDetailsMoreThanSix,
+      url: stepUrls.drugDetailsMoreThanSix,
       fields: [
         drugsUseFields.drugDetails.usedLastSixMonths,
         drugsUseFields.drugDetails.notUsedInTheLastSixMonths,
         drugsUseFields.drugDetails.drugsIsReceivingTreatment,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugDetailsMoreThanSix),
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSix),
+        drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
       next: [
         drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
-          nextWhen(lastUsedField, 'LAST_SIX', sectionBackground.stepUrls.drugUseHistory),
+          nextWhen(lastUsedField, 'LAST_SIX', stepUrls.drugUseHistory),
         ),
-        sectionBackground.stepUrls.drugUseHistoryAllMoreThanSix,
+        stepUrls.drugUseHistoryAllMoreThanSix,
       ].flat(),
-      sectionProgressRules: [],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.drugDetailsMoreThanSixInjected,
+      url: stepUrls.drugDetailsMoreThanSixInjected,
       fields: [
         drugsUseFields.drugDetails.usedLastSixMonths,
         drugsUseFields.drugDetails.notUsedInTheLastSixMonths,
@@ -130,19 +136,20 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.drugDetails.drugsIsReceivingTreatment,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentYesDetails,
         drugsUseFields.drugDetails.drugsIsReceivingTreatmentNoDetails,
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugDetailsMoreThanSixInjected),
+        drugsUseFields.isUserSubmitted(stepUrls.drugDetailsMoreThanSixInjected),
+        drugsUseFields.sectionComplete(),
       ].flat(),
       template: templates.drugUsageNew,
       next: [
         drugsUseFields.addDrugs.drugLastUsedFields.map(lastUsedField =>
-          nextWhen(lastUsedField, 'LAST_SIX', sectionBackground.stepUrls.drugUseHistory),
+          nextWhen(lastUsedField, 'LAST_SIX', stepUrls.drugUseHistory),
         ),
-        sectionBackground.stepUrls.drugUseHistoryAllMoreThanSix,
+        stepUrls.drugUseHistoryAllMoreThanSix,
       ].flat(),
-      sectionProgressRules: [],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.drugUseHistory,
+      url: stepUrls.drugUseHistory,
       pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUseHistory.drugsReasonsForUse,
@@ -151,14 +158,14 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.drugUseHistory.drugsAffectedTheirLifeDetails,
         drugsUseFields.drugUseHistory.drugsAnythingHelpedStopOrReduceUse,
         drugsUseFields.wantToMakeChanges(),
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugUseHistory),
-        drugsUseFields.backgroundSectionComplete(),
+        drugsUseFields.isUserSubmitted(stepUrls.drugUseHistory),
+        drugsUseFields.sectionComplete(),
       ].flat(),
-      next: sectionBackground.stepUrls.backgroundSummary,
-      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.drugUseHistoryAllMoreThanSix,
+      url: stepUrls.drugUseHistoryAllMoreThanSix,
       pageHeading: sectionHeading,
       fields: [
         drugsUseFields.drugUseHistory.drugsReasonsForUse,
@@ -168,38 +175,29 @@ const sectionConfig: SectionConfig = {
         drugsUseFields.drugUseHistory.drugsAnythingHelpedStopOrReduceUse,
         drugsUseFields.drugUseHistory.drugsWhatCouldHelpNotUseDrugsInFuture, // This one only displays if any drugs were Used more than 6 months ago
         drugsUseFields.wantToMakeChanges(),
-        drugsUseFields.isUserSubmitted(sectionBackground.stepUrls.drugUseHistoryAllMoreThanSix),
-        drugsUseFields.backgroundSectionComplete(),
-      ].flat(),
-      next: sectionBackground.stepUrls.backgroundSummary,
-      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
-    },
-    {
-      url: sectionBackground.stepUrls.backgroundSummary,
-      pageCaption: 'Drug use',
-      pageHeading: sectionHeading,
-      template: templates.backgroundSummary,
-    },
-    {
-      url: sectionPractitionerAnalysis.stepUrls.analysis,
-      initialStepInSection: true,
-      template: templates.analysis,
-      fields: [
-        drugsUseFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysis),
-        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop,
-        drugsUseFields.practitionerAnalysis(),
-        drugsUseFields.practitionerAnalysisSectionComplete(),
+        drugsUseFields.isUserSubmitted(stepUrls.drugUseHistoryAllMoreThanSix),
         drugsUseFields.sectionComplete(),
       ].flat(),
-      next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
-      sectionProgressRules: [
-        setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
-        setFieldToCompleteWhenValid(section.sectionCompleteField),
-      ],
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
-      template: templates.analysisSummary,
+      url: stepUrls.summary,
+      pageCaption: 'Drug use',
+      pageHeading: sectionHeading,
+      fields: [
+        drugsUseFields.drugUseAnalysis.drugsPractitionerAnalysisMotivatedToStop,
+        drugsUseFields.practitionerAnalysis(),
+        drugsUseFields.isUserSubmitted(stepUrls.summary),
+        drugsUseFields.sectionComplete(),
+      ].flat(),
+      next: `${stepUrls.analysis}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      template: templates.analysisComplete,
     },
   ],
 }

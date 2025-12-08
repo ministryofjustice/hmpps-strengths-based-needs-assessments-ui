@@ -7,7 +7,7 @@ describe('/personal-relationships-children-information', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Personal relationships and community').enterBackgroundSubsection()
+    cy.visitSection('Personal relationships and community')
     cy.assertStepUrlIs(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

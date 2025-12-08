@@ -1,18 +1,14 @@
 import accommodationStatus from './questions/accommodationStatus'
-import sections from '../../../../../app/form/v1_0/config/sections'
 
 describe('/current-accommodation', () => {
   const stepUrl = '/current-accommodation'
-  const summaryPage = `/${sections.accommodation.subsections.background.stepUrls.backgroundSummary}`
+  const summaryPage = '/accommodation-summary'
   const questions = [accommodationStatus]
 
   beforeEach(() => {
-    cy.createAssessment().enterAssessment().enterBackgroundSubsection()
+    cy.createAssessment().enterAssessment()
     cy.assertStepUrlIs(stepUrl)
-  })
-
-  it('Should set the resume URL correctly', () => {
-    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
+    cy.assertResumeUrlIs('Accommodation', stepUrl)
     cy.assertSectionIs('Accommodation')
     cy.assertQuestionCount(1)
     cy.hasAutosaveEnabled()

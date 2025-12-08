@@ -1,5 +1,4 @@
 import { markAsComplete, saveAndContinue } from './commands/assessment'
-import { enterSubsection, enterBackgroundSubsection, enterPractitionerAnalysisSubsection } from './commands/subsections'
 import {
   assertBackLinkIs,
   assertDrugQuestionUrl,
@@ -140,16 +139,11 @@ declare global {
       assertSectionIs(name: string): Chainable
       visitStep(path: string): Chainable
       assertBackLinkIs(path: string): Chainable
-      assertResumeUrlIs(section: string, subsection: string, path: string): Chainable
+      assertResumeUrlIs(section: string, path: string): Chainable
       assertStepUrlIs(path: string): Chainable
       assertStepUrlIsNot(path: string): Chainable
       assertQuestionUrl(question: string): Chainable
       assertDrugQuestionUrl(drug: string, question: string): Chainable
-
-      // subsections
-      enterSubsection(subsectionName: string): Chainable
-      enterBackgroundSubsection(): Chainable
-      enterPractitionerAnalysisSubsection(): Chainable
 
       // option
       isChecked(): Chainable
@@ -236,11 +230,6 @@ Cypress.Commands.add('softDeleteAssessment', softDeleteAssessment)
 
 // Data Privacy Declaration
 Cypress.Commands.add('completePrivacyDeclaration', completePrivacyDeclaration)
-
-// Subsection navigation
-Cypress.Commands.add('enterSubsection', enterSubsection)
-Cypress.Commands.add('enterBackgroundSubsection', enterBackgroundSubsection)
-Cypress.Commands.add('enterPractitionerAnalysisSubsection', enterPractitionerAnalysisSubsection)
 
 // analysis summary
 Cypress.Commands.add('getAnalysisSummary', getAnalysisSummary)

@@ -13,7 +13,7 @@ describe('/drug-details-more-than-six-months-injected', () => {
 
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     drugs.forEach(({ name: drug }) => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
@@ -39,7 +39,7 @@ describe('/drug-details-more-than-six-months-injected', () => {
 
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
+    cy.assertResumeUrlIs('Drug use', stepUrl)
 
     cy.hasSubheading('Not used in the last 6 months', true)
     cy.hasSubheading('Used in the last 6 months', false)
@@ -49,7 +49,7 @@ describe('/drug-details-more-than-six-months-injected', () => {
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     cy.assertStepUrlIs(stepUrl)
   })
 

@@ -37,9 +37,9 @@ describe('Data privacy declaration', () => {
     )
   })
 
-  // Completed assessment will redirect to background summary instead of current accommodation
+  // Completed assessment will redirect to analysis instead of current accommodation
   it('submits the form - redirecting to accommodation-analysis', () => {
-    cy.enterAssessment().enterBackgroundSubsection()
-    cy.url().should('include', '/accommodation-background-summary')
+    cy.enterAssessment()
+    cy.url().should('include', '/accommodation-analysis')
   })
 })

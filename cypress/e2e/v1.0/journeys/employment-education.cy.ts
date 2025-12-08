@@ -7,14 +7,11 @@ describe('Origin: /current-employment', () => {
     retired: '/retired',
     employedBefore: '/employed-before',
     neverEmployed: '/never-employed',
-    backgroundSummary: '/employment-education-summary',
+    summary: '/employment-education-summary',
     analysis: '/employment-education-analysis',
-    analysisSummary: '/employment-education-analysis-summary',
   }
 
   const sectionName = 'Employment and education'
-  const backgroundSubsectionName = 'Employment and education background'
-  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()
@@ -37,11 +34,11 @@ describe('Origin: /current-employment', () => {
           .getRadio(typeOfEmployment)
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.employed)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.employed)
+        cy.assertResumeUrlIs(sectionName, destinations.employed)
       })
     })
 
@@ -50,15 +47,15 @@ describe('Origin: /current-employment', () => {
 
       cy.getQuestion("What is Sam's current employment status?").getRadio('Self-employed').clickLabel()
 
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.employed)
       cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.employed)
+      cy.assertResumeUrlIs(sectionName, destinations.employed)
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.employed)
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
@@ -87,18 +84,13 @@ describe('Origin: /current-employment', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.employed)
+        cy.assertResumeUrlIs(sectionName, destinations.employed)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -108,15 +100,15 @@ describe('Origin: /current-employment', () => {
 
       cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
 
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.retired)
       cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.retired)
+      cy.assertResumeUrlIs(sectionName, destinations.retired)
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.retired)
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
@@ -147,18 +139,13 @@ describe('Origin: /current-employment', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.retired)
+        cy.assertResumeUrlIs(sectionName, destinations.retired)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -181,16 +168,16 @@ describe('Origin: /current-employment', () => {
           .getRadio('Yes, has been employed before')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.employedBefore)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.employedBefore)
+        cy.assertResumeUrlIs(sectionName, destinations.employedBefore)
       })
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.employedBefore)
 
         cy.getQuestion("What is Sam's employment history?").getRadio('Continuous employment history').clickLabel()
@@ -225,18 +212,13 @@ describe('Origin: /current-employment', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.employedBefore)
+        cy.assertResumeUrlIs(sectionName, destinations.employedBefore)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -253,16 +235,16 @@ describe('Origin: /current-employment', () => {
           .getRadio('No, has never been employed')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.neverEmployed)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.neverEmployed)
+        cy.assertResumeUrlIs(sectionName, destinations.neverEmployed)
       })
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.neverEmployed)
 
         cy.getQuestion('Does Sam have any additional day-to-day commitments?').getCheckbox('Other').clickLabel()
@@ -293,18 +275,13 @@ describe('Origin: /current-employment', () => {
           .getRadio('Not applicable')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.neverEmployed)
+        cy.assertResumeUrlIs(sectionName, destinations.neverEmployed)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 })

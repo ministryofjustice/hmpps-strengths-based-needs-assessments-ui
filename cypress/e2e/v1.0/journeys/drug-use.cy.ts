@@ -25,14 +25,11 @@ describe('Origin: /drug-use', () => {
     drugDetailsMoreThanSixInjected: '/drug-details-more-than-six-months-injected',
     drugUseHistory: '/drug-use-history',
     drugUseHistoryAllMoreThanSix: '/drug-use-history-more-than-six-months',
-    backgroundSummary: '/drug-use-summary',
+    summary: '/drug-use-summary',
     analysis: '/drug-use-analysis',
-    analysisSummary: '/drug-use-analysis-summary',
   }
 
   const sectionName = 'Drug use'
-  const backgroundSubsectionName = `${sectionName} background`
-  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()
@@ -61,32 +58,26 @@ describe('Origin: /drug-use', () => {
       .getRadio('I want to make changes but need help')
       .clickLabel()
 
-    cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugUseHistory)
+    cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
     cy.saveAndContinue()
-    cy.assertStepUrlIs(destinations.backgroundSummary)
+    cy.assertStepUrlIs(destinations.summary)
     cy.get('.govuk-back-link').should('not.exist')
-    cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+    cy.assertResumeUrlIs(sectionName, destinations.summary)
   }
 
   describe('No to drug use', () => {
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`No drug use routes to "${destinations.backgroundSummary}"`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`No drug use routes to "${destinations.summary}"`, () => {
         cy.visitStep(destinations.landingPage)
         cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
         cy.get('.govuk-back-link').should('not.exist')
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-        false,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis, false)
     })
   })
 
@@ -95,11 +86,11 @@ describe('Origin: /drug-use', () => {
       it(`"Drug use routes to "${destinations.addDrugs}"`, () => {
         cy.visitStep(destinations.landingPage)
         cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+        cy.assertResumeUrlIs(sectionName, destinations.landingPage)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.addDrugs)
         cy.assertBackLinkIs(destinations.landingPage)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.addDrugs)
+        cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
       })
     })
   })
@@ -126,11 +117,11 @@ describe('Origin: /drug-use', () => {
           .getRadio('Used in the last 6 months')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.addDrugs)
+        cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.drugDetails)
         cy.assertBackLinkIs(destinations.addDrugs)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetails)
+        cy.assertResumeUrlIs(sectionName, destinations.drugDetails)
       })
 
       describe(`Destination: ${destinations.drugUseHistory}`, () => {
@@ -145,28 +136,22 @@ describe('Origin: /drug-use', () => {
             .getConditionalQuestion()
             .enterText('Treatment details')
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetails)
+          cy.assertResumeUrlIs(sectionName, destinations.drugDetails)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugUseHistory)
           cy.assertBackLinkIs(destinations.drugDetails)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugUseHistory)
+          cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
         })
 
-        describe(`Destination: ${destinations.backgroundSummary}`, () => {
-          it(`routes to ${destinations.backgroundSummary}`, () => {
+        describe(`Destination: ${destinations.summary}`, () => {
+          it(`routes to ${destinations.summary}`, () => {
             cy.visitStep(destinations.drugUseHistory)
 
             testDrugUseHistory()
           })
 
           describe(`Test Practitioner Analysis`, () => {
-            testPractitionerAnalysis(
-              sectionName,
-              destinations.backgroundSummary,
-              practitionerAnalysisSubsectionName,
-              destinations.analysisSummary,
-              true,
-            )
+            testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis, true)
           })
         })
       })
@@ -195,11 +180,11 @@ describe('Origin: /drug-use', () => {
           .getRadio('Used in the last 6 months')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.addDrugs)
+        cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.drugDetailsInjected)
         cy.assertBackLinkIs(destinations.addDrugs)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetailsInjected)
+        cy.assertResumeUrlIs(sectionName, destinations.drugDetailsInjected)
       })
 
       describe(`Destination: ${destinations.drugUseHistory}`, () => {
@@ -222,28 +207,22 @@ describe('Origin: /drug-use', () => {
             .getConditionalQuestion()
             .enterText('Treatment details')
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetailsInjected)
+          cy.assertResumeUrlIs(sectionName, destinations.drugDetailsInjected)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugUseHistory)
           cy.assertBackLinkIs(destinations.drugDetailsInjected)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugUseHistory)
+          cy.assertResumeUrlIs(sectionName, destinations.drugUseHistory)
         })
 
-        describe(`Destination: ${destinations.backgroundSummary}`, () => {
-          it(`routes to ${destinations.backgroundSummary}`, () => {
+        describe(`Destination: ${destinations.summary}`, () => {
+          it(`routes to ${destinations.summary}`, () => {
             cy.visitStep(destinations.drugUseHistory)
 
             testDrugUseHistory()
           })
 
           describe(`Test Practitioner Analysis`, () => {
-            testPractitionerAnalysis(
-              sectionName,
-              destinations.backgroundSummary,
-              practitionerAnalysisSubsectionName,
-              destinations.analysisSummary,
-              true,
-            )
+            testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis, true)
           })
         })
       })
@@ -274,11 +253,11 @@ describe('Origin: /drug-use', () => {
           .getRadio('Used more than 6 months ago')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.addDrugs)
+        cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.drugDetailsMoreThanSix)
         cy.assertBackLinkIs(destinations.addDrugs)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetailsMoreThanSix)
+        cy.assertResumeUrlIs(sectionName, destinations.drugDetailsMoreThanSix)
       })
 
       describe(`Destination: ${destinations.drugUseHistoryAllMoreThanSix}`, () => {
@@ -289,15 +268,15 @@ describe('Origin: /drug-use', () => {
 
           cy.getQuestion('Has Sam ever received treatment for their drug use?').getRadio('No').clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetailsMoreThanSix)
+          cy.assertResumeUrlIs(sectionName, destinations.drugDetailsMoreThanSix)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugUseHistoryAllMoreThanSix)
           cy.assertBackLinkIs(destinations.drugDetailsMoreThanSix)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugUseHistoryAllMoreThanSix)
+          cy.assertResumeUrlIs(sectionName, destinations.drugUseHistoryAllMoreThanSix)
         })
 
-        describe(`Destination: ${destinations.backgroundSummary}`, () => {
-          it(`routes to ${destinations.backgroundSummary}`, () => {
+        describe(`Destination: ${destinations.summary}`, () => {
+          it(`routes to ${destinations.summary}`, () => {
             cy.visitStep(destinations.drugUseHistoryAllMoreThanSix)
 
             cy.getQuestion('Why did Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
@@ -322,21 +301,15 @@ describe('Origin: /drug-use', () => {
 
             cy.getQuestion('What could help Sam not use drugs in the future?').enterText('not use in the future')
 
-            cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugUseHistoryAllMoreThanSix)
+            cy.assertResumeUrlIs(sectionName, destinations.drugUseHistoryAllMoreThanSix)
             cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.backgroundSummary)
+            cy.assertStepUrlIs(destinations.summary)
             cy.get('.govuk-back-link').should('not.exist')
-            cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+            cy.assertResumeUrlIs(sectionName, destinations.summary)
           })
 
           describe(`Test Practitioner Analysis`, () => {
-            testPractitionerAnalysis(
-              sectionName,
-              destinations.backgroundSummary,
-              practitionerAnalysisSubsectionName,
-              destinations.analysisSummary,
-              true,
-            )
+            testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis, true)
           })
         })
       })
@@ -371,11 +344,11 @@ describe('Origin: /drug-use', () => {
           .getRadio('Used more than 6 months ago')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.addDrugs)
+        cy.assertResumeUrlIs(sectionName, destinations.addDrugs)
         cy.saveAndContinue()
         cy.assertStepUrlIs(destinations.drugDetailsMoreThanSixInjected)
         cy.assertBackLinkIs(destinations.addDrugs)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetailsMoreThanSixInjected)
+        cy.assertResumeUrlIs(sectionName, destinations.drugDetailsMoreThanSixInjected)
       })
 
       describe(`Destination: ${destinations.drugUseHistoryAllMoreThanSix}`, () => {
@@ -388,15 +361,15 @@ describe('Origin: /drug-use', () => {
 
           cy.getQuestion('Has Sam ever received treatment for their drug use?').getRadio('No').clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugDetailsMoreThanSixInjected)
+          cy.assertResumeUrlIs(sectionName, destinations.drugDetailsMoreThanSixInjected)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.drugUseHistoryAllMoreThanSix)
           cy.assertBackLinkIs(destinations.drugDetailsMoreThanSixInjected)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugUseHistoryAllMoreThanSix)
+          cy.assertResumeUrlIs(sectionName, destinations.drugUseHistoryAllMoreThanSix)
         })
 
-        describe(`Destination: ${destinations.backgroundSummary}`, () => {
-          it(`routes to ${destinations.backgroundSummary}`, () => {
+        describe(`Destination: ${destinations.summary}`, () => {
+          it(`routes to ${destinations.summary}`, () => {
             cy.visitStep(destinations.drugUseHistoryAllMoreThanSix)
 
             cy.getQuestion('Why did Sam use drugs?').getCheckbox('Cultural or religious practice').clickLabel()
@@ -421,21 +394,15 @@ describe('Origin: /drug-use', () => {
               .getRadio('I want to make changes but need help')
               .clickLabel()
 
-            cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.drugUseHistoryAllMoreThanSix)
+            cy.assertResumeUrlIs(sectionName, destinations.drugUseHistoryAllMoreThanSix)
             cy.saveAndContinue()
-            cy.assertStepUrlIs(destinations.backgroundSummary)
+            cy.assertStepUrlIs(destinations.summary)
             cy.get('.govuk-back-link').should('not.exist')
-            cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+            cy.assertResumeUrlIs(sectionName, destinations.summary)
           })
 
           describe(`Test Practitioner Analysis`, () => {
-            testPractitionerAnalysis(
-              sectionName,
-              destinations.backgroundSummary,
-              practitionerAnalysisSubsectionName,
-              destinations.analysisSummary,
-              true,
-            )
+            testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis, true)
           })
         })
       })

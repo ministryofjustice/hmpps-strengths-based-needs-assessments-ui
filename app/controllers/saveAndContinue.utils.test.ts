@@ -121,7 +121,7 @@ describe('saveAndContinue.utils', () => {
     ]
 
     const mockBuildAndFlatten = jest
-      .spyOn(FieldDependencyTreeBuilder.prototype, 'getAllNestedFieldsInSectionFromSteps')
+      .spyOn(FieldDependencyTreeBuilder.prototype, 'buildAndFlatten')
       .mockImplementation(() => mockFlattenedFields)
 
     it('returns expected answersToAdd and answersToRemove', () => {

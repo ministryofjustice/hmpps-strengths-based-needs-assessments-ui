@@ -1,32 +1,15 @@
 {
   "metaData": {
-    "uuid": "8f2cd7ce-37aa-4901-9bf7-d0a9444b39d6",
-    "createdAt": "2025-10-08T15:28:57.292065",
-    "versionUuid": "c088a8d8-3257-4ecb-85f6-27d36c7030fb",
+    "uuid": "071f0990-e12b-4b0c-933d-34e096ff06b6",
+    "createdAt": "2025-06-22T19:27:54.591838",
+    "versionUuid": "02b35a3b-b029-4587-ac6d-95e887805c24",
     "versionNumber": 0,
-    "versionCreatedAt": "2025-10-08T15:28:57.292427",
-    "versionUpdatedAt": "2025-10-08T15:30:09.038148",
+    "versionCreatedAt": "2025-06-22T19:27:54.59201",
+    "versionUpdatedAt": "2025-06-22T19:28:28.11984",
     "versionTag": "UNSIGNED",
     "formVersion": "1.0"
   },
   "assessment": {
-    "pathway": {
-      "type": "RADIO",
-      "description": "",
-      "options": [
-        {
-          "value": "COMMUNITY",
-          "text": "COMMUNITY"
-        },
-        {
-          "value": "PRISON",
-          "text": "PRISON"
-        }
-      ],
-      "value": "COMMUNITY",
-      "values": null,
-      "collection": null
-    },
     "drug_use": {
       "type": "RADIO",
       "description": "Has [subject] ever misused drugs?",
@@ -1201,23 +1184,6 @@
       "values": null,
       "collection": null
     },
-    "finance_background_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Finances background section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "offence_analysis_who_was_the_victim": {
       "type": "CHECKBOX",
       "description": "Who was the offence committed against?",
@@ -1235,23 +1201,6 @@
       "values": [
         "OTHER"
       ],
-      "collection": null
-    },
-    "drug_use_background_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Drug use background section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
       "collection": null
     },
     "finance_money_management_bad_details": {
@@ -1413,23 +1362,6 @@
       "description": "What are the patterns of offending?",
       "options": null,
       "value": "¯&#x5C;_(ツ)_&#x2F;¯",
-      "values": null,
-      "collection": null
-    },
-    "alcohol_use_background_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Alcohol use background section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -1595,9 +1527,9 @@
       "values": null,
       "collection": null
     },
-    "accommodation_background_section_complete": {
+    "finance_is_finance_summary_user_submitted": {
       "type": "RADIO",
-      "description": "Is the Accommodation background section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -1647,23 +1579,6 @@
         }
       ],
       "value": "UNSURE_SUPERVISION",
-      "values": null,
-      "collection": null
-    },
-    "finance_is_finance_analysis_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -1738,6 +1653,23 @@
       "values": null,
       "collection": null
     },
+    "drug_use_is_drug_use_summary_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
     "thinking_behaviours_attitudes_peer_pressure": {
       "type": "RADIO",
       "description": "Is [subject] resilient towards peer pressure or influence by criminal associates?",
@@ -1780,40 +1712,6 @@
       "values": null,
       "collection": null
     },
-    "drug_use_is_drug_use_analysis_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
-    "health_wellbeing_background_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Health and wellbeing background section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "offence_analysis_impact_on_victims_no_details": {
       "type": "TEXT_AREA",
       "description": "Give details (optional)",
@@ -1846,23 +1744,6 @@
     "employment_education_is_retired_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
-    "finance_practitioner_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Finances practitioner analysis section complete?",
       "options": [
         {
           "value": "YES",
@@ -1949,23 +1830,6 @@
       "values": null,
       "collection": null
     },
-    "drug_use_practitioner_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Drug use practitioner analysis section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "thinking_behaviours_attitudes_positive_attitude": {
       "type": "RADIO",
       "description": "Does [subject] have a positive attitude towards any criminal justice staff they have come into contact with?",
@@ -2008,23 +1872,6 @@
       "values": null,
       "collection": null
     },
-    "employment_education_background_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Employment and education background section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "thinking_behaviours_attitudes_criminal_behaviour": {
       "type": "RADIO",
       "description": "Does [subject] support or excuse criminal behaviour?",
@@ -2043,6 +1890,23 @@
         }
       ],
       "value": "SOMETIMES",
+      "values": null,
+      "collection": null
+    },
+    "alcohol_use_is_alcohol_use_summary_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -2200,40 +2064,6 @@
       "values": null,
       "collection": null
     },
-    "alcohol_use_is_alcohol_use_analysis_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
-    "alcohol_use_practitioner_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Alcohol use practitioner analysis section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "drug_use_practitioner_analysis_risk_of_reoffending": {
       "type": "RADIO",
       "description": "Is [subject]'s drug use linked to risk of reoffending?",
@@ -2361,23 +2191,6 @@
       "values": null,
       "collection": null
     },
-    "accommodation_practitioner_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Accommodation practitioner analysis section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "personal_relationships_community_childhood_behaviour": {
       "type": "RADIO",
       "description": "Did [subject] have any childhood behavioural problems?",
@@ -2417,6 +2230,23 @@
         }
       ],
       "value": "UNKNOWN",
+      "values": null,
+      "collection": null
+    },
+    "accommodation_is_accommodation_summary_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -2492,23 +2322,6 @@
       "values": null,
       "collection": null
     },
-    "accommodation_is_accommodation_analysis_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "alcohol_use_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
       "description": "Is [subject]'s alcohol use linked to risk of serious harm?",
@@ -2581,23 +2394,6 @@
       "values": null,
       "collection": null
     },
-    "health_wellbeing_practitioner_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Health and wellbeing practitioner analysis section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "accommodation_practitioner_analysis_risk_of_serious_harm": {
       "type": "RADIO",
       "description": "Is [subject]'s accommodation linked to risk of serious harm?",
@@ -2626,23 +2422,6 @@
     "employment_education_is_current_employment_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
-    "thinking_behaviours_attitudes_background_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Thinking, behaviours and attitudes background section complete?",
       "options": [
         {
           "value": "YES",
@@ -2691,9 +2470,9 @@
       "values": null,
       "collection": null
     },
-    "employment_education_practitioner_analysis_section_complete": {
+    "health_wellbeing_is_health_wellbeing_summary_user_submitted": {
       "type": "RADIO",
-      "description": "Is the Employment and education practitioner analysis section complete?",
+      "description": "Has the user submitted the page?",
       "options": [
         {
           "value": "YES",
@@ -2733,43 +2512,9 @@
       "values": null,
       "collection": null
     },
-    "health_wellbeing_is_health_wellbeing_analysis_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
     "health_wellbeing_is_no_physical_mental_health_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
-    "personal_relationships_community_background_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Personal relationships and community background section complete?",
       "options": [
         {
           "value": "YES",
@@ -3008,7 +2753,7 @@
       "values": null,
       "collection": null
     },
-    "employment_education_is_employment_education_analysis_user_submitted": {
+    "employment_education_is_employment_education_summary_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
       "options": [
@@ -3028,23 +2773,6 @@
     "offence_analysis_is_offence_analysis_involved_parties_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
-    "thinking_behaviours_attitudes_practitioner_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Thinking, behaviours and attitudes practitioner analysis section complete?",
       "options": [
         {
           "value": "YES",
@@ -3097,23 +2825,6 @@
         }
       ],
       "value": "NO",
-      "values": null,
-      "collection": null
-    },
-    "personal_relationships_community_practitioner_analysis_section_complete": {
-      "type": "RADIO",
-      "description": "Is the Personal relationships and community practitioner analysis section complete?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
       "values": null,
       "collection": null
     },
@@ -3374,6 +3085,23 @@
       "values": null,
       "collection": null
     },
+    "thinking_behaviours_attitudes_is_thinking_behaviours_attitudes_summary_user_submitted": {
+      "type": "RADIO",
+      "description": "Has the user submitted the page?",
+      "options": [
+        {
+          "value": "YES",
+          "text": "Yes"
+        },
+        {
+          "value": "NO",
+          "text": "No"
+        }
+      ],
+      "value": "YES",
+      "values": null,
+      "collection": null
+    },
     "personal_relationships_community_practitioner_analysis_risk_of_serious_harm_no_details": {
       "type": "TEXT_AREA",
       "description": "Give details (optional)",
@@ -3399,24 +3127,7 @@
       "values": null,
       "collection": null
     },
-    "thinking_behaviours_attitudes_is_thinking_behaviours_attitudes_analysis_user_submitted": {
-      "type": "RADIO",
-      "description": "Has the user submitted the page?",
-      "options": [
-        {
-          "value": "YES",
-          "text": "Yes"
-        },
-        {
-          "value": "NO",
-          "text": "No"
-        }
-      ],
-      "value": "YES",
-      "values": null,
-      "collection": null
-    },
-    "personal_relationships_community_is_personal_relationships_community_analysis_user_submitted": {
+    "personal_relationships_community_is_personal_relationships_community_summary_user_submitted": {
       "type": "RADIO",
       "description": "Has the user submitted the page?",
       "options": [

@@ -46,7 +46,7 @@ describe('/offence-analysis-impact', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Offence analysis', '', stepUrl)
+    cy.assertResumeUrlIs('Offence analysis', stepUrl)
 
     cy.captureAssessment()
   })

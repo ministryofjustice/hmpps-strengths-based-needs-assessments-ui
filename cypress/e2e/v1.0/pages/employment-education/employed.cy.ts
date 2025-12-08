@@ -27,7 +27,7 @@ describe('/employed', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Employment and education').enterBackgroundSubsection()
+    cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Employed').clickLabel()
     cy.getQuestion("What is Sam's current employment status?")
       .getRadio('Employed')
@@ -36,13 +36,13 @@ describe('/employed', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Employment and education', 'Employment and education background', stepUrl)
+    cy.assertResumeUrlIs('Employment and education', stepUrl)
     cy.captureAssessment()
   })
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Employment and education').enterBackgroundSubsection()
+    cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

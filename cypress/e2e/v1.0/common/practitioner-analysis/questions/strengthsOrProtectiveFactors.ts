@@ -1,6 +1,6 @@
 import config from '../../../../../support/config'
 
-export default (analysisPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
+export default (summaryPage: string, analysisCompletePage: string, positionNumber: number, sectionName: string) => {
   const question = `Are there any strengths or protective factors related to Sam's ${sectionName}?`
   const summaryQuestion = question
 
@@ -13,7 +13,7 @@ export default (analysisPage: string, analysisCompletePage: string, positionNumb
         .hasHint('Include any strategies, people or support networks that helped.')
         .hasRadios(options)
       cy.markAsComplete()
-      cy.assertStepUrlIs(analysisPage)
+      cy.assertStepUrlIs(summaryPage)
       cy.getQuestion(question).hasValidationError('Select if there are any strengths or protective factors')
       cy.checkAccessibility()
     })
@@ -29,10 +29,11 @@ export default (analysisPage: string, analysisCompletePage: string, positionNumb
         .hasLimit(config.characterLimit.c1425)
         .hasNoValidationError()
       cy.visitStep(analysisCompletePage)
+      cy.get('#tab_practitioner-analysis').click()
       cy.getAnalysisSummary(summaryQuestion).getAnalysisAnswer('No').hasNoSecondaryAnswer()
       cy.checkAccessibility()
       cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
-      cy.assertStepUrlIs(analysisPage)
+      cy.assertStepUrlIs(summaryPage)
     })
 
     it('"Give details" is required when selecting "Yes"', () => {
@@ -55,12 +56,13 @@ export default (analysisPage: string, analysisCompletePage: string, positionNumb
         .hasTitle('Give details')
         .hasNoValidationError()
       cy.visitStep(analysisCompletePage)
+      cy.get('#tab_practitioner-analysis').click()
       cy.getAnalysisSummary(summaryQuestion)
         .getAnalysisAnswer('Yes')
         .hasSecondaryAnalysisAnswer('some  details', '  new line<script>')
       cy.checkAccessibility()
       cy.getAnalysisSummary(summaryQuestion).clickChangeAnalysis()
-      cy.assertStepUrlIs(analysisPage)
+      cy.assertStepUrlIs(summaryPage)
       cy.getQuestion(question)
         .getRadio('Yes')
         .isChecked()

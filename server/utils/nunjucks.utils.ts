@@ -30,6 +30,19 @@ export const outdent = (str: string, count: number) =>
     .map(it => (it.startsWith(' '.repeat(count)) ? it.substring(count) : it))
     .join('\n')
 
+export const practitionerAnalysisStarted = (
+  options: FormWizard.FormOptions,
+  answers: Record<string, string | string[]>,
+) =>
+  Object.values(options.steps)
+    .filter(step => step.section === options.section)
+    .flatMap(step => Object.values(step.fields || {}).map(field => field.code))
+    .filter(
+      (fieldCode, index, self) =>
+        fieldCode.match(/^.*_practitioner_analysis_.*$/gi) && self.indexOf(fieldCode) === index,
+    )
+    .some(fieldCode => answers[fieldCode])
+
 export const getMaxCharacterCount = (field: FormWizard.Field) =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   field.validate?.find(rule => (<any>rule).type === 'validateMaxLength')?.arguments[0] || characterLimits.default
@@ -39,21 +52,3 @@ export const setProp = (obj: any, prop: string, value: any) => ({ ...obj, [prop]
 
 export const display = (answer: FieldAnswer): string =>
   answer.html ? answer.html : answer.text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2')
-
-// Helper function to handle circular references
-export const safeStringify = (obj: never) => {
-  const seen = new WeakSet()
-  return JSON.stringify(
-    obj,
-    (key, value) => {
-      if (typeof value === 'object' && value !== null) {
-        if (seen.has(value)) {
-          return '[Circular Reference]'
-        }
-        seen.add(value)
-      }
-      return value
-    },
-    2,
-  )
-}
