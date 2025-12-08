@@ -28,21 +28,6 @@ export default function setUpAuth(): Router {
     })(req, res, next),
   )
 
-  router.get(
-    '/view-previous-version/:assessmentVersion',
-    (req, res, next) => {
-      req.session.previousVersionsRedirect = `/view-historical-versions/${req.params.assessmentVersion}`
-      req.session.save(next)
-    },
-    passport.authenticate('oauth2', {
-      failureRedirect: '/autherror',
-    }),
-    (req, res) => {
-      const { assessmentVersion } = req.params
-      res.redirect(`/view-historical-versions/${assessmentVersion}`)
-    },
-  )
-
   const authUrl = config.apis.arnsHandover.url
   const authParameters = `client_id=${config.apis.arnsHandover.clientId}&redirect_uri=${config.domain}`
 

@@ -16,7 +16,7 @@ export default function routes(): Router {
   router.use(App.errorHandler)
   router.use('/config', app.formConfigRouter)
   router.use('/start', startController) // viewing or editing the latest version
-  router.use('/view-historical-versions/:assessmentVersionId', viewHistoricalVersions) // for viewing previous versions
+  router.use('/form/view-historic/:assessmentVersion/accommodation-tasks', viewHistoricalVersions) // for viewing previous versions
 
   get('/', (req, res, next) => {
     res.render('pages/index')
