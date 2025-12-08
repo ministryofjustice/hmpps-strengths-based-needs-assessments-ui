@@ -50,7 +50,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the employment and education section', () => {
@@ -82,7 +82,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the finance section', () => {
@@ -100,7 +100,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the drug section', () => {
@@ -111,7 +111,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the alcohol section', () => {
@@ -122,7 +122,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the health and wellbeing section', () => {
@@ -152,7 +152,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the personal relationships and community section', () => {
@@ -185,7 +185,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the thinking, behaviours and attitudes section', () => {
@@ -247,7 +247,7 @@ describe('Generate fixture for complete assessment', () => {
     cy.saveAndContinue()
 
     completePractitionerAnalysisFor(section)
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 
   it('completes the offence analysis section', () => {
@@ -295,6 +295,6 @@ describe('Generate fixture for complete assessment', () => {
     cy.getQuestion('Is there evidence that Sam has ever been a victim of domestic abuse?').getRadio('No').clickLabel()
     cy.markAsComplete()
 
-    cy.sectionHasCompletionBlueTick(section)
+    cy.sectionMarkedAsComplete(section)
   })
 })

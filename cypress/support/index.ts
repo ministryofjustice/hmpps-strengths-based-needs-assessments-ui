@@ -26,13 +26,13 @@ import {
   assertQuestionCount,
   assessmentMarkedAsComplete,
   assessmentNotMarkedAsComplete,
-  sectionHasCompleteTagAndBlueTick,
-  sectionCompleteTagIsIncompleteAndNoBlueTick,
+  currentSectionMarkedAsComplete,
+  currentSectionNotMarkedAsComplete,
   hasAutosaveEnabled,
   hasFeedbackLink,
   hasSubheading,
-  sectionHasCompletionBlueTick,
-  sectionDoesNotHaveCompletionBlueTick,
+  sectionMarkedAsComplete,
+  sectionNotMarkedAsComplete,
 } from './commands/page'
 import {
   completePrivacyDeclaration,
@@ -159,10 +159,10 @@ declare global {
 
       // page
       assertQuestionCount(count: number): Chainable
-      sectionHasCompleteTagAndBlueTick(section: string): Chainable
-      sectionCompleteTagIsIncompleteAndNoBlueTick(section: string): Chainable
-      sectionHasCompletionBlueTick(section: string): Chainable
-      sectionDoesNotHaveCompletionBlueTick(section: string): Chainable
+      sectionMarkedAsComplete(section: string): Chainable
+      sectionNotMarkedAsComplete(section: string): Chainable
+      currentSectionMarkedAsComplete(section: string): Chainable
+      currentSectionNotMarkedAsComplete(section: string): Chainable
       assessmentMarkedAsComplete(): Chainable
       assessmentNotMarkedAsComplete(): Chainable
       hasAutosaveEnabled(): Chainable
@@ -271,10 +271,10 @@ Cypress.Commands.add('getNthConditionalQuestion', { prevSubject: true }, getNthC
 
 // page
 Cypress.Commands.add('assertQuestionCount', assertQuestionCount)
-Cypress.Commands.add('sectionHasCompletionBlueTick', sectionHasCompletionBlueTick)
-Cypress.Commands.add('sectionDoesNotHaveCompletionBlueTick', sectionDoesNotHaveCompletionBlueTick)
-Cypress.Commands.add('sectionHasCompleteTagAndBlueTick', sectionHasCompleteTagAndBlueTick)
-Cypress.Commands.add('sectionCompleteTagIsIncompleteAndNoBlueTick', sectionCompleteTagIsIncompleteAndNoBlueTick)
+Cypress.Commands.add('sectionMarkedAsComplete', sectionMarkedAsComplete)
+Cypress.Commands.add('sectionNotMarkedAsComplete', sectionNotMarkedAsComplete)
+Cypress.Commands.add('currentSectionMarkedAsComplete', currentSectionMarkedAsComplete)
+Cypress.Commands.add('currentSectionNotMarkedAsComplete', currentSectionNotMarkedAsComplete)
 Cypress.Commands.add('assessmentMarkedAsComplete', assessmentMarkedAsComplete)
 Cypress.Commands.add('assessmentNotMarkedAsComplete', assessmentNotMarkedAsComplete)
 Cypress.Commands.add('hasAutosaveEnabled', hasAutosaveEnabled)
