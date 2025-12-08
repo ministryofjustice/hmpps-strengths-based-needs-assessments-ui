@@ -1,9 +1,4 @@
-import {
-  backgroundSubsectionName,
-  completePractitionerAnalysisBeforeBackground,
-  practitionerAnalysisSubsectionName,
-  testPractitionerAnalysis,
-} from './common'
+import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
 
 describe('Origin: /current-employment', () => {
   const destinations = {
@@ -26,8 +21,6 @@ describe('Origin: /current-employment', () => {
   beforeEach(() => {
     cy.enterAssessment()
   })
-
-  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe(`Destination: ${destinations.employed}`, () => {
     Array.of('Full-time', 'Part-time', 'Temporary or casual', 'Apprenticeship').forEach(typeOfEmployment => {

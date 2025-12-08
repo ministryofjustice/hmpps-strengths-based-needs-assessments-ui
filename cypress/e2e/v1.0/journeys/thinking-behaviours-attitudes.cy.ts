@@ -1,4 +1,4 @@
-import { backgroundSubsectionName, completePractitionerAnalysisBeforeBackground } from './common'
+import { backgroundSubsectionName } from './common'
 
 describe(`Origin: /thinking-behaviours-attitudes`, () => {
   const destinations = {
@@ -19,8 +19,6 @@ describe(`Origin: /thinking-behaviours-attitudes`, () => {
   beforeEach(() => {
     cy.enterAssessment()
   })
-
-  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe(`Destination: ${destinations.riskOfSexualHarm}`, () => {
     it(`routes to "${destinations.riskOfSexualHarm}"`, () => {
