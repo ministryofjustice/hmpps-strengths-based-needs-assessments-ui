@@ -8,7 +8,6 @@ import reasonsForUse from './questions/alcohol-reasons-for-use'
 import stoppedOrReducedAlcohol from './questions/alcohol-stopped-or-reduced'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 import sections from '../../../../../app/form/v1_0/config/sections'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/alcohol-use-last-three-months', () => {
   const stepUrl = '/alcohol-use-last-three-months'
@@ -31,7 +30,7 @@ describe('/alcohol-use-last-three-months', () => {
     cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, including the last 3 months').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Alcohol use', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Alcohol use', 'Alcohol use background', stepUrl)
     cy.captureAssessment()
   })
 

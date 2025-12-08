@@ -5,7 +5,6 @@ import employmentHistory from './questions/employmentHistory'
 import otherResponsibilities from './questions/otherResponsibilities'
 import levelOfEducation from './questions/levelOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/retired', () => {
   const stepUrl = '/retired'
@@ -26,7 +25,7 @@ describe('/retired', () => {
     cy.getQuestion("What is Sam's current employment status?").getRadio('Retired').clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Employment and education', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Employment and education', 'Employment and education background', stepUrl)
     cy.captureAssessment()
   })
 

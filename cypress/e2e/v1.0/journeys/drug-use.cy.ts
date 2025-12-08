@@ -1,4 +1,4 @@
-import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
+import { testPractitionerAnalysis } from './common'
 
 /**
  * "Drug use" has a number of unique routes defined in app/form/v1_0/steps/drug-use.ts
@@ -31,6 +31,8 @@ describe('Origin: /drug-use', () => {
   }
 
   const sectionName = 'Drug use'
+  const backgroundSubsectionName = `${sectionName} background`
+  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()

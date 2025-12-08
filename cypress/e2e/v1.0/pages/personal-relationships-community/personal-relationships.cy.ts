@@ -1,5 +1,4 @@
 import theImportantPeople from './questions/theImportantPeople'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/personal-relationships', () => {
   const stepUrl = '/personal-relationships'
@@ -14,7 +13,11 @@ describe('/personal-relationships', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Personal relationships and community', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs(
+      'Personal relationships and community',
+      'Personal relationships and community background',
+      stepUrl,
+    )
     cy.captureAssessment()
   })
 

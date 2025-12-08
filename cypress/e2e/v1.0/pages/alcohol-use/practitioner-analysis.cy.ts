@@ -1,6 +1,5 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 import sections from '../../../../../app/form/v1_0/config/sections'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 const summaryPage = `/${sections.alcohol.subsections.background.stepUrls.backgroundSummary}`
 const analysisPage = `/${sections.alcohol.subsections.practitionerAnalysis.stepUrls.analysis}`
@@ -13,7 +12,7 @@ before(() => {
   cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('No').clickLabel()
   cy.saveAndContinue()
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Alcohol use', backgroundSubsectionName, summaryPage)
+  cy.assertResumeUrlIs('Alcohol use', 'Alcohol use background', summaryPage)
 
   cy.captureAssessment()
 })

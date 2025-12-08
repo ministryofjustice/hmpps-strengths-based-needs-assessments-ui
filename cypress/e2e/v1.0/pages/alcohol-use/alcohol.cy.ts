@@ -1,6 +1,5 @@
 import alcoholUse from './questions/alcohol-use'
 import sections from '../../../../../app/form/v1_0/config/sections'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/alcohol', () => {
   const stepUrl = '/alcohol'
@@ -14,7 +13,7 @@ describe('/alcohol', () => {
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Alcohol use', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Alcohol use', 'Alcohol use background', stepUrl)
   })
 
   questions.forEach((questionTest, index) => {

@@ -4,7 +4,6 @@ import financeSource from './questions/financeSource'
 import gambling from './questions/gambling'
 import managingMoney from './questions/managingMoney'
 import wantToMakeChanges from './questions/wantToMakeChanges'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/finance', () => {
   const stepUrl = '/finance'
@@ -15,7 +14,7 @@ describe('/finance', () => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Finances').enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Finances', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Finances', 'Finances background', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

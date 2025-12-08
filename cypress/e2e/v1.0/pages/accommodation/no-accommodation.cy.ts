@@ -3,7 +3,6 @@ import pastAccommodationDetails from './questions/pastAccommodationDetails'
 import suitableAccommodationPlanned from './questions/suitableAccommodationPlanned'
 import wantToMakeChanges from './questions/wantToMakeChanges'
 import sections from '../../../../../app/form/v1_0/config/sections'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/no-accommodation', () => {
   const stepUrl = '/no-accommodation'
@@ -24,7 +23,7 @@ describe('/no-accommodation', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Accommodation', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
 
     cy.captureAssessment()
   })
