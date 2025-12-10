@@ -14,7 +14,7 @@ import sections from '../form/v1_0/config/sections'
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 
 const editModeLandingPage = 'close-any-other-applications-before-appointment'
-const readOnlyModeLandingPage = 'accommodation-tasks'
+const readOnlyModeLandingPage = 'accommodation-analysis'
 
 const startController = async (req: Request, res: Response, next: NextFunction) => {
   try {
