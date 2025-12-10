@@ -5,7 +5,6 @@ import otherResponsibilities from './questions/otherResponsibilities'
 import levelOfEducation from './questions/levelOfEducation'
 import experienceOfEducation from './questions/experienceOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/never-employed', () => {
   const stepUrl = '/never-employed'
@@ -22,7 +21,7 @@ describe('/never-employed', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Employment and education').enterBackgroundSubsection()
+    cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Currently unavailable for work').clickLabel()
     cy.getQuestion("What is Sam's current employment status?")
       .getRadio('Currently unavailable for work')
@@ -31,7 +30,7 @@ describe('/never-employed', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Employment and education', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Employment and education', stepUrl)
     cy.captureAssessment()
   })
 

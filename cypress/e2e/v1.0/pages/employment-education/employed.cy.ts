@@ -8,7 +8,6 @@ import levelOfEducation from './questions/levelOfEducation'
 import experienceOfEmployment from './questions/experienceOfEmployment'
 import experienceOfEducation from './questions/experienceOfEducation'
 import wantToMakeChanges from './questions/wantToMakeChanges'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/employed', () => {
   const stepUrl = '/employed'
@@ -28,7 +27,7 @@ describe('/employed', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Employment and education').enterBackgroundSubsection()
+    cy.visitSection('Employment and education')
     cy.getQuestion("What is Sam's current employment status?").getRadio('Employed').clickLabel()
     cy.getQuestion("What is Sam's current employment status?")
       .getRadio('Employed')
@@ -37,13 +36,13 @@ describe('/employed', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Employment and education', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Employment and education', stepUrl)
     cy.captureAssessment()
   })
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Employment and education').enterBackgroundSubsection()
+    cy.visitStep(stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
