@@ -6,7 +6,7 @@ describe('view-historic mode from previous versions page', () => {
       .should('contain.text', 'View previous versions')
       .click()
     cy.get('tbody tr').should('have.length', 2)
-    cy.get('tbody tr').eq(0).find('a').as('view-link')
+    cy.get('tbody tr').eq(0).find('td').eq(1).find('a').first().as('view-link')
     cy.get('@view-link').invoke('attr', 'target', '_self').click()
 
     const today = new Date()
