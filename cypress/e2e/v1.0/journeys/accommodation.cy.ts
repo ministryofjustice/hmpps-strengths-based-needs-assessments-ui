@@ -1,4 +1,4 @@
-import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
+import { testPractitionerAnalysis } from './common'
 
 describe('Origin: /current-accommodation', () => {
   const destinations = {
@@ -13,6 +13,8 @@ describe('Origin: /current-accommodation', () => {
   }
 
   const sectionName = 'Accommodation'
+  const backgroundSubsectionName = 'Accommodation background'
+  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()
@@ -25,6 +27,7 @@ describe('Origin: /current-accommodation', () => {
   describe(`Destination: ${destinations.settled}`, () => {
     const typeOfAccommodation = 'Settled'
 
+    // TODO uncomment the below - just commented out to run faster locally for now.
     Array.of(
       'Homeowner',
       'Living with friends or family',

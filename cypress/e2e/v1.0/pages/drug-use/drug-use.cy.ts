@@ -1,6 +1,5 @@
 import everMisusedDrugs from './questions/everMisusedDrugs'
 import sections from '../../../../../app/form/v1_0/config/sections'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/drug-use', () => {
   const stepUrl = '/drug-use'
@@ -11,7 +10,7 @@ describe('/drug-use', () => {
     cy.createAssessment().enterAssessment()
     cy.visitSection('Drug use').enterBackgroundSubsection()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

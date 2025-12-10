@@ -1,6 +1,5 @@
 import testPractitionerAnalysis from '../../common/practitioner-analysis/testPractitionerAnalysis'
 import sections from '../../../../../app/form/v1_0/config/sections'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 const summaryPage = `/${sections.personalRelationships.subsections.background.stepUrls.backgroundSummary}`
 const analysisPage = `/${sections.personalRelationships.subsections.practitionerAnalysis.stepUrls.analysis}`
@@ -34,7 +33,7 @@ before(() => {
   cy.saveAndContinue()
 
   cy.assertStepUrlIs(summaryPage)
-  cy.assertResumeUrlIs('Personal relationships and community', backgroundSubsectionName, summaryPage)
+  cy.assertResumeUrlIs('Personal relationships and community', 'Personal relationships and community', summaryPage)
 
   cy.captureAssessment()
 })
