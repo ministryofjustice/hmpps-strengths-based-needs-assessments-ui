@@ -16,13 +16,14 @@ describe('read-only mode', () => {
       .getConditionalQuestion()
       .enterText('This is the latest version')
     cy.saveAndContinue()
-    cy.sectionMarkedAsComplete('Finance')
+    cy.sectionNotMarkedAsComplete('Finance')
   })
 
   it('latest assessment version is accessed in read-only mode', () => {
     cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
     cy.get('.offender-details__top [data-previous-versions-link]').should('contain.text', 'View previous versions')
-    cy.visitSection('Finance').enterBackgroundSubsection()
+    cy.sectionNotMarkedAsComplete('Finance')
+    cy.visitSection('Finance')
     cy.getSummary('Does Sam want to make changes to their finances?')
       .getAnswer('I am actively making changes')
       .hasSecondaryAnswer('This is the latest version')
@@ -31,7 +32,7 @@ describe('read-only mode', () => {
   it('previous assessment version is accessed in read-only mode', () => {
     cy.enterAssessment(AccessMode.READ_ONLY, { assessmentVersion: 0 }, false)
     cy.sectionMarkedAsComplete('Finance')
-    cy.visitSection('Finance').enterBackgroundSubsection()
+    cy.visitSection('Finance')
     cy.get('html').contains('This is the latest version').should('not.exist')
     cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
@@ -40,18 +41,18 @@ describe('read-only mode', () => {
     cy.enterAssessment()
     cy.sectionMarkedAsComplete('Drug use')
 
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     cy.getSummary('Has Sam ever misused drugs?').clickChange()
     cy.getQuestion('Has Sam ever misused drugs?').getRadio('Yes').clickLabel()
     cy.saveAndContinue()
 
     cy.sectionNotMarkedAsComplete('Drug use')
-    cy.assertResumeUrlIs('Drug use', 'Drug use background', '/add-drugs')
+    cy.assertResumeUrlIs('Drug use', '/add-drugs')
 
     cy.enterAssessment(AccessMode.READ_ONLY, {}, false)
     cy.sectionNotMarkedAsComplete('Drug use')
-    cy.visitSection('Drug use').enterPractitionerAnalysisSubsection()
-    cy.assertStepUrlIs('/drug-use-analysis-summary')
+    cy.visitSection('Drug use')
+    cy.assertStepUrlIs('/drug-use-analysis')
     cy.contains('.govuk-button', 'Return to OASys').should('be.visible')
   })
 
@@ -65,7 +66,7 @@ describe('read-only mode', () => {
         cy.enterAssessment(accessMode, {}, false)
       }
       cy.sectionMarkedAsComplete('Finance')
-      cy.visitSection('Finance').enterBackgroundSubsection()
+      cy.visitSection('Finance')
       cy.get('html').contains('This is the latest version').should('not.exist')
     })
   })

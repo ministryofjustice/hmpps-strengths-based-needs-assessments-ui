@@ -3,11 +3,10 @@ import suitableAccommodation from './questions/suitableAccommodation'
 import suitableAccommodationLocation from './questions/suitableAccommodationLocation'
 import suitableAccommodationPlanned from './questions/suitableAccommodationPlanned'
 import wantToMakeChanges from './questions/wantToMakeChanges'
-import sections from '../../../../../app/form/v1_0/config/sections'
 
 describe('/temporary-accommodation', () => {
   const stepUrl = '/temporary-accommodation'
-  const summaryPage = `/${sections.accommodation.subsections.background.stepUrls.backgroundSummary}`
+  const summaryPage = '/accommodation-summary'
   const questions = [
     livingWith,
     suitableAccommodationLocation,
@@ -17,7 +16,7 @@ describe('/temporary-accommodation', () => {
   ]
 
   before(() => {
-    cy.createAssessment().enterAssessment().enterBackgroundSubsection()
+    cy.createAssessment().enterAssessment()
     cy.assertSectionIs('Accommodation')
 
     cy.getQuestion('What type of accommodation does Sam currently have?').getRadio('Temporary').clickLabel()
@@ -30,7 +29,7 @@ describe('/temporary-accommodation', () => {
 
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Accommodation', 'Accommodation background', stepUrl)
+    cy.assertResumeUrlIs('Accommodation', stepUrl)
 
     cy.captureAssessment()
   })

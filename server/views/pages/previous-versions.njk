@@ -34,7 +34,7 @@
           {% set tableRows = [] %}
           {% for version in previousVersions %}
             {% set assessmentVersionLink %}
-              <a href="/form/view-historic/{{ version.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
+              <a href="/form/view-historic/{{ version.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
             {% endset %}
 
             {% set row = [

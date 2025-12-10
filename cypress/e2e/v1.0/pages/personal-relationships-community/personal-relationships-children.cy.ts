@@ -25,7 +25,7 @@ describe('/personal-relationships-children', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Personal relationships and community').enterBackgroundSubsection()
+    cy.visitSection('Personal relationships and community')
     cy.getQuestion("Are there any children in Sam's life?")
       .getCheckbox("No, there are no children in Sam's life")
       .clickLabel()
@@ -35,11 +35,7 @@ describe('/personal-relationships-children', () => {
       .clickLabel()
     cy.saveAndContinue()
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs(
-      'Personal relationships and community',
-      'Personal relationships and community background',
-      stepUrl,
-    )
+    cy.assertResumeUrlIs('Personal relationships and community', stepUrl)
     cy.captureAssessment()
   })
 

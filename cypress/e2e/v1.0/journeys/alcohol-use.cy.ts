@@ -5,14 +5,11 @@ describe('Origin: /alcohol', () => {
     landingPage: '/alcohol',
     alcoholUseLastThreeMonths: '/alcohol-use-last-three-months',
     alcoholUseLessThreeMonths: '/alcohol-use-less-three-months',
-    backgroundSummary: '/alcohol-use-background-summary',
+    summary: '/alcohol-use-summary',
     analysis: '/alcohol-use-analysis',
-    analysisSummary: '/alcohol-use-analysis-summary',
   }
 
   const sectionName = 'Alcohol use'
-  const backgroundSubsectionName = 'Alcohol use background'
-  const practitionerAnalysisSubsectionName = 'Practitioner analysis'
 
   before(() => {
     cy.createAssessment()
@@ -22,37 +19,32 @@ describe('Origin: /alcohol', () => {
     cy.enterAssessment()
   })
 
-  describe(`Destination: ${destinations.backgroundSummary}`, () => {
-    it(`No alcohol use routes to "${destinations.backgroundSummary}"`, () => {
+  describe(`Destination: ${destinations.summary}`, () => {
+    it(`No alcohol use routes to "${destinations.summary}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('No').clickLabel()
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
-      cy.assertStepUrlIs(destinations.backgroundSummary)
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+      cy.assertStepUrlIs(destinations.summary)
+      cy.assertResumeUrlIs(sectionName, destinations.summary)
     })
 
-    testPractitionerAnalysis(
-      sectionName,
-      destinations.backgroundSummary,
-      practitionerAnalysisSubsectionName,
-      destinations.analysisSummary,
-    )
+    testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
   })
 
   describe(`Destination: ${destinations.alcoholUseLastThreeMonths}`, () => {
     it(`"Drunk alcohol in the last three months routes to "${destinations.alcoholUseLastThreeMonths}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, including the last 3 months').clickLabel()
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.alcoholUseLastThreeMonths)
       cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.alcoholUseLastThreeMonths)
+      cy.assertResumeUrlIs(sectionName, destinations.alcoholUseLastThreeMonths)
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`"Drunk alcohol in the last three months routes to "${destinations.backgroundSummary}"`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`"Drunk alcohol in the last three months routes to "${destinations.summary}"`, () => {
         cy.visitStep(destinations.alcoholUseLastThreeMonths)
         cy.getQuestion('How often has Sam drunk alcohol in the last 3 months?')
           .getRadio('Once a month or less')
@@ -75,18 +67,12 @@ describe('Origin: /alcohol', () => {
         cy.getQuestion('Does Sam want to make changes to their alcohol use?')
           .getRadio('I do not want to answer')
           .clickLabel()
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.alcoholUseLastThreeMonths)
+        cy.assertResumeUrlIs(sectionName, destinations.alcoholUseLastThreeMonths)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
-
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -94,15 +80,15 @@ describe('Origin: /alcohol', () => {
     it(`"Not drunk alcohol in the last three months routes to "${destinations.alcoholUseLessThreeMonths}"`, () => {
       cy.visitStep(destinations.landingPage)
       cy.getQuestion('Has Sam ever drunk alcohol?').getRadio('Yes, but not in the last 3 months').clickLabel()
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+      cy.assertResumeUrlIs(sectionName, destinations.landingPage)
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.alcoholUseLessThreeMonths)
       cy.assertBackLinkIs(destinations.landingPage)
-      cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.alcoholUseLessThreeMonths)
+      cy.assertResumeUrlIs(sectionName, destinations.alcoholUseLessThreeMonths)
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`"Not drunk alcohol in the last three months routes to "${destinations.backgroundSummary}"`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`"Not drunk alcohol in the last three months routes to "${destinations.summary}"`, () => {
         cy.visitStep(destinations.alcoholUseLessThreeMonths)
         cy.getQuestion('Has Sam shown evidence of binge drinking or excessive alcohol use in the last 6 months?')
           .getRadio('No evidence of binge drinking or excessive alcohol use')
@@ -116,18 +102,13 @@ describe('Origin: /alcohol', () => {
         cy.getQuestion('Does Sam want to make changes to their alcohol use?')
           .getRadio('I do not want to answer')
           .clickLabel()
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.alcoholUseLessThreeMonths)
+        cy.assertResumeUrlIs(sectionName, destinations.alcoholUseLessThreeMonths)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 })

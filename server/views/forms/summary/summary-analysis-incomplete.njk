@@ -1,19 +1,11 @@
-{% extends "./layout.njk" %}
+{% extends "../summary.njk" %}
 {% from "components/question/macro.njk" import renderQuestion %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% block backLink %}{% endblock %}
 
-{% block formContent %}
-  {% set section = options.section | replace("-", "_") %}
-  {% if answers[section ~ '_background_section_complete'] != "YES" %}
-    {{ govukNotificationBanner({
-      text: 'You will need to finish ' ~ options.pageTitle ~ ' background to mark the section as complete.'
-    }) }}
-  {% endif %}
-
-  <form id="summaryAnalysis" method="post" action="{{ action }}" data-autosave="true">
+{% block analysisPanel %}
+  <form id="summaryAnalysis" method="post" action="{{ action }}#practitioner-analysis" data-autosave="true">
     <input type="hidden" name="x-csrf-token" value="{{ getCsrf() }}">
     {% for field in getRenderedFields(form.fields, options) %}
       {% if not (field == 'drugs_practitioner_analysis_motivated_to_stop' and answers.drug_use == 'NO') %}
@@ -21,15 +13,9 @@
       {% endif %}
     {% endfor %}
 
-    {% if answers[section ~ '_background_section_complete'] == 'YES' %}
-      {% set buttonText = 'Mark as complete' %}
-    {% else %}
-      {% set buttonText = 'Save and continue' %}
-    {% endif %}
-
     <div class="questiongroup-action-buttons">
       {{ govukButton({
-        text: buttonText,
+        text: buttonText | default("Mark as complete"),
         classes: "govuk-!-margin-bottom-3 govuk-!-margin-right-1",
         name: getUserSubmittedField(form.fields),
         value: 'YES'

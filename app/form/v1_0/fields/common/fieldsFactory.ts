@@ -91,26 +91,6 @@ export default abstract class FieldsFactory {
     }
   }
 
-  backgroundSectionComplete(): FormWizard.Field {
-    return {
-      text: `Is the ${this.section.title} background section complete?`,
-      code: `${this.fieldPrefix}_background_section_complete`,
-      type: FieldType.Radio,
-      hidden: true,
-      options: yesNoOptions,
-    }
-  }
-
-  practitionerAnalysisSectionComplete(): FormWizard.Field {
-    return {
-      text: `Is the ${this.section.title} practitioner analysis section complete?`,
-      code: `${this.fieldPrefix}_practitioner_analysis_section_complete`,
-      type: FieldType.Radio,
-      hidden: true,
-      options: yesNoOptions,
-    }
-  }
-
   sectionComplete(): FormWizard.Field {
     return {
       text: `Is the ${this.section.title} section complete?`,

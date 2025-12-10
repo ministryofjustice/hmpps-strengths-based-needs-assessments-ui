@@ -12,9 +12,9 @@ describe('/finance', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Finances').enterBackgroundSubsection()
+    cy.visitSection('Finances')
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Finances', 'Finances background', stepUrl)
+    cy.assertResumeUrlIs('Finances', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

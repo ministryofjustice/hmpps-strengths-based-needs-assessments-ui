@@ -7,9 +7,9 @@ import StrengthsBasedNeedsAssessmentsApiService, {
 import { HandoverSubject } from '../../server/services/arnsHandoverService'
 import { createAnswerDto } from './saveAndContinue.utils'
 import thinkingBehavioursFields from '../form/v1_0/fields/thinking-behaviours-attitudes'
+import { stepUrls } from '../form/v1_0/steps/thinking-behaviours-attitudes'
 import { assessmentComplete } from '../form/v1_0/fields'
 import ForbiddenError from '../../server/errors/forbiddenError'
-import sections from '../form/v1_0/config/sections'
 
 const apiService = new StrengthsBasedNeedsAssessmentsApiService()
 
@@ -26,7 +26,7 @@ const startController = async (req: Request, res: Response, next: NextFunction) 
     )
 
     if (assessment.metaData.uuid !== contextData.assessmentContext.assessmentId) {
-      next(new ForbiddenError(req))
+      throw new ForbiddenError(req)
     }
 
     req.session.sessionData = {
@@ -66,9 +66,7 @@ const setSexuallyMotivatedOffenceHistory = async (
   const oasysAnswer = subject.sexuallyMotivatedOffenceHistory
   const sanAnswer = assessment.assessment[field.code]?.value
   const sectionCompleteField = thinkingBehavioursFields.sectionComplete()
-  const isUserSubmittedField = thinkingBehavioursFields.isUserSubmitted(
-    sections.thinkingBehaviours.subsections.background.stepUrls.thinkingBehavioursAttitudes,
-  )
+  const isUserSubmittedField = thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes)
 
   if (oasysAnswer === 'YES' && oasysAnswer !== sanAnswer) {
     await apiService.updateAnswers(assessment.metaData.uuid, {

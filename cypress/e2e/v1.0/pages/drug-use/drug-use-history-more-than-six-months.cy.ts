@@ -23,7 +23,7 @@ describe('/drug-use-history-more-than-six-months', () => {
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
 
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     cy.getQuestion('Which drugs has Sam misused?').getCheckbox('Cannabis').clickLabel()
     cy.getQuestion('Which drugs has Sam misused?')
       .getCheckbox('Cannabis')
@@ -37,7 +37,7 @@ describe('/drug-use-history-more-than-six-months', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Drug use', 'Drug use background', stepUrl)
+    cy.assertResumeUrlIs('Drug use', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
@@ -46,7 +46,7 @@ describe('/drug-use-history-more-than-six-months', () => {
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     cy.assertStepUrlIs(stepUrl)
   })
 
