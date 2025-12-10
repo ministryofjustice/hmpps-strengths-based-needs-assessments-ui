@@ -25,109 +25,40 @@
         </div>
       </div>
 
-      {% if (previousVersions and previousVersions.length > 0) or (countersignedVersions and countersignedVersions.length > 0) %}
-        <div class="govuk-grid-column-full">
-          <p>Check versions of {{ subjectDetails.givenName }}'s current assessment and plan. The links will open in a new tab.</p>
-        </div>
-      {% endif %}
-
-      {% if countersignedVersions and countersignedVersions.length > 0 %}
-        <div class="govuk-grid-column-three-quarters">
-          {% set countersignedTableRows = [] %}
-          {% for version in countersignedVersions %}
-           {% set assessmentVersionLink %}
-             {% if version.assessmentVersion.uuid %}
-               <a href="/form/view-historic/{{ version.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.assessmentVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
-             {% elif currentVersion and currentVersion.assessmentVersion.uuid %}
-               <a href="/form/view-historic/{{ currentVersion.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current assessment (opens in new tab) </span></a>
-             {% endif %}
-           {% endset %}
-
-            {% set planVersionLink %}
-              {% if version.planVersion.uuid %}
-                <a href="{{ spUrl }}/view-previous-version/{{ version.planVersion.uuid }}" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> sentence plan from {{ version.planVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
-              {% elif currentVersion and currentVersion.planVersion.uuid %}
-                <a href="{{ spUrl }}/view-previous-version/{{ currentVersion.planVersion.uuid }}" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current sentence plan (opens in new tab) </span></a>
-              {% endif %}
-            {% endset %}
-
-            {% set statusHtml = "" %}
-            {% if version.planVersion.showCountersignedStatus %}
-              {% set statusHtml = '<strong class="govuk-tag ' ~ version.planVersion.countersignedStatusClass ~ '">' ~ version.planVersion.countersignedStatusText ~ '</strong>' %}
-            {% endif %}
-
-            {% set row = [
-              { html: (version.assessmentVersion.updatedAt | formatDateForDisplay) ~ "<br><span class='govuk-body-s'>" ~ (version.description or "") ~ "</span>" },
-              { html: assessmentVersionLink },
-              { html: planVersionLink },
-              { html: statusHtml }
-            ]
-            %}
-            {% set countersignedTableRows = countersignedTableRows.concat([row]) %}
-          {% endfor %}
-
-          {{ govukTable({
-              caption: "Countersigned versions",
-              captionClasses: "govuk-table__caption--m govuk-!-margin-top-3",
-              firstCellIsHeader: false,
-              classes: "previous-versions-table",
-              head: [
-                { text: "Date", classes: "date-column"},
-                { text: "Assessment", classes: "view-link-column" },
-                { text: "Sentence Plan", classes: "view-link-column" },
-                { text: "Status", classes: "status-column" }
-              ],
-              rows: countersignedTableRows
-            })
-          }}
-        </div>
-      {% endif %}
-
       {% if previousVersions and previousVersions.length > 0 %}
+        <div class="govuk-grid-column-full">
+          <p>Check versions of {{ subjectDetails.givenName }}'s current assessment. The links will open in a new tab.</p>
+        </div>
+
         <div class="govuk-grid-column-three-quarters">
           {% set tableRows = [] %}
           {% for version in previousVersions %}
             {% set assessmentVersionLink %}
-              {% if version.assessmentVersion.uuid %}
-                <a href="/form/view-historic/{{ version.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.assessmentVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
-              {% elif currentVersion and currentVersion.assessmentVersion.uuid %}
-                <a href="/form/view-historic/{{ currentVersion.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current assessment (opens in new tab) </span></a>
-              {% endif %}
+              <a href="/form/view-historic/{{ version.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
             {% endset %}
-
-            {% set planVersionLink %}
-              {% if version.planVersion.uuid %}
-                <a href="{{ spUrl }}/view-previous-version/{{ version.planVersion.uuid }}" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> sentence plan from {{ version.planVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
-              {% elif currentVersion and currentVersion.planVersion.uuid %}
-                <a href="{{ spUrl }}/view-previous-version/{{ currentVersion.planVersion.uuid }}" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current sentence plan (opens in new tab) </span></a>
-              {% endif %}
-            {% endset %}
-
-            {% set statusHtml = "" %}
-            {% if version.planVersion.showPlanAgreementStatus %}
-              {% set statusHtml = '<strong class="govuk-tag ' ~ version.planVersion.planAgreementStatusClass ~ '">' ~ version.planVersion.planAgreementStatusText ~ '</strong>' %}
-            {% endif %}
 
             {% set row = [
-              { html: (version.assessmentVersion.updatedAt | formatDateForDisplay) ~ "<br><span class='govuk-body-s'>" ~ (version.description or "") ~ "</span>" },
-              { html: assessmentVersionLink },
-              { html: planVersionLink },
-              { html: statusHtml }
+              {
+                html: version.updatedAt | formatDateForDisplay
+              },
+              {
+                html: assessmentVersionLink
+              }
             ]
             %}
             {% set tableRows = tableRows.concat([row]) %}
           {% endfor %}
 
           {{ govukTable({
-              caption: "All versions" if (countersignedVersions and countersignedVersions.length > 0),
-              captionClasses: "govuk-table__caption--m govuk-!-margin-top-3" if (countersignedVersions and countersignedVersions.length > 0),
+              captionClasses: "govuk-table__caption--m",
               firstCellIsHeader: false,
-              classes: "previous-versions-table",
               head: [
-                { text: "Date", classes: "date-column"},
-                { text: "Assessment", classes: "view-link-column" },
-                { text: "Sentence Plan", classes: "view-link-column" },
-                { text: "Status", classes: "status-column" }
+                {
+                  text: "Date"
+                },
+                {
+                  text: "Assessment"
+                }
               ],
               rows: tableRows
             })
@@ -141,5 +72,6 @@
     </div>
     {{ super() }}
   </div>
+
 
 {% endblock %}

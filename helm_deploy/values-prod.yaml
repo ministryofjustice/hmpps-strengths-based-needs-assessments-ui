@@ -16,8 +16,6 @@ generic-service:
     SBNA_API_URL: "http://hmpps-strengths-based-needs-assessments-api.hmpps-strengths-based-needs-assessments-prod.svc.cluster.local"
     HMPPS_ARNS_HANDOVER_URL: "https://arns-handover-service.hmpps.service.justice.gov.uk"
     OASYS_URL: "https://oasys.service.justice.gov.uk"
-    COORDINATOR_API_URL: "https://arns-coordinator-api.hmpps.service.justice.gov.uk"
-    SP_URL: "https://sentence-plan.hmpps.service.justice.gov.uk"
 
   namespace_secrets:
     hmpps-strengths-based-needs-assessments-ui-feedback-url:

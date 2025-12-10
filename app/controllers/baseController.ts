@@ -13,18 +13,14 @@ import FieldsFactory from '../form/v1_0/fields/common/fieldsFactory'
 import sections from '../form/v1_0/config/sections'
 import { defaultName } from '../../server/utils/azureAppInsights'
 import { assessmentOrForbidden } from '../utils/assessmentOrForbidden'
-import ArnsCoordinatorApiService from '../../server/services/arnsCoordinatorApiService'
 
 class BaseController extends FormWizard.Controller {
   protected apiService: StrengthsBasedNeedsAssessmentsApiService
-
-  protected service: ArnsCoordinatorApiService
 
   constructor(options: unknown) {
     super(options)
 
     this.apiService = new StrengthsBasedNeedsAssessmentsApiService()
-    this.service = new ArnsCoordinatorApiService()
   }
 
   async fetchAssessment(req: FormWizard.Request): Promise<AssessmentResponse> {
@@ -51,7 +47,6 @@ class BaseController extends FormWizard.Controller {
     res.locals.domain = config.domain
     res.locals.oasysUrl = config.oasysUrl
     res.locals.feedbackUrl = config.feedbackUrl
-    res.locals.spUrl = config.spUrl
     res.locals.applicationInsightsConnectionString = config.apis.appInsights.connectionString
     res.locals.applicationInsightsRoleName = defaultName()
 

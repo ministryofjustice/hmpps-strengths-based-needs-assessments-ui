@@ -1,124 +1,122 @@
 import { NextFunction, Response } from 'express'
 import FormWizard from 'hmpo-form-wizard'
 import ViewVersionListController from './viewVersionListController'
-import SaveAndContinueController from './saveAndContinueController'
-import { LastVersionsOnDate } from '../../server/services/arnsCoordinatorApiService'
+import StrengthsBasedNeedsAssessmentsApiService, {
+  SessionData,
+  AssessmentVersionsResponse,
+} from '../../server/services/strengthsBasedNeedsService'
 
-describe('ViewVersionListController.locals', () => {
-  let controller: ViewVersionListController
-  let req: FormWizard.Request
-  let res: Response
-  let next: NextFunction
+jest.mock('../../server/services/strengthsBasedNeedsService')
 
-  const getVersionsByEntityId = jest.fn()
+describe('ViewVersionListController', () => {
+  const mockFetchAssessmentVersions = jest.fn()
 
   beforeEach(() => {
-    controller = new ViewVersionListController({ route: '/' })
-    // @ts-expect-error overriding for test
-    controller.service = { getVersionsByEntityId }
-
-    req = {
-      session: {
-        sessionData: { assessmentId: 'assessment-123' },
-      },
-    } as unknown as FormWizard.Request
-
-    res = { locals: {} } as unknown as Response
-    next = jest.fn()
-
-    jest.spyOn(SaveAndContinueController.prototype, 'locals').mockResolvedValue(undefined)
+    ;(StrengthsBasedNeedsAssessmentsApiService as jest.Mock).mockImplementation(() => ({
+      fetchAssessmentVersions: mockFetchAssessmentVersions,
+    }))
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
     jest.clearAllMocks()
   })
 
-  it('should fetch versions, maps current and previous versions and set locals correctly', async () => {
-    // Given versions keyed by date, latest (2025-07-04) is the current version
-    getVersionsByEntityId.mockResolvedValue({
-      allVersions: {
-        '2025-07-04': {
-          planVersion: {
-            uuid: 'p3',
-            updatedAt: '2025-07-04T11:00:00Z',
-            status: 'COUNTERSIGNED',
-            planAgreementStatus: 'AGREED',
-          },
-          assessmentVersion: { uuid: 'a3', updatedAt: '2025-07-04T10:00:00Z' },
-          description: 'Assessment and plan updated',
+  describe('viewVersionListController.locals', () => {
+    it('should fetch assessment versions and sets values in locals correctly.', async () => {
+      const mockAssessmentUuid = crypto.randomUUID()
+      const mockVersionsResponse: AssessmentVersionsResponse = [
+        {
+          uuid: 'fb92fa0a-31a4-44d3-8cd2-e45a57671c8d',
+          versionNumber: 3,
+          createdAt: '2025-07-04T10:00:00Z',
+          updatedAt: '2025-07-04T11:00:00Z',
+          tag: 'Assessment change status 2',
         },
-        '2025-07-03': {
-          planVersion: {
-            uuid: 'p2',
-            updatedAt: '2025-07-03T11:00:00Z',
-            status: 'DRAFT',
-            planAgreementStatus: 'DRAFT',
-          },
-          assessmentVersion: { uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z' },
-          description: 'Assessment updated',
+        {
+          uuid: 'ad4b8d05-12a3-4556-a4ed-4fc65bb6dd25',
+          versionNumber: 2,
+          createdAt: '2025-07-03T10:00:00Z',
+          updatedAt: '2025-07-03T11:00:00Z',
+          tag: 'Assessment change status 2',
         },
-        '2025-07-02': {
-          planVersion: {
-            uuid: 'p1',
-            updatedAt: '2025-07-02T09:30:00Z',
-            status: 'DOUBLE_COUNTERSIGNED',
-            planAgreementStatus: 'DO_NOT_AGREE',
-          },
-          assessmentVersion: { uuid: 'a1', updatedAt: '2025-07-02T09:00:00Z' },
-          description: 'Assessment and plan updated',
+        {
+          uuid: '7597b07b-8bcc-4250-93eb-31614d7c6516',
+          versionNumber: 1,
+          createdAt: '2025-07-03T09:00:00Z',
+          updatedAt: '2025-07-03T09:30:00Z',
+          tag: 'Assessment change status 1',
         },
-        '2025-07-01': {
-          // No planVersion here to test optional chaining
-          assessmentVersion: { uuid: 'a0', updatedAt: '2025-07-01T08:00:00Z' },
-          description: 'Assessment updated',
+        {
+          uuid: '82c1af99-0efb-44f1-ae64-0e3506e3ab5f',
+          versionNumber: 0,
+          createdAt: '2025-07-02T09:00:00Z',
+          updatedAt: '2025-07-02T09:30:00Z',
+          tag: 'Assessment change status 1',
         },
-      },
+      ]
+
+      mockFetchAssessmentVersions.mockResolvedValue(mockVersionsResponse)
+
+      const req = {
+        session: {
+          sessionData: { assessmentId: mockAssessmentUuid } as SessionData,
+        },
+      } as unknown as FormWizard.Request
+
+      const res = {
+        locals: {},
+      } as unknown as Response
+
+      const next = jest.fn() as NextFunction
+
+      const controller = new ViewVersionListController({ route: '/' })
+
+      await controller.locals(req, res, next)
+
+      expect(mockFetchAssessmentVersions).toHaveBeenCalledWith(mockAssessmentUuid)
+
+      const expectedVersions: AssessmentVersionsResponse = [
+        {
+          uuid: 'ad4b8d05-12a3-4556-a4ed-4fc65bb6dd25',
+          versionNumber: 2,
+          createdAt: '2025-07-03T10:00:00Z',
+          updatedAt: '2025-07-03T11:00:00Z',
+          tag: 'Assessment change status 2',
+        },
+        {
+          uuid: '82c1af99-0efb-44f1-ae64-0e3506e3ab5f',
+          versionNumber: 0,
+          createdAt: '2025-07-02T09:00:00Z',
+          updatedAt: '2025-07-02T09:30:00Z',
+          tag: 'Assessment change status 1',
+        },
+      ]
+      expect(res.locals.previousVersions).toEqual(expectedVersions)
     })
 
-    await controller.locals(req, res, next)
+    it('should pass API errors to next', async () => {
+      const mockError = new Error('TEST API error')
 
-    expect(getVersionsByEntityId).toHaveBeenCalledWith('assessment-123')
+      mockFetchAssessmentVersions.mockRejectedValue(mockError)
 
-    //  Current version
-    expect(res.locals.currentVersion).toEqual({
-      planVersion: expect.objectContaining({
-        uuid: 'p3',
-        status: 'COUNTERSIGNED',
-        planAgreementStatus: 'AGREED',
-        planAgreementStatusText: 'Plan Agreed',
-        planAgreementStatusClass: 'govuk-tag--green',
-        showPlanAgreementStatus: true,
-        countersignedStatusText: 'Countersigned',
-        countersignedStatusClass: 'govuk-tag--turquoise',
-        showCountersignedStatus: true,
-      }),
-      assessmentVersion: { uuid: 'a3', updatedAt: '2025-07-04T10:00:00Z' },
-      description: 'Assessment and plan updated',
+      const req = {
+        session: {
+          sessionData: { assessmentId: 'wrongUUID' } as SessionData,
+        },
+      } as unknown as FormWizard.Request
+
+      const res = {
+        locals: {},
+      } as unknown as Response
+
+      const next = jest.fn() as NextFunction
+
+      const controller = new ViewVersionListController({ route: '/' })
+
+      await controller.locals(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(1)
+      expect(next).toHaveBeenCalledWith(mockError)
     })
-
-    // Previous versions should be in descending order and not include the current version
-    expect(res.locals.previousVersions.map((version: LastVersionsOnDate) => version.assessmentVersion?.uuid)).toEqual([
-      'a2',
-      'a1',
-      'a0',
-    ])
-
-    // Countersigned versions should only include previous versions that are COUNTERSIGNED or DOUBLE_COUNTERSIGNED
-    expect(res.locals.countersignedVersions.map((version: LastVersionsOnDate) => version.planVersion?.uuid)).toEqual([
-      'p1',
-    ])
-
-    // Should call parent locals
-    expect(SaveAndContinueController.prototype.locals).toHaveBeenCalledTimes(1)
-  })
-
-  it('should pass API errors to next', async () => {
-    const error = new Error('TEST API error')
-    getVersionsByEntityId.mockRejectedValue(error)
-
-    await controller.locals(req, res, next)
-
-    expect(next).toHaveBeenCalledWith(error)
   })
 })
