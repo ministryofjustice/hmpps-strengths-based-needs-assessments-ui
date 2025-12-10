@@ -1,9 +1,4 @@
-import {
-  backgroundSubsectionName,
-  completePractitionerAnalysisBeforeBackground,
-  practitionerAnalysisSubsectionName,
-  testPractitionerAnalysis,
-} from './common'
+import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
 
 describe('Origin: /current-accommodation', () => {
   const destinations = {
@@ -26,8 +21,6 @@ describe('Origin: /current-accommodation', () => {
   beforeEach(() => {
     cy.enterAssessment().enterBackgroundSubsection()
   })
-
-  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe(`Destination: ${destinations.settled}`, () => {
     const typeOfAccommodation = 'Settled'

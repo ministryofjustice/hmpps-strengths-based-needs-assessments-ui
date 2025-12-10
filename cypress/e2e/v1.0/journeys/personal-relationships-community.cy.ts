@@ -1,9 +1,4 @@
-import {
-  backgroundSubsectionName,
-  completePractitionerAnalysisBeforeBackground,
-  practitionerAnalysisSubsectionName,
-  testPractitionerAnalysis,
-} from './common'
+import { backgroundSubsectionName, practitionerAnalysisSubsectionName, testPractitionerAnalysis } from './common'
 
 describe(`Origin: /personal-relationships-children-information`, () => {
   const destinations = {
@@ -25,8 +20,6 @@ describe(`Origin: /personal-relationships-children-information`, () => {
   beforeEach(() => {
     cy.enterAssessment()
   })
-
-  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe(`Destination: ${destinations.personalRelationships}`, () => {
     it(`Landing page routes to "${destinations.personalRelationships}"`, () => {
