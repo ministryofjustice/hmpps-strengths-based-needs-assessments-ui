@@ -1,5 +1,4 @@
 import employmentStatus from './questions/employmentStatus'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/current-employment', () => {
   const stepUrl = '/current-employment'
@@ -8,8 +7,8 @@ describe('/current-employment', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.assertResumeUrlIs('Employment and education', backgroundSubsectionName, stepUrl)
-    cy.visitSection('Employment and education').enterBackgroundSubsection()
+    cy.assertResumeUrlIs('Employment and education', stepUrl)
+    cy.visitStep(stepUrl)
     cy.assertSectionIs('Employment and education')
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()

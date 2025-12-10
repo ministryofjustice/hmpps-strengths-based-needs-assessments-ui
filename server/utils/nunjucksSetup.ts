@@ -13,7 +13,7 @@ import {
   startsWith,
   toErrorSummary,
   urlSafe,
-  safeStringify,
+  practitionerAnalysisStarted,
 } from './nunjucks.utils'
 import getSummaryFields from './nunjucks.summaryFields'
 import generateDrugsSummary from './nunjucks.drugsSummary'
@@ -97,5 +97,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   njkEnv.addGlobal('getMaintenanceMessage', maintenanceMessage)
 
-  njkEnv.addFilter('safeStringify', safeStringify)
+  njkEnv.addGlobal('practitionerAnalysisStarted', practitionerAnalysisStarted)
 }

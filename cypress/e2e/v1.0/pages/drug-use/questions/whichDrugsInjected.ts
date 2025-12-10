@@ -111,8 +111,6 @@ export default (usedInTheLastSixMonths: boolean) => (stepUrl: string, summaryPag
           cy.assertStepUrlIs(stepUrl)
           cy.assertQuestionUrl(question)
           cy.getQuestion(question).getCheckbox(option).isChecked()
-
-          cy.checkAccessibility()
         })
       }
     })
@@ -139,8 +137,6 @@ export default (usedInTheLastSixMonths: boolean) => (stepUrl: string, summaryPag
         cy.assertStepUrlIs(stepUrl)
         cy.assertQuestionUrl(question)
         cy.getQuestion(question).getCheckbox('None').isChecked()
-
-        cy.checkAccessibility()
       })
     })
 

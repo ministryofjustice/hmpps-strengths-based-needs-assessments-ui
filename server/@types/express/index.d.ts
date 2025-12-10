@@ -10,7 +10,6 @@ declare module 'express-session' {
     sessionData: unknown
     subjectDetails: HandoverSubject
     handoverContext: HandoverContextData
-    previousVersionsRedirect: string
   }
 }
 

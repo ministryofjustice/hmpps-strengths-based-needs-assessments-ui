@@ -2,7 +2,6 @@ import { Fixture } from '../../../../support/commands/fixture'
 import { drugName, drugs } from './common/drugs'
 import receivingTreatment from './questions/receivingTreatment'
 import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/drug-details', () => {
   const stepUrl = '/drug-details'
@@ -12,7 +11,7 @@ describe('/drug-details', () => {
 
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     usedDrugs.forEach(drug => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
@@ -41,7 +40,7 @@ describe('/drug-details', () => {
 
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Drug use', stepUrl)
 
     cy.hasSubheading('Not used in the last 6 months', false)
     cy.hasSubheading('Used in the last 6 months', true)
@@ -51,7 +50,7 @@ describe('/drug-details', () => {
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     cy.assertStepUrlIs(stepUrl)
   })
 

@@ -1,28 +1,19 @@
 import FormWizard from 'hmpo-form-wizard'
-import { Options, FieldDependencyTreeBuilder } from '../../app/utils/fieldDependencyTreeBuilder'
+import { FieldDependencyTreeBuilder } from '../../app/utils/fieldDependencyTreeBuilder'
 import { isNonRenderedField } from './nunjucks.utils'
 import { FieldType } from '../@types/hmpo-form-wizard/enums'
 import { isPractitionerAnalysisField } from '../../app/utils/field.utils'
-import sections, { Section } from '../../app/form/v1_0/config/sections'
 
-export interface GetSummaryFieldsOptions extends Options {
+export interface GetSummaryFieldsOptions {
+  section: string
+  allFields: Record<string, FormWizard.Field>
+  steps: FormWizard.RenderedSteps
   answers: FormWizard.Answers
   collectionOnly?: boolean
 }
 
-/**
- * Generates an object containing grouped summary fields based on the provided options.
- *
- * @param {Object} options - Configuration options for determining which fields to include.
- * @param {Object} sectionsConfig - Configuration for overriding the default section configuration.
- * @param {boolean} [options.collectionOnly] - Flag to include only fields of type `Collection`.
- * @param {Object} [options.answers] - Answers provided to the form, used to check which fields have values.
- * @returns {Object} - An object containing grouped fields:
- *                      - `singleFields`: Fields that are not part of a collection.
- *                      - `collectionFields`: Fields that belong to a collection.
- */
-export default (options: GetSummaryFieldsOptions, sectionsConfig?: Record<string, Section>) => {
-  const builder = new FieldDependencyTreeBuilder(options, options.answers, sectionsConfig ?? sections)
+export default (options: GetSummaryFieldsOptions) => {
+  const builder = new FieldDependencyTreeBuilder(options, options.answers)
 
   const hasAnswer = (field: FormWizard.Field) => {
     const answer = builder.getAnswers(field.code)
@@ -39,7 +30,7 @@ export default (options: GetSummaryFieldsOptions, sectionsConfig?: Record<string
       ? isCollection(field)
       : !isNonRenderedField(field.id) && !isPractitionerAnalysisField(field.id) && isDisplayable(field)
 
-  const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).getAllFieldsInSectionFromSteps()
+  const allFields = builder.setStepFieldsFilterFn(stepFieldsFilterFn).build()
 
   // append collection fields at the end of the array
   return {

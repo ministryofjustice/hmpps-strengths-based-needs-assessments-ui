@@ -21,28 +21,3 @@
   width: 19px;
   height: 19px;
 }
-
-// The MoJ doesn't support nested side navigation, so we have to do this ourselves.
-
-.side-navigation ul ul {
-  padding-left: govuk-spacing(4);
-
-  & li {
-    list-style: none;
-  }
-}
-
-.moj-side-navigation__item--active ul li:not(.moj-side-navigation__item--active) a:link,
-.moj-side-navigation__item--active ul li:not(.moj-side-navigation__item--active) a:visited {
-  background-color: transparent;
-  border-left: none;
-}
-
-.tasklist {
-  list-style: none;
-  padding-left: 0;
-}
-
-.tasklist li {
-  padding-top: govuk-spacing(4);
-}
