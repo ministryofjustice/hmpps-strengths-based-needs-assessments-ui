@@ -1,22 +1,23 @@
-import { setFieldToCompleteWhenValid, nextWhen } from './common'
+import { setFieldToIncomplete, setFieldToCompleteWhenValid, nextWhen } from './common'
 import thinkingBehavioursFields from '../fields/thinking-behaviours-attitudes'
 import sections, { SectionConfig } from '../config/sections'
 import templates from '../config/templates'
 
 const section = sections.thinkingBehaviours
-const sectionBackground = section.subsections.background
-const sectionPractitionerAnalysis = section.subsections.practitionerAnalysis
+
+export const stepUrls = {
+  thinkingBehavioursAttitudes: 'thinking-behaviours-attitudes',
+  riskOfSexualHarm: 'thinking-behaviours-attitudes-risk-of-sexual-harm',
+  riskOfSexualHarmDetails: 'thinking-behaviours-attitudes-risk-of-sexual-harm-details',
+  summary: 'thinking-behaviours-attitudes-summary',
+  analysis: 'thinking-behaviours-attitudes-analysis',
+}
 
 const sectionConfig: SectionConfig = {
   section,
   steps: [
     {
-      url: 'thinking-behaviours-attitudes-tasks',
-      template: templates.sectionTasks,
-    },
-    {
-      url: sectionBackground.stepUrls.thinkingBehavioursAttitudes,
-      initialStepInSection: true,
+      url: stepUrls.thinkingBehavioursAttitudes,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesConsequences,
         thinkingBehavioursFields.thinkingBehavioursAttitudesStableBehaviour,
@@ -36,67 +37,60 @@ const sectionConfig: SectionConfig = {
         thinkingBehavioursFields.thinkingBehavioursAttitudesSupervision,
         thinkingBehavioursFields.thinkingBehavioursAttitudesCriminalBehaviour,
         thinkingBehavioursFields.wantToMakeChanges(),
-        thinkingBehavioursFields.isUserSubmitted(sectionBackground.stepUrls.thinkingBehavioursAttitudes),
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.thinkingBehavioursAttitudes),
+        thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      next: sectionBackground.stepUrls.riskOfSexualHarm,
-      sectionProgressRules: [],
+      navigationOrder: 8,
+      next: stepUrls.riskOfSexualHarm,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.riskOfSexualHarm,
+      url: stepUrls.riskOfSexualHarm,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm,
-        thinkingBehavioursFields.isUserSubmitted(sectionBackground.stepUrls.riskOfSexualHarm),
-        thinkingBehavioursFields.backgroundSectionComplete(),
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.riskOfSexualHarm),
+        thinkingBehavioursFields.sectionComplete(),
       ].flat(),
       next: [
         nextWhen(
           thinkingBehavioursFields.thinkingBehavioursAttitudesRiskSexualHarm,
           'YES',
-          sectionBackground.stepUrls.riskOfSexualHarmDetails,
+          stepUrls.riskOfSexualHarmDetails,
         ),
-        sectionBackground.stepUrls.backgroundSummary,
+        stepUrls.summary,
       ],
-      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionBackground.stepUrls.riskOfSexualHarmDetails,
+      url: stepUrls.riskOfSexualHarmDetails,
       pageTitle: 'Risk of sexual harm',
       pageSubHeading: section.title,
       fields: [
         thinkingBehavioursFields.thinkingBehavioursAttitudesSexualPreoccupation,
         thinkingBehavioursFields.thinkingBehavioursAttitudesOffenceRelatedSexualInterest,
         thinkingBehavioursFields.thinkingBehavioursAttitudesEmotionalIntimacy,
-        thinkingBehavioursFields.isUserSubmitted(sectionBackground.stepUrls.riskOfSexualHarmDetails),
-        thinkingBehavioursFields.backgroundSectionComplete(),
-      ].flat(),
-      next: sectionBackground.stepUrls.backgroundSummary,
-      sectionProgressRules: [setFieldToCompleteWhenValid(sectionBackground.sectionCompleteField)],
-    },
-    {
-      url: sectionBackground.stepUrls.backgroundSummary,
-      template: templates.backgroundSummary,
-    },
-    {
-      url: sectionPractitionerAnalysis.stepUrls.analysis,
-      initialStepInSection: true,
-      template: templates.analysis,
-      fields: [
-        thinkingBehavioursFields.isUserSubmitted(sectionPractitionerAnalysis.stepUrls.analysis),
-        thinkingBehavioursFields.practitionerAnalysis(),
-        thinkingBehavioursFields.practitionerAnalysisSectionComplete(),
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.riskOfSexualHarmDetails),
         thinkingBehavioursFields.sectionComplete(),
       ].flat(),
-      next: sectionPractitionerAnalysis.stepUrls.analysisSummary,
-      sectionProgressRules: [
-        setFieldToCompleteWhenValid(sectionPractitionerAnalysis.sectionCompleteField),
-        setFieldToCompleteWhenValid(section.sectionCompleteField),
-      ],
+      next: stepUrls.summary,
+      sectionProgressRules: [setFieldToIncomplete(section.sectionCompleteField)],
     },
     {
-      url: sectionPractitionerAnalysis.stepUrls.analysisSummary,
-      template: templates.analysisSummary,
+      url: stepUrls.summary,
+      fields: [
+        thinkingBehavioursFields.practitionerAnalysis(),
+        thinkingBehavioursFields.isUserSubmitted(stepUrls.summary),
+        thinkingBehavioursFields.sectionComplete(),
+      ].flat(),
+      next: `${stepUrls.analysis}#practitioner-analysis`,
+      template: templates.analysisIncomplete,
+      sectionProgressRules: [setFieldToCompleteWhenValid(section.sectionCompleteField)],
+    },
+    {
+      url: stepUrls.analysis,
+      template: templates.analysisComplete,
     },
   ],
 }

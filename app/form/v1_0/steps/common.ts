@@ -4,11 +4,8 @@ export interface SanStep extends FormWizard.BaseStep {
   url: string
   pageTitle?: string
   fields?: FormWizard.Field[]
-  initialStepInSection?: boolean
 }
 
-// This function is used in the step configuration files. It does not actually set the field to complete.
-// It returns a field and a function for doing that which is executed elsewhere..
 export const setFieldToCompleteWhenValid = (fieldCode: string) => ({
   fieldCode,
   conditionFn: (passedValidation: boolean) => passedValidation,
