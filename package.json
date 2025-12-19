@@ -20,7 +20,7 @@
     "security_audit": "npx audit-ci --config audit-ci.json",
     "clean": "rm -rf dist build node_modules stylesheets",
     "postinstall": "patch-package",
-    "setup": "npm ci && hmpps-npm-script-run-allowlist"
+    "setup": "npm ci && hmpps-npm-script-run-allowlist && patch-package"
   },
   "engines": {
     "node": "^22",
