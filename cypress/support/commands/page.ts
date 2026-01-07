@@ -4,7 +4,7 @@ export const assertQuestionCount = (count: number) => {
   cy.get('form > .form-group:visible').should('have.length', count)
 }
 
-export const sectionHasCompletionBlueTick = (section: string) => {
+export const sectionMarkedAsComplete = (section: string) => {
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
     .parent()
@@ -14,7 +14,7 @@ export const sectionHasCompletionBlueTick = (section: string) => {
     })
 }
 
-export const sectionDoesNotHaveCompletionBlueTick = (section: string) => {
+export const sectionNotMarkedAsComplete = (section: string) => {
   cy.get('.moj-side-navigation__item > a > .section-label')
     .contains(section)
     .parent()
@@ -22,17 +22,17 @@ export const sectionDoesNotHaveCompletionBlueTick = (section: string) => {
     .should('not.exist')
 }
 
-export const sectionHasCompleteTagAndBlueTick = (section: string) => {
+export const currentSectionMarkedAsComplete = (section: string) => {
   cy.get('.section-heading__status > .govuk-tag').should('be.visible').and('contain.text', 'Complete')
-  cy.sectionHasCompletionBlueTick(section)
+  cy.sectionMarkedAsComplete(section)
 }
 
-export const sectionCompleteTagIsIncompleteAndNoBlueTick = (section: string) => {
+export const currentSectionNotMarkedAsComplete = (section: string) => {
   cy.get('.section-heading__status > .govuk-tag')
     .should('be.visible')
     .and('have.class', 'govuk-tag--grey')
     .and('contain.text', 'Incomplete')
-  cy.sectionDoesNotHaveCompletionBlueTick(section)
+  cy.sectionNotMarkedAsComplete(section)
 }
 
 export const assessmentMarkedAsComplete = () => {

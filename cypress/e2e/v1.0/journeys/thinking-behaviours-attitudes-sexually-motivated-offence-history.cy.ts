@@ -16,15 +16,15 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
     beforeEach(() => {
       cy.loadFixture(Fixture.CompleteAssessment)
       cy.enterAssessment()
-      cy.sectionHasCompletionBlueTick(sectionName)
+      cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
-      cy.visitSection(sectionName).enterBackgroundSubsection()
+      cy.visitSection(sectionName)
       cy.getSummary(question).getAnswer('No')
     })
 
     it('YES from Oasys overrides SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'YES' })
-      cy.sectionDoesNotHaveCompletionBlueTick(sectionName)
+      cy.sectionNotMarkedAsComplete(sectionName)
       cy.assessmentNotMarkedAsComplete()
 
       cy.visitStep(destinations.riskOfSexualHarm)
@@ -36,7 +36,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('NO from Oasys does not override SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
-      cy.sectionHasCompletionBlueTick(sectionName)
+      cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(hint).getRadio('No').isChecked()
@@ -45,7 +45,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('NULL from Oasys does not override SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: null })
-      cy.sectionHasCompletionBlueTick(sectionName)
+      cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(null).getRadio('No').isChecked()
@@ -68,8 +68,9 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
         .clickLabel()
       cy.saveAndContinue()
       cy.assertStepUrlIs(destinations.summary)
-      cy.get('a').contains('Continue to practitioner analysis').click()
-      cy.sectionHasCompletionBlueTick(sectionName)
+      cy.get('#tab_practitioner-analysis').click()
+      cy.markAsComplete()
+      cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.captureAssessment()
     })
@@ -80,7 +81,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('YES from Oasys does not override SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'YES' })
-      cy.sectionHasCompletionBlueTick(sectionName)
+      cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(null).getRadio('Yes').isChecked()
@@ -89,7 +90,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('NO from Oasys does not override SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
-      cy.sectionHasCompletionBlueTick(sectionName)
+      cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(hint).getRadio('Yes').isChecked()
@@ -98,7 +99,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('NULL from Oasys does not override SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: null })
-      cy.sectionHasCompletionBlueTick(sectionName)
+      cy.sectionMarkedAsComplete(sectionName)
       cy.assessmentMarkedAsComplete()
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(null).getRadio('Yes').isChecked()
@@ -113,7 +114,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('YES from Oasys overrides SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'YES' })
-      cy.sectionDoesNotHaveCompletionBlueTick(sectionName)
+      cy.sectionNotMarkedAsComplete(sectionName)
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(null).getRadio('Yes').isChecked()
       cy.getQuestion(question).getRadio('No').isDisabled()
@@ -121,7 +122,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('NO from Oasys does not override SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: 'NO' })
-      cy.sectionDoesNotHaveCompletionBlueTick(sectionName)
+      cy.sectionNotMarkedAsComplete(sectionName)
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(hint).getRadio('Yes').isNotDisabled().isNotChecked()
       cy.getQuestion(question).getRadio('No').isNotDisabled().isNotChecked()
@@ -129,7 +130,7 @@ describe('History of Sexually Motivated Offence conditional logic', () => {
 
     it('NULL from Oasys does not override SAN', () => {
       cy.enterAssessment(AccessMode.READ_WRITE, { sexuallyMotivatedOffenceHistory: null })
-      cy.sectionDoesNotHaveCompletionBlueTick(sectionName)
+      cy.sectionNotMarkedAsComplete(sectionName)
       cy.visitStep(destinations.riskOfSexualHarm)
       cy.getQuestion(question).hasHint(null).getRadio('Yes').isNotDisabled().isNotChecked()
       cy.getQuestion(question).getRadio('No').isNotDisabled().isNotChecked()

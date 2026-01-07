@@ -37,9 +37,9 @@
           {% for version in countersignedVersions %}
            {% set assessmentVersionLink %}
              {% if version.assessmentVersion.uuid %}
-               <a href="/form/view-historic/{{ version.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.assessmentVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
+               <a href="/form/view-historic/{{ version.assessmentVersion.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.assessmentVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
              {% elif currentVersion and currentVersion.assessmentVersion.uuid %}
-               <a href="/form/view-historic/{{ currentVersion.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current assessment (opens in new tab) </span></a>
+               <a href="/form/view-historic/{{ currentVersion.assessmentVersion.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current assessment (opens in new tab) </span></a>
              {% endif %}
            {% endset %}
 
@@ -89,9 +89,9 @@
           {% for version in previousVersions %}
             {% set assessmentVersionLink %}
               {% if version.assessmentVersion.uuid %}
-                <a href="/form/view-historic/{{ version.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.assessmentVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
+                <a href="/form/view-historic/{{ version.assessmentVersion.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> assessment from {{ version.assessmentVersion.updatedAt | formatDateForDisplay }} (opens in new tab) </span></a>
               {% elif currentVersion and currentVersion.assessmentVersion.uuid %}
-                <a href="/form/view-historic/{{ currentVersion.assessmentVersion.uuid }}/accommodation-tasks" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current assessment (opens in new tab) </span></a>
+                <a href="/form/view-historic/{{ currentVersion.assessmentVersion.uuid }}/accommodation-analysis" class="govuk-link" rel="noreferrer noopener" target="_blank">View<span class="govuk-visually-hidden"> current assessment (opens in new tab) </span></a>
               {% endif %}
             {% endset %}
 

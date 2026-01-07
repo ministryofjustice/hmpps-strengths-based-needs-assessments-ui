@@ -1,6 +1,5 @@
 import mentalHealthCondition from './questions/mentalHealthCondition'
 import physicalHealthCondition from './questions/physicalHealthCondition'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/health-wellbeing', () => {
   const stepUrl = '/health-wellbeing'
@@ -9,9 +8,9 @@ describe('/health-wellbeing', () => {
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Health and wellbeing').enterBackgroundSubsection()
+    cy.visitSection('Health and wellbeing')
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Health and wellbeing', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Health and wellbeing', stepUrl)
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()

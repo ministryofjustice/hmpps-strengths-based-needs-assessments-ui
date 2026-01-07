@@ -1,7 +1,6 @@
 import { Fixture } from '../../../../support/commands/fixture'
 import receivingTreatment from './questions/receivingTreatment'
 import detailsAboutUseOfTheseDrugs from './questions/detailsAboutUseOfTheseDrugs'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/drug-details-more-than-six-months', () => {
   const stepUrl = '/drug-details-more-than-six-months'
@@ -10,7 +9,7 @@ describe('/drug-details-more-than-six-months', () => {
 
   before(() => {
     cy.loadFixture(Fixture.DrugUser).enterAssessment()
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     usedDrug.forEach(drug => {
       cy.getQuestion('Which drugs has Sam misused?').getCheckbox(drug).clickLabel()
       if (drug === 'Other') {
@@ -36,7 +35,7 @@ describe('/drug-details-more-than-six-months', () => {
 
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Drug use', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Drug use', stepUrl)
 
     cy.hasSubheading('Not used in the last 6 months', true)
     cy.hasSubheading('Used in the last 6 months', false)
@@ -47,7 +46,7 @@ describe('/drug-details-more-than-six-months', () => {
 
   beforeEach(() => {
     cy.cloneCapturedAssessment().enterAssessment()
-    cy.visitSection('Drug use').enterBackgroundSubsection()
+    cy.visitSection('Drug use')
     cy.assertStepUrlIs(stepUrl)
   })
 

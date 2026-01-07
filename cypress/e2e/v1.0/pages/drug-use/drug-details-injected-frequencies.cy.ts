@@ -3,13 +3,14 @@ import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
 import {
   drugDetailsInjectedBefore,
   drugDetailsInjectedBeforeEach,
+  questions,
   stepUrl,
   summaryPage,
 } from './common/drug-details-injected-setup'
 
 describe('/drug-details-injected frequencies', () => {
-  before(drugDetailsInjectedBefore())
-  beforeEach(drugDetailsInjectedBeforeEach())
+  before(drugDetailsInjectedBefore(stepUrl, questions))
+  beforeEach(drugDetailsInjectedBeforeEach(stepUrl))
 
   // verifies drug usage frequencies and summary page contents
   drugs.forEach(({ name: drug, injectable }) => {

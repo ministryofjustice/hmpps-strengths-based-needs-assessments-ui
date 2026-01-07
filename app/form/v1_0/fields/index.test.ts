@@ -100,7 +100,6 @@ describe('fields/index.ts', () => {
             },
           ],
           section: {
-            navigationOrder: 1,
             title: 'First Section',
             code: 'first_section',
           },
@@ -119,7 +118,6 @@ describe('fields/index.ts', () => {
             },
           ],
           section: {
-            navigationOrder: 2,
             title: 'Second Section',
             code: 'second_section',
           },
