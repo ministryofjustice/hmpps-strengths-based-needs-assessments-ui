@@ -17,7 +17,7 @@ services:
       - /var/lib/postgresql
 
   hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:2025-05-02.28494.105ac61
+    image: ghcr.io/ministryofjustice/hmpps-auth
     networks:
       - hmpps
     healthcheck:
@@ -166,10 +166,12 @@ services:
       HANDOVER_CLIENT_SECRET: san-secret
       SESSION_SECRET: sessionsecret
       SBNA_API_URL: http://san-api:8080
+      COORDINATOR_API_URL: http://coordinator-api:8080
       INGRESS_URL: http://localhost:3000
       HTTPS: false
       NODE_ENV: development
       FEEDBACK_URL: http://foo.bar
+      SP_URL: http://localhost:3001
 
   localstack:
     image: localstack/localstack:3
