@@ -11,10 +11,13 @@ export default class ViewVersionListController extends SaveAndContinueController
       const versions = await this.service.getVersionsByEntityId(sessionData.assessmentId)
 
       // Separate current version from all versions
-      const sortedVersionEntries = Object.entries(versions.allVersions).sort((a, b) => b[0].localeCompare(a[0]))
+      const sortedAllVersionEntries = Object.entries(versions.allVersions).sort((a, b) => b[0].localeCompare(a[0]))
+      const sortedCountersignedVersionEntries = Object.entries(versions.countersignedVersions).sort((a, b) =>
+        b[0].localeCompare(a[0]),
+      )
 
-      const currentVersionEntry = sortedVersionEntries[0]
-      const previousVersionEntries = sortedVersionEntries.slice(1)
+      const currentVersionEntry = sortedAllVersionEntries[0]
+      const previousVersionEntries = sortedAllVersionEntries.slice(1)
 
       const planAgreementStatusMap: Record<string, { text: string; classes: string }> = {
         AGREED: { text: 'Plan Agreed', classes: 'govuk-tag--green' },
@@ -52,6 +55,7 @@ export default class ViewVersionListController extends SaveAndContinueController
           assessmentVersion: {
             uuid: version.assessmentVersion?.uuid,
             updatedAt: version.assessmentVersion?.updatedAt,
+            status: version.assessmentVersion?.status,
           },
           description: version.description,
         }
@@ -60,12 +64,10 @@ export default class ViewVersionListController extends SaveAndContinueController
       const currentVersion = currentVersionEntry ? mapVersion(currentVersionEntry[1]) : null
 
       const allMappedVersions = previousVersionEntries.map(([, version]) => mapVersion(version))
+      const countersignedMappedVersions = sortedCountersignedVersionEntries.map(([, version]) => mapVersion(version))
 
       res.locals.currentVersion = currentVersion
-      res.locals.countersignedVersions = allMappedVersions.filter(
-        version =>
-          version.planVersion?.status === 'COUNTERSIGNED' || version.planVersion?.status === 'DOUBLE_COUNTERSIGNED',
-      )
+      res.locals.countersignedVersions = countersignedMappedVersions
       res.locals.previousVersions = allMappedVersions
 
       await super.locals(req, res, next)

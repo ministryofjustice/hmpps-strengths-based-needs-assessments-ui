@@ -35,9 +35,31 @@ describe('ViewVersionListController.locals', () => {
   })
 
   it('should fetch versions, maps current and previous versions and set locals correctly', async () => {
-    // Given versions keyed by date, latest (2025-07-04) is the current version
+    // Given versions keyed by date, latest non-countersigned (2025-07-03) is the current version
     getVersionsByEntityId.mockResolvedValue({
       allVersions: {
+        '2025-07-03': {
+          planVersion: {
+            uuid: 'p2',
+            updatedAt: '2025-07-03T11:00:00Z',
+            status: 'DRAFT',
+            planAgreementStatus: 'AGREED',
+          },
+          assessmentVersion: { uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z', status: 'DRAFT' },
+          description: 'Assessment and plan updated',
+        },
+        '2025-07-01': {
+          planVersion: {
+            uuid: 'p0',
+            updatedAt: '2025-07-01T08:30:00Z',
+            status: 'LOCKED_INCOMPLETE',
+            planAgreementStatus: 'DRAFT',
+          },
+          assessmentVersion: { uuid: 'a0', updatedAt: '2025-07-01T08:00:00Z', status: 'DRAFT' },
+          description: 'Assessment and plan updated',
+        },
+      },
+      countersignedVersions: {
         '2025-07-04': {
           planVersion: {
             uuid: 'p3',
@@ -45,18 +67,8 @@ describe('ViewVersionListController.locals', () => {
             status: 'COUNTERSIGNED',
             planAgreementStatus: 'AGREED',
           },
-          assessmentVersion: { uuid: 'a3', updatedAt: '2025-07-04T10:00:00Z' },
+          assessmentVersion: { uuid: 'a3', updatedAt: '2025-07-04T10:00:00Z', status: 'COUNTERSIGNED' },
           description: 'Assessment and plan updated',
-        },
-        '2025-07-03': {
-          planVersion: {
-            uuid: 'p2',
-            updatedAt: '2025-07-03T11:00:00Z',
-            status: 'DRAFT',
-            planAgreementStatus: 'DRAFT',
-          },
-          assessmentVersion: { uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z' },
-          description: 'Assessment updated',
         },
         '2025-07-02': {
           planVersion: {
@@ -65,13 +77,8 @@ describe('ViewVersionListController.locals', () => {
             status: 'DOUBLE_COUNTERSIGNED',
             planAgreementStatus: 'DO_NOT_AGREE',
           },
-          assessmentVersion: { uuid: 'a1', updatedAt: '2025-07-02T09:00:00Z' },
+          assessmentVersion: { uuid: 'a1', updatedAt: '2025-07-02T09:00:00Z', status: 'DOUBLE_COUNTERSIGNED' },
           description: 'Assessment and plan updated',
-        },
-        '2025-07-01': {
-          // No planVersion here to test optional chaining
-          assessmentVersion: { uuid: 'a0', updatedAt: '2025-07-01T08:00:00Z' },
-          description: 'Assessment updated',
         },
       },
     })
@@ -80,32 +87,31 @@ describe('ViewVersionListController.locals', () => {
 
     expect(getVersionsByEntityId).toHaveBeenCalledWith('assessment-123')
 
-    //  Current version
+    //  Current version (from allVersions, which excludes countersigned versions)
     expect(res.locals.currentVersion).toEqual({
       planVersion: expect.objectContaining({
-        uuid: 'p3',
-        status: 'COUNTERSIGNED',
+        uuid: 'p2',
+        status: 'DRAFT',
         planAgreementStatus: 'AGREED',
         planAgreementStatusText: 'Plan Agreed',
         planAgreementStatusClass: 'govuk-tag--green',
         showPlanAgreementStatus: true,
-        countersignedStatusText: 'Countersigned',
-        countersignedStatusClass: 'govuk-tag--turquoise',
-        showCountersignedStatus: true,
+        countersignedStatusText: '',
+        countersignedStatusClass: '',
+        showCountersignedStatus: false,
       }),
-      assessmentVersion: { uuid: 'a3', updatedAt: '2025-07-04T10:00:00Z' },
+      assessmentVersion: { uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z', status: 'DRAFT' },
       description: 'Assessment and plan updated',
     })
 
     // Previous versions should be in descending order and not include the current version
     expect(res.locals.previousVersions.map((version: LastVersionsOnDate) => version.assessmentVersion?.uuid)).toEqual([
-      'a2',
-      'a1',
       'a0',
     ])
 
-    // Countersigned versions should only include previous versions that are COUNTERSIGNED or DOUBLE_COUNTERSIGNED
+    // Countersigned versions from countersignedVersions response
     expect(res.locals.countersignedVersions.map((version: LastVersionsOnDate) => version.planVersion?.uuid)).toEqual([
+      'p3',
       'p1',
     ])
 
