@@ -1,7 +1,6 @@
 import emotionalIntimacy from './questions/emotional-intimacy'
 import offenceRelatedSexualInterest from './questions/offence-related-sexual-interest'
 import sexualPreoccupation from './questions/sexual-preoccupation'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/thinking-behaviours-attitudes-sexual-offending', () => {
   const stepUrl = '/thinking-behaviours-attitudes-risk-of-sexual-harm-details'
@@ -10,7 +9,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
 
   before(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Thinking, behaviours and attitudes').enterBackgroundSubsection()
+    cy.visitSection('Thinking, behaviours and attitudes')
     cy.getQuestion('Is Sam aware of the consequences of their actions?')
       .getRadio('Yes, is aware of the consequences of their actions')
       .clickLabel()
@@ -69,7 +68,7 @@ describe('/thinking-behaviours-attitudes-sexual-offending', () => {
     cy.saveAndContinue()
 
     cy.assertStepUrlIs(stepUrl)
-    cy.assertResumeUrlIs('Thinking, behaviours and attitudes', backgroundSubsectionName, summaryPage)
+    cy.assertResumeUrlIs('Thinking, behaviours and attitudes', stepUrl)
     cy.captureAssessment()
   })
 

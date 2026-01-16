@@ -6,10 +6,11 @@ describe('assessment complete checkmarks', () => {
     cy.enterAssessment()
   })
 
-  const sectionsThatRemainCompleteAfterChange = [
+  const sections = [
     'Accommodation',
     'Employment and education',
     'Finances',
+    'Drug use',
     'Alcohol use',
     'Health and wellbeing',
     'Personal relationships and community',
@@ -17,42 +18,35 @@ describe('assessment complete checkmarks', () => {
     'Offence analysis',
   ]
 
-  const sectionsThatCanBeIncompleteAfterChange = ['Drug use']
-
-  const allSections = sectionsThatRemainCompleteAfterChange.concat(sectionsThatCanBeIncompleteAfterChange)
-
   it('all checkmarks are visible', () => {
-    allSections.forEach(section => {
-      cy.sectionHasCompletionBlueTick(section)
+    sections.forEach(section => {
+      cy.sectionMarkedAsComplete(section)
     })
     cy.assessmentMarkedAsComplete()
   })
 
-  describe('checkmarks are not removed on change', () => {
-    sectionsThatRemainCompleteAfterChange.forEach(section => {
-      it(`${section} checkmark is not removed`, () => {
-        if (section === 'Offence analysis') {
+  describe('checkmarks are removed on change', () => {
+    sections
+      .filter(section => section !== 'Offence analysis')
+      .forEach(section => {
+        it(`${section} checkmark is removed`, () => {
           cy.visitSection(section)
-        } else {
-          cy.visitSection(section).enterBackgroundSubsection()
-        }
-
-        cy.get('a:contains(Change)').first().click()
-        cy.saveAndContinue()
-        cy.sectionHasCompletionBlueTick(section)
-        allSections.forEach(s => cy.sectionHasCompletionBlueTick(s))
-        cy.assessmentMarkedAsComplete()
+          cy.get('a:contains(Change)').first().click()
+          cy.saveAndContinue()
+          cy.sectionNotMarkedAsComplete(section)
+          sections.filter(s => s !== section).forEach(s => cy.sectionMarkedAsComplete(s))
+          cy.assessmentNotMarkedAsComplete()
+        })
       })
-    })
 
-    it(`Drug use checkmark is removed`, () => {
-      const section = 'Drug use'
-      cy.visitSection(section).enterBackgroundSubsection()
-      cy.get('a:contains(Change)').first().click()
-      cy.getQuestion('Has Sam ever misused drugs?').getRadio('No').clickLabel()
+    it(`Offence analysis checkmark is removed`, () => {
+      const section = 'Offence analysis'
+      cy.visitSection(section)
+      cy.getSummary('Why did the current index offence(s) happen?').clickChange()
+      cy.getQuestion('Why did the current index offence(s) happen?').enterText('')
       cy.saveAndContinue()
-      cy.sectionDoesNotHaveCompletionBlueTick(section)
-      allSections.filter(s => s !== section).forEach(s => cy.sectionHasCompletionBlueTick(s))
+      cy.sectionNotMarkedAsComplete(section)
+      sections.filter(s => s !== section).forEach(s => cy.sectionMarkedAsComplete(s))
       cy.assessmentNotMarkedAsComplete()
     })
   })

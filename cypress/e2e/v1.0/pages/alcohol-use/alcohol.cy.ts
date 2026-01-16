@@ -1,20 +1,18 @@
 import alcoholUse from './questions/alcohol-use'
-import sections from '../../../../../app/form/v1_0/config/sections'
-import { backgroundSubsectionName } from '../../journeys/common'
 
 describe('/alcohol', () => {
   const stepUrl = '/alcohol'
-  const summaryPage = `/${sections.alcohol.subsections.background.stepUrls.backgroundSummary}`
+  const summaryPage = '/alcohol-use-summary'
   const questions = [alcoholUse]
 
   beforeEach(() => {
     cy.createAssessment().enterAssessment()
-    cy.visitSection('Alcohol use').enterBackgroundSubsection()
+    cy.visitStep(stepUrl)
     cy.assertSectionIs('Alcohol use')
     cy.assertQuestionCount(questions.length)
     cy.hasAutosaveEnabled()
     cy.hasFeedbackLink()
-    cy.assertResumeUrlIs('Alcohol use', backgroundSubsectionName, stepUrl)
+    cy.assertResumeUrlIs('Alcohol use', stepUrl)
   })
 
   questions.forEach((questionTest, index) => {

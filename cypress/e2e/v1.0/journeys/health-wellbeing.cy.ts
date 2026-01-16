@@ -1,9 +1,4 @@
-import {
-  backgroundSubsectionName,
-  completePractitionerAnalysisBeforeBackground,
-  practitionerAnalysisSubsectionName,
-  testPractitionerAnalysis,
-} from './common'
+import { testPractitionerAnalysis } from './common'
 
 describe('Origin: /health-wellbeing', () => {
   const destinations = {
@@ -12,9 +7,8 @@ describe('Origin: /health-wellbeing', () => {
     physicalHealth: '/physical-health',
     mentalHealth: '/mental-health',
     noPhysicalMentalHealth: '/no-physical-mental-health',
-    backgroundSummary: '/health-wellbeing-summary',
+    summary: '/health-wellbeing-summary',
     analysis: '/health-wellbeing-analysis',
-    analysisSummary: '/health-wellbeing-analysis-summary',
   }
 
   const sectionName = 'Health and wellbeing'
@@ -26,8 +20,6 @@ describe('Origin: /health-wellbeing', () => {
   beforeEach(() => {
     cy.enterAssessment()
   })
-
-  completePractitionerAnalysisBeforeBackground(sectionName, destinations.analysis)
 
   describe(`Destination: ${destinations.physicalMentalHealth}`, () => {
     Array.of('Yes').forEach(physicalHealthCondition => {
@@ -45,17 +37,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.physicalMentalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalMentalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.physicalMentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.physicalMentalHealth)
 
         cy.getQuestion('Is Sam currently having psychiatric treatment?').getRadio('No').clickLabel()
@@ -80,18 +72,13 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalMentalHealth)
+        cy.assertResumeUrlIs(sectionName, destinations.physicalMentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -107,17 +94,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.physicalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.physicalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.physicalHealth)
 
         cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
@@ -140,18 +127,13 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.physicalHealth)
+        cy.assertResumeUrlIs(sectionName, destinations.physicalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -171,17 +153,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.mentalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.mentalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.mentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.mentalHealth)
 
         cy.getQuestion('Is Sam currently having psychiatric treatment?').getRadio('No').clickLabel()
@@ -206,18 +188,13 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.mentalHealth)
+        cy.assertResumeUrlIs(sectionName, destinations.mentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 
@@ -233,17 +210,17 @@ describe('Origin: /health-wellbeing', () => {
             .getRadio(mentalHealthCondition)
             .clickLabel()
 
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.landingPage)
+          cy.assertResumeUrlIs(sectionName, destinations.landingPage)
           cy.saveAndContinue()
           cy.assertStepUrlIs(destinations.noPhysicalMentalHealth)
           cy.assertBackLinkIs(destinations.landingPage)
-          cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.noPhysicalMentalHealth)
+          cy.assertResumeUrlIs(sectionName, destinations.noPhysicalMentalHealth)
         })
       })
     })
 
-    describe(`Destination: ${destinations.backgroundSummary}`, () => {
-      it(`routes to ${destinations.backgroundSummary}`, () => {
+    describe(`Destination: ${destinations.summary}`, () => {
+      it(`routes to ${destinations.summary}`, () => {
         cy.visitStep(destinations.noPhysicalMentalHealth)
 
         cy.getQuestion('Has Sam had a head injury or any illness affecting the brain?').getRadio('No').clickLabel()
@@ -266,18 +243,13 @@ describe('Origin: /health-wellbeing', () => {
           .getRadio('Sam is not present')
           .clickLabel()
 
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.noPhysicalMentalHealth)
+        cy.assertResumeUrlIs(sectionName, destinations.noPhysicalMentalHealth)
         cy.saveAndContinue()
-        cy.assertStepUrlIs(destinations.backgroundSummary)
-        cy.assertResumeUrlIs(sectionName, backgroundSubsectionName, destinations.backgroundSummary)
+        cy.assertStepUrlIs(destinations.summary)
+        cy.assertResumeUrlIs(sectionName, destinations.summary)
       })
 
-      testPractitionerAnalysis(
-        sectionName,
-        destinations.backgroundSummary,
-        practitionerAnalysisSubsectionName,
-        destinations.analysisSummary,
-      )
+      testPractitionerAnalysis(sectionName, destinations.summary, destinations.analysis)
     })
   })
 })
