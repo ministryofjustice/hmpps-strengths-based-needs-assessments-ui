@@ -12,7 +12,9 @@ export default class ViewVersionListController extends SaveAndContinueController
 
       // Separate current version from all versions
       const sortedAllVersionEntries = Object.entries(versions.allVersions).sort((a, b) => b[0].localeCompare(a[0]))
-      const sortedCountersignedVersionEntries = Object.entries(versions.countersignedVersions).sort((a, b) => b[0].localeCompare(a[0]))
+      const sortedCountersignedVersionEntries = Object.entries(versions.countersignedVersions).sort((a, b) =>
+        b[0].localeCompare(a[0]),
+      )
 
       const currentVersionEntry = sortedAllVersionEntries[0]
       const previousVersionEntries = sortedAllVersionEntries.slice(1)
