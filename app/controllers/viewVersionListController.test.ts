@@ -43,10 +43,10 @@ describe('ViewVersionListController.locals', () => {
             uuid: 'p2',
             updatedAt: '2025-07-03T11:00:00Z',
             status: 'DRAFT',
-            planAgreementStatus: 'DRAFT',
+            planAgreementStatus: 'AGREED',
           },
-          assessmentVersion: { uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z' },
-          description: 'Assessment updated',
+          assessmentVersion: { uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z', status: 'DRAFT' },
+          description: 'Assessment and plan updated',
         },
         '2025-07-01': {
           planVersion: {
@@ -55,7 +55,7 @@ describe('ViewVersionListController.locals', () => {
             status: 'LOCKED_INCOMPLETE',
             planAgreementStatus: 'DRAFT',
           },
-          assessmentVersion: { uuid: 'a0', updatedAt: '2025-07-01T08:00:00Z' },
+          assessmentVersion: { uuid: 'a0', updatedAt: '2025-07-01T08:00:00Z', status: 'DRAFT' },
           description: 'Assessment and plan updated',
         },
       },
@@ -67,7 +67,7 @@ describe('ViewVersionListController.locals', () => {
             status: 'COUNTERSIGNED',
             planAgreementStatus: 'AGREED',
           },
-          assessmentVersion: { uuid: 'a3', updatedAt: '2025-07-04T10:00:00Z' },
+          assessmentVersion: { uuid: 'a3', updatedAt: '2025-07-04T10:00:00Z', status: 'COUNTERSIGNED' },
           description: 'Assessment and plan updated',
         },
         '2025-07-02': {
@@ -77,7 +77,7 @@ describe('ViewVersionListController.locals', () => {
             status: 'DOUBLE_COUNTERSIGNED',
             planAgreementStatus: 'DO_NOT_AGREE',
           },
-          assessmentVersion: { uuid: 'a1', updatedAt: '2025-07-02T09:00:00Z' },
+          assessmentVersion: { uuid: 'a1', updatedAt: '2025-07-02T09:00:00Z', status: 'DOUBLE_COUNTERSIGNED' },
           description: 'Assessment and plan updated',
         },
       },
@@ -92,16 +92,16 @@ describe('ViewVersionListController.locals', () => {
       planVersion: expect.objectContaining({
         uuid: 'p2',
         status: 'DRAFT',
-        planAgreementStatus: 'DRAFT',
-        planAgreementStatusText: '',
-        planAgreementStatusClass: '',
-        showPlanAgreementStatus: false,
+        planAgreementStatus: 'AGREED',
+        planAgreementStatusText: 'Plan Agreed',
+        planAgreementStatusClass: 'govuk-tag--green',
+        showPlanAgreementStatus: true,
         countersignedStatusText: '',
         countersignedStatusClass: '',
         showCountersignedStatus: false,
       }),
-      assessmentVersion: expect.objectContaining({ uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z' }),
-      description: 'Assessment updated',
+      assessmentVersion: { uuid: 'a2', updatedAt: '2025-07-03T10:00:00Z', status: 'DRAFT' },
+      description: 'Assessment and plan updated',
     })
 
     // Previous versions should be in descending order and not include the current version
