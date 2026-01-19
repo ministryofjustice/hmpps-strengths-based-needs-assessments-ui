@@ -71,19 +71,21 @@ export default class ViewVersionListController extends SaveAndContinueController
         let previousPlanAgreementStatus = currentVersion.planVersion.planAgreementStatus
         let previousCountersignedStatus = currentVersion.planVersion.status
 
-        allMappedVersions.forEach(version => {
+        for (let i = 0; i < allMappedVersions.length; i++) {
+          const version = allMappedVersions[i]
+
           if (version.planVersion.planAgreementStatus === previousPlanAgreementStatus) {
-            version.planVersion.showPlanAgreementStatus = false
+            allMappedVersions[i].planVersion.showPlanAgreementStatus = false
           } else {
             previousPlanAgreementStatus = version.planVersion.planAgreementStatus
           }
 
           if (version.planVersion.status === previousCountersignedStatus) {
-            version.planVersion.showCountersignedStatus = false
+            allMappedVersions[i].planVersion.showCountersignedStatus = false
           } else {
             previousCountersignedStatus = version.planVersion.status
           }
-        })
+        }
       }
 
       res.locals.currentVersion = currentVersion
