@@ -61,6 +61,22 @@ export default class ViewVersionListController extends SaveAndContinueController
 
       const allMappedVersions = previousVersionEntries.map(([, version]) => mapVersion(version))
 
+      // Filter out repeated status tags for all versions - oldest to newest so status shows on earliest occurrence
+      if (allMappedVersions.length > 0) {
+        let previousPlanAgreementStatus: string | null = null
+
+        // allMappedVersions is sorted newest first, so iterate backwards (oldest to newest)
+        for (let i = allMappedVersions.length - 1; i >= 0; i--) {
+          const version = allMappedVersions[i]
+
+          if (version.planVersion.planAgreementStatus === previousPlanAgreementStatus) {
+            allMappedVersions[i].planVersion.showPlanAgreementStatus = false
+          } else {
+            previousPlanAgreementStatus = version.planVersion.planAgreementStatus
+          }
+        }
+      }
+
       res.locals.currentVersion = currentVersion
       res.locals.countersignedVersions = allMappedVersions.filter(
         version =>
