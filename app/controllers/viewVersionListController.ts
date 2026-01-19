@@ -66,6 +66,44 @@ export default class ViewVersionListController extends SaveAndContinueController
       const allMappedVersions = previousVersionEntries.map(([, version]) => mapVersion(version))
       const countersignedMappedVersions = sortedCountersignedVersionEntries.map(([, version]) => mapVersion(version))
 
+      // Filter out repeated status tags for all versions (comparing with current version first)
+      if (currentVersion) {
+        let previousPlanAgreementStatus = currentVersion.planVersion.planAgreementStatus
+        let previousCountersignedStatus = currentVersion.planVersion.status
+
+        allMappedVersions.forEach(version => {
+          if (version.planVersion.planAgreementStatus === previousPlanAgreementStatus) {
+            version.planVersion.showPlanAgreementStatus = false
+          } else {
+            previousPlanAgreementStatus = version.planVersion.planAgreementStatus
+          }
+
+          if (version.planVersion.status === previousCountersignedStatus) {
+            version.planVersion.showCountersignedStatus = false
+          } else {
+            previousCountersignedStatus = version.planVersion.status
+          }
+        })
+      }
+
+      // Filter out repeated status tags for countersigned versions
+      let previousCountersignedPlanAgreementStatus: string | null = null
+      let previousCountersignedCountersignedStatus: string | null = null
+
+      countersignedMappedVersions.forEach(version => {
+        if (version.planVersion.planAgreementStatus === previousCountersignedPlanAgreementStatus) {
+          version.planVersion.showPlanAgreementStatus = false
+        } else {
+          previousCountersignedPlanAgreementStatus = version.planVersion.planAgreementStatus
+        }
+
+        if (version.planVersion.status === previousCountersignedCountersignedStatus) {
+          version.planVersion.showCountersignedStatus = false
+        } else {
+          previousCountersignedCountersignedStatus = version.planVersion.status
+        }
+      })
+
       res.locals.currentVersion = currentVersion
       res.locals.countersignedVersions = countersignedMappedVersions
       res.locals.previousVersions = allMappedVersions
