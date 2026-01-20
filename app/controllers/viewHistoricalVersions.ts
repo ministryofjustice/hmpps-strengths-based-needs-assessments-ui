@@ -27,7 +27,7 @@ const viewHistoricalVersions = async (req: Request, res: Response, next: NextFun
       if (error) {
         throw error
       }
-      res.redirect(`/form/view-historic/${assessment.metaData.versionUuid}/accommodation-tasks`)
+      res.redirect(`/form/view-historic/${assessment.metaData.versionUuid}/accommodation-analysis`)
     })
   } catch {
     next(new Error('Unable to view previous assessment'))

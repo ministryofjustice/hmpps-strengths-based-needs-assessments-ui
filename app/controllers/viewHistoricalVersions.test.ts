@@ -60,6 +60,6 @@ describe('viewHistoricalVersions', () => {
     await viewHistoricalVersions(req, res, next)
 
     expect(session.save).toHaveBeenCalled()
-    expect(res.redirect).toHaveBeenCalledWith(`/form/view-historic/${assessmentVersionUUID}/accommodation-tasks`)
+    expect(res.redirect).toHaveBeenCalledWith(`/form/view-historic/${assessmentVersionUUID}/accommodation-analysis`)
   })
 })
