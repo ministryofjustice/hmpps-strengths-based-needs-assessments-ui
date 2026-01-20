@@ -121,12 +121,11 @@
     "prom-client": "^15.1.3",
     "redis": "^4.7.0",
     "superagent": "^10.2.0",
-    "url-value-parser": "^2.2.0",
-    "uuid": "^11.1.0"
+    "url-value-parser": "^2.2.0"
   },
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.3",
-    "@ministryofjustice/eslint-config-hmpps": "^0.0.1-beta.2",
+    "@ministryofjustice/eslint-config-hmpps": "^1.0.2",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
