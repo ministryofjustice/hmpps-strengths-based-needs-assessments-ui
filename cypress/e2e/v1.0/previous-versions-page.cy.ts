@@ -7,18 +7,20 @@ describe('previous versions page', () => {
       .click()
     cy.assertStepUrlIs('previous-versions')
     cy.get('p')
-      .contains(`Check versions of Sam's current assessment. The links will open in a new tab.`)
+      .contains(`Check versions of Sam's current assessment and plan. The links will open in a new tab.`)
       .should('be.visible')
       .and('have.length', 1)
     cy.get('.govuk-table').should('be.visible').and('have.length', 1)
-    cy.get('thead th').should('have.length', 2)
+    cy.get('thead th').should('have.length', 4)
     cy.get('thead th').eq(0).should('contain.text', 'Date')
     cy.get('thead th').eq(1).should('contain.text', 'Assessment')
+    cy.get('thead th').eq(2).should('contain.text', 'Sentence Plan')
+    cy.get('thead th').eq(3).should('contain.text', 'Status')
 
     cy.get('tbody tr').should('have.length', 4)
     cy.get('tbody tr').each((_el, index) => {
       const columns = `tbody tr:nth-child(${index + 1}) td`
-      cy.get(columns).should('have.length', 2)
+      cy.get(columns).should('have.length', 4)
 
       const today = new Date()
       const expectedDate = new Date(today.setDate(today.getDate() - index - 1)).toLocaleDateString('en-GB', {
@@ -27,13 +29,31 @@ describe('previous versions page', () => {
         year: 'numeric',
       })
       cy.get(columns).eq(0).should('contain.text', expectedDate)
-      cy.get(columns).eq(1).find('a').should('contain.text', 'View').as('view-link')
+      cy.get(columns).eq(1).find('a').should('contain.text', 'View').as('assessment-link')
 
-      cy.get('@view-link').should('have.attr', 'target').and('equal', '_blank')
-      cy.get('@view-link').invoke('attr', 'target', '_self').click()
+      cy.get('@assessment-link').should('have.attr', 'target').and('equal', '_blank')
+      cy.get('@assessment-link')
+        .should('have.attr', 'href')
+        .and('match', /\/form\/view-historic/)
+      cy.get('@assessment-link').invoke('attr', 'target', '_self').click()
       cy.assertStepUrlIsNot('previous-versions')
       cy.go('back')
       cy.assertStepUrlIs('previous-versions')
+
+      cy.get(columns)
+        .eq(2)
+
+        .then($cell => {
+          if ($cell.find('a').length > 0) {
+            cy.wrap($cell).find('a').should('contain.text', 'View').as('plan-link')
+            cy.get('@plan-link').should('have.attr', 'target').and('equal', '_blank')
+            cy.get('@plan-link')
+              .should('have.attr', 'href')
+              .and('match', /\/view-previous-version\//)
+          } else {
+            cy.wrap($cell).find('a').should('have.length', 0)
+          }
+        })
     })
   })
 
@@ -47,5 +67,13 @@ describe('previous versions page', () => {
     cy.assertStepUrlIs('previous-versions')
     cy.get('.govuk-table').should('not.exist')
     cy.contains('p', `There are no previous versions of Sam's assessment yet.`).should('be.visible')
+  })
+
+  it('opens assessment link in new tab', () => {
+    cy.createAssessmentWithVersions(2)
+    cy.enterAssessment()
+    cy.get('.offender-details__top [data-previous-versions-link]').click()
+
+    cy.get('tbody tr:first-child td:nth-child(2) a').should('have.attr', 'target', '_blank')
   })
 })

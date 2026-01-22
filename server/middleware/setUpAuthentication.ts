@@ -21,12 +21,26 @@ export default function setUpAuth(): Router {
 
   router.get('/sign-in', passport.authenticate('oauth2'))
 
-  router.get(
-    '/sign-in/callback',
+  router.get('/sign-in/callback', (req, res, next) =>
     passport.authenticate('oauth2', {
-      successReturnToOrRedirect: '/start',
+      successReturnToOrRedirect: req.session.previousVersionsRedirect || '/start',
+      failureRedirect: '/autherror',
+    })(req, res, next),
+  )
+
+  router.get(
+    '/view-previous-version/:assessmentVersion',
+    (req, res, next) => {
+      req.session.previousVersionsRedirect = `/view-historical-versions/${req.params.assessmentVersion}`
+      req.session.save(next)
+    },
+    passport.authenticate('oauth2', {
       failureRedirect: '/autherror',
     }),
+    (req, res) => {
+      const { assessmentVersion } = req.params
+      res.redirect(`/view-historical-versions/${assessmentVersion}`)
+    },
   )
 
   const authUrl = config.apis.arnsHandover.url
