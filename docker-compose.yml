@@ -6,13 +6,6 @@ services:
     environment:
       ALLOW_EMPTY_PASSWORD: yes
 
-  redis-san:
-    image: redis:7.4
-    networks:
-      - hmpps
-    environment:
-      ALLOW_EMPTY_PASSWORD: yes
-
   postgres:
     image: postgres:16
     networks:
@@ -167,7 +160,7 @@ services:
     networks:
       - hmpps
     depends_on:
-      redis-san:
+      redis:
         condition: service_started
       hmpps-auth:
         condition: service_healthy
@@ -183,7 +176,7 @@ services:
       retries: 60
     environment:
       PORT: 3000
-      REDIS_HOST: redis-san
+      REDIS_HOST: redis
       HMPPS_AUTH_EXTERNAL_URL: http://localhost:9090/auth
       HMPPS_AUTH_URL: http://hmpps-auth:9090/auth
       HMPPS_ARNS_HANDOVER_URL: http://arns-handover:7070
