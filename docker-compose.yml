@@ -171,11 +171,16 @@ services:
     networks:
       - hmpps
     depends_on:
-     - redis-san
-     - hmpps-auth
-     - san-api
-     - arns-handover
-     - aap-ui
+      redis-san:
+        condition: service_started
+      hmpps-auth:
+        condition: service_healthy
+      san-api:
+        condition: service_healthy
+      arns-handover:
+        condition: service_healthy
+      aap-ui:
+        condition: service_started
     healthcheck:
       test: [ "CMD", "node", "./docker/healthcheck.js" ]
       interval: 5s
