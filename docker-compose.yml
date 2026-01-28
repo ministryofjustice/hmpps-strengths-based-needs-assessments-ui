@@ -82,10 +82,6 @@ services:
       - hmpps-auth
       - arns-handover
       - coordinator-api
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/health"]
-      interval: 5s
-      retries: 60
     environment:
       PRODUCT_ID: ARNS
       REDIS_ENABLED: "true"
