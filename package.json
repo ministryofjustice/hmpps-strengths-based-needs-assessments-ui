@@ -154,7 +154,7 @@
     "chokidar": "^3.6.0",
     "concurrently": "^9.1.2",
     "cookie-session": "^2.1.1",
-    "cypress": "^14.3.0",
+    "cypress": "^15.10.0",
     "cypress-axe": "^1.6.0",
     "cypress-split": "^1.24.14",
     "esbuild": "^0.25.1",
@@ -178,7 +178,7 @@
   },
   "overrides": {
     "cypress-axe": {
-      "cypress": "^14.2.0"
+      "cypress": "^15.10.0"
     },
     "@jgoz/esbuild-plugin-typecheck": {
       "esbuild": "$esbuild"
