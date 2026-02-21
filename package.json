@@ -89,7 +89,7 @@
     "@faker-js/faker": "^10.2.0",
     "@microsoft/applicationinsights-clickanalytics-js": "^3.3.6",
     "@microsoft/applicationinsights-web": "^3.3.6",
-    "@ministryofjustice/frontend": "^4.0.1",
+    "@ministryofjustice/frontend": "^8.0.1",
     "accessible-autocomplete": "^3.0.1",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "2.9.6",
