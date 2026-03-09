@@ -30,8 +30,8 @@ export default function createApp(): express.Application {
 
   app.use(metricsMiddleware)
   app.use(setUpHealthChecks())
-  app.use('/config', formApp.formConfigRouter)
   app.use(setUpWebSecurity())
+  app.use('/config', formApp.formConfigRouter)
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
