@@ -17,6 +17,7 @@ import setUpWebSession from './middleware/setUpWebSession'
 import routes from './routes'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
 import handoverContextMiddleware from './middleware/handoverContextMiddleware'
+import App from '../app'
 
 export default function createApp(): express.Application {
   const app = express()
@@ -25,8 +26,11 @@ export default function createApp(): express.Application {
   app.set('trust proxy', true)
   app.set('port', process.env.PORT || 3000)
 
+  const formApp = new App()
+
   app.use(metricsMiddleware)
   app.use(setUpHealthChecks())
+  app.use('/config', formApp.formConfigRouter)
   app.use(setUpWebSecurity())
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
@@ -39,7 +43,7 @@ export default function createApp(): express.Application {
   // app.use(setUpCsrf())
   // app.use(setUpCurrentUser())
 
-  app.use(routes())
+  app.use(routes(formApp))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler())
