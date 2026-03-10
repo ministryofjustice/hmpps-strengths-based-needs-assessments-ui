@@ -19,45 +19,13 @@ export default class ViewVersionListController extends SaveAndContinueController
       const currentVersionEntry = sortedAllVersionEntries[0]
       const previousVersionEntries = sortedAllVersionEntries.slice(1)
 
-      const planAgreementStatusMap: Record<string, { text: string; classes: string }> = {
-        AGREED: { text: 'Plan Agreed', classes: 'govuk-tag--green' },
-        COULD_NOT_ANSWER: { text: 'Plan Created', classes: 'govuk-tag--blue' },
-        DO_NOT_AGREE: { text: 'Plan Created', classes: 'govuk-tag--blue' },
-        UPDATED_AGREED: { text: 'Plan agreement updated', classes: 'govuk-tag--light-blue' },
-        DRAFT: { text: '', classes: '' },
-      }
-
-      const countersignedStatusMap: Record<string, { text: string; classes: string }> = {
-        COUNTERSIGNED: { text: 'Countersigned', classes: 'govuk-tag--turquoise' },
-        DOUBLE_COUNTERSIGNED: { text: 'Countersigned', classes: 'govuk-tag--turquoise' },
-      }
-
       const mapVersion = (version: LastVersionsOnDate) => {
-        const planAgreementStatus = version.planVersion?.planAgreementStatus
-        const status = version.planVersion?.status
-
-        const planAgreementStatusInfo = planAgreementStatusMap[planAgreementStatus] || { text: '', classes: '' }
-        const countersignedStatusInfo = countersignedStatusMap[status] || { text: '', classes: '' }
-
         return {
-          planVersion: {
-            uuid: version.planVersion?.uuid,
-            updatedAt: version.planVersion?.updatedAt,
-            status,
-            planAgreementStatus,
-            planAgreementStatusText: planAgreementStatusInfo.text,
-            planAgreementStatusClass: planAgreementStatusInfo.classes,
-            showPlanAgreementStatus: !!planAgreementStatusInfo.text,
-            countersignedStatusText: countersignedStatusInfo.text,
-            countersignedStatusClass: countersignedStatusInfo.classes,
-            showCountersignedStatus: !!countersignedStatusInfo.text,
-          },
           assessmentVersion: {
             uuid: version.assessmentVersion?.uuid,
             updatedAt: version.assessmentVersion?.updatedAt,
             status: version.assessmentVersion?.status,
           },
-          description: version.description,
         }
       }
 
@@ -65,22 +33,6 @@ export default class ViewVersionListController extends SaveAndContinueController
 
       const allMappedVersions = previousVersionEntries.map(([, version]) => mapVersion(version))
       const countersignedMappedVersions = sortedCountersignedVersionEntries.map(([, version]) => mapVersion(version))
-
-      // Filter out repeated status tags for all versions - oldest to newest so status shows on earliest occurrence
-      if (allMappedVersions.length > 0) {
-        let previousPlanAgreementStatus: string | null = null
-
-        // allMappedVersions is sorted newest first, so iterate backwards (oldest to newest)
-        for (let i = allMappedVersions.length - 1; i >= 0; i--) {
-          const version = allMappedVersions[i]
-
-          if (version.planVersion.planAgreementStatus === previousPlanAgreementStatus) {
-            allMappedVersions[i].planVersion.showPlanAgreementStatus = false
-          } else {
-            previousPlanAgreementStatus = version.planVersion.planAgreementStatus
-          }
-        }
-      }
 
       res.locals.currentVersion = currentVersion
       res.locals.countersignedVersions = countersignedMappedVersions

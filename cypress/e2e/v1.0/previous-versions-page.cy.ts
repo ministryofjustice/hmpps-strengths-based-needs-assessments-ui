@@ -7,20 +7,18 @@ describe('previous versions page', () => {
       .click()
     cy.assertStepUrlIs('previous-versions')
     cy.get('p')
-      .contains(`Check versions of Sam's current assessment and plan. The links will open in a new tab.`)
+      .contains(`Check versions of Sam's current assessment. The links will open in a new tab.`)
       .should('be.visible')
       .and('have.length', 1)
     cy.get('.govuk-table').should('be.visible').and('have.length', 1)
-    cy.get('thead th').should('have.length', 4)
+    cy.get('thead th').should('have.length', 2)
     cy.get('thead th').eq(0).should('contain.text', 'Date')
     cy.get('thead th').eq(1).should('contain.text', 'Assessment')
-    cy.get('thead th').eq(2).should('contain.text', 'Sentence Plan')
-    cy.get('thead th').eq(3).should('contain.text', 'Status')
 
     cy.get('tbody tr').should('have.length', 4)
     cy.get('tbody tr').each((_el, index) => {
       const columns = `tbody tr:nth-child(${index + 1}) td`
-      cy.get(columns).should('have.length', 4)
+      cy.get(columns).should('have.length', 2)
 
       const today = new Date()
       const expectedDate = new Date(today.setDate(today.getDate() - index - 1)).toLocaleDateString('en-GB', {
@@ -39,21 +37,6 @@ describe('previous versions page', () => {
       cy.assertStepUrlIsNot('previous-versions')
       cy.go('back')
       cy.assertStepUrlIs('previous-versions')
-
-      cy.get(columns)
-        .eq(2)
-
-        .then($cell => {
-          if ($cell.find('a').length > 0) {
-            cy.wrap($cell).find('a').should('contain.text', 'View').as('plan-link')
-            cy.get('@plan-link').should('have.attr', 'target').and('equal', '_blank')
-            cy.get('@plan-link')
-              .should('have.attr', 'href')
-              .and('match', /\/view-previous-version\//)
-          } else {
-            cy.wrap($cell).find('a').should('have.length', 0)
-          }
-        })
     })
   })
 
