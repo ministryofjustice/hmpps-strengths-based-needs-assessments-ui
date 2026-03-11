@@ -17,7 +17,7 @@ services:
       - /var/lib/postgresql
 
   hmpps-auth:
-    image: ghcr.io/ministryofjustice/hmpps-auth
+    image: ghcr.io/ministryofjustice/hmpps-auth:2026-01-19.282.b6537e8
     networks:
       - hmpps
     healthcheck:
@@ -107,6 +107,9 @@ services:
       TIER_API_URL: http://localhost:8083
       INTERVENTIONS_API_URL: http://localhost:8084
       SAN_EXTERNAL_URL: http://localhost:3000
+      SAN_URL: http://localhost:3000
+      MPOP_URL: "http://ui:3000/sign-in"
+      SERVICE_NOW_FORM_URL: "#service-now-link"
       TRAINING_SESSION_LAUNCHER_ENABLED: "true"
 
   coordinator-api:
