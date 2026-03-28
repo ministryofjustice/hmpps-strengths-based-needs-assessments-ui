@@ -83,7 +83,7 @@ jobs:
           node-version-file: '.nvmrc'
 
       - name: Run the end-to-end tests
-        uses: cypress-io/github-action@v6.7.16
+        uses: cypress-io/github-action@v7.1.3
         with:
           install-command: npm run setup
           publish-summary: false
