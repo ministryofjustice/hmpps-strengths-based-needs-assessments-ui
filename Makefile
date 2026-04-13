@@ -1,7 +1,15 @@
 SHELL = '/bin/bash'
+
+## Useful to keep this the same for backend/frontend
 PROJECT_NAME = hmpps-assess-risks-and-needs
-LOCAL_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.local.yml
-DEV_COMPOSE_FILES = -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.dev.yml
+
+## Must match name of container in Docker
+SERVICE_NAME = san-ui
+
+## Compose files to stack on each other
+PROD_COMPOSE_FILES = -f docker/docker-compose.base.yml
+DEV_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compose.local.yml
+
 export COMPOSE_PROJECT_NAME=${PROJECT_NAME}
 
 default: help
@@ -9,41 +17,37 @@ default: help
 help: ## The help text you're reading.
 	@grep --no-filename -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-up: ## Starts/restarts the UI in a production container.
-	docker compose ${LOCAL_COMPOSE_FILES} down san-ui
-	docker compose ${LOCAL_COMPOSE_FILES} up san-ui --wait --no-recreate
+prod-build: ## Builds a production image of the UI.
+	docker compose ${PROD_COMPOSE_FILES} build ${SERVICE_NAME}
 
-down: ## Stops and removes all containers in the project.
-	docker compose ${LOCAL_COMPOSE_FILES} down
-	make dev-down
-
-build-ui: ## Builds a production image of the UI.
-	docker compose build san-ui
-
-dev-up: ## Starts/restarts the UI in a development container. A remote debugger can be attached on port 9229.
-	docker compose ${DEV_COMPOSE_FILES} down san-ui
-	docker compose ${DEV_COMPOSE_FILES} up san-ui --wait --no-recreate
+prod-up: ## Starts/restarts the UI in a production container.
+	docker compose ${PROD_COMPOSE_FILES} down ${SERVICE_NAME}
+	docker compose ${PROD_COMPOSE_FILES} up ${SERVICE_NAME} --wait --no-recreate
 
 dev-build: ## Builds a development image of the UI and installs Node dependencies.
-	docker compose ${DEV_COMPOSE_FILES} build san-ui
+	docker compose ${DEV_COMPOSE_FILES} build ${SERVICE_NAME}
 
-dev-down: ## Stops and removes all dev containers.
-	docker compose ${DEV_COMPOSE_FILES} down
+dev-up: ## Starts/restarts the UI in a development container. A remote debugger can be attached on port 9229.
+	docker compose down ${SERVICE_NAME}
+	docker compose ${DEV_COMPOSE_FILES} up ${SERVICE_NAME} --wait --no-recreate
+
+down: ## Stops and removes all containers in the project.
+	docker compose down
 
 dev-update: update dev-build ## Pulls latest docker images, re-builds the Dev UI and copies node_modules to local filesystem.
 	rm -rf node_modules
-	docker compose ${DEV_COMPOSE_FILES} run --no-deps --name ui-node-modules san-ui node -v
+	docker compose ${DEV_COMPOSE_FILES} run --no-deps --name ui-node-modules ${SERVICE_NAME} node -v
 	docker container cp ui-node-modules:/app/node_modules .
 	docker container rm -f ui-node-modules
 
 test: ## Runs the unit test suite.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps san-ui npm run test
+	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ${SERVICE_NAME} npm run test
 
 lint: ## Runs the linter.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps san-ui npm run lint
+	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ${SERVICE_NAME} npm run lint
 
 lint-fix: ## Automatically fixes linting issues.
-	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps san-ui npm run lint:fix
+	docker compose ${DEV_COMPOSE_FILES} run --rm --no-deps ${SERVICE_NAME} npm run lint:fix
 
 get-cypress:
 	npm i
@@ -63,7 +67,7 @@ clean: ## Stops and removes all project containers. Deletes local build/cache di
 	rm -rf dist node_modules test_results
 
 update: ## Downloads the latest versions of container images.
-	docker compose pull
+	docker compose ${DEV_COMPOSE_FILES} pull --ignore-buildable
 
 save-logs: ## Saves docker container logs in a directory defined by OUTPUT_LOGS_DIR=
 	docker system info

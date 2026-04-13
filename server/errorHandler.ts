@@ -11,7 +11,7 @@ export default function createErrorHandler() {
         err: error,
         url: req.originalUrl,
         user: res.locals.user?.username,
-        crn: subjectDetails.crn,
+        crn: subjectDetails?.crn,
       },
       'Error handling request',
     )
