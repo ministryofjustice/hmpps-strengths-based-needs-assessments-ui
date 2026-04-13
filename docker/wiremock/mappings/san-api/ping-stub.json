@@ -1,0 +1,17 @@
+{
+  "name": "SAN API ping - default success",
+  "request": {
+    "method": "GET",
+    "urlPattern": "/san-api/health/ping"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json;charset=UTF-8"
+    },
+    "jsonBody": {
+      "status": "UP"
+    }
+  },
+  "priority": 50
+}

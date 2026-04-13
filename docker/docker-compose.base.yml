@@ -1,3 +1,6 @@
+# `docker-compose.base.yml` defines common configuration shared across all deployment states.
+# Other compose files (local) extend or override these settings as needed.
+
 services:
   redis:
     image: redis:7.4
@@ -10,6 +13,8 @@ services:
     image: postgres:16
     networks:
       - hmpps
+    ports:
+      - '5432:5432'
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: dev
@@ -20,12 +25,14 @@ services:
     image: ghcr.io/ministryofjustice/hmpps-auth:2026-01-19.282.b6537e8
     networks:
       - hmpps
+    ports:
+      - '9090:9090'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://hmpps-auth:9090/auth/health"]
       interval: 5s
       retries: 60
     volumes:
-      - ./docker/auth_db:/auth_db
+      - ./auth_db:/auth_db
     environment:
       SERVER_PORT: 9090
       SPRING_PROFILES_ACTIVE: dev
@@ -37,6 +44,8 @@ services:
     image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-handover-service:latest
     networks:
       - hmpps
+    ports:
+      - '7070:7070'
     depends_on:
       - redis
       - coordinator-api
@@ -70,6 +79,8 @@ services:
     image: ghcr.io/ministryofjustice/hmpps-arns-assessment-platform-ui:latest
     networks:
       - hmpps
+    ports:
+      - '7072:3000'
     depends_on:
       - redis
       - hmpps-auth
@@ -110,7 +121,7 @@ services:
       SAN_URL: http://localhost:3000
       MPOP_URL: "http://ui:3000/sign-in"
       SERVICE_NOW_FORM_URL: "#service-now-link"
-      TRAINING_SESSION_LAUNCHER_ENABLED: "true"
+      FORM_TRAINING_SESSION_LAUNCHER_ENABLED: "true"
 
   coordinator-api:
     image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:latest
@@ -132,10 +143,11 @@ services:
       APP_DB_PASSWORD: dev
       HMPPS_AUTH_BASE_URL: http://hmpps-auth:9090/auth
       SAN_API_BASE_URL: http://san-api:8080
-      SP_API_BASE_URL: http://sp-api:8080
       CLIENT_ID: hmpps-assess-risks-and-needs-oastub-ui
       CLIENT_SECRET: clientsecret
+      APP_STRATEGIES_AAP_PLAN: false
       APP_STRATEGIES_PLAN: false
+
 
   san-api:
     image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-api:latest
@@ -158,19 +170,17 @@ services:
   san-ui:
     image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:${APP_VERSION:-latest}
     build:
-      context: .
+      context: ../
       target: production
     networks:
       - hmpps
+    ports:
+      - '3000:3000'
     depends_on:
       redis:
         condition: service_started
-      hmpps-auth:
-        condition: service_healthy
-      san-api:
-        condition: service_healthy
-      arns-handover:
-        condition: service_healthy
+      wiremock:
+        condition: service_started
       aap-ui:
         condition: service_started
     healthcheck:
@@ -181,12 +191,12 @@ services:
       PORT: 3000
       REDIS_HOST: redis
       HMPPS_AUTH_EXTERNAL_URL: http://localhost:9090/auth
-      HMPPS_AUTH_URL: http://hmpps-auth:9090/auth
-      HMPPS_ARNS_HANDOVER_URL: http://arns-handover:7070
+      HMPPS_AUTH_URL: http://wiremock:8080/auth
+      HMPPS_ARNS_HANDOVER_URL: http://wiremock:8080/handover
       HMPPS_ARNS_HANDOVER_EXTERNAL_URL: http://localhost:7070
       OASYS_URL: http://localhost:7072
-      TOKEN_VERIFICATION_ENABLED: false
-      TOKEN_VERIFICATION_API_URL: http://hmpps-auth:9091/verification
+      TOKEN_VERIFICATION_ENABLED: true
+      TOKEN_VERIFICATION_API_URL: http://wiremock:8080/verification
       API_CLIENT_SECRET: clientsecret
       SYSTEM_CLIENT_SECRET: clientsecret
       API_CLIENT_ID: hmpps-strengths-and-needs-ui
@@ -194,19 +204,47 @@ services:
       HANDOVER_CLIENT_ID: strengths-and-needs-assessment
       HANDOVER_CLIENT_SECRET: san-secret
       SESSION_SECRET: sessionsecret
-      SBNA_API_URL: http://san-api:8080
-      COORDINATOR_API_URL: http://coordinator-api:8080
+      SBNA_API_URL: http://wiremock:8080/san-api
+      COORDINATOR_API_URL: http://wiremock:8080/coordinator-api
       INGRESS_URL: http://localhost:3000
       HTTPS: false
       NODE_ENV: development
-      FEEDBACK_URL: http://foo.bar
+      FEEDBACK_URL: http://localhost:9092
       SP_URL: http://localhost:3001
+
+  wiremock:
+    image: wiremock/wiremock:3.13.2
+    networks:
+      - hmpps
+    depends_on:
+      san-api:
+        condition: service_healthy
+      coordinator-api:
+        condition: service_healthy
+      arns-handover:
+        condition: service_healthy
+      hmpps-auth:
+        condition: service_healthy
+    restart: always
+    ports:
+      - '9091:8080'
+    volumes:
+      - ./wiremock/mappings:/home/wiremock/mappings
+    environment:
+      WIREMOCK_HMPPS_AUTH_URL: http://hmpps-auth:9090
+      WIREMOCK_SAN_API_URL: http://san-api:8080
+      WIREMOCK_COORDINATOR_API_URL: http://coordinator-api:8080
+      WIREMOCK_HANDOVER_URL: http://arns-handover:7070
+      WIREMOCK_TOKEN_VERIFICATION_URL: http://token-verification:8080
+    command: --global-response-templating
 
   localstack:
     image: localstack/localstack:3
     networks:
       - hmpps
     container_name: localstack-sqs
+    ports:
+      - '4566:4566'
     environment:
       - SERVICES=sqs
       - LOCALSTACK_HOST=localstack:4566
@@ -215,9 +253,9 @@ services:
       - AWS_DEFAULT_REGION=eu-west-2
       - USE_SSL=false
     volumes:
-      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
-      - "./docker/scripts/localstack/init:/etc/localstack/init/ready.d"
-      - "./docker/scripts/localstack/wait:/scripts/wait"
+      - '${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack'
+      - './scripts/localstack/init:/etc/localstack/init/ready.d'
+      - './scripts/localstack/wait:/scripts/wait'
     healthcheck:
       test: [ "CMD", "bash", "/scripts/wait/healthcheck.sh" ]
       interval: 5s

@@ -1,0 +1,33 @@
+# `docker-compose.local.yml` defines services that must be run locally
+# to support a fully self-contained local development environment.
+
+services:
+  redis:
+    ports:
+      - '6379:6379'
+
+  san-ui:
+    image: ghcr.io/ministryofjustice/hmpps-strengths-based-needs-assessments-ui:local
+    build:
+      target: development
+    command: npm run start:dev
+    ports:
+      - '9229:9229'
+    volumes:
+      - ../app:/app/app
+      - ../assets:/app/assets
+      - ../bin:/app/bin
+      - ../cypress:/app/cypress
+      - ../esbuild:/app/esbuild
+      - ../server:/app/server
+      - ../test_results:/app/test_results
+      - ../.editorconfig:/app/.editorconfig
+      - ../.eslintcache:/app/.eslintcache
+      - ../.eslintrc.json:/app/.eslintrc.json
+      - ../.prettierrc.json:/app/.prettierrc.json
+      - ../eslint.config.mjs:/app/eslint.config.mjs
+      - ../logger.ts:/app/logger.ts
+      - ../package.json:/app/package.json
+      - ../package-lock.json:/app/package-lock.json
+      - ../server.ts:/app/server.ts
+      - ../tsconfig.json:/app/tsconfig.json
