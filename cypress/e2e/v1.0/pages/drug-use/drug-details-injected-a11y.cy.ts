@@ -1,9 +1,4 @@
-import {
-  drugDetailsInjectedBefore,
-  drugDetailsInjectedBeforeEach,
-  questions,
-  stepUrl,
-} from './common/drug-details-injected-setup'
+import { drugDetailsInjectedBefore, drugDetailsInjectedBeforeEach } from './common/drug-details-injected-setup'
 
 describe('/drug-details-injected accessibility', () => {
   before(drugDetailsInjectedBefore())

@@ -3,7 +3,6 @@ import drugUsedInTheLastSixMonths from './questions/drugUsedInTheLastSixMonths'
 import {
   drugDetailsInjectedBefore,
   drugDetailsInjectedBeforeEach,
-  questions,
   stepUrl,
   summaryPage,
 } from './common/drug-details-injected-setup'
