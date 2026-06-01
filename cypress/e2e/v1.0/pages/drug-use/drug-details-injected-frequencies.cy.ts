@@ -9,8 +9,8 @@ import {
 } from './common/drug-details-injected-setup'
 
 describe('/drug-details-injected frequencies', () => {
-  before(drugDetailsInjectedBefore(stepUrl, questions))
-  beforeEach(drugDetailsInjectedBeforeEach(stepUrl))
+  before(drugDetailsInjectedBefore())
+  beforeEach(drugDetailsInjectedBeforeEach())
 
   // verifies drug usage frequencies and summary page contents
   drugs.forEach(({ name: drug, injectable }) => {

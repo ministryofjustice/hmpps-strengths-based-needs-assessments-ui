@@ -7,8 +7,8 @@ import {
 } from './common/drug-details-injected-setup'
 
 describe('/drug-details-injected questions', () => {
-  before(drugDetailsInjectedBefore(stepUrl, questions))
-  beforeEach(drugDetailsInjectedBeforeEach(stepUrl))
+  before(drugDetailsInjectedBefore())
+  beforeEach(drugDetailsInjectedBeforeEach())
 
   // verifies the behaviour of questions
   questions.forEach((questionTest, index) => {
