@@ -279,14 +279,14 @@ export const selectOption = (subject: JQuery, option: string) => {
 }
 
 export const completePrivacyDeclaration = () => {
-  return cy
-    .get('.govuk-checkboxes input[type="checkbox"]')
-    .first()
-    .then($checkbox => {
+  return cy.get('body').then($body => {
+    const $checkbox = $body.find('input[name="privacy_screen_declaration"]')
+
+    if ($checkbox.length) {
       if (!$checkbox.is(':checked')) {
         cy.wrap($checkbox).click()
       }
-    })
-    .get('button[name="action"][value="confirm"]')
-    .click()
+      cy.get('button[name="action"][value="confirm"]').click()
+    }
+  })
 }
