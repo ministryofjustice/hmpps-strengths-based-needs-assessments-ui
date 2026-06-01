@@ -18,7 +18,9 @@ jobs:
       spec-file-patterns: ${{ inputs.spec-file-patterns }}
 
   e2e-test:
-    runs-on: ubuntu-latest
+    # Pinned to 22.04: ubuntu-latest (24.04) restricts unprivileged user namespaces,
+    # which breaks the Chromium/Edge sandbox so Cypress can't connect to the browser.
+    runs-on: ubuntu-22.04
     needs: get-timings
     env:
       APP_VERSION: ${{ inputs.app_version }}
