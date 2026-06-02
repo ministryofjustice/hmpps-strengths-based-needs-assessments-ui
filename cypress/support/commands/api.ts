@@ -127,6 +127,7 @@ export const createAssessment = (data = null) => {
       body: {
         oasysAssessmentPk,
         planType: 'INITIAL',
+        assessmentType: 'SAN_SP',
         userDetails: oasysUser,
       },
       retryOnNetworkFailure: false,

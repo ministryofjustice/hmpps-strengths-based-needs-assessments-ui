@@ -3,7 +3,7 @@ export const testPractitionerAnalysis = (
   sectionName: string,
   origin: string,
   destination: string,
-  conditionalFlag: boolean,
+  conditionalFlag = false,
 ) => {
   describe(`Destination: ${destination}`, () => {
     it(`routes to ${destination}`, () => {
