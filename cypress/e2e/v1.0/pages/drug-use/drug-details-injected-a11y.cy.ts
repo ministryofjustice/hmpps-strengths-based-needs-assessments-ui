@@ -1,13 +1,8 @@
-import {
-  drugDetailsInjectedBefore,
-  drugDetailsInjectedBeforeEach,
-  questions,
-  stepUrl,
-} from './common/drug-details-injected-setup'
+import { drugDetailsInjectedBefore, drugDetailsInjectedBeforeEach } from './common/drug-details-injected-setup'
 
 describe('/drug-details-injected accessibility', () => {
-  before(drugDetailsInjectedBefore(stepUrl, questions))
-  beforeEach(drugDetailsInjectedBeforeEach(stepUrl))
+  before(drugDetailsInjectedBefore())
+  beforeEach(drugDetailsInjectedBeforeEach())
 
   it('Should have no accessibility violations', () => {
     cy.checkAccessibility()
