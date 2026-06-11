@@ -17,7 +17,7 @@ jobs:
     env:
       APP_VERSION: ${{ inputs.app_version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Download docker image
         uses: actions/download-artifact@v4
@@ -32,7 +32,7 @@ jobs:
         run: make up
 
       - name: Clone API repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ministryofjustice/hmpps-strengths-based-needs-assessments-api
           path: api-test
