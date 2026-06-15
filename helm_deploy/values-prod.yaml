@@ -2,7 +2,7 @@
 # Per environment values which override defaults in hmpps-strengths-based-needs-assessments-ui/values.yaml
 
 generic-service:
-  replicaCount: 2
+  replicaCount: 3
 
   ingress:
     hosts:
