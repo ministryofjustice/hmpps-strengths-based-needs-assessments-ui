@@ -11,6 +11,10 @@ services:
     ports:
       - "8080:8080"
 
+  aap-ui:
+    ports:
+      - "7072:3000"
+
   san-ui:
     depends_on:
       - forward-proxy
@@ -20,16 +24,20 @@ services:
       - "3000:3000"
 
   arns-handover:
+    volumes:
+      - ./docker/handover/application-local.yml:/app/resources/application-local.yml
+    environment:
+      SPRING_CONFIG_ADDITIONAL_LOCATION: file:/app/resources/application-local.yml
     ports:
       - "7070:7070"
 
   hmpps-auth:
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/9090'"]
+      interval: 5s
+      retries: 60
     ports:
       - "9090:9090"
-
-  aap-ui:
-    ports:
-      - "7072:3000"
 
   forward-proxy:
     image: nginx:latest
