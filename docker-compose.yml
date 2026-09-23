@@ -95,6 +95,7 @@ services:
       COORDINATOR_API_URL: http://coordinator-api:8080
       AAP_API_URL: http://coordinator-api:8080
       OASYS_URL: http://localhost:7072
+      OASYS_REVIEW_URL: http://localhost:7072
       ENVIRONMENT_NAME: DEV
       AUDIT_ENABLED: "false"
       AUDIT_SQS_QUEUE_URL: http://localstack:4566/000000000000/audit-queue
@@ -111,6 +112,8 @@ services:
       MPOP_URL: "http://ui:3000/sign-in"
       SERVICE_NOW_FORM_URL: "#service-now-link"
       TRAINING_SESSION_LAUNCHER_ENABLED: "true"
+      GOTENBERG_API_URL: http://localhost:3001
+      SUPERVISION_PACKAGE_API_URL: http://coordinator-api:8080
 
   coordinator-api:
     image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:latest
