@@ -8,6 +8,7 @@ import errorHandler from '../../errorHandler'
 import * as auth from '../../authentication/auth'
 import { Services } from '../../services'
 import { Gender } from '../../@types/hmpo-form-wizard/enums'
+import App from '../../../app'
 
 export const user = {
   firstName: 'first',
@@ -52,7 +53,7 @@ function appSetup(userSupplier: () => Express.User, additionalRoutes: Router[]):
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(routes())
+  app.use(routes(new App()))
   additionalRoutes.forEach(it => app.use(it))
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler())

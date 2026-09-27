@@ -1,0 +1,12 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuers:
+            - issuer-name: "HMPPS Handover"
+              jwk-set-uri: http://arns-handover:7070/oauth2/jwks
+              issuer-uri: http://arns-handover:7070
+            - issuer-name: "HMPPS Auth"
+              jwk-set-uri: http://hmpps-auth:9090/auth/.well-known/jwks.json
+              issuer-uri: http://localhost:9090/auth/issuer
