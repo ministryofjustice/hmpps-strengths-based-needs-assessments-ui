@@ -33,6 +33,3 @@ generic-service:
     capita-developers-vms-six: 85.115.54.200/29
     joel-app-sec-1: 100.64.10.206/32
     joel-app-sec-2: 86.134.133.78/32
-
-generic-prometheus-alerts:
-  alertSeverity: hmpps-strengths-based-needs-assessments

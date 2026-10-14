@@ -22,6 +22,3 @@ generic-service:
   namespace_secrets:
     hmpps-strengths-based-needs-assessments-ui-feedback-url:
       FEEDBACK_URL: "FEEDBACK_URL"
-
-generic-prometheus-alerts:
-  alertSeverity: hmpps-strengths-based-needs-assessments
