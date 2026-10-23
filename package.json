@@ -23,8 +23,8 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist && patch-package && cypress install"
   },
   "engines": {
-    "node": "^22",
-    "npm": "^10"
+    "node": "^24",
+    "npm": "^11"
   },
   "jest": {
     "transform": {
