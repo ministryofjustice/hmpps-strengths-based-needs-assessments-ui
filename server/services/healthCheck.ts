@@ -1,3 +1,4 @@
+import fs from 'fs'
 import promClient from 'prom-client'
 import { serviceCheckFactory } from '../data/healthCheck'
 import config from '../config'
@@ -44,8 +45,7 @@ function addAppInfo(result: HealthCheckResult): HealthCheckResult {
 
 function getBuild() {
   try {
-    // eslint-disable-next-line import/no-unresolved,global-require,@typescript-eslint/no-require-imports
-    return require('../../build-info.json')
+    return JSON.parse(fs.readFileSync('./build-info.json').toString())
   } catch {
     return null
   }

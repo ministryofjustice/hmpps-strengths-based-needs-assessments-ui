@@ -19,7 +19,7 @@ RUN npm run record-build-info
 
 FROM base AS development
 COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
-COPY --from=build --chown=appuser:appgroup /app/build-info.json ./dist/build-info.json
+COPY --from=build --chown=appuser:appgroup /app/build-info.json ./build-info.json
 COPY --from=build --chown=appuser:appgroup /app/docker ./docker
 COPY --from=build --chown=appuser:appgroup /app/dist ./dist
 ENV NODE_ENV='development'
@@ -38,7 +38,7 @@ ENV GIT_REF=${GIT_REF}
 ENV GIT_BRANCH=${GIT_BRANCH}
 
 COPY --from=prune --chown=appuser:appgroup /app/package.json /app/package-lock.json ./
-COPY --from=prune --chown=appuser:appgroup /app/build-info.json ./dist/build-info.json
+COPY --from=prune --chown=appuser:appgroup /app/build-info.json ./build-info.json
 COPY --from=prune --chown=appuser:appgroup /app/node_modules ./node_modules
 COPY --from=prune --chown=appuser:appgroup /app/docker ./docker
 COPY --from=prune --chown=appuser:appgroup /app/dist ./dist
