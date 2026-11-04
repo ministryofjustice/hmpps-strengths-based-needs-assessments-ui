@@ -19,7 +19,7 @@ To start it, run:
 
 `make up`
 
-The entry point for the service is http://localhost:7072
+The entry point for the service is the [Training Launcher](http://localhost:7072/training-session-launcher)
 
 To update containers
 

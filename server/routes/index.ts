@@ -7,14 +7,12 @@ import config from '../config'
 import { validateMode } from '../middleware/validateMode'
 import viewHistoricalVersions from '../../app/controllers/viewHistoricalVersions'
 
-export default function routes(): Router {
+export default function routes(app: App): Router {
   const router = Router()
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
-  const app = new App()
   router.use('/form/:mode/:uuid', validateMode, app.getFormWizardRouter())
   router.use(App.errorHandler)
-  router.use('/config', app.formConfigRouter)
   router.use('/start', startController) // viewing or editing the latest version
   router.use('/view-historical-versions/:assessmentVersionId', viewHistoricalVersions) // for viewing previous versions
 
