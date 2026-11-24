@@ -34,7 +34,7 @@ services:
       SPRING_FLYWAY_LOCATIONS: classpath:db/auth,db/auth_{vendor},db/dev/data/auth_{vendor},db/dev/data/auth,filesystem:/auth_db
 
   arns-handover:
-    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-handover-service:latest
+    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-handover-service:2026-03-03.87.37f828f
     networks:
       - hmpps
     depends_on:
@@ -116,7 +116,7 @@ services:
       SUPERVISION_PACKAGE_API_URL: http://coordinator-api:8080
 
   coordinator-api:
-    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:latest
+    image: ghcr.io/ministryofjustice/hmpps-assess-risks-and-needs-coordinator-api:2026-03-11.94.a68a74e
     networks:
       - hmpps
     depends_on:

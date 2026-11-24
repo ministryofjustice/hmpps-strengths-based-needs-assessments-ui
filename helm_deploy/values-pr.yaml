@@ -3,7 +3,7 @@
 
 generic-service:
   nameOverride: $RELEASE_NAME
-  replicaCount: 1
+  replicaCount: 0
 
   ingress:
     host: pr-$PR_NUMBER.strengths-based-needs-assessments-dev.hmpps.service.justice.gov.uk
